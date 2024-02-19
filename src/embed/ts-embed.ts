@@ -8,57 +8,54 @@
  */
 
 import isEqual from 'lodash/isEqual';
-
+import pkgInfo from '../../package.json';
+import { AuthFailureType } from '../auth';
 import { getAuthenticationToken } from '../authToken';
-import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
-    getEncodedQueryParamsString,
-    getCssDimension,
-    getOffsetTop,
-    embedEventStatus,
-    setAttributes,
-    getCustomisations,
-    getRuntimeFilters,
-    getDOMNode,
-    getFilterQuery,
-    getQueryParamString,
-    getRuntimeParameters,
-    setStyleProperties,
-    removeStyleProperties,
-    isUndefined,
-} from '../utils';
-import {
-    getThoughtSpotHost,
-    URL_MAX_LENGTH,
-    DEFAULT_EMBED_WIDTH,
     DEFAULT_EMBED_HEIGHT,
+    DEFAULT_EMBED_WIDTH,
+    URL_MAX_LENGTH,
+    getThoughtSpotHost,
     getV2BasePath,
 } from '../config';
+import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import {
-    AuthType,
-    DOMSelector,
-    HostEvent,
-    EmbedEvent,
-    MessageCallback,
     Action,
-    Param,
-    EmbedConfig,
-    MessageOptions,
-    MessagePayload,
-    MessageCallbackObj,
-    ViewConfig,
-    FrameParams,
+    AuthType,
     ContextMenuTriggerOptions,
-    RuntimeFilter,
+    DOMSelector,
+    EmbedConfig,
+    EmbedEvent,
+    HostEvent,
+    MessageCallback,
+    MessageCallbackObj,
+    MessageOptions,
+    Param,
+    ViewConfig,
 } from '../types';
-import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { processEventData } from '../utils/processData';
-import { processTrigger } from '../utils/processTrigger';
-import pkgInfo from '../../package.json';
 import {
-    getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+    embedEventStatus,
+    getCssDimension,
+    getCustomisations,
+    getDOMNode,
+    getEncodedQueryParamsString,
+    getFilterQuery,
+    getOffsetTop,
+    getQueryParamString,
+    getRuntimeFilters,
+    getRuntimeParameters,
+    isUndefined,
+    removeStyleProperties,
+    setAttributes,
+    setStyleProperties,
+} from '../utils';
+import { AnswerService } from '../utils/graphql/answerService/answerService';
+import { logger } from '../utils/logger';
+import { processAuthFailure, processEventData } from '../utils/processData';
+import { processTrigger } from '../utils/processTrigger';
+import {
+    getAuthPromise, handleAuth, notifyAuthFailure, renderInQueue,
 } from './base';
-import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 
 const { version } = pkgInfo;
@@ -196,7 +193,7 @@ export class TsEmbed {
             error,
         });
         // Log error
-        console.error(error);
+        logger.error(error);
     }
 
     /**
@@ -280,7 +277,7 @@ export class TsEmbed {
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
-            console.warn(offlineWarning);
+            logger.warn(offlineWarning);
         };
         window.addEventListener('offline', offlineEventListener);
 
@@ -306,7 +303,12 @@ export class TsEmbed {
     private appInitCb = async (_: any, responder: any) => {
         let authToken = '';
         if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-            authToken = await getAuthenticationToken(this.embedConfig);
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+            } catch (e) {
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                return;
+            }
         }
         this.isAppInitialized = true;
         responder({
@@ -336,11 +338,16 @@ export class TsEmbed {
     private updateAuthToken = async (_: any, responder: any) => {
         const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
         if (authType === AuthType.TrustedAuthTokenCookieless) {
-            const authToken = await getAuthenticationToken(this.embedConfig);
-            responder({
-                type: EmbedEvent.AuthExpire,
-                data: { authToken },
-            });
+            let authToken = '';
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+                responder({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken },
+                });
+            } catch (e) {
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
         } else if (autoLogin) {
             handleAuth();
         }
@@ -469,7 +476,7 @@ export class TsEmbed {
         }
 
         const spriteUrl = customizations?.iconSpriteUrl
-            || this.embedConfig.customizations?.iconSpriteUrl;
+          || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -490,6 +497,9 @@ export class TsEmbed {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
         }
 
+        queryParams[Param.OverrideNativeConsole] = true;
+        queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
+
         return queryParams;
     }
 
@@ -505,7 +515,11 @@ export class TsEmbed {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
-        const path = `${this.thoughtSpotHost}/${queryParams}#`;
+        let host = this.thoughtSpotHost;
+        if (!isUndefined(this.embedConfig.enableReactShell)) {
+            host = (this.embedConfig.enableReactShell as boolean) ? '/v2' : '/v1';
+        }
+        const path = `${host}/${queryParams}#`;
         return path;
     }
 
@@ -524,6 +538,7 @@ export class TsEmbed {
 
         iFrame.src = frameSrc;
         iFrame.id = TS_EMBED_ID;
+        iFrame.setAttribute('data-ts-iframe', 'true');
 
         // according to screenfull.js documentation
         // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be
@@ -935,10 +950,10 @@ export class TsEmbed {
                 });
             } catch (e) {
                 eventPort.postMessage({ error: e });
-                console.log(e);
+                logger.log(e);
             }
         } else {
-            console.log('Event Port is not defined');
+            logger.log('Event Port is not defined');
         }
     }
 
@@ -966,6 +981,10 @@ export class TsEmbed {
         return this;
     }
 
+    public getIframeSrc(): string {
+        return '';
+    }
+
     protected handleRenderForPrerender() {
         this.render();
     }
@@ -977,7 +996,7 @@ export class TsEmbed {
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
         if (!this.viewConfig.preRenderId) {
-            console.error('PreRender id is required for preRender');
+            logger.error('PreRender id is required for preRender');
             return this;
         }
         this.isPreRendered = true;
@@ -1026,7 +1045,7 @@ export class TsEmbed {
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
         } catch (e) {
-            console.log('Error destroying TS Embed', e);
+            logger.log('Error destroying TS Embed', e);
         }
     }
 
@@ -1066,13 +1085,13 @@ export class TsEmbed {
                     !isUndefined(viewConfig[key])
                     && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
-                    console.warn(
-                        'TS Embed component was pre-rendered with '
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                    logger.warn(
+                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
@@ -1087,7 +1106,7 @@ export class TsEmbed {
      */
     public showPreRender(): void {
         if (!this.viewConfig.preRenderId) {
-            console.error('PreRender id is required for preRender');
+            logger.error('PreRender id is required for preRender');
             return;
         }
         if (!this.isPreRenderAvailable()) {
@@ -1136,7 +1155,7 @@ export class TsEmbed {
      */
     public syncPreRenderStyle(): void {
         if (!this.isPreRenderAvailable() || !this.el) {
-            console.error('PreRender should be called before using syncPreRenderStyle');
+            logger.error('PreRender should be called before using syncPreRenderStyle');
             return;
         }
         const elBoundingClient = this.el.getBoundingClientRect();
@@ -1156,7 +1175,7 @@ export class TsEmbed {
     public hidePreRender(): void {
         if (!this.isPreRenderAvailable()) {
             // if the embed component is not preRendered , nothing to hide
-            console.warn('PreRender should be called before hiding it using hidePreRender.');
+            logger.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
         const preRenderHideStyles = {

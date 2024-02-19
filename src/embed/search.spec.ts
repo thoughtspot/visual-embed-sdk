@@ -411,4 +411,17 @@ describe('Search embed tests', () => {
             );
         });
     });
+    test('should set hideSearchBar to true if hideSearchBar flag is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideSearchBar: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
 });

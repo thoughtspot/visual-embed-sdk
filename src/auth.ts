@@ -1,18 +1,19 @@
 import EventEmitter from 'eventemitter3';
+import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { initMixpanel } from './mixpanel-service';
 import {
-    AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
+    AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
 import {
-    fetchSessionInfoService,
+    EndPoints,
+    fetchAuthPostService,
     fetchAuthService,
     fetchBasicAuthService,
     fetchLogoutService,
-    fetchAuthPostService,
-    EndPoints,
+    fetchSessionInfoService,
 } from './utils/authService';
-import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
+import { logger } from './utils/logger';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -72,8 +73,8 @@ export enum AuthStatus {
      */
     LOGOUT = 'LOGOUT',
     /**
-     * Emitted when inPopup: true in the SAMLRedirect flow.
-     * And, we are waiting for popup to be triggered either programatically
+     * Emitted when inPopup is true in the SAMLRedirect flow and the
+     * popup is waiting to be triggered either programmatically
      * or by the trigger button.
      *
      * @version SDK: 1.19.0
@@ -126,8 +127,8 @@ export interface AuthEventEmitter {
  */
 export enum AuthEvent {
     /**
-     * Manually trigger the SSO popup. This is useful with
-     * authStatus: SAMLRedirect/OIDCRedicre and inPopup: true
+     * Manually trigger the SSO popup. This is useful when
+     * authStatus is SAMLRedirect/OIDCRedirect and inPopup is set to true
      */
     TRIGGER_SSO_POPUP = 'TRIGGER_SSO_POPUP',
 }
@@ -154,7 +155,7 @@ export function setAuthEE(eventEmitter: EventEmitter<AuthStatus | AuthEvent>): v
  */
 export function notifyAuthSDKSuccess(): void {
     if (!authEE) {
-        console.error('SDK not initialized');
+        logger.error('SDK not initialized');
         return;
     }
     authEE.emit(AuthStatus.SDK_SUCCESS);
@@ -165,7 +166,7 @@ export function notifyAuthSDKSuccess(): void {
  */
 export function notifyAuthSuccess(): void {
     if (!authEE) {
-        console.error('SDK not initialized');
+        logger.error('SDK not initialized');
         return;
     }
     authEE.emit(AuthStatus.SUCCESS, sessionInfo);
@@ -177,7 +178,7 @@ export function notifyAuthSuccess(): void {
  */
 export function notifyAuthFailure(failureType: AuthFailureType): void {
     if (!authEE) {
-        console.error('SDK not initialized');
+        logger.error('SDK not initialized');
         return;
     }
     authEE.emit(AuthStatus.FAILURE, failureType);
@@ -188,7 +189,7 @@ export function notifyAuthFailure(failureType: AuthFailureType): void {
  */
 export function notifyLogout(): void {
     if (!authEE) {
-        console.error('SDK not initialized');
+        logger.error('SDK not initialized');
         return;
     }
     authEE.emit(AuthStatus.LOGOUT);
@@ -472,6 +473,12 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
     await fetchLogoutService(thoughtSpotHost);
     resetCachedAuthToken();
+    const thoughtspotIframes = document.querySelectorAll("[data-ts-iframe='true']");
+    if (thoughtspotIframes?.length) {
+        thoughtspotIframes.forEach((el) => {
+            el.parentElement.innerHTML = embedConfig.loginFailedMessage;
+        });
+    }
     loggedInStatus = false;
     return loggedInStatus;
 };

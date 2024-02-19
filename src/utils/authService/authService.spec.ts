@@ -1,12 +1,13 @@
 import {
-    fetchSessionInfoService,
-    fetchAuthTokenService,
-    fetchAuthService,
-    fetchBasicAuthService,
-    fetchAuthPostService,
-    verifyTokenService,
     EndPoints,
+    fetchAuthPostService,
+    fetchAuthService,
+    fetchAuthTokenService,
+    fetchBasicAuthService,
+    fetchSessionInfoService,
+    verifyTokenService,
 } from '.';
+import { logger } from '../logger';
 
 const thoughtSpotHost = 'http://10.79.135.124:3000';
 
@@ -74,14 +75,14 @@ describe('Unit test for authService', () => {
     });
 
     test('log error on API failures', async () => {
-        jest.spyOn(global.console, 'error').mockImplementation(() => undefined);
+        jest.spyOn(logger, 'error').mockImplementation(() => undefined);
         global.fetch = jest.fn(() => Promise.resolve({
             text: () => Promise.resolve('error'),
             status: 500,
             ok: false,
         }));
         await fetchSessionInfoService(authVerificationUrl);
-        expect(global.console.error).toHaveBeenCalledWith('Failure', 'error');
+        expect(logger.error).toHaveBeenCalledWith('Failure', 'error');
     });
 
     test('verifyTokenService', async () => {

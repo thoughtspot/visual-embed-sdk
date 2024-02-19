@@ -1,37 +1,38 @@
 /* eslint-disable dot-notation */
+import * as authInstance from '../auth';
 import { resetCachedAuthToken } from '../authToken';
+import * as config from '../config';
 import {
-    AuthType,
-    init,
-    EmbedEvent,
-    SearchEmbed,
-    PinboardEmbed,
-    LiveboardViewConfig,
     AppEmbed,
+    AuthType,
+    EmbedEvent,
     LiveboardEmbed,
+    LiveboardViewConfig,
+    PinboardEmbed,
+    SearchEmbed,
+    init,
 } from '../index';
+import * as mixpanelInstance from '../mixpanel-service';
+import { MIXPANEL_EVENT } from '../mixpanel-service';
 import {
-    Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule,
-} from '../types';
-import {
+    defaultParamsForPinboardEmbed,
     executeAfterWait,
+    expectUrlMatchesWithParams,
     getDocumentBody,
     getIFrameEl,
     getIFrameSrc,
     getRootEl,
-    postMessageToParent,
-    defaultParamsForPinboardEmbed,
-    waitFor,
-    expectUrlMatchesWithParams,
     mockMessageChannel,
+    postMessageToParent,
+    waitFor,
 } from '../test/test-utils';
-import * as config from '../config';
-import * as tsEmbedInstance from './ts-embed';
-import * as mixpanelInstance from '../mixpanel-service';
-import * as authInstance from '../auth';
-import * as baseInstance from './base';
-import { MIXPANEL_EVENT } from '../mixpanel-service';
+import {
+    Action, HomeLeftNavItem, HomepageModule, RuntimeFilter, RuntimeFilterOp,
+} from '../types';
 import * as authService from '../utils/authService/authService';
+import { logger } from '../utils/logger';
+import * as baseInstance from './base';
+import * as tsEmbedInstance from './ts-embed';
 
 const defaultViewConfig = {
     frameParams: {
@@ -425,7 +426,7 @@ describe('Unit test case for ts embed', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             searchEmbed
                 .on(EmbedEvent.Save, () => {
-                    console.log('non callable');
+                    logger.log('non callable');
                 })
                 .render();
 
@@ -468,7 +469,7 @@ describe('Unit test case for ts embed', () => {
                 .on(
                     EmbedEvent.Save,
                     () => {
-                        console.log('non callable');
+                        logger.log('non callable');
                     },
                     { start: true },
                 )
@@ -559,6 +560,144 @@ describe('Unit test case for ts embed', () => {
             });
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
+        });
+    });
+
+    describe('Token fetch fails in cookieless authentication authType', () => {
+        beforeEach(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                customCssUrl: 'http://localhost:5000',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.reject(),
+            });
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+            baseInstance.reset();
+        });
+
+        test('should show login failure message if token failed during app_init', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).not.toHaveBeenCalled();
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+        });
+
+        test('should show login failure message if token failed during app_init prerender', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                preRenderId: 'test',
+            });
+            searchEmbed.preRender();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            const preRenderWrapper = document.getElementById('tsEmbed-pre-render-wrapper-test');
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).not.toHaveBeenCalled();
+                expect(preRenderWrapper.innerHTML).toContain('Not logged in');
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+        });
+
+        test('should show login failure message if update token failed', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+
+        test('should show login failure message if update token failed prerender', async () => {
+            const a = jest.spyOn(authService, 'verifyTokenService');
+            a.mockResolvedValue(true);
+
+            // authVerifyMock.mockResolvedValue(true);
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                preRenderId: 'test',
+            });
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            searchEmbed.preRender();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            const preRenderWrapper = document.getElementById('tsEmbed-pre-render-wrapper-test');
+            await executeAfterWait(() => {
+                expect(preRenderWrapper.innerHTML).toContain('Not logged in');
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
         });
     });
 
@@ -698,7 +837,7 @@ describe('Unit test case for ts embed', () => {
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
             jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             tsEmbed.render();
         });
 
@@ -712,7 +851,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('when visible actions are set', () => {
         test('should throw error when there are both visible and hidden actions - pinboard', async () => {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 hiddenActions: [Action.DownloadAsCsv],
                 visibleActions: [Action.DownloadAsCsv],
@@ -721,7 +860,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'You cannot have both hidden actions and visible actions',
             );
         });
@@ -744,7 +883,7 @@ describe('Unit test case for ts embed', () => {
             hiddenActions: Array<Action>,
             visibleActions: Array<Action>,
         ) {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 hiddenActions,
                 visibleActions,
@@ -753,7 +892,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'You cannot have both hidden actions and visible actions',
             );
         }
@@ -789,7 +928,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('when visible Tabs are set', () => {
         test('should throw error when there are both visible and hidden Tabs - pinboard', async () => {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
                 visibleTabs: [tabId1],
                 hiddenTabs: [tabId2],
@@ -798,7 +937,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'You cannot have both hidden Tabs and visible Tabs',
             );
         });
@@ -821,7 +960,7 @@ describe('Unit test case for ts embed', () => {
             hiddenTabs: Array<string>,
             visibleTabs: Array<string>,
         ) {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 hiddenTabs,
                 visibleTabs,
@@ -830,7 +969,7 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'You cannot have both hidden Tabs and visible Tabs',
             );
         }
@@ -874,11 +1013,11 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('Error should be true', async () => {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'You need to init the ThoughtSpot SDK module first',
             );
         });
@@ -886,13 +1025,13 @@ describe('Unit test case for ts embed', () => {
 
     describe('V1Embed ', () => {
         test('when isRendered is true than isError will be true', () => {
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
             expect(viEmbedIns['isError']).toBe(false);
             viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
             expect(viEmbedIns['isError']).toBe(true);
-            expect(console.error).toHaveBeenCalledWith(
+            expect(logger.error).toHaveBeenCalledWith(
                 'Please register event handlers before calling render',
             );
         });
@@ -933,7 +1072,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('navigateToPage function use before render', async () => {
-            spyOn(console, 'log');
+            spyOn(logger, 'log');
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -942,7 +1081,7 @@ describe('Unit test case for ts embed', () => {
             });
             appEmbed.navigateToPage(path, false);
             await appEmbed.render();
-            expect(console.log).toHaveBeenCalledWith(
+            expect(logger.log).toHaveBeenCalledWith(
                 'Please call render before invoking this method',
             );
         });
@@ -1330,7 +1469,7 @@ describe('Unit test case for ts embed', () => {
                 });
 
             // show preRender
-            const warnSpy = spyOn(console, 'warn');
+            const warnSpy = spyOn(logger, 'warn');
             libEmbed.showPreRender();
             expect(warnSpy).toHaveBeenCalledTimes(0);
 
@@ -1360,13 +1499,13 @@ describe('Unit test case for ts embed', () => {
         it('preRender called without preRenderId should log error ', () => {
             createRootEleForEmbed();
 
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 liveboardId: 'myLiveboardId',
             });
             libEmbed.preRender();
 
-            expect(console.error).toHaveBeenCalledWith('PreRender id is required for preRender');
+            expect(logger.error).toHaveBeenCalledWith('PreRender id is required for preRender');
         });
 
         it('showPreRender should preRender if not available', async () => {
@@ -1414,7 +1553,7 @@ describe('Unit test case for ts embed', () => {
 
             libEmbed.preRender();
             await waitFor(() => !!getIFrameEl());
-            const warnSpy = jest.spyOn(console, 'warn');
+            const warnSpy = jest.spyOn(logger, 'warn');
             const newEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'i-am-preRendered',
                 liveboardId: 'awdawda',
@@ -1433,10 +1572,10 @@ describe('Unit test case for ts embed', () => {
                 liveboardId: 'myLiveboardId',
             });
             spyOn(libEmbed, 'preRender');
-            spyOn(console, 'error');
+            spyOn(logger, 'error');
             libEmbed.showPreRender();
             expect(libEmbed.preRender).toHaveBeenCalledTimes(0);
-            expect(console.error).toHaveBeenCalledTimes(1);
+            expect(logger.error).toHaveBeenCalledTimes(1);
         });
 
         it('should get underlying iframe', async () => {
@@ -1464,16 +1603,16 @@ describe('Unit test case for ts embed', () => {
             );
         });
         it('should log error if sync is called before preRender', async () => {
-            jest.spyOn(console, 'error').mockImplementation(jest.fn());
+            jest.spyOn(logger, 'error').mockImplementation(jest.fn());
             const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 liveboardId: 'myLiveboardId',
                 preRenderId: 'test',
             });
             await libEmbed.syncPreRenderStyle();
-            expect(console.error).toBeCalledWith(
+            expect(logger.error).toBeCalledWith(
                 'PreRender should be called before using syncPreRenderStyle',
             );
-            (console.error as any).mockClear();
+            (logger.error as any).mockClear();
         });
     });
 });

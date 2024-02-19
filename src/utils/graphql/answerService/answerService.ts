@@ -37,8 +37,7 @@ interface UnderlyingDataPoint {
  *     const data = await underlying.fetchData(0, 100);
  *  })
  * ```
- * @version
- * ThoughtSpot: 9.9.0.cl / SDK: 1.25.0
+ * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
  * @group Events
  */
 export class AnswerService {
@@ -129,8 +128,7 @@ export class AnswerService {
      *     const data = await underlying.fetchData(0, 100);
      *  })
      * ```
-     * @version
-     * ThoughtSpot: 9.9.0.cl / SDK: 1.25.0
+     * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
      */
     public async getUnderlyingDataForPoint(
         outputColumnNames: string[],

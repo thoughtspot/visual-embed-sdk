@@ -45,6 +45,7 @@ import {
     customCssInterface,
     ContextMenuTriggerOptions,
     RuntimeParameter,
+    LogLevel,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -101,4 +102,5 @@ export {
     customCssInterface,
     CustomCssVariables,
     RuntimeParameter,
+    LogLevel,
 };

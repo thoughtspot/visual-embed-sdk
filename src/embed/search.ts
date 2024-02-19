@@ -7,34 +7,35 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { getReleaseVersion } from '../auth';
+import { ERROR_MESSAGE } from '../errors';
 import {
-    DataSourceVisualMode, DOMSelector, Param, Action, ViewConfig,
+    Action, DOMSelector, DataSourceVisualMode, Param, ViewConfig,
 } from '../types';
 import {
-    getQueryParamString,
     checkReleaseVersionInBeta,
     getFilterQuery,
+    getQueryParamString,
     getRuntimeParameters,
 } from '../utils';
-import { TsEmbed } from './ts-embed';
-import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
-import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
+import { TsEmbed } from './ts-embed';
 
 /**
- * Configuration for search options
+ * Configuration for search options.
+ *
  */
 export interface SearchOptions {
     /**
-     * The tml string to load the answer
+     * Search tokens to pass in the query.
      */
     searchTokenString: string;
     /**
-     * Boolean to determine if the search should be executed or not.
-     * if it is executed, put the focus on the results.
-     * if it’s not executed, put the focus in the search bar - at the end of
-     * the tokens
+     * Boolean to define if the search should be executed or not.
+     * If it is executed, the focus is placed on the results.
+     * If it’s not executed, the focus is placed at the end of
+     * the token string in the search bar.
      */
     executeSearch?: boolean;
 }
@@ -59,11 +60,11 @@ export interface SearchViewConfig
      */
     collapseDataSources?: boolean;
     /**
-     * If set to true, hides the data sources panel.
+     * Show or hide the data sources panel.
      */
     hideDataSources?: boolean;
     /**
-     * If set to true, hides the charts and tables in search answers.
+     * Show or hide the charts and tables in search answers.
      * This attribute can be used to create a custom visualization
      * using raw answer data.
      */
@@ -85,9 +86,9 @@ export interface SearchViewConfig
     forceTable?: boolean;
     /**
      * The array of data source GUIDs to set on load.
-     * Only a single dataSource supported currently.
+     * Only a single data source is supported currently.
      *
-     * @deprecated Use dataSource instead
+     * @deprecated Use `dataSource` instead.
      */
     dataSources?: string[];
     /**
@@ -99,11 +100,29 @@ export interface SearchViewConfig
     /**
      * The initial search query to load the answer with.
      *
-     * @deprecated Use {@link searchOptions} instead
+     * @deprecated
+     *
+     * Use {@link searchOptions} instead.
      */
     searchQuery?: string;
     /**
-     * Configuration for search options
+     * Configuration for search options.
+     * Includes the following properties:
+     *
+     * `searchTokenString`: Search tokens to pass in the query.
+     *
+     * `executeSearch`: Boolean to define if the search should be executed or not.
+     * If it is executed, the focus is placed on the results.
+     * If it’s not executed, the focus is placed at the end of
+     * the token string in the search bar.
+     *
+     * @example
+     * ```js
+     * searchOptions: {
+     *    searchTokenString: '[quantity purchased] [region]',
+     *    executeSearch: true,
+     * }
+     * ```
      */
     searchOptions?: SearchOptions;
     /**
@@ -111,10 +130,10 @@ export interface SearchViewConfig
      */
     answerId?: string;
     /**
-     * If set to true, search page will render without the Search Bar
+     * If set to true, the search page will render without the Search Bar
      * The chart/table should still be visible.
      *
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      */
     hideSearchBar?: boolean;
     /**
@@ -183,6 +202,7 @@ export class SearchEmbed extends TsEmbed {
             dataSource,
             dataSources,
             excludeRuntimeFiltersfromURL,
+            hideSearchBar,
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
@@ -219,6 +239,10 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.ForceTable] = true;
         }
 
+        if (hideSearchBar) {
+            queryParams[Param.HideSearchBar] = true;
+        }
+
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
@@ -251,7 +275,8 @@ export class SearchEmbed extends TsEmbed {
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
      */
-    private getIFrameSrc(answerId: string) {
+    public getIFrameSrc(): string {
+        const { answerId } = this.viewConfig;
         const answerPath = answerId ? `saved-answer/${answerId}` : 'answer';
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
 
@@ -265,7 +290,7 @@ export class SearchEmbed extends TsEmbed {
         super.render();
         const { answerId } = this.viewConfig;
 
-        const src = this.getIFrameSrc(answerId);
+        const src = this.getIFrameSrc();
         this.renderIFrame(src);
         getAuthPromise().then(() => {
             if (

@@ -294,12 +294,13 @@ describe('Liveboard/viz embed tests', () => {
             liveboardV2: true,
             defaultHeight: 100,
             preventLiveboardFilterRemoval: true,
+            enableAskSage: true,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&preventPinboardFilterRemoval=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&preventPinboardFilterRemoval=true&isLiveboardEmbed=true&isPinboardV2Enabled=true&enableAskSage=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
             );
         });
     });

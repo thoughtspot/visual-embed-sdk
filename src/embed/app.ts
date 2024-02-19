@@ -9,6 +9,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
 import {
     Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload,
@@ -57,43 +58,43 @@ export enum Page {
  */
 export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
-     * If true, the main navigation bar within the ThoughtSpot app
+     * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
-     * This flag also control the homepage left nav-bar.
+     * This flag also controls the homepage left navigation bar.
      */
     showPrimaryNavbar?: boolean;
     /**
-     * Flag to control Homepage Left Nav Bar
-     * If showPrimaryNavbar is true, ie navigation bar(Global nav-bar) and Homepage left
-     * nav-bar is visible, this flag will only hide the homepage left nav.
-     * Precedence of showPrimaryNavbar flag > hideHomepageLeftNav flag.
+     * Control the visibility of the left navigation bar on the Homepage.
+     * If showPrimaryNavbar is true, that is, if the Global and Homepage
+     * nav-bars are visible, this flag will only hide the homepage left nav-bar.
+     * The showPrimaryNavbar flag takes precedence over the hideHomepageLeftNav.
      *
      * @default false
      * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     hideHomepageLeftNav?: boolean;
     /**
-     * If true, help and profile buttons will hide on NavBar. By default,
-     * they are shown.
+     * Control the visibility of the help (?) and profile buttons on the
+     * Global nav-bar. By default, these buttons are visible on the nav-bar.
      */
     disableProfileAndHelp?: boolean;
     /**
-     * If true, application switcher button will hide on NavBar. By default,
-     * they are shown.
+     * Control the visibility of the application switcher button on the nav-bar.
+     * By default, the application switcher is shown.
      */
     hideApplicationSwitcher?: boolean;
     /**
-     * If true, org switcher button will hide on NavBar. By default,
-     * they are shown.
+     * Control the visibility of the Org switcher button on the nav-bar.
+     * By default, the Org switcher button is shown.
      */
     hideOrgSwitcher?: boolean;
     /**
-     * A URL path within the app that is to be embedded.
+     * A URL path to the embedded application page
      * If both path and pageId attributes are defined, the path definition
      * takes precedence. This is the path post the `#/` in the URL of the standalone
      * ThoughtSpot app. Use this to open the embedded view to a specific path.
      *
-     * For eg, if you want the component to open to a specific liveboard
+     * For eg, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
      * @example
@@ -281,8 +282,10 @@ export class AppEmbed extends V1Embed {
      *
      * @param pageId The ID of the page to be embedded.
      */
-    private getIFrameSrc() {
-        const { pageId, path, modularHomeExperience } = this.viewConfig;
+    public getIFrameSrc(): string {
+        const {
+            pageId, path, modularHomeExperience,
+        } = this.viewConfig;
         const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
         let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
@@ -300,7 +303,7 @@ export class AppEmbed extends V1Embed {
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.iFrame?.scrollHeight));
-    }
+    };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
         const obj = this.getIframeCenter();
@@ -308,9 +311,7 @@ export class AppEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const {
-            height: frameHeight, ...restParams
-        } = this.viewConfig.frameParams || {};
+        const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
         if (!data.data.currentPath.startsWith('/pinboard/')) {
             this.setIFrameHeight(frameHeight || this.defaultHeight);
         }
@@ -375,14 +376,14 @@ export class AppEmbed extends V1Embed {
      */
     public navigateToPage(path: string | number, noReload = false): void {
         if (!this.iFrame) {
-            console.log('Please call render before invoking this method');
+            logger.log('Please call render before invoking this method');
             return;
         }
         if (noReload) {
             this.trigger(HostEvent.Navigate, path);
         } else {
             if (typeof path !== 'string') {
-                console.warn('Path can only by a string when triggered without noReload');
+                logger.warn('Path can only by a string when triggered without noReload');
                 return;
             }
             const iframeSrc = this.iFrame.src;
