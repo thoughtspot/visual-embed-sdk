@@ -549,8 +549,8 @@ export interface EmbedConfig {
 
     /**
      * Log level for the SDK.
-     * @default LogLevel.ERROR
      *
+     * @default LogLevel.ERROR
      * @example
      * ```js
      * init({
@@ -1952,10 +1952,10 @@ export enum EmbedEvent {
      */
     AskSageInit = 'AskSageInit',
     /**
-      * Emitted when a LB/viz is renamed
-      *
-      * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
-      */
+     * Emitted when a LB/viz is renamed
+     *
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+     */
     Rename = 'rename',
 }
 
@@ -2047,7 +2047,7 @@ export enum HostEvent {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
      *      },
-     *      autoDrillDown: true,
+     *      columnGuid: "<guid of the column to drill>",
      *      vizId: payload.data.vizId
      *    });
      *  })
@@ -3773,83 +3773,83 @@ export interface CustomActionPayload {
 }
 
 export enum LogLevel {
-  /**
-   * No logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.SILENT,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  SILENT = 'SILENT',
-  /**
-   * Only ERROR logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.ERROR,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  ERROR = 'ERROR',
-  /**
-   * Only WARN and ERROR logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.WARN,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  WARN = 'WARN',
-  /**
-   * Only INFO, WARN, and ERROR logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.INFO,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  INFO = 'INFO',
+    /**
+     * No logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.SILENT,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    SILENT = 'SILENT',
+    /**
+     * Only ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.ERROR,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    ERROR = 'ERROR',
+    /**
+     * Only WARN and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.WARN,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    WARN = 'WARN',
+    /**
+     * Only INFO, WARN, and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.INFO,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    INFO = 'INFO',
 
-  /**
-   * Only DEBUG, INFO, WARN, and ERROR logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.DEBUG,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  DEBUG = 'DEBUG',
-  /**
-   * All logs will be logged in the console.
-   *
-   * @example
-   * ```js
-   * init({
-   *   ... // other options,
-   *  logLevel: LogLevel.TRACE,
-   * })
-   * ```
-   * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
-   */
-  TRACE = 'TRACE',
+    /**
+     * Only DEBUG, INFO, WARN, and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.DEBUG,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    DEBUG = 'DEBUG',
+    /**
+     * All logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.TRACE,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    TRACE = 'TRACE',
 }
