@@ -370,6 +370,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add enableAskSage flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableAskSage: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should register event handlers to adjust iframe height', async () => {
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on')
             .mockImplementation((event, callback) => {
