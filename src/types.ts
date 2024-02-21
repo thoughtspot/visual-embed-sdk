@@ -848,7 +848,7 @@ export interface ViewConfig {
      * enable or disable ask sage
      *
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
-     * @default true
+     * @default false
      */
     enableAskSage?: boolean;
 }
