@@ -236,6 +236,7 @@ export class AppEmbed extends V1Embed {
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
+            enableAskSage,
         } = this.viewConfig;
 
         let params = {};
@@ -267,6 +268,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (enableAskSage) {
+            params[Param.enableAskSage] = enableAskSage;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
