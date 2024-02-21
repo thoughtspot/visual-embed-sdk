@@ -844,13 +844,6 @@ export interface ViewConfig {
      * @hidden
      */
     embedComponentType?: string;
-    /**
-     * enable or disable ask sage
-     *
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
-     * @default false
-     */
-    enableAskSage?: boolean;
 }
 
 /**

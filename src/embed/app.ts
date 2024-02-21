@@ -191,6 +191,13 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
+    /**
+     * enable or disable ask sage
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @default false
+     */
+    enableAskSage?: boolean;
 }
 
 /**
