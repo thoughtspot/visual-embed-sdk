@@ -1190,7 +1190,8 @@ export enum EmbedEvent {
      * A custom action has been triggered.
      *
      * @returns actionId - ID of the custom action
-     * @returns data - Response payload with the Answer or Liveboard data
+     * @returns payload {@link CustomActionPayload} - Response payload with the
+     * Answer or Liveboard data
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.customAction, payload => {
@@ -1210,7 +1211,7 @@ export enum EmbedEvent {
      * @example
      * ```js
      * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
-     *      console.log('VizPointDoubleClick', payload)
+     *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
      */
@@ -3751,6 +3752,9 @@ export interface VizPoint {
     selectedMeasures: ColumnValue[];
 }
 
+/**
+ * @group Events
+ */
 export interface CustomActionPayload {
     contextMenuPoints?: {
         clickedPoint: VizPoint;

@@ -17,7 +17,7 @@ export enum OperationType {
     GetTableWithHeadlineData = 'GetTableWithHeadlineData',
 }
 
-interface UnderlyingDataPoint {
+export interface UnderlyingDataPoint {
     columnId: string;
     dataValue: any;
 }
@@ -41,6 +41,14 @@ interface UnderlyingDataPoint {
  * @group Events
  */
 export class AnswerService {
+    /**
+     * Should not need to be called directly.
+     *
+     * @param session
+     * @param answer
+     * @param thoughtSpotHost
+     * @param selectedPoints
+     */
     constructor(
         private session: SessionInterface,
         private answer: any,
@@ -50,6 +58,10 @@ export class AnswerService {
         this.session = removeTypename(session);
     }
 
+    /**
+     * Get the details about the source used in the answer.
+     * This can be used to get the list of all columns in the data source for example.
+     */
     public async getSourceDetail() {
         const sourceId = this.answer.sources[0].header.guid;
         return getSourceDetail(
@@ -58,6 +70,12 @@ export class AnswerService {
         );
     }
 
+    /**
+     * Remove columnIds and return updated answer session.
+     *
+     * @param columnIds
+     * @returns
+     */
     public async removeColumns(columnIds: string[]) {
         return this.executeQuery(
             queries.removeColumns,
@@ -67,6 +85,12 @@ export class AnswerService {
         );
     }
 
+    /**
+     * Add columnIds and return updated answer session.
+     *
+     * @param columnIds
+     * @returns
+     */
     public async addColumns(columnIds: string[]) {
         return this.executeQuery(
             queries.addColumns,
@@ -76,6 +100,13 @@ export class AnswerService {
         );
     }
 
+    /**
+     * Fetch data from the answer.
+     *
+     * @param offset
+     * @param size
+     * @returns
+     */
     public async fetchData(offset = 0, size = 1000) {
         const { answer } = await this.executeQuery(
             queries.getAnswerData,
@@ -98,6 +129,8 @@ export class AnswerService {
     }
 
     /**
+     * Fetch the data for the answer as a CSV blob. This might be
+     * quicker for larger data.
      *
      * @param userLocale
      * @param includeInfo Include the CSV header in the output
@@ -110,12 +143,22 @@ export class AnswerService {
         });
     }
 
+    /**
+     * Just get the internal URL for this answer's data
+     * as a CSV blob.
+     *
+     * @param userLocale
+     * @param includeInfo
+     * @returns
+     */
     public getFetchCSVBlobUrl(userLocale = 'en-us', includeInfo = false): string {
         return `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&hideCsvHeader=${!includeInfo}`;
     }
 
     /**
      * Get underlying data given a point and the output column names.
+     * In case of a context menu action, the selectedPoints are
+     * automatically passed.
      *
      * @param outputColumnNames
      * @param selectedPoints
@@ -179,6 +222,13 @@ export class AnswerService {
         return unaggAnswerSession;
     }
 
+    /**
+     * Execute a custom graphql query in the context of the answer.
+     *
+     * @param query graphql query
+     * @param variables graphql variables
+     * @returns
+     */
     public async executeQuery(query: string, variables: any): Promise<any> {
         const data = await graphqlQuery({
             query,
@@ -194,6 +244,11 @@ export class AnswerService {
         return data;
     }
 
+    /**
+     * Get the internal session details for the answer.
+     *
+     * @returns
+     */
     public getSession() {
         return this.session;
     }
