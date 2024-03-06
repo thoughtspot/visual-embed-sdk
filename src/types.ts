@@ -549,8 +549,8 @@ export interface EmbedConfig {
 
     /**
      * Log level for the SDK.
-     * @default LogLevel.ERROR
      *
+     * @default LogLevel.ERROR
      * @example
      * ```js
      * init({
@@ -558,7 +558,7 @@ export interface EmbedConfig {
      *   logLevel: LogLevel.SILENT
      * })
      * ```
-     * @version SDK: 1.26.5 | ThoughtSpot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      */
     logLevel?: LogLevel;
 }
@@ -1190,7 +1190,8 @@ export enum EmbedEvent {
      * A custom action has been triggered.
      *
      * @returns actionId - ID of the custom action
-     * @returns data - Response payload with the Answer or Liveboard data
+     * @returns payload {@link CustomActionPayload} - Response payload with the
+     * Answer or Liveboard data
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.customAction, payload => {
@@ -1210,7 +1211,7 @@ export enum EmbedEvent {
      * @example
      * ```js
      * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
-     *      console.log('VizPointDoubleClick', payload)
+     *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
      */
@@ -1941,7 +1942,7 @@ export enum EmbedEvent {
      * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
      */
     CreateWorksheet = 'createWorksheet',
-     /**
+    /**
      * Emitted when Ask Sage is initialized.
      *
      * @returns viewName: string
@@ -1950,7 +1951,13 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK : 1.29.0 | Thoughtspot: 9.12.0.cl
      */
-     AskSageInit = 'AskSageInit',
+    AskSageInit = 'AskSageInit',
+    /**
+     * Emitted when a LB/viz is renamed
+     *
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+     */
+    Rename = 'rename',
 }
 
 /**
@@ -2041,7 +2048,7 @@ export enum HostEvent {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
      *      },
-     *      autoDrillDown: true,
+     *      columnGuid: "<guid of the column to drill>",
      *      vizId: payload.data.vizId
      *    });
      *  })
@@ -3745,6 +3752,9 @@ export interface VizPoint {
     selectedMeasures: ColumnValue[];
 }
 
+/**
+ * @group Events
+ */
 export interface CustomActionPayload {
     contextMenuPoints?: {
         clickedPoint: VizPoint;
@@ -3767,10 +3777,83 @@ export interface CustomActionPayload {
 }
 
 export enum LogLevel {
-  SILENT = 'SILENT',
-  ERROR = 'ERROR',
-  WARN = 'WARN',
-  INFO = 'INFO',
-  DEBUG = 'DEBUG',
-  TRACE = 'TRACE',
+    /**
+     * No logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.SILENT,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    SILENT = 'SILENT',
+    /**
+     * Only ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.ERROR,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    ERROR = 'ERROR',
+    /**
+     * Only WARN and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.WARN,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    WARN = 'WARN',
+    /**
+     * Only INFO, WARN, and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.INFO,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    INFO = 'INFO',
+
+    /**
+     * Only DEBUG, INFO, WARN, and ERROR logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.DEBUG,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    DEBUG = 'DEBUG',
+    /**
+     * All logs will be logged in the console.
+     *
+     * @example
+     * ```js
+     * init({
+     *   ... // other options,
+     *  logLevel: LogLevel.TRACE,
+     * })
+     * ```
+     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     */
+    TRACE = 'TRACE',
 }

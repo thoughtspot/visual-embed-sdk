@@ -191,6 +191,13 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
+    /**
+     * enable or disable ask sage
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @default false
+     */
+    enableAskSage?: boolean;
 }
 
 /**
@@ -236,6 +243,7 @@ export class AppEmbed extends V1Embed {
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
+            enableAskSage,
         } = this.viewConfig;
 
         let params = {};
@@ -267,6 +275,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (enableAskSage) {
+            params[Param.enableAskSage] = enableAskSage;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

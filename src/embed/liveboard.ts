@@ -147,7 +147,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * enable or disable ask sage
      *
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
-     * @default true
+     * @default false
      */
     enableAskSage?: boolean;
 }
