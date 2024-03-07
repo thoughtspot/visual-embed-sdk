@@ -53,6 +53,7 @@ import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
+import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 
 export {
     init,
@@ -107,6 +108,8 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     LogLevel,
+    uploadMixpanelEvent,
+    MIXPANEL_EVENT,
     VizPoint,
     CustomActionPayload,
 };
