@@ -145,6 +145,7 @@ export enum AuthType {
      *      .then((response) => response.json())
      *      .then((data) => data.token);
      *  }
+     * });
      * ```
      */
     TrustedAuthToken = 'AuthServer',
@@ -766,14 +767,14 @@ export interface ViewConfig {
      * Hide the home page modules
      * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
      *
-     * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -800,7 +801,7 @@ export interface ViewConfig {
      * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
      * ```
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -1237,15 +1238,40 @@ export enum EmbedEvent {
      */
     VizPointClick = 'vizPointClick',
     /**
-     * An error has occurred.
+     * An error has occurred. This event is fired for the following error types:
      *
+     *  `API` - API call failure error.
+     *
+     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen mode.
+     *
+     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
+     *
+     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     *
+     *  `INVALID_DATE_VALUE` - Invalid date value error.
+     *
+     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     *
+     *  For more information, see [Developer Documentation](https://developers.thoughtspot.com/docs/events-app-integration#errorType)
      * @returns error - An error object or message
      * @example
      * ```js
-     * SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
-     * //show error messaage
-     *  function showErrorMsg() {
-     *    document.getElementById("error");
+     * // API error
+     * SearchEmbed.on(EmbedEvent.Error, (error) => {
+     *   console.log(error);
+     *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
+     * });
+     * ```
+     * @example
+     * ```js
+     * // Fullscreen error (Errors during presenting of a liveboard)
+     * LiveboardEmbed.on(EmbedEvent.Error, (error) => {
+     *   console.log(error);
+     *   // { type: "Error", data: { errorType: "FULLSCREEN", error: {
+     *   //   message: "Fullscreen API is not enabled",
+     *   //   stack: "..."
+     *   // } }}
+     * })
      * ```
      */
     Error = 'Error',
@@ -1955,7 +1981,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a LB/viz is renamed
      *
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
      */
     Rename = 'rename',
 }
@@ -2630,7 +2656,7 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     * @hidden
+     *
      * Get the currents visible and runtime filters applied on a Liveboard
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
@@ -2638,7 +2664,7 @@ export enum HostEvent {
      */
     GetFilters = 'getFilters',
     /**
-     * @hidden
+     *
      * Update the visible filters on the Liveboard.
      * @param - filter: filter object containing column name and filter operation and values
      * @example
