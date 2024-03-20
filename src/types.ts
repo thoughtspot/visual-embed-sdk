@@ -3733,6 +3733,36 @@ export enum Action {
      *  @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      */
     AskAi = 'AskAi',
+
+    /**
+     * The **Add KPI to Watchlist** action on Home page watchlist.
+     * @example
+     * ```js
+     * disabledActions: [Action.AddToWatchlist]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    AddToWatchlist = 'addToWatchlist',
+
+    /**
+     * The **Remove from watchlist** menu action on KPI watchlist.
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveFromWatchlist]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    RemoveFromWatchlist = 'removeFromWatchlist',
+
+    /**
+     * The **Copy KPI Link** menu action on KPI watchlist.
+     * @example
+     * ```js
+     * disabledActions: [Action.CopyKpiLink]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    CopyKpiLink = 'copyKpiLink',
 }
 
 export interface AnswerServiceType {
