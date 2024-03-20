@@ -3736,7 +3736,6 @@ export enum Action {
 
     /**
      * The **Add KPI to Watchlist** action on Home page watchlist.
-     * 
      * @example
      * ```js
      * disabledActions: [Action.AddToWatchlist]
@@ -3747,7 +3746,6 @@ export enum Action {
 
     /**
      * The **Remove from watchlist** menu action on KPI watchlist.
-     * 
      * @example
      * ```js
      * disabledActions: [Action.RemoveFromWatchlist]
@@ -3758,7 +3756,6 @@ export enum Action {
 
     /**
      * The **Copy KPI Link** menu action on KPI watchlist.
-     * 
      * @example
      * ```js
      * disabledActions: [Action.CopyKpiLink]
