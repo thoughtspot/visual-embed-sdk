@@ -47,7 +47,7 @@ export async function verifyTokenService(
         });
         return res.ok;
     } catch (e) {
-        logger.error(`Token Verification Service failed : ${e.message}`);
+        logger.warn(`Token Verification Service failed : ${e.message}`);
     }
 
     return false;

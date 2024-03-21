@@ -3,6 +3,7 @@ import * as authService from './utils/authService/authService';
 import * as tokenAuthService from './utils/authService/tokenizedAuthService';
 import * as checkReleaseVersionInBetaInstance from './utils';
 import * as mixPanelService from './mixpanel-service';
+import * as EmbedConfig from './embed/embedConfig';
 import { AuthType, EmbedEvent } from './types';
 import { executeAfterWait } from './test/test-utils';
 import { resetCachedAuthToken } from './authToken';
@@ -128,6 +129,15 @@ describe('Unit test for auth', () => {
         authInstance.initSession(mockSessionInfo);
         const sessionInfo = await authInstance.getSessionInfo();
         expect(sessionInfo).toStrictEqual(mockSessionInfo);
+    });
+
+    test('Disable mixpanel when disableSDKTracking flag is set', () => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+        jest.spyOn(mixPanelService, 'initMixpanel');
+        jest.spyOn(EmbedConfig, 'getEmbedConfig').mockReturnValue({ disableSDKTracking: true });
+        authInstance.initSession(mockSessionInfo);
+        expect(mixPanelService.initMixpanel).not.toBeCalled();
     });
 
     test('doCookielessTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {
