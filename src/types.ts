@@ -1139,7 +1139,7 @@ export enum EmbedEvent {
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
      *```js
-     * searchEmbed.trigger(HostEvent.DrillDown, {
+     * searchEmbed.trigger(EmbedEvent.DrillDown, {
      *    points: {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
@@ -1231,7 +1231,7 @@ export enum EmbedEvent {
      * @important
      * @example
      * ```js
-     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {
+     * embed.on(EmbedEvent.VizPointClick, ({data}) => {
      *   console.log(
      *    data.vizId, // viz id
      *    data.clickedPoint.selectedAttributes[0].value,
@@ -1825,7 +1825,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Delete,
+     * liveboardEmbed.trigger(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -1836,7 +1836,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.SchedulesList)
+     * liveboardEmbed.trigger(EmbedEvent.SchedulesList)
      *```
      */
     SchedulesList = 'schedule-list',
@@ -1846,7 +1846,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Cancel)
+     * liveboardEmbed.trigger(EmbedEvent.Cancel)
      *```
      */
     Cancel = 'cancel',
@@ -1856,7 +1856,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Explore,  {
+     * liveboardEmbed.trigger(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -1867,7 +1867,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.CopyLink, {
+     * liveboardEmbed.trigger(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
