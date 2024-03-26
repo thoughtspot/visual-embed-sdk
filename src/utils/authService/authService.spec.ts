@@ -53,6 +53,18 @@ describe('Unit test for authService', () => {
         );
     });
 
+    test('fetchAuthService without username', async () => {
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        await fetchAuthService(thoughtSpotHost, undefined, authToken);
+        expect(fetch).toBeCalledWith(
+            `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?auth_token=${authToken}`,
+            {
+                credentials: 'include',
+                redirect: 'manual',
+            },
+        );
+    });
+
     test('fetchAuthPostService', async () => {
         global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
         await fetchAuthPostService(thoughtSpotHost, username, authToken);
@@ -61,6 +73,21 @@ describe('Unit test for authService', () => {
             credentials: 'include',
             redirect: 'manual',
             body: 'username=tsuser&auth_token=token',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'x-requested-by': 'ThoughtSpot',
+            },
+        });
+    });
+
+    test('fetchAuthPostService without username', async () => {
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        await fetchAuthPostService(thoughtSpotHost, undefined, authToken);
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
+            method: 'POST',
+            credentials: 'include',
+            redirect: 'manual',
+            body: 'auth_token=token',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded',
                 'x-requested-by': 'ThoughtSpot',

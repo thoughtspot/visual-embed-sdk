@@ -295,12 +295,6 @@ export interface EmbedConfig {
      */
     thoughtSpotHost: string;
     /**
-     * If true, all the iframe links will have /v2 added automatically.
-     * If false, all the iframe links will have /v1 added automatically.
-     * If undefined, nothing will be added
-     */
-    enableReactShell?: boolean | undefined;
-    /**
      * The authentication mechanism to use.
      */
     authType: AuthType;
