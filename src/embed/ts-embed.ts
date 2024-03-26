@@ -518,10 +518,7 @@ export class TsEmbed {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
-        let host = this.thoughtSpotHost;
-        if (!isUndefined(this.embedConfig.enableReactShell)) {
-            host = this.embedConfig.enableReactShell as boolean ? '/v2' : '/v1';
-        }
+        const host = this.thoughtSpotHost;
         const path = `${host}/${queryParams}#`;
         return path;
     }

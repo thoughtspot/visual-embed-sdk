@@ -14,6 +14,7 @@ import {
 } from './utils/authService';
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { logger } from './utils/logger';
+import { getEmbedConfig } from './embed/embedConfig';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -117,7 +118,22 @@ export interface AuthEventEmitter {
      *
      * @param {@link AuthEvent}
      */
-    emit(event: AuthEvent): void;
+    emit(event: AuthEvent, ...args: any[]): boolean;
+    /**
+     * Remove listener from the emitter returned from init.
+     *
+     * @param event
+     * @param listener
+     * @param context
+     * @param once
+     */
+    off(event: AuthStatus, listener: (...args: any[]) => void, context: any, once: boolean): this;
+    /**
+     * Remove all the event listeners
+     *
+     * @param event
+     */
+    removeAllListeners(event: AuthStatus): this;
 }
 
 /**
@@ -196,9 +212,12 @@ export function notifyLogout(): void {
 }
 
 export const initSession = (sessionDetails: sessionInfoInterface) => {
+    const embedConfig = getEmbedConfig();
     if (sessionInfo == null) {
         sessionInfo = sessionDetails;
-        initMixpanel(sessionInfo);
+        if (!embedConfig.disableSDKTracking) {
+            initMixpanel(sessionInfo);
+        }
         sessionInfoResolver(sessionInfo);
     }
 };
