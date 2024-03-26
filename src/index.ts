@@ -46,11 +46,14 @@ import {
     ContextMenuTriggerOptions,
     RuntimeParameter,
     LogLevel,
+    VizPoint,
+    CustomActionPayload,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
-import { AnswerService } from './utils/graphql/answerService/answerService';
+import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
+import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 
 export {
     init,
@@ -74,6 +77,8 @@ export {
     AuthEventEmitter,
     AnswerService,
     // types
+    SessionInterface,
+    UnderlyingDataPoint,
     Page,
     AuthType,
     RuntimeFilter,
@@ -103,4 +108,8 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     LogLevel,
+    uploadMixpanelEvent,
+    MIXPANEL_EVENT,
+    VizPoint,
+    CustomActionPayload,
 };

@@ -145,6 +145,7 @@ export enum AuthType {
      *      .then((response) => response.json())
      *      .then((data) => data.token);
      *  }
+     * });
      * ```
      */
     TrustedAuthToken = 'AuthServer',
@@ -561,6 +562,12 @@ export interface EmbedConfig {
      * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      */
     logLevel?: LogLevel;
+    /**
+     * Disables the Mixpanel tracking from the SDK.
+     *
+     * @version SDK: 1.27.9
+     */
+    disableSDKTracking?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -876,7 +883,6 @@ export interface ViewConfig {
      * Hide the home page modules
      * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
      * * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -885,13 +891,12 @@ export interface ViewConfig {
      * })
      * ```
      *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
-     *
-     * @version SDK: 1.28.0 | Thoughtspot: 9.9.0.cl
      *
      * @example
      * ```js
@@ -900,6 +905,7 @@ export interface ViewConfig {
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]
      * })
      * ```
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -937,6 +943,7 @@ export interface ViewConfig {
      * })
      * ```
      *
+     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -952,7 +959,6 @@ export interface ViewConfig {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
@@ -1272,7 +1278,7 @@ export enum EmbedEvent {
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
      *```js
-     * searchEmbed.trigger(HostEvent.DrillDown, {
+     * searchEmbed.trigger(EmbedEvent.DrillDown, {
      *    points: {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
@@ -1330,7 +1336,8 @@ export enum EmbedEvent {
      * A custom action has been triggered.
      *
      * @returns actionId - ID of the custom action
-     * @returns data - Response payload with the Answer or Liveboard data
+     * @returns payload {@link CustomActionPayload} - Response payload with the
+     * Answer or Liveboard data
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.customAction, payload => {
@@ -1350,7 +1357,7 @@ export enum EmbedEvent {
      * @example
      * ```js
      * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
-     *      console.log('VizPointDoubleClick', payload)
+     *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
      */
@@ -1363,7 +1370,7 @@ export enum EmbedEvent {
      * @important
      * @example
      * ```js
-     * embed.on(ThoughtSpotEmbed.Event.VizPointClick, ({data}) => {
+     * embed.on(EmbedEvent.VizPointClick, ({data}) => {
      *   console.log(
      *    data.vizId, // viz id
      *    data.clickedPoint.selectedAttributes[0].value,
@@ -1376,15 +1383,42 @@ export enum EmbedEvent {
      */
     VizPointClick = 'vizPointClick',
     /**
-     * An error has occurred.
+     * An error has occurred. This event is fired for the following error types:
+     *
+     *  `API` - API call failure error.
+     *
+     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
+     *  mode.
+     *
+     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
+     *
+     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     *
+     *  `INVALID_DATE_VALUE` - Invalid date value error.
+     *
+     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     *
+     *  For more information, see [Developer Documentation](https://developers.thoughtspot.com/docs/events-app-integration#errorType)
      *
      * @returns error - An error object or message
      * @example
      * ```js
-     * SearchEmbed.on(EmbedEvent.Error, showErrorMsg)
-     * //show error messaage
-     *  function showErrorMsg() {
-     *    document.getElementById("error");
+     * // API error
+     * SearchEmbed.on(EmbedEvent.Error, (error) => {
+     *   console.log(error);
+     *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
+     * });
+     * ```
+     * @example
+     * ```js
+     * // Fullscreen error (Errors during presenting of a liveboard)
+     * LiveboardEmbed.on(EmbedEvent.Error, (error) => {
+     *   console.log(error);
+     *   // { type: "Error", data: { errorType: "FULLSCREEN", error: {
+     *   //   message: "Fullscreen API is not enabled",
+     *   //   stack: "..."
+     *   // } }}
+     * })
      * ```
      */
     Error = 'Error',
@@ -1930,7 +1964,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Delete,
+     * liveboardEmbed.trigger(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -1941,7 +1975,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.SchedulesList)
+     * liveboardEmbed.trigger(EmbedEvent.SchedulesList)
      *```
      */
     SchedulesList = 'schedule-list',
@@ -1951,7 +1985,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Cancel)
+     * liveboardEmbed.trigger(EmbedEvent.Cancel)
      *```
      */
     Cancel = 'cancel',
@@ -1961,7 +1995,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Explore,  {
+     * liveboardEmbed.trigger(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -1972,7 +2006,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.CopyLink, {
+     * liveboardEmbed.trigger(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -2094,7 +2128,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a LB/viz is renamed
      *
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
      */
      * Emitted when a LB/viz is renamed
      *
@@ -2773,16 +2807,18 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     * @hidden
+     *
      * Get the currents visible and runtime filters applied on a Liveboard
+     *
      * @example
      * liveboardEmbed.trigger(HostEvent.GetFilters)
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
     /**
-     * @hidden
+     *
      * Update the visible filters on the Liveboard.
+     *
      * @param - filter: filter object containing column name and filter operation and values
      * @example
      *
@@ -3850,6 +3886,39 @@ export enum Action {
      *  @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      */
     AskAi = 'AskAi',
+
+    /**
+     * The **Add KPI to Watchlist** action on Home page watchlist.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddToWatchlist]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    AddToWatchlist = 'addToWatchlist',
+
+    /**
+     * The **Remove from watchlist** menu action on KPI watchlist.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveFromWatchlist]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    RemoveFromWatchlist = 'removeFromWatchlist',
+
+    /**
+     * The **Copy KPI Link** menu action on KPI watchlist.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CopyKpiLink]
+     * ```
+     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     */
+    CopyKpiLink = 'copyKpiLink',
 }
 
 export interface AnswerServiceType {
@@ -3895,6 +3964,9 @@ export interface VizPoint {
     selectedMeasures: ColumnValue[];
 }
 
+/**
+ * @group Events
+ */
 export interface CustomActionPayload {
     contextMenuPoints?: {
         clickedPoint: VizPoint;
