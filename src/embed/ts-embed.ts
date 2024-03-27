@@ -417,6 +417,15 @@ export class TsEmbed {
         if (this.embedConfig.pendoTrackingKey) {
             queryParams[Param.PendoTrackingKey] = this.embedConfig.pendoTrackingKey;
         }
+        if (this.embedConfig.numberFormatLocale) {
+            queryParams[Param.NumberFormatLocale] = this.embedConfig.numberFormatLocale;
+        }
+        if (this.embedConfig.dateFormatLocale) {
+            queryParams[Param.DateFormatLocale] = this.embedConfig.dateFormatLocale;
+        }
+        if (this.embedConfig.currencyFormat) {
+            queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
+        }
 
         const {
             disabledActions,
