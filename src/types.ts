@@ -3770,6 +3770,17 @@ export enum Action {
      * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
      */
     CopyKpiLink = 'copyKpiLink',
+
+    /**
+     * Action ID for AI Highlights button
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.AIHighlights]
+     * ```
+     *  @version SDK: 1.27.10 | Thoughtspot: 9.12.5.cl
+     */
+    AIHighlights = 'AIHighlights',
 }
 
 export interface AnswerServiceType {
