@@ -54,6 +54,7 @@ import { SageEmbed, SageViewConfig } from './embed/sage';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
+import { tokenizedFetch } from './tokenizedFetch';
 
 export {
     init,
@@ -65,6 +66,7 @@ export {
     exportTMLInput,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
+    tokenizedFetch,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
