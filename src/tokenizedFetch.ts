@@ -9,6 +9,8 @@ import { AuthType } from './types';
  *
  * @param input
  * @param init
+ * @version SDK: 1.28.0
+ * @group Global methods
  */
 export const tokenizedFetch: typeof fetch = async (input, init): Promise<Response> => {
     const embedConfig = getEmbedConfig();
