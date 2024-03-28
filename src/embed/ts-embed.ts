@@ -1161,8 +1161,8 @@ export class TsEmbed {
         const elBoundingClient = this.el.getBoundingClientRect();
 
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y}px`,
-            left: `${elBoundingClient.x}px`,
+            top: `${elBoundingClient.y + window.scrollY}px`,
+            left: `${elBoundingClient.x + window.scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
         });
@@ -1183,8 +1183,6 @@ export class TsEmbed {
             pointerEvents: 'none',
             zIndex: '-1000',
             position: 'absolute ',
-            top: '0',
-            left: '0',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
