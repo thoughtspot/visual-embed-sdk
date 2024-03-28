@@ -196,7 +196,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeFilters,
             dataSource,
             dataSources,
-            excludeRuntimeFiltersfromURL,
+            excludeRuntimeFiltersfromURL = true,
             hideSearchBar,
             dataPanelV2 = false,
             useLastSelectedSources = false,

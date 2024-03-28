@@ -135,6 +135,7 @@ describe('React Components', () => {
                             values: [100],
                         },
                     ]}
+                    excludeRuntimeFiltersfromURL={false}
                 />,
             );
 

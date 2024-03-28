@@ -170,7 +170,7 @@ export class TsEmbed {
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: true, ...viewConfig };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
@@ -1235,7 +1235,7 @@ export class V1Embed extends TsEmbed {
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: true, ...viewConfig };
     }
 
     /**

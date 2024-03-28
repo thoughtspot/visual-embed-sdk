@@ -317,6 +317,46 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        test('Runtime filters from view Config should be part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockRuntimeFilters: RuntimeFilter[] = [
+                {
+                    columnName: 'color',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['blue'],
+                },
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                excludeRuntimeFiltersfromURL: true,
+                runtimeFilters: mockRuntimeFilters,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
+                },
+            });
+        });
+
         test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,

@@ -182,6 +182,7 @@ describe('Liveboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
+            excludeRuntimeFiltersfromURL: false,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
@@ -208,7 +209,29 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should not apply runtime filters if excludeRuntimeFiltersfromURL is true', async () => {
+    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            vizId,
+            runtimeFilters: [
+                {
+                    columnName: 'sales',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${liveboardId}/${vizId}`,
+            );
+        });
+    });
+
+    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,

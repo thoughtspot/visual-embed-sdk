@@ -741,9 +741,14 @@ export interface ViewConfig {
     usePrerenderedIfAvailable?: boolean;
     /**
      * Boolean to exclude runtimeFilters in the URL
+     * By default it is true, this flag removes runtime filters from the URL
+     * when set to false, runtime filters will be included in the URL.
      *
-     * @default false
-     * @hidden
+     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * embedded view.
+     *
+     * @default true
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
