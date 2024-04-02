@@ -70,7 +70,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * The showPrimaryNavbar flag takes precedence over the hideHomepageLeftNav.
      *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hideHomepageLeftNav?: boolean;
     /**
@@ -175,7 +175,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Flag to control new Modular Home experience
      *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     modularHomeExperience?: boolean;
     /**

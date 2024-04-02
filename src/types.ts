@@ -180,15 +180,30 @@ export enum AuthType {
 }
 
 export enum HomeLeftNavItem {
-    QueryBuilder = 'query-builder',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
+    SearchData = 'search-data',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Home = 'insights-home',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Liveboards = 'liveboards',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Answers = 'answers',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     MonitorSubscription = 'monitor-alerts',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     SpotIQAnalysis = 'spotiq-analysis',
-    Tutorials = 'tutorials',
-    Documentation = 'documentation',
-    Community = 'community',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -772,14 +787,14 @@ export interface ViewConfig {
      * Hide the home page modules
      * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
      *
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -806,7 +821,7 @@ export interface ViewConfig {
      * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
      * ```
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
