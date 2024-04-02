@@ -281,12 +281,12 @@ export class SearchEmbed extends TsEmbed {
     /**
      * Render the embedded ThoughtSpot search
      */
-    public render(): SearchEmbed {
+    public async render(): Promise<SearchEmbed> {
         super.render();
         const { answerId } = this.viewConfig;
 
         const src = this.getIFrameSrc();
-        this.renderIFrame(src);
+        await this.renderIFrame(src);
         getAuthPromise().then(() => {
             if (
                 checkReleaseVersionInBeta(

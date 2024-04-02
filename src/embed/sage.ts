@@ -237,11 +237,11 @@ export class SageEmbed extends V1Embed {
      *
      * @returns {SageEmbed} Eureka/Sage embed
      */
-    public render(): SageEmbed {
+    public async render(): Promise<SageEmbed> {
         super.render();
 
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src);
+        await this.renderV1Embed(src);
 
         return this;
     }
