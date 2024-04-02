@@ -364,7 +364,7 @@ describe('Unit test case for ts embed', () => {
             };
             const mockedHiddenHomeLeftNavItems: HomeLeftNavItem[] = [
                 HomeLeftNavItem.Home,
-                HomeLeftNavItem.Documentation,
+                HomeLeftNavItem.MonitorSubscription,
             ];
 
             const searchEmbed = new AppEmbed(getRootEl(), {
@@ -386,7 +386,8 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
-                    hiddenHomeLeftNavItems: [HomeLeftNavItem.Home, HomeLeftNavItem.Documentation],
+                    hiddenHomeLeftNavItems:
+                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [],
                 },
