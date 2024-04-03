@@ -262,6 +262,8 @@ export interface CustomStyles {
 /**
  * Configuration to define the customization on the Embedded
  * Thoughtspot components.
+ * You can customize styles, text strings, and icons.
+ * For more information, see https://developers.thoughtspot.com/docs/custom-css.
  *
  * @example
  * ```js
@@ -276,7 +278,12 @@ export interface CustomStyles {
  *     },
  *     content: {
  *      strings: {
- *        'LIVEBOARDS': 'Dashboards'
+ *        'LIVEBOARDS': 'Dashboards',
+ *        'ANSWERS': 'Visualizations',
+ *        'Edit': 'Modify',
+ *        'Show underlying data': 'Show source data',
+ *        'SpotIQ': 'Insights',
+ *        'Monitor': 'Alerts',
  *      }
  *     },
  *     iconSpriteUrl: 'https://my-custom-icon-sprite.svg'
@@ -785,7 +792,11 @@ export interface ViewConfig {
     hiddenTabs?: string[];
     /**
      * Hide the home page modules
-     * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
      * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
@@ -794,7 +805,11 @@ export interface ViewConfig {
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
      *
-     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
+     *
+     * @version SDK: 1.27.9| Thoughtspot: 9.12.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -820,6 +835,10 @@ export interface ViewConfig {
      * ```js
      * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
      * ```
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
      * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
@@ -1012,6 +1031,10 @@ export enum HomepageModule {
     MyLibrary = 'MY_LIBRARY',
     /**
      * Trending list
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
      */
     Trending = 'TRENDING',
     /**
@@ -1260,18 +1283,17 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     *  `API` - API call failure error.
+     *  API - API call failure error.
      *
-     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     *  mode.
+     *  FULLSCREEN - Error when presenting a Liveboard or visualization in full screen mode.
      *
-     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
+     *  SINGLE_VALUE_FILTER - Error due to multiple values in the single value filter.
      *
-     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     *  NON_EXIST_FILTER - Error due to a non-existent filter.
      *
-     *  `INVALID_DATE_VALUE` - Invalid date value error.
+     *  INVALID_DATE_VALUE - Invalid date value error.
      *
-     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     *  INVALID_OPERATOR - Use of invalid operator during filter application.
      *
      *  For more information, see [Developer Documentation](https://developers.thoughtspot.com/docs/events-app-integration#errorType)
      *
@@ -2152,10 +2174,13 @@ export enum HostEvent {
      * _String_. The name of the column to filter on.
      * `operator`
      *  Runtime filter operator to apply. For information,
-     *  see [Runtime filter operators](https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator).
+     *  see https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator.
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
+     *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
+     *  Search embedding (SearchEmbed) and Natural Language Search
+     *  embedding (SageEmbed).
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
