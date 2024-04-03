@@ -247,6 +247,8 @@ export interface CustomStyles {
 /**
  * Configuration to define the customization on the Embedded
  * Thoughtspot components.
+ * You can customize styles, text strings, and icons.
+ * For more information, see https://developers.thoughtspot.com/docs/custom-css.
  *
  * @example
  * ```js
@@ -261,7 +263,12 @@ export interface CustomStyles {
  *     },
  *     content: {
  *      strings: {
- *        'LIVEBOARDS': 'Dashboards'
+ *        'LIVEBOARDS': 'Dashboards',
+ *        'ANSWERS': 'Visualizations',
+ *        'Edit': 'Modify',
+ *        'Show underlying data': 'Show source data',
+ *        'SpotIQ': 'Insights',
+ *        'Monitor': 'Alerts',
  *      }
  *     },
  *     iconSpriteUrl: 'https://my-custom-icon-sprite.svg'
@@ -2151,7 +2158,9 @@ export enum HostEvent {
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
-     *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in Natural Language Search embedding (SageEmbed).
+     *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
+     *  Search embedding (SearchEmbed) and Natural Language Search
+     *  embedding (SageEmbed).
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
