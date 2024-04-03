@@ -74,7 +74,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hideHomepageLeftNav?: boolean;
     /**
@@ -189,7 +189,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Flag to control new Modular Home experience.
      *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     modularHomeExperience?: boolean;
     /**

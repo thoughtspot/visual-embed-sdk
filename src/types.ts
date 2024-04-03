@@ -180,15 +180,30 @@ export enum AuthType {
 }
 
 export enum HomeLeftNavItem {
-    QueryBuilder = 'query-builder',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
+    SearchData = 'search-data',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Home = 'insights-home',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Liveboards = 'liveboards',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     Answers = 'answers',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     MonitorSubscription = 'monitor-alerts',
+    /**
+     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     */
     SpotIQAnalysis = 'spotiq-analysis',
-    Tutorials = 'tutorials',
-    Documentation = 'documentation',
-    Community = 'community',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -748,9 +763,14 @@ export interface ViewConfig {
     usePrerenderedIfAvailable?: boolean;
     /**
      * Boolean to exclude runtimeFilters in the URL
+     * By default it is true, this flag removes runtime filters from the URL
+     * when set to false, runtime filters will be included in the URL.
      *
-     * @default false
-     * @hidden
+     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * embedded view.
+     *
+     * @default true
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
@@ -778,7 +798,7 @@ export interface ViewConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
@@ -789,7 +809,7 @@ export interface ViewConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
      *
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9| Thoughtspot: 9.12.0.cl
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -820,7 +840,7 @@ export interface ViewConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -3795,6 +3815,17 @@ export enum Action {
      * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
      */
     CopyKpiLink = 'copyKpiLink',
+
+    /**
+     * Action ID for AI Highlights button
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.AIHighlights]
+     * ```
+     *  @version SDK: 1.27.10 | Thoughtspot: 9.12.5.cl
+     */
+    AIHighlights = 'AIHighlights',
 }
 
 export interface AnswerServiceType {

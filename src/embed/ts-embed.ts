@@ -170,7 +170,7 @@ export class TsEmbed {
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: true, ...viewConfig };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
@@ -1161,8 +1161,8 @@ export class TsEmbed {
         const elBoundingClient = this.el.getBoundingClientRect();
 
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y}px`,
-            left: `${elBoundingClient.x}px`,
+            top: `${elBoundingClient.y + window.scrollY}px`,
+            left: `${elBoundingClient.x + window.scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
         });
@@ -1183,8 +1183,6 @@ export class TsEmbed {
             pointerEvents: 'none',
             zIndex: '-1000',
             position: 'absolute ',
-            top: '0',
-            left: '0',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
@@ -1235,7 +1233,7 @@ export class V1Embed extends TsEmbed {
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: true, ...viewConfig };
     }
 
     /**
