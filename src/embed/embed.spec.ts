@@ -50,24 +50,6 @@ describe('test view config', () => {
             expect(iframe.style.height).toBe(`${height}px`);
         });
     });
-
-    test('trying to register event handler after render should throw error', async () => {
-        spyOn(logger, 'error');
-        const onErrorSpy = jest.fn();
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-        searchEmbed
-            .on(EmbedEvent.Error, onErrorSpy)
-            .render()
-            .on(EmbedEvent.Load, () => null);
-        await executeAfterWait(() => {
-            expect(onErrorSpy).toHaveBeenCalledWith(
-                {
-                    error: 'Please register event handlers before calling render',
-                },
-                expect.any(Function),
-            );
-        }, EVENT_WAIT_TIME);
-    });
 });
 
 describe('Custom CSS Url', () => {

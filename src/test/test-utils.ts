@@ -116,3 +116,12 @@ export const expectUrlMatch = (source: string, target: string) => {
     const targetUrl = new URL(target);
     expect(sourceUrl.hash).toBe(targetUrl.hash);
 };
+
+export const createRootEleForEmbed = () => {
+    const rootEle = document.createElement('div');
+    rootEle.id = 'myRoot';
+    const tsEmbedDiv = document.createElement('div');
+    tsEmbedDiv.id = 'tsEmbedDiv';
+    rootEle.appendChild(tsEmbedDiv);
+    document.body.appendChild(rootEle);
+};

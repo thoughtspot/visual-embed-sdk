@@ -144,7 +144,6 @@ export const collapseAndExpandLeftNav = (
                 } else {
                     // Adding click listener to the headings with links
                     spanElement.addEventListener('click', () => {
-                        console.log('here2');
                         toggleExpandOnTab(
                             (el.children[0] as HTMLParagraphElement).innerText,
                         );

@@ -428,10 +428,10 @@ export class AppEmbed extends V1Embed {
      * @param renderOptions An object containing the page ID
      * to be embedded.
      */
-    public render(): AppEmbed {
+    public async render(): Promise<AppEmbed> {
         super.render();
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src);
+        await this.renderV1Embed(src);
 
         return this;
     }

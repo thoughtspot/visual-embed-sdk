@@ -965,6 +965,16 @@ export class TsEmbed {
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+
+        if (!this.isRendered) {
+            this.handleError('Please call render before triggering events');
+            return null;
+        }
+
+        if (!messageType) {
+            this.handleError('Host event type is undefined');
+            return null;
+        }
         return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
@@ -975,7 +985,7 @@ export class TsEmbed {
      *
      * @param args
      */
-    public render(): TsEmbed {
+    public async render(): Promise<TsEmbed> {
         this.isRendered = true;
 
         return this;
@@ -1087,11 +1097,11 @@ export class TsEmbed {
                 ) {
                     logger.warn(
                         `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
