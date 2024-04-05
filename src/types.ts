@@ -178,7 +178,12 @@ export enum AuthType {
      */
     Basic = 'Basic',
 }
-
+    /**
+     *
+     * This option does not apply to the classic homepage experience. To access the updated modular homepage, 
+     * set `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
+     *  
+     */
 export enum HomeLeftNavItem {
     /**
      * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
