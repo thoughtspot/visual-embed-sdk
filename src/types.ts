@@ -2186,8 +2186,9 @@ export enum HostEvent {
      *  operators such as BW and IN accept multiple operands.
      * 
      *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
-     *  Search embedding (SearchEmbed) and Natural Language Search
-     *  embedding (SageEmbed).
+     *  `SearchEmbed` (Search page embedding) and `SageEmbed` 
+     *  (Natural Language Search interface embedding).
+     * 
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
