@@ -2184,6 +2184,7 @@ export enum HostEvent {
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
+     * 
      *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
      *  Search embedding (SearchEmbed) and Natural Language Search
      *  embedding (SageEmbed).
