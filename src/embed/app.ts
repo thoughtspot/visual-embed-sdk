@@ -71,7 +71,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.0.cl).
      *
      * @default false
      * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
@@ -88,7 +88,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.0.cl).
      *
      */
     hideApplicationSwitcher?: boolean;
@@ -98,7 +98,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.0.cl).
      *
      */
     hideOrgSwitcher?: boolean;
