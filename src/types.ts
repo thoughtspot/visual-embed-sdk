@@ -2807,6 +2807,16 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      */
     AskSage = 'AskSage',
+    /**
+     * Trigger ResetLiveboardPersonalisedView for Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
+     * ```
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
 }
 
 /**
