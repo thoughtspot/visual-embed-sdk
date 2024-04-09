@@ -2808,6 +2808,22 @@ export enum HostEvent {
      */
     AskSage = 'AskSage',
     /**
+     * Trigger UpdateCrossFilter for Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateCrossFilter, {
+     *      vizId: 'b535c760-8bbe-4e6f-bb26-af56b4129a1e',
+     *      conditions: [
+     *      { columnName: 'Category', values: ['mfgr#12','mfgr#14'] },
+     *      { columnName: 'color', values: ['mint','hot'] },
+     *    ],
+     * });
+     * ```
+     * @version SDK: 1.29.0 | Thoughtspot: 10.0.0.cl
+     */
+    UpdateCrossFilter = 'UpdateCrossFilter',
+    /**
      * Trigger ResetLiveboardPersonalisedView for Liveboard
      *
      * @example
