@@ -2823,6 +2823,7 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.0.0.cl
      */
     UpdateCrossFilter = 'UpdateCrossFilter',
+    /**
      * Trigger ResetLiveboardPersonalisedView for Liveboard
      *
      * @example
