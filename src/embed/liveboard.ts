@@ -33,6 +33,11 @@ export interface LiveboardViewConfig
         ViewConfig,
         'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'
     > {
+export interface LiveboardViewConfig
+    extends Omit<
+        ViewConfig,
+        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'
+    > {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -439,8 +444,9 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isUndefined(embedObj)) return;
 
-        const showDifferentLib = this.viewConfig.liveboardId
-            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+        const showDifferentLib =
+            this.viewConfig.liveboardId &&
+            embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
 
         if (showDifferentLib) {
             const libId = this.viewConfig.liveboardId;

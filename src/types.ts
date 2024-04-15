@@ -993,7 +993,6 @@ export interface ViewConfig {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
@@ -2166,7 +2165,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a LB/viz is renamed
      *
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
      */
     Rename = 'rename',
 }
