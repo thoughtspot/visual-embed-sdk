@@ -3274,6 +3274,26 @@ export enum Action {
      */
     AddParameter = 'addParameter',
     /**
+     * The **Add Column Set** action on a Answer.
+     * Allows adding column sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddColumnSet]
+     * ```
+     */
+    AddColumnSet = 'addSimpleCohort',
+    /**
+     * The **Add Query Set** action on a Answer.
+     * Allows adding query sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddQuerySet]
+     * ```
+     */
+    AddQuerySet = 'addAdvancedCohort',
+    /**
      * @hidden
      */
     SearchOnTop = 'searchOnTop',
