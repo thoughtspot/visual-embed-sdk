@@ -123,7 +123,7 @@ export interface SearchViewConfig
      *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      *
-     * * @example
+     * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
      *    ... // other options

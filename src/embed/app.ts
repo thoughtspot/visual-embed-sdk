@@ -92,7 +92,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
      *
-     * * @example
+     * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
@@ -127,7 +127,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
      *
-     * * @example
+     * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options

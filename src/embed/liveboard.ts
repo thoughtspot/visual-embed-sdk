@@ -204,7 +204,7 @@ export interface LiveboardViewConfig
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
      * @example
-     * * ```js
+     * ```js
      * const embed = new LiveboardEmbed('#embed', {
      *   ... // other liveboard view config
      *   hideLiveboardHeader:true,
