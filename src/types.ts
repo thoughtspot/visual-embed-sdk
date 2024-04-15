@@ -908,6 +908,7 @@ export interface ViewConfig {
      * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
      *
      *
+     *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.0.cl).
@@ -925,6 +926,7 @@ export interface ViewConfig {
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
@@ -973,6 +975,8 @@ export interface ViewConfig {
      *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
      * })
      * ```
+     *
+     *
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
