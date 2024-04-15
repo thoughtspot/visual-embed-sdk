@@ -23,9 +23,9 @@ export interface SearchBarViewConfig
      * Only a single data source is supported currently.
      *
      * @deprecated Use `dataSource` instead
-     * 
+     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
-     * 
+     *
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -39,7 +39,7 @@ export interface SearchBarViewConfig
      * Pass the ID of the source to be selected.
      *
      * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
-     * 
+     *
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -53,7 +53,7 @@ export interface SearchBarViewConfig
      * Boolean to define if the last selected data source should be used
      *
      * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
-     * 
+     *
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -73,7 +73,7 @@ export interface SearchBarViewConfig
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
-     * 
+     *
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
      *
      * @example

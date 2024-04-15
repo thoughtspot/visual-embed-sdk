@@ -7,7 +7,13 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DataSourceVisualMode, DOMSelector, Param, Action, ViewConfig } from '../types';
+import {
+    DataSourceVisualMode,
+    DOMSelector,
+    Param,
+    Action,
+    ViewConfig,
+} from '../types';
 import {
     getQueryParamString,
     checkReleaseVersionInBeta,
@@ -378,8 +384,8 @@ export class SearchEmbed extends TsEmbed {
             if (
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
-                    getEmbedConfig().suppressSearchEmbedBetaWarning ||
-                        getEmbedConfig().suppressErrorAlerts,
+                    getEmbedConfig().suppressSearchEmbedBetaWarning
+                       || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);

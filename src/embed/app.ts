@@ -11,7 +11,13 @@
 
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
-import { Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload } from '../types';
+import {
+    Param,
+    DOMSelector,
+    HostEvent,
+    ViewConfig,
+    EmbedEvent, MessagePayload,
+} from '../types';
 import { V1Embed } from './ts-embed';
 
 /**

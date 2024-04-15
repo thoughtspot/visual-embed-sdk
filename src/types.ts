@@ -2168,14 +2168,6 @@ export enum EmbedEvent {
      *
      * @version SDK : 1.28.0 | ThoughtSpot: 9.11.0.cl
      */
-     * Emitted when a LB/viz is renamed
-     *
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
-     */
-     * Emitted when a LB/viz is renamed
-     *
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
-     */
     Rename = 'rename',
 }
 

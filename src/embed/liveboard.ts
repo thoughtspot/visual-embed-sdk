@@ -327,10 +327,8 @@ export class LiveboardEmbed extends V1Embed {
             enableAskSage,
         } = this.viewConfig;
 
-        const preventLiveboardFilterRemoval =
-            this.viewConfig.preventLiveboardFilterRemoval ||
-            this.viewConfig.preventPinboardFilterRemoval;
-
+        const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
+        || this.viewConfig.preventPinboardFilterRemoval;
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
         }
@@ -441,9 +439,8 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isUndefined(embedObj)) return;
 
-        const showDifferentLib =
-            this.viewConfig.liveboardId &&
-            embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+        const showDifferentLib = this.viewConfig.liveboardId
+            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
 
         if (showDifferentLib) {
             const libId = this.viewConfig.liveboardId;
