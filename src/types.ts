@@ -2720,7 +2720,7 @@ export enum HostEvent {
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
-     *  filter: { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
+     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3], is_mandatory: false }
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
