@@ -352,6 +352,13 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     enableAskSage?: boolean;
+    /**
+     * To set the initial state of the search bar in case of saved-answers.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     */
+    collapseSearchBarInitially?: boolean;
 }
 
 /**
@@ -398,6 +405,7 @@ export class AppEmbed extends V1Embed {
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
+            collapseSearchBarInitially = false,
         } = this.viewConfig;
 
         let params = {};
@@ -438,6 +446,7 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
+        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

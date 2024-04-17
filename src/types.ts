@@ -3082,6 +3082,7 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
+    CollapseSearchBarInitially= 'collapseSearchBarInitially',
 }
 
 /**

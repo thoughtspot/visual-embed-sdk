@@ -238,6 +238,13 @@ export interface SearchViewConfig
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
+    /**
+     * To set the initial state of the search bar in case of saved-answers.
+     *
+     * @default false
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    collapseSearchBarInitially?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -294,6 +301,7 @@ export class SearchEmbed extends TsEmbed {
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
+            collapseSearchBarInitially = false,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -340,6 +348,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
+        queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
