@@ -9,7 +9,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DOMSelector, EmbedEvent, HostEvent, MessagePayload, Param, ViewConfig } from '../types';
+import {
+    DOMSelector, EmbedEvent, HostEvent, MessagePayload, Param, ViewConfig,
+} from '../types';
 import { getQueryParamString } from '../utils';
 import { logger } from '../utils/logger';
 import { V1Embed } from './ts-embed';

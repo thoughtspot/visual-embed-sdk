@@ -27,7 +27,9 @@ import {
     postMessageToParent,
     waitFor,
 } from '../test/test-utils';
-import { Action, HomeLeftNavItem, HomepageModule, RuntimeFilter, RuntimeFilterOp } from '../types';
+import {
+    Action, HomeLeftNavItem, HomepageModule, RuntimeFilter, RuntimeFilterOp,
+} from '../types';
 import * as authService from '../utils/authService/authService';
 import { logger } from '../utils/logger';
 import * as baseInstance from './base';
@@ -1214,8 +1216,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -1230,8 +1232,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&showAlerts=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                    + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -1245,8 +1247,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&locale=ja-JP${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                    + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -1262,8 +1264,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
-                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
@@ -1491,9 +1493,8 @@ describe('Unit test case for ts embed', () => {
             tsEmbedDiv.style.height = '100px';
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver =
-                window.ResizeObserver ||
-                jest.fn().mockImplementation((resizeObserverCbParam) => {
+            (window as any).ResizeObserver = window.ResizeObserver
+                || jest.fn().mockImplementation((resizeObserverCbParam) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
@@ -1574,9 +1575,8 @@ describe('Unit test case for ts embed', () => {
         it('it should connect with another object', async () => {
             createRootEleForEmbed();
             mockMessageChannel();
-            (window as any).ResizeObserver =
-                window.ResizeObserver ||
-                jest.fn().mockImplementation(() => ({
+            (window as any).ResizeObserver = window.ResizeObserver
+                || jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
                     observe: jest.fn(),
                     unobserve: jest.fn(),

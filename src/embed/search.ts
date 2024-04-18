@@ -9,7 +9,9 @@
 
 import { getReleaseVersion } from '../auth';
 import { ERROR_MESSAGE } from '../errors';
-import { Action, DOMSelector, DataSourceVisualMode, Param, ViewConfig } from '../types';
+import {
+    Action, DOMSelector, DataSourceVisualMode, Param, ViewConfig,
+} from '../types';
 import {
     checkReleaseVersionInBeta,
     getFilterQuery,
@@ -373,8 +375,8 @@ export class SearchEmbed extends TsEmbed {
             if (
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
-                    getEmbedConfig().suppressSearchEmbedBetaWarning ||
-                        getEmbedConfig().suppressErrorAlerts,
+                    getEmbedConfig().suppressSearchEmbedBetaWarning
+                        || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);
