@@ -57,16 +57,43 @@ export interface SearchViewConfig
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
+     *
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    collapseDataSources:true,
+     * })
+     * ```
      */
     collapseDataSources?: boolean;
     /**
      * Show or hide the data sources panel.
+     *
+     * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideDataSources:true,
+     * })
+     * ```
      */
     hideDataSources?: boolean;
     /**
      * Show or hide the charts and tables in search answers.
      * This attribute can be used to create a custom visualization
      * using raw answer data.
+     *
+     * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideResults:true,
+     * })
+     * ```
      */
     hideResults?: boolean;
     /**
@@ -77,11 +104,26 @@ export interface SearchViewConfig
      * If set to true, the Search Assist feature is enabled.
      *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableSearchAssist:true,
+     * })
+     * ```
      */
     enableSearchAssist?: boolean;
     /**
      * If set to true, the tabular view is set as the default
      * format for presenting search data.
+     *
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    forceTable:true,
+     * })
      */
     forceTable?: boolean;
     /**
@@ -89,12 +131,26 @@ export interface SearchViewConfig
      * Only a single data source is supported currently.
      *
      * @deprecated Use `dataSource` instead.
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataSources:['id-234','id-456'],
+     * })
+     * ```
      */
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
      *
      * @version: SDK: 1.19.0
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataSource:'id-234',
+     * })
+     * ```
      */
     dataSource?: string;
     /**
@@ -127,6 +183,15 @@ export interface SearchViewConfig
     searchOptions?: SearchOptions;
     /**
      * The GUID of a saved answer to load initially.
+     *
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    answerId:'sed-1234',
+     * })
+     * ```
      */
     answerId?: string;
     /**
@@ -134,6 +199,13 @@ export interface SearchViewConfig
      * The chart/table should still be visible.
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideSearchBar:true,
+     * })
+     * ```
      */
     hideSearchBar?: boolean;
     /**
@@ -141,6 +213,13 @@ export interface SearchViewConfig
      *
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataPanelV2:false,
+     * })
+     * ```
      */
     dataPanelV2?: boolean;
     /**
@@ -286,12 +365,12 @@ export class SearchEmbed extends TsEmbed {
     /**
      * Render the embedded ThoughtSpot search
      */
-    public render(): SearchEmbed {
+    public async render(): Promise<SearchEmbed> {
         super.render();
         const { answerId } = this.viewConfig;
 
         const src = this.getIFrameSrc();
-        this.renderIFrame(src);
+        await this.renderIFrame(src);
         getAuthPromise().then(() => {
             if (
                 checkReleaseVersionInBeta(

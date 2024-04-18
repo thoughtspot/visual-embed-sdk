@@ -15,6 +15,7 @@ import {
 import * as mixpanelInstance from '../mixpanel-service';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 import {
+    createRootEleForEmbed,
     defaultParamsForPinboardEmbed,
     executeAfterWait,
     expectUrlMatchesWithParams,
@@ -46,15 +47,6 @@ const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
-
-const createRootEleForEmbed = () => {
-    const rootEle = document.createElement('div');
-    rootEle.id = 'myRoot';
-    const tsEmbedDiv = document.createElement('div');
-    tsEmbedDiv.id = 'tsEmbedDiv';
-    rootEle.appendChild(tsEmbedDiv);
-    document.body.appendChild(rootEle);
-};
 
 beforeAll(() => {
     spyOn(window, 'alert');
@@ -426,8 +418,10 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
-                    hiddenHomeLeftNavItems:
-                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
+                    hiddenHomeLeftNavItems: [
+                        HomeLeftNavItem.Home,
+                        HomeLeftNavItem.MonitorSubscription,
+                    ],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [],
                 },

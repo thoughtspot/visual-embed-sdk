@@ -515,10 +515,7 @@ export class TsEmbed {
         const queryParams = this.shouldEncodeUrlQueryParams
             ? `?base64UrlEncodedFlags=${getEncodedQueryParamsString(queryString)}`
             : `?${queryString}`;
-        let host = this.thoughtSpotHost;
-        if (!isUndefined(this.embedConfig.enableReactShell)) {
-            host = (this.embedConfig.enableReactShell as boolean) ? '/v2' : '/v1';
-        }
+        const host = this.thoughtSpotHost;
         const path = `${host}/${queryParams}#`;
         return path;
     }
@@ -556,8 +553,7 @@ export class TsEmbed {
 
         const {
             height: frameHeight,
-            width: frameWidth,
-            ...restParams
+            width: frameWidth, ...restParams
         } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
@@ -679,7 +675,7 @@ export class TsEmbed {
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
         this.preRenderWrapper = this.preRenderWrapper
-          || document.getElementById(preRenderIds.wrapper);
+        || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -965,6 +961,16 @@ export class TsEmbed {
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+
+        if (!this.isRendered) {
+            this.handleError('Please call render before triggering events');
+            return null;
+        }
+
+        if (!messageType) {
+            this.handleError('Host event type is undefined');
+            return null;
+        }
         return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
@@ -975,7 +981,7 @@ export class TsEmbed {
      *
      * @param args
      */
-    public render(): TsEmbed {
+    public async render(): Promise<TsEmbed> {
         this.isRendered = true;
 
         return this;
