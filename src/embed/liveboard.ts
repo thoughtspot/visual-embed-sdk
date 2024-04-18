@@ -28,7 +28,11 @@ import { V1Embed } from './ts-embed';
  *
  * @group Embed components
  */
-export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'> {
+export interface LiveboardViewConfig
+    extends Omit<
+        ViewConfig,
+        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'
+    > {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -40,6 +44,14 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * incrementally as users scroll the page to view the charts and tables.
      *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *  fullHeight: true,
+     * });
+     * ```
      */
     fullHeight?: boolean;
     /**
@@ -49,10 +61,28 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      *
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   fullHeight: true,
+     *   defaultHeight: 600,
+     * });
+     * ```
      */
     defaultHeight?: number;
     /**
      * @Deprecated If set to true, the context menu in visualizations will be enabled.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableVizTransformations:true,
+     * })
+     * ```
+     *
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      */
     enableVizTransformations?: boolean;
     /**
@@ -60,6 +90,12 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * Use either liveboardId or pinboardId to reference the Liveboard to embed.
      *
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    liveboardId:id of liveboard,
+     * })
      */
     liveboardId?: string;
     /**
@@ -70,6 +106,16 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
     pinboardId?: string;
     /**
      * The visualization within the Liveboard to display.
+     *
+     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    vizId:'430496d6-6903-4601-937e-2c691821af3c',
+     * })
+     * ```
      */
     vizId?: string;
     /**
@@ -77,6 +123,13 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * Liveboard page will be read-only (no X buttons)
      *
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    preventLiveboardFilterRemoval:true,
+     * })
+     * ```
      */
     preventLiveboardFilterRemoval?: boolean;
     /**
@@ -85,6 +138,16 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * event.
      *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    visibleVizs: [
+     *       '430496d6-6903-4601-937e-2c691821af3c',
+     *       'f547ec54-2a37-4516-a222-2b06719af726'
+     *     ]
+     * })
      */
     visibleVizs?: string[];
     /**
@@ -98,12 +161,26 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * new Liveboard experience mode.
      *
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    liveboardV2:true,
+     * })
+     * ```
      */
     liveboardV2?: boolean;
     /**
      * Set a Liveboard tab as an active tab.
      * Specify the tab ID.
      *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    activeTabId:'id-1234',
+     * })
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
@@ -111,6 +188,14 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      * Show or hide the tab panel of the embedded Liveboard.
      *
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    hideTabPanel:true,
+     * })
+     * ```
      */
     hideTabPanel?: boolean;
     /**
@@ -118,20 +203,41 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
      *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   hideLiveboardHeader:true,
+     * });
+     * ```
      */
     hideLiveboardHeader?: boolean;
     /**
      * Show or hide the Liveboard title.
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardTitle:true,
+     * })
+     * ```
      */
     showLiveboardTitle?: boolean;
     /**
      * Show or hide the Liveboard description.
-     *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardDescription:true,
+     * })
+     * ```
      */
     showLiveboardDescription?: boolean;
     /**
@@ -152,8 +258,15 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'hiddenHomepageMod
     /**
      * enable or disable ask sage
      *
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @default false
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableAskSage:true,
+     * })
+     * ```
      */
     enableAskSage?: boolean;
 }
@@ -395,4 +508,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed { }
+export class PinboardEmbed extends LiveboardEmbed {}
