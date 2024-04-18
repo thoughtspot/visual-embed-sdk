@@ -18,6 +18,7 @@ export {
     prefetch,
     getInitConfig,
     getSessionInfo,
+    uploadMixpanelEvent,
     PinboardEmbed,
     AuthFailureType,
     AuthStatus,

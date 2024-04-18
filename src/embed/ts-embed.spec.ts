@@ -15,6 +15,7 @@ import {
 import * as mixpanelInstance from '../mixpanel-service';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 import {
+    createRootEleForEmbed,
     defaultParamsForPinboardEmbed,
     executeAfterWait,
     expectUrlMatchesWithParams,
@@ -26,9 +27,7 @@ import {
     postMessageToParent,
     waitFor,
 } from '../test/test-utils';
-import {
-    Action, HomeLeftNavItem, HomepageModule, RuntimeFilter, RuntimeFilterOp,
-} from '../types';
+import { Action, HomeLeftNavItem, HomepageModule, RuntimeFilter, RuntimeFilterOp } from '../types';
 import * as authService from '../utils/authService/authService';
 import { logger } from '../utils/logger';
 import * as baseInstance from './base';
@@ -46,15 +45,6 @@ const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
-
-const createRootEleForEmbed = () => {
-    const rootEle = document.createElement('div');
-    rootEle.id = 'myRoot';
-    const tsEmbedDiv = document.createElement('div');
-    tsEmbedDiv.id = 'tsEmbedDiv';
-    rootEle.appendChild(tsEmbedDiv);
-    document.body.appendChild(rootEle);
-};
 
 beforeAll(() => {
     spyOn(window, 'alert');
@@ -426,8 +416,10 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
-                    hiddenHomeLeftNavItems:
-                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
+                    hiddenHomeLeftNavItems: [
+                        HomeLeftNavItem.Home,
+                        HomeLeftNavItem.MonitorSubscription,
+                    ],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [],
                 },
@@ -1222,8 +1214,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -1238,8 +1230,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&showAlerts=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -1253,8 +1245,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&locale=ja-JP${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -1270,8 +1262,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
@@ -1499,8 +1491,9 @@ describe('Unit test case for ts embed', () => {
             tsEmbedDiv.style.height = '100px';
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation((resizeObserverCbParam) => {
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
@@ -1581,8 +1574,9 @@ describe('Unit test case for ts embed', () => {
         it('it should connect with another object', async () => {
             createRootEleForEmbed();
             mockMessageChannel();
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation(() => ({
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
                     observe: jest.fn(),
                     unobserve: jest.fn(),

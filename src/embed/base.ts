@@ -133,10 +133,6 @@ function sanity(embedConfig: EmbedConfig) {
         throw new Error('ThoughtSpot host not provided');
     }
     if (embedConfig.authType === AuthType.TrustedAuthToken) {
-        if (!embedConfig.username) {
-            throw new Error('Username not provided with Trusted auth');
-        }
-
         if (!embedConfig.authEndpoint && typeof embedConfig.getAuthToken !== 'function') {
             throw new Error('Trusted auth should provide either authEndpoint or getAuthToken');
         }
@@ -253,7 +249,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 /**
