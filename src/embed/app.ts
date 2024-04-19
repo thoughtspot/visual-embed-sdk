@@ -79,13 +79,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * nav-bars are visible, this flag will only hide the homepage left nav-bar.
      * The showPrimaryNavbar flag takes precedence over the hideHomepageLeftNav.
      *
-     * 
+     *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
      * @default false
-     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -113,14 +114,15 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * Control the visibility of the application switcher button on the nav-bar.
      * By default, the application switcher is shown.
-     * 
+     *
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default false
-     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -133,15 +135,15 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * Control the visibility of the Org switcher button on the nav-bar.
      * By default, the Org switcher button is shown.
-     * 
+     *
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
-     *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default true
-     * @version SDK: 1.2.0 | Thoughtspot: 9.4.0.cl
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -308,7 +310,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Flag to control new Modular Home experience.
      *
      * @default false
-     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
