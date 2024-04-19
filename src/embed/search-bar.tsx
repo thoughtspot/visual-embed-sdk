@@ -23,18 +23,44 @@ export interface SearchBarViewConfig
      * Only a single data source is supported currently.
      *
      * @deprecated Use `dataSource` instead
+     *
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
+     *
+     * @example
+     * ```js
+     * const embed = new SearchBarEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataSources:['id-2345','id-2345'],
+     * })
+     * ```
      */
     dataSources?: string[];
     /**
-     * The array of data source GUIDs to set on load.
+     * Pass the ID of the source to be selected.
      *
      * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
+     *
+     * @example
+     * ```js
+     * const embed = new SearchBarEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataSource:'id-2345',
+     * })
+     * ```
      */
     dataSource?: string;
     /**
      * Boolean to define if the last selected data source should be used
      *
      * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new SearchBarEmbed('#tsEmbed', {
+     *    ... // other options
+     *    useLastSelectedSources:false,
+     * })
+     * ```
      */
     useLastSelectedSources?: boolean;
     /**
@@ -48,12 +74,17 @@ export interface SearchBarViewConfig
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
      *
+     * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
+     *
      * @example
      * ```js
-     * searchOptions: {
-     *    searchTokenString: '[quantity purchased] [region]',
-     *    executeSearch: true,
-     * }
+     * const embed = new SearchBarEmbed('#tsEmbed', {
+     *    ... // other options
+     *    searchOptions: {
+     *        searchTokenString: '[quantity purchased] [region]',
+     *        executeSearch: true,
+     *    }
+     * })
      * ```
      */
     searchOptions?: SearchOptions;
