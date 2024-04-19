@@ -178,30 +178,38 @@ export enum AuthType {
      */
     Basic = 'Basic',
 }
+/**
+ *
+ * This option does not apply to the classic homepage experience.
+ * To access the updated modular homepage,
+ * set `modularHomeExperience` to `true`
+ * (available as Early Access feature in 9.12.5.cl).
+ *
+ */
 
 export enum HomeLeftNavItem {
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     SearchData = 'search-data',
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Home = 'insights-home',
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Liveboards = 'liveboards',
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Answers = 'answers',
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     MonitorSubscription = 'monitor-alerts',
     /**
-     * @version SDK: 1.27.9| ThoughtSpot: 9.12.0.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     SpotIQAnalysis = 'spotiq-analysis',
 }
@@ -908,7 +916,7 @@ export interface ViewConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
-     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -925,9 +933,9 @@ export interface ViewConfig {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
-     * @version SDK: 1.27.9| Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.28.0| Thoughtspot: 9.12.5.cl
      *
      * @example
      * ```js
@@ -977,7 +985,7 @@ export interface ViewConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
      *
-     * @version SDK: 1.27.9 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -1150,7 +1158,12 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * Home page module that can be hidden
+ * Home page module that can be hidden.
+ * **Note**: This option does not apply to the classic homepage.
+ * To access the updated modular homepage, set
+ * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+ *
+ * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
  */
 // eslint-disable-next-line no-shadow
 export enum HomepageModule {
@@ -1172,10 +1185,6 @@ export enum HomepageModule {
     MyLibrary = 'MY_LIBRARY',
     /**
      * Trending list
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12.0.cl onwards).
      */
     Trending = 'TRENDING',
     /**
