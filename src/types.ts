@@ -914,7 +914,7 @@ export interface ViewConfig {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @example
@@ -971,8 +971,6 @@ export interface ViewConfig {
      * There are 8 eight home navigation list items.
      * To hide these items, specify the string in the array.
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.10.0.cl
-     *
      * * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -983,7 +981,7 @@ export interface ViewConfig {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available in Early Access from 9.12 forward).
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      */
