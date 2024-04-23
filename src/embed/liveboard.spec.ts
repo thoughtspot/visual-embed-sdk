@@ -231,7 +231,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
+    test('should append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -243,13 +243,13 @@ describe('Liveboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
-            excludeRuntimeFiltersfromURL: true,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
+        const runtimeFilter = 'col1=sales&op1=EQ&val1=1000';
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${liveboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}&${runtimeFilter}#/embed/viz/${liveboardId}/${vizId}`,
             );
         });
     });

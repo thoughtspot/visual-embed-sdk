@@ -309,7 +309,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Runtime filters from view Config should be part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
+        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -324,7 +324,6 @@ describe('Unit test case for ts embed', () => {
 
             const searchEmbed = new SearchEmbed(getRootEl(), {
                 ...defaultViewConfig,
-                excludeRuntimeFiltersfromURL: true,
                 runtimeFilters: mockRuntimeFilters,
             });
             searchEmbed.render();
@@ -340,7 +339,7 @@ describe('Unit test case for ts embed', () => {
                 data: {
                     customisations,
                     authToken: '',
-                    runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    runtimeFilterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,

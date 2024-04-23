@@ -203,7 +203,7 @@ describe('Pinboard/viz embed tests', () => {
         });
     });
 
-    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
+    test('should append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const liveboardEmbed = new PinboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             pinboardId,
@@ -217,10 +217,11 @@ describe('Pinboard/viz embed tests', () => {
             ],
         } as LiveboardViewConfig);
         liveboardEmbed.render();
+        const runtimeFilter = 'col1=sales&op1=EQ&val1=1000';
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${pinboardId}/${vizId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}&${runtimeFilter}#/embed/viz/${pinboardId}/${vizId}`,
             );
         });
     });

@@ -217,7 +217,7 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
+    test('should append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const dataSources = ['data-source-1'];
         const searchOptions = {
             searchTokenString: '[commit date][revenue]',
@@ -236,10 +236,11 @@ describe('Search embed tests', () => {
             ],
         });
         searchEmbed.render();
+        const runtimeFilter = 'col1=city&op1=EQ&val1=berkeley';
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&${runtimeFilter}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
         });
     });

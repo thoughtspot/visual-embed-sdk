@@ -887,7 +887,7 @@ export interface ViewConfig {
      * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
      * embedded view.
      *
-     * @default true
+     * @default false
      * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
