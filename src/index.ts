@@ -115,3 +115,5 @@ export {
     VizPoint,
     CustomActionPayload,
 };
+
+export { resetCachedAuthToken } from './authToken';
