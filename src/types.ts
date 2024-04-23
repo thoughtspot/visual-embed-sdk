@@ -3991,6 +3991,17 @@ export enum Action {
     CopyKpiLink = 'copyKpiLink',
 
     /**
+     * The **Organise Favourites** action on Homepage Favourite Module.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.OrganiseFavourites]
+     * ```
+     * @version SDK : 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    OrganiseFavourites = 'organiseFavourites',
+
+    /**
      * Action ID for AI Highlights button
      *
      *  @example
