@@ -248,7 +248,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
+    test('should append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: true,
@@ -262,10 +262,11 @@ describe('App embed tests', () => {
         } as AppViewConfig);
 
         appEmbed.render();
+        const runtimeFilter = 'col1=sales&op1=EQ&val1=1000';
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}&${runtimeFilter}#/home`,
             );
         });
     });
