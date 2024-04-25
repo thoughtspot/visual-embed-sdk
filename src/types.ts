@@ -3692,6 +3692,28 @@ export enum Action {
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
+    SyncToSlack = 'syncToSlack',
+    /**
+     * The **Sync to Slack** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Slack
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToSlack]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    SyncToTeams = 'syncToTeams',
+    /**
+     * The **Sync to Teams** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Team
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToTeams]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
     CrossFilter = 'context-menu-item-cross-filter',
     /**
      * The **Remove** action that appears when cross filters are applied
