@@ -3220,6 +3220,18 @@ export enum Action {
      */
     AddFilter = 'addFilter',
     /**
+     * The **Add Data Panel Objects** action on the data panel v2.
+     * Allows to show action menu to add different objects (like
+     * formulas, parameters) in data panel v2.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddDataPanelObjects]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddDataPanelObjects = 'addDataPanelObjects',
+    /**
      * Filter configuration options on a Liveboard and Search page.
      * Allows configuring filter options when adding filters to a
      * Liveboard or Answer.
