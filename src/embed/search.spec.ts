@@ -356,12 +356,13 @@ describe('Search embed tests', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             answerId,
+            collapseSearchBarInitially: true,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&useLastSelectedSources=false&collapseSearchBarInitially=true${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
