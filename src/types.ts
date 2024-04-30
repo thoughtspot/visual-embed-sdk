@@ -3274,6 +3274,28 @@ export enum Action {
      */
     AddParameter = 'addParameter',
     /**
+     * The **Add Column Set** action on a Answer.
+     * Allows adding column sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddColumnSet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddColumnSet = 'addSimpleCohort',
+    /**
+     * The **Add Query Set** action on a Answer.
+     * Allows adding query sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddQuerySet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddQuerySet = 'addAdvancedCohort',
+    /**
      * @hidden
      */
     SearchOnTop = 'searchOnTop',
