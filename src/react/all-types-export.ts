@@ -50,4 +50,5 @@ export {
     customCssInterface,
     CustomCssVariables,
     RuntimeParameter,
+    resetCachedAuthToken,
 } from '../index';
