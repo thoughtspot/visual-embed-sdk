@@ -68,7 +68,7 @@ const validateAuthToken = async (
  * ```js
  * resetCachedAuthToken();
  * ```
- * @version SDK: 1.28.0 | ThoughtSpot: *
+ * @version SDK: 1.28.2 | ThoughtSpot: *
  * @group Authentication / Init
  */
 export const resetCachedAuthToken = (): void => {
