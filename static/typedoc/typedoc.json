@@ -13948,7 +13948,7 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "true"
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -19957,7 +19957,7 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "true"
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -21470,7 +21470,7 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "true"
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -22584,7 +22584,7 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "true"
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -23587,7 +23587,7 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "true"
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -24769,7 +24769,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 46,
+							"line": 47,
 							"character": 4
 						}
 					],
@@ -24789,7 +24789,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 45,
+							"line": 46,
 							"character": 4
 						}
 					],
@@ -24820,7 +24820,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 44,
+							"line": 45,
 							"character": 4
 						}
 					],
@@ -24847,7 +24847,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 43,
+					"line": 44,
 					"character": 17
 				}
 			]
@@ -24870,7 +24870,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 56,
+							"line": 57,
 							"character": 4
 						}
 					],
@@ -24899,7 +24899,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 54,
+							"line": 55,
 							"character": 4
 						}
 					],
@@ -24919,7 +24919,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 55,
+							"line": 56,
 							"character": 4
 						}
 					],
@@ -24937,7 +24937,7 @@
 					"sources": [
 						{
 							"fileName": "embed/base.ts",
-							"line": 50,
+							"line": 51,
 							"character": 4
 						}
 					],
@@ -24961,7 +24961,7 @@
 										"sources": [
 											{
 												"fileName": "embed/base.ts",
-												"line": 51,
+												"line": 52,
 												"character": 8
 											}
 										],
@@ -24981,7 +24981,7 @@
 										"sources": [
 											{
 												"fileName": "embed/base.ts",
-												"line": 52,
+												"line": 53,
 												"character": 8
 											}
 										],
@@ -25038,7 +25038,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 49,
+					"line": 50,
 					"character": 17
 				}
 			]
@@ -25543,7 +25543,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 278,
+					"line": 280,
 					"character": 13
 				}
 			],
@@ -25602,7 +25602,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 345,
+					"line": 347,
 					"character": 13
 				}
 			],
@@ -25755,7 +25755,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 175,
+					"line": 176,
 					"character": 13
 				}
 			],
@@ -25820,7 +25820,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 227,
+					"line": 229,
 					"character": 13
 				}
 			],
@@ -25887,7 +25887,7 @@
 			"sources": [
 				{
 					"fileName": "embed/base.ts",
-					"line": 104,
+					"line": 105,
 					"character": 13
 				}
 			],
@@ -25949,6 +25949,52 @@
 							}
 						}
 					],
+					"type": {
+						"type": "intrinsic",
+						"name": "void"
+					}
+				}
+			]
+		},
+		{
+			"id": 1703,
+			"name": "resetCachedAuthToken",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isConst": true
+			},
+			"sources": [
+				{
+					"fileName": "authToken.ts",
+					"line": 74,
+					"character": 13
+				}
+			],
+			"signatures": [
+				{
+					"id": 1704,
+					"name": "resetCachedAuthToken",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "Resets the auth token and a new token will be fetched on the next request.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nresetCachedAuthToken();\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.28.0 | ThoughtSpot: *"
+							},
+							{
+								"tag": "group",
+								"text": "Authentication / Init\n"
+							}
+						]
+					},
 					"type": {
 						"type": "intrinsic",
 						"name": "void"
@@ -26195,6 +26241,7 @@
 				1,
 				4,
 				7,
+				1703,
 				33,
 				1664
 			]

@@ -23,6 +23,7 @@ import {
     notifyLogout,
     setAuthEE,
 } from '../auth';
+import { resetCachedAuthToken } from '../authToken';
 import { getThoughtSpotHost } from '../config';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { tokenizedFetch } from '../tokenizedFetch';
@@ -174,6 +175,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
+    resetCachedAuthToken();
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
@@ -249,7 +251,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 /**
