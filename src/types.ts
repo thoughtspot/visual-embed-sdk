@@ -3993,6 +3993,27 @@ export enum Action {
     LiveboardUsers = 'liveboardUsers',
 
     /**
+     * Action ID for the Parent TML action
+     * The parent action **TML** must be included to access TML-related options
+     * within the cascading menu (specific to the answer page)
+     *
+     * @example
+     * ```js
+     * // to include specific TML actions
+     * visibleActions: [Action.TML, Action.ExportTML, Action.EditTML]
+     *
+     * ```
+     * @example
+     * ```js
+     * hiddenAction: [Action.TML] // hide all TML actions
+     * disabledActions: [Action.TML] // to disable all TML actions
+     * ```
+     *
+     * @version SDK : 1.28.2 | Thoughtspot: 9.10.5.cl
+     */
+    TML = 'tml',
+
+    /**
      * Action ID for to hide Verified Liveboard Banner
      *
      *  @example
