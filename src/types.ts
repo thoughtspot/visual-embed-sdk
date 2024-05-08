@@ -913,11 +913,7 @@ export interface ViewConfig {
      *
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
-<<<<<<< HEAD
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.0.cl).
-=======
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
->>>>>>> 64e22666... typo fixes
      *
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @example
@@ -3938,6 +3934,27 @@ export enum Action {
      *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     LiveboardUsers = 'liveboardUsers',
+
+    /**
+     * Action ID for the Parent TML action
+     * The parent action **TML** must be included to access TML-related options
+     * within the cascading menu (specific to the answer page)
+     *
+     * @example
+     * ```js
+     * // to include specific TML actions
+     * visibleActions: [Action.TML, Action.ExportTML, Action.EditTML]
+     *
+     * ```
+     * @example
+     * ```js
+     * hiddenAction: [Action.TML] // hide all TML actions
+     * disabledActions: [Action.TML] // to disable all TML actions
+     * ```
+     *
+     * @version SDK : 1.28.2 | Thoughtspot: 9.10.5.cl
+     */
+    TML = 'tml',
 
     /**
      * Action ID for to hide Verified Liveboard Banner
