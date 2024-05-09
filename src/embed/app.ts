@@ -12,7 +12,12 @@
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
 import {
-    Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload,
+    Param,
+    DOMSelector,
+    HostEvent,
+    ViewConfig,
+    EmbedEvent,
+    MessagePayload,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -61,6 +66,17 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
      * This flag also controls the homepage left navigation bar.
+     *
+     * @default true
+     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    showPrimaryNavbar:true,
+     * })
+     * ```
      */
     showPrimaryNavbar?: boolean;
     /**
@@ -69,23 +85,75 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * nav-bars are visible, this flag will only hide the homepage left nav-bar.
      * The showPrimaryNavbar flag takes precedence over the hideHomepageLeftNav.
      *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideHomepageLeftNav : true,
+     * })
+     * ```
      */
     hideHomepageLeftNav?: boolean;
     /**
      * Control the visibility of the help (?) and profile buttons on the
      * Global nav-bar. By default, these buttons are visible on the nav-bar.
+     * @default false
+     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    disableProfileAndHelp: true,
+     * })
+     * ```
      */
     disableProfileAndHelp?: boolean;
     /**
      * Control the visibility of the application switcher button on the nav-bar.
      * By default, the application switcher is shown.
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideApplicationSwitcher : true,
+     * })
+     * ```
      */
     hideApplicationSwitcher?: boolean;
     /**
      * Control the visibility of the Org switcher button on the nav-bar.
      * By default, the Org switcher button is shown.
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @default true
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideOrgSwitcher : true,
+     * })
+     * ```
      */
     hideOrgSwitcher?: boolean;
     /**
@@ -97,9 +165,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * For eg, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
+     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     *
      * @example
-     * ```
-     * <AppEmbed path="pinboard/1234/tab/7464" />
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    path:"pinboard/1234/tab/7464"
+     * })
      * ```
      */
     path?: string;
@@ -109,16 +182,48 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * Use this to open to particular page in the app. To open to a specific
      * path within the app, use the `path` attribute which is more flexible.
+     *
+     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    pageId : Page.Answers | Page.Data
+     * })
+     * ```
      */
     pageId?: Page;
     /**
      * This puts a filter tag on the application. All metadata lists in the
      * application, such as Liveboards and answers, would be filtered by this
      * tag.
+     *
+     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    tag:'value',
+     * })
+     * ```
      */
     tag?: string;
     /**
      * The array of GUIDs to be hidden
+     *
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideObjects: [
+     *       '430496d6-6903-4601-937e-2c691821af3c',
+     *       'f547ec54-2a37-4516-a222-2b06719af726'
+     *     ]
+     * })
+     * ```
      */
     hideObjects?: string[];
     /**
@@ -131,8 +236,17 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     liveboardV2?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
+     * @default true
      *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableSearchAssist: true,
+     * })
+     * ```
      */
     enableSearchAssist?: boolean;
     /**
@@ -140,6 +254,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * according to the height of the pages which support fullHeight mode.
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    fullHeight: true,
+     * })
+     * ```
      */
     fullHeight?: boolean;
     /**
@@ -155,6 +277,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideLiveboardHeader : true,
+     * })
+     * ```
      */
     hideLiveboardHeader?: boolean;
     /**
@@ -162,6 +292,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    showLiveboardTitle:true,
+     * })
+     * ```
      */
     showLiveboardTitle?: boolean;
     /**
@@ -169,13 +307,29 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    showLiveboardDescription:true,
+     * })
+     * ```
      */
     showLiveboardDescription?: boolean;
     /**
-     * Flag to control new Modular Home experience
+     * Flag to control new Modular Home experience.
      *
      * @default false
-     * @version SDK: 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    modularHomeExperience : true,
+     * })
+     * ```
      */
     modularHomeExperience?: boolean;
     /**
@@ -198,6 +352,13 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     enableAskSage?: boolean;
+    /**
+     * To set the initial state of the search bar in case of saved-answers.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     */
+    collapseSearchBarInitially?: boolean;
 }
 
 /**
@@ -244,6 +405,7 @@ export class AppEmbed extends V1Embed {
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
+            collapseSearchBarInitially = false,
         } = this.viewConfig;
 
         let params = {};
@@ -284,6 +446,7 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
+        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
@@ -295,9 +458,7 @@ export class AppEmbed extends V1Embed {
      * @param pageId The ID of the page to be embedded.
      */
     public getIFrameSrc(): string {
-        const {
-            pageId, path, modularHomeExperience,
-        } = this.viewConfig;
+        const { pageId, path, modularHomeExperience } = this.viewConfig;
         const pageRoute = this.formatPath(path) || this.getPageRoute(pageId, modularHomeExperience);
         let url = `${this.getRootIframeSrc()}/${pageRoute}`;
 
@@ -414,10 +575,10 @@ export class AppEmbed extends V1Embed {
      * @param renderOptions An object containing the page ID
      * to be embedded.
      */
-    public render(): AppEmbed {
+    public async render(): Promise<AppEmbed> {
         super.render();
         const src = this.getIFrameSrc();
-        this.renderV1Embed(src);
+        await this.renderV1Embed(src);
 
         return this;
     }

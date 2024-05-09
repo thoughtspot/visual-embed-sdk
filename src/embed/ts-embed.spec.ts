@@ -11,7 +11,7 @@ import {
     LiveboardEmbed,
 } from '../index';
 import {
-    Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule,
+    Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
 } from '../types';
 import {
     executeAfterWait,
@@ -24,6 +24,7 @@ import {
     waitFor,
     expectUrlMatchesWithParams,
     mockMessageChannel,
+    createRootEleForEmbed,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as tsEmbedInstance from './ts-embed';
@@ -46,15 +47,6 @@ const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
-
-const createRootEleForEmbed = () => {
-    const rootEle = document.createElement('div');
-    rootEle.id = 'myRoot';
-    const tsEmbedDiv = document.createElement('div');
-    tsEmbedDiv.id = 'tsEmbedDiv';
-    rootEle.appendChild(tsEmbedDiv);
-    document.body.appendChild(rootEle);
-};
 
 beforeAll(() => {
     spyOn(window, 'alert');
@@ -317,6 +309,45 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockRuntimeFilters: RuntimeFilter[] = [
+                {
+                    columnName: 'color',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['blue'],
+                },
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                runtimeFilters: mockRuntimeFilters,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
+                },
+            });
+        });
+
         test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
@@ -364,7 +395,7 @@ describe('Unit test case for ts embed', () => {
             };
             const mockedHiddenHomeLeftNavItems: HomeLeftNavItem[] = [
                 HomeLeftNavItem.Home,
-                HomeLeftNavItem.Documentation,
+                HomeLeftNavItem.MonitorSubscription,
             ];
 
             const searchEmbed = new AppEmbed(getRootEl(), {
@@ -386,7 +417,8 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
-                    hiddenHomeLeftNavItems: [HomeLeftNavItem.Home, HomeLeftNavItem.Documentation],
+                    hiddenHomeLeftNavItems:
+                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [],
                 },
@@ -1176,7 +1208,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -1192,7 +1224,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&showAlerts=true${defaultParamsPost}#/home`,
+                + `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -1207,7 +1239,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&locale=ja-JP${defaultParamsPost}#/home`,
+                + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets the iconSprite url', async () => {
@@ -1224,7 +1256,7 @@ describe('Unit test case for ts embed', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                    + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 

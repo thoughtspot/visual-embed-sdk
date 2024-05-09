@@ -178,17 +178,40 @@ export enum AuthType {
      */
     Basic = 'Basic',
 }
+/**
+ *
+ * This option does not apply to the classic homepage experience.
+ * To access the updated modular homepage,
+ * set `modularHomeExperience` to `true`
+ * (available as Early Access feature in 9.12.5.cl).
+ *
+ */
 
 export enum HomeLeftNavItem {
-    QueryBuilder = 'query-builder',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
+    SearchData = 'search-data',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
     Home = 'insights-home',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
     Liveboards = 'liveboards',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
     Answers = 'answers',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
     MonitorSubscription = 'monitor-alerts',
+    /**
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     */
     SpotIQAnalysis = 'spotiq-analysis',
-    Tutorials = 'tutorials',
-    Documentation = 'documentation',
-    Community = 'community',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -247,6 +270,8 @@ export interface CustomStyles {
 /**
  * Configuration to define the customization on the Embedded
  * Thoughtspot components.
+ * You can customize styles, text strings, and icons.
+ * For more information, see https://developers.thoughtspot.com/docs/custom-css.
  *
  * @example
  * ```js
@@ -261,7 +286,12 @@ export interface CustomStyles {
  *     },
  *     content: {
  *      strings: {
- *        'LIVEBOARDS': 'Dashboards'
+ *        'LIVEBOARDS': 'Dashboards',
+ *        'ANSWERS': 'Visualizations',
+ *        'Edit': 'Modify',
+ *        'Show underlying data': 'Show source data',
+ *        'SpotIQ': 'Insights',
+ *        'Monitor': 'Alerts',
  *      }
  *     },
  *     iconSpriteUrl: 'https://my-custom-icon-sprite.svg'
@@ -583,7 +613,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iframe configuration
@@ -621,8 +651,21 @@ export interface ViewConfig {
      */
     layoutConfig?: LayoutConfig;
     /**
-     * The <b>width</b> and <b>height</b> dimensions to render an embedded
+     * The width and height dimensions to render an embedded
      * object inside your app.  Specify the values in pixels or percentage.
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   frameParams: {
+     *     width: '500px' | '50%',
+     *      height: '400px' | '60%',
+     *   },
+     * });
+     * ```
      */
     frameParams?: FrameParams;
     /**
@@ -640,6 +683,7 @@ export interface ViewConfig {
      * for the user.
      * Use this to disable actions.
      *
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -651,12 +695,23 @@ export interface ViewConfig {
     disabledActions?: Action[];
     /**
      * The tooltip to display for disabled actions.
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   disabledActions: [Action.Download, Action.Save]
+     *   disabledActionReason: "Reason for disabling",
+     * });
+     * ```
      */
     disabledActionReason?: string;
     /**
      * The list of actions to hide from the embedded.
      * This actions will be hidden from the user.
      * Use this to hide an action.
+     *
+     * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      *
      * @example
      * ```js
@@ -678,17 +733,49 @@ export interface ViewConfig {
      *
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @important
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   visibleActions: [Action.Download, Action.Export]
+     * });
+     * ```
      */
     visibleActions?: Action[];
     /**
      * Show alert messages and toast messages in the embedded view.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    showAlerts:true,
+     * })
+     * ```
      */
     showAlerts?: boolean;
     /**
      * The list of runtime filters to apply to a search answer,
      * visualization, or Liveboard.
+     *
+     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    runtimeFilters: [
+     *           {
+     *             columnName: 'value',
+     *              operator: RuntimeFilterOp.EQ,
+     *             values: ['string' | 123 | true],
+     *           },
+     *       ],
+     * })
+     * ```
      */
     runtimeFilters?: RuntimeFilter[];
     /**
@@ -696,12 +783,32 @@ export interface ViewConfig {
      * visualization, or Liveboard.
      *
      * @version SDK : 1.25.0 | Thoughtspot: 9.2.0.cl, 9.5.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    runtimeParameters: [
+     *     {
+     *       name: 'value',
+     *       value: 'string' | 123 | true,
+     *     },
+     *   ],
+     * })
+     * ```
      */
     runtimeParameters?: RuntimeParameter[];
     /**
      * The locale/language to use for the embedded view.
      *
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    locale:'en',
+     * })
+     * ```
      */
     locale?: string;
     /**
@@ -711,7 +818,16 @@ export interface ViewConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
-     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   additionalFlags: {
+     *        flag1: 'value1',
+     *        flag2: 'value2'
+     *     }
+     * });
+     * ```
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      */
     additionalFlags?: { [key: string]: string | number | boolean };
@@ -726,18 +842,42 @@ export interface ViewConfig {
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
+     *
+     * @version SDK: 1.2.0 | Thoughtspot: 9.0.0.cl, 9.0.0.sw
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    insertAsSibling:true,
+     * })
+     * ```
      */
     insertAsSibling?: boolean;
     /**
      * flag to set ContextMenu Trigger to either left or right click.
      *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
+     * })
+     * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
     /**
-     * flag to override openNew tab context menu link
+     * Flag to override openNew tab context menu link
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    linkOverride:false,
+     * })
+     * ```
      */
     linkOverride?: boolean;
     /**
@@ -759,9 +899,14 @@ export interface ViewConfig {
     usePrerenderedIfAvailable?: boolean;
     /**
      * Boolean to exclude runtimeFilters in the URL
+     * By default it is true, this flag removes runtime filters from the URL
+     * when set to false, runtime filters will be included in the URL.
+     *
+     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * embedded view.
      *
      * @default false
-     * @hidden
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
@@ -783,16 +928,40 @@ export interface ViewConfig {
     hiddenTabs?: string[];
     /**
      * Hide the home page modules
-     * eg: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
+     * })
+     * ```
+     *
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
      * reordering the home page modules
      * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
      *
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.0.cl
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * @version SDK: 1.28.0| Thoughtspot: 9.12.5.cl
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]
+     * })
+     * ```
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
@@ -801,13 +970,18 @@ export interface ViewConfig {
      *
      * Use either `visibleTabs` or `hiddenTabs`.
      *
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     *
      * @example
      * ```js
-     * visibleTabs: [
-     * '430496d6-6903-4601-937e-2c691821af3c',
-     * 'f547ec54-2a37-4516-a222-2b06719af726']
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    visibleTabs: [
+     *       '430496d6-6903-4601-937e-2c691821af3c',
+     *       'f547ec54-2a37-4516-a222-2b06719af726'
+     *     ]
+     * })
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     visibleTabs?: string[];
     /**
@@ -815,11 +989,19 @@ export interface ViewConfig {
      * There are 8 eight home navigation list items.
      * To hide these items, specify the string in the array.
      *
+     * * @example
      * ```js
-     * hiddenHomeLeftNavItems = [HomeLeftNavItem.Home]
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
+     * })
      * ```
      *
-     * @version SDK: 1.27.0 | Thoughtspot: 9.12.0.cl
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -847,7 +1029,10 @@ export interface ViewConfig {
      *
      * @type {boolean}
      * @default false
+     * @version SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw
+     *
      * @example
+     * ```js
      * // Disable tracking PreRender size in the configuration
      * const config = {
      *   doNotTrackPreRenderSize: true,
@@ -855,6 +1040,7 @@ export interface ViewConfig {
      *
      * // Instantiate an object with the configuration
      * const myComponent = new MyComponent(config);
+     * ```
      */
     doNotTrackPreRenderSize?: boolean;
     /**
@@ -988,7 +1174,12 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * Home page module that can be hidden
+ * Home page module that can be hidden.
+ * **Note**: This option does not apply to the classic homepage.
+ * To access the updated modular homepage, set
+ * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+ *
+ * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
  */
 // eslint-disable-next-line no-shadow
 export enum HomepageModule {
@@ -1258,18 +1449,17 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     *  `API` - API call failure error.
+     *  API - API call failure error.
      *
-     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     *  mode.
+     *  FULLSCREEN - Error when presenting a Liveboard or visualization in full screen mode.
      *
-     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
+     *  SINGLE_VALUE_FILTER - Error due to multiple values in the single value filter.
      *
-     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     *  NON_EXIST_FILTER - Error due to a non-existent filter.
      *
-     *  `INVALID_DATE_VALUE` - Invalid date value error.
+     *  INVALID_DATE_VALUE - Invalid date value error.
      *
-     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     *  INVALID_OPERATOR - Use of invalid operator during filter application.
      *
      *  For more information, see [Developer Documentation](https://developers.thoughtspot.com/docs/events-app-integration#errorType)
      *
@@ -2150,10 +2340,13 @@ export enum HostEvent {
      * _String_. The name of the column to filter on.
      * `operator`
      *  Runtime filter operator to apply. For information,
-     *  see [Runtime filter operators](https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator).
+     *  see https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator.
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
+     *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
+     *  Search embedding (SearchEmbed) and Natural Language Search
+     *  embedding (SageEmbed).
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
@@ -2693,7 +2886,7 @@ export enum HostEvent {
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
-     *  filter: { column: 'column name', oper: 'in', values: [1,2,3], is_mandatory: false }
+     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3], is_mandatory: false }
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -2780,6 +2973,32 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      */
     AskSage = 'AskSage',
+    /**
+     * Trigger UpdateCrossFilter for Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateCrossFilter, {
+     *      vizId: 'b535c760-8bbe-4e6f-bb26-af56b4129a1e',
+     *      conditions: [
+     *      { columnName: 'Category', values: ['mfgr#12','mfgr#14'] },
+     *      { columnName: 'color', values: ['mint','hot'] },
+     *    ],
+     * });
+     * ```
+     * @version SDK: 1.29.0 | Thoughtspot: 10.0.0.cl
+     */
+    UpdateCrossFilter = 'UpdateCrossFilter',
+    /**
+     * Trigger ResetLiveboardPersonalisedView for Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
+     * ```
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
 }
 
 /**
@@ -2881,6 +3100,7 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
+    CollapseSearchBarInitially= 'collapseSearchBarInitially',
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
@@ -3022,6 +3242,18 @@ export enum Action {
      */
     AddFilter = 'addFilter',
     /**
+     * The **Add Data Panel Objects** action on the data panel v2.
+     * Allows to show action menu to add different objects (like
+     * formulas, parameters) in data panel v2.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddDataPanelObjects]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddDataPanelObjects = 'addDataPanelObjects',
+    /**
      * Filter configuration options on a Liveboard and Search page.
      * Allows configuring filter options when adding filters to a
      * Liveboard or Answer.
@@ -3063,6 +3295,28 @@ export enum Action {
      * ```
      */
     AddParameter = 'addParameter',
+    /**
+     * The **Add Column Set** action on a Answer.
+     * Allows adding column sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddColumnSet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddColumnSet = 'addSimpleCohort',
+    /**
+     * The **Add Query Set** action on a Answer.
+     * Allows adding query sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddQuerySet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddQuerySet = 'addAdvancedCohort',
     /**
      * @hidden
      */
@@ -3496,6 +3750,28 @@ export enum Action {
      */
     CrossFilter = 'context-menu-item-cross-filter',
     /**
+     * The **Sync to Slack** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Slack
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToSlack]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    SyncToSlack = 'syncToSlack',
+    /**
+     * The **Sync to Teams** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Team
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToTeams]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    SyncToTeams = 'syncToTeams',
+    /**
      * The **Remove** action that appears when cross filters are applied
      * on a Liveboard.
      * Removes filters applied o a visualization.
@@ -3738,6 +4014,27 @@ export enum Action {
     LiveboardUsers = 'liveboardUsers',
 
     /**
+     * Action ID for the Parent TML action
+     * The parent action **TML** must be included to access TML-related options
+     * within the cascading menu (specific to the answer page)
+     *
+     * @example
+     * ```js
+     * // to include specific TML actions
+     * visibleActions: [Action.TML, Action.ExportTML, Action.EditTML]
+     *
+     * ```
+     * @example
+     * ```js
+     * hiddenAction: [Action.TML] // hide all TML actions
+     * disabledActions: [Action.TML] // to disable all TML actions
+     * ```
+     *
+     * @version SDK : 1.28.2 | Thoughtspot: 9.10.5.cl
+     */
+    TML = 'tml',
+
+    /**
      * Action ID for to hide Verified Liveboard Banner
      *
      *  @example
@@ -3791,6 +4088,28 @@ export enum Action {
      * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
      */
     CopyKpiLink = 'copyKpiLink',
+
+    /**
+     * The **Organise Favourites** action on Homepage Favourite Module.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.OrganiseFavourites]
+     * ```
+     * @version SDK : 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    OrganiseFavourites = 'organiseFavourites',
+
+    /**
+     * Action ID for AI Highlights button
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.AIHighlights]
+     * ```
+     *  @version SDK: 1.27.10 | Thoughtspot: 9.12.5.cl
+     */
+    AIHighlights = 'AIHighlights',
 }
 
 export interface AnswerServiceType {
@@ -3820,15 +4139,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-    | string
-    | number
-    | boolean
-    | {
-        v: {
-            s: number;
-            e: number;
-        };
-    };
+        | string
+        | number
+        | boolean
+        | {
+              v: {
+                  s: number;
+                  e: number;
+              };
+          };
 }
 
 export interface VizPoint {

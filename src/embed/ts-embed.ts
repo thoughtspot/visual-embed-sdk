@@ -170,7 +170,7 @@ export class TsEmbed {
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: false, ...viewConfig };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
@@ -974,6 +974,16 @@ export class TsEmbed {
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+
+        if (!this.isRendered) {
+            this.handleError('Please call render before triggering events');
+            return null;
+        }
+
+        if (!messageType) {
+            this.handleError('Host event type is undefined');
+            return null;
+        }
         return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
@@ -984,7 +994,7 @@ export class TsEmbed {
      *
      * @param args
      */
-    public render(): TsEmbed {
+    public async render(): Promise<TsEmbed> {
         this.isRendered = true;
 
         return this;
@@ -1096,11 +1106,11 @@ export class TsEmbed {
                 ) {
                     logger.warn(
                         `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
@@ -1170,8 +1180,8 @@ export class TsEmbed {
         const elBoundingClient = this.el.getBoundingClientRect();
 
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y}px`,
-            left: `${elBoundingClient.x}px`,
+            top: `${elBoundingClient.y + window.scrollY}px`,
+            left: `${elBoundingClient.x + window.scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
         });
@@ -1192,8 +1202,6 @@ export class TsEmbed {
             pointerEvents: 'none',
             zIndex: '-1000',
             position: 'absolute ',
-            top: '0',
-            left: '0',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
@@ -1244,7 +1252,7 @@ export class V1Embed extends TsEmbed {
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = viewConfig;
+        this.viewConfig = { excludeRuntimeFiltersfromURL: false, ...viewConfig };
     }
 
     /**
