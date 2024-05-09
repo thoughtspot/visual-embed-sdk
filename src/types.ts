@@ -592,6 +592,24 @@ export interface EmbedConfig {
      * @version SDK: 1.27.9
      */
     disableSDKTracking?: boolean;
+    /**
+     * Overrides default/user preffered locale for date formatting
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    dateFormatLocale?: string;
+    /**
+     * Overrides default/user preffered locale for number formatting
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    numberFormatLocale?: string;
+    /**
+     * Format to be used for currency when currency format is set to infer from browser
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    currencyFormat?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3083,6 +3101,9 @@ export enum Param {
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
     CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    DateFormatLocale = 'dateFormatLocale',
+    NumberFormatLocale = 'numberFormatLocale',
+    CurrencyFormat = 'currencyFormat',
 }
 
 /**
