@@ -1,5 +1,6 @@
 import { EmbedConfig } from './types';
 import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
+import { logger } from './utils/logger';
 
 const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
     + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
@@ -9,7 +10,7 @@ const INVALID_TOKEN_ERR = 'Invalid token received form token callback or authTok
 let cachedAuthToken: string | null = null;
 
 // This method can be used to get the authToken using the embedConfig
-export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<string> => {
+export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<string> {
     if (cachedAuthToken) {
         let isCachedTokenStillValid;
         try {
@@ -31,12 +32,17 @@ export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<
         authToken = await response.text();
     }
 
-    // this will throw error if the token is not valid
-    await validateAuthToken(embedConfig, authToken);
+    try {
+        // this will throw error if the token is not valid
+        await validateAuthToken(embedConfig, authToken);
+    } catch (e) {
+        logger.error(`Received invalid token from getAuthToken callback or authToken endpoint. Error : ${e.message}`);
+        throw e;
+    }
 
     cachedAuthToken = authToken;
     return authToken;
-};
+}
 
 const validateAuthToken = async (
     embedConfig: EmbedConfig,

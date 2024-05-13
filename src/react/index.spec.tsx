@@ -24,6 +24,8 @@ import {
 
 import { version } from '../../package.json';
 
+import * as auth from '../auth';
+
 const thoughtSpotHost = 'localhost';
 
 beforeAll(() => {
@@ -31,6 +33,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     spyOn(window, 'alert');
 });
 

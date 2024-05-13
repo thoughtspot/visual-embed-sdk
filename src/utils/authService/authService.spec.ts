@@ -26,9 +26,10 @@ describe('Unit test for authService', () => {
             status: 200,
             ok: true,
         }));
-        const response = await fetchSessionInfoService(authVerificationUrl);
-        expect(response.status).toBe(200);
+        const response = await fetchSessionInfoService(thoughtSpotHost);
+        expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {});
     });
 
     test('fetchAuthTokenService', async () => {
@@ -108,8 +109,12 @@ describe('Unit test for authService', () => {
             status: 500,
             ok: false,
         }));
-        await fetchSessionInfoService(authVerificationUrl);
-        expect(logger.error).toHaveBeenCalledWith('Failure', 'error');
+        try {
+            await fetchSessionInfoService(authVerificationUrl);
+        } catch (e) {
+            expect(e.message).toContain('Failed to fetch session info');
+        }
+        expect(logger.error).toHaveBeenCalledWith('Failed', 'error');
     });
 
     test('verifyTokenService', async () => {
