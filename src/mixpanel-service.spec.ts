@@ -6,6 +6,7 @@ import {
     testResetMixpanel,
 } from './mixpanel-service';
 import { AuthType } from './types';
+import { SessionInfo } from './utils/sessionInfoService';
 
 const config = {
     thoughtSpotHost: 'https://10.87.89.232',
@@ -29,7 +30,7 @@ describe('Unit test for mixpanel', () => {
             mixpanelToken: 'abc123',
             userGUID: '12345',
             isPublicUser: false,
-        };
+        } as SessionInfo;
         initMixpanel(sessionInfo);
         expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken, undefined, 'tsEmbed');
         expect(mixpanel.identify).toHaveBeenCalledWith(sessionInfo.userGUID);
@@ -49,7 +50,7 @@ describe('Unit test for mixpanel', () => {
             clusterId: 'newClusterId',
             clusterName: 'newClusterName',
             releaseVersion: 'newReleaseVersion',
-        };
+        } as SessionInfo;
         initMixpanel(sessionInfo);
 
         expect(mixpanel.init).toHaveBeenCalledWith(sessionInfo.mixpanelToken, undefined, 'tsEmbed');
@@ -74,7 +75,7 @@ describe('Unit test for mixpanel', () => {
             mixpanelToken: 'abc123',
             userGUID: '12345',
             isPublicUser: false,
-        };
+        } as SessionInfo;
         initMixpanel(sessionInfo);
         expect(mixpanel.track).toHaveBeenCalledTimes(2);
     });

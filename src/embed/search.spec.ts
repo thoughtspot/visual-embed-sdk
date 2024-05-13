@@ -32,6 +32,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     spyOn(window, 'alert');
 });
 
