@@ -4,6 +4,7 @@ import {
     Action,
     AuthType,
     ContextMenuTriggerOptions,
+    DOMSelector,
     EmbedEvent,
     HostEvent,
     RuntimeFilterOp,
@@ -269,6 +270,62 @@ describe('Liveboard/viz embed tests', () => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
         });
     });
+    test('should not call setIFrameHeight if currentPath starts with "/embed/viz/"', () => {
+        // Create a mock subclass or object that extends the parent class
+        class MockMyClass extends LiveboardEmbed {
+            // Expose the protected method for testing
+            constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
+                viewConfig.embedComponentType = 'LiveboardEmbed';
+                super(domSelector, viewConfig);
+            }
+
+            public exposeSetIFrameHeight(value = 500) {
+                super.setIFrameHeight(value);
+            }
+        }
+
+        const myObject = new MockMyClass(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            liveboardId,
+        } as LiveboardViewConfig) as any;
+        const spySetIFrameHeight = jest.spyOn(myObject, 'exposeSetIFrameHeight');
+
+        myObject.render();
+        myObject.setIframeHeightForNonEmbedLiveboard({ data: { currentPath: '/embed/viz/' }, type: 'Route' });
+
+        // Assert that setIFrameHeight is not called
+        expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    });
+
+    test('should not call setIFrameHeight if currentPath starts with "/embed/insights/viz/"', () => {
+        // Create a mock subclass or object that extends the parent class
+        class MockMyClass extends LiveboardEmbed {
+            // Expose the protected method for testing
+            constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
+                viewConfig.embedComponentType = 'LiveboardEmbed';
+                super(domSelector, viewConfig);
+            }
+
+            public exposeSetIFrameHeight(value = 500) {
+                super.setIFrameHeight(value);
+            }
+        }
+
+        const myObject = new MockMyClass(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            liveboardId,
+        } as LiveboardViewConfig) as any;
+        const spySetIFrameHeight = jest.spyOn(myObject, 'exposeSetIFrameHeight');
+
+        myObject.render();
+        myObject.setIframeHeightForNonEmbedLiveboard({ data: { currentPath: '/embed/insights/viz/' }, type: 'Route' });
+
+        // Assert that setIFrameHeight is not called
+        expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    });
+
     test('Should set the visible vizs', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
