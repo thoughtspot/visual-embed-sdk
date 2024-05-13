@@ -1323,6 +1323,28 @@ describe('Unit test case for ts embed', () => {
                 done();
             });
         });
+
+        it('Should set the override locale for number/date and currency format', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                numberFormatLocale: 'en-US',
+                dateFormatLocale: 'en-IN',
+                currencyFormat: 'USD',
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&numberFormatLocale=en-US&dateFormatLocale=en-IN&currencyFormat=USD${defaultParamsPost}#/home`,
+            );
+        });
     });
 
     describe('When destroyed', () => {
