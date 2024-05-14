@@ -54,7 +54,7 @@ export interface SageViewConfig
     showObjectResults?: boolean;
     /**
      * flag used by the TS product tour page to show the blue search bar
-     * even after the search is completed. This is different from TSE Sage Embed
+     * even after the search is completed. This is different from Thoughtspot Embedded Sage Embed
      * experience where it mimics closer to the non-embed case.
      * The Sample questions container is collapsed when this value is set after
      * does a search.
