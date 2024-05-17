@@ -270,60 +270,61 @@ describe('Liveboard/viz embed tests', () => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
         });
     });
+
     test('should not call setIFrameHeight if currentPath starts with "/embed/viz/"', () => {
-        // Create a mock subclass or object that extends the parent class
-        class MockMyClass extends LiveboardEmbed {
-            // Expose the protected method for testing
-            constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
-                viewConfig.embedComponentType = 'LiveboardEmbed';
-                super(domSelector, viewConfig);
-            }
-
-            public exposeSetIFrameHeight(value = 500) {
-                super.setIFrameHeight(value);
-            }
-        }
-
-        const myObject = new MockMyClass(getRootEl(), {
+        const myObject = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
             liveboardId,
         } as LiveboardViewConfig) as any;
-        const spySetIFrameHeight = jest.spyOn(myObject, 'exposeSetIFrameHeight');
+        const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({ data: { currentPath: '/embed/viz/' }, type: 'Route' });
+        myObject.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: '/embed/viz/' },
+            type: 'Route',
+        });
 
         // Assert that setIFrameHeight is not called
         expect(spySetIFrameHeight).not.toHaveBeenCalled();
     });
 
     test('should not call setIFrameHeight if currentPath starts with "/embed/insights/viz/"', () => {
-        // Create a mock subclass or object that extends the parent class
-        class MockMyClass extends LiveboardEmbed {
-            // Expose the protected method for testing
-            constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
-                viewConfig.embedComponentType = 'LiveboardEmbed';
-                super(domSelector, viewConfig);
-            }
-
-            public exposeSetIFrameHeight(value = 500) {
-                super.setIFrameHeight(value);
-            }
-        }
-
-        const myObject = new MockMyClass(getRootEl(), {
+        const myObject = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
             liveboardId,
         } as LiveboardViewConfig) as any;
-        const spySetIFrameHeight = jest.spyOn(myObject, 'exposeSetIFrameHeight');
+        const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({ data: { currentPath: '/embed/insights/viz/' }, type: 'Route' });
+        myObject.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: '/embed/insights/viz/' },
+            type: 'Route',
+        });
 
         // Assert that setIFrameHeight is not called
         expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    });
+
+    test('should  call setIFrameHeight if currentPath starts with "/some/other/path/"', () => {
+        const myObject = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            liveboardId,
+        } as LiveboardViewConfig) as any;
+        const spySetIFrameHeight = jest
+            .spyOn(myObject, 'setIFrameHeight')
+            .mockImplementation(jest.fn());
+
+        myObject.render();
+        myObject.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: '/some/other/path/' },
+            type: 'Route',
+        });
+
+        // Assert that setIFrameHeight is not called
+        expect(spySetIFrameHeight).toHaveBeenCalled();
     });
 
     test('Should set the visible vizs', async () => {
@@ -523,23 +524,25 @@ describe('Liveboard/viz embed tests', () => {
             });
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver = window.ResizeObserver
-            || jest.fn().mockImplementation((resizeObserverCbParam) => {
-                resizeObserverCb = resizeObserverCbParam;
-                return ({
-                    disconnect: jest.fn(),
-                    observe: jest.fn(),
-                    unobserve: jest.fn(),
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam) => {
+                    resizeObserverCb = resizeObserverCbParam;
+                    return {
+                        disconnect: jest.fn(),
+                        observe: jest.fn(),
+                        unobserve: jest.fn(),
+                    };
                 });
-            });
 
             libEmbed.preRender();
 
             await waitFor(() => !!getIFrameEl());
 
             const ts = '__tsEmbed';
-            expect(document.getElementById(libEmbed.getPreRenderIds().wrapper)[ts])
-                .toEqual(libEmbed);
+            expect(document.getElementById(libEmbed.getPreRenderIds().wrapper)[ts]).toEqual(
+                libEmbed,
+            );
 
             const testLiveboardId = 'testLiveboardId';
             const newLibEmbed = new LiveboardEmbed(getRootEl(), {
