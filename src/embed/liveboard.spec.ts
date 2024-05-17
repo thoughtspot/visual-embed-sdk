@@ -4,7 +4,6 @@ import {
     Action,
     AuthType,
     ContextMenuTriggerOptions,
-    DOMSelector,
     EmbedEvent,
     HostEvent,
     RuntimeFilterOp,
