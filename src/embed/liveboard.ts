@@ -422,9 +422,13 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (!data.data.currentPath.startsWith('/embed/viz/')) {
-            this.setIFrameHeight(this.defaultHeight);
+        if (
+            data.data.currentPath.startsWith('/embed/viz/')
+            || data.data.currentPath.startsWith('/embed/insights/viz/')
+        ) {
+            return;
         }
+        this.setIFrameHeight(this.defaultHeight);
     };
 
     private setActiveTab(data: { tabId: string }) {
