@@ -524,9 +524,8 @@ describe('Liveboard/viz embed tests', () => {
             });
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver =
-                window.ResizeObserver ||
-                jest.fn().mockImplementation((resizeObserverCbParam) => {
+            (window as any).ResizeObserver = window.ResizeObserver
+                || jest.fn().mockImplementation((resizeObserverCbParam) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
