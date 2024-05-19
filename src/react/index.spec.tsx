@@ -25,6 +25,7 @@ import {
 import { version } from '../../package.json';
 
 import * as auth from '../auth';
+import * as sessionService from '../utils/sessionInfoService';
 
 const thoughtSpotHost = 'localhost';
 
@@ -33,7 +34,10 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
+    jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
+    jest.spyOn(sessionService, 'getSessionInfoSync').mockReturnValue({
+        userGUID: 'abcd',
+    });
     spyOn(window, 'alert');
 });
 

@@ -349,7 +349,7 @@ export class TsEmbed {
                     data: { authToken },
                 });
             } catch (e) {
-                logger.error(`Received invalid token. Error : ${e.message}`);
+                logger.error(`Received invalid token. Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             }
         } else if (autoLogin) {

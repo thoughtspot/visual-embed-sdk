@@ -83,6 +83,10 @@ describe('Unit test case for ts embed', () => {
         resetCachedAuthToken();
     });
 
+    beforeAll(() => {
+        jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
+    });
+
     describe('AuthExpire embedEvent in cookieless authentication authType', () => {
         beforeAll(() => {
             jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
@@ -680,6 +684,7 @@ describe('Unit test case for ts embed', () => {
             const mockPort: any = {
                 postMessage: jest.fn(),
             };
+            const loggerSpy = jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
@@ -689,6 +694,7 @@ describe('Unit test case for ts embed', () => {
                 expect(baseInstance.notifyAuthFailure).toBeCalledWith(
                     authInstance.AuthFailureType.EXPIRY,
                 );
+                expect(loggerSpy).toHaveBeenCalledTimes(1);
             });
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
@@ -707,6 +713,7 @@ describe('Unit test case for ts embed', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, preRenderId: 'test' });
             jest.spyOn(baseInstance, 'notifyAuthFailure');
             searchEmbed.preRender();
+            const loggerSpy = jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
             const mockPort: any = {
                 postMessage: jest.fn(),
             };
@@ -720,6 +727,7 @@ describe('Unit test case for ts embed', () => {
                 expect(baseInstance.notifyAuthFailure).toBeCalledWith(
                     authInstance.AuthFailureType.EXPIRY,
                 );
+                expect(loggerSpy).toHaveBeenCalledTimes(1);
             });
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
