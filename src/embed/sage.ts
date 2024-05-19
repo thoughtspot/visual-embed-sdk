@@ -167,7 +167,6 @@ export class SageEmbed extends V1Embed {
             showObjectSuggestions,
             hideSampleQuestions,
             isProductTour,
-            hideSearchBarTitle,
             hideSageAnswerHeader,
             hideAutocompleteSuggestions,
         } = this.viewConfig;
@@ -184,7 +183,6 @@ export class SageEmbed extends V1Embed {
         }
         params[Param.HideSampleQuestions] = !!hideSampleQuestions;
         params[Param.IsProductTour] = !!isProductTour;
-        params[Param.HideSearchBarTitle] = !!hideSearchBarTitle;
         params[Param.HideSageAnswerHeader] = !!hideSageAnswerHeader;
 
         return getQueryParamString(params, true);
