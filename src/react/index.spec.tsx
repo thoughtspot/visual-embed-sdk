@@ -49,7 +49,7 @@ describe('React Components', () => {
                 ),
             ).toBe(true);
             expect(getIFrameSrc(container)).toBe(
-                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&enableDataPanelV2=false&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true&collapseSearchBarInitially=false#/embed/answer`,
+                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&enableDataPanelV2=false&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true&collapseSearchBarInitially=false&enableCustomColumnGroups=false#/embed/answer`,
             );
         });
 
