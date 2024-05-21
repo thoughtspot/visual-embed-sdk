@@ -42,7 +42,7 @@ export async function getSessionInfo(): Promise<SessionInfo> {
  * function will return null.
  *
  * @example ```js
- * const sessionInfo = getSessionInfoSync();
+ * const sessionInfo = getCachedSessionInfo();
  * if (sessionInfo) {
  *   console.log(sessionInfo);
  * } else {
@@ -52,7 +52,7 @@ export async function getSessionInfo(): Promise<SessionInfo> {
  * @returns {SessionInfo | null} The session info object.
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
-export function getSessionInfoSync(): SessionInfo | null {
+export function getCachedSessionInfo(): SessionInfo | null {
     return sessionInfo;
 }
 

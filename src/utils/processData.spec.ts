@@ -61,7 +61,7 @@ describe('Unit test for process data', () => {
         };
         const e = { type: EmbedEvent.AuthInit, data: sessionInfo };
         jest.spyOn(base, 'notifyAuthSuccess');
-        jest.spyOn(sessionInfoService, 'getSessionInfoSync').mockReturnValue(sessionInfo);
+        jest.spyOn(sessionInfoService, 'getSessionInfo').mockReturnValue(sessionInfo);
         expect(processDataInstance.processEventData(e.type, e, '', null)).toEqual({
             type: e.type,
             data: {

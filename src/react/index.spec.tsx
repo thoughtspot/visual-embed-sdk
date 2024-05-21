@@ -35,7 +35,7 @@ beforeAll(() => {
         authType: AuthType.None,
     });
     jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
-    jest.spyOn(sessionService, 'getSessionInfoSync').mockReturnValue({
+    jest.spyOn(sessionService, 'getSessionInfo').mockReturnValue({
         userGUID: 'abcd',
     });
     spyOn(window, 'alert');

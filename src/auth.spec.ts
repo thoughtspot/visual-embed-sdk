@@ -7,6 +7,7 @@ import { AuthType, EmbedEvent } from './types';
 import * as checkReleaseVersionInBetaInstance from './utils';
 import * as authService from './utils/authService/authService';
 import * as tokenAuthService from './utils/authService/tokenizedAuthService';
+import { logger } from './utils/logger';
 import * as SessionService from './utils/sessionInfoService';
 
 const thoughtSpotHost = 'http://localhost:3000';
@@ -529,5 +530,30 @@ describe('Unit test for auth', () => {
                 mixpanelToken: 'prodKey',
             }),
         );
+    });
+
+    test('notifyAuthSuccess if getSessionInfo returns data', async () => {
+        const dummyInfo = { test: 'dummy' };
+        jest.spyOn(SessionService, 'getSessionInfo').mockResolvedValueOnce(dummyInfo);
+        jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
+        const emitSpy = jest.fn();
+        authInstance.setAuthEE({ emit: emitSpy } as any);
+        await authInstance.notifyAuthSuccess();
+        expect(logger.error).not.toBeCalled();
+        expect(emitSpy).toBeCalledWith(authInstance.AuthStatus.SUCCESS, dummyInfo);
+        authInstance.setAuthEE(null);
+    });
+
+    test('notifyAuthSuccess if getSessionInfo fails', async () => {
+        jest.spyOn(SessionService, 'getSessionInfo').mockImplementation(() => {
+            throw new Error('error');
+        });
+        jest.spyOn(logger, 'error');
+        const emitSpy = jest.fn();
+        authInstance.setAuthEE({ emit: emitSpy } as any);
+        await authInstance.notifyAuthSuccess();
+        expect(logger.error).toBeCalled();
+        expect(emitSpy).not.toBeCalled();
+        authInstance.setAuthEE(null);
     });
 });

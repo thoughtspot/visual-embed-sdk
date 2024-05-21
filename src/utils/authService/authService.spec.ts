@@ -117,7 +117,7 @@ describe('Unit test for authService', () => {
         expect(logger.error).toHaveBeenCalledWith('Failed to fetch http://localhost:3000/callosum/v1/session/info', 'error');
     });
 
-    test('verifyTokenService', async () => {
+    test('verifyTokenService if token api works', async () => {
         global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
         await verifyTokenService(thoughtSpotHost, authToken);
         expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
@@ -127,5 +127,13 @@ describe('Unit test for authService', () => {
                 'x-requested-by': 'ThoughtSpot',
             },
         });
+    });
+
+    test('verifyTokenService if token api fails', async () => {
+        global.fetch = jest.fn(() => Promise.reject(new Error('error')));
+        jest.spyOn(logger, 'warn');
+        const status = await verifyTokenService(thoughtSpotHost, authToken);
+        expect(status).toBe(false);
+        expect(logger.warn).toHaveBeenCalledWith('Token Verification Service failed : error');
     });
 });

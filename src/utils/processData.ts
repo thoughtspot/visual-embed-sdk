@@ -30,8 +30,10 @@ export function processCustomAction(e: any, thoughtSpotHost: string) {
 }
 
 /**
+ * Responds to AuthInit sent from host signifying successful authentication in host.
  *
  * @param e
+ * @returns {any}
  */
 function processAuthInit(e: any) {
     notifyAuthSuccess();

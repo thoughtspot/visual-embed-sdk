@@ -15,7 +15,7 @@ import {
 } from './utils/authService';
 import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
-import { getSessionInfo, getSessionInfoSync } from './utils/sessionInfoService';
+import { getSessionInfo } from './utils/sessionInfoService';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -27,13 +27,6 @@ export let samlCompletionPromise: Promise<void> = null;
 let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
-
-interface sessionInfoInterface {
-    userGUID: any;
-    isPublicUser: any;
-    mixpanelToken: any;
-    [key: string]: any;
-}
 
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
@@ -177,16 +170,17 @@ export function notifyAuthSDKSuccess(): void {
 /**
  *
  */
-export function notifyAuthSuccess(): void {
+export async function notifyAuthSuccess(): Promise<void> {
     if (!authEE) {
         logger.error('SDK not initialized');
         return;
     }
-    const sessionInfo = getSessionInfoSync();
-    if (!sessionInfo) {
-        logger.error('Session info not available');
+    try {
+        const sessionInfo = await getSessionInfo();
+        authEE.emit(AuthStatus.SUCCESS, sessionInfo);
+    } catch (e) {
+        logger.error('Failed to get session info');
     }
-    authEE.emit(AuthStatus.SUCCESS, sessionInfo);
 }
 
 /**

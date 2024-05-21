@@ -7,6 +7,7 @@ import {
 } from './mixpanel-service';
 import { AuthType } from './types';
 import { SessionInfo } from './utils/sessionInfoService';
+import { logger } from './utils/logger';
 
 const config = {
     thoughtSpotHost: 'https://10.87.89.232',
@@ -78,5 +79,12 @@ describe('Unit test for mixpanel', () => {
         } as SessionInfo;
         initMixpanel(sessionInfo);
         expect(mixpanel.track).toHaveBeenCalledTimes(2);
+    });
+
+    test('init mixpanel with no mixpanel token', () => {
+        jest.spyOn(logger, 'error').mockReturnValueOnce(true);
+        initMixpanel({ test: 'dummy' } as any);
+        expect(logger.error).toHaveBeenCalled();
+        expect(mixpanel.register_once).not.toHaveBeenCalled();
     });
 });
