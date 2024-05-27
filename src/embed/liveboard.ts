@@ -325,6 +325,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
             enableAskSage,
+            enable2ColumnLayout=false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -369,6 +370,7 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
 
         const queryParams = getQueryParamString(params, true);
 

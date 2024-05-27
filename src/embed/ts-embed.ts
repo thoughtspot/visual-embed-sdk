@@ -441,6 +441,7 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
+            enable2ColumnLayout
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -498,6 +499,9 @@ export class TsEmbed {
         }
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
+        }
+        if (enable2ColumnLayout !== undefined) {
+            queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);

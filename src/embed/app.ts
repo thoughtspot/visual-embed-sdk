@@ -11,12 +11,12 @@
 
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
-import {
-    Param,
-    DOMSelector,
-    HostEvent,
-    ViewConfig,
-    EmbedEvent,
+import { 
+    Param, 
+    DOMSelector, 
+    HostEvent, 
+    ViewConfig, 
+    EmbedEvent, 
     MessagePayload,
 } from '../types';
 import { V1Embed } from './ts-embed';
@@ -406,6 +406,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
+            enable2ColumnLayout = false,
         } = this.viewConfig;
 
         let params = {};
@@ -447,6 +448,7 @@ export class AppEmbed extends V1Embed {
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

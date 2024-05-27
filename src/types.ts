@@ -1049,6 +1049,23 @@ export interface ViewConfig {
      * @hidden
      */
     embedComponentType?: string;
+
+    /**
+     * This flag is used to enable the 2 column layout in liveboard
+     *
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.29.0 | ThoughtSpot:10.1.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
 }
 
 /**
@@ -3104,6 +3121,7 @@ export enum Param {
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
+    Enable2ColumnLayout = 'enable2ColumnLayout',
 }
 
 /**
