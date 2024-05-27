@@ -468,7 +468,6 @@ export class TsEmbed {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
         queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
-        queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
@@ -494,7 +493,9 @@ export class TsEmbed {
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
-
+        if (enable2ColumnLayout !== undefined) {
+            queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
         if (showAlerts !== undefined) {
             queryParams[Param.ShowAlerts] = showAlerts;
         }

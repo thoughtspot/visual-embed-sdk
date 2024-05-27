@@ -353,6 +353,9 @@ export class LiveboardEmbed extends V1Embed {
         if (liveboardV2 !== undefined) {
             params[Param.LiveboardV2Enabled] = liveboardV2;
         }
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
         }
@@ -370,7 +373,6 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
-        params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
 
         const queryParams = getQueryParamString(params, true);
 

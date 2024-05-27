@@ -444,11 +444,14 @@ export class AppEmbed extends V1Embed {
             params[Param.enableAskSage] = enableAskSage;
         }
 
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
-        params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
