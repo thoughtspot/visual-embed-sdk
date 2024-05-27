@@ -441,7 +441,7 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
-            enable2ColumnLayout=false,
+            enable2ColumnLayout = false,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
