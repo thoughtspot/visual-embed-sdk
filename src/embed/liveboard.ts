@@ -325,7 +325,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
             enableAskSage,
-            enable2ColumnLayout = false,
+            enable2ColumnLayout,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval

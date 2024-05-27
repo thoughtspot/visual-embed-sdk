@@ -406,7 +406,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
-            enable2ColumnLayout = false,
+            enable2ColumnLayout,
         } = this.viewConfig;
 
         let params = {};
