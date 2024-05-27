@@ -441,7 +441,7 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
-            enable2ColumnLayout
+            enable2ColumnLayout=false,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -468,6 +468,7 @@ export class TsEmbed {
             queryParams[Param.DisableActionReason] = disabledActionReason;
         }
         queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
+        queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
@@ -499,9 +500,6 @@ export class TsEmbed {
         }
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
-        }
-        if (enable2ColumnLayout !== undefined) {
-            queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);
