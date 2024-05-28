@@ -4079,17 +4079,6 @@ export enum Action {
     RemoveFromWatchlist = 'removeFromWatchlist',
 
     /**
-     * The **Copy KPI Link** menu action on KPI watchlist.
-     *
-     * @example
-     * ```js
-     * disabledActions: [Action.CopyKpiLink]
-     * ```
-     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
-     */
-    CopyKpiLink = 'copyKpiLink',
-
-    /**
      * The **Organise Favourites** action on Homepage Favourite Module.
      *
      * @example
