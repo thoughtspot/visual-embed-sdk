@@ -441,6 +441,7 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
+            enable2ColumnLayout,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -492,7 +493,9 @@ export class TsEmbed {
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
-
+        if (enable2ColumnLayout !== undefined) {
+            queryParams[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
         if (showAlerts !== undefined) {
             queryParams[Param.ShowAlerts] = showAlerts;
         }
