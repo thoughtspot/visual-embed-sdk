@@ -3104,6 +3104,7 @@ export enum Param {
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
+    IsFullAppEmbed = 'isFullAppEmbed',
 }
 
 /**
