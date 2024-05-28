@@ -11,14 +11,7 @@
 
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
-import {
-    Param,
-    DOMSelector,
-    HostEvent,
-    ViewConfig,
-    EmbedEvent,
-    MessagePayload,
-} from '../types';
+import { Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload } from '../types';
 import { V1Embed } from './ts-embed';
 
 /**
@@ -406,7 +399,6 @@ export class AppEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
-            enable2ColumnLayout,
         } = this.viewConfig;
 
         let params = {};
@@ -442,10 +434,6 @@ export class AppEmbed extends V1Embed {
 
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
-        }
-
-        if (enable2ColumnLayout !== undefined) {
-            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
