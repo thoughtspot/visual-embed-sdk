@@ -364,7 +364,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * @type {boolean}
      * @default false
-     * @version SDK: 1.29.0 | ThoughtSpot:10.1.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
      *
      * @example
      * ```js
