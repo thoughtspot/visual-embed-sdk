@@ -359,7 +359,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     collapseSearchBarInitially?: boolean;
-    /** 
+    /**
      * To enable custom column groups in data panel v2
      *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
