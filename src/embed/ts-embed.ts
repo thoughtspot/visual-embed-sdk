@@ -492,7 +492,7 @@ export class TsEmbed {
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
-        
+
         if (showAlerts !== undefined) {
             queryParams[Param.ShowAlerts] = showAlerts;
         }
