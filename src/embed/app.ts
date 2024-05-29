@@ -418,6 +418,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.IsFullAppEmbed] = true;
 
         params = this.getBaseQueryParams(params);
 
