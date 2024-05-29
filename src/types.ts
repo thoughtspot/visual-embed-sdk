@@ -3105,6 +3105,7 @@ export enum Param {
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
+    IsFullAppEmbed = 'isFullAppEmbed',
 }
 
 /**
