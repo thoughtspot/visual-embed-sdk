@@ -269,6 +269,22 @@ export interface LiveboardViewConfig
      * ```
      */
     enableAskSage?: boolean;
+    /**
+     * This flag is used to enable the 2 column layout in liveboard
+     *
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
 }
 
 /**
@@ -325,6 +341,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
             enableAskSage,
+            enable2ColumnLayout,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -351,6 +368,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (liveboardV2 !== undefined) {
             params[Param.LiveboardV2Enabled] = liveboardV2;
+        }
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;

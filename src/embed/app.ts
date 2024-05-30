@@ -359,6 +359,22 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     collapseSearchBarInitially?: boolean;
+    /**
+     * This flag is used to enable the 2 column layout in liveboard
+     *
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
 }
 
 /**
@@ -406,6 +422,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
+            enable2ColumnLayout,
         } = this.viewConfig;
 
         let params = {};
@@ -438,6 +455,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
 
         if (enableAskSage) {
