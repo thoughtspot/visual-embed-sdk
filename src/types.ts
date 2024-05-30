@@ -3101,6 +3101,7 @@ export enum Param {
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
     CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
@@ -4251,4 +4252,23 @@ export enum LogLevel {
      * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
      */
     TRACE = 'TRACE',
+}
+
+/**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
 }

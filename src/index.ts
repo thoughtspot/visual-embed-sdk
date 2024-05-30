@@ -48,6 +48,7 @@ import {
     LogLevel,
     VizPoint,
     CustomActionPayload,
+    DataPanelCustomColumnGroupsAccordionState,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -114,6 +115,7 @@ export {
     MIXPANEL_EVENT,
     VizPoint,
     CustomActionPayload,
+    DataPanelCustomColumnGroupsAccordionState,
 };
 
 export { resetCachedAuthToken } from './authToken';

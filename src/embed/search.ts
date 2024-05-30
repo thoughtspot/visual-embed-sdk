@@ -13,6 +13,7 @@ import {
     Param,
     Action,
     ViewConfig,
+    DataPanelCustomColumnGroupsAccordionState
 } from '../types';
 import {
     getQueryParamString,
@@ -260,6 +261,22 @@ export interface SearchViewConfig
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * This controls the initial behaviour of custom column groups accordion.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     *
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *   ... // other app view config
+     *   dataPanelCustomGroupsAccordionInitialState:
+     *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+     * });
+     * ```
+     */
+    dataPanelCustomGroupsAccordionInitialState?: string;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -318,6 +335,8 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
+            dataPanelCustomGroupsAccordionInitialState =
+            DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -366,6 +385,17 @@ export class SearchEmbed extends TsEmbed {
         queryParams[Param.searchEmbed] = true;
         queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        if (dataPanelCustomGroupsAccordionInitialState ===
+            DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
+            dataPanelCustomGroupsAccordionInitialState ===
+            DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        ) {
+            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] =
+                dataPanelCustomGroupsAccordionInitialState;
+        } else {
+            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] =
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
@@ -411,7 +441,7 @@ export class SearchEmbed extends TsEmbed {
                 checkReleaseVersionInBeta(
                     getReleaseVersion(),
                     getEmbedConfig().suppressSearchEmbedBetaWarning
-                        || getEmbedConfig().suppressErrorAlerts,
+                    || getEmbedConfig().suppressErrorAlerts,
                 )
             ) {
                 alert(ERROR_MESSAGE.SEARCHEMBED_BETA_WRANING_MESSAGE);

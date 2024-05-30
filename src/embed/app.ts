@@ -18,6 +18,7 @@ import {
     ViewConfig,
     EmbedEvent,
     MessagePayload,
+    DataPanelCustomColumnGroupsAccordionState,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -360,7 +361,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * To enable custom column groups in data panel v2
+     * To enable custom column groups in data panel v2.
      *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
@@ -374,6 +375,22 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * This controls the initial behaviour of custom column groups accordion.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   dataPanelCustomGroupsAccordionInitialState:
+     *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+     * });
+     * ```
+     */
+    dataPanelCustomGroupsAccordionInitialState?: string;
     /**
      * This flag is used to enable the 2 column layout in liveboard
      *
@@ -439,6 +456,8 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
+            dataPanelCustomGroupsAccordionInitialState =
+            DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
 
         let params = {};
@@ -486,6 +505,17 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        if (dataPanelCustomGroupsAccordionInitialState ===
+            DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
+            dataPanelCustomGroupsAccordionInitialState ===
+            DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        ) {
+            params[Param.DataPanelCustomGroupsAccordionInitialState] =
+                dataPanelCustomGroupsAccordionInitialState;
+        } else {
+            params[Param.DataPanelCustomGroupsAccordionInitialState] =
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
