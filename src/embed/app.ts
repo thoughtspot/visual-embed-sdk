@@ -456,8 +456,7 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
-            dataPanelCustomGroupsAccordionInitialState =
-            DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
 
         let params = {};
@@ -505,16 +504,14 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (dataPanelCustomGroupsAccordionInitialState ===
-            DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
-            dataPanelCustomGroupsAccordionInitialState ===
-            DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            params[Param.DataPanelCustomGroupsAccordionInitialState] =
-                dataPanelCustomGroupsAccordionInitialState;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            params[Param.DataPanelCustomGroupsAccordionInitialState] =
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         const queryParams = getQueryParamString(params, true);
 

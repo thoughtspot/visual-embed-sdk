@@ -13,7 +13,7 @@ import {
     Param,
     Action,
     ViewConfig,
-    DataPanelCustomColumnGroupsAccordionState
+    DataPanelCustomColumnGroupsAccordionState,
 } from '../types';
 import {
     getQueryParamString,
@@ -335,8 +335,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
-            dataPanelCustomGroupsAccordionInitialState =
-            DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -385,16 +384,14 @@ export class SearchEmbed extends TsEmbed {
         queryParams[Param.searchEmbed] = true;
         queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (dataPanelCustomGroupsAccordionInitialState ===
-            DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
-            dataPanelCustomGroupsAccordionInitialState ===
-            DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] =
-                dataPanelCustomGroupsAccordionInitialState;
+            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] =
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
