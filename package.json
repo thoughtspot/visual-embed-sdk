@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.28.3",
+    "version": "1.28.4",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -175,6 +175,7 @@
     "keywords": [
         "thoughtspot",
         "everywhere",
+        "embedded",
         "embed",
         "sdk",
         "analytics"

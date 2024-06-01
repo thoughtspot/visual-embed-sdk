@@ -7,9 +7,7 @@
  * @author Mourya Balabhadra <mourya.balabhadra@thoughtspot.com>
  */
 
-import {
-    Action, DOMSelector, Param, ViewConfig,
-} from '../types';
+import { DOMSelector, Param, ViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
 
@@ -54,7 +52,7 @@ export interface SageViewConfig
     showObjectResults?: boolean;
     /**
      * flag used by the TS product tour page to show the blue search bar
-     * even after the search is completed. This is different from TSE Sage Embed
+     * even after the search is completed. This is different from Thoughtspot Embedded Sage Embed
      * experience where it mimics closer to the non-embed case.
      * The Sample questions container is collapsed when this value is set after
      * does a search.
@@ -65,8 +63,9 @@ export interface SageViewConfig
     isProductTour?: boolean;
     /**
      * Show or hide the search bar title.
+     * @version SDK: 1.29.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
      *
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @deprecated Thoughtspot: 9.10.0.cl | search bar doesn't have the title from 9.10.0.cl
      */
     hideSearchBarTitle?: boolean;
     /**
@@ -136,16 +135,6 @@ export interface SageViewConfig
      */
     searchOptions?: SearchOptions;
 }
-export const HiddenActionItemByDefaultForSageEmbed = [
-    Action.Save,
-    Action.Pin,
-    Action.EditACopy,
-    Action.SaveAsView,
-    Action.UpdateTML,
-    Action.EditTML,
-    Action.AnswerDelete,
-    Action.Share,
-];
 /**
  * Embed ThoughtSpot LLM and GPT-based Natural Language Search component.
  *
@@ -178,7 +167,6 @@ export class SageEmbed extends V1Embed {
             showObjectSuggestions,
             hideSampleQuestions,
             isProductTour,
-            hideSearchBarTitle,
             hideSageAnswerHeader,
             hideAutocompleteSuggestions,
         } = this.viewConfig;
@@ -195,12 +183,7 @@ export class SageEmbed extends V1Embed {
         }
         params[Param.HideSampleQuestions] = !!hideSampleQuestions;
         params[Param.IsProductTour] = !!isProductTour;
-        params[Param.HideSearchBarTitle] = !!hideSearchBarTitle;
         params[Param.HideSageAnswerHeader] = !!hideSageAnswerHeader;
-        params[Param.HideActions] = [
-            ...(params[Param.HideActions] ?? []),
-            ...HiddenActionItemByDefaultForSageEmbed,
-        ];
 
         return getQueryParamString(params, true);
     }

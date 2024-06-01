@@ -341,6 +341,44 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     enableAskSage?: boolean;
+    /**
+     * To set the initial state of the search bar in case of saved-answers.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     */
+    collapseSearchBarInitially?: boolean;
+    /**
+     * To enable custom column groups in data panel v2
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   enableCustomColumnGroups: true,
+     * });
+     * ```
+     */
+    enableCustomColumnGroups?: boolean;
+    /**
+     * This flag is used to enable the 2 column layout in liveboard
+     *
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
 }
 
 /**
@@ -387,6 +425,9 @@ export class AppEmbed extends V1Embed {
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
+            collapseSearchBarInitially = false,
+            enable2ColumnLayout,
+            enableCustomColumnGroups = false,
         } = this.viewConfig;
 
         let params = {};
@@ -399,6 +440,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.IsFullAppEmbed] = true;
 
         params = this.getBaseQueryParams(params);
 
@@ -420,6 +462,10 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableSearchAssist] = enableSearchAssist;
         }
 
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
         }
@@ -427,6 +473,8 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
+        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
