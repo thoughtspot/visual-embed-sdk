@@ -335,6 +335,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
+            /* eslint-disable max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
@@ -389,8 +390,10 @@ export class SearchEmbed extends TsEmbed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
+            /* eslint-disable max-len */
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
+            /* eslint-disable max-len */
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         let query = '';
