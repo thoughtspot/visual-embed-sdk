@@ -13,7 +13,6 @@ import {
     Param,
     Action,
     ViewConfig,
-    DataPanelCustomColumnGroupsAccordionState,
 } from '../types';
 import {
     getQueryParamString,
@@ -43,6 +42,25 @@ export interface SearchOptions {
      * the token string in the search bar.
      */
     executeSearch?: boolean;
+}
+
+/**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
 }
 
 /**
@@ -275,7 +293,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *   ... // other app view config
+     *   ... // other options
      *   dataPanelCustomGroupsAccordionInitialState:
      *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
      * });

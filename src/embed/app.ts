@@ -18,7 +18,6 @@ import {
     ViewConfig,
     EmbedEvent,
     MessagePayload,
-    DataPanelCustomColumnGroupsAccordionState,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -55,6 +54,25 @@ export enum Page {
      * SpotIQ listing page
      */
     SpotIQ = 'insights',
+}
+
+/**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
 }
 
 /**

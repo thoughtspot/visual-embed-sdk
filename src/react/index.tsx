@@ -381,5 +381,4 @@ export {
     HomeLeftNavItem,
     HomepageModule,
     LogLevel,
-    DataPanelCustomColumnGroupsAccordionState,
 } from '../index';
