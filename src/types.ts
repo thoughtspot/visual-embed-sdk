@@ -3007,14 +3007,14 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Trigger CreateLiveboard for liveboard list page & Pin Modal
-     * 
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
-     * 
+     *
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
-    CreateLiveboard = 'CreateLiveboard'
+    CreateLiveboard = 'CreateLiveboard',
 }
 
 /**
@@ -3116,7 +3116,7 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
-    CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    CollapseSearchBarInitially = 'collapseSearchBarInitially',
     DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
