@@ -1,4 +1,8 @@
-import { SearchEmbed, HiddenActionItemByDefaultForSearchEmbed } from './search';
+import {
+    SearchEmbed,
+    HiddenActionItemByDefaultForSearchEmbed,
+    DataPanelCustomColumnGroupsAccordionState,
+} from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
 import { Action, AuthType, RuntimeFilterOp } from '../types';
@@ -451,6 +455,21 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+            dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });

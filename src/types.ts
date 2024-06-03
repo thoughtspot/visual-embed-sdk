@@ -3101,6 +3101,7 @@ export enum Param {
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
     CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',

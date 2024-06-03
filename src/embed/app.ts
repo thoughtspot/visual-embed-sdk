@@ -57,6 +57,25 @@ export enum Page {
 }
 
 /**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
+}
+
+/**
  * The view configuration for full app embedding.
  *
  * @group Embed components
@@ -360,7 +379,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * To enable custom column groups in data panel v2
+     * To enable custom column groups in data panel v2.
      *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
@@ -374,6 +393,27 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * This controls the initial behaviour of custom column groups accordion.
+     * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
+     * List of different enum values:-
+     * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
+     * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
+     * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   dataPanelCustomGroupsAccordionInitialState:
+     *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+     * });
+     * ```
+     */
+    dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
      * This flag is used to enable the 2 column layout in liveboard
      *
@@ -439,6 +479,8 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
+            /* eslint-disable-next-line max-len */
+            dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
 
         let params = {};
@@ -486,6 +528,17 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        ) {
+            /* eslint-disable-next-line max-len */
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
+        } else {
+            /* eslint-disable-next-line max-len */
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
