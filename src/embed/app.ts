@@ -430,6 +430,12 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     enable2ColumnLayout?: boolean;
+    /**
+     * Flag to use OnBeforeSearchExecute embed event
+     *
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    onBeforeSearchExecute?: boolean;
 }
 
 /**
@@ -479,8 +485,10 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
+            onBeforeSearchExecute = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+
         } = this.viewConfig;
 
         let params = {};
@@ -494,6 +502,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
+        params[Param.OnBeforeSearchExecute] = onBeforeSearchExecute;
 
         params = this.getBaseQueryParams(params);
 

@@ -2194,6 +2194,12 @@ export enum EmbedEvent {
      * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
      */
     Rename = 'rename',
+    /**
+     * Emitted when user wants to intercept the search execution
+     *
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    OnBeforeSearchExecute = 'onBeforeSearchExecute',
 }
 
 /**
@@ -3108,6 +3114,7 @@ export enum Param {
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
+    OnBeforeSearchExecute = 'onSearchBeforeExecute',
 }
 
 /**

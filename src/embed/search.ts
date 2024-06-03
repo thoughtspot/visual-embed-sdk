@@ -280,6 +280,12 @@ export interface SearchViewConfig
      */
     enableCustomColumnGroups?: boolean;
     /**
+     * Flag to use onBeforeSearchExecute Embed Event
+     *
+     * @version: SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    onBeforeSearchExecute?: boolean;
+    /**
      * This controls the initial behaviour of custom column groups accordion.
      * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
      * List of different enum values:-
@@ -358,6 +364,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
+            onBeforeSearchExecute = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
@@ -395,6 +402,10 @@ export class SearchEmbed extends TsEmbed {
 
         if (hideSearchBar) {
             queryParams[Param.HideSearchBar] = true;
+        }
+
+        if (onBeforeSearchExecute) {
+            queryParams[Param.OnBeforeSearchExecute] = onBeforeSearchExecute;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
