@@ -2196,7 +2196,7 @@ export enum EmbedEvent {
     Rename = 'rename',
     /**
      * Emitted when user wants to intercept the search execution
-     * 
+     *
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
     OnBeforeSearchExecute = 'onBeforeSearchExecute',
@@ -3107,6 +3107,7 @@ export enum Param {
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
     CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
