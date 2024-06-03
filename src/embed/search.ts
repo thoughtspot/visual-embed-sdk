@@ -260,6 +260,12 @@ export interface SearchViewConfig
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * Flag to use OnBeforeSearchExecute embed event
+     * 
+     * @version SDK : 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    onBeforeSearchExecute?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -318,6 +324,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
+            onBeforeSearchExecute = false,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -357,6 +364,7 @@ export class SearchEmbed extends TsEmbed {
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
+        queryParams[Param.OnBeforeSearchExecute] = onBeforeSearchExecute;
 
         queryParams[Param.UseLastSelectedDataSource] = useLastSelectedSources;
         if (dataSource || dataSources) {
