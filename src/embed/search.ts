@@ -263,6 +263,11 @@ export interface SearchViewConfig
     enableCustomColumnGroups?: boolean;
     /**
      * This controls the initial behaviour of custom column groups accordion.
+     * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
+     * List of different enum values:-
+     * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
+     * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
+     * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
      *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
@@ -335,7 +340,7 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
-            /* eslint-disable max-len */
+            /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
@@ -390,10 +395,10 @@ export class SearchEmbed extends TsEmbed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            /* eslint-disable max-len */
+            /* eslint-disable-next-line max-len */
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            /* eslint-disable max-len */
+            /* eslint-disable-next-line max-len */
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         let query = '';
