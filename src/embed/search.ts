@@ -281,7 +281,7 @@ export interface SearchViewConfig
      * });
      * ```
      */
-    dataPanelCustomGroupsAccordionInitialState?: string;
+    dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [

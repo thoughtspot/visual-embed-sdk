@@ -395,7 +395,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * });
      * ```
      */
-    dataPanelCustomGroupsAccordionInitialState?: string;
+    dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
      * This flag is used to enable the 2 column layout in liveboard
      *
