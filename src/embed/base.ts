@@ -11,24 +11,24 @@
 import EventEmitter from 'eventemitter3';
 import uniq from 'lodash/uniq';
 import {
-  AuthEvent,
-  AuthEventEmitter,
-  AuthFailureType,
-  AuthStatus,
-  logout as _logout,
-  authenticate,
-  notifyAuthFailure,
-  notifyAuthSDKSuccess,
-  notifyAuthSuccess,
-  notifyLogout,
-  setAuthEE,
+    AuthEvent,
+    AuthEventEmitter,
+    AuthFailureType,
+    AuthStatus,
+    logout as _logout,
+    authenticate,
+    notifyAuthFailure,
+    notifyAuthSDKSuccess,
+    notifyAuthSuccess,
+    notifyLogout,
+    setAuthEE,
 } from '../auth';
 import { resetCachedAuthToken } from '../authToken';
 import { getThoughtSpotHost } from '../config';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { tokenizedFetch } from '../tokenizedFetch';
 import {
-  AuthType, EmbedConfig, LogLevel, PrefetchFeatures,
+    AuthType, EmbedConfig, LogLevel, PrefetchFeatures,
 } from '../types';
 import { EndPoints } from '../utils/authService/authService';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
@@ -62,7 +62,7 @@ export let authPromise: Promise<boolean>;
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
 export {
-  notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout
+    notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout,
 };
 
 /**
