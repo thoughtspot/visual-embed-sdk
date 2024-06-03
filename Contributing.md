@@ -86,7 +86,7 @@ There are a few options here:
 3. The clover bank demo [app](https://github.com/ts-blink/clover-bank).
 
 Once the changes are made and tests are written, raise a PR against the `main` branch of this repo. Please make sure to include
-the `JIRA` id in the commit message. Request members on the  TSE team to review your PR. The sanity tests should run automatically. 
+the `JIRA` id in the commit message. Request members on the  ThoughtSpot Embedded team to review your PR. The sanity tests should run automatically. 
 Once everything is complete, you should be able to merge the PR.
 
 

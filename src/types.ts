@@ -594,6 +594,24 @@ export interface EmbedConfig {
      * @version SDK: 1.27.9
      */
     disableSDKTracking?: boolean;
+    /**
+     * Overrides default/user preffered locale for date formatting
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    dateFormatLocale?: string;
+    /**
+     * Overrides default/user preffered locale for number formatting
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    numberFormatLocale?: string;
+    /**
+     * Format to be used for currency when currency format is set to infer from browser
+     *
+     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     */
+    currencyFormat?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3082,6 +3100,13 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
+    CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    EnableCustomColumnGroups = 'enableCustomColumnGroups',
+    DateFormatLocale = 'dateFormatLocale',
+    NumberFormatLocale = 'numberFormatLocale',
+    CurrencyFormat = 'currencyFormat',
+    Enable2ColumnLayout = 'enable2ColumnLayout',
+    IsFullAppEmbed = 'isFullAppEmbed',
 }
 
 /**
@@ -3220,6 +3245,18 @@ export enum Action {
      */
     AddFilter = 'addFilter',
     /**
+     * The **Add Data Panel Objects** action on the data panel v2.
+     * Allows to show action menu to add different objects (like
+     * formulas, parameters) in data panel v2.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddDataPanelObjects]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddDataPanelObjects = 'addDataPanelObjects',
+    /**
      * Filter configuration options on a Liveboard and Search page.
      * Allows configuring filter options when adding filters to a
      * Liveboard or Answer.
@@ -3261,6 +3298,28 @@ export enum Action {
      * ```
      */
     AddParameter = 'addParameter',
+    /**
+     * The **Add Column Set** action on a Answer.
+     * Allows adding column sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddColumnSet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddColumnSet = 'addSimpleCohort',
+    /**
+     * The **Add Query Set** action on a Answer.
+     * Allows adding query sets to a Answer.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddQuerySet]
+     * ```
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     */
+    AddQuerySet = 'addAdvancedCohort',
     /**
      * @hidden
      */
@@ -3694,6 +3753,28 @@ export enum Action {
      */
     CrossFilter = 'context-menu-item-cross-filter',
     /**
+     * The **Sync to Slack** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Slack
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToSlack]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    SyncToSlack = 'syncToSlack',
+    /**
+     * The **Sync to Teams** action on Liveboard visualizations.
+     * Allows sending data to third-party apps Team
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SyncToTeams]
+     * ```
+     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    SyncToTeams = 'syncToTeams',
+    /**
      * The **Remove** action that appears when cross filters are applied
      * on a Liveboard.
      * Removes filters applied o a visualization.
@@ -4001,15 +4082,15 @@ export enum Action {
     RemoveFromWatchlist = 'removeFromWatchlist',
 
     /**
-     * The **Copy KPI Link** menu action on KPI watchlist.
+     * The **Organise Favourites** action on Homepage Favourite Module.
      *
      * @example
      * ```js
-     * disabledActions: [Action.CopyKpiLink]
+     * disabledActions: [Action.OrganiseFavourites]
      * ```
-     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     * @version SDK : 1.32.0 | Thoughtspot: 10.0.0.cl
      */
-    CopyKpiLink = 'copyKpiLink',
+    OrganiseFavourites = 'organiseFavourites',
 
     /**
      * Action ID for AI Highlights button
