@@ -3114,7 +3114,7 @@ export enum Param {
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
-    OnBeforeSearchExecute = 'onSearchBeforeExecute',
+    OnBeforeSearchExecute = 'onBeforeSearchExecute',
 }
 
 /**
