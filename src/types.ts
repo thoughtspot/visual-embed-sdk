@@ -3010,7 +3010,7 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
+     * liveboardEmbed.trigger(HostEvent.CreateLiveboard);
      *
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
