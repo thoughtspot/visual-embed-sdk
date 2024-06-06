@@ -2104,7 +2104,6 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
-     * @hidden
      * Emitted when a user changes any filter on a Liveboard.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      */
@@ -2643,7 +2642,7 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
      *   console.log(
-     *      tml.search_query // TML representation of the search query
+     *      tml.answer.search_query // TML representation of the search query
      *   );
      * })
      * ```
