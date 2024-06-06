@@ -2648,7 +2648,7 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
      *   console.log(
-     *      tml.search_query // TML representation of the search query
+     *      tml.answer.search_query // TML representation of the search query
      *   );
      * })
      * ```
