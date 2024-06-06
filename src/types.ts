@@ -2104,7 +2104,6 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
-     * @hidden
      * Emitted when a user changes any filter on a Liveboard.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      */
