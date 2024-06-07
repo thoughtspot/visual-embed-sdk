@@ -2105,7 +2105,9 @@ export enum EmbedEvent {
     InsertIntoSlide = 'insertInToSlide',
     /**
      * Emitted when a user changes any filter on a Liveboard.
-     * Returns filter details such as type, name, and column information.
+     * Returns filter type and name, column name and ID, and runtime
+     * filter details.
+     *
      * @example
      *
      *```js
