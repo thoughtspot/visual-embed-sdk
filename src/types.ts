@@ -2104,7 +2104,11 @@ export enum EmbedEvent {
      */
     InsertIntoSlide = 'insertInToSlide',
     /**
-     * Emitted when a user changes any filter on a Liveboard.
+     * Emitted when a user changes a filter applied on a Liveboard.
+     * @example
+     *```js
+     * LiveboardEmbed.on(EmbedEvent.FilterChanged)
+     *```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      */
     FilterChanged = 'filterChanged',
