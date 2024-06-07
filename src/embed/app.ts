@@ -435,7 +435,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
-    onBeforeSearchExecute?: boolean;
+    isOnBeforeGetVizDataInterceptEnabled?: boolean;
 }
 
 /**
@@ -485,7 +485,7 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
-            onBeforeSearchExecute = false,
+            isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
 
@@ -502,7 +502,6 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
-        params[Param.OnBeforeSearchExecute] = onBeforeSearchExecute;
 
         params = this.getBaseQueryParams(params);
 
@@ -530,6 +529,11 @@ export class AppEmbed extends V1Embed {
 
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
+        }
+
+        if (isOnBeforeGetVizDataInterceptEnabled) {
+            /* eslint-disable-next-line max-len */
+            params[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
