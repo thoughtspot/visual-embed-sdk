@@ -2108,14 +2108,14 @@ export enum EmbedEvent {
      * Returns filter type and name, column name and ID, and runtime
      * filter details.
      *
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      * @example
      *
      *```js
      * LiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
      *    console.log('payload', payload);
      * })
-     *
-     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
+     *```
      */
     FilterChanged = 'filterChanged',
     /**

@@ -4159,8 +4159,12 @@
 						"shortText": "Emitted when a user changes any filter on a Liveboard.\nReturns filter type and name, column name and ID, and runtime\nfilter details.",
 						"tags": [
 							{
+								"tag": "version",
+								"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw"
+							},
+							{
 								"tag": "example",
-								"text": "\n\n```js\nLiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {\n   console.log('payload', payload);\n})\n\n@version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw\n"
+								"text": "\n\n```js\nLiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {\n   console.log('payload', payload);\n})\n```\n"
 							}
 						]
 					},
