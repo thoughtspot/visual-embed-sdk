@@ -2206,9 +2206,21 @@ export enum EmbedEvent {
     /**
      * Emitted when user wants to intercept the search execution
      *
+     * Make isOnBeforeGetVizDataEnabled : true to use this embed
+     * event
+     *
+     *```js
+     * searchEmbed.on(EmbedEvent.OnBeforeGetVizData, (payload, responder) => {
+     * responder({
+     * data: {
+     * execute: true,
+     * error: {errorText: "My own customised error"}
+     * }})
+     *   })
+     *```
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
-    OnBeforeSearchExecute = 'onBeforeSearchExecute',
+     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
 }
 
 /**
@@ -3133,7 +3145,7 @@ export enum Param {
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
-    OnBeforeSearchExecute = 'onBeforeSearchExecute',
+    IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
 }
 
 /**
