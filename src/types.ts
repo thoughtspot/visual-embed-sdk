@@ -1283,6 +1283,8 @@ export enum EmbedEvent {
     /**
      * Authentication has either succeeded or failed.
      *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
+     *
      * @example
      *```js
      * appEmbed.on(EmbedEvent.AuthInit, payload => {
@@ -1296,6 +1298,8 @@ export enum EmbedEvent {
      * The embed object container has loaded.
      *
      * @returns timestamp - The timestamp when the event was generated.
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Load, hideLoader)
@@ -1310,6 +1314,8 @@ export enum EmbedEvent {
      * Data pertaining to answer or Liveboard is received
      *
      * @return data - The answer or Liveboard data
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Data, payload => {
@@ -1328,6 +1334,7 @@ export enum EmbedEvent {
     /**
      * Search query has been updated by the user.
      *
+     * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
      *```js
      * searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
@@ -1337,12 +1344,14 @@ export enum EmbedEvent {
     /**
      * A drill-down operation has been performed.
      *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
+     *
      * @returns additionalFilters - Any additional filters applied
      * @returns drillDownColumns - The columns on which drill down was performed
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
      *```js
-     * searchEmbed.trigger(EmbedEvent.DrillDown, {
+     * searchEmbed.on(EmbedEvent.DrillDown, {
      *    points: {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
@@ -1375,6 +1384,8 @@ export enum EmbedEvent {
      * One or more data sources have been selected.
      *
      * @returns dataSourceIds - the list of data sources
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.DataSourceSelected, payload => {
@@ -1402,6 +1413,8 @@ export enum EmbedEvent {
      * @returns actionId - ID of the custom action
      * @returns payload {@link CustomActionPayload} - Response payload with the
      * Answer or Liveboard data
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
      * appEmbed.on(EmbedEvent.customAction, payload => {
@@ -1449,21 +1462,18 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     *  API - API call failure error.
+     *  `API` - API call failure error.
+     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen mode.
+     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
+     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     *  `INVALID_DATE_VALUE` - Invalid date value error.
+     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
      *
-     *  FULLSCREEN - Error when presenting a Liveboard or visualization in full screen mode.
-     *
-     *  SINGLE_VALUE_FILTER - Error due to multiple values in the single value filter.
-     *
-     *  NON_EXIST_FILTER - Error due to a non-existent filter.
-     *
-     *  INVALID_DATE_VALUE - Invalid date value error.
-     *
-     *  INVALID_OPERATOR - Use of invalid operator during filter application.
-     *
-     *  For more information, see [Developer Documentation](https://developers.thoughtspot.com/docs/events-app-integration#errorType)
+     *  For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      *
      * @returns error - An error object or message
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
      * // API error
@@ -1489,6 +1499,9 @@ export enum EmbedEvent {
      * The embedded object has sent an alert.
      *
      * @returns alert - An alert object
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
+     *
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.Alert)
@@ -1497,6 +1510,8 @@ export enum EmbedEvent {
     Alert = 'alert',
     /**
      * The ThoughtSpot auth session has expired.
+     *
+     * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      *
      * @example
      *```js
@@ -1551,6 +1566,7 @@ export enum EmbedEvent {
     /**
      * Detects the route change.
      *
+     * @version SDK: 1.7.0 | ThoughtSpot: 8.0.0.cl, 8.4.1.sw
      * @example
      *```js
      * searchEmbed.on(EmbedEvent.RouteChange, payload =>
@@ -1631,8 +1647,7 @@ export enum EmbedEvent {
      */
     LiveboardRendered = 'PinboardRendered',
     /**
-     * This can be used to register an event listener which
-     * is triggered on all events.
+     * Emits all events.
      *
      * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
@@ -1649,13 +1664,13 @@ export enum EmbedEvent {
      * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //Emit when action starts
      *  searchEmbed.on(EmbedEvent.Save, payload => {
      *    console.log('Save', payload)
      *  }, {
      *    start: true
      * })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.Save, payload => {
      *    console.log('Save', payload)
      * })
@@ -1673,7 +1688,7 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Download, {
+     * liveboardEmbed.on(EmbedEvent.Download, {
      * vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      *```
@@ -1685,10 +1700,10 @@ export enum EmbedEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)}, {start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)})
      *```
@@ -1700,10 +1715,10 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)}, {start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)})
      *```
@@ -1715,10 +1730,10 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
      *   console.log('download CSV', payload)}, {start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
      *    console.log('download CSV', payload)})
      *```
@@ -1730,10 +1745,10 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)}, { start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)})
      *```
@@ -1745,7 +1760,7 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)}, {start: true })
      * //trigger when action is completed
@@ -1760,13 +1775,13 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.Pin, payload => {
      *    console.log('pin', payload)
      * }, {
      * start: true
      * })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.Pin, payload => {
      *    console.log('pin', payload)
      * })
@@ -1779,13 +1794,13 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
      *   console.log('SpotIQAnalyze', payload)
      * }, {
      * start: true
      * })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
      *   console.log('SpotIQ analyze', payload)
      * })
@@ -1798,13 +1813,13 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.Share, payload => {
      *    console.log('Share', payload)
      * }, {
      * start: true
      * })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.Share, payload => {
      *   console.log('Share', payload)
      * })
@@ -1879,10 +1894,10 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)}, { start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)})
      *```
@@ -1906,10 +1921,10 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * //trigger when action starts
+     * //emit when action starts
      * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
      *    console.log('Copy and edit', payload)}, {start: true })
-     * //trigger when action ends
+     * //emit when action ends
      * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
      *    console.log('Copy and edit', payload)})
      *```
@@ -2011,7 +2026,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.Present)
+     * liveboardEmbed.on(EmbedEvent.Present)
      *```
      * @example
      *```js
@@ -2027,7 +2042,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(EmbedEvent.Delete,
+     * liveboardEmbed.on(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -2038,7 +2053,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(EmbedEvent.SchedulesList)
+     * liveboardEmbed.on(EmbedEvent.SchedulesList)
      *```
      */
     SchedulesList = 'schedule-list',
@@ -2048,7 +2063,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(EmbedEvent.Cancel)
+     * liveboardEmbed.on(EmbedEvent.Cancel)
      *```
      */
     Cancel = 'cancel',
@@ -2058,7 +2073,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(EmbedEvent.Explore,  {
+     * liveboardEmbed.on(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -2069,7 +2084,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(EmbedEvent.CopyLink, {
+     * liveboardEmbed.on(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -2913,7 +2928,7 @@ export enum HostEvent {
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
-     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3], is_mandatory: false }
+     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3]}
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
@@ -4072,7 +4087,7 @@ export enum Action {
      * disabledActions: [Action.TML] // to disable all TML actions
      * ```
      *
-     * @version SDK : 1.28.2 | Thoughtspot: 9.10.5.cl
+     * @version SDK : 1.28.3 | Thoughtspot: 9.12.0.cl
      */
     TML = 'tml',
 
