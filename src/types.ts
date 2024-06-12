@@ -1587,7 +1587,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the embed does not have cookie access. This happens
      * when Safari and other Web browsers block third-party cookies
-     * are blocked by default. `NoCookieAccess` can trigger
+     * are blocked by default.
      *
      * @example
      *```js
@@ -1630,7 +1630,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
-     * other events on the rendered Liveboard.
+     * actions on the rendered Liveboard.
      *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
@@ -1767,7 +1767,7 @@ export enum EmbedEvent {
      * //emit when action starts
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)}, {start: true })
-     * //trigger when action is completed
+     * //emit when action is completed
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)})
      *```
@@ -2099,7 +2099,7 @@ export enum EmbedEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.CrossFilterChanged, {
+     * liveboardEmbed.on(EmbedEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */

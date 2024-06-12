@@ -3270,7 +3270,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n//emit when action starts\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)}, {start: true })\n//trigger when action is completed\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)})\n```\n"
+								"text": "\n```js\n//emit when action starts\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)}, {start: true })\n//emit when action is completed\nappEmbed.on(EmbedEvent.AnswerDelete, payload => {\n   console.log('delete answer', payload)})\n```\n"
 							}
 						]
 					},
@@ -3558,7 +3558,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.CrossFilterChanged, {\n   vizId: '730496d6-6903-4601-937e-2c691821af3c'})\n```\n"
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.CrossFilterChanged, {\n   vizId: '730496d6-6903-4601-937e-2c691821af3c'})\n```\n"
 							}
 						]
 					},
@@ -4300,7 +4300,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the Liveboard shell loads.\nYou can use this event as a hook to trigger\nother events on the rendered Liveboard.",
+						"shortText": "Emitted when the Liveboard shell loads.\nYou can use this event as a hook to trigger\nactions on the rendered Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4392,7 +4392,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the embed does not have cookie access. This happens\nwhen Safari and other Web browsers block third-party cookies\nare blocked by default. `NoCookieAccess` can trigger",
+						"shortText": "Emitted when the embed does not have cookie access. This happens\nwhen Safari and other Web browsers block third-party cookies\nare blocked by default.",
 						"tags": [
 							{
 								"tag": "example",
