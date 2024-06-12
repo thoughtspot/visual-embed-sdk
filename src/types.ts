@@ -1461,14 +1461,19 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     *  `API` - API call failure error.
-     *  `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen mode.
-     *  `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value filter.
-     *  `NON_EXIST_FILTER` - Error due to a non-existent filter.
-     *  `INVALID_DATE_VALUE` - Invalid date value error.
-     *  `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     * `API`: API call failure error.
      *
-     *  For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
+     * `FULLSCREEN`: Error when presenting a Liveboard or visualization in full screen mode.
+     *
+     * `SINGLE_VALUE_FILTER`: Error due to multiple values in the single value filter.
+     *
+     * `NON_EXIST_FILTER`: Error due to a non-existent filter.
+     *
+     * `INVALID_DATE_VALUE`: Invalid date value error.
+     *
+     * `INVALID_OPERATOR`: Use of invalid operator during filter application.
+     *
+     *  For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType.
      *
      * @returns error - An error object or message
      *
@@ -1679,7 +1684,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the download action is triggered on an answer
      *
-     * **Note**: This event is deprecated in v1.21.0.
+     *  **Note**:  This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
      * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,
      * or `EmbedEvent.DownloadAsXLSX`
