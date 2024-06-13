@@ -26,14 +26,19 @@ import {
  *
  * @param runtimeFilters
  */
-export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
+export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string | null => {
     if (runtimeFilters && runtimeFilters.length) {
         const filters = runtimeFilters.map((filter, valueIndex) => {
             const index = valueIndex + 1;
             const filterExpr = [];
             filterExpr.push(`col${index}=${encodeURIComponent(filter.columnName)}`);
             filterExpr.push(`op${index}=${filter.operator}`);
-            filterExpr.push(filter.values.map((value) => `val${index}=${encodeURIComponent(value)}`).join('&'));
+            filterExpr.push(
+                filter.values.map((value) => {
+                    const encodedValue = typeof value === 'bigint' ? value.toString() : value;
+                    return `val${index}=${encodeURIComponent(String(encodedValue))}`;
+                }).join('&'),
+            );
 
             return filterExpr.join('&');
         });
