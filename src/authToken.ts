@@ -1,5 +1,5 @@
 import { EmbedConfig } from './types';
-import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
+import { fetchAuthTokenService, verifyTokenService } from './utils/authService';
 import { logger } from './utils/logger';
 
 const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
