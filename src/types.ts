@@ -1245,7 +1245,7 @@ export interface RuntimeFilter {
      * a single operand, whereas other operators like BW and IN accept multiple
      * operands.
      */
-    values: (number | boolean | string)[];
+    values: (number | boolean | string | bigint)[];
 }
 /**
  * A filter that can be applied to ThoughtSpot Answers, Liveboards, or
