@@ -613,7 +613,18 @@ export interface EmbedConfig {
 
     /**
      * This flag is used to disable the token verification in the SDK.
-     * 
+     * Enabling this flag will also disable the caching of the token.
+     *
+     * @hidden
+     *
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   disableTokenVerification : true
+     * })
+     * ```
+     *
      * @version SDK: 1.28.5 | Thoughtspot: *
      */
     disableTokenVerification?: boolean;
