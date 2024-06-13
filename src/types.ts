@@ -610,6 +610,24 @@ export interface EmbedConfig {
      * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
      */
     currencyFormat?: string;
+
+    /**
+     * This flag is used to disable the token verification in the SDK.
+     * Enabling this flag will also disable the caching of the token.
+     *
+     * @hidden
+     *
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   disableTokenVerification : true
+     * })
+     * ```
+     *
+     * @version SDK: 1.28.5 | Thoughtspot: *
+     */
+    disableTokenVerification?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

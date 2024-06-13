@@ -1,5 +1,6 @@
 import { EmbedConfig } from './types';
 import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
+import { logger } from './utils/logger';
 
 const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
     + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
@@ -10,7 +11,9 @@ let cachedAuthToken: string | null = null;
 
 // This method can be used to get the authToken using the embedConfig
 export const getAuthenticationToken = async (embedConfig: EmbedConfig): Promise<string> => {
-    if (cachedAuthToken) {
+    // Since we don't have token validation enabled , we cannot tell if the
+    // cached token is valid or not. So we will always fetch a new token.
+    if (cachedAuthToken && !embedConfig.disableTokenVerification) {
         let isCachedTokenStillValid;
         try {
             isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken, true);
@@ -43,6 +46,10 @@ const validateAuthToken = async (
     authToken: string,
     suppressAlert?: boolean,
 ): Promise<boolean> => {
+    if (embedConfig.disableTokenVerification) {
+        logger.info('Token verification is disabled. Assuming token is valid.');
+        return true;
+    }
     try {
         const isTokenValid = await verifyTokenService(embedConfig.thoughtSpotHost, authToken);
         if (isTokenValid) return true;
