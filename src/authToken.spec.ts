@@ -1,5 +1,5 @@
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
-import * as authServiceInstance from './utils/authService';
+import * as authServiceInstance from './utils/authService/authService';
 import { EmbedConfig } from './types';
 
 describe('AuthToken Unit tests', () => {
