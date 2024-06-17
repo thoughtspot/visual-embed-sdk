@@ -3216,7 +3216,7 @@ export enum Action {
      *
      * @example
      * ```js
-     * disabledActions: [Action.SaveAsView]
+     * disabledActions: [Action.Save]
      * ```
      */
     Save = 'save',
