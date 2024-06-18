@@ -37,6 +37,16 @@ export interface UnderlyingDataPoint {
  *     const data = await underlying.fetchData(0, 100);
  *  })
  * ```
+ * @example
+ * ```js
+ * embed.on(EmbedEvent.Data, async (e) => {
+ *     const service = await embed.getAnswerService();
+ *     await service.addColumns([
+ *         "<column guid>"
+ *     ]);
+ *     console.log(await service.fetchData());
+ * });
+ * ```
  * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
  * @group Events
  */
