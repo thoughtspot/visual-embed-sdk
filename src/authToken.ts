@@ -9,6 +9,7 @@ const INVALID_TOKEN_ERR = 'Invalid token received form token callback or authTok
 
 let cachedAuthToken: string | null = null;
 
+// This method can be used to get the authToken using the embedConfig
 export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<string> {
     // Since we don't have token validation enabled , we cannot tell if the
     // cached token is valid or not. So we will always fetch a new token.
