@@ -241,7 +241,7 @@ export async function postLoginService(): Promise<void> {
             initMixpanel(sessionInfo);
         }
     } catch (e) {
-        logger.error('Post login services failed', e.message);
+        logger.error('Post login services failed.', e.message);
     }
 }
 
