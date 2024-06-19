@@ -14,7 +14,6 @@ import * as authInstance from '../auth';
 const defaultConfig: SageViewConfig = {
     disableWorksheetChange: false,
     hideWorksheetSelector: false,
-    hideSearchBarTitle: false,
     hideSageAnswerHeader: false,
     hideAutocompleteSuggestions: false,
     hideSampleQuestions: false,
@@ -39,22 +38,22 @@ describe('Sage  embed tests', () => {
 
     test('should render sage', async () => {
         const sageEmbed = new SageEmbed(getRootEl(), defaultConfig);
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
 
     test('should render sage with product tour flag set', async () => {
         const sageEmbed = new SageEmbed(getRootEl(), { ...defaultConfig, isProductTour: true });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=true&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=true&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -64,11 +63,11 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             disableWorksheetChange: true,
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=true&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=true&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -78,25 +77,11 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             hideWorksheetSelector: true,
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
-            );
-        });
-    });
-
-    test('should render sage with hideSearchBarTitle flag', async () => {
-        const sageEmbed = new SageEmbed(getRootEl(), {
-            ...defaultConfig,
-            hideSearchBarTitle: true,
-        });
-        sageEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatch(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=true&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -106,11 +91,11 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             hideSageAnswerHeader: true,
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=true&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=true&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -120,11 +105,11 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             hideAutocompleteSuggestions: true,
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=true&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=true&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -133,11 +118,11 @@ describe('Sage  embed tests', () => {
         const sageEmbed = new SageEmbed(getRootEl(), {
             showObjectSuggestions: true,
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -147,11 +132,11 @@ describe('Sage  embed tests', () => {
             ...defaultConfig,
             dataSource: 'worksheet-id',
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka?worksheet=worksheet-id`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id`,
             );
         });
     });
@@ -164,11 +149,11 @@ describe('Sage  embed tests', () => {
                 searchQuery: 'test query', // also tests for query with spaces
             },
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSearchBarTitle=false&hideSageAnswerHeader=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka?worksheet=worksheet-id&query=test%20query`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id&query=test%20query`,
             );
         });
     });
@@ -181,11 +166,11 @@ describe('Sage  embed tests', () => {
                 executeSearch: true,
             },
         });
-        sageEmbed.render();
+        await sageEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&hideAction=%5B"reportError","save","pin","editACopy","saveAsView","updateTSL","editTSL","onDeleteAnswer","share"%5D#/embed/eureka?executeSearch=true&query=test-query`,
+                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?executeSearch=true&query=test-query`,
             );
         });
     });

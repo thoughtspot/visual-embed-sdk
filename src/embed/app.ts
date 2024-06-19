@@ -57,6 +57,25 @@ export enum Page {
 }
 
 /**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
+}
+
+/**
  * The view configuration for full app embedding.
  *
  * @group Embed components
@@ -359,6 +378,64 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @default false
      */
     collapseSearchBarInitially?: boolean;
+    /**
+     * To enable custom column groups in data panel v2.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   enableCustomColumnGroups: true,
+     * });
+     * ```
+     */
+    enableCustomColumnGroups?: boolean;
+    /**
+     * This controls the initial behaviour of custom column groups accordion.
+     * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
+     * List of different enum values:-
+     * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
+     * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
+     * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     *
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   dataPanelCustomGroupsAccordionInitialState:
+     *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+     * });
+     * ```
+     */
+    dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
+    /**
+     * This flag is used to enable the 2 column layout in liveboard
+     *
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
+    /**
+     * Flag to use OnBeforeSearchExecute embed event
+     *
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    isOnBeforeGetVizDataInterceptEnabled?: boolean;
 }
 
 /**
@@ -406,6 +483,12 @@ export class AppEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
+            enable2ColumnLayout,
+            enableCustomColumnGroups = false,
+            isOnBeforeGetVizDataInterceptEnabled = false,
+            /* eslint-disable-next-line max-len */
+            dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+
         } = this.viewConfig;
 
         let params = {};
@@ -418,6 +501,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.IsFullAppEmbed] = true;
 
         params = this.getBaseQueryParams(params);
 
@@ -439,14 +523,35 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableSearchAssist] = enableSearchAssist;
         }
 
+        if (enable2ColumnLayout !== undefined) {
+            params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
+        }
+
+        if (isOnBeforeGetVizDataInterceptEnabled) {
+            /* eslint-disable-next-line max-len */
+            params[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        ) {
+            /* eslint-disable-next-line max-len */
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
+        } else {
+            /* eslint-disable-next-line max-len */
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

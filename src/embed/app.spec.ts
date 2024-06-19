@@ -1,4 +1,9 @@
-import { AppEmbed, AppViewConfig, Page } from './app';
+import {
+    AppEmbed,
+    AppViewConfig,
+    DataPanelCustomColumnGroupsAccordionState,
+    Page,
+} from './app';
 import { init } from '../index';
 import {
     Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp,
@@ -291,6 +296,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enable2ColumnLayout to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enable2ColumnLayout: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enable2ColumnLayout=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -407,6 +427,22 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+            dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
