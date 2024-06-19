@@ -20,6 +20,7 @@ import {
     postMessageToParent,
 } from '../test/test-utils';
 import { LiveboardViewConfig } from './liveboard';
+import * as authInstance from '../auth';
 
 const thoughtSpotHost = 'tshost';
 const defaultViewConfig = {
@@ -36,6 +37,7 @@ beforeAll(() => {
         authType: AuthType.None,
     });
     spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockReturnValue(true);
 });
 
 describe('test communication between host app and ThoughtSpot', () => {

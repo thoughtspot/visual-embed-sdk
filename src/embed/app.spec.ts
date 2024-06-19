@@ -24,6 +24,7 @@ import { version } from '../../package.json';
 import * as config from '../config';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { logger } from '../utils/logger';
+import * as auth from '../auth';
 
 const defaultViewConfig = {
     frameParams: {
@@ -40,6 +41,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     (window as any).ResizeObserver = window.ResizeObserver
             || jest.fn().mockImplementation(() => ({
                 disconnect: jest.fn(),
@@ -72,13 +74,13 @@ describe('App embed tests', () => {
     test('should hide the primary nav bar', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            showPrimaryNavbar: true,
+            showPrimaryNavbar: false,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });

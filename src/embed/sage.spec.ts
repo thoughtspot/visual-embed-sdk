@@ -9,6 +9,8 @@ import {
     getRootEl,
 } from '../test/test-utils';
 
+import * as authInstance from '../auth';
+
 const defaultConfig: SageViewConfig = {
     disableWorksheetChange: false,
     hideWorksheetSelector: false,
@@ -26,6 +28,7 @@ beforeAll(() => {
         authType: AuthType.None,
     });
     spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
 });
 
 describe('Sage  embed tests', () => {

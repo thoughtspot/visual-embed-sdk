@@ -8,9 +8,12 @@ import {
     getRootEl,
 } from '../test/test-utils';
 
+import * as authInstance from '../auth';
+
 describe('Trigger', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
+        jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
     });
     test('should trigger the event', async (done) => {
         init({

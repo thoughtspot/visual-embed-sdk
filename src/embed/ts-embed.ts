@@ -349,6 +349,7 @@ export class TsEmbed {
                     data: { authToken },
                 });
             } catch (e) {
+                logger.error(`Received invalid token. Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             }
         } else if (autoLogin) {
@@ -597,7 +598,6 @@ export class TsEmbed {
      * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
-        console.log('here 7');
         if (this.isError) {
             return null;
         }
@@ -607,10 +607,8 @@ export class TsEmbed {
         if (url.length > URL_MAX_LENGTH) {
             // warn: The URL is too long
         }
-        console.log('here 8');
 
         return renderInQueue((nextInQueue) => {
-            console.log('here 6');
             const initTimestamp = Date.now();
 
             this.executeCallbacks(EmbedEvent.Init, {
@@ -623,7 +621,6 @@ export class TsEmbed {
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
-                    console.log('here 9', isLoggedIn);
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
@@ -648,9 +645,7 @@ export class TsEmbed {
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
                     });
-                    console.log('here 10', this.iFrame);
                     this.handleInsertionIntoDOM(this.iFrame);
-                    console.log('here 11', document.body.innerHTML);
                     const prefetchIframe = document.querySelectorAll('.prefetchIframe');
                     if (prefetchIframe.length) {
                         prefetchIframe.forEach((el) => {

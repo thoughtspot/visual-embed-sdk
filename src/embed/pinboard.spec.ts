@@ -13,6 +13,7 @@ import {
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import * as auth from '../auth';
 
 const defaultViewConfig = {
     frameParams: {
@@ -30,6 +31,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
 });
 
 describe('Pinboard/viz embed tests', () => {
