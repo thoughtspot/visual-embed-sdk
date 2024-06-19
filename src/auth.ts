@@ -233,11 +233,15 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
 export async function postLoginService(): Promise<void> {
-    const sessionInfo = await getSessionInfo();
-    releaseVersion = sessionInfo.releaseVersion;
-    const embedConfig = getEmbedConfig();
-    if (!embedConfig.disableSDKTracking) {
-        initMixpanel(sessionInfo);
+    try {
+        const sessionInfo = await getSessionInfo();
+        releaseVersion = sessionInfo.releaseVersion;
+        const embedConfig = getEmbedConfig();
+        if (!embedConfig.disableSDKTracking) {
+            initMixpanel(sessionInfo);
+        }
+    } catch (e) {
+        logger.error('Post login services failed', e.message);
     }
 }
 
