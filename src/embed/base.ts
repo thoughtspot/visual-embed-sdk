@@ -9,7 +9,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
-import uniq from 'lodash/uniq';
 import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
@@ -110,7 +109,7 @@ export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): v
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        uniq(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
+        new Set(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
             (prefetchUrl, index) => {
                 const iFrame = document.createElement('iframe');
                 iFrame.src = prefetchUrl;

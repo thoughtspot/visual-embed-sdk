@@ -1241,8 +1241,9 @@ export class TsEmbed {
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
-        const { session, embedAnswerData } = await this.trigger(HostEvent.GetAnswerSession, vizId);
-        return new AnswerService(session, embedAnswerData, this.embedConfig.thoughtSpotHost);
+        const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId);
+
+        return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }
 }
 

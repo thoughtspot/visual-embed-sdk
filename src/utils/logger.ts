@@ -1,11 +1,10 @@
-import isUndefined from 'lodash/isUndefined';
-import noop from 'lodash/noop';
+import { isUndefined } from '../utils';
 import { LogLevel } from '../types';
 
 const logFunctions: {
     [key: string]: (...args: any[]) => void;
 } = {
-    [LogLevel.SILENT]: noop,
+    [LogLevel.SILENT]: () => undefined,
     [LogLevel.ERROR]: console.error,
     [LogLevel.WARN]: console.warn,
     [LogLevel.INFO]: console.info,

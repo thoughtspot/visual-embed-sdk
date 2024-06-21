@@ -322,3 +322,17 @@ export const removeStyleProperties = (element: HTMLElement, styleProperties: str
 };
 
 export const isUndefined = (value: any): boolean => value === undefined;
+
+// Return if the value is a string, double or boolean.
+export const getTypeFromValue = (value: any): [string, string] => {
+    if (typeof value === 'string') {
+        return ['char', 'string'];
+    }
+    if (typeof value === 'number') {
+        return ['double', 'double'];
+    }
+    if (typeof value === 'boolean') {
+        return ['boolean', 'boolean'];
+    }
+    return ['', ''];
+};
