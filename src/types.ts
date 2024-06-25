@@ -2929,26 +2929,62 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     *
-     * Get the currents visible and runtime filters applied on a Liveboard
+     * Get details of the visible and runtime filters applied on Liveboard.
      *
      * @example
-     * liveboardEmbed.trigger(HostEvent.GetFilters)
+     * ```js
+     * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
+     *     console.log('data', data);
+     * ```
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
     /**
+     * Update one or several filters applied on a Liveboard.
+     * Each filter must contain column name, operator, and values
+     * and can be applied on VARCHAR, INT, DATE, and other data types.
+     * For a complete list of supported data types,
+     * see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types)
      *
-     * Update the visible filters on the Liveboard.
+     * @param - filter: single filter object containing column name, filter operation, and values
+     * @param - filters: multiple filter objects with column name, filter operation, and values for each
      *
-     * @param - filter: filter object containing column name and filter operation and values
+     * For information about the supported filter operators,
+     * see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     *
      * @example
+     * ```js
+     *
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "item type",
+     *         oper: "IN",
+     *         values: ["bags","shirts"],
+     *        }
+     *    });
+     * ```
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
-     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3]}
-     * })
+     *  filters: [{
+     *      column: "Item Type",
+     *      oper: 'IN',
+     *      values: ["bags","shirts"]
+     *  },
+     *    {
+     *      column: "Region",
+     *      oper: 'IN',
+     *      values: ["West","Midwest"]
+     *  },
+     *    {
+     *      column: "Date",
+     *      oper: 'EQ',
+     *      values: ["1656680400"]
+     *    }]
+     * });
      * ```
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
