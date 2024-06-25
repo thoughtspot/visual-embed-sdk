@@ -2396,14 +2396,18 @@ export enum HostEvent {
      * runtime filters passed here are appended to the existing runtime
      * filters.
      * Pass an array of runtime filters with the following attributes:
+     *
      * `columnName`
      * _String_. The name of the column to filter on.
+     *
      * `operator`
      *  Runtime filter operator to apply. For information,
-     *  see https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator.
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator).
+     *
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
+     *
      *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
      *  Search embedding (SearchEmbed) and Natural Language Search
      *  embedding (SageEmbed).
@@ -2942,16 +2946,23 @@ export enum HostEvent {
     GetFilters = 'getFilters',
     /**
      * Update one or several filters applied on a Liveboard.
-     * Each filter must contain column name, operator, and values
-     * and can be applied on VARCHAR, INT, DATE, and other data types.
-     * For a complete list of supported data types,
-     * see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types)
      *
-     * @param - filter: single filter object containing column name, filter operation, and values
-     * @param - filters: multiple filter objects with column name, filter operation, and values for each
+     * @param - `filter`: a single filter object containing column name,
+     * filter operator, and values.
+     * @param - `filters`: multiple filter objects with column name, filter operator,
+     * and values for each.
      *
-     * For information about the supported filter operators,
-     * see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     * Each filter object must include the following attributes:
+     *
+     * `column` - Name of the column to filter on.
+     *
+     * `oper`  - Filter operator, for example, EQ, IN, CONTAINS.
+     *  For information about the supported filter operators,
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     *
+     * `values` - An array of one or several values. The value definition on the
+     *  data type you choose to filter on. For a complete list of supported data types,
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types).
      *
      * @example
      * ```js
@@ -2964,6 +2975,8 @@ export enum HostEvent {
      *        }
      *    });
      * ```
+     *
+     * @example
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
