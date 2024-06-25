@@ -1067,6 +1067,17 @@ export interface ViewConfig {
      * @hidden
      */
     embedComponentType?: string;
+    /**
+     * Boolean to exclude runtimeParameters from the URL
+     * when set to true, this flag removes runtime parameters from the URL.
+     *
+     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * embedded view.
+     *
+     * @default false
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
+     */
+    excludeRuntimeParametersfromURL?: boolean;
 }
 
 /**
@@ -2254,6 +2265,12 @@ export enum EmbedEvent {
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
      OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+     /**
+      * Emitted when runtime parameters changes
+      *
+      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+      */
+     ParameterChanged = 'ParameterChanged'
 }
 
 /**
@@ -3069,6 +3086,26 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     CreateLiveboard = 'CreateLiveboard',
+    /**
+     * Triggers Update RuntimeParameters for answers and liveboard
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateRuntimeParameters, [{
+     * name: "Color",
+     * value: "almond"
+     * }])
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    UpdateRuntimeParameters = 'UpdateRuntimeParameters',
+    /**
+     * Triggers GetParameters to fetch the runtime parameters
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetParameters);
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    GetParameters = 'GetParameters',
 }
 
 /**
