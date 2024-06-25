@@ -246,6 +246,28 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should not append runtime parameters in URL if excludeRuntimeParametersfromURL is true', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            vizId,
+            runtimeParameters: [
+                {
+                    name: 'sales',
+                    value: 1000,
+                },
+            ],
+            excludeRuntimeParametersfromURL: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParamsVizEmbed}#/embed/viz/${liveboardId}/${vizId}`,
+            );
+        });
+    });
+
     test('should append runtime filters in URL if excludeRuntimeFiltersfromURL is undefined', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

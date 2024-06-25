@@ -170,7 +170,11 @@ export class TsEmbed {
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.viewConfig = { excludeRuntimeFiltersfromURL: false, ...viewConfig };
+        this.viewConfig = {
+            excludeRuntimeFiltersfromURL: false,
+            excludeRuntimeParametersfromURL: false,
+            ...viewConfig,
+        };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
@@ -321,6 +325,9 @@ export class TsEmbed {
                 authToken,
                 runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
                     ? getRuntimeFilters(this.viewConfig.runtimeFilters)
+                    : null,
+                runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
+                    ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
                     : null,
                 hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
                 reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
@@ -1274,9 +1281,10 @@ export class V1Embed extends TsEmbed {
     protected getRootIframeSrc(): string {
         const queryParams = this.getEmbedParams();
         let queryString = queryParams;
-        const { runtimeParameters = [] } = this.viewConfig;
-        if (runtimeParameters?.length > 0) {
-            const parameterQuery = getRuntimeParameters(runtimeParameters);
+
+        if (!this.viewConfig.excludeRuntimeParametersfromURL) {
+            const runtimeParameters = this.viewConfig.runtimeParameters;
+            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
             queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
         }
 

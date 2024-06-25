@@ -367,6 +367,7 @@ export class SearchEmbed extends TsEmbed {
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -438,7 +439,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-        if (parameterQuery) query += `&${parameterQuery}`;
+        if (parameterQuery && !excludeRuntimeParametersfromURL) query += `&${parameterQuery}`;
 
         const filterQuery = getFilterQuery(runtimeFilters || []);
         if (filterQuery && !excludeRuntimeFiltersfromURL) {

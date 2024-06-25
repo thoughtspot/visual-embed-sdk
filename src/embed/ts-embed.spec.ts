@@ -12,6 +12,7 @@ import {
 } from '../index';
 import {
     Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
+    RuntimeParameter,
 } from '../types';
 import {
     executeAfterWait,
@@ -155,6 +156,7 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
@@ -186,6 +188,7 @@ describe('Unit test case for ts embed', () => {
                     customisations: customisationsView,
                     authToken: '',
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
@@ -226,6 +229,7 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
                     reorderedHomepageModules: [],
@@ -262,9 +266,50 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Watchlist],
+                },
+            });
+        });
+
+        test('Runtime parameters from view Config should be part of app_init payload when excludeRuntimeParametsfromURL is true', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const mockRuntimeParameters: RuntimeParameter[] = [
+                {
+                    name: 'color',
+                    value: 'blue',
+                },
+            ];
+
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                excludeRuntimeParametersfromURL: true,
+                runtimeParameters: mockRuntimeParameters,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    runtimeFilterParams: null,
+                    runtimeParameterParams: 'param1=color&paramVal1=blue',
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                    hostConfig: undefined,
+                    reorderedHomepageModules: [],
                 },
             });
         });
@@ -301,6 +346,7 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
@@ -340,6 +386,7 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
@@ -380,6 +427,7 @@ describe('Unit test case for ts embed', () => {
                     customisations,
                     authToken: '',
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
@@ -417,6 +465,7 @@ describe('Unit test case for ts embed', () => {
                     authToken: '',
                     hostConfig: undefined,
                     runtimeFilterParams: null,
+                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems:
                         [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
                     hiddenHomepageModules: [],
@@ -583,6 +632,7 @@ describe('Unit test case for ts embed', () => {
                         customisations,
                         authToken: 'test_auth_token1',
                         runtimeFilterParams: null,
+                        runtimeParameterParams: null,
                         hiddenHomeLeftNavItems: [],
                         hiddenHomepageModules: [],
                         hostConfig: undefined,
