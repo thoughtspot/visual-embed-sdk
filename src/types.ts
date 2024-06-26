@@ -3090,14 +3090,14 @@ export enum HostEvent {
      * Triggers Update RuntimeParameters for answers and liveboard
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.UpdateRuntimeParameters, [{
+     * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
      * name: "Color",
      * value: "almond"
      * }])
      *
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
-    UpdateRuntimeParameters = 'UpdateRuntimeParameters',
+    UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime parameters
      * ```js
