@@ -3501,8 +3501,12 @@ export enum Action {
      */
     DownloadAsPng = 'downloadAsPng',
     /**
-     * The **Download** > **PDF** menu action on a Liveboard.
-     * Downloads a visualization or Answer as a PDF file.
+     *
+     * The **Download PDF** action that downloads a Liveboard,
+     * visualization, or Answer as a PDF file.
+     *
+     * **NOTE**: The **Download** > **PDF** action is available on
+     * visualizations and Answers if the data is in tabular format.
      *
      * @example
      * ```js
