@@ -2413,14 +2413,18 @@ export enum HostEvent {
      * runtime filters passed here are appended to the existing runtime
      * filters.
      * Pass an array of runtime filters with the following attributes:
+     *
      * `columnName`
      * _String_. The name of the column to filter on.
+     *
      * `operator`
      *  Runtime filter operator to apply. For information,
-     *  see https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator.
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator).
+     *
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
      *  operators such as BW and IN accept multiple operands.
+     *
      *  **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
      *  Search embedding (SearchEmbed) and Natural Language Search
      *  embedding (SageEmbed).
@@ -2946,26 +2950,71 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     *
-     * Get the currents visible and runtime filters applied on a Liveboard
+     * Get details of the visible and runtime filters applied on Liveboard.
      *
      * @example
-     * liveboardEmbed.trigger(HostEvent.GetFilters)
+     * ```js
+     * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
+     *     console.log('data', data);
+     * ```
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
     /**
+     * Update one or several filters applied on a Liveboard.
      *
-     * Update the visible filters on the Liveboard.
+     * @param - `filter`: a single filter object containing column name,
+     * filter operator, and values.
+     * @param - `filters`: multiple filter objects with column name, filter operator,
+     * and values for each.
      *
-     * @param - filter: filter object containing column name and filter operation and values
+     * Each filter object must include the following attributes:
+     *
+     * `column` - Name of the column to filter on.
+     *
+     * `oper`  - Filter operator, for example, EQ, IN, CONTAINS.
+     *  For information about the supported filter operators,
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     *
+     * `values` - An array of one or several values. The value definition on the
+     *  data type you choose to filter on. For a complete list of supported data types,
+     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types).
+     *
+     * @example
+     * ```js
+     *
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "item type",
+     *         oper: "IN",
+     *         values: ["bags","shirts"],
+     *        }
+     *    });
+     * ```
+     *
      * @example
      *
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
-     *  filter: { column: 'column name', oper: 'IN', values: [1,2,3]}
-     * })
+     *  filters: [{
+     *      column: "Item Type",
+     *      oper: 'IN',
+     *      values: ["bags","shirts"]
+     *  },
+     *    {
+     *      column: "Region",
+     *      oper: 'IN',
+     *      values: ["West","Midwest"]
+     *  },
+     *    {
+     *      column: "Date",
+     *      oper: 'EQ',
+     *      values: ["1656680400"]
+     *    }]
+     * });
      * ```
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
@@ -3253,7 +3302,7 @@ export enum Action {
      *
      * @example
      * ```js
-     * disabledActions: [Action.SaveAsView]
+     * disabledActions: [Action.Save]
      * ```
      */
     Save = 'save',
@@ -3489,8 +3538,12 @@ export enum Action {
      */
     DownloadAsPng = 'downloadAsPng',
     /**
-     * The **Download** > **PDF** menu action on a Liveboard.
-     * Downloads a visualization or Answer as a PDF file.
+     *
+     * The **Download PDF** action that downloads a Liveboard,
+     * visualization, or Answer as a PDF file.
+     *
+     * **NOTE**: The **Download** > **PDF** action is available on
+     * visualizations and Answers if the data is in tabular format.
      *
      * @example
      * ```js
