@@ -2587,7 +2587,11 @@ export enum HostEvent {
      */
     UpdateTML = 'updateTSL',
     /**
-     * Trigger the **Download PDF** action on an embedded Liveboard.
+     * Trigger the **Download PDF** action on an embedded Liveboard,
+     * visualization or Answer.
+     *
+     * **NOTE**: The **Download** > **PDF** action is available on
+     * visualizations and Answers if the data is in tabular format.
      *
      * @example
      * ```js
@@ -2950,7 +2954,8 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     * Get details of the visible and runtime filters applied on Liveboard.
+     * Get details of filters applied on the Liveboard.
+     * Returns arrays containing Liveboard filter and runtime filter elements.
      *
      * @example
      * ```js
@@ -3541,6 +3546,7 @@ export enum Action {
      *
      * The **Download PDF** action that downloads a Liveboard,
      * visualization, or Answer as a PDF file.
+     *
      *
      * **NOTE**: The **Download** > **PDF** action is available on
      * visualizations and Answers if the data is in tabular format.
