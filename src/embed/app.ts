@@ -8,7 +8,9 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { DOMSelector, EmbedEvent, HostEvent, MessagePayload, Param, ViewConfig } from '../types';
+import {
+    DOMSelector, EmbedEvent, HostEvent, MessagePayload, Param, ViewConfig,
+} from '../types';
 import { getQueryParamString } from '../utils';
 import { logger } from '../utils/logger';
 import { V1Embed } from './ts-embed';
@@ -496,10 +498,10 @@ export class AppEmbed extends V1Embed {
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+            dataPanelCustomGroupsAccordionInitialState
+                === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+                === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
             /* eslint-disable-next-line max-len */
             params[
@@ -507,8 +509,7 @@ export class AppEmbed extends V1Embed {
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
             /* eslint-disable-next-line max-len */
-            params[Param.DataPanelCustomGroupsAccordionInitialState] =
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         const queryParams = getQueryParamString(params, true);
 

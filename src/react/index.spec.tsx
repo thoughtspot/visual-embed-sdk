@@ -1,8 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { Action, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
+import {
+    cleanup, fireEvent, render, waitFor,
+} from '@testing-library/react';
+import {
+    Action, EmbedEvent, HostEvent, RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -262,8 +266,9 @@ describe('allExports', () => {
     });
 
     it('should not have undefined exports', () => {
-        Object.keys(allExports).forEach((exportKey) =>
-            expect(Boolean(allExports[exportKey])).toBe(true),
-        );
+        Object.keys(allExports)
+            .forEach(
+                (exportKey) => expect(Boolean(allExports[exportKey])).toBe(true),
+            );
     });
 });

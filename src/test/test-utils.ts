@@ -40,7 +40,6 @@ export const waitFor = (fn: () => boolean): Promise<void> => new Promise((resolv
  * programmatically and use dispatchEvent instead of the
  * postMessage API
  * Reference: https://github.com/jsdom/jsdom/issues/2745
- *
  * @param window
  * @param data
  * @param port
@@ -56,7 +55,6 @@ export const postMessageToParent = (window: WindowProxy, data: any, port?: any) 
 
 /**
  * Execute a given function after a certain time has elapsed
- *
  * @param fn The function to be executed after the wait period
  * @param waitTime The wait period in milliseconds
  */
