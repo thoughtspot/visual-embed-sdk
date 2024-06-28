@@ -19,7 +19,7 @@ export function processCustomAction(e: any, thoughtSpotHost: string) {
     const { session, embedAnswerData, contextMenuPoints } = e.data as CustomActionPayload;
     const answerService = new AnswerService(
         session,
-        embedAnswerData,
+        embedAnswerData || {},
         thoughtSpotHost,
         contextMenuPoints?.selectedPoints,
     );

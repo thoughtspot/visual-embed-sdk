@@ -27,9 +27,7 @@ import { resetCachedAuthToken } from '../authToken';
 import { getThoughtSpotHost } from '../config';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { tokenizedFetch } from '../tokenizedFetch';
-import {
-    AuthType, EmbedConfig, LogLevel, PrefetchFeatures,
-} from '../types';
+import { AuthType, EmbedConfig, LogLevel, PrefetchFeatures } from '../types';
 import { EndPoints } from '../utils/authService/authService';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
@@ -61,9 +59,7 @@ export let authPromise: Promise<boolean>;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
-export {
-    notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout,
-};
+export { notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout };
 
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
@@ -110,7 +106,7 @@ export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): v
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        uniq(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
+        new Set(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
             (prefetchUrl, index) => {
                 const iFrame = document.createElement('iframe');
                 iFrame.src = prefetchUrl;

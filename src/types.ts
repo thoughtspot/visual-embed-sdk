@@ -1066,6 +1066,17 @@ export interface ViewConfig {
      * @hidden
      */
     embedComponentType?: string;
+    /**
+     * Boolean to exclude runtimeParameters from the URL
+     * when set to true, this flag removes runtime parameters from the URL.
+     *
+     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * embedded view.
+     *
+     * @default false
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
+     */
+    excludeRuntimeParametersfromURL?: boolean;
 }
 
 /**
@@ -1244,7 +1255,7 @@ export interface RuntimeFilter {
      * a single operand, whereas other operators like BW and IN accept multiple
      * operands.
      */
-    values: (number | boolean | string)[];
+    values: (number | boolean | string | bigint)[];
 }
 /**
  * A filter that can be applied to ThoughtSpot Answers, Liveboards, or
@@ -2145,6 +2156,13 @@ export enum EmbedEvent {
      * Returns filter type and name, column name and ID, and runtime
      * filter details.
      *
+     * @example
+     *
+     *```js
+     * LiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
+     *    console.log('payload', payload);
+     * })
+     *
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      * @example
      *
@@ -2240,6 +2258,30 @@ export enum EmbedEvent {
      * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
      */
     Rename = 'rename',
+    /**
+     * Emitted when user wants to intercept the search execution
+     *
+     * Make isOnBeforeGetVizDataEnabled : true to use this embed
+     * event
+     *
+     *```js
+     * searchEmbed.on(EmbedEvent.OnBeforeGetVizData, (payload, responder) => {
+     * responder({
+     * data: {
+     * execute: true,
+     * error: {errorText: "My own customised error"}
+     * }})
+     *   })
+     *```
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+    /**
+     * Emitted when runtime parameters changes
+     *
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    ParameterChanged = 'ParameterChanged',
 }
 
 /**
@@ -3094,6 +3136,36 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
+    /**
+     * Trigger CreateLiveboard for liveboard list page & Pin Modal
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.CreateLiveboard);
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    CreateLiveboard = 'CreateLiveboard',
+    /**
+     * Triggers Update RuntimeParameters for answers and liveboard
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
+     * name: "Color",
+     * value: "almond"
+     * }])
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    UpdateParameters = 'UpdateParameters',
+    /**
+     * Triggers GetParameters to fetch the runtime parameters
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetParameters);
+     *
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    GetParameters = 'GetParameters',
 }
 
 /**
@@ -3195,13 +3267,15 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
-    CollapseSearchBarInitially= 'collapseSearchBarInitially',
+    CollapseSearchBarInitially = 'collapseSearchBarInitially',
+    DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
+    IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
 }
 
 /**
