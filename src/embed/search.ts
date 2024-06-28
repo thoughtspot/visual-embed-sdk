@@ -2,7 +2,6 @@
  * Copyright (c) 2022
  *
  * Embed ThoughtSpot search or a saved answer
- *
  * @summary Search embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -41,8 +40,26 @@ export interface SearchOptions {
 }
 
 /**
+ * Define the initial state os column custom group accordions
+ * in data panel v2.
+ */
+export enum DataPanelCustomColumnGroupsAccordionState {
+    /**
+     * Expand all the accordion initially in data panel v2.
+     */
+    EXPAND_ALL = 'EXPAND_ALL',
+    /**
+     * Collapse all the accordions initially in data panel v2.
+     */
+    COLLAPSE_ALL = 'COLLAPSE_ALL',
+    /**
+     * Expand the first accordion and collapse the rest.
+     */
+    EXPAND_FIRST = 'EXPAND_FIRST',
+}
+
+/**
  * The configuration attributes for the embedded search view.
- *
  * @group Embed components
  */
 export interface SearchViewConfig
@@ -57,7 +74,6 @@ export interface SearchViewConfig
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
@@ -70,7 +86,6 @@ export interface SearchViewConfig
     collapseDataSources?: boolean;
     /**
      * Show or hide the data sources panel.
-     *
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
@@ -85,7 +100,6 @@ export interface SearchViewConfig
      * Show or hide the charts and tables in search answers.
      * This attribute can be used to create a custom visualization
      * using raw answer data.
-     *
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
@@ -102,7 +116,6 @@ export interface SearchViewConfig
     expandAllDataSource?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
-     *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      * @example
      * ```js
@@ -116,7 +129,6 @@ export interface SearchViewConfig
     /**
      * If set to true, the tabular view is set as the default
      * format for presenting search data.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
@@ -129,7 +141,6 @@ export interface SearchViewConfig
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
-     *
      * @deprecated Use `dataSource` instead.
      * @example
      * ```js
@@ -142,7 +153,6 @@ export interface SearchViewConfig
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
-     *
      * @version: SDK: 1.19.0
      * @example
      * ```js
@@ -155,7 +165,6 @@ export interface SearchViewConfig
     dataSource?: string;
     /**
      * The initial search query to load the answer with.
-     *
      * @deprecated
      *
      * Use {@link searchOptions} instead.
@@ -171,7 +180,6 @@ export interface SearchViewConfig
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
-     *
      * @example
      * ```js
      * searchOptions: {
@@ -183,7 +191,6 @@ export interface SearchViewConfig
     searchOptions?: SearchOptions;
     /**
      * The GUID of a saved answer to load initially.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
@@ -197,7 +204,6 @@ export interface SearchViewConfig
     /**
      * If set to true, the search page will render without the Search Bar
      * The chart/table should still be visible.
-     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
@@ -210,7 +216,6 @@ export interface SearchViewConfig
     hideSearchBar?: boolean;
     /**
      * Flag to control Data panel experience
-     *
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @example
@@ -224,23 +229,19 @@ export interface SearchViewConfig
     dataPanelV2?: boolean;
     /**
      * Flag to set if last selected dataSource should be used
-     *
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     *
      * @default false
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      */
     collapseSearchBarInitially?: boolean;
     /**
      * To enable custom column groups in data panel v2
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -250,6 +251,30 @@ export interface SearchViewConfig
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * Flag to enable onBeforeSearchExecute Embed Event
+     * @version: SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+    isOnBeforeGetVizDataInterceptEnabled?: boolean;
+    /**
+     * This controls the initial behaviour of custom column groups accordion.
+     * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
+     * List of different enum values:-
+     * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
+     * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
+     * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *   ... // other options
+     *   dataPanelCustomGroupsAccordionInitialState:
+     *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+     * });
+     * ```
+     */
+    dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -262,7 +287,6 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 /**
  * Embed ThoughtSpot search
- *
  * @group Embed components
  */
 export class SearchEmbed extends TsEmbed {
@@ -309,6 +333,10 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
+            isOnBeforeGetVizDataInterceptEnabled = false,
+            /* eslint-disable-next-line max-len */
+            dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -346,6 +374,13 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.HideSearchBar] = true;
         }
 
+        if (isOnBeforeGetVizDataInterceptEnabled) {
+            /* eslint-disable-next-line max-len */
+            queryParams[
+                Param.IsOnBeforeGetVizDataInterceptEnabled
+            ] = isOnBeforeGetVizDataInterceptEnabled;
+        }
+
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
@@ -357,6 +392,20 @@ export class SearchEmbed extends TsEmbed {
         queryParams[Param.searchEmbed] = true;
         queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        if (
+            dataPanelCustomGroupsAccordionInitialState
+                === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+                === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        ) {
+            /* eslint-disable-next-line max-len */
+            queryParams[
+                Param.DataPanelCustomGroupsAccordionInitialState
+            ] = dataPanelCustomGroupsAccordionInitialState;
+        } else {
+            /* eslint-disable-next-line max-len */
+            queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
@@ -364,7 +413,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-        if (parameterQuery) query += `&${parameterQuery}`;
+        if (parameterQuery && !excludeRuntimeParametersfromURL) query += `&${parameterQuery}`;
 
         const filterQuery = getFilterQuery(runtimeFilters || []);
         if (filterQuery && !excludeRuntimeFiltersfromURL) {
@@ -376,7 +425,6 @@ export class SearchEmbed extends TsEmbed {
     /**
      * Construct the URL of the embedded ThoughtSpot search to be
      * loaded in the iframe
-     *
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
      */

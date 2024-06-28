@@ -1,4 +1,8 @@
-import { SearchEmbed, HiddenActionItemByDefaultForSearchEmbed } from './search';
+import {
+    SearchEmbed,
+    HiddenActionItemByDefaultForSearchEmbed,
+    DataPanelCustomColumnGroupsAccordionState,
+} from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
 import { Action, AuthType, RuntimeFilterOp } from '../types';
@@ -207,6 +211,33 @@ describe('Search embed tests', () => {
                 },
             ],
             excludeRuntimeFiltersfromURL: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('should not append runtime parameters in URL if excludeRuntimeFiltersfromURL is true', async () => {
+        const dataSources = ['data-source-1'];
+        const searchOptions = {
+            searchTokenString: '[commit date][revenue]',
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSources,
+            searchOptions,
+            runtimeParameters: [
+                {
+                    name: 'city',
+                    value: 'berkeley',
+                },
+            ],
+            excludeRuntimeParametersfromURL: true,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
@@ -451,6 +482,22 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+            dataPanelCustomGroupsAccordionInitialState:
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });

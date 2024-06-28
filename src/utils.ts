@@ -2,7 +2,6 @@
  * Copyright (c) 2023
  *
  * Common utility functions for ThoughtSpot Visual Embed SDK
- *
  * @summary Utils
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -23,17 +22,21 @@ import {
  * Refer to the following docs for more details on runtime filter syntax:
  * https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html
  * https://cloud-docs.thoughtspot.com/admin/ts-cloud/runtime-filter-operators.html
- *
  * @param runtimeFilters
  */
-export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
+export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string | null => {
     if (runtimeFilters && runtimeFilters.length) {
         const filters = runtimeFilters.map((filter, valueIndex) => {
             const index = valueIndex + 1;
             const filterExpr = [];
             filterExpr.push(`col${index}=${encodeURIComponent(filter.columnName)}`);
             filterExpr.push(`op${index}=${filter.operator}`);
-            filterExpr.push(filter.values.map((value) => `val${index}=${encodeURIComponent(value)}`).join('&'));
+            filterExpr.push(
+                filter.values.map((value) => {
+                    const encodedValue = typeof value === 'bigint' ? value.toString() : value;
+                    return `val${index}=${encodeURIComponent(String(encodedValue))}`;
+                }).join('&'),
+            );
 
             return filterExpr.join('&');
         });
@@ -46,7 +49,6 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string => {
 
 /**
  * Construct a runtime parameter override query string from the given option.
- *
  * @param runtimeParameters
  */
 export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): string => {
@@ -69,7 +71,6 @@ export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): str
 /**
  * Convert a value to a string representation to be sent as a query
  * parameter to the ThoughtSpot app.
- *
  * @param value Any parameter value
  */
 const serializeParam = (value: any) => {
@@ -85,14 +86,12 @@ const serializeParam = (value: any) => {
  * Convert a value to a string:
  * in case of an array, we convert it to CSV.
  * in case of any other type, we directly return the value.
- *
  * @param value
  */
 const paramToString = (value: any) => (Array.isArray(value) ? value.join(',') : value);
 
 /**
  * Return a query param string composed from the given params object
- *
  * @param queryParams
  * @param shouldSerializeParamValues
  */
@@ -122,7 +121,6 @@ export const getQueryParamString = (
 /**
  * Get a string representation of a dimension value in CSS
  * If numeric, it is considered in pixels.
- *
  * @param value
  */
 export const getCssDimension = (value: number | string): string => {
@@ -135,7 +133,6 @@ export const getCssDimension = (value: number | string): string => {
 
 /**
  * Append a string to a URL's hash fragment
- *
  * @param url A URL
  * @param stringToAppend The string to append to the URL hash
  */
@@ -240,7 +237,6 @@ export const getRuntimeFilters = (runtimefilters: any) => getFilterQuery(runtime
 /**
  * Gets a reference to the DOM node given
  * a selector.
- *
  * @param domSelector
  */
 export function getDOMNode(domSelector: DOMSelector): HTMLElement {
@@ -275,7 +271,6 @@ export function removeTypename(obj: any) {
 
 /**
  * Sets the specified style properties on an HTML element.
- *
  * @param {HTMLElement} element - The HTML element to which the styles should be applied.
  * @param {Partial<CSSStyleDeclaration>} styleProperties - An object containing style
  * property names and their values.
@@ -299,7 +294,6 @@ export const setStyleProperties = (
 };
 /**
  * Removes specified style properties from an HTML element.
- *
  * @param {HTMLElement} element - The HTML element from which the styles should be removed.
  * @param {string[]} styleProperties - An array of style property names to be removed.
  * @example
@@ -317,3 +311,17 @@ export const removeStyleProperties = (element: HTMLElement, styleProperties: str
 };
 
 export const isUndefined = (value: any): boolean => value === undefined;
+
+// Return if the value is a string, double or boolean.
+export const getTypeFromValue = (value: any): [string, string] => {
+    if (typeof value === 'string') {
+        return ['char', 'string'];
+    }
+    if (typeof value === 'number') {
+        return ['double', 'double'];
+    }
+    if (typeof value === 'boolean') {
+        return ['boolean', 'boolean'];
+    }
+    return ['', ''];
+};

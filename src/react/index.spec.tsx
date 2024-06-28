@@ -15,12 +15,15 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed,
+    SearchEmbed,
+    AppEmbed,
+    LiveboardEmbed,
+    useEmbedRef,
+    SearchBarEmbed,
+    PreRenderedLiveboardEmbed,
 } from './index';
 import * as allExports from './index';
-import {
-    AuthType, init,
-} from '../index';
+import { AuthType, init } from '../index';
 
 import { version } from '../../package.json';
 
@@ -43,13 +46,11 @@ describe('React Components', () => {
 
             await waitFor(() => getIFrameEl(container));
 
-            expect(
-                getIFrameEl(container).parentElement.classList.contains(
-                    'embedClass',
-                ),
-            ).toBe(true);
+            expect(getIFrameEl(container).parentElement.classList.contains('embedClass')).toBe(
+                true,
+            );
             expect(getIFrameSrc(container)).toBe(
-                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&enableDataPanelV2=false&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true&collapseSearchBarInitially=false&enableCustomColumnGroups=false#/embed/answer`,
+                `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22,%22editACopy%22,%22saveAsView%22,%22updateTSL%22,%22editTSL%22,%22onDeleteAnswer%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&enableDataPanelV2=false&dataSourceMode=hide&useLastSelectedSources=false&isSearchEmbed=true&collapseSearchBarInitially=false&enableCustomColumnGroups=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_ALL#/embed/answer`,
             );
         });
 
@@ -144,89 +145,53 @@ describe('React Components', () => {
         });
 
         it('Should have the correct container element', async () => {
-            const { container } = render(
-                <LiveboardEmbed liveboardId="abcd" className="def" />,
-            );
+            const { container } = render(<LiveboardEmbed liveboardId="abcd" className="def" />);
 
             await waitFor(() => getIFrameEl(container));
             expect(container.querySelector('div')).not.toBe(null);
-            expect(
-                container.querySelector('div').classList.contains('def'),
-            ).toBe(true);
+            expect(container.querySelector('div').classList.contains('def')).toBe(true);
 
             const { container: containerSibling } = render(
-                <LiveboardEmbed
-                    liveboardId="abcd"
-                    className="def"
-                    insertAsSibling={true}
-                />,
+                <LiveboardEmbed liveboardId="abcd" className="def" insertAsSibling={true} />,
             );
             await waitFor(() => getIFrameEl(containerSibling));
             expect(containerSibling.querySelector('span')).not.toBe(null);
-            expect(containerSibling.querySelector('span').style.position).toBe(
-                'absolute',
-            );
-            expect(
-                getIFrameEl(containerSibling).classList.contains('def'),
-            ).toBe(true);
+            expect(containerSibling.querySelector('span').style.position).toBe('absolute');
+            expect(getIFrameEl(containerSibling).classList.contains('def')).toBe(true);
             expect(containerSibling.querySelector('div')).toBe(null);
         });
 
         it('Should have the correct container element', async () => {
-            const { container } = render(
-                <LiveboardEmbed liveboardId="abcd" className="def" />,
-            );
+            const { container } = render(<LiveboardEmbed liveboardId="abcd" className="def" />);
 
             await waitFor(() => getIFrameEl(container));
             expect(container.querySelector('div')).not.toBe(null);
-            expect(
-                container.querySelector('div').classList.contains('def'),
-            ).toBe(true);
+            expect(container.querySelector('div').classList.contains('def')).toBe(true);
 
             const { container: containerSibling } = render(
-                <LiveboardEmbed
-                    liveboardId="abcd"
-                    className="def"
-                    insertAsSibling={true}
-                />,
+                <LiveboardEmbed liveboardId="abcd" className="def" insertAsSibling={true} />,
             );
             await waitFor(() => getIFrameEl(containerSibling));
             expect(containerSibling.querySelector('span')).not.toBe(null);
-            expect(containerSibling.querySelector('span').style.position).toBe(
-                'absolute',
-            );
-            expect(
-                getIFrameEl(containerSibling).classList.contains('def'),
-            ).toBe(true);
+            expect(containerSibling.querySelector('span').style.position).toBe('absolute');
+            expect(getIFrameEl(containerSibling).classList.contains('def')).toBe(true);
             expect(containerSibling.querySelector('div')).toBe(null);
         });
 
         it('Should have the correct container element', async () => {
-            const { container } = render(
-                <LiveboardEmbed liveboardId="abcd" className="def" />,
-            );
+            const { container } = render(<LiveboardEmbed liveboardId="abcd" className="def" />);
 
             await waitFor(() => getIFrameEl(container));
             expect(container.querySelector('div')).not.toBe(null);
-            expect(
-                container.querySelector('div').classList.contains('def'),
-            ).toBe(true);
+            expect(container.querySelector('div').classList.contains('def')).toBe(true);
 
             const { container: containerSibling } = render(
-                <LiveboardEmbed
-                    liveboardId="abcd"
-                    className="def"
-                    insertAsSibling={true}
-                />,
+                <LiveboardEmbed liveboardId="abcd" className="def" insertAsSibling={true} />,
             );
             await waitFor(() => getIFrameEl(containerSibling));
             expect(containerSibling.querySelector('span')).not.toBe(null);
-            expect(containerSibling.querySelector('span').style.position).toBe(
-                'absolute',
-            );
-            expect(
-                getIFrameEl(containerSibling).classList.contains('def'),
-            ).toBe(true);
+            expect(containerSibling.querySelector('span').style.position).toBe('absolute');
+            expect(getIFrameEl(containerSibling).classList.contains('def')).toBe(true);
             expect(containerSibling.querySelector('div')).toBe(null);
         });
     });
@@ -246,11 +211,9 @@ describe('React Components', () => {
 
             await waitFor(() => getIFrameEl(container));
 
-            expect(
-                getIFrameEl(container).parentElement.classList.contains(
-                    'embedClass',
-                ),
-            ).toBe(true);
+            expect(getIFrameEl(container).parentElement.classList.contains('embedClass')).toBe(
+                true,
+            );
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,
             );
@@ -270,7 +233,9 @@ describe('React Components', () => {
             );
 
             await waitFor(() => getIFrameEl());
-            const preRenderWrapper = document.body.querySelector(`#${preRenderId}`) as HTMLDivElement;
+            const preRenderWrapper = document.body.querySelector(
+                `#${preRenderId}`,
+            ) as HTMLDivElement;
 
             expect(preRenderWrapper).toBeInstanceOf(HTMLDivElement);
             expect((preRenderWrapper as HTMLDivElement).childElementCount).toBe(1);
@@ -285,11 +250,7 @@ describe('React Components', () => {
                 unobserve: jest.fn(),
             }));
             const { container: libContainer } = render(
-                <LiveboardEmbed
-                    className="embedClass"
-                    preRenderId="test"
-                    liveboardId="libId"
-                />,
+                <LiveboardEmbed className="embedClass" preRenderId="test" liveboardId="libId" />,
             );
 
             expect(preRenderWrapper.style.opacity).toBe('');
@@ -305,11 +266,9 @@ describe('allExports', () => {
     });
 
     it('should not have undefined exports', () => {
-        Object.keys(allExports).forEach(
-            (exportKey) => expect(
-                Boolean(allExports[exportKey]),
-            )
-                .toBe(true),
-        );
+        Object.keys(allExports)
+            .forEach(
+                (exportKey) => expect(Boolean(allExports[exportKey])).toBe(true),
+            );
     });
 });

@@ -1,6 +1,8 @@
 import { tokenizedFetch } from '../../../tokenizedFetch';
-import type { ColumnValue, VizPoint } from '../../../types';
-import { deepMerge, removeTypename } from '../../../utils';
+import type {
+    ColumnValue, RuntimeFilter, RuntimeFilterOp, VizPoint,
+} from '../../../types';
+import { deepMerge, getTypeFromValue, removeTypename } from '../../../utils';
 import { graphqlQuery } from '../graphql-request';
 import { getSourceDetail } from '../sourceService';
 import * as queries from './answer-queries';
@@ -27,7 +29,6 @@ export interface UnderlyingDataPoint {
  * custom action payload. This service could be used to run
  * graphql queries in the context of the answer on which the
  * custom action was triggered.
- *
  * @example
  * ```js
  *  embed.on(EmbedEvent.CustomAction, e => {
@@ -37,13 +38,24 @@ export interface UnderlyingDataPoint {
  *     const data = await underlying.fetchData(0, 100);
  *  })
  * ```
+ * @example
+ * ```js
+ * embed.on(EmbedEvent.Data, async (e) => {
+ *     const service = await embed.getAnswerService();
+ *     await service.addColumns([
+ *         "<column guid>"
+ *     ]);
+ *     console.log(await service.fetchData());
+ * });
+ * ```
  * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
  * @group Events
  */
 export class AnswerService {
+    private answer: Promise<any>;
+
     /**
      * Should not need to be called directly.
-     *
      * @param session
      * @param answer
      * @param thoughtSpotHost
@@ -51,11 +63,19 @@ export class AnswerService {
      */
     constructor(
         private session: SessionInterface,
-        private answer: any,
+        answer: any,
         private thoughtSpotHost: string,
         private selectedPoints?: VizPoint[],
     ) {
         this.session = removeTypename(session);
+        if (!answer) {
+            this.answer = this.executeQuery(
+                queries.getAnswer,
+                {},
+            ).then((data) => data?.answer);
+        } else {
+            this.answer = answer;
+        }
     }
 
     /**
@@ -63,7 +83,7 @@ export class AnswerService {
      * This can be used to get the list of all columns in the data source for example.
      */
     public async getSourceDetail() {
-        const sourceId = this.answer.sources[0].header.guid;
+        const sourceId = (await this.answer).sources[0].header.guid;
         return getSourceDetail(
             this.thoughtSpotHost,
             sourceId,
@@ -72,7 +92,6 @@ export class AnswerService {
 
     /**
      * Remove columnIds and return updated answer session.
-     *
      * @param columnIds
      * @returns
      */
@@ -87,7 +106,6 @@ export class AnswerService {
 
     /**
      * Add columnIds and return updated answer session.
-     *
      * @param columnIds
      * @returns
      */
@@ -101,8 +119,62 @@ export class AnswerService {
     }
 
     /**
+     * Add columns by names and return updated answer session.
+     * @param columnNames
+     * @returns
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.Data, async (e) => {
+     *    const service = await embed.getAnswerService();
+     *    await service.addColumnsByNames([
+     *      "col name 1",
+     *      "col name 2"
+     *    ]);
+     *    console.log(await service.fetchData());
+     * });
+     */
+    public async addColumnsByNames(columnNames: string[]) {
+        const sourceDetail = await this.getSourceDetail();
+        const columnGuids = getGuidsFromColumnNames(sourceDetail, columnNames);
+        return this.addColumns([...columnGuids]);
+    }
+
+    /**
+     * Add a filter to the answer.
+     * @param columnName
+     * @param operator
+     * @param values
+     * @returns
+     */
+    public async addFilter(columnName: string, operator: RuntimeFilterOp, values: RuntimeFilter['values']) {
+        const sourceDetail = await this.getSourceDetail();
+        const columnGuids = getGuidsFromColumnNames(sourceDetail, [columnName]);
+        return this.executeQuery(
+            queries.addFilter,
+            {
+                params: {
+                    filterContent: [{
+                        filterType: operator,
+                        value: values.map(
+                            (v) => {
+                                const [type, prefix] = getTypeFromValue(v);
+                                return {
+                                    type: type.toUpperCase(),
+                                    [`${prefix}Value`]: v,
+                                };
+                            },
+                        ),
+                    }],
+                    filterGroupId: {
+                        logicalColumnId: columnGuids.values().next().value,
+                    },
+                },
+            },
+        );
+    }
+
+    /**
      * Fetch data from the answer.
-     *
      * @param offset
      * @param size
      * @returns
@@ -131,7 +203,6 @@ export class AnswerService {
     /**
      * Fetch the data for the answer as a CSV blob. This might be
      * quicker for larger data.
-     *
      * @param userLocale
      * @param includeInfo Include the CSV header in the output
      * @returns Response
@@ -146,7 +217,6 @@ export class AnswerService {
     /**
      * Just get the internal URL for this answer's data
      * as a CSV blob.
-     *
      * @param userLocale
      * @param includeInfo
      * @returns
@@ -159,7 +229,6 @@ export class AnswerService {
      * Get underlying data given a point and the output column names.
      * In case of a context menu action, the selectedPoints are
      * automatically passed.
-     *
      * @param outputColumnNames
      * @param selectedPoints
      * @example
@@ -224,7 +293,6 @@ export class AnswerService {
 
     /**
      * Execute a custom graphql query in the context of the answer.
-     *
      * @param query graphql query
      * @param variables graphql variables
      * @returns
@@ -246,11 +314,14 @@ export class AnswerService {
 
     /**
      * Get the internal session details for the answer.
-     *
      * @returns
      */
     public getSession() {
         return this.session;
+    }
+
+    public getAnswer() {
+        return this.answer;
     }
 }
 
@@ -261,12 +332,12 @@ export class AnswerService {
  */
 function getGuidsFromColumnNames(sourceDetail: any, colNames: string[]) {
     const cols = sourceDetail.columns.reduce((colSet: any, col: any) => {
-        colSet[col.name] = col;
+        colSet[col.name.toLowerCase()] = col;
         return colSet;
     }, {});
 
     return new Set(colNames.map((colName) => {
-        const col = cols[colName];
+        const col = cols[colName.toLowerCase()];
         return col.id;
     }));
 }
