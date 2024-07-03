@@ -259,6 +259,8 @@ describe('Base TS Embed', () => {
         expect(prefetchIframe.length).toBe(1);
         const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
         expect(firstIframe.src).toBe(url);
+        expect(firstIframe.style.width).toBe('0px');
+        expect(firstIframe.classList.contains('prefetchIframeNum-0')).toBe(true);
     });
 
     test('Should add the prefetch iframe when prefetch is called with multiple options', async () => {
