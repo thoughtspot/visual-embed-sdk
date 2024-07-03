@@ -109,18 +109,22 @@ export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): v
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-        new Set(features.map((feature) => hostUrlToFeatureUrl[feature](hostUrl))).forEach(
-            (prefetchUrl, index) => {
-                const iFrame = document.createElement('iframe');
-                iFrame.src = prefetchUrl;
-                iFrame.style.width = '0';
-                iFrame.style.height = '0';
-                iFrame.style.border = '0';
-                iFrame.classList.add('prefetchIframe');
-                iFrame.classList.add(`prefetchIframeNum-${index}`);
-                document.body.appendChild(iFrame);
-            },
-        );
+        Array.from(
+            new Set(features
+                .map((feature) => hostUrlToFeatureUrl[feature](hostUrl))),
+        )
+            .forEach(
+                (prefetchUrl, index) => {
+                    const iFrame = document.createElement('iframe');
+                    iFrame.src = prefetchUrl;
+                    iFrame.style.width = '0';
+                    iFrame.style.height = '0';
+                    iFrame.style.border = '0';
+                    iFrame.classList.add('prefetchIframe');
+                    iFrame.classList.add(`prefetchIframeNum-${index}`);
+                    document.body.appendChild(iFrame);
+                },
+            );
     }
 };
 
