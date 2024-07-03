@@ -559,7 +559,7 @@ export interface EmbedConfig {
 
     /**
      * Pendo API key to enable Pendo tracking to your own subscription, the key
-     * is added as an additional key to the embed, as per this [doc](https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions).
+     * is added as an additional key to the embed, as per this link:https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions[document].
      *
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl
      */
@@ -2419,7 +2419,7 @@ export enum HostEvent {
      *
      * `operator`
      *  Runtime filter operator to apply. For information,
-     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator).
+     *  see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
      *
      * `values`
      *  List of operands. Some operators such as EQ, LE allow a single value, whereas
@@ -2975,11 +2975,11 @@ export enum HostEvent {
      *
      * `oper`  - Filter operator, for example, EQ, IN, CONTAINS.
      *  For information about the supported filter operators,
-     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
      * `values` - An array of one or several values. The value definition on the
      *  data type you choose to filter on. For a complete list of supported data types,
-     *  see [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types).
+     *  see link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Developer Documentation].
      *
      * @example
      * ```js
