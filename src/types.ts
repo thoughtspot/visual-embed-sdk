@@ -1894,7 +1894,8 @@ export enum EmbedEvent {
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
-     * Emitted when a user clicks the **Update TML** action
+     * Emitted when a user clicks the **Update TML** action on
+     * embedded Liveboard.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -1906,6 +1907,7 @@ export enum EmbedEvent {
     UpdateTML = 'updateTSL',
     /**
      * Emitted when a user clicks the **Edit TML** action
+     * on an embedded Liveboard.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -2557,17 +2559,21 @@ export enum HostEvent {
      */
     SchedulesList = 'schedule-list',
     /**
-     * Trigger the **Export TML** action on an embedded Liveboard.
+     * Trigger the **Export TML** action on an embedded Liveboard or
+     * Answer.
      *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ExportTML)
      * ```
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     ExportTML = 'exportTSL',
     /**
-     * Trigger the **Edit TML** action on an embedded Liveboard.
+     * Trigger the **Edit TML** action on an embedded Liveboard or
+     * saved Answers in the full application embedding.
+     *
      *
      * @example
      * ```js
@@ -2587,7 +2593,11 @@ export enum HostEvent {
      */
     UpdateTML = 'updateTSL',
     /**
-     * Trigger the **Download PDF** action on an embedded Liveboard.
+     * Trigger the **Download PDF** action on an embedded Liveboard,
+     * visualization or Answer.
+     *
+     * **NOTE**: The **Download** > **PDF** action is available on
+     * visualizations and Answers if the data is in tabular format.
      *
      * @example
      * ```js
@@ -2661,12 +2671,14 @@ export enum HostEvent {
      */
     ManageMonitor = 'manageMonitor',
     /**
-     * Trigger the **Edit** action on a Liveboard or visualization
+     * Trigger the **Edit** action on a Liveboard or a visualization
+     * on a Liveboard.
+     *
+     * This event is not supported in visualization embed and search embed.
      *
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
-     * Can be left undefined when embedding Search, full app, or
-     * a visualization.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -2674,9 +2686,6 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
-     * ```
-     * ```js
-     * vizEmbed.trigger((HostEvent.Edit)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -2950,7 +2959,8 @@ export enum HostEvent {
      */
     ResetSearch = 'resetSearch',
     /**
-     * Get details of the visible and runtime filters applied on Liveboard.
+     * Get details of filters applied on the Liveboard.
+     * Returns arrays containing Liveboard filter and runtime filter elements.
      *
      * @example
      * ```js
@@ -3316,7 +3326,8 @@ export enum Action {
     SaveUntitled = 'saveUntitled',
     /**
      * The **Save as View** action on the Answer
-     * page. Saves an Answer as a View object.
+     * page. Saves an Answer as a View object in the full
+     * application embedding mode.
      *
      * @example
      * ```js
@@ -3541,6 +3552,7 @@ export enum Action {
      *
      * The **Download PDF** action that downloads a Liveboard,
      * visualization, or Answer as a PDF file.
+     *
      *
      * **NOTE**: The **Download** > **PDF** action is available on
      * visualizations and Answers if the data is in tabular format.
@@ -3812,7 +3824,8 @@ export enum Action {
      */
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
-     * The **Delete** action for Answers.
+     * The **Delete** action for Answers in the full application
+     * embedding mode.
      *
      * @example
      * ```js
