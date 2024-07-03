@@ -2557,17 +2557,21 @@ export enum HostEvent {
      */
     SchedulesList = 'schedule-list',
     /**
-     * Trigger the **Export TML** action on an embedded Liveboard.
+     * Trigger the **Export TML** action on an embedded Liveboard or
+     * Answer.
      *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ExportTML)
      * ```
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     ExportTML = 'exportTSL',
     /**
-     * Trigger the **Edit TML** action on an embedded Liveboard.
+     * Trigger the **Edit TML** action on an embedded Liveboard or
+     * saved Answers in the full application embedding.
+     *
      *
      * @example
      * ```js
