@@ -559,7 +559,7 @@ export interface EmbedConfig {
 
     /**
      * Pendo API key to enable Pendo tracking to your own subscription, the key
-     * is added as an additional key to the embed, as per this link:https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions[doc].
+     * is added as an additional key to the embed, as per this link:https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions[document].
      *
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl
      */
