@@ -1894,7 +1894,8 @@ export enum EmbedEvent {
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
-     * Emitted when a user clicks the **Update TML** action
+     * Emitted when a user clicks the **Update TML** action on
+     * embedded Liveboard.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -1906,6 +1907,7 @@ export enum EmbedEvent {
     UpdateTML = 'updateTSL',
     /**
      * Emitted when a user clicks the **Edit TML** action
+     * on an embedded Liveboard.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -3324,7 +3326,8 @@ export enum Action {
     SaveUntitled = 'saveUntitled',
     /**
      * The **Save as View** action on the Answer
-     * page. Saves an Answer as a View object.
+     * page. Saves an Answer as a View object in the full
+     * application embedding mode.
      *
      * @example
      * ```js
@@ -3821,7 +3824,8 @@ export enum Action {
      */
     QueryDetailsButtons = 'queryDetailsButtons',
     /**
-     * The **Delete** action for Answers.
+     * The **Delete** action for Answers in the full application
+     * embedding mode.
      *
      * @example
      * ```js
