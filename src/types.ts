@@ -1773,6 +1773,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a user clicks the **Update TML** action on
      * embedded Liveboard.
+     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1784,6 +1785,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a user clicks the **Edit TML** action
      * on an embedded Liveboard.
+     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2393,16 +2395,20 @@ export enum HostEvent {
     /**
      * Trigger the **Export TML** action on an embedded Liveboard or
      * Answer.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ExportTML)
      * ```
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     ExportTML = 'exportTSL',
     /**
      * Trigger the **Edit TML** action on an embedded Liveboard or
      * saved Answers in the full application embedding.
+     *
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.EditTML)
@@ -2517,6 +2523,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -2783,6 +2790,7 @@ export enum HostEvent {
     /**
      * Get details of filters applied on the Liveboard.
      * Returns arrays containing Liveboard filter and runtime filter elements.
+     *
      * @example
      * ```js
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
@@ -3135,6 +3143,7 @@ export enum Action {
      * The **Save as View** action on the Answer
      * page. Saves an Answer as a View object in the full
      * application embedding mode.
+     *
      * @example
      * ```js
      * disabledActions: [Action.SaveAsView]
@@ -3592,6 +3601,7 @@ export enum Action {
     /**
      * The **Delete** action for Answers in the full application
      * embedding mode.
+     *
      * @example
      * ```js
      * disabledActions: [Action.AnswerDelete]
