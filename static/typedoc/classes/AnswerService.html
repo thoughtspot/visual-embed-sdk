@@ -88,6 +88,12 @@
 								<a href="AnswerService.html#addColumns" class="tsd-kind-icon">add<wbr>Columns</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="AnswerService.html#addColumnsByNames" class="tsd-kind-icon">add<wbr>Columns<wbr>ByNames</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="AnswerService.html#addFilter" class="tsd-kind-icon">add<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="AnswerService.html#executeQuery" class="tsd-kind-icon">execute<wbr>Query</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -95,6 +101,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="AnswerService.html#fetchData" class="tsd-kind-icon">fetch<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="AnswerService.html#getAnswer" class="tsd-kind-icon">get<wbr>Answer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="AnswerService.html#getFetchCSVBlobUrl" class="tsd-kind-icon">get<wbr>FetchCSVBlob<wbr>Url</a>
@@ -137,6 +146,16 @@
 <span style="color: #000000"> })</span>
 </code></pre>
 						</dd>
+						<dt class="example">example</dt>
+						<dd><pre><code class="language-js"><span style="color: #001080">embed</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #001080">EmbedEvent</span><span style="color: #000000">.</span><span style="color: #001080">Data</span><span style="color: #000000">, </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">e</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">service</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">embed</span><span style="color: #000000">.</span><span style="color: #795E26">getAnswerService</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">addColumns</span><span style="color: #000000">([</span>
+<span style="color: #000000">        </span><span style="color: #A31515">&quot;&lt;column guid&gt;&quot;</span>
+<span style="color: #000000">    ]);</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">fetchData</span><span style="color: #000000">());</span>
+<span style="color: #000000">});</span>
+</code></pre>
+						</dd>
 						<dt class="version">version</dt>
 						<dd><p>SDK: 1.25.0| ThoughtSpot: 9.10.0.cl</p>
 						</dd>
@@ -168,9 +187,12 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#addColumns" class="tsd-kind-icon">add<wbr>Columns</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#addColumnsByNames" class="tsd-kind-icon">add<wbr>Columns<wbr>ByNames</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#addFilter" class="tsd-kind-icon">add<wbr>Filter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#executeQuery" class="tsd-kind-icon">execute<wbr>Query</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#fetchCSVBlob" class="tsd-kind-icon">fetchCSVBlob</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#fetchData" class="tsd-kind-icon">fetch<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#getAnswer" class="tsd-kind-icon">get<wbr>Answer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#getFetchCSVBlobUrl" class="tsd-kind-icon">get<wbr>FetchCSVBlob<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#getSession" class="tsd-kind-icon">get<wbr>Session</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="AnswerService.html#getSourceDetail" class="tsd-kind-icon">get<wbr>Source<wbr>Detail</a></li>
@@ -193,7 +215,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L52">utils/graphql/answerService/answerService.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L64">utils/graphql/answerService/answerService.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L94">utils/graphql/answerService/answerService.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L112">utils/graphql/answerService/answerService.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,6 +278,81 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addColumnsByNames" class="tsd-anchor"></a>
+					<h3>add<wbr>Columns<wbr>ByNames</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Columns<wbr>ByNames<span class="tsd-signature-symbol">(</span>columnNames<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L136">utils/graphql/answerService/answerService.ts:136</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add columns by names and return updated answer session.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt class="example">example</dt>
+									<dd><pre><code class="language-js"><span style="color: #001080">embed</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #001080">EmbedEvent</span><span style="color: #000000">.</span><span style="color: #001080">Data</span><span style="color: #000000">, </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">e</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">service</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">embed</span><span style="color: #000000">.</span><span style="color: #795E26">getAnswerService</span><span style="color: #000000">();</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">addColumnsByNames</span><span style="color: #000000">([</span>
+<span style="color: #000000">     </span><span style="color: #A31515">&quot;col name 1&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">     </span><span style="color: #A31515">&quot;col name 2&quot;</span>
+<span style="color: #000000">   ]);</span>
+<span style="color: #000000">   </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">fetchData</span><span style="color: #000000">());</span>
+<span style="color: #000000">});</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>columnNames: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addFilter" class="tsd-anchor"></a>
+					<h3>add<wbr>Filter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Filter<span class="tsd-signature-symbol">(</span>columnName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, operator<span class="tsd-signature-symbol">: </span><a href="../enums/RuntimeFilterOp.html" class="tsd-signature-type" data-tsd-kind="Enumeration">RuntimeFilterOp</a>, values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">bigint</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L149">utils/graphql/answerService/answerService.ts:149</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a filter to the answer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>columnName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>operator: <a href="../enums/RuntimeFilterOp.html" class="tsd-signature-type" data-tsd-kind="Enumeration">RuntimeFilterOp</a></h5>
+								</li>
+								<li>
+									<h5>values: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">bigint</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="executeQuery" class="tsd-anchor"></a>
 					<h3>execute<wbr>Query</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -265,7 +362,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L232">utils/graphql/answerService/answerService.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L300">utils/graphql/answerService/answerService.ts:300</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -302,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L139">utils/graphql/answerService/answerService.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L210">utils/graphql/answerService/answerService.ts:210</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -338,7 +435,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L110">utils/graphql/answerService/answerService.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L182">utils/graphql/answerService/answerService.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,6 +457,23 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getAnswer" class="tsd-anchor"></a>
+					<h3>get<wbr>Answer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Answer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L323">utils/graphql/answerService/answerService.ts:323</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getFetchCSVBlobUrl" class="tsd-anchor"></a>
 					<h3>get<wbr>FetchCSVBlob<wbr>Url</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -369,7 +483,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L154">utils/graphql/answerService/answerService.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L224">utils/graphql/answerService/answerService.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +515,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L252">utils/graphql/answerService/answerService.ts:252</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L319">utils/graphql/answerService/answerService.ts:319</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,7 +537,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L65">utils/graphql/answerService/answerService.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L85">utils/graphql/answerService/answerService.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -446,7 +560,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L176">utils/graphql/answerService/answerService.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L245">utils/graphql/answerService/answerService.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -493,7 +607,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/c26b1320/src/utils/graphql/answerService/answerService.ts#L79">utils/graphql/answerService/answerService.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/thoughtspot/visual-embed-sdk/blob/833d9327/src/utils/graphql/answerService/answerService.ts#L98">utils/graphql/answerService/answerService.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

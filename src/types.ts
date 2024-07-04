@@ -2512,6 +2512,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
      * ```
+     * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
