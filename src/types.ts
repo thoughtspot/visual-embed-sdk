@@ -1200,6 +1200,10 @@ export enum RuntimeFilterOp {
      * Is included in this list of values
      */
     IN = 'IN',
+    /**
+     * Is not included in this list of values
+     */
+    NOT_IN = 'NOT_IN',
 }
 
 /**
