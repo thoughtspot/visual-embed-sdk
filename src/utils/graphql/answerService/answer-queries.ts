@@ -67,6 +67,9 @@ export const getAnswer = `
             ${bachSessionId}
             answer {
                 id
+                name
+                description
+                displayMode
                 sources {
                     header {
                         guid
@@ -133,6 +136,22 @@ export const getAnswerData = `
                     }          
                 }
             }
+        }
+    }
+`;
+
+export const addVizToLiveboard = `
+    mutation AddVizToLiveboard(liveboardId: GUID!, session: BachSessionIdInput!, tabId: GUID, vizId: GUID!) {
+        Answer__addVizToPinboard(
+            pinboardId: liveboardId
+
+            session: $session
+
+            tabId: $tabId
+
+            vizId: $vizId
+        ) {
+            ${bachSessionId}
         }
     }
 `;
