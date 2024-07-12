@@ -3863,34 +3863,75 @@ export enum Action {
     RenameModalTitleDescription = 'renameModalTitleDescription',
     /**
      *
+     * @example
+     * ```js
+     * disabledActions: [Action.RequestVerification]
+     * ```
+     *
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     RequestVerification = 'requestVerification',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MarkAsVerified]
+     * ```
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     MarkAsVerified = 'markAsVerified',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddTab]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     AddTab = 'addTab',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EnableContextualChangeAnalysis]
+     * ```
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ShowSageQuery]
+     * ```
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ShowSageQuery = 'showSageQuery',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EditSageAnswer]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     EditSageAnswer = 'editSageAnswer',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SageAnswerFeedback]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageAnswerFeedback = 'sageAnswerFeedback',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ModifySageAnswer]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
