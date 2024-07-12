@@ -29,7 +29,6 @@ export interface UnderlyingDataPoint {
  * custom action payload. This service could be used to run
  * graphql queries in the context of the answer on which the
  * custom action was triggered.
- *
  * @example
  * ```js
  *  embed.on(EmbedEvent.CustomAction, e => {
@@ -57,7 +56,6 @@ export class AnswerService {
 
     /**
      * Should not need to be called directly.
-     *
      * @param session
      * @param answer
      * @param thoughtSpotHost
@@ -94,7 +92,6 @@ export class AnswerService {
 
     /**
      * Remove columnIds and return updated answer session.
-     *
      * @param columnIds
      * @returns
      */
@@ -109,7 +106,6 @@ export class AnswerService {
 
     /**
      * Add columnIds and return updated answer session.
-     *
      * @param columnIds
      * @returns
      */
@@ -124,21 +120,20 @@ export class AnswerService {
 
     /**
      * Add columns by names and return updated answer session.
-     *
      * @param columnNames
      * @returns
      * @example
      * ```js
      * embed.on(EmbedEvent.Data, async (e) => {
      *    const service = await embed.getAnswerService();
-     *    await service.addColumnsByNames([
+     *    await service.addColumnsByName([
      *      "col name 1",
      *      "col name 2"
      *    ]);
      *    console.log(await service.fetchData());
      * });
      */
-    public async addColumnsByNames(columnNames: string[]) {
+    public async addColumnsByName(columnNames: string[]) {
         const sourceDetail = await this.getSourceDetail();
         const columnGuids = getGuidsFromColumnNames(sourceDetail, columnNames);
         return this.addColumns([...columnGuids]);
@@ -146,7 +141,6 @@ export class AnswerService {
 
     /**
      * Add a filter to the answer.
-     *
      * @param columnName
      * @param operator
      * @param values
@@ -181,7 +175,6 @@ export class AnswerService {
 
     /**
      * Fetch data from the answer.
-     *
      * @param offset
      * @param size
      * @returns
@@ -210,7 +203,6 @@ export class AnswerService {
     /**
      * Fetch the data for the answer as a CSV blob. This might be
      * quicker for larger data.
-     *
      * @param userLocale
      * @param includeInfo Include the CSV header in the output
      * @returns Response
@@ -225,7 +217,6 @@ export class AnswerService {
     /**
      * Just get the internal URL for this answer's data
      * as a CSV blob.
-     *
      * @param userLocale
      * @param includeInfo
      * @returns
@@ -238,7 +229,6 @@ export class AnswerService {
      * Get underlying data given a point and the output column names.
      * In case of a context menu action, the selectedPoints are
      * automatically passed.
-     *
      * @param outputColumnNames
      * @param selectedPoints
      * @example
@@ -303,7 +293,6 @@ export class AnswerService {
 
     /**
      * Execute a custom graphql query in the context of the answer.
-     *
      * @param query graphql query
      * @param variables graphql variables
      * @returns
@@ -325,7 +314,6 @@ export class AnswerService {
 
     /**
      * Get the internal session details for the answer.
-     *
      * @returns
      */
     public getSession() {
