@@ -2,7 +2,6 @@
  * Copyright (c) 2022
  *
  * Base classes
- *
  * @summary Base classes
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -73,7 +72,6 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
- *
  * @internal
  */
 const V1EventMap = {};
@@ -150,7 +148,6 @@ export class TsEmbed {
      * Should we encode URL Query Params using base64 encoding which thoughtspot
      * will generate for embedding. This provides additional security to
      * thoughtspot clusters against Cross site scripting attacks.
-     *
      * @default false
      */
     private shouldEncodeUrlQueryParams = false;
@@ -191,7 +188,6 @@ export class TsEmbed {
 
     /**
      * Handles errors within the SDK
-     *
      * @param error The error message or object
      */
     protected handleError(error: string | Record<string, unknown>) {
@@ -205,7 +201,6 @@ export class TsEmbed {
 
     /**
      * Extracts the type field from the event payload
-     *
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
@@ -215,7 +210,6 @@ export class TsEmbed {
 
     /**
      * Extracts the port field from the event payload
-     *
      * @param event  The window message event
      * @returns
      */
@@ -229,7 +223,6 @@ export class TsEmbed {
     /**
      * fix for ts7.sep.cl
      * will be removed for ts7.oct.cl
-     *
      * @param event
      * @param eventType
      * @hidden
@@ -303,7 +296,6 @@ export class TsEmbed {
 
     /**
      * Send Custom style as part of payload of APP_INIT
-     *
      * @param _
      * @param responder
      */
@@ -341,7 +333,6 @@ export class TsEmbed {
 
     /**
      * Sends updated auth token to the iFrame to avoid user logout
-     *
      * @param _
      * @param responder
      */
@@ -374,7 +365,6 @@ export class TsEmbed {
 
     /**
      * Constructs the base URL string to load the ThoughtSpot app.
-     *
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
@@ -393,7 +383,6 @@ export class TsEmbed {
 
     /**
      * Common query params set for all the embed modes.
-     *
      * @param queryParams
      * @returns queryParams
      */
@@ -525,7 +514,6 @@ export class TsEmbed {
     /**
      * Constructs the base URL string to load v1 of the ThoughtSpot app.
      * This is used for embedding Liveboards, visualizations, and full application.
-     *
      * @param queryString The query string to append to the URL.
      * @param isAppEmbed A Boolean parameter to specify if you are embedding
      * the full application.
@@ -600,7 +588,6 @@ export class TsEmbed {
     /**
      * Renders the embedded ThoughtSpot app in an iframe and sets up
      * event listeners.
-     *
      * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
@@ -792,7 +779,6 @@ export class TsEmbed {
 
     /**
      * Sets the height of the iframe
-     *
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number | string): void {
@@ -801,7 +787,6 @@ export class TsEmbed {
 
     /**
      * Executes all registered event handlers for a particular event type
-     *
      * @param eventType The event type
      * @param data The payload invoked with the event handler
      * @param eventPort The event Port for a specific MessageChannel
@@ -840,7 +825,6 @@ export class TsEmbed {
 
     /**
      * Gets the v1 event type (if applicable) for the EmbedEvent type
-     *
      * @param eventType The v2 event type
      * @returns The corresponding v1 event type if one exists
      * or else the v2 event type itself
@@ -853,7 +837,6 @@ export class TsEmbed {
      * Calculates the iframe center for the current visible viewPort
      * of iframe using Scroll position of Host App, offsetTop for iframe
      * in Host app. ViewPort height of the tab.
-     *
      * @returns iframe Center in visible viewport,
      *  Iframe height,
      *  View port height.
@@ -888,7 +871,6 @@ export class TsEmbed {
     /**
      * Registers an event listener to trigger an alert when the ThoughtSpot app
      * sends an event of a particular message type to the host application.
-     *
      * @param messageType The message type
      * @param callback A callback as a function
      * @param options The message options
@@ -929,7 +911,6 @@ export class TsEmbed {
 
     /**
      * Removes an event listener for a particular event type.
-     *
      * @param messageType The message type
      * @param callback The callback to remove
      * @example
@@ -951,7 +932,6 @@ export class TsEmbed {
     /**
      * Triggers an event on specific Port registered against
      * for the EmbedEvent
-     *
      * @param eventType The message type
      * @param data The payload to send
      * @param eventPort
@@ -975,7 +955,6 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
-     *
      * @param messageType The event type
      * @param data The payload to send with the message
      */
@@ -998,7 +977,6 @@ export class TsEmbed {
      * Marks the ThoughtSpot object to have been rendered
      * Needs to be overridden by subclasses to do the actual
      * rendering of the iframe.
-     *
      * @param args
      */
     public async render(): Promise<TsEmbed> {
@@ -1017,7 +995,6 @@ export class TsEmbed {
 
     /**
      * Creates the preRender shell
-     *
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
@@ -1035,7 +1012,6 @@ export class TsEmbed {
      * Get the Post Url Params for THOUGHTSPOT from the current
      * host app URL.
      * THOUGHTSPOT URL params starts with a prefix "ts-"
-     *
      * @version SDK: 1.14.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw
      */
     public getThoughtSpotPostUrlParams(): string {
@@ -1063,7 +1039,6 @@ export class TsEmbed {
 
     /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
-     *
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
@@ -1083,7 +1058,6 @@ export class TsEmbed {
      * Prerenders a generic instance of the TS component.
      * This means without the path but with the flags already applied.
      * This is useful for prerendering the component in the background.
-     *
      * @version SDK: 1.22.0
      * @returns
      */
@@ -1175,7 +1149,6 @@ export class TsEmbed {
      * element. This function adjusts the position, width, and height of the PreRender
      * component
      * to match the dimensions and position of the embedding element.
-     *
      * @throws {Error} Throws an error if the embedding element (passed as domSelector)
      * is not defined or not found.
      */
@@ -1222,7 +1195,6 @@ export class TsEmbed {
     /**
      * Retrieves unique HTML element IDs for PreRender-related elements.
      * These IDs are constructed based on the provided 'preRenderId' from 'viewConfig'.
-     *
      * @returns {object} An object containing the IDs for the PreRender elements.
      * @property {string} wrapper - The HTML element ID for the PreRender wrapper.
      * @property {string} child - The HTML element ID for the PreRender child.
@@ -1237,7 +1209,6 @@ export class TsEmbed {
     /**
      * Returns the answerService which can be used to make arbitrary graphql calls on top
      * session.
-     *
      * @param vizId [Optional] to get for a specific viz in case of a liveboard.
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
@@ -1252,7 +1223,6 @@ export class TsEmbed {
  * Base class for embedding v1 experience
  * Note: The v1 version of ThoughtSpot Blink works on the AngularJS stack
  * which is currently under migration to v2
- *
  * @inheritdoc
  */
 export class V1Embed extends TsEmbed {
@@ -1265,7 +1235,6 @@ export class V1Embed extends TsEmbed {
 
     /**
      * Render the app in an iframe and set up event handlers
-     *
      * @param iframeSrc
      */
     protected renderV1Embed(iframeSrc: string): Promise<any> {

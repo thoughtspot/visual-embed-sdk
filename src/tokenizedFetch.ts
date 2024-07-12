@@ -6,7 +6,6 @@ import { AuthType } from './types';
 /**
  * Fetch wrapper that adds the authentication token to the request.
  * Use this to call the ThoughtSpot APIs when using the visual embed sdk.
- *
  * @param input
  * @param init
  * @version SDK: 1.28.0

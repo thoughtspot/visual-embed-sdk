@@ -102,7 +102,6 @@ interface PreRenderProps {
     * PreRender id to be used for PreRendering the embed.
     * Use PreRender to render the embed in the background and then
     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
-    *
     * @example
     * ```js
     * const embed = new LiveboardEmbed('#embed', {
@@ -130,7 +129,6 @@ interface PreRenderProps {
 
 /**
  * React component for Search Embed.
- *
  * @example
  * ```tsx
  * function Search() {
@@ -155,7 +153,6 @@ interface AppProps extends EmbedProps, AppViewConfig { }
 
 /**
  * React component for Full app Embed.
- *
  * @example
  * ```tsx
  * function Search() {
@@ -176,7 +173,6 @@ export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConf
  * default.
  *
  * AppEmbed with preRenderId passed will call showPreRender on the embed.
- *
  * @example
  * ```tsx
  * function LandingPageComponent() {
@@ -198,7 +194,6 @@ interface LiveboardProps extends EmbedProps, LiveboardViewConfig { }
 
 /**
  * React component for Liveboard embed.
- *
  * @example
  * ```tsx
  * function Liveboard() {
@@ -222,14 +217,13 @@ export const PinboardEmbed = LiveboardEmbed;
 /**
  * React component for PreRendered Liveboard embed.
  *
- *  PreRenderedLiveboardEmbed will preRender the liveboard and will be hidden by default.
+ * PreRenderedLiveboardEmbed will preRender the liveboard and will be hidden by default.
  *
  * LiveboardEmbed with preRenderId passed will call showPreRender on the embed.
  *
  * If LiveboardEmbed is rendered before PreRenderedLiveboardEmbed is rendered it
  * tries to preRender the LiveboardEmbed, so it is recommended to use pass the
  * liveboardId to both the components.
- *
  * @example
  * ```tsx
  * function LandingPageComponent() {
@@ -253,7 +247,6 @@ interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig { }
 
 /**
  * React component for Search bar embed.
- *
  * @example
  * ```tsx
  * function SearchBar() {
@@ -277,7 +270,6 @@ export const SearchBarEmbed = componentFactory<
  * default.
  *
  * SearchBarEmbed with preRenderId passed will call showPreRender on the embed.
- *
  * @example
  * ```tsx
  * function LandingPageComponent() {
@@ -299,7 +291,6 @@ interface SageEmbedProps extends EmbedProps, SageViewConfig { }
 
 /**
  * React component for LLM based search Sage embed.
- *
  * @example
  * ```tsx
  * function Sage() {
@@ -321,7 +312,6 @@ export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, Sag
  * default.
  *
  * SageEmbed with preRenderId passed will call showPreRender on the embed.
- *
  * @example
  * ```tsx
  * function LandingPageComponent() {
@@ -347,7 +337,6 @@ type EmbedComponent = typeof SearchEmbed
 
 /**
  * Get a reference to the embed component to trigger events on the component.
- *
  * @example
  * ```
  * function Component() {
