@@ -3632,7 +3632,7 @@ export enum Action {
      * The Create alert action on KPI charts.
      * @example
      * ```js
-     * disabledActions: [Action.CreateMonitor ]
+     * disabledActions: [Action.CreateMonitor]
      * ```
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
