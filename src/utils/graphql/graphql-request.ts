@@ -1,3 +1,4 @@
+import { tokenizedFetch } from '../../tokenizedFetch';
 import { getOperationNameFromQuery } from '../../utils';
 
 /**
@@ -21,7 +22,7 @@ export async function graphqlQuery({
 }) {
     const operationName = getOperationNameFromQuery(query);
     try {
-        const response = await fetch(`${thoughtSpotHost}/prism/?op=${operationName}`, {
+        const response = await tokenizedFetch(`${thoughtSpotHost}/prism/?op=${operationName}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json;charset=UTF-8',
