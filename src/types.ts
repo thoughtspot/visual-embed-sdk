@@ -3107,7 +3107,8 @@ export enum HostEvent {
      */
     UpdateSageQuery = 'updateSageQuery',
     /**
-     * Get the answer session for a Search / Visualization.
+     * Get the answer session for a Search or
+     * Liveboard visualization.
      *
      * @example
      * ```js
@@ -3116,6 +3117,12 @@ export enum HostEvent {
      *      vizId: '123', // For Liveboard Visualization.
      *  })
      * ```
+     *
+     * @example
+     * ```js
+     * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
+     * ```
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
      */
     GetAnswerSession = 'getAnswerSession',
