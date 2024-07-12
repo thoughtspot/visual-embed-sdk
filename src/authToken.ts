@@ -70,7 +70,6 @@ const validateAuthToken = async (
 
 /**
  * Resets the auth token and a new token will be fetched on the next request.
- *
  * @example
  * ```js
  * resetCachedAuthToken();

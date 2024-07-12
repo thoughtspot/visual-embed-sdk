@@ -5,7 +5,6 @@ import { EmbedConfig } from './types';
  * Copyright (c) 2023
  *
  * Utilities related to reading configuration objects
- *
  * @summary Config-related utils
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -23,7 +22,6 @@ const urlRegex = new RegExp(
 /**
  * Parse and construct the ThoughtSpot hostname or IP address
  * from the embed configuration object.
- *
  * @param config
  */
 export const getThoughtSpotHost = (config: EmbedConfig): string => {

@@ -3,7 +3,6 @@ import { HostEvent } from '../types';
 
 /**
  * Reloads the ThoughtSpot iframe.
- *
  * @param iFrame
  */
 export const reload = (iFrame: HTMLIFrameElement) => {
@@ -16,7 +15,6 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 
 /**
  * Post iframe message.
- *
  * @param iFrame
  * @param message
  * @param message.type

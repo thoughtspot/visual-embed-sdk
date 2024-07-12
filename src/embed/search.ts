@@ -2,7 +2,6 @@
  * Copyright (c) 2022
  *
  * Embed ThoughtSpot search or a saved answer
- *
  * @summary Search embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -65,7 +64,6 @@ export enum DataPanelCustomColumnGroupsAccordionState {
 
 /**
  * The configuration attributes for the embedded search view.
- *
  * @group Embed components
  */
 export interface SearchViewConfig
@@ -80,9 +78,7 @@ export interface SearchViewConfig
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -94,9 +90,7 @@ export interface SearchViewConfig
     collapseDataSources?: boolean;
     /**
      * Show or hide the data sources panel.
-     *
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -110,9 +104,7 @@ export interface SearchViewConfig
      * Show or hide the charts and tables in search answers.
      * This attribute can be used to create a custom visualization
      * using raw answer data.
-     *
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -124,9 +116,7 @@ export interface SearchViewConfig
     hideResults?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
-     *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -139,9 +129,7 @@ export interface SearchViewConfig
     /**
      * If set to true, the tabular view is set as the default
      * format for presenting search data.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -153,9 +141,7 @@ export interface SearchViewConfig
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
-     *
      * @deprecated Use `dataSource` instead.
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -167,9 +153,7 @@ export interface SearchViewConfig
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
-     *
      * @version: SDK: 1.19.0
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -181,7 +165,6 @@ export interface SearchViewConfig
     dataSource?: string;
     /**
      * The initial search query to load the answer with.
-     *
      * @deprecated
      *
      * Use {@link searchOptions} instead.
@@ -197,7 +180,6 @@ export interface SearchViewConfig
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
-     *
      * @example
      * ```js
      * searchOptions: {
@@ -209,9 +191,7 @@ export interface SearchViewConfig
     searchOptions?: SearchOptions;
     /**
      * The GUID of a saved answer to load initially.
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -224,9 +204,7 @@ export interface SearchViewConfig
     /**
      * If set to true, the search page will render without the Search Bar
      * The chart/table should still be visible.
-     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -238,10 +216,8 @@ export interface SearchViewConfig
     hideSearchBar?: boolean;
     /**
      * Flag to control Data panel experience
-     *
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -253,23 +229,19 @@ export interface SearchViewConfig
     dataPanelV2?: boolean;
     /**
      * Flag to set if last selected dataSource should be used
-     *
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     *
      * @default false
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      */
     collapseSearchBarInitially?: boolean;
     /**
      * To enable custom column groups in data panel v2
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -281,7 +253,6 @@ export interface SearchViewConfig
     enableCustomColumnGroups?: boolean;
     /**
      * Flag to enable onBeforeSearchExecute Embed Event
-     *
      * @version: SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
@@ -292,10 +263,8 @@ export interface SearchViewConfig
      * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
      * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
-     *
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -318,7 +287,6 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 /**
  * Embed ThoughtSpot search
- *
  * @group Embed components
  */
 export class SearchEmbed extends TsEmbed {
@@ -451,7 +419,6 @@ export class SearchEmbed extends TsEmbed {
     /**
      * Construct the URL of the embedded ThoughtSpot search to be
      * loaded in the iframe
-     *
      * @param answerId The GUID of a saved answer
      * @param dataSources A list of data source GUIDs
      */

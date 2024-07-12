@@ -41,7 +41,6 @@ interface sessionInfoInterface {
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
  * of {@link AuthStatus.FAILURE}.
- *
  * @group Authentication / Init
  */
 export enum AuthFailureType {
@@ -53,7 +52,6 @@ export enum AuthFailureType {
 
 /**
  * Enum for auth status emitted by the emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export enum AuthStatus {
@@ -77,7 +75,6 @@ export enum AuthStatus {
      * Emitted when inPopup is true in the SAMLRedirect flow and the
      * popup is waiting to be triggered either programmatically
      * or by the trigger button.
-     *
      * @version SDK: 1.19.0
      */
     WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
@@ -85,20 +82,17 @@ export enum AuthStatus {
 
 /**
  * Event emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export interface AuthEventEmitter {
     /**
      * Register a listener on Auth failure.
-     *
      * @param event
      * @param listener
      */
     on(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
     /**
      * Register a listener on Auth SDK success.
-     *
      * @param event
      * @param listener
      */
@@ -115,13 +109,11 @@ export interface AuthEventEmitter {
     once(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
     /**
      * Trigger an event on the emitter returned from init.
-     *
      * @param {@link AuthEvent}
      */
     emit(event: AuthEvent, ...args: any[]): boolean;
     /**
      * Remove listener from the emitter returned from init.
-     *
      * @param event
      * @param listener
      * @param context
@@ -130,7 +122,6 @@ export interface AuthEventEmitter {
     off(event: AuthStatus, listener: (...args: any[]) => void, context: any, once: boolean): this;
     /**
      * Remove all the event listeners
-     *
      * @param event
      */
     removeAllListeners(event: AuthStatus): this;
@@ -138,7 +129,6 @@ export interface AuthEventEmitter {
 
 /**
  * Events which can be triggered on the emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export enum AuthEvent {
@@ -241,7 +231,6 @@ export const getSessionDetails = (sessionInfoResp: any): sessionInfoInterface =>
 
 /**
  * Check if we are logged into the ThoughtSpot cluster
- *
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
@@ -270,7 +259,6 @@ export function getReleaseVersion() {
 /**
  * Return a promise that resolves with the session information when
  * authentication is successful. And info is available.
- *
  * @group Global methods
  */
 export function getSessionInfo(): Promise<sessionInfoInterface> {
@@ -298,7 +286,6 @@ function removeSSORedirectUrlMarker(): void {
 
 /**
  * Perform token based authentication
- *
  * @param embedConfig The embed configuration
  */
 export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
@@ -330,7 +317,6 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
 
 /**
  * Validate embedConfig parameters required for cookielessTokenAuth
- *
  * @param embedConfig The embed configuration
  */
 export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
@@ -357,7 +343,6 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
  *
  * Warning: This feature is primarily intended for developer testing. It is
  * strongly advised not to use this authentication method in production.
- *
  * @param embedConfig The embed configuration
  */
 export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
@@ -417,7 +402,6 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
 
 /**
  * Perform SAML authentication
- *
  * @param embedConfig The embed configuration
  * @param ssoEndPoint
  */
@@ -504,7 +488,6 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
 
 /**
  * Perform authentication on the ThoughtSpot cluster
- *
  * @param embedConfig The embed configuration
  */
 export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> => {

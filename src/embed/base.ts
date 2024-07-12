@@ -4,7 +4,6 @@
  * Copyright (c) 2022
  *
  * Base classes
- *
  * @summary Base classes
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -95,7 +94,6 @@ const hostUrlToFeatureUrl = {
  * Prefetches static resources from the specified URL. Web browsers can then cache the
  * prefetched resources and serve them from the user's local disk to provide faster access
  * to your app.
- *
  * @param url The URL provided for prefetch
  * @param prefetchFeatures Specify features which needs to be prefetched.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
@@ -160,7 +158,6 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * authentication if applicable. This function needs to be called before any ThoughtSpot
  * component like liveboard etc can be embedded. But need not wait for AuthEvent.SUCCESS
  * to actually embed. That is handled internally.
- *
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
  * @example
@@ -223,7 +220,6 @@ export function disableAutoLogin(): void {
  *
  * You can call the `init` method again to re login, if autoLogin is set to
  * true in this second call it will be honored.
- *
  * @param doNotDisableAutoLogin This flag when passed will not disable autoLogin
  * @returns Promise which resolves when logout completes.
  * @version SDK: 1.10.1 | ThoughtSpot: 8.2.0.cl, 8.4.1-sw
@@ -244,7 +240,6 @@ let renderQueue: Promise<any> = Promise.resolve();
 /**
  * Renders functions in a queue, resolves to next function only after the callback next
  * is called
- *
  * @param fn The function being registered
  */
 export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>): Promise<any> => {
@@ -259,7 +254,6 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
 
 /**
  * Imports TML representation of the metadata objects into ThoughtSpot.
- *
  * @param data
  * @example
  * ```js
@@ -320,7 +314,6 @@ export const executeTML = async (data: executeTMLInput): Promise<any> => {
 /**
  * Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML
  * format.
- *
  * @param data
  * @example
  * ```js

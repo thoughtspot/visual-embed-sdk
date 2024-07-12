@@ -1,7 +1,9 @@
 import 'jest-fetch-mock';
 import { AuthType, RuntimeFilterOp, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
-import { getAnswerData, removeColumns, addFilter } from './answer-queries';
+import {
+    getAnswerData, removeColumns, addFilter, addColumns,
+} from './answer-queries';
 import * as authTokenInstance from '../../../authToken';
 import * as tokenizedFetch from '../../../tokenizedFetch';
 import * as embedConfigInstance from '../../../embed/embedConfig';
@@ -351,5 +353,55 @@ describe('Answer service tests', () => {
         const answerService = new AnswerService(defaultSession, null, 'https://tshost');
         const answer = await answerService.getAnswer();
         expect(answer.sources[0].header.guid).toBe('source1');
+    });
+
+    test('Add columns by name should call the right API', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    getSourceDetailById: [{
+                        columns: [{
+                            id: 'id1',
+                            name: 'col1',
+                        }, {
+                            id: 'id2',
+                            name: 'col2',
+                        }],
+                    }],
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__addColumn: {
+                        id: {
+                            genNo: 2,
+                        },
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService({
+            sources: [{
+                header: {
+                    guid: 'source1',
+                },
+            }],
+        });
+        const session = await answerService.addColumnsByName(['col1']);
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=AddColumns',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'AddColumns',
+                    query: addColumns,
+                    variables: {
+                        session: defaultSession,
+                        columns: [{
+                            logicalColumnId: 'id1',
+                        }],
+                    },
+                }),
+            }),
+        );
     });
 });

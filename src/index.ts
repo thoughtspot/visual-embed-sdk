@@ -3,7 +3,6 @@
  *
  * ThoughtSpot Visual Embed SDK for embedding ThoughtSpot analytics
  * in other web applications.
- *
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */

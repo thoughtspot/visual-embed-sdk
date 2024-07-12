@@ -28,7 +28,6 @@ function failureLoggedFetch(url: string, options: RequestInit = {}): Promise<Res
 
 /**
  * Service to validate a auth token against a ThoughtSpot host.
- *
  * @param thoughtSpotHost : ThoughtSpot host to verify the token against.
  * @param authToken : Auth token to verify.
  */
