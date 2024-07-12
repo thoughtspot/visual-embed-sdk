@@ -2477,19 +2477,31 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * appEmbed.trigger(HostEvent.CreateMonitor)
+     * searchEmbed.trigger(HostEvent.CreateMonitor)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     CreateMonitor = 'createMonitor',
     /**
-     * Trigger the **Manage alerts** action on a visualization
+     * Trigger the **Manage alerts** action on a KPI chart
+     * in a visualization or saved Answer.
+     *
      * @param - an object with `vizId` as a key
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ManageMonitor, {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
+     * ```
+     *
+     * @example
+     * ```js
+     * searchEmbed.trigger(HostEvent.ManageMonitor)
+     * ```
+     *
+     * @example
+     * ```js
+     * vizEmbed.trigger(HostEvent.ManageMonitor)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
