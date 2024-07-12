@@ -2417,18 +2417,30 @@ export enum HostEvent {
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
-     * Trigger the **Make a copy** action on a Liveboard, Search, or
-     * visualization page.
+     * Trigger the **Make a copy** action on a Liveboard,
+     * visualization, or Answer page.
+     *
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.MakeACopy, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * liveboardEmbed.trigger(HostEvent.MakeACopy)
      * ```
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.MakeACopy, {
+     * vizId: '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     *
+     * @example
      * ```js
      * vizEmbed.trigger(HostEvent.MakeACopy)
      * ```
+     *
+     * @example
      * ```js
      * searchEmbed.trigger(HostEvent.MakeACopy)
      * ```
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     MakeACopy = 'makeACopy',
@@ -2452,13 +2464,20 @@ export enum HostEvent {
      */
     Explore = 'explore',
     /**
-     * Trigger the **Create alert** action on a visualization
+     * Trigger the **Create alert** action on a KPI chart
+     * in a Liveboard or saved Answer.
+     *
      * @param - an object with `vizId` as a key
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.CreateMonitor {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
+     * ```
+     *
+     * @example
+     * ```js
+     * appEmbed.trigger(HostEvent.CreateMonitor)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -2863,7 +2882,9 @@ export enum HostEvent {
      */
     UpdateSageQuery = 'updateSageQuery',
     /**
-     * Get the answer session for a Search / Visualization.
+     * Get the answer session for a Search or
+     * Liveboard visualization.
+     *
      * @example
      * ```js
      * const {session} = await embed.trigger(
@@ -2871,6 +2892,12 @@ export enum HostEvent {
      *      vizId: '123', // For Liveboard Visualization.
      *  })
      * ```
+     *
+     * @example
+     * ```js
+     * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
+     * ```
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
      */
     GetAnswerSession = 'getAnswerSession',
