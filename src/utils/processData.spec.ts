@@ -37,7 +37,7 @@ describe('Unit test for process data', () => {
             expect.objectContaining({
                 ...processedData,
                 answerService: {
-                    answer: undefined,
+                    answer: {},
                     selectedPoints: undefined,
                     session: undefined,
                     thoughtSpotHost: 'http://localhost',

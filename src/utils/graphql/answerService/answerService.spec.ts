@@ -1,7 +1,7 @@
 import 'jest-fetch-mock';
-import { AuthType, VizPoint } from '../../../types';
+import { AuthType, RuntimeFilterOp, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
-import { getAnswerData, removeColumns } from './answer-queries';
+import { getAnswerData, removeColumns, addFilter } from './answer-queries';
 import * as authTokenInstance from '../../../authToken';
 import * as tokenizedFetch from '../../../tokenizedFetch';
 import * as embedConfigInstance from '../../../embed/embedConfig';
@@ -265,5 +265,91 @@ describe('Answer service tests', () => {
     test('getUnderlyingDataForPoint should throw when no point is selected', async () => {
         const answerService = createAnswerService({}, null);
         await expect(answerService.getUnderlyingDataForPoint(['col2'])).rejects.toThrow();
+    });
+
+    test('addFilter should call the right API', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    getSourceDetailById: [{
+                        columns: [{
+                            id: 'id1',
+                            name: 'col1',
+                        }],
+                    }],
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__addUpdateFilter: {
+                        id: {
+                            genNo: 2,
+                        },
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService({
+            sources: [{
+                header: {
+                    guid: 'source1',
+                },
+            }],
+        });
+        const session = await answerService.addFilter('col1', RuntimeFilterOp.IN, [2]);
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=AddUpdateFilter',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'AddUpdateFilter',
+                    query: addFilter,
+                    variables: {
+                        session: defaultSession,
+                        params: {
+                            filterContent: [{
+                                filterType: 'IN',
+                                value: [{
+                                    type: 'DOUBLE',
+                                    doubleValue: 2,
+                                }],
+                            }],
+                            filterGroupId: {
+                                logicalColumnId: 'id1',
+                            },
+                        },
+                    },
+                }),
+            }),
+        );
+    });
+
+    test('Should fetch answer if not passed', async () => {
+        fetchMock.mockResponses(JSON.stringify({
+            data: {
+                getAnswer: {
+                    id: {},
+                    answer: {
+                        visualizations: [{
+                            columns: [{
+                                column: {
+                                    id: 'id1',
+                                    name: 'col1',
+                                },
+                            }],
+                        }],
+                        sources: [{
+                            header: {
+                                guid: 'source1',
+                                displayName: 'source1',
+                            },
+                        }],
+                        filterGroups: [],
+                    },
+                },
+            },
+        }));
+        const answerService = new AnswerService(defaultSession, null, 'https://tshost');
+        const answer = await answerService.getAnswer();
+        expect(answer.sources[0].header.guid).toBe('source1');
     });
 });
