@@ -3,7 +3,6 @@
  *
  * Full application embedding
  * https://developers.thoughtspot.com/docs/?pageid=full-embed
- *
  * @summary Full app embed
  * @module
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
@@ -77,7 +76,6 @@ export enum DataPanelCustomColumnGroupsAccordionState {
 
 /**
  * The view configuration for full app embedding.
- *
  * @group Embed components
  */
 export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
@@ -85,10 +83,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
      * This flag also controls the homepage left navigation bar.
-     *
      * @default true
      * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -107,10 +103,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     *
      * @default false
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -125,7 +119,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Global nav-bar. By default, these buttons are visible on the nav-bar.
      * @default false
      * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -142,10 +135,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -162,10 +153,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     *
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default true
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -183,9 +172,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * For eg, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
-     *
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -201,9 +188,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      *
      * Use this to open to particular page in the app. To open to a specific
      * path within the app, use the `path` attribute which is more flexible.
-     *
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -217,7 +202,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * This puts a filter tag on the application. All metadata lists in the
      * application, such as Liveboards and answers, would be filtered by this
      * tag.
-     *
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
      * @example
      * ```js
@@ -230,9 +214,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     tag?: string;
     /**
      * The array of GUIDs to be hidden
-     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -248,7 +230,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * Render liveboards using the new v2 rendering mode
      * This is a transient flag which is primarily meant for internal use
-     *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @hidden
      */
@@ -256,9 +237,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * If set to true, the Search Assist feature is enabled.
      * @default true
-     *
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -271,9 +250,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the pages which support fullHeight mode.
-     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -285,7 +262,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     fullHeight?: boolean;
     /**
      * Flag to control Data panel experience
-     *
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @hidden
@@ -293,10 +269,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     dataPanelV2?: boolean;
     /**
      * Show or hide Liveboard header
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -308,10 +282,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     hideLiveboardHeader?: boolean;
     /**
      * Show or hide Liveboard title
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -323,10 +295,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     showLiveboardTitle?: boolean;
     /**
      * Show or hide Liveboard description
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -338,10 +308,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     showLiveboardDescription?: boolean;
     /**
      * Flag to control new Modular Home experience.
-     *
      * @default false
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -353,7 +321,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     modularHomeExperience?: boolean;
     /**
      * Boolean to control if Liveboard header is sticky or not.
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -366,24 +333,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
-     *
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @default false
      */
     enableAskSage?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
      */
     collapseSearchBarInitially?: boolean;
     /**
      * To enable custom column groups in data panel v2.
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -400,10 +363,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
      * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
-     *
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -416,11 +377,9 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
      * This flag is used to enable the 2 column layout in liveboard
-     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -432,7 +391,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     enable2ColumnLayout?: boolean;
     /**
      * Flag to use OnBeforeSearchExecute embed event
-     *
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
@@ -440,7 +398,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
 
 /**
  * Embeds full ThoughtSpot experience in a host application.
- *
  * @group Embed components
  */
 export class AppEmbed extends V1Embed {
@@ -559,7 +516,6 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Constructs the URL of the ThoughtSpot app page to be rendered.
-     *
      * @param pageId The ID of the page to be embedded.
      */
     public getIFrameSrc(): string {
@@ -576,7 +532,6 @@ export class AppEmbed extends V1Embed {
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.
-     *
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
@@ -597,7 +552,6 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Gets the ThoughtSpot route of the page for a particular page ID.
-     *
      * @param pageId The identifier for a page in the ThoughtSpot app.
      * @param modularHomeExperience
      */
@@ -623,7 +577,6 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Formats the path provided by the user.
-     *
      * @param path The URL path.
      * @returns The URL path that the embedded app understands.
      */
@@ -644,7 +597,6 @@ export class AppEmbed extends V1Embed {
      * Navigate to particular page for app embed. eg:answers/pinboards/home
      * This is used for embedding answers, pinboards, visualizations and full application
      * only.
-     *
      * @param path string | number The string, set to iframe src and navigate to new page
      * eg: appEmbed.navigateToPage('pinboards')
      * When used with `noReload` (default: true) this can also be a number
@@ -676,7 +628,6 @@ export class AppEmbed extends V1Embed {
 
     /**
      * Renders the embedded application pages in the ThoughtSpot app.
-     *
      * @param renderOptions An object containing the page ID
      * to be embedded.
      */

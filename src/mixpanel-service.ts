@@ -27,7 +27,6 @@ let eventQueue: { eventId: string; eventProps: any }[] = [];
 
 /**
  * Pushes the event with its Property key-value map to mixpanel.
- *
  * @param eventId
  * @param eventProps
  */

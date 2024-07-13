@@ -4,7 +4,6 @@
  * Embed a ThoughtSpot Liveboard or visualization
  * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard
  * https://developers.thoughtspot.com/docs/?pageid=embed-a-viz
- *
  * @summary Liveboard & visualization embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -25,7 +24,6 @@ import { V1Embed } from './ts-embed';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
- *
  * @group Embed components
  */
 export interface LiveboardViewConfig
@@ -42,9 +40,7 @@ export interface LiveboardViewConfig
      * visualizations to display on the screen.
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
-     *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -58,7 +54,6 @@ export interface LiveboardViewConfig
      * This is the minimum height(in pixels) for a full-height Liveboard.
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
-     *
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
      * @example
@@ -73,7 +68,6 @@ export interface LiveboardViewConfig
     defaultHeight?: number;
     /**
      * @Deprecated If set to true, the context menu in visualizations will be enabled.
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -81,14 +75,12 @@ export interface LiveboardViewConfig
      *    enableVizTransformations:true,
      * })
      * ```
-     *
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      */
     enableVizTransformations?: boolean;
     /**
      * The Liveboard to display in the embedded view.
      * Use either liveboardId or pinboardId to reference the Liveboard to embed.
-     *
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      * @example
      * ```js
@@ -100,15 +92,12 @@ export interface LiveboardViewConfig
     liveboardId?: string;
     /**
      * To support backward compatibility
-     *
      * @hidden
      */
     pinboardId?: string;
     /**
      * The visualization within the Liveboard to display.
-     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -121,7 +110,6 @@ export interface LiveboardViewConfig
     /**
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
-     *
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
      * @example
      * ```js
@@ -136,9 +124,7 @@ export interface LiveboardViewConfig
      * Array of visualization IDs which should be visible when the Liveboard
      * renders. This can be changed by triggering the `SetVisibleVizs`
      * event.
-     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -152,14 +138,12 @@ export interface LiveboardViewConfig
     visibleVizs?: string[];
     /**
      * To support backward compatibility
-     *
      * @hidden
      */
     preventPinboardFilterRemoval?: boolean;
     /**
      * Render embedded Liveboards and visualizations in the
      * new Liveboard experience mode.
-     *
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      * @example
      * ```js
@@ -173,7 +157,6 @@ export interface LiveboardViewConfig
     /**
      * Set a Liveboard tab as an active tab.
      * Specify the tab ID.
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -186,9 +169,7 @@ export interface LiveboardViewConfig
     activeTabId?: string;
     /**
      * Show or hide the tab panel of the embedded Liveboard.
-     *
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -200,7 +181,6 @@ export interface LiveboardViewConfig
     hideTabPanel?: boolean;
     /**
      * Show or hide the Liveboard header.
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
      * @default false
      * @example
@@ -216,7 +196,6 @@ export interface LiveboardViewConfig
      * Show or hide the Liveboard title.
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -230,7 +209,6 @@ export interface LiveboardViewConfig
      * Show or hide the Liveboard description.
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -244,7 +222,6 @@ export interface LiveboardViewConfig
      * Control the position and visibility of
      * the Liveboard header as the users scroll down the
      * embedded Liveboard page.
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -257,7 +234,6 @@ export interface LiveboardViewConfig
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
-     *
      * @default false
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @example
@@ -271,11 +247,9 @@ export interface LiveboardViewConfig
     enableAskSage?: boolean;
     /**
      * This flag is used to enable the 2 column layout in liveboard
-     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -291,7 +265,6 @@ export interface LiveboardViewConfig
  * Embed a ThoughtSpot Liveboard or visualization. When rendered it already
  * waits for the authentication to complete, so you need not wait for
  * `AuthStatus.SUCCESS`.
- *
  * @example
  * ```js
  * import { .. } from '@thoughtspot/visual-embed-sdk';
@@ -429,7 +402,6 @@ export class LiveboardEmbed extends V1Embed {
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.
-     *
      * @param data The event payload
      */
     private updateIFrameHeight = (data: MessagePayload) => {
@@ -483,7 +455,6 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Triggers an event to the embedded app
-     *
      * @param messageType The event type
      * @param data The payload to send with the message
      */
@@ -501,7 +472,6 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
-     *
      * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
      */

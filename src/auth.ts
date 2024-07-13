@@ -2,9 +2,7 @@ import EventEmitter from 'eventemitter3';
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
-import {
-    AuthType, DOMSelector, EmbedConfig, EmbedEvent,
-} from './types';
+import { AuthType, DOMSelector, EmbedConfig, EmbedEvent } from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
 import {
     EndPoints,
@@ -31,7 +29,6 @@ export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
  * of {@link AuthStatus.FAILURE}.
- *
  * @group Authentication / Init
  */
 export enum AuthFailureType {
@@ -43,7 +40,6 @@ export enum AuthFailureType {
 
 /**
  * Enum for auth status emitted by the emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export enum AuthStatus {
@@ -67,7 +63,6 @@ export enum AuthStatus {
      * Emitted when inPopup is true in the SAMLRedirect flow and the
      * popup is waiting to be triggered either programmatically
      * or by the trigger button.
-     *
      * @version SDK: 1.19.0
      */
     WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
@@ -75,20 +70,17 @@ export enum AuthStatus {
 
 /**
  * Event emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export interface AuthEventEmitter {
     /**
      * Register a listener on Auth failure.
-     *
      * @param event
      * @param listener
      */
     on(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
     /**
      * Register a listener on Auth SDK success.
-     *
      * @param event
      * @param listener
      */
@@ -105,13 +97,11 @@ export interface AuthEventEmitter {
     once(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
     /**
      * Trigger an event on the emitter returned from init.
-     *
      * @param {@link AuthEvent}
      */
     emit(event: AuthEvent, ...args: any[]): boolean;
     /**
      * Remove listener from the emitter returned from init.
-     *
      * @param event
      * @param listener
      * @param context
@@ -120,7 +110,6 @@ export interface AuthEventEmitter {
     off(event: AuthStatus, listener: (...args: any[]) => void, context: any, once: boolean): this;
     /**
      * Remove all the event listeners
-     *
      * @param event
      */
     removeAllListeners(event: AuthStatus): this;
@@ -128,7 +117,6 @@ export interface AuthEventEmitter {
 
 /**
  * Events which can be triggered on the emitter returned from {@link init}.
- *
  * @group Authentication / Init
  */
 export enum AuthEvent {
@@ -208,7 +196,6 @@ export function notifyLogout(): void {
 
 /**
  * Check if we are logged into the ThoughtSpot cluster
- *
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
@@ -273,13 +260,10 @@ function removeSSORedirectUrlMarker(): void {
 
 /**
  * Perform token based authentication
- *
  * @param embedConfig The embed configuration
  */
 export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
-    const {
-        thoughtSpotHost, username, authEndpoint, getAuthToken,
-    } = embedConfig;
+    const { thoughtSpotHost, username, authEndpoint, getAuthToken } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
@@ -312,7 +296,6 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
 
 /**
  * Validate embedConfig parameters required for cookielessTokenAuth
- *
  * @param embedConfig The embed configuration
  */
 export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
@@ -339,7 +322,6 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
  *
  * Warning: This feature is primarily intended for developer testing. It is
  * strongly advised not to use this authentication method in production.
- *
  * @param embedConfig The embed configuration
  */
 export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
@@ -378,13 +360,15 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
     authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
     if (containerEl) {
-        containerEl.innerHTML = '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
+        containerEl.innerHTML =
+            '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
         const authElem = document.getElementById('ts-auth-btn');
         authElem.textContent = triggerText;
         authElem.addEventListener('click', openPopup, { once: true });
     }
-    samlCompletionPromise = samlCompletionPromise
-        || new Promise<void>((resolve, reject) => {
+    samlCompletionPromise =
+        samlCompletionPromise ||
+        new Promise<void>((resolve, reject) => {
             window.addEventListener('message', (e) => {
                 if (e.data.type === EmbedEvent.SAMLComplete) {
                     (e.source as Window).close();
@@ -399,7 +383,6 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
 
 /**
  * Perform SAML authentication
- *
  * @param embedConfig The embed configuration
  * @param ssoEndPoint
  */
@@ -439,10 +422,10 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     const ssoRedirectUrl = embedConfig.inPopup
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
         : getRedirectUrl(
-            window.location.href,
-            SSO_REDIRECTION_MARKER_GUID,
-            embedConfig.redirectPath,
-        );
+              window.location.href,
+              SSO_REDIRECTION_MARKER_GUID,
+              embedConfig.redirectPath,
+          );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
@@ -455,13 +438,14 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be
     // loaded again and the same JS will execute again.
-    const ssoRedirectUrl = embedConfig.noRedirect || embedConfig.inPopup
-        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-        : getRedirectUrl(
-            window.location.href,
-            SSO_REDIRECTION_MARKER_GUID,
-            embedConfig.redirectPath,
-        );
+    const ssoRedirectUrl =
+        embedConfig.noRedirect || embedConfig.inPopup
+            ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+            : getRedirectUrl(
+                  window.location.href,
+                  SSO_REDIRECTION_MARKER_GUID,
+                  embedConfig.redirectPath,
+              );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
@@ -486,7 +470,6 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
 
 /**
  * Perform authentication on the ThoughtSpot cluster
- *
  * @param embedConfig The embed configuration
  */
 export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> => {
