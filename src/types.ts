@@ -3935,7 +3935,7 @@ export enum Action {
      * hiddenAction: [Action.CreateLiveboard]
      * disabledActions: [Action.CreateLiveboard]
      *
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.31.1 | Thoughtspot: 10.1.0.cl
      */
     CreateLiveboard = 'CreateLiveboard',
 
