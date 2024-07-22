@@ -2325,7 +2325,7 @@ export enum HostEvent {
      * sorting, toggling of legends, and data drill down.
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.getexportrequestforcurrentpinboard).then(
+     * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
      * data=>console.log(data))
      * ```
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1.sw

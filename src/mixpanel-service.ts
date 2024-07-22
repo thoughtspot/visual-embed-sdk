@@ -1,5 +1,6 @@
 import * as mixpanel from 'mixpanel-browser';
 import { logger } from './utils/logger';
+import { SessionInfo } from './utils/sessionInfoService';
 
 export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',
@@ -54,8 +55,9 @@ function emptyQueue() {
  *
  * @param sessionInfo
  */
-export function initMixpanel(sessionInfo: any): void {
+export function initMixpanel(sessionInfo: SessionInfo): void {
     if (!sessionInfo || !sessionInfo.mixpanelToken) {
+        logger.error('Mixpanel token not found in session info');
         return;
     }
     // On a public cluster the user is anonymous, so don't set the identify to

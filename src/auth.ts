@@ -1,20 +1,21 @@
 import EventEmitter from 'eventemitter3';
+import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
+import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
 import {
-    AuthType, DOMSelector, EmbedConfig, EmbedEvent, Param,
+    AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
 import {
-    fetchSessionInfoService,
+    EndPoints,
+    fetchAuthPostService,
     fetchAuthService,
     fetchBasicAuthService,
     fetchLogoutService,
-    fetchAuthPostService,
-    EndPoints,
 } from './utils/authService';
-import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
+import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
-import { getEmbedConfig } from './embed/embedConfig';
+import { getSessionInfo } from './utils/sessionInfoService';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -22,21 +23,10 @@ export let loggedInStatus = false;
 export let samlAuthWindow: Window = null;
 // eslint-disable-next-line import/no-mutable-exports
 export let samlCompletionPromise: Promise<void> = null;
-let sessionInfo: sessionInfoInterface = null;
-let sessionInfoResolver: (value: sessionInfoInterface) => void = null;
-const sessionInfoPromise = new Promise((resolve: (value: sessionInfoInterface) => void) => {
-    sessionInfoResolver = resolve;
-});
+
 let releaseVersion = '';
 
 export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b';
-
-interface sessionInfoInterface {
-    userGUID: any;
-    isPublicUser: any;
-    mixpanelToken: any;
-    [key: string]: any;
-}
 
 /**
  * Enum for auth failure types. This is the parameter passed to the listner
@@ -170,12 +160,17 @@ export function notifyAuthSDKSuccess(): void {
 /**
  *
  */
-export function notifyAuthSuccess(): void {
+export async function notifyAuthSuccess(): Promise<void> {
     if (!authEE) {
         logger.error('SDK not initialized');
         return;
     }
-    authEE.emit(AuthStatus.SUCCESS, sessionInfo);
+    try {
+        const sessionInfo = await getSessionInfo();
+        authEE.emit(AuthStatus.SUCCESS, sessionInfo);
+    } catch (e) {
+        logger.error('Failed to get session info');
+    }
 }
 
 /**
@@ -201,52 +196,42 @@ export function notifyLogout(): void {
     authEE.emit(AuthStatus.LOGOUT);
 }
 
-export const initSession = (sessionDetails: sessionInfoInterface) => {
-    const embedConfig = getEmbedConfig();
-    if (sessionInfo == null) {
-        sessionInfo = sessionDetails;
-        if (!embedConfig.disableSDKTracking) {
-            initMixpanel(sessionInfo);
-        }
-        sessionInfoResolver(sessionInfo);
-    }
-};
-
-export const getSessionDetails = (sessionInfoResp: any): sessionInfoInterface => {
-    const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
-    const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
-    const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
-        ? prodMixpanelToken
-        : devMixpanelToken;
-    return {
-        userGUID: sessionInfoResp.userGUID,
-        mixpanelToken,
-        isPublicUser: sessionInfoResp.configInfo.isPublicUser,
-        releaseVersion: sessionInfoResp.releaseVersion,
-        clusterId: sessionInfoResp.configInfo.selfClusterId,
-        clusterName: sessionInfoResp.configInfo.selfClusterName,
-        ...sessionInfoResp,
-    };
-};
-
 /**
  * Check if we are logged into the ThoughtSpot cluster
  * @param thoughtSpotHost The ThoughtSpot cluster hostname or IP
  */
 async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
-    const authVerificationUrl = `${thoughtSpotHost}${EndPoints.AUTH_VERIFICATION}`;
-    let response = null;
     try {
-        response = await fetchSessionInfoService(authVerificationUrl);
-        const sessionInfoResp = await response.json();
-        const sessionDetails = getSessionDetails(sessionInfoResp);
-        // Store user session details from session info
-        initSession(sessionDetails);
-        releaseVersion = sessionInfoResp.releaseVersion;
+        const response = await isActiveService(thoughtSpotHost);
+        return response;
     } catch (e) {
         return false;
     }
-    return response.status === 200;
+}
+
+/**
+ * Services to be called after the login is successful,
+ * This should be called after the cookie is set for cookie auth or
+ * after the token is set for cookieless.
+ *
+ * @return {Promise<void>}
+ * @example
+ * ```js
+ * await postLoginService();
+ * ```
+ * @version SDK: 1.28.3 | ThoughtSpot: *
+ */
+export async function postLoginService(): Promise<void> {
+    try {
+        const sessionInfo = await getSessionInfo();
+        releaseVersion = sessionInfo.releaseVersion;
+        const embedConfig = getEmbedConfig();
+        if (!embedConfig.disableSDKTracking) {
+            initMixpanel(sessionInfo);
+        }
+    } catch (e) {
+        logger.error('Post login services failed.', e.message);
+    }
 }
 
 /**
@@ -254,15 +239,6 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  */
 export function getReleaseVersion() {
     return releaseVersion;
-}
-
-/**
- * Return a promise that resolves with the session information when
- * authentication is successful. And info is available.
- * @group Global methods
- */
-export function getSessionInfo(): Promise<sessionInfoInterface> {
-    return sessionInfoPromise;
 }
 
 /**
@@ -296,8 +272,15 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     loggedInStatus = await isLoggedIn(thoughtSpotHost);
+
     if (!loggedInStatus) {
-        const authToken = await getAuthenticationToken(embedConfig);
+        let authToken: string;
+        try {
+            authToken = await getAuthenticationToken(embedConfig);
+        } catch (e) {
+            loggedInStatus = false;
+            throw e;
+        }
         let resp;
         try {
             resp = await fetchAuthPostService(thoughtSpotHost, username, authToken);
@@ -386,15 +369,14 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
         authElem.textContent = triggerText;
         authElem.addEventListener('click', openPopup, { once: true });
     }
-    samlCompletionPromise = samlCompletionPromise
-        || new Promise<void>((resolve, reject) => {
-            window.addEventListener('message', (e) => {
-                if (e.data.type === EmbedEvent.SAMLComplete) {
-                    (e.source as Window).close();
-                    resolve();
-                }
-            });
+    samlCompletionPromise = samlCompletionPromise || new Promise<void>((resolve, reject) => {
+        window.addEventListener('message', (e) => {
+            if (e.data.type === EmbedEvent.SAMLComplete) {
+                (e.source as Window).close();
+                resolve();
+            }
         });
+    });
 
     authEE?.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
     return samlCompletionPromise;
@@ -476,7 +458,7 @@ export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
     await fetchLogoutService(thoughtSpotHost);
     resetCachedAuthToken();
-    const thoughtspotIframes = document.querySelectorAll('[data-ts-iframe=\'true\']');
+    const thoughtspotIframes = document.querySelectorAll("[data-ts-iframe='true']");
     if (thoughtspotIframes?.length) {
         thoughtspotIframes.forEach((el) => {
             el.parentElement.innerHTML = embedConfig.loginFailedMessage;

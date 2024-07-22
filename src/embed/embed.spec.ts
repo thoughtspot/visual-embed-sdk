@@ -9,6 +9,7 @@ import {
     getIFrameEl,
     getRootEl,
 } from '../test/test-utils';
+import * as authInstance from '../auth';
 
 const thoughtSpotHost = 'tshost';
 const defaultViewConfig = {
@@ -24,6 +25,7 @@ beforeAll(() => {
         authType: AuthType.None,
     });
     spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
 });
 
 describe('test view config', () => {

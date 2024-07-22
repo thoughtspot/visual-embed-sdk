@@ -23,6 +23,7 @@ import {
 } from '../test/test-utils';
 import * as tsEmbed from './ts-embed';
 import * as processTriggerInstance from '../utils/processTrigger';
+import * as auth from '../auth';
 
 const defaultViewConfig = {
     frameParams: {
@@ -43,6 +44,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
 });
 
 describe('Liveboard/viz embed tests', () => {

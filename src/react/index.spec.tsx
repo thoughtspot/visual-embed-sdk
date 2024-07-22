@@ -24,12 +24,19 @@ import {
 
 import { version } from '../../package.json';
 
+import * as auth from '../auth';
+import * as sessionService from '../utils/sessionInfoService';
+
 const thoughtSpotHost = 'localhost';
 
 beforeAll(() => {
     init({
         thoughtSpotHost,
         authType: AuthType.None,
+    });
+    jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
+    jest.spyOn(sessionService, 'getSessionInfo').mockReturnValue({
+        userGUID: 'abcd',
     });
     spyOn(window, 'alert');
 });

@@ -26,9 +26,10 @@ describe('Unit test for authService', () => {
             status: 200,
             ok: true,
         }));
-        const response = await fetchSessionInfoService(authVerificationUrl);
-        expect(response.status).toBe(200);
+        const response = await fetchSessionInfoService(thoughtSpotHost);
+        expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {});
     });
 
     test('fetchAuthTokenService', async () => {
@@ -108,11 +109,15 @@ describe('Unit test for authService', () => {
             status: 500,
             ok: false,
         }));
-        await fetchSessionInfoService(authVerificationUrl);
-        expect(logger.error).toHaveBeenCalledWith('Failure', 'error');
+        try {
+            await fetchSessionInfoService(authVerificationUrl);
+        } catch (e) {
+            expect(e.message).toContain('Failed to fetch session info');
+        }
+        expect(logger.error).toHaveBeenCalledWith('Failed to fetch http://localhost:3000/callosum/v1/session/info', 'error');
     });
 
-    test('verifyTokenService', async () => {
+    test('verifyTokenService if token api works', async () => {
         global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
         await verifyTokenService(thoughtSpotHost, authToken);
         expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
@@ -122,5 +127,13 @@ describe('Unit test for authService', () => {
                 'x-requested-by': 'ThoughtSpot',
             },
         });
+    });
+
+    test('verifyTokenService if token api fails', async () => {
+        global.fetch = jest.fn(() => Promise.reject(new Error('error')));
+        jest.spyOn(logger, 'warn');
+        const status = await verifyTokenService(thoughtSpotHost, authToken);
+        expect(status).toBe(false);
+        expect(logger.warn).toHaveBeenCalledWith('Token Verification Service failed : error');
     });
 });

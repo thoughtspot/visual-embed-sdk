@@ -28,6 +28,7 @@ describe('Base TS Embed', () => {
             thoughtSpotHost,
             authType: index.AuthType.None,
         }) as EventEmitter;
+        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     });
 
     beforeEach(() => {
