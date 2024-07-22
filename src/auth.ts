@@ -2,7 +2,9 @@ import EventEmitter from 'eventemitter3';
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
-import { AuthType, DOMSelector, EmbedConfig, EmbedEvent } from './types';
+import {
+    AuthType, DOMSelector, EmbedConfig, EmbedEvent,
+} from './types';
 import { getDOMNode, getRedirectUrl } from './utils';
 import {
     EndPoints,
@@ -263,7 +265,9 @@ function removeSSORedirectUrlMarker(): void {
  * @param embedConfig The embed configuration
  */
 export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
-    const { thoughtSpotHost, username, authEndpoint, getAuthToken } = embedConfig;
+    const {
+        thoughtSpotHost, username, authEndpoint, getAuthToken,
+    } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
@@ -360,22 +364,19 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
     authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
     if (containerEl) {
-        containerEl.innerHTML =
-            '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
+        containerEl.innerHTML = '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
         const authElem = document.getElementById('ts-auth-btn');
         authElem.textContent = triggerText;
         authElem.addEventListener('click', openPopup, { once: true });
     }
-    samlCompletionPromise =
-        samlCompletionPromise ||
-        new Promise<void>((resolve, reject) => {
-            window.addEventListener('message', (e) => {
-                if (e.data.type === EmbedEvent.SAMLComplete) {
-                    (e.source as Window).close();
-                    resolve();
-                }
-            });
+    samlCompletionPromise = samlCompletionPromise || new Promise<void>((resolve, reject) => {
+        window.addEventListener('message', (e) => {
+            if (e.data.type === EmbedEvent.SAMLComplete) {
+                (e.source as Window).close();
+                resolve();
+            }
         });
+    });
 
     authEE?.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
     return samlCompletionPromise;
@@ -422,10 +423,10 @@ export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     const ssoRedirectUrl = embedConfig.inPopup
         ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
         : getRedirectUrl(
-              window.location.href,
-              SSO_REDIRECTION_MARKER_GUID,
-              embedConfig.redirectPath,
-          );
+            window.location.href,
+            SSO_REDIRECTION_MARKER_GUID,
+            embedConfig.redirectPath,
+        );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.SAML_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
@@ -438,14 +439,13 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be
     // loaded again and the same JS will execute again.
-    const ssoRedirectUrl =
-        embedConfig.noRedirect || embedConfig.inPopup
-            ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
-            : getRedirectUrl(
-                  window.location.href,
-                  SSO_REDIRECTION_MARKER_GUID,
-                  embedConfig.redirectPath,
-              );
+    const ssoRedirectUrl = embedConfig.noRedirect || embedConfig.inPopup
+        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        : getRedirectUrl(
+            window.location.href,
+            SSO_REDIRECTION_MARKER_GUID,
+            embedConfig.redirectPath,
+        );
 
     // bring back the page to the same URL
     const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
