@@ -2100,12 +2100,12 @@ export enum EmbedEvent {
      *```
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
-     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
-     /**
-      * Emitted when runtime parameters changes
-      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
-      */
-     ParameterChanged = 'ParameterChanged'
+    OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+    /**
+     * Emitted when runtime parameters changes
+     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     */
+    ParameterChanged = 'ParameterChanged',
 }
 
 /**
@@ -2935,15 +2935,6 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
-    /**
-     * Trigger CreateLiveboard for liveboard list page & Pin Modal
-     * @example
-     * ```js
-     * liveboardEmbed.trigger(HostEvent.CreateLiveboard);
-     *
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
-     */
-    CreateLiveboard = 'CreateLiveboard',
     /**
      * Triggers Update RuntimeParameters for answers and liveboard
      * @example
@@ -3936,6 +3927,17 @@ export enum Action {
      * @version SDK : 1.28.3 | Thoughtspot: 9.12.0.cl
      */
     TML = 'tml',
+
+    /**
+     * Action Id for CreateLiveboard for liveboard list page & Pin Modal
+     * @example
+     * ```js
+     * hiddenAction: [Action.CreateLiveboard]
+     * disabledActions: [Action.CreateLiveboard]
+     *
+     * @version SDK: 1.31.1 | Thoughtspot: 10.1.0.cl
+     */
+    CreateLiveboard = 'CreateLiveboard',
 
     /**
      * Action ID for to hide Verified Liveboard Banner
