@@ -2086,26 +2086,33 @@ export enum EmbedEvent {
     /**
      * Emitted when user wants to intercept the search execution
      *
-     * Make isOnBeforeGetVizDataEnabled : true to use this embed
-     * event
+     * Set IsOnBeforeGetVizDataInterceptEnabled : true to use
+     * this embed event
      *
      *```js
-     * searchEmbed.on(EmbedEvent.OnBeforeGetVizData, (payload, responder) => {
-     * responder({
-     * data: {
-     * execute: true,
-     * error: {errorText: "My own customised error"}
-     * }})
-     *   })
+     * searchEmbed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
+     * (payload, responder) => {
+     *  responder({
+     *      data: {
+     *          execute: true,
+     *   }})
+     * })
      *```
-     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
-    OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
-    /**
-     * Emitted when runtime parameters changes
-     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
-     */
-    ParameterChanged = 'ParameterChanged',
+     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+     /**
+      * Emitted when parameter changes in an answer
+      * or liveboard
+      *
+      * ```js
+      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
+      *     console.log('payload', payload);
+      * })
+      *```
+      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+      */
+     ParameterChanged = 'parameterChanged'
 }
 
 /**
@@ -2950,8 +2957,10 @@ export enum HostEvent {
     /**
      * Triggers GetParameters to fetch the runtime parameters
      * ```js
-     * liveboardEmbed.trigger(HostEvent.GetParameters);
-     *
+     * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
+     *  console.log('parameters', parameter);
+     * });
+     *```
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     GetParameters = 'GetParameters',
