@@ -369,7 +369,7 @@ export class TsEmbed {
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
-        let queryString = query;
+        let queryString = (query.startsWith('?')) ? query : `?${query}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
@@ -1258,7 +1258,9 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return this.getV1EmbedBasePath(queryString);
+        return (this.viewConfig.enableV2Shell_experimental)
+            ? this.getEmbedBasePath(queryString)
+            : this.getV1EmbedBasePath(queryString);
     }
 
     /**
