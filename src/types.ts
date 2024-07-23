@@ -588,7 +588,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iframe configuration
@@ -998,6 +998,20 @@ export interface ViewConfig {
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
+    /**
+     * Enable the V2 shell. This can provide performance benefits
+     * due to a lighterweight shell.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   liveboardId: '123',
+     *   enableV2Shell_experimental: true
+     * });
+     * ```
+     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
+     */
+    // eslint-disable-next-line camelcase
+    enableV2Shell_experimental?: boolean;
 }
 
 /**
@@ -2100,19 +2114,19 @@ export enum EmbedEvent {
      *```
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
-     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
-     /**
-      * Emitted when parameter changes in an answer
-      * or liveboard
-      *
-      * ```js
-      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
-      *     console.log('payload', payload);
-      * })
-      *```
-      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
-      */
-     ParameterChanged = 'parameterChanged'
+    OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+    /**
+     * Emitted when parameter changes in an answer
+     * or liveboard
+     *
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     */
+    ParameterChanged = 'parameterChanged'
 }
 
 /**
@@ -4036,15 +4050,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {
