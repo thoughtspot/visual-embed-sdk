@@ -1100,6 +1100,10 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('V1Embed ', () => {
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
+        });
+
         test('when isRendered is true than isError will be true', () => {
             spyOn(logger, 'error');
             const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
@@ -1110,6 +1114,18 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith(
                 'Please register event handlers before calling render',
             );
+        });
+
+        test('Generates the correct url for V1Embed when V2 shell is enabled', async () => {
+            const v1Embed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId: '123',
+                enableV2Shell_experimental: true,
+            });
+            await v1Embed.render();
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain('/v2/?');
+            });
         });
     });
 
