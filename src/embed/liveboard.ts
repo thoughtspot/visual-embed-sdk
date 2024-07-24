@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
@@ -21,6 +22,7 @@ import {
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
+import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -259,6 +261,16 @@ export interface LiveboardViewConfig
      * ```
      */
     enable2ColumnLayout?: boolean;
+    /**
+     * Show a preview image of the visualization before the visualization loads.
+     * Only works for visualizations embeds with a viz id.
+     * 
+     * Also, viz snashot should be enabled in the ThoughtSpot instance.
+     * Contact ThoughtSpot support to enable this feature.
+     * 
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
+     */
+    showPreviewLoader?: boolean;
 }
 
 /**
@@ -431,6 +443,36 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
+    private async showPreviewLoader() {
+        if (!this.viewConfig.showPreviewLoader || !this.viewConfig.vizId) {
+            return;
+        }
+
+        const preview = await getPreview(
+            this.thoughtSpotHost,
+            this.viewConfig.vizId,
+            this.viewConfig.liveboardId,
+        );
+
+        if (!preview.vizContent) {
+            return;
+        }
+        addPreviewStylesIfNotPresent();
+
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <div class=ts-viz-preview-loader>
+                ${preview.vizContent}
+            </div>
+        `;
+        const previewDiv = div.firstElementChild as HTMLElement;
+        this.el.appendChild(previewDiv);
+        this.el.style.position = 'relative';
+        this.on(EmbedEvent.Data, () => {
+            previewDiv.remove();
+        });
+    }
+
     protected beforePrerenderVisible(): void {
         const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
 
@@ -478,8 +520,10 @@ export class LiveboardEmbed extends V1Embed {
     public async render(): Promise<LiveboardEmbed> {
         super.render();
 
+
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
+        this.showPreviewLoader();
 
         return this;
     }
@@ -502,4 +546,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed {}
+export class PinboardEmbed extends LiveboardEmbed { }
