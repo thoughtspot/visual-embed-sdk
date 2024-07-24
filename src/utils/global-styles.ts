@@ -4,7 +4,7 @@ export const addPreviewStylesIfNotPresent = () => {
         return;
     }
 
-    const stye = `
+    const previewStyles = `
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/styles/ag-grid.min.css">
         <style id="ts-preview-style">
            .ts-viz-preview-loader {
@@ -35,6 +35,6 @@ export const addPreviewStylesIfNotPresent = () => {
                 height: 100%;
            }
         </style>
-    `
-    document.head.insertAdjacentHTML('beforeend', stye)
-}
+    `;
+    document.head.insertAdjacentHTML('beforeend', previewStyles);
+};

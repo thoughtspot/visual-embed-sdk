@@ -1291,8 +1291,9 @@ export class V1Embed extends TsEmbed {
 
     /**
      * Only for testing purposes.
-     * 
+     *
      * @hidden
      */
+    // eslint-disable-next-line camelcase
     public test__executeCallbacks = this.executeCallbacks;
 }

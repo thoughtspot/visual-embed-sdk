@@ -579,7 +579,6 @@ describe('Liveboard/viz embed tests', () => {
                 expect(getRootEl().style.position).toEqual('relative');
                 expect(getRootEl().innerHTML).toContain('<div class="ts-viz-preview-loader">');
                 expect(getRootEl().innerHTML).toContain('<div id="test">test</div>');
-
             });
 
             libEmbed.test__executeCallbacks(EmbedEvent.Data, {});
@@ -587,7 +586,6 @@ describe('Liveboard/viz embed tests', () => {
                 expect(getRootEl().innerHTML).not.toContain('ts-viz-preview-loader');
             });
         });
-
 
         test('it should navigateToLiveboard with liveboard id is not passed', async (done) => {
             mockMessageChannel();

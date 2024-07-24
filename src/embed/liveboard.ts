@@ -264,10 +264,23 @@ export interface LiveboardViewConfig
     /**
      * Show a preview image of the visualization before the visualization loads.
      * Only works for visualizations embeds with a viz id.
-     * 
+     *
      * Also, viz snashot should be enabled in the ThoughtSpot instance.
      * Contact ThoughtSpot support to enable this feature.
-     * 
+     *
+     * Since, this will show preview images, be careful that it may show
+     * undesired data to the user when using row level security.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *   liveboardId: 'liveboard-id',
+     *   vizId: 'viz-id',
+     *   showPreviewLoader: true,
+     * });
+     * embed.render();
+     * ```
+     *
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
@@ -448,29 +461,33 @@ export class LiveboardEmbed extends V1Embed {
             return;
         }
 
-        const preview = await getPreview(
-            this.thoughtSpotHost,
-            this.viewConfig.vizId,
-            this.viewConfig.liveboardId,
-        );
+        try {
+            const preview = await getPreview(
+                this.thoughtSpotHost,
+                this.viewConfig.vizId,
+                this.viewConfig.liveboardId,
+            );
 
-        if (!preview.vizContent) {
-            return;
+            if (!preview.vizContent) {
+                return;
+            }
+            addPreviewStylesIfNotPresent();
+
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <div class=ts-viz-preview-loader>
+                    ${preview.vizContent}
+                </div>
+                `;
+            const previewDiv = div.firstElementChild as HTMLElement;
+            this.el.appendChild(previewDiv);
+            this.el.style.position = 'relative';
+            this.on(EmbedEvent.Data, () => {
+                previewDiv.remove();
+            });
+        } catch (error) {
+            console.error('Error fetching preview', error);
         }
-        addPreviewStylesIfNotPresent();
-
-        const div = document.createElement('div');
-        div.innerHTML = `
-            <div class=ts-viz-preview-loader>
-                ${preview.vizContent}
-            </div>
-        `;
-        const previewDiv = div.firstElementChild as HTMLElement;
-        this.el.appendChild(previewDiv);
-        this.el.style.position = 'relative';
-        this.on(EmbedEvent.Data, () => {
-            previewDiv.remove();
-        });
     }
 
     protected beforePrerenderVisible(): void {
@@ -519,7 +536,6 @@ export class LiveboardEmbed extends V1Embed {
      */
     public async render(): Promise<LiveboardEmbed> {
         super.render();
-
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
