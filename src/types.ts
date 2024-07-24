@@ -588,7 +588,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig { }
+export interface LayoutConfig {}
 
 /**
  * Embedded iframe configuration
@@ -2126,7 +2126,7 @@ export enum EmbedEvent {
      *```
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
-    ParameterChanged = 'parameterChanged'
+    ParameterChanged = 'parameterChanged',
 }
 
 /**
@@ -3957,8 +3957,9 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.CreateLiveboard]
      * disabledActions: [Action.CreateLiveboard]
+     * ```
      *
-     * @version SDK: 1.31.1 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.32.0 | Thoughtspot: 10.1.0.cl
      */
     CreateLiveboard = 'CreateLiveboard',
 
@@ -4050,15 +4051,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-    | string
-    | number
-    | boolean
-    | {
-        v: {
-            s: number;
-            e: number;
-        };
-    };
+        | string
+        | number
+        | boolean
+        | {
+              v: {
+                  s: number;
+                  e: number;
+              };
+          };
 }
 
 export interface VizPoint {
