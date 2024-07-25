@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.32.0-alpha.1",
+    "version": "1.32.0-alpha.2",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -67,7 +67,8 @@
         "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts-file && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
         "check-size": "npm run build && size-limit",
         "publish-dev": "npm publish --tag dev",
-        "publish-prod": "npm publish --tag latest"
+        "publish-prod": "npm publish --tag latest",
+        "dev": "vite -c vite.local.config.ts"
     },
     "peerDependencies": {
         "react": "> 16.8.0",
@@ -157,7 +158,8 @@
         "typedoc-plugin-toc-group": "thoughtspot/typedoc-plugin-toc-group",
         "typescript": "^4.9.4",
         "url-search-params-polyfill": "^8.1.0",
-        "util": "^0.12.4"
+        "util": "^0.12.4",
+        "vite": "^5.3.4"
     },
     "author": "ThoughtSpot",
     "email": "support@thoughtspot.com",
