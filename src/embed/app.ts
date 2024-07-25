@@ -10,14 +10,7 @@
 
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
-import {
-    Param,
-    DOMSelector,
-    HostEvent,
-    ViewConfig,
-    EmbedEvent,
-    MessagePayload,
-} from '../types';
+import { Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload } from '../types';
 import { V1Embed } from './ts-embed';
 
 /**
@@ -264,7 +257,13 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Flag to control Data panel experience
      * @default false
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @hidden
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataPanelV2: true,
+     * })
+     * ```
      */
     dataPanelV2?: boolean;
     /**
@@ -445,7 +444,6 @@ export class AppEmbed extends V1Embed {
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
-
         } = this.viewConfig;
 
         let params = {};
@@ -490,7 +488,9 @@ export class AppEmbed extends V1Embed {
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
             /* eslint-disable-next-line max-len */
-            params[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
+            params[
+                Param.IsOnBeforeGetVizDataInterceptEnabled
+            ] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
@@ -498,16 +498,20 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (dataPanelCustomGroupsAccordionInitialState
-            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
-            || dataPanelCustomGroupsAccordionInitialState
-            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (
+            dataPanelCustomGroupsAccordionInitialState ===
+                DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
+            dataPanelCustomGroupsAccordionInitialState ===
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
             /* eslint-disable-next-line max-len */
-            params[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
+            params[
+                Param.DataPanelCustomGroupsAccordionInitialState
+            ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
             /* eslint-disable-next-line max-len */
-            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] =
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         const queryParams = getQueryParamString(params, true);
 
