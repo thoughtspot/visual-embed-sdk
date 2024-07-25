@@ -3912,7 +3912,7 @@ export enum Action {
      * disabledActions: [Action.ManageMonitor]
      * ```
      */
-    ManageMonitor = 'ManageMonitor',
+    ManageMonitor = 'manageMonitor',
     /**
      * Action ID for Liveboard Personalised Views dropdown
      *  @example
