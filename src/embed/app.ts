@@ -10,7 +10,14 @@
 
 import { logger } from '../utils/logger';
 import { getQueryParamString } from '../utils';
-import { Param, DOMSelector, HostEvent, ViewConfig, EmbedEvent, MessagePayload } from '../types';
+import {
+    Param,
+    DOMSelector,
+    HostEvent,
+    ViewConfig,
+    EmbedEvent,
+    MessagePayload,
+} from '../types';
 import { V1Embed } from './ts-embed';
 
 /**
@@ -498,11 +505,10 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
             /* eslint-disable-next-line max-len */
             params[
@@ -510,8 +516,7 @@ export class AppEmbed extends V1Embed {
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
             /* eslint-disable-next-line max-len */
-            params[Param.DataPanelCustomGroupsAccordionInitialState] =
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
         const queryParams = getQueryParamString(params, true);
 
