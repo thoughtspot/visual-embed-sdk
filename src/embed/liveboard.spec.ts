@@ -24,6 +24,7 @@ import {
 import * as tsEmbed from './ts-embed';
 import * as processTriggerInstance from '../utils/processTrigger';
 import * as auth from '../auth';
+import * as previewService from '../utils/graphql/preview-service';
 
 const defaultViewConfig = {
     frameParams: {
@@ -550,6 +551,39 @@ describe('Liveboard/viz embed tests', () => {
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
 
                 done();
+            });
+        });
+
+        test('Show preview loader should not show the loader if not viz embed or showPreviewLoader is false', async () => {
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '1234',
+            });
+            await libEmbed.render();
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).not.toContain('ts-viz-preview-loader');
+            });
+        });
+
+        test('Show preview loader should show the loader if viz embed and showPreviewLoader is true', async () => {
+            jest.spyOn(previewService, 'getPreview').mockResolvedValue({
+                vizContent: '<div id=test>test</div>',
+            });
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '1234',
+                vizId: '5678',
+                showPreviewLoader: true,
+            });
+            await libEmbed.render();
+            expect(previewService.getPreview).toHaveBeenCalledWith('http://tshost', '5678', '1234');
+            await executeAfterWait(() => {
+                expect(getRootEl().style.position).toEqual('relative');
+                expect(getRootEl().innerHTML).toContain('<div class="ts-viz-preview-loader">');
+                expect(getRootEl().innerHTML).toContain('<div id="test">test</div>');
+            });
+
+            libEmbed.test__executeCallbacks(EmbedEvent.Data, {});
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).not.toContain('ts-viz-preview-loader');
             });
         });
 

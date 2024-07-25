@@ -20,6 +20,7 @@ SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to u
    * [React Components](#react-components)
       * [Search Component](#search-component)
       * [Triggering events on React components](#triggering-events-on-react-components--version-192)
+    * [Contributing](#contributing)
 
 ## Installation
 
@@ -221,6 +222,25 @@ const MyComponent = () => {
 ```
 
 ###
+
+
+## Contributing
+
+### Local dev server
+
+How to run the local vite server to test out the sdk.
+
+```
+$ npm run build
+```
+
+```
+$ npm run dev
+```
+
+Goto `http://localhost:2343/local` to check the output.
+
+Look at `local/index.html` and `local/index.ts` for some starter code.
 
 <br/>
 <br/>

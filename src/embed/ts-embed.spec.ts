@@ -1113,13 +1113,12 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('when isRendered is true than isError will be true', () => {
-            spyOn(logger, 'error');
+            spyOn(logger, 'warn');
             const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
             expect(viEmbedIns['isError']).toBe(false);
             viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
-            expect(viEmbedIns['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
+            expect(logger.warn).toHaveBeenCalledWith(
                 'Please register event handlers before calling render',
             );
         });

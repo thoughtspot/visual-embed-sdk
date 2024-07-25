@@ -93,7 +93,7 @@ export class TsEmbed {
     /**
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
-    protected el: Element;
+    protected el: HTMLElement;
 
     /**
      * The key to store the embed instance in the DOM node
@@ -902,7 +902,7 @@ export class TsEmbed {
             isRegisteredBySDK,
         });
         if (this.isRendered) {
-            this.handleError('Please register event handlers before calling render');
+            logger.warn('Please register event handlers before calling render');
         }
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
@@ -1288,4 +1288,12 @@ export class V1Embed extends TsEmbed {
         const eventType = this.getCompatibleEventType(messageType);
         return super.on(eventType, callback, options);
     }
+
+    /**
+     * Only for testing purposes.
+     *
+     * @hidden
+     */
+    // eslint-disable-next-line camelcase
+    public test__executeCallbacks = this.executeCallbacks;
 }
