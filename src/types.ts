@@ -1281,11 +1281,6 @@ export enum EmbedEvent {
      */
     Data = 'data',
     /**
-     * Search/Answer/Liveboard filters have been applied/updated by the user.
-     * @hidden
-     */
-    FiltersChanged = 'filtersChanged',
-    /**
      * Search query has been updated by the user.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
