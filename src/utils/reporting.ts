@@ -1,12 +1,11 @@
 import { getEmbedConfig } from 'src/embed/embedConfig';
-import { logger } from '../logger';
-import { ERROR_MESSAGE } from '../../errors';
+import { logger } from './logger';
+import { ERROR_MESSAGE } from '../errors';
 
 let globalObserver: ReportingObserver | null = null;
 
 /**
  * Register a global ReportingObserver to capture all unhandled errors
- *
  * @returns - ReportingObserver | null
  * @param overrideExisting
  */
@@ -50,7 +49,6 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
 
 /**
  * Get the global ReportingObserver
- *
  * @returns - ReportingObserver | null
  */
 export function getGlobalReportingObserver(): ReportingObserver | null {
