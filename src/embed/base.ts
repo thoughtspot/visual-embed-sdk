@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
+import { registerReportingObserver } from '../utils/reporting';
 import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
@@ -188,6 +189,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     );
 
     setGlobalLogLevelOverride(embedConfig.logLevel);
+    registerReportingObserver();
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
@@ -252,7 +254,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => { }); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
 /**
