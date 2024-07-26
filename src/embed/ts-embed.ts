@@ -353,7 +353,6 @@ export class TsEmbed {
         } else if (autoLogin) {
             handleAuth();
         }
-        notifyAuthFailure(AuthFailureType.EXPIRY);
     };
 
     /**
