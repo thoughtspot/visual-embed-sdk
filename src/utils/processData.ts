@@ -78,12 +78,15 @@ function processNoCookieAccess(e: any, containerEl: Element) {
  * @param e
  * @param containerEl
  */
-export function processAuthFailure(e: any, containerEl: Element) {
+export function processAuthFailure(
+    e: any, containerEl: Element,
+    authErrorType = AuthFailureType.OTHER,
+) {
     const { loginFailedMessage, authType } = getEmbedConfig();
     if (authType !== AuthType.None) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
-        notifyAuthFailure(AuthFailureType.OTHER);
+        notifyAuthFailure(authErrorType);
     }
     resetCachedAuthToken();
     return e;

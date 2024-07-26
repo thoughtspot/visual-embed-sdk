@@ -348,7 +348,9 @@ export class TsEmbed {
                 });
             } catch (e) {
                 logger.error(`Received invalid token. Error : ${e?.message}`);
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                processAuthFailure(
+                    e, this.isPreRendered ? this.preRenderWrapper : this.el, AuthFailureType.EXPIRY,
+                );
             }
         } else if (autoLogin) {
             handleAuth();

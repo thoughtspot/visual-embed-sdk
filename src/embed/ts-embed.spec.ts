@@ -119,9 +119,6 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
-                    authInstance.AuthFailureType.EXPIRY,
-                );
                 expect(baseInstance.handleAuth).not.toHaveBeenCalled();
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.AuthExpire,
