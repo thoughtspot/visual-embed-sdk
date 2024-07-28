@@ -346,6 +346,7 @@ export class TsEmbed {
                     type: EmbedEvent.AuthExpire,
                     data: { authToken },
                 });
+                return;
             } catch (e) {
                 logger.error(`Received invalid token. Error : ${e?.message}`);
                 processAuthFailure(
@@ -354,6 +355,8 @@ export class TsEmbed {
             }
         } else if (autoLogin) {
             handleAuth();
+        } else {
+            notifyAuthFailure(AuthFailureType.EXPIRY);
         }
     };
 
