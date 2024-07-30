@@ -13,5 +13,5 @@ export const ERROR_MESSAGE = {
     PRERENDER_ID_MISSING: 'PreRender id is required for preRender',
     SYNC_STYLE_CALLED_BEFORE_RENDER: 'PreRender should be called before using syncPreRenderStyle',
     CSP_VIOLATION_ALERT: 'CSP violation detected. Please check the console errors for more details.',
-    CSP_VIOLATION_LOG_MESSAGE: 'Please setup CSP Correctly for the Application to start working. You can know more about setting CSP Correctly here: https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts. \n In case you are still facing error, please read: https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts',
+    CSP_FRAME_HOST_VIOLATION_LOG_MESSAGE: 'Please setup CSP Correctly for the Application to start working. You can know more about setting CSP Correctly here: https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts. \n In case you are still facing error, please read: https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts',
 };

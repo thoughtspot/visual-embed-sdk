@@ -1,13 +1,19 @@
-import { getEmbedConfig } from 'src/embed/embedConfig';
+import { getEmbedConfig } from '../embed/embedConfig';
 import { logger } from './logger';
 import { ERROR_MESSAGE } from '../errors';
+
+enum ReportingObserverType {
+  CSP_VIOLATION = 'csp-violation',
+  DEPRECATION = 'deprecation',
+  INTERVENTION = 'intervention',
+}
 
 let globalObserver: ReportingObserver | null = null;
 
 /**
  * Register a global ReportingObserver to capture all unhandled errors
- * @returns - ReportingObserver | null
- * @param overrideExisting
+ * @param overrideExisting boolean to override existing observer
+ * @returns ReportingObserver | null
  */
 export function registerReportingObserver(overrideExisting = false): ReportingObserver | null {
     if (!('ReportingObserver' in window)) {
@@ -29,20 +35,22 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
     const observer = new ReportingObserver((reports) => {
         reports.forEach((report) => {
             const { type, url, body } = report;
-            const {
-                message, source, lineno, colno, stack,
-            } = body as any;
+            const reportBody = body as any;
 
-            if (embedConfig.thoughtSpotHost === source) {
+            const isThoughtSpotHost = url
+                && url.startsWith(embedConfig.thoughtSpotHost);
+
+            const isFrameHostError = type === ReportingObserverType.CSP_VIOLATION
+                && reportBody.effectiveDirective === 'frame-ancestors';
+
+            if (isThoughtSpotHost && isFrameHostError) {
                 if (!embedConfig.suppressErrorAlerts) {
                     alert(ERROR_MESSAGE.CSP_VIOLATION_ALERT);
                 }
-                logger.error(ERROR_MESSAGE.CSP_VIOLATION_ALERT);
+                logger.error(ERROR_MESSAGE.CSP_FRAME_HOST_VIOLATION_LOG_MESSAGE);
             }
-
-            logger.error(`${type} ${url} ${message} ${source} ${lineno} ${colno} ${stack}`);
-        }, { buffered: true });
-    });
+        });
+    }, { buffered: true });
     observer.observe();
     return observer;
 }
