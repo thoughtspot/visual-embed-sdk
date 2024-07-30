@@ -1093,6 +1093,10 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         test('Error should be true', async () => {
             spyOn(logger, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
@@ -1716,6 +1720,131 @@ describe('Unit test case for ts embed', () => {
                 'PreRender should be called before using syncPreRenderStyle',
             );
             (logger.error as any).mockClear();
+        });
+    });
+
+    describe('AuthFailure events for AuthExpiry', () => {
+        const expiredEmbedEventPayload = {
+            type: EmbedEvent.AuthExpire,
+            data: {},
+        };
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        test('Token auth with auth expiry and autoLogin true', async () => {
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'fetchAuthPostService').mockResolvedValueOnce({ ok: true });
+            jest.spyOn(baseInstance, 'handleAuth');
+            const ee = init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: () => Promise.resolve('test'),
+                autoLogin: true,
+            });
+            jest.spyOn(ee, 'emit');
+            const appEmbed = new AppEmbed(getRootEl(), {});
+            appEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, expiredEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(2);
+                expect(ee.emit).toHaveBeenCalledWith(
+                    authInstance.AuthStatus.SDK_SUCCESS,
+                );
+                expect(ee.emit).not.toHaveBeenLastCalledWith(
+                    authInstance.AuthStatus.FAILURE, authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+        });
+
+        test('Token auth with auth expiry and autoLogin False', async () => {
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'fetchAuthPostService').mockResolvedValueOnce({ ok: true });
+            jest.spyOn(baseInstance, 'handleAuth');
+            const ee = init({
+                thoughtSpotHost: 'tshost54',
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: () => Promise.resolve('test'),
+                autoLogin: false,
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {});
+            appEmbed.render();
+            jest.spyOn(ee, 'emit');
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, expiredEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(ee.emit).toHaveBeenCalledWith(
+                    authInstance.AuthStatus.SDK_SUCCESS,
+                );
+                expect(ee.emit).toHaveBeenLastCalledWith(
+                    authInstance.AuthStatus.FAILURE, authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+        });
+
+        test('Cookieless auth with auth expiry', async () => {
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValue(true);
+            jest.spyOn(baseInstance, 'handleAuth');
+            const ee = init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test'),
+                autoLogin: false,
+            });
+            jest.spyOn(ee, 'emit');
+            const appEmbed = new AppEmbed(getRootEl(), {});
+            appEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, expiredEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(ee.emit).toHaveBeenCalledWith(
+                    authInstance.AuthStatus.SDK_SUCCESS,
+                );
+                expect(ee.emit).not.toHaveBeenLastCalledWith(
+                    authInstance.AuthStatus.FAILURE, authInstance.AuthFailureType.EXPIRY,
+                );
+            });
+        });
+
+        test('Cookieless auth with auth expiry and token call fails', async () => {
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'fetchAuthPostService').mockResolvedValueOnce({ ok: true });
+            jest.spyOn(baseInstance, 'handleAuth');
+            const ee = init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test'),
+                autoLogin: false,
+            });
+            jest.spyOn(ee, 'emit');
+            const appEmbed = new AppEmbed(getRootEl(), {});
+            appEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, expiredEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(ee.emit).toHaveBeenCalledWith(
+                    authInstance.AuthStatus.SDK_SUCCESS,
+                );
+                expect(ee.emit).not.toHaveBeenLastCalledWith(
+                    authInstance.AuthStatus.FAILURE, authInstance.AuthFailureType.EXPIRY,
+                );
+            });
         });
     });
 });
