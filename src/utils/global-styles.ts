@@ -21,7 +21,7 @@ export const addPreviewStylesIfNotPresent = () => {
                 background-position-x: 100%;
                 animation: shimmer 1s infinite linear;
                 z-index: 999;
-                filter: grayscale(0.7);
+                filter: grayscale(0.2);
            }
 
            @keyframes shimmer {
