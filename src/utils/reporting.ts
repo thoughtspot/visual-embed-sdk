@@ -2,7 +2,7 @@ import { getEmbedConfig } from '../embed/embedConfig';
 import { logger } from './logger';
 import { ERROR_MESSAGE } from '../errors';
 
-enum ReportingObserverType {
+enum ReportType {
   CSP_VIOLATION = 'csp-violation',
   DEPRECATION = 'deprecation',
   INTERVENTION = 'intervention',
@@ -16,14 +16,13 @@ let globalObserver: ReportingObserver | null = null;
  * @returns ReportingObserver | null
  */
 export function registerReportingObserver(overrideExisting = false): ReportingObserver | null {
-    if (!('ReportingObserver' in window)) {
-        logger.warn('ReportingObserver not supported');
+    if (!((window as any).ReportingObserver)) {
+        logger.warn(ERROR_MESSAGE.MISSING_REPORTING_OBSERVER);
         return null;
     }
 
-    if (overrideExisting && globalObserver) {
-        globalObserver.disconnect();
-        globalObserver = null;
+    if (overrideExisting) {
+        resetGlobalReportingObserver();
     }
 
     if (globalObserver) {
@@ -32,7 +31,7 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
 
     const embedConfig = getEmbedConfig();
 
-    const observer = new ReportingObserver((reports) => {
+    globalObserver = new ReportingObserver((reports) => {
         reports.forEach((report) => {
             const { type, url, body } = report;
             const reportBody = body as any;
@@ -40,7 +39,7 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
             const isThoughtSpotHost = url
                 && url.startsWith(embedConfig.thoughtSpotHost);
 
-            const isFrameHostError = type === ReportingObserverType.CSP_VIOLATION
+            const isFrameHostError = type === ReportType.CSP_VIOLATION
                 && reportBody.effectiveDirective === 'frame-ancestors';
 
             if (isThoughtSpotHost && isFrameHostError) {
@@ -51,8 +50,8 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
             }
         });
     }, { buffered: true });
-    observer.observe();
-    return observer;
+    globalObserver.observe();
+    return globalObserver;
 }
 
 /**
@@ -61,4 +60,12 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
  */
 export function getGlobalReportingObserver(): ReportingObserver | null {
     return globalObserver;
+}
+
+/**
+ *
+ */
+export function resetGlobalReportingObserver(): void {
+    if (globalObserver) globalObserver.disconnect();
+    globalObserver = null;
 }
