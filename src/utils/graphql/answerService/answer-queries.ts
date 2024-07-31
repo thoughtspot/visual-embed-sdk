@@ -94,6 +94,15 @@ export const getAnswer = `
                         }
                     }
                 }
+                metadata {
+                    author
+                    authorId
+                    createdAt
+                    isDiscoverable
+                    isHidden
+                    modifiedAt
+                    tags
+                }
                 visualizations {
                     ... on TableViz {
                         columns {
