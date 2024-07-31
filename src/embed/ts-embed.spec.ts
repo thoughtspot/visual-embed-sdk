@@ -1108,16 +1108,31 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('V1Embed ', () => {
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
+        });
+
         test('when isRendered is true than isError will be true', () => {
-            spyOn(logger, 'error');
+            spyOn(logger, 'warn');
             const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
             expect(viEmbedIns['isError']).toBe(false);
             viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
-            expect(viEmbedIns['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
+            expect(logger.warn).toHaveBeenCalledWith(
                 'Please register event handlers before calling render',
             );
+        });
+
+        test('Generates the correct url for V1Embed when V2 shell is enabled', async () => {
+            const v1Embed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId: '123',
+                enableV2Shell_experimental: true,
+            });
+            await v1Embed.render();
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain('/v2/?');
+            });
         });
     });
 

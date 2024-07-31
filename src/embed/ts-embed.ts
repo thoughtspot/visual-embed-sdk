@@ -94,7 +94,7 @@ export class TsEmbed {
     /**
      * The DOM node where the ThoughtSpot app is to be embedded.
      */
-    protected el: Element;
+    protected el: HTMLElement;
 
     /**
      * The key to store the embed instance in the DOM node
@@ -370,7 +370,7 @@ export class TsEmbed {
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
-        let queryString = query;
+        let queryString = (query.startsWith('?')) ? query : `?${query}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
@@ -905,7 +905,7 @@ export class TsEmbed {
             isRegisteredBySDK,
         });
         if (this.isRendered) {
-            this.handleError('Please register event handlers before calling render');
+            logger.warn('Please register event handlers before calling render');
         }
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
@@ -1261,7 +1261,9 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return this.getV1EmbedBasePath(queryString);
+        return (this.viewConfig.enableV2Shell_experimental)
+            ? this.getEmbedBasePath(queryString)
+            : this.getV1EmbedBasePath(queryString);
     }
 
     /**
@@ -1289,4 +1291,12 @@ export class V1Embed extends TsEmbed {
         const eventType = this.getCompatibleEventType(messageType);
         return super.on(eventType, callback, options);
     }
+
+    /**
+     * Only for testing purposes.
+     *
+     * @hidden
+     */
+    // eslint-disable-next-line camelcase
+    public test__executeCallbacks = this.executeCallbacks;
 }
