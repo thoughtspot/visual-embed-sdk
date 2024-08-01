@@ -346,9 +346,9 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * To set the initial state of the search bar in case of saved-answers.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
-     * @default false
+     * @default true
      */
-    collapseSearchBarInitially?: boolean;
+    collapseSearchBar?: boolean;
     /**
      * To enable custom column groups in data panel v2.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
@@ -445,7 +445,7 @@ export class AppEmbed extends V1Embed {
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
-            collapseSearchBarInitially = false,
+            collapseSearchBar = true,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
@@ -503,7 +503,7 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
-        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        params[Param.CollapseSearchBar] = collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL

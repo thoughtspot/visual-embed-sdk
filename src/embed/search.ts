@@ -234,10 +234,10 @@ export interface SearchViewConfig
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     * @default false
+     * @default true
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      */
-    collapseSearchBarInitially?: boolean;
+    collapseSearchBar?: boolean;
     /**
      * To enable custom column groups in data panel v2
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
@@ -330,7 +330,7 @@ export class SearchEmbed extends TsEmbed {
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
-            collapseSearchBarInitially = false,
+            collapseSearchBar = true,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
@@ -387,7 +387,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
-        queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        queryParams[Param.CollapseSearchBar] = collapseSearchBar;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL

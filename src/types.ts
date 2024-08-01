@@ -3074,7 +3074,7 @@ export enum Param {
     ClientLogLevel = 'clientLogLevel',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
-    CollapseSearchBarInitially = 'collapseSearchBarInitially',
+    CollapseSearchBar = 'collapseSearchBarInitially',
     DataPanelCustomGroupsAccordionInitialState = 'dataPanelCustomGroupsAccordionInitialState',
     EnableCustomColumnGroups = 'enableCustomColumnGroups',
     DateFormatLocale = 'dateFormatLocale',
