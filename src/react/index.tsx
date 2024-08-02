@@ -370,4 +370,5 @@ export {
     HomeLeftNavItem,
     HomepageModule,
     LogLevel,
+    getSessionInfo,
 } from '../index';

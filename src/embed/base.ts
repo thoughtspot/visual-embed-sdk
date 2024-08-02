@@ -28,6 +28,7 @@ import {
     notifyLogout,
     setAuthEE,
     AuthEventEmitter,
+    postLoginService,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
@@ -73,6 +74,8 @@ export const handleAuth = (): Promise<boolean> => {
             if (!isLoggedIn) {
                 notifyAuthFailure(AuthFailureType.SDK);
             } else {
+                // Post login service is called after successful login.
+                postLoginService();
                 notifyAuthSDKSuccess();
             }
         },

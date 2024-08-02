@@ -20,8 +20,9 @@ import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/live
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import {
-    AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter, getSessionInfo,
+    AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
+import { getSessionInfo } from './utils/sessionInfoService';
 import {
     AuthType,
     RuntimeFilter,

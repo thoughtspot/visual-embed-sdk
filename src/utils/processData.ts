@@ -5,7 +5,7 @@ import {
     notifyAuthSuccess,
     notifyLogout,
 } from '../embed/base';
-import { AuthFailureType, initSession } from '../auth';
+import { AuthFailureType } from '../auth';
 import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
@@ -30,12 +30,12 @@ export function processCustomAction(e: any, thoughtSpotHost: string) {
 }
 
 /**
+ * Responds to AuthInit sent from host signifying successful authentication in host.
  *
  * @param e
+ * @returns {any}
  */
 function processAuthInit(e: any) {
-    // Store user session details sent by app.
-    initSession(e.data);
     notifyAuthSuccess();
 
     // Expose only allowed details (eg: userGUID) back to SDK users.

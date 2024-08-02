@@ -36,6 +36,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
+    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     spyOn(window, 'alert');
 });
 
@@ -161,6 +162,23 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&searchTokenString=%5Bcommit%20date%5D%5Brevenue%5D&dataSourceMode=hide&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('should remove focus from search bar', async () => {
+        const dataSources = ['data-source-1'];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSources,
+            focusSearchBarOnRender: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&dataSourceMode=hide&useLastSelectedSources=false&focusSearchBarOnRender=false${prefixParams}#/embed/answer`,
             );
         });
     });

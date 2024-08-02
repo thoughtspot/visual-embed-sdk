@@ -4,7 +4,7 @@
 
 <br/>
 
-# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/thoughtspot/visual-embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/thoughtspot/visual-embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square) [![Featured on Openbase](https://badges.openbase.com/js/featured/@thoughtspot/visual-embed-sdk.svg?token=IoqZUwE8aX7LYNedeuBLM2w5Wt52hu+Dh0eyKjlpC0E=)](https://openbase.com/js/@thoughtspot/visual-embed-sdk?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge) ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@thoughtspot/visual-embed-sdk?style=flat-square)
+# ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/thoughtspot/visual-embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/thoughtspot/visual-embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square) ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@thoughtspot/visual-embed-sdk?style=flat-square)
 
 
 SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to use the SDK, [click here](https://www.thoughtspot.com/trial?tsref=trialtse) to start a trial. 
@@ -20,6 +20,7 @@ SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to u
    * [React Components](#react-components)
       * [Search Component](#search-component)
       * [Triggering events on React components](#triggering-events-on-react-components--version-192)
+    * [Contributing](#contributing)
 
 ## Installation
 
@@ -221,6 +222,25 @@ const MyComponent = () => {
 ```
 
 ###
+
+
+## Contributing
+
+### Local dev server
+
+How to run the local vite server to test out the sdk.
+
+```
+$ npm run build
+```
+
+```
+$ npm run dev
+```
+
+Goto `http://localhost:2343/local` to check the output.
+
+Look at `local/index.html` and `local/index.ts` for some starter code.
 
 <br/>
 <br/>

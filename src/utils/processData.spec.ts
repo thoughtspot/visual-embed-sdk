@@ -4,9 +4,11 @@ import * as auth from '../auth';
 import * as base from '../embed/base';
 import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
+import * as sessionInfoService from './sessionInfoService';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
+        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
         base.init({
             thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
@@ -58,15 +60,14 @@ describe('Unit test for process data', () => {
             isPublicUser: false,
         };
         const e = { type: EmbedEvent.AuthInit, data: sessionInfo };
-        jest.spyOn(auth, 'initSession').mockReturnValue(null);
         jest.spyOn(base, 'notifyAuthSuccess');
+        jest.spyOn(sessionInfoService, 'getSessionInfo').mockReturnValue(sessionInfo);
         expect(processDataInstance.processEventData(e.type, e, '', null)).toEqual({
             type: e.type,
             data: {
                 userGUID: sessionInfo.userGUID,
             },
         });
-        expect(auth.initSession).toBeCalledWith(sessionInfo);
         expect(base.notifyAuthSuccess).toBeCalled();
     });
 

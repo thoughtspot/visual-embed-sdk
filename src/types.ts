@@ -1281,11 +1281,6 @@ export enum EmbedEvent {
      */
     Data = 'data',
     /**
-     * Search/Answer/Liveboard filters have been applied/updated by the user.
-     * @hidden
-     */
-    FiltersChanged = 'filtersChanged',
-    /**
      * Search query has been updated by the user.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
@@ -2114,20 +2109,19 @@ export enum EmbedEvent {
      *```
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
-     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
-     /**
-      * Emitted when parameter changes in an answer
-      * or liveboard
-      *
-      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
-      * @example
-      * ```js
-      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
-      *     console.log('payload', payload);
-      * })
-      *```
-      */
-     ParameterChanged = 'parameterChanged'
+    OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
+    /**
+     * Emitted when parameter changes in an answer
+     * or liveboard
+     *
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     */
+    ParameterChanged = 'parameterChanged',
 }
 
 /**
@@ -2347,7 +2341,7 @@ export enum HostEvent {
      * sorting, toggling of legends, and data drill down.
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.getexportrequestforcurrentpinboard).then(
+     * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
      * data=>console.log(data))
      * ```
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1.sw
@@ -2958,15 +2952,6 @@ export enum HostEvent {
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
-     * Trigger CreateLiveboard for liveboard list page & Pin Modal
-     * @example
-     * ```js
-     * liveboardEmbed.trigger(HostEvent.CreateLiveboard);
-     *
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
-     */
-    CreateLiveboard = 'CreateLiveboard',
-    /**
      * Triggers Update RuntimeParameters for answers and liveboard
      * @example
      * ```js
@@ -3098,6 +3083,7 @@ export enum Param {
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
+    FocusSearchBarOnRender = 'focusSearchBarOnRender',
 }
 
 /**
@@ -3922,7 +3908,7 @@ export enum Action {
      * disabledActions: [Action.ManageMonitor]
      * ```
      */
-    ManageMonitor = 'ManageMonitor',
+    ManageMonitor = 'manageMonitor',
     /**
      * Action ID for Liveboard Personalised Views dropdown
      *  @example
@@ -3960,6 +3946,18 @@ export enum Action {
      * @version SDK : 1.28.3 | Thoughtspot: 9.12.0.cl
      */
     TML = 'tml',
+
+    /**
+     * Action Id for CreateLiveboard for liveboard list page & Pin Modal
+     * @example
+     * ```js
+     * hiddenAction: [Action.CreateLiveboard]
+     * disabledActions: [Action.CreateLiveboard]
+     * ```
+     *
+     * @version SDK: 1.32.0 | Thoughtspot: 10.1.0.cl
+     */
+    CreateLiveboard = 'CreateLiveboard',
 
     /**
      * Action ID for to hide Verified Liveboard Banner
