@@ -588,7 +588,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iframe configuration
@@ -4047,15 +4047,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {
