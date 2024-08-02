@@ -275,6 +275,20 @@ export interface SearchViewConfig
      * ```
      */
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
+    /**
+     * Flag to remove focus from search bar initially when user
+     * lands on search embed page.
+     * @version SDK: 1.32.0 | Thoughtspot: 10.3.0.cl
+     * @default true
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *  ... // other options
+     * focusSearchBarOnRender: false,
+     * });
+     * ```
+     */
+    focusSearchBarOnRender?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -335,6 +349,7 @@ export class SearchEmbed extends TsEmbed {
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
@@ -376,6 +391,10 @@ export class SearchEmbed extends TsEmbed {
         if (isOnBeforeGetVizDataInterceptEnabled) {
             /* eslint-disable-next-line max-len */
             queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
+        }
+
+        if (!focusSearchBarOnRender) {
+            queryParams[Param.FocusSearchBarOnRender] = focusSearchBarOnRender;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
