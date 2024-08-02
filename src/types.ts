@@ -3083,6 +3083,7 @@ export enum Param {
     Enable2ColumnLayout = 'enable2ColumnLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
+    FocusSearchBarOnRender = 'focusSearchBarOnRender',
 }
 
 /**

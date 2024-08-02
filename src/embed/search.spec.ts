@@ -166,6 +166,23 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should remove focus from search bar', async () => {
+        const dataSources = ['data-source-1'];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideDataSources: true,
+            dataSources,
+            focusSearchBarOnRender: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&dataSources=[%22data-source-1%22]&dataSourceMode=hide&useLastSelectedSources=false&focusSearchBarOnRender=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
     test('should add runtime filters', async () => {
         const dataSources = ['data-source-1'];
         const searchOptions = {
