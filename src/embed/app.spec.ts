@@ -3,6 +3,7 @@ import {
     AppViewConfig,
     DataPanelCustomColumnGroupsAccordionState,
     Page,
+    SearchBarMode,
 } from './app';
 import { init } from '../index';
 import {
@@ -20,9 +21,8 @@ import {
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
-import { version } from '../../package.json';
 import * as config from '../config';
-import { TsEmbed, V1Embed } from './ts-embed';
+import { TsEmbed } from './ts-embed';
 import { logger } from '../utils/logger';
 import * as auth from '../auth';
 
@@ -137,6 +137,7 @@ describe('App embed tests', () => {
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'insights/results',
+            [Page.ObjectSearch]: 'insights/eureka',
         };
 
         const pageIds = Object.keys(pageRouteMap);
@@ -169,6 +170,7 @@ describe('App embed tests', () => {
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'home/spotiq-analysis',
+            [Page.ObjectSearch]: 'insights/eureka',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
@@ -431,6 +433,66 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add disableObjectSearchToggle flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            disableObjectSearchToggle: true,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&disableObjectSearchToggle=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add hideObjectSearchToggle flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideObjectSearchToggle: true,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&hideObjectSearchToggle=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add searchBarMode flag with object search to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchBarMode: SearchBarMode.OBJECT_SEARCH,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&searchBarMode=objectSearch${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add searchBarMode flag with ai answer to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchBarMode: SearchBarMode.AI_ANSWER,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&searchBarMode=aiAnswer${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -438,7 +500,7 @@ describe('App embed tests', () => {
             dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         } as AppViewConfig);
 
-        appEmbed.render();
+        await appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),

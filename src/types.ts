@@ -3084,6 +3084,9 @@ export enum Param {
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
     FocusSearchBarOnRender = 'focusSearchBarOnRender',
+    DisableObjectSearchToggle = 'disableObjectSearchToggle',
+    HideObjectSearchToggle = 'hideObjectSearchToggle',
+    SearchBarMode = 'searchBarMode',
 }
 
 /**
