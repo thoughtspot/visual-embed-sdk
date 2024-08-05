@@ -53,6 +53,10 @@ export enum Page {
      * SpotIQ listing page
      */
     SpotIQ = 'insights',
+    /**
+     * Object Search listing page
+     */
+    ObjectSearch = 'objectSearch',
 }
 
 /**
@@ -74,6 +78,10 @@ export enum DataPanelCustomColumnGroupsAccordionState {
     EXPAND_FIRST = 'EXPAND_FIRST',
 }
 
+export enum SearchBarMode {
+    OBJECT_SEARCH = 'objectSearch',
+    AI_ANSWER = 'aiAnswer',
+}
 /**
  * The view configuration for full app embedding.
  * @group Embed components
@@ -400,6 +408,21 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
+    /**
+     * Flag to disable object search toggle
+     * @version SDK : 1.33.0-alpha.2 | Thoughtspot : 10.2.0.cl
+     */
+    disableObjectSearchToggle?: boolean;
+    /**
+     * Flag to hide object search toggle
+     * @version SDK : 1.33.0-alpha.2 | Thoughtspot : 10.2.0.cl
+     */
+    hideObjectSearchToggle?: boolean;
+    /**
+     * Flag to use home page search bar mode
+     * @version SDK : 1.33.0-alpha.2 | Thoughtspot : 10.2.0.cl
+     */
+    searchBarMode?: SearchBarMode;
 }
 
 /**
@@ -449,6 +472,9 @@ export class AppEmbed extends V1Embed {
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
+            disableObjectSearchToggle,
+            hideObjectSearchToggle,
+            searchBarMode,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
         } = this.viewConfig;
@@ -491,6 +517,18 @@ export class AppEmbed extends V1Embed {
 
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
+        }
+
+        if (disableObjectSearchToggle) {
+            params[Param.DisableObjectSearchToggle] = disableObjectSearchToggle;
+        }
+
+        if (hideObjectSearchToggle) {
+            params[Param.HideObjectSearchToggle] = hideObjectSearchToggle;
+        }
+
+        if (searchBarMode) {
+            params[Param.SearchBarMode] = searchBarMode;
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
@@ -578,6 +616,8 @@ export class AppEmbed extends V1Embed {
                 return 'data/tables';
             case Page.SpotIQ:
                 return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
+            case Page.ObjectSearch:
+                return 'insights/eureka';
             case Page.Home:
             default:
                 return 'home';
