@@ -3638,6 +3638,9 @@ export enum Action {
      */
     CreateMonitor = 'createMonitor',
     /**
+     *
+     * Enables reporting errors.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
@@ -3873,6 +3876,8 @@ export enum Action {
     RequestVerification = 'requestVerification',
     /**
      *
+     * Allows users to mark a Liveboard as verified.
+     *
      * @example
      * ```js
      * disabledActions: [Action.MarkAsVerified]
@@ -3881,6 +3886,8 @@ export enum Action {
      */
     MarkAsVerified = 'markAsVerified',
     /**
+     * The **Add Tab** action on a Liveboard.
+     * Allows adding a new tab to a Liveboard view.
      *
      * @example
      * ```js
@@ -3890,6 +3897,8 @@ export enum Action {
      */
     AddTab = 'addTab',
     /**
+     *
+     * Initiates contextual change analysis on KPI charts.
      *
      * @example
      * ```js
@@ -3918,6 +3927,8 @@ export enum Action {
      */
     EditSageAnswer = 'editSageAnswer',
     /**
+     *
+     * This action allows users to send feedback on AI-generated Answers.
      *
      * @example
      * ```js
