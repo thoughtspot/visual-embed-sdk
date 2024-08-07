@@ -1012,6 +1012,18 @@ export interface ViewConfig {
      */
     // eslint-disable-next-line camelcase
     enableV2Shell_experimental?: boolean;
+    /**
+     * To set the initial state of the search bar in case of saved-answers.
+     * @default true
+     * @version SDK: TODO | Thoughtspot: 10.3.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   liveboardId: '123',
+     *   collapseSearchBar: true
+     * });
+     */
+    collapseSearchBar?: boolean;
 }
 
 /**

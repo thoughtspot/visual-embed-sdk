@@ -234,8 +234,9 @@ export interface SearchViewConfig
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     * @default true
+     * @default false
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @deprecated Use {@link collapseSearchBar} instead
      */
     collapseSearchBarInitially?: boolean;
     /**
@@ -330,12 +331,13 @@ export class SearchEmbed extends TsEmbed {
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
-            collapseSearchBarInitially = true,
+            collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             excludeRuntimeParametersfromURL,
+            collapseSearchBar = true,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -387,7 +389,8 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
-        queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        /* eslint-disable-next-line max-len */
+        queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
