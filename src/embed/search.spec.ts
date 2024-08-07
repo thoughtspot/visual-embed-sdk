@@ -388,7 +388,7 @@ describe('Search embed tests', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             answerId,
-            collapseSearchBar: true,
+            collapseSearchBarInitially: true,
         });
         searchEmbed.render();
         await executeAfterWait(() => {

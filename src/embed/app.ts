@@ -348,7 +348,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default true
      */
-    collapseSearchBar?: boolean;
+    collapseSearchBarInitially?: boolean;
     /**
      * To enable custom column groups in data panel v2.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
@@ -445,7 +445,7 @@ export class AppEmbed extends V1Embed {
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
-            collapseSearchBar = true,
+            collapseSearchBarInitially = true,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
@@ -503,7 +503,7 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
-        params[Param.CollapseSearchBar] = collapseSearchBar;
+        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL

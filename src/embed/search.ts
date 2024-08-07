@@ -237,7 +237,7 @@ export interface SearchViewConfig
      * @default true
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      */
-    collapseSearchBar?: boolean;
+    collapseSearchBarInitially?: boolean;
     /**
      * To enable custom column groups in data panel v2
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
@@ -330,7 +330,7 @@ export class SearchEmbed extends TsEmbed {
             dataPanelV2 = false,
             useLastSelectedSources = false,
             runtimeParameters,
-            collapseSearchBar = true,
+            collapseSearchBarInitially = true,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
@@ -387,7 +387,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
-        queryParams[Param.CollapseSearchBar] = collapseSearchBar;
+        queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
