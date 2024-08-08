@@ -3638,8 +3638,8 @@ export enum Action {
      */
     CreateMonitor = 'createMonitor',
     /**
-     *
-     * Enables reporting errors.
+     * @deprecated
+     * Reports errors
      *
      * @example
      * ```js
