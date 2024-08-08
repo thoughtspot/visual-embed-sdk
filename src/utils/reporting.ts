@@ -63,7 +63,7 @@ export function getGlobalReportingObserver(): ReportingObserver | null {
 }
 
 /**
- *
+ * Resets the global ReportingObserver
  */
 export function resetGlobalReportingObserver(): void {
     if (globalObserver) globalObserver.disconnect();
