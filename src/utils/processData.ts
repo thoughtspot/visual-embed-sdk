@@ -9,6 +9,7 @@ import { AuthFailureType } from '../auth';
 import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
+import { ERROR_MESSAGE } from '../errors';
 
 /**
  *
@@ -62,9 +63,7 @@ function processNoCookieAccess(e: any, containerEl: Element) {
     if (!ignoreNoCookieAccess) {
         if (!suppressNoCookieAccessAlert && !suppressErrorAlerts) {
             // eslint-disable-next-line no-alert
-            alert(
-                'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
-            );
+            alert(ERROR_MESSAGE.THIRD_PARTY_COOKIE_BLOCKED_ALERT);
         }
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;

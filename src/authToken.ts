@@ -1,11 +1,7 @@
+import { ERROR_MESSAGE } from './errors';
 import { EmbedConfig } from './types';
 import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
 import { logger } from './utils/logger';
-
-const DUPLICATE_TOKEN_ERR = 'Duplicate token, please issue a new token every time getAuthToken callback is called.'
-    + 'See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.';
-
-const INVALID_TOKEN_ERR = 'Invalid token received form token callback or authToken endpoint.';
 
 let cachedAuthToken: string | null = null;
 
@@ -38,7 +34,7 @@ export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<
         // this will throw error if the token is not valid
         await validateAuthToken(embedConfig, authToken);
     } catch (e) {
-        logger.error(`Received invalid token from getAuthToken callback or authToken endpoint. Error : ${e.message}`);
+        logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e.message}`);
         throw e;
     }
 
@@ -65,11 +61,11 @@ const validateAuthToken = async (
     if (cachedAuthToken && cachedAuthToken === authToken) {
         if (!embedConfig.suppressErrorAlerts && !suppressAlert) {
             // eslint-disable-next-line no-alert
-            alert(DUPLICATE_TOKEN_ERR);
+            alert(ERROR_MESSAGE.DUPLICATE_TOKEN_ERR);
         }
-        throw new Error(DUPLICATE_TOKEN_ERR);
+        throw new Error(ERROR_MESSAGE.DUPLICATE_TOKEN_ERR);
     } else {
-        throw new Error(INVALID_TOKEN_ERR);
+        throw new Error(ERROR_MESSAGE.INVALID_TOKEN_ERROR);
     }
 };
 

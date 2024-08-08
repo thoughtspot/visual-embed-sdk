@@ -59,6 +59,7 @@ import {
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
+import { ERROR_MESSAGE } from '../errors';
 
 const { version } = pkgInfo;
 
@@ -347,7 +348,7 @@ export class TsEmbed {
                     data: { authToken },
                 });
             } catch (e) {
-                logger.error(`Received invalid token. Error : ${e?.message}`);
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             }
         } else if (autoLogin) {
@@ -387,7 +388,9 @@ export class TsEmbed {
      * @param queryParams
      * @returns queryParams
      */
-    protected getBaseQueryParams(queryParams = {}) {
+    protected getBaseQueryParams(
+        queryParams: Record<any, any> = {},
+    ) {
         let hostAppUrl = window?.location?.host || '';
 
         // The below check is needed because TS Cloud firewall, blocks
@@ -1000,7 +1003,7 @@ export class TsEmbed {
      */
     public preRender(showPreRenderByDefault = false): TsEmbed {
         if (!this.viewConfig.preRenderId) {
-            logger.error('PreRender id is required for preRender');
+            logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
@@ -1107,7 +1110,7 @@ export class TsEmbed {
      */
     public showPreRender(): void {
         if (!this.viewConfig.preRenderId) {
-            logger.error('PreRender id is required for preRender');
+            logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return;
         }
         if (!this.isPreRenderAvailable()) {
@@ -1155,7 +1158,7 @@ export class TsEmbed {
      */
     public syncPreRenderStyle(): void {
         if (!this.isPreRenderAvailable() || !this.el) {
-            logger.error('PreRender should be called before using syncPreRenderStyle');
+            logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
             return;
         }
         const elBoundingClient = this.el.getBoundingClientRect();

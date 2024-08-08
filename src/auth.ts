@@ -16,6 +16,7 @@ import {
 import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
 import { getSessionInfo } from './utils/sessionInfoService';
+import { ERROR_MESSAGE } from './errors';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -151,7 +152,7 @@ export function setAuthEE(eventEmitter: EventEmitter<AuthStatus | AuthEvent>): v
  */
 export function notifyAuthSDKSuccess(): void {
     if (!authEE) {
-        logger.error('SDK not initialized');
+        logger.error(ERROR_MESSAGE.SDK_NOT_INITIALIZED);
         return;
     }
     authEE.emit(AuthStatus.SDK_SUCCESS);
@@ -162,14 +163,14 @@ export function notifyAuthSDKSuccess(): void {
  */
 export async function notifyAuthSuccess(): Promise<void> {
     if (!authEE) {
-        logger.error('SDK not initialized');
+        logger.error(ERROR_MESSAGE.SDK_NOT_INITIALIZED);
         return;
     }
     try {
         const sessionInfo = await getSessionInfo();
         authEE.emit(AuthStatus.SUCCESS, sessionInfo);
     } catch (e) {
-        logger.error('Failed to get session info');
+        logger.error(ERROR_MESSAGE.SESSION_INFO_FAILED);
     }
 }
 
@@ -179,7 +180,7 @@ export async function notifyAuthSuccess(): Promise<void> {
  */
 export function notifyAuthFailure(failureType: AuthFailureType): void {
     if (!authEE) {
-        logger.error('SDK not initialized');
+        logger.error(ERROR_MESSAGE.SDK_NOT_INITIALIZED);
         return;
     }
     authEE.emit(AuthStatus.FAILURE, failureType);
@@ -190,7 +191,7 @@ export function notifyAuthFailure(failureType: AuthFailureType): void {
  */
 export function notifyLogout(): void {
     if (!authEE) {
-        logger.error('SDK not initialized');
+        logger.error(ERROR_MESSAGE.SDK_NOT_INITIALIZED);
         return;
     }
     authEE.emit(AuthStatus.LOGOUT);
