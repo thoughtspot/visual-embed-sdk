@@ -3234,6 +3234,7 @@ export enum Action {
      */
     ConfigureFilter = 'configureFilter',
     CollapseDataSources = 'collapseDataSources',
+    CollapseDataPanel = 'collapseDataPanel',
     /**
      * The **Choose sources** button on Search page.
      * Allows selecting data sources for search queries.
