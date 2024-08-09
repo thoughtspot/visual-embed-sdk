@@ -284,6 +284,19 @@ export interface LiveboardViewConfig
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
+    /**
+     * Flag to control Data panel experience
+     * @default false
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    dataPanelV2:false,
+     * })
+     * ```
+     */
+    dataPanelV2?: boolean;
 }
 
 /**
@@ -340,6 +353,7 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             enable2ColumnLayout,
+            dataPanelV2 = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -388,6 +402,7 @@ export class LiveboardEmbed extends V1Embed {
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
+        params[Param.DataPanelV2Enabled] = dataPanelV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

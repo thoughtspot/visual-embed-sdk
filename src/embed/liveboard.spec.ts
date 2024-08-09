@@ -57,12 +57,13 @@ describe('Liveboard/viz embed tests', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
+            dataPanelV2: true,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=true#/embed/viz/${liveboardId}`,
             );
         });
     });
