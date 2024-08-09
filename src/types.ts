@@ -3886,6 +3886,9 @@ export enum Action {
     RenameModalTitleDescription = 'renameModalTitleDescription',
     /**
      *
+     * The **Request Verification** action on the Liveboard.
+     * Triggers a Liveboard verification request.
+     *
      * @example
      * ```js
      * disabledActions: [Action.RequestVerification]
