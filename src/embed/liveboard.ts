@@ -23,6 +23,7 @@ import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
+import {HiddenActionItemByDefaultForSearchEmbed} from './search' 
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -387,6 +388,12 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+
+
+        params[Param.HideActions] = [
+            ...(params[Param.HideActions] ?? []),
+            ...HiddenActionItemByDefaultForSearchEmbed,
+        ];
 
         const queryParams = getQueryParamString(params, true);
 
