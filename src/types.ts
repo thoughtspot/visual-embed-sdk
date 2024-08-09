@@ -2493,19 +2493,31 @@ export enum HostEvent {
      *
      * @example
      * ```js
-     * appEmbed.trigger(HostEvent.CreateMonitor)
+     * searchEmbed.trigger(HostEvent.CreateMonitor)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     CreateMonitor = 'createMonitor',
     /**
-     * Trigger the **Manage alerts** action on a visualization
+     * Trigger the **Manage alerts** action on a KPI chart
+     * in a visualization or saved Answer.
+     *
      * @param - an object with `vizId` as a key
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ManageMonitor, {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
+     * ```
+     *
+     * @example
+     * ```js
+     * searchEmbed.trigger(HostEvent.ManageMonitor)
+     * ```
+     *
+     * @example
+     * ```js
+     * vizEmbed.trigger(HostEvent.ManageMonitor)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3630,12 +3642,15 @@ export enum Action {
      * The Create alert action on KPI charts.
      * @example
      * ```js
-     * disabledActions: [Action.CreateMonitor ]
+     * disabledActions: [Action.CreateMonitor]
      * ```
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
     CreateMonitor = 'createMonitor',
     /**
+     * @deprecated
+     * Reports errors
+     *
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
@@ -3861,34 +3876,83 @@ export enum Action {
     RenameModalTitleDescription = 'renameModalTitleDescription',
     /**
      *
+     * @example
+     * ```js
+     * disabledActions: [Action.RequestVerification]
+     * ```
+     *
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     RequestVerification = 'requestVerification',
     /**
+     *
+     * Allows users to mark a Liveboard as verified.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.MarkAsVerified]
+     * ```
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     MarkAsVerified = 'markAsVerified',
     /**
+     * The **Add Tab** action on a Liveboard.
+     * Allows adding a new tab to a Liveboard view.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.AddTab]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     AddTab = 'addTab',
     /**
+     *
+     * Initiates contextual change analysis on KPI charts.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EnableContextualChangeAnalysis]
+     * ```
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ShowSageQuery]
+     * ```
+     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ShowSageQuery = 'showSageQuery',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EditSageAnswer]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     EditSageAnswer = 'editSageAnswer',
     /**
+     *
+     * This action allows users to send feedback on AI-generated Answers.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.SageAnswerFeedback]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     SageAnswerFeedback = 'sageAnswerFeedback',
     /**
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ModifySageAnswer]
+     * ```
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
