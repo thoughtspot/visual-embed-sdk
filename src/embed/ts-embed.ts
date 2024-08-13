@@ -560,7 +560,7 @@ export class TsEmbed {
         iFrame.mozallowfullscreen = true;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        iFrame.allow = 'clipboard-read; clipboard-write';
+        iFrame.allow = 'clipboard-read; clipboard-write fullscreen';
 
         const {
             height: frameHeight,
