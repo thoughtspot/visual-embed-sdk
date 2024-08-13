@@ -201,6 +201,10 @@ export enum HomeLeftNavItem {
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     SpotIQAnalysis = 'spotiq-analysis',
+    /**
+     * @version SDK: 1.4.0| ThoughtSpot: 10.3.0.cl
+     */
+    LiveboardSchedules = 'liveboard-schedules'
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -4082,6 +4086,56 @@ export enum Action {
      *  @version SDK: 1.27.10 | Thoughtspot: 9.12.5.cl
      */
     AIHighlights = 'AIHighlights',
+
+    /**
+     * Action ID for edit schedule action on schedule on homepage
+     * @example
+     * ```js
+     * disabledActions: [Action.EditScheduleHomepage]
+     * ```
+     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     */
+    EditScheduleHomepage = 'editScheduleHomepage',
+
+    /**
+     * Action ID for pause schedule action on schedule on homepage
+     * @example
+     * ```js
+     * disabledActions: [Action.PauseScheduleHomepage]
+     * ```
+     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     */
+    PauseScheduleHomepage = 'pauseScheduleHomepage',
+
+    /**
+     * Action ID for view schedule run action on schedule on homepage
+     * @example
+     * ```js
+     * disabledActions: [Action.ViewScheduleRunHomepage]
+     * ```
+     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     */
+    ViewScheduleRunHomepage = 'viewScheduleRunHomepage',
+
+    /**
+     * Action ID for unsubscribe schedule action on schedule on homepage
+     * @example
+     * ```js
+     * disabledActions: [Action.UnsubscribeScheduleHomepage]
+     * ```
+     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     */
+    UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
+
+    /**
+     * Action ID for delete schedule action on schedule on homepage
+     * @example
+     * ```js
+     * disabledActions: [Action.DeleteScheduleHomepage]
+     * ```
+     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     */
+    DeleteScheduleHomepage = 'deleteScheduleHomepage',
 }
 
 export interface AnswerServiceType {
