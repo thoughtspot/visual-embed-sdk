@@ -202,7 +202,7 @@ export enum HomeLeftNavItem {
      */
     SpotIQAnalysis = 'spotiq-analysis',
     /**
-     * @version SDK: 1.4.0| ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
     LiveboardSchedules = 'liveboard-schedules'
 }
@@ -4106,7 +4106,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.EditScheduleHomepage]
      * ```
-     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     EditScheduleHomepage = 'editScheduleHomepage',
 
@@ -4116,7 +4116,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.PauseScheduleHomepage]
      * ```
-     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     PauseScheduleHomepage = 'pauseScheduleHomepage',
 
@@ -4126,7 +4126,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ViewScheduleRunHomepage]
      * ```
-     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     ViewScheduleRunHomepage = 'viewScheduleRunHomepage',
 
@@ -4136,7 +4136,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.UnsubscribeScheduleHomepage]
      * ```
-     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
 
@@ -4146,7 +4146,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DeleteScheduleHomepage]
      * ```
-     *  @version SDK: 1.4.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     DeleteScheduleHomepage = 'deleteScheduleHomepage',
 }
