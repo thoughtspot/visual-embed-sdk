@@ -4149,6 +4149,16 @@ export enum Action {
      *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     DeleteScheduleHomepage = 'deleteScheduleHomepage',
+
+    /**
+     * The **Analyze CTA** action on KPI chart.
+     * @example
+     * ```js
+     * disabledActions: [Action.KPIAnalysisCTA]
+     * ```
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     */
+    KPIAnalysisCTA = 'kpiAnalysisCTA',
 }
 
 export interface AnswerServiceType {
