@@ -347,6 +347,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * To set the initial state of the search bar in case of saved-answers.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default false
+     * @deprecated Use {@link collapseSearchBar} instead
      */
     collapseSearchBarInitially?: boolean;
     /**
@@ -451,6 +452,7 @@ export class AppEmbed extends V1Embed {
             isOnBeforeGetVizDataInterceptEnabled = false,
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
+            collapseSearchBar = true,
         } = this.viewConfig;
 
         let params = {};
@@ -503,7 +505,7 @@ export class AppEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
-        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially;
+        params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
