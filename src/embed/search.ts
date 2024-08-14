@@ -89,6 +89,19 @@ export interface SearchViewConfig
      */
     collapseDataSources?: boolean;
     /**
+     * If set to true, the data panel is collapsed on load,
+     * but can be expanded manually.
+     * @version: SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other options
+     *    collapseDataPanel:true,
+     * })
+     * ```
+     */
+    collapseDataPanel?: boolean;
+    /**
      * Show or hide the data sources panel.
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
@@ -320,7 +333,8 @@ export class SearchEmbed extends TsEmbed {
      */
     private getDataSourceMode() {
         let dataSourceMode = DataSourceVisualMode.Expanded;
-        if (this.viewConfig.collapseDataSources === true) {
+        if (this.viewConfig.collapseDataSources === true
+            || this.viewConfig.collapseDataPanel === true) {
             dataSourceMode = DataSourceVisualMode.Collapsed;
         }
         if (this.viewConfig.hideDataSources === true) {
