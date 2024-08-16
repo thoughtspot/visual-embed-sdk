@@ -1028,6 +1028,18 @@ export interface ViewConfig {
      * });
      */
     collapseSearchBar?: boolean;
+    /**
+     * This flag can be used to disable links inside the embedded app,
+     * and disables redirection of links in a new tab.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   disableRedirectionLinksInNewTab: true
+     * });
+     * ```
+     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
+     */
+    disableRedirectionLinksInNewTab?: boolean;
 }
 
 /**
@@ -3112,6 +3124,7 @@ export enum Param {
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
     FocusSearchBarOnRender = 'focusSearchBarOnRender',
+    DisableRedirectionLinksInNewTab = 'disableRedirectionLinksInNewTab',
 }
 
 /**

@@ -441,6 +441,7 @@ export class TsEmbed {
             contextMenuTrigger,
             linkOverride,
             insertInToSlide,
+            disableRedirectionLinksInNewTab,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -507,6 +508,9 @@ export class TsEmbed {
         }
         if (insertInToSlide) {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
+        }
+        if (disableRedirectionLinksInNewTab) {
+            queryParams[Param.DisableRedirectionLinksInNewTab] = disableRedirectionLinksInNewTab;
         }
 
         queryParams[Param.OverrideNativeConsole] = true;
