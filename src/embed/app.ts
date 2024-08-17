@@ -262,7 +262,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     fullHeight?: boolean;
     /**
      * Flag to control Data panel experience
-     * @default false
+     * @default true
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @example
      * ```js
@@ -438,7 +438,7 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,

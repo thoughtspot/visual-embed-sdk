@@ -229,7 +229,7 @@ export interface SearchViewConfig
     hideSearchBar?: boolean;
     /**
      * Flag to control Data panel experience
-     * @default false
+     * @default true
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @example
      * ```js
@@ -356,7 +356,7 @@ export class SearchEmbed extends TsEmbed {
             dataSources,
             excludeRuntimeFiltersfromURL,
             hideSearchBar,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             useLastSelectedSources = false,
             runtimeParameters,
             collapseSearchBarInitially = false,
