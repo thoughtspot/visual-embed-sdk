@@ -3,6 +3,7 @@ import {
     AppViewConfig,
     DataPanelCustomColumnGroupsAccordionState,
     Page,
+    HomePageSearchBarMode,
 } from './app';
 import { init } from '../index';
 import {
@@ -427,6 +428,51 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add HomePageSearchBarMode flag with object search to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            homePageSearchBarMode: HomePageSearchBarMode.OBJECT_SEARCH,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=objectSearch${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add HomePageSearchBarMode flag with ai answer to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            homePageSearchBarMode: HomePageSearchBarMode.AI_ANSWER,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=aiAnswer${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add HomePageSearchBarMode flag with none to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            homePageSearchBarMode: HomePageSearchBarMode.NONE,
+        } as AppViewConfig);
+
+        await appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=none${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });

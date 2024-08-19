@@ -74,6 +74,11 @@ export enum DataPanelCustomColumnGroupsAccordionState {
     EXPAND_FIRST = 'EXPAND_FIRST',
 }
 
+export enum HomePageSearchBarMode {
+    OBJECT_SEARCH = 'objectSearch',
+    AI_ANSWER = 'aiAnswer',
+    NONE = 'none'
+}
 /**
  * The view configuration for full app embedding.
  * @group Embed components
@@ -401,6 +406,11 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
+    /**
+     * Flag to use home page search bar mode
+     * @version SDK : 1.33.0 | Thoughtspot : 10.2.0.cl
+     */
+    homePageSearchBarMode?: HomePageSearchBarMode;
 }
 
 /**
@@ -453,6 +463,7 @@ export class AppEmbed extends V1Embed {
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
+            homePageSearchBarMode,
         } = this.viewConfig;
 
         let params = {};
@@ -500,6 +511,10 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled
             ] = isOnBeforeGetVizDataInterceptEnabled;
+        }
+
+        if (homePageSearchBarMode) {
+            params[Param.HomePageSearchBarMode] = homePageSearchBarMode;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

@@ -3125,6 +3125,7 @@ export enum Param {
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
     FocusSearchBarOnRender = 'focusSearchBarOnRender',
     DisableRedirectionLinksInNewTab = 'disableRedirectionLinksInNewTab',
+    HomePageSearchBarMode = 'homePageSearchBarMode',
 }
 
 /**
