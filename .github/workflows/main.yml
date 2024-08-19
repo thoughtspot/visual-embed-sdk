@@ -25,7 +25,7 @@ jobs:
             # Use NodeJS v14.19.0
             - uses: actions/setup-node@v2
               with:
-                  node-version: '16.19.0'
+                  node-version: '20.16.0'
 
             # Run npm install
             - name: Run npm install
@@ -60,3 +60,7 @@ jobs:
               with:
                   name: test-coverage
                   path: coverage/
+
+            # Create new package release
+            - name: Publish dev package
+              run: npx pkg-pr-new publish
