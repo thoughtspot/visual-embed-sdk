@@ -56,7 +56,6 @@ beforeAll(() => {
 const customisations = {
     style: {
         customCSS: {},
-        customCSSUrl: 'http://localhost:3000',
     },
     content: {},
 };
@@ -64,7 +63,6 @@ const customisations = {
 const customisationsView = {
     style: {
         customCSS: {},
-        customCSSUrl: 'http://localhost:8000',
     },
     content: {
         strings: {
@@ -95,7 +93,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
                 authType: AuthType.TrustedAuthTokenCookieless,
                 getAuthToken: () => Promise.resolve('test_auth_token2'),
             });
@@ -136,7 +133,6 @@ describe('Unit test case for ts embed', () => {
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
             });
         });
 
@@ -199,9 +195,6 @@ describe('Unit test case for ts embed', () => {
                     reorderedHomepageModules: [],
                 },
             });
-            expect(getIFrameSrc()).toContain(
-                `customCssUrl=${customisationsView.style.customCSSUrl}`,
-            );
         });
 
         test('hide home page modules from view Config should be part of app_init payload', async () => {
@@ -601,7 +594,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
                 authType: AuthType.TrustedAuthTokenCookieless,
                 getAuthToken: () => Promise.resolve('test_auth_token1'),
             });
@@ -655,7 +647,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
                 authType: AuthType.TrustedAuthTokenCookieless,
                 getAuthToken: () => Promise.reject(),
             });
@@ -790,7 +781,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
                 authType: AuthType.TrustedAuthToken,
                 username: 'tsadmin',
                 getAuthToken: () => Promise.resolve('test_auth_token3'),
@@ -819,7 +809,6 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
-                customCssUrl: 'http://localhost:5000',
                 authType: AuthType.TrustedAuthToken,
                 username: 'tsadmin',
                 getAuthToken: () => Promise.resolve('test_auth_token4'),
