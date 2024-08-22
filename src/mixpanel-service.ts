@@ -11,6 +11,10 @@ export const EndPoints = {
 const mixpanelLib = mixpanel.default || mixpanel;
 let mixpanelInstance: mixpanel.Mixpanel;
 
+/**
+ * Enum of mixpanel events
+ * @hidden
+ */
 export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_START: 'visual-sdk-render-start',
     VISUAL_SDK_CALLED_INIT: 'visual-sdk-called-init',
