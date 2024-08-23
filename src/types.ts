@@ -4155,6 +4155,17 @@ export enum Action {
     UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
 
     /**
+     * The **Manage Tags** action on Homepage Favourite Module.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.ManageTags]
+     * ```
+     * @version SDK : 1.34.0 | Thoughtspot: 10.3.0.cl
+     */
+    ManageTags = 'manageTags',
+
+    /**
      * Action ID for delete schedule action on schedule on homepage
      * @example
      * ```js
