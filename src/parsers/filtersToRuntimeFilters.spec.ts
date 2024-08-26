@@ -2,35 +2,6 @@ import { ValidationError, convertFiltersToRuntimeFilters } from './filtersToRunt
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
 
 describe('convertFiltersToRuntimeFilters', () => {
-    test('should convert valid filters to runtime filters', () => {
-        const liveboardFiltersData = {
-            liveboardFilters: [
-                {
-                    columnInfo: { name: 'column1' },
-                    filters: [
-                        {
-                            filterContent: [
-                                {
-                                    filterType: RuntimeFilterOp.EQ,
-                                    value: [{ key: 'value1' }, { key: 'value2' }],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        };
-
-        const expected: RuntimeFilter[] = [
-            {
-                columnName: 'column1',
-                operator: RuntimeFilterOp.EQ,
-                values: ['value1', 'value2'],
-            },
-        ];
-
-        expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
-    });
 
     test('should throw ValidationError if liveboardFilters is not an array', () => {
         const liveboardFiltersData = { liveboardFilters: {} };
@@ -110,6 +81,166 @@ describe('convertFiltersToRuntimeFilters', () => {
         };
 
         const expected: RuntimeFilter[] = [];
+        expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
+    });
+  
+    test('should throw ValidationError if liveboardFilters is undefined', () => {
+        const liveboardFiltersData: any = {
+            liveboardFilters: undefined,
+        };
+    
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+    
+    test('should throw ValidationError if values is null', () => {
+        const liveboardFiltersData: any = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'column1' },
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: RuntimeFilterOp.EQ,
+                                    value: null,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+
+    test('should throw ValidationError if value array with non-key wrong property', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'column1' },
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: RuntimeFilterOp.EQ,
+                                    value: [{ wrongKey: 'value1' }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+    
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+
+    test('should handle empty objects in liveboardFilters array correctly', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {},
+            ],
+        };
+    
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+
+    test('should throw ValidationError if multiple properties are invalid', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {
+                    columnInfo: {},
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: 'INVALID_OP',
+                                    value: [{ key: 'value1' }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+    
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+    
+    test('should throw ValidationError if value contains nested wrong objects', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'column1' },
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: RuntimeFilterOp.EQ,
+                                    value: [{ key: 'value1', extra: { nested: 'object' } }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+    
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+    
+    test('should handle multiple values in the value property', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'columan_one' },
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: RuntimeFilterOp.IN,
+                                    value: [
+                                        { key: 21 },
+                                        { key: 36 },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    columnInfo: { name: 'column_two' },
+                    filters: [
+                        {
+                            filterContent: [
+                                {
+                                    filterType: RuntimeFilterOp.IN,
+                                    value: [
+                                        { key: 'CITY1' },
+                                        { key: 'CITY2' },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+    
+        const expected: RuntimeFilter[] = [
+            {
+                columnName: 'columan_one',
+                operator: RuntimeFilterOp.IN,
+                values: [21, 36],
+            },
+            {
+                columnName: 'column_two',
+                operator: RuntimeFilterOp.IN,
+                values: ['VAL1', 'VAL1'],
+            },
+        ];
+    
         expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
     });
 });

@@ -16,31 +16,47 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
 
     liveboardFiltersData.liveboardFilters.forEach((filterData: any) => {
         const columnName = filterData?.columnInfo?.name;
-        if (!columnName) {
+        if (typeof columnName !== 'string') {
             throw new ValidationError('Column name is missing or invalid');
         }
 
-        const operator = filterData?.filters?.[0]?.filterContent?.[0]?.filterType;
-        if (!Object.values(RuntimeFilterOp).includes(operator)) {
-            throw new ValidationError(`Invalid operator: ${operator}`);
+        const filters = filterData?.filters;
+        if (!Array.isArray(filters) || filters.length === 0) {
+            throw new ValidationError('Filters must be a non-empty array');
         }
 
-        const filterContent = filterData?.filters?.[0]?.filterContent?.[0];
-        if (!filterContent || !Array.isArray(filterContent.value)) {
-            throw new ValidationError('Filter content or values are missing or invalid');
-        }
-
-        const values = filterContent.value.map((val: any) => {
-            if (val == null || typeof val.key === 'undefined') {
-                throw new ValidationError('Value key is missing or invalid');
+        filters.forEach((filter: any) => {
+            const filterContent = filter?.filterContent;
+            if (!Array.isArray(filterContent) || filterContent.length === 0) {
+                throw new ValidationError('Filter content must be a non-empty array');
             }
-            return val.key;
-        });
 
-        result.push({
-            columnName,
-            operator: operator as RuntimeFilterOp,
-            values,
+            filterContent.forEach((content: any) => {
+                const operator = content?.filterType;
+                if (!Object.values(RuntimeFilterOp).includes(operator)) {
+                    throw new ValidationError(`Invalid operator: ${operator}`);
+                }
+
+                const values = content?.value;
+                if (!Array.isArray(values)) {
+                    throw new ValidationError('Values must be an array');
+                }
+
+                values.forEach((val: any) => {
+                    if (typeof val !== 'object' || val === null || typeof val.key !== 'string') {
+                        throw new ValidationError('Value must be an object with a string key property');
+                    }
+                    if (Object.keys(val).length > 1) {
+                        throw new ValidationError('Value contains additional properties');
+                    }
+                });
+
+                result.push({
+                    columnName,
+                    operator: operator as RuntimeFilterOp,
+                    values: values.map((val: any) => val.key),
+                });
+            });
         });
     });
 
