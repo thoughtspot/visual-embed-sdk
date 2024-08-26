@@ -113,7 +113,7 @@ describe('convertFiltersToRuntimeFilters', () => {
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
 
-    test('should throw ValidationError if value array with non-key wrong property', () => {
+    test('should throw ValidationError if value array with non-key property', () => {
         const liveboardFiltersData = {
             liveboardFilters: [
                 {
@@ -210,7 +210,7 @@ describe('convertFiltersToRuntimeFilters', () => {
                             filterContent: [
                                 {
                                     filterType: RuntimeFilterOp.IN,
-                                    value: [{ key: 'CITY1' }, { key: 'CITY2' }],
+                                    value: [{ key: 'VAL1' }, { key: 'VAL2' }],
                                 },
                             ],
                         },
@@ -228,10 +228,21 @@ describe('convertFiltersToRuntimeFilters', () => {
             {
                 columnName: 'column_two',
                 operator: RuntimeFilterOp.IN,
-                values: ['VAL1', 'VAL1'],
+                values: ['VAL1', 'VAL2'],
             },
         ];
 
         expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
     });
+    test('should throw ValidationError if filters property is missing', () => {
+        const liveboardFiltersData = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'column1' },
+                },
+            ],
+        };
+        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
+    });
+    
 });

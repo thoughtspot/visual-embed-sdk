@@ -43,10 +43,13 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
                 }
 
                 values.forEach((val: any) => {
-                    if (typeof val !== 'object' || val === null || typeof val.key !== 'string') {
+                    if (typeof val !== 'object' || val === null) {
                         throw new ValidationError(
                             'Value must be an object with a string key property',
                         );
+                    }
+                    if (!('key' in val)) {
+                        throw new ValidationError('Value object must contain a key property');
                     }
                     if (Object.keys(val).length > 1) {
                         throw new ValidationError('Value contains additional properties');
