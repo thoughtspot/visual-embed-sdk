@@ -244,5 +244,4 @@ describe('convertFiltersToRuntimeFilters', () => {
         };
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
-    
 });
