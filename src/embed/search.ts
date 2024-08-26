@@ -228,19 +228,6 @@ export interface SearchViewConfig
      */
     hideSearchBar?: boolean;
     /**
-     * Flag to control Data panel experience
-     * @default true
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @example
-     * ```js
-     * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
-     *    dataPanelV2:false,
-     * })
-     * ```
-     */
-    dataPanelV2?: boolean;
-    /**
      * Flag to set if last selected dataSource should be used
      * @version: SDK: 1.24.0
      */

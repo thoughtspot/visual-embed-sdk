@@ -340,6 +340,7 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardHeaderSticky = true,
             enableAskSage,
             enable2ColumnLayout,
+            dataPanelV2 = true,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -388,6 +389,7 @@ export class LiveboardEmbed extends V1Embed {
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
 
+        params[Param.DataPanelV2Enabled] = dataPanelV2;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

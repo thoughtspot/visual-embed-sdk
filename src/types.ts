@@ -1040,6 +1040,19 @@ export interface ViewConfig {
      * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      */
     disableRedirectionLinksInNewTab?: boolean;
+    /**
+     * Flag to control Data panel experience
+     * @default true
+     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataPanelV2: true,
+     * })
+     * ```
+     */
+    dataPanelV2?: boolean;
 }
 
 /**
