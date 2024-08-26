@@ -14,7 +14,7 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
             throw new ValidationError('Expected liveboardFilters to be an array');
         }
 
-        for (const filterData of liveboardFiltersData.liveboardFilters) {
+        liveboardFiltersData.liveboardFilters.map((filterData: any) => {
             const columnName = filterData?.columnInfo?.name;
             if (!columnName) {
                 throw new ValidationError('Column name is missing or invalid');
@@ -36,7 +36,7 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
                 operator: operator as RuntimeFilterOp,
                 values,
             });
-        }
+        });
 
         return result;
     } catch (error) {
