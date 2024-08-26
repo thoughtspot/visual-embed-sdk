@@ -2,7 +2,6 @@ import { ValidationError, convertFiltersToRuntimeFilters } from './filtersToRunt
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
 
 describe('convertFiltersToRuntimeFilters', () => {
-
     test('should throw ValidationError if liveboardFilters is not an array', () => {
         const liveboardFiltersData = { liveboardFilters: {} };
 
@@ -83,15 +82,15 @@ describe('convertFiltersToRuntimeFilters', () => {
         const expected: RuntimeFilter[] = [];
         expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
     });
-  
+
     test('should throw ValidationError if liveboardFilters is undefined', () => {
         const liveboardFiltersData: any = {
             liveboardFilters: undefined,
         };
-    
+
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
-    
+
     test('should throw ValidationError if values is null', () => {
         const liveboardFiltersData: any = {
             liveboardFilters: [
@@ -132,17 +131,15 @@ describe('convertFiltersToRuntimeFilters', () => {
                 },
             ],
         };
-    
+
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
 
     test('should handle empty objects in liveboardFilters array correctly', () => {
         const liveboardFiltersData = {
-            liveboardFilters: [
-                {},
-            ],
+            liveboardFilters: [{}],
         };
-    
+
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
 
@@ -164,10 +161,10 @@ describe('convertFiltersToRuntimeFilters', () => {
                 },
             ],
         };
-    
+
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
-    
+
     test('should throw ValidationError if value contains nested wrong objects', () => {
         const liveboardFiltersData = {
             liveboardFilters: [
@@ -186,10 +183,10 @@ describe('convertFiltersToRuntimeFilters', () => {
                 },
             ],
         };
-    
+
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
-    
+
     test('should handle multiple values in the value property', () => {
         const liveboardFiltersData = {
             liveboardFilters: [
@@ -200,10 +197,7 @@ describe('convertFiltersToRuntimeFilters', () => {
                             filterContent: [
                                 {
                                     filterType: RuntimeFilterOp.IN,
-                                    value: [
-                                        { key: 21 },
-                                        { key: 36 },
-                                    ],
+                                    value: [{ key: 21 }, { key: 36 }],
                                 },
                             ],
                         },
@@ -216,10 +210,7 @@ describe('convertFiltersToRuntimeFilters', () => {
                             filterContent: [
                                 {
                                     filterType: RuntimeFilterOp.IN,
-                                    value: [
-                                        { key: 'CITY1' },
-                                        { key: 'CITY2' },
-                                    ],
+                                    value: [{ key: 'CITY1' }, { key: 'CITY2' }],
                                 },
                             ],
                         },
@@ -227,7 +218,7 @@ describe('convertFiltersToRuntimeFilters', () => {
                 },
             ],
         };
-    
+
         const expected: RuntimeFilter[] = [
             {
                 columnName: 'columan_one',
@@ -240,7 +231,7 @@ describe('convertFiltersToRuntimeFilters', () => {
                 values: ['VAL1', 'VAL1'],
             },
         ];
-    
+
         expect(convertFiltersToRuntimeFilters(liveboardFiltersData)).toEqual(expected);
     });
 });
