@@ -10,7 +10,6 @@ export class ValidationError extends Error {
 export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): RuntimeFilter[] => {
     try {
         const result: RuntimeFilter[] = [];
-
         if (!Array.isArray(liveboardFiltersData?.liveboardFilters)) {
             throw new ValidationError('Expected liveboardFilters to be an array');
         }
