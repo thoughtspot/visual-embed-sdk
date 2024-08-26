@@ -8,42 +8,41 @@ export class ValidationError extends Error {
 }
 
 export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): RuntimeFilter[] => {
-    try {
-        const result: RuntimeFilter[] = [];
-        if (!Array.isArray(liveboardFiltersData?.liveboardFilters)) {
-            throw new ValidationError('Expected liveboardFilters to be an array');
+    const result: RuntimeFilter[] = [];
+
+    if (!Array.isArray(liveboardFiltersData?.liveboardFilters)) {
+        throw new ValidationError('Expected liveboardFilters to be an array');
+    }
+
+    liveboardFiltersData.liveboardFilters.forEach((filterData: any) => {
+        const columnName = filterData?.columnInfo?.name;
+        if (!columnName) {
+            throw new ValidationError('Column name is missing or invalid');
         }
 
-        liveboardFiltersData.liveboardFilters.map((filterData: any) => {
-            const columnName = filterData?.columnInfo?.name;
-            if (!columnName) {
-                throw new ValidationError('Column name is missing or invalid');
-            }
+        const operator = filterData?.filters?.[0]?.filterContent?.[0]?.filterType;
+        if (!Object.values(RuntimeFilterOp).includes(operator)) {
+            throw new ValidationError(`Invalid operator: ${operator}`);
+        }
 
-            const operator = filterData?.filters?.[0]?.filterContent?.[0]?.filterType;
-            if (!Object.values(RuntimeFilterOp).includes(operator)) {
-                throw new ValidationError(`Invalid operator: ${operator}`);
-            }
-            const filterContent = filterData?.filters?.[0]?.filterContent?.[0];
-            if (!filterContent || !Array.isArray(filterContent.value)) {
-                throw new ValidationError('Filter content or values are missing or invalid');
-            }
+        const filterContent = filterData?.filters?.[0]?.filterContent?.[0];
+        if (!filterContent || !Array.isArray(filterContent.value)) {
+            throw new ValidationError('Filter content or values are missing or invalid');
+        }
 
-            const values = filterContent.value.map((val: any) => val?.key ?? '');
-
-            result.push({
-                columnName,
-                operator: operator as RuntimeFilterOp,
-                values,
-            });
+        const values = filterContent.value.map((val: any) => {
+            if (val == null || typeof val.key === 'undefined') {
+                throw new ValidationError('Value key is missing or invalid');
+            }
+            return val.key;
         });
 
-        return result;
-    } catch (error) {
-        if (error instanceof ValidationError) {
-            throw error;
-        } else {
-            throw new ValidationError(`Unable to Parse : ${error.message}`);
-        }
-    }
+        result.push({
+            columnName,
+            operator: operator as RuntimeFilterOp,
+            values,
+        });
+    });
+
+    return result;
 };
