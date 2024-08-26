@@ -62,4 +62,21 @@ export default [{
         ...Object.keys(pkg.peerDependencies || {}),
     ],
     plugins,
+}, {
+    input: 'src/parsers/index.ts',
+    output: [
+        {
+            file: 'dist/tsembed-parsers.js',
+            format: 'umd',
+            name: 'tsembed',
+        },
+        {
+            file: 'dist/tsembed-parsers.es.js',
+            format: 'es',
+        },
+    ],
+    external: [
+        ...Object.keys(pkg.peerDependencies || {}),
+    ],
+    plugins,
 }];
