@@ -165,28 +165,6 @@ describe('convertFiltersToRuntimeFilters', () => {
         expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
     });
 
-    test('should throw ValidationError if value contains nested wrong objects', () => {
-        const liveboardFiltersData = {
-            liveboardFilters: [
-                {
-                    columnInfo: { name: 'column1' },
-                    filters: [
-                        {
-                            filterContent: [
-                                {
-                                    filterType: RuntimeFilterOp.EQ,
-                                    value: [{ key: 'value1', extra: { nested: 'object' } }],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        };
-
-        expect(() => convertFiltersToRuntimeFilters(liveboardFiltersData)).toThrow(ValidationError);
-    });
-
     test('should handle multiple values in the value property', () => {
         const liveboardFiltersData = {
             liveboardFilters: [

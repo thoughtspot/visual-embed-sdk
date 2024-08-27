@@ -38,21 +38,18 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
                 }
 
                 const values = content?.value;
-                if (!Array.isArray(values)) {
-                    throw new ValidationError('Values must be an array');
+                if (!Array.isArray(values) || values == null) {
+                    throw new ValidationError('Values must be an array and should not be null');
                 }
 
                 values.forEach((val: any) => {
-                    if (typeof val !== 'object' || val === null) {
+                    if (typeof val !== 'object') {
                         throw new ValidationError(
-                            'Value must be an object and not null',
+                            'Value must be an object',
                         );
                     }
                     if (!('key' in val)) {
                         throw new ValidationError('Value object must contain a key property');
-                    }
-                    if (Object.keys(val).length > 1) {
-                        throw new ValidationError('Value contains additional properties');
                     }
                 });
 
