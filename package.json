@@ -58,7 +58,7 @@
         "build": "rollup -c",
         "watch": "rollup -cw",
         "docs-cmd": "node scripts/gatsby-commands.js",
-        "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme",
+        "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme --json static/typedoc/typedoc.json",
         "test-sdk": "jest -c jest.config.sdk.js --runInBand",
         "test-docs": "jest -c jest.config.docs.js",
         "test": "npm run test-sdk && npm run test-docs",

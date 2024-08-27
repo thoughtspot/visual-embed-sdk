@@ -1,4 +1,0 @@
-[NOTE]
-====
-ThoughtSpot automatically assigns an action ID based on the name you assign to a custom action. For example, if you set the name of a custom action as `Send Email`, ThoughtSpot sets the ID for this action as `send-email` by default. To disable, hide, or show a custom action in the embedded UI, you must specify the ID of the custom action as the action string in the `disabledActions`, `hiddenActions`, and `visibleActions` attributes.
-====
