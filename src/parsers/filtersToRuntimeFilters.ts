@@ -45,7 +45,7 @@ export const convertFiltersToRuntimeFilters = (liveboardFiltersData: any): Runti
                 values.forEach((val: any) => {
                     if (typeof val !== 'object' || val === null) {
                         throw new ValidationError(
-                            'Value must be an object with a string key property',
+                            'Value must be an object and not null',
                         );
                     }
                     if (!('key' in val)) {
