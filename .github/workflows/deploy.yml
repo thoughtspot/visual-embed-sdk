@@ -83,7 +83,7 @@ jobs:
       # Use NodeJS v12.18.3
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.18.3'
+          node-version: '20.16.0'
 
       # Run npm install
       - name: Run npm install
