@@ -416,4 +416,32 @@ export interface CustomCssVariables {
      * Background for favorite carousel find your favorites card in modular home.
      */
     '--ts-var-home-favorite-suggestion-card-background'?: string;
+    /**
+     * Border color of checkbox in error state.
+     */
+    '--ts-var-checkbox-error-border'?: string;
+    /**
+     * Border color of checkbox.
+     */
+    '--ts-var-checkbox-border-color'?: string;
+    /**
+     * Border color of checkbox in hover state.
+     */
+    '--ts-var-checkbox-hover-border'?: string;
+    /**
+     * Border and font color of checkbox in active state.
+     */
+    '--ts-var-checkbox-active-color'?: string;
+    /**
+     * Border color and font color of checkbox in checked state.
+     */
+    '--ts-var-checkbox-checked-color'?: string;
+    /**
+     * Border and font color of checkbox in disabled state.
+     */
+    '--ts-var-checkbox-checked-disabled'?: string;
+    /**
+     * Background color of checkbox.
+     */
+    '--ts-var-checkbox-background-color'?: string;
   }
