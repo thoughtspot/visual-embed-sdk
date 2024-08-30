@@ -53,6 +53,10 @@ export enum Page {
      * SpotIQ listing page
      */
     SpotIQ = 'insights',
+    /**
+     *  Monitor Alerts Page
+     */
+    Monitor = 'monitor'
 }
 
 /**
@@ -582,6 +586,8 @@ export class AppEmbed extends V1Embed {
                 return 'data/tables';
             case Page.SpotIQ:
                 return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
+            case Page.Monitor:
+                return modularHomeExperience ? 'home/monitor-alerts' : 'insights/monitor-alerts';
             case Page.Home:
             default:
                 return 'home';
