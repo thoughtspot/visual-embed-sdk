@@ -138,7 +138,7 @@ describe('App embed tests', () => {
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'insights/results',
-            [Page.Monitor]: 'insights/monitor-alerts'
+            [Page.Monitor]: 'insights/monitor-alerts',
         };
 
         const pageIds = Object.keys(pageRouteMap);
