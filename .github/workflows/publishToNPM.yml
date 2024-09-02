@@ -42,17 +42,13 @@ jobs:
       - name: Run npm install
         run: npm install --legacy-peer-deps
 
-      # Runs docgen and publish
-      - name: Run docgen and publish
+      # Publish
+      - name: Publish
         run: |
           BRANCH_NAME="${{ steps.branch_name.outputs.BRANCH_NAME }}"
-          npm run docgen
-          if [ "$BRANCH_NAME" = "release" ]; then
-            echo "publish release"
+          if [ "$BRANCH_NAME" = "main" ]; then
+            echo "publish prod"
             npm run publish-prod
-          elif [ "$BRANCH_NAME" = "main" ]; then
-            echo "publish dev"
-            npm run publish-dev
           else
             echo "Stopping workflow for branch $BRANCH_NAME"
             exit 1
