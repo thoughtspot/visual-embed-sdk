@@ -7578,14 +7578,14 @@
 			]
 		},
 		{
-			"id": 1741,
+			"id": 1748,
 			"name": "LogLevel",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 1746,
+					"id": 1753,
 					"name": "DEBUG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7613,7 +7613,7 @@
 					"defaultValue": "\"DEBUG\""
 				},
 				{
-					"id": 1743,
+					"id": 1750,
 					"name": "ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7641,7 +7641,7 @@
 					"defaultValue": "\"ERROR\""
 				},
 				{
-					"id": 1745,
+					"id": 1752,
 					"name": "INFO",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7669,7 +7669,7 @@
 					"defaultValue": "\"INFO\""
 				},
 				{
-					"id": 1742,
+					"id": 1749,
 					"name": "SILENT",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7697,7 +7697,7 @@
 					"defaultValue": "\"SILENT\""
 				},
 				{
-					"id": 1747,
+					"id": 1754,
 					"name": "TRACE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7725,7 +7725,7 @@
 					"defaultValue": "\"TRACE\""
 				},
 				{
-					"id": 1744,
+					"id": 1751,
 					"name": "WARN",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7758,12 +7758,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						1746,
-						1743,
-						1745,
-						1742,
-						1747,
-						1744
+						1753,
+						1750,
+						1752,
+						1749,
+						1754,
+						1751
 					]
 				}
 			],
@@ -8423,7 +8423,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 1764,
+											"id": 1771,
 											"name": "VizPoint"
 										}
 									}
@@ -16122,7 +16122,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 1738,
+							"id": 1745,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -17139,7 +17139,7 @@
 			]
 		},
 		{
-			"id": 1767,
+			"id": 1774,
 			"name": "CustomActionPayload",
 			"kind": 256,
 			"kindString": "Interface",
@@ -17154,7 +17154,7 @@
 			},
 			"children": [
 				{
-					"id": 1768,
+					"id": 1775,
 					"name": "contextMenuPoints",
 					"kind": 1024,
 					"kindString": "Property",
@@ -17171,14 +17171,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 1769,
+							"id": 1776,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 1770,
+									"id": 1777,
 									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17192,12 +17192,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 1764,
+										"id": 1771,
 										"name": "VizPoint"
 									}
 								},
 								{
-									"id": 1771,
+									"id": 1778,
 									"name": "selectedPoints",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17213,7 +17213,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 1764,
+											"id": 1771,
 											"name": "VizPoint"
 										}
 									}
@@ -17224,8 +17224,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										1770,
-										1771
+										1777,
+										1778
 									]
 								}
 							]
@@ -17233,7 +17233,7 @@
 					}
 				},
 				{
-					"id": 1772,
+					"id": 1779,
 					"name": "embedAnswerData",
 					"kind": 1024,
 					"kindString": "Property",
@@ -17248,14 +17248,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 1773,
+							"id": 1780,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 1781,
+									"id": 1788,
 									"name": "columns",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17276,7 +17276,7 @@
 									}
 								},
 								{
-									"id": 1782,
+									"id": 1789,
 									"name": "data",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17297,7 +17297,7 @@
 									}
 								},
 								{
-									"id": 1775,
+									"id": 1782,
 									"name": "id",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17315,7 +17315,7 @@
 									}
 								},
 								{
-									"id": 1774,
+									"id": 1781,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17333,7 +17333,7 @@
 									}
 								},
 								{
-									"id": 1776,
+									"id": 1783,
 									"name": "sources",
 									"kind": 1024,
 									"kindString": "Property",
@@ -17348,14 +17348,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 1777,
+											"id": 1784,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 1778,
+													"id": 1785,
 													"name": "header",
 													"kind": 1024,
 													"kindString": "Property",
@@ -17370,14 +17370,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 1779,
+															"id": 1786,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 1780,
+																	"id": 1787,
 																	"name": "guid",
 																	"kind": 1024,
 																	"kindString": "Property",
@@ -17400,7 +17400,7 @@
 																	"title": "Properties",
 																	"kind": 1024,
 																	"children": [
-																		1780
+																		1787
 																	]
 																}
 															]
@@ -17413,7 +17413,7 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														1778
+														1785
 													]
 												}
 											]
@@ -17426,23 +17426,23 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										1781,
+										1788,
+										1789,
 										1782,
-										1775,
-										1774,
-										1776
+										1781,
+										1783
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 1783,
+								"id": 1790,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 1784,
+										"id": 1791,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -17461,7 +17461,7 @@
 					}
 				},
 				{
-					"id": 1785,
+					"id": 1792,
 					"name": "session",
 					"kind": 1024,
 					"kindString": "Property",
@@ -17480,7 +17480,7 @@
 					}
 				},
 				{
-					"id": 1786,
+					"id": 1793,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -17505,10 +17505,10 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						1768,
-						1772,
-						1785,
-						1786
+						1775,
+						1779,
+						1792,
+						1793
 					]
 				}
 			],
@@ -18074,6 +18074,167 @@
 						{
 							"fileName": "css-variables.ts",
 							"line": 136,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1741,
+					"name": "--ts-var-checkbox-active-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border and font color of checkbox in active state."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 434,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1744,
+					"name": "--ts-var-checkbox-background-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of checkbox."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 446,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1739,
+					"name": "--ts-var-checkbox-border-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color of checkbox."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 426,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1742,
+					"name": "--ts-var-checkbox-checked-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color and font color of checkbox in checked state."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 438,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1743,
+					"name": "--ts-var-checkbox-checked-disabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border and font color of checkbox in disabled state."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 442,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1738,
+					"name": "--ts-var-checkbox-error-border",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color of checkbox in error state."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 422,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 1740,
+					"name": "--ts-var-checkbox-hover-border",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color of checkbox in hover state."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 430,
 							"character": 4
 						}
 					],
@@ -19400,6 +19561,13 @@
 						1693,
 						1692,
 						1682,
+						1741,
+						1744,
+						1739,
+						1742,
+						1743,
+						1738,
+						1740,
 						1711,
 						1710,
 						1713,
@@ -20245,7 +20413,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 1741,
+						"id": 1748,
 						"name": "LogLevel"
 					}
 				},
@@ -22217,7 +22385,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 1738,
+							"id": 1745,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -22729,7 +22897,7 @@
 			]
 		},
 		{
-			"id": 1738,
+			"id": 1745,
 			"name": "RuntimeParameter",
 			"kind": 256,
 			"kindString": "Interface",
@@ -22739,7 +22907,7 @@
 			},
 			"children": [
 				{
-					"id": 1739,
+					"id": 1746,
 					"name": "name",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22760,7 +22928,7 @@
 					}
 				},
 				{
-					"id": 1740,
+					"id": 1747,
 					"name": "value",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22799,8 +22967,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						1739,
-						1740
+						1746,
+						1747
 					]
 				}
 			],
@@ -23843,7 +24011,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 1738,
+							"id": 1745,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -24929,7 +25097,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 1738,
+							"id": 1745,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -26476,7 +26644,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 1738,
+							"id": 1745,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -26948,14 +27116,14 @@
 			]
 		},
 		{
-			"id": 1764,
+			"id": 1771,
 			"name": "VizPoint",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 1765,
+					"id": 1772,
 					"name": "selectedAttributes",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26976,7 +27144,7 @@
 					}
 				},
 				{
-					"id": 1766,
+					"id": 1773,
 					"name": "selectedMeasures",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27002,8 +27170,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						1765,
-						1766
+						1772,
+						1773
 					]
 				}
 			],
@@ -28218,7 +28386,7 @@
 			]
 		},
 		{
-			"id": 1787,
+			"id": 1794,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -28234,7 +28402,7 @@
 			],
 			"signatures": [
 				{
-					"id": 1788,
+					"id": 1795,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -28353,7 +28521,7 @@
 			]
 		},
 		{
-			"id": 1748,
+			"id": 1755,
 			"name": "uploadMixpanelEvent",
 			"kind": 64,
 			"kindString": "Function",
@@ -28367,7 +28535,7 @@
 			],
 			"signatures": [
 				{
-					"id": 1749,
+					"id": 1756,
 					"name": "uploadMixpanelEvent",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -28377,7 +28545,7 @@
 					},
 					"parameters": [
 						{
-							"id": 1750,
+							"id": 1757,
 							"name": "eventId",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -28389,7 +28557,7 @@
 							}
 						},
 						{
-							"id": 1751,
+							"id": 1758,
 							"name": "eventProps",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -28400,7 +28568,7 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 1752,
+									"id": 1759,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -28434,7 +28602,7 @@
 				1605,
 				1613,
 				1131,
-				1741,
+				1748,
 				1014,
 				1594,
 				1038
@@ -28458,7 +28626,7 @@
 			"children": [
 				1534,
 				900,
-				1767,
+				1774,
 				1657,
 				1645,
 				1637,
@@ -28466,13 +28634,13 @@
 				1599,
 				1438,
 				1034,
-				1738,
+				1745,
 				1491,
 				1405,
 				1355,
 				1004,
 				1011,
-				1764,
+				1771,
 				1648,
 				17,
 				21
@@ -28499,9 +28667,9 @@
 				1,
 				4,
 				7,
-				1787,
+				1794,
 				33,
-				1748
+				1755
 			]
 		}
 	],
