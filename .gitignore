@@ -113,3 +113,9 @@ cjs
 
 # Don't ignore examples public folder
 !/examples/public
+
+# Ignore everything in the static/typedoc/ directory
+static/typedoc/*
+
+# Except the typedoc.json file
+!static/typedoc/typedoc.json
