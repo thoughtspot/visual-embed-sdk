@@ -171,7 +171,7 @@ describe('App embed tests', () => {
             [Page.Data]: 'data/tables',
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'home/spotiq-analysis',
-            [Page.Monitor]: 'insights/monitor-alerts',
+            [Page.Monitor]: 'home/monitor-alerts',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
