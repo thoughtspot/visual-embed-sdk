@@ -2269,6 +2269,11 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
+     * Reload the answer or visualization
+     * @hidden
+     */
+    GetIframeUrl = 'getIframeUrl',
+    /**
      * Display specific visualizations on a Liveboard.
      * @param - An array of GUIDs of the visualization to show. The visualization IDs not passed
      *  in this parameter will be hidden.

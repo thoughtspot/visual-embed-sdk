@@ -14,6 +14,14 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 };
 
 /**
+ * Get Current iframe url
+ * @param iFrame
+ */
+export const getIframeUrl = (iFrame: HTMLIFrameElement) => {
+    return iFrame.src;
+}
+
+/**
  * Post iframe message.
  * @param iFrame
  * @param message
@@ -50,6 +58,9 @@ export function processTrigger(
         if (messageType === HostEvent.Reload) {
             reload(iFrame);
             return res(null);
+        }
+        if(messageType === HostEvent.GetIframeUrl) {
+            return getIframeUrl(iFrame);
         }
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
