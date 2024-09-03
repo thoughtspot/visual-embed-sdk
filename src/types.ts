@@ -2269,7 +2269,7 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Reload the answer or visualization
+     * Get current iframe src
      * @hidden
      */
     GetIframeUrl = 'getIframeUrl',
