@@ -16,11 +16,9 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 /**
  * Get the source URL of an iframe
  * @param iFrame
- * @returns The src URL of the iframe
+ * @returns The src URL of the iframe as a string
  */
-export const getIframeSrc = (iframe: HTMLIFrameElement): string => {
-    return iframe.src;
-};
+export const getIframeSrc = (iframe: HTMLIFrameElement): string => iframe.src;
 
 /**
  * Post iframe message.
