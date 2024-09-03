@@ -2272,7 +2272,7 @@ export enum HostEvent {
      * Get current iframe src
      * @hidden
      */
-    GetIframeUrl = 'getIframeUrl',
+    GetIframeSrc = 'getIframeSrc',
     /**
      * Display specific visualizations on a Liveboard.
      * @param - An array of GUIDs of the visualization to show. The visualization IDs not passed

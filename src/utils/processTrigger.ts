@@ -14,12 +14,13 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 };
 
 /**
- * Get Current iframe url
+ * Get the source URL of an iframe
  * @param iFrame
+ * @returns The src URL of the iframe
  */
-export const getIframeUrl = (iFrame: HTMLIFrameElement) => {
-    return iFrame.src;
-}
+export const getIframeSrc = (iframe: HTMLIFrameElement): string => {
+    return iframe.src;
+};
 
 /**
  * Post iframe message.
@@ -59,8 +60,8 @@ export function processTrigger(
             reload(iFrame);
             return res(null);
         }
-        if(messageType === HostEvent.GetIframeUrl) {
-            return getIframeUrl(iFrame);
+        if (messageType === HostEvent.GetIframeSrc) {
+            return getIframeSrc(iFrame);
         }
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
