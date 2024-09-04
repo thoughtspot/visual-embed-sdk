@@ -4065,7 +4065,7 @@ export enum Action {
      *
      * @version SDK: 1.32.0 | Thoughtspot: 10.1.0.cl
      */
-    CreateLiveboard = 'CreateLiveboard',
+    CreateLiveboard = 'createLiveboard',
 
     /**
      * Action ID for to hide Verified Liveboard Banner
