@@ -173,6 +173,14 @@ export class AnswerService {
         );
     }
 
+    public async getSQLQuery(): Promise<string> {
+        const { sql } = await this.executeQuery(
+            queries.getSQLQuery,
+            {},
+        );
+        return sql;
+    }
+
     /**
      * Fetch data from the answer.
      * @param offset

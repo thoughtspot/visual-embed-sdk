@@ -164,3 +164,12 @@ export const addVizToLiveboard = `
         }
     }
 `;
+
+export const getSQLQuery = `
+    mutation GetSQLQuery($session: BachSessionIdInput!) {
+        Answer__getQuery(session: $session) {
+            ${bachSessionId}
+            sql
+        }
+    }
+`;
