@@ -52,7 +52,7 @@
         "bundle-dts-react-full": "dts-bundle --name ../../../dist/visual-embed-sdk-react-full --main lib/src/react/all-types-export.d.ts --outputAsModuleFolder=true",
         "build": "rollup -c",
         "watch": "rollup -cw",
-        "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme --json static/typedoc/typedoc.json",
+        "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme --json static/typedoc/typedoc.json --disableOutputCheck",
         "test-sdk": "jest -c jest.config.sdk.js --runInBand",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
