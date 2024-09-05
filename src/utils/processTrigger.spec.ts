@@ -67,4 +67,23 @@ describe('Unit test for processTrigger', () => {
         expect(messageChannelMock.port1.close).toBeCalled();
         expect(triggerPromise).rejects.toEqual(res.data.error);
     });
+
+    test('should close channel.port1 when timeout exceeds TRIGGER_TIMEOUT', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        const data = {};
+        mockMessageChannel();
+
+        const triggerPromise = _processTriggerInstance.processTrigger(
+            iFrame,
+            messageType,
+            thoughtSpotHost,
+            data,
+        );
+
+        jest.advanceTimersByTime(_processTriggerInstance.TRIGGER_TIMEOUT);
+
+        expect(messageChannelMock.port1.close).toBeCalled();
+        await expect(triggerPromise).resolves.toBeInstanceOf(Error);
+    });
 });

@@ -31,7 +31,7 @@ function postIframeMessage(
     return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [channel?.port2]);
 }
 
-const TRIGGER_TIMEOUT = 30000;
+export const TRIGGER_TIMEOUT = 30000;
 
 /**
  *

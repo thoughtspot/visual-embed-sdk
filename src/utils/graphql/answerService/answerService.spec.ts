@@ -4,6 +4,7 @@ import { AnswerService } from './answerService';
 import {
     getAnswerData, removeColumns, addFilter, addColumns,
 } from './answer-queries';
+import * as queries from './answer-queries';
 import * as authTokenInstance from '../../../authToken';
 import * as tokenizedFetch from '../../../tokenizedFetch';
 import * as embedConfigInstance from '../../../embed/embedConfig';
@@ -34,6 +35,23 @@ describe('Answer service tests', () => {
     beforeEach(() => {
         fetchMock.resetMocks();
     });
+
+    test('should call executeQuery with correct parameters to add columns', async () => {
+        const service = createAnswerService();
+        const executeQuerySpy = jest.spyOn(service, 'executeQuery').mockResolvedValue({
+            id: { genNo: 2 },
+
+        });
+
+        const columnIds = ['col1', 'col2'];
+        const result = await service.addColumns(columnIds);
+
+        expect(executeQuerySpy).toHaveBeenCalledWith(queries.addColumns, {
+            columns: columnIds.map((colId) => ({ logicalColumnId: colId })),
+        });
+        expect(result.id.genNo).toBe(2);
+    });
+
     test('Execute query should execute the supplied graphql on the session', async () => {
         fetchMock.mockResponseOnce(JSON.stringify({
             data: {

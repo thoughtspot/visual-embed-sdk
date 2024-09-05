@@ -198,7 +198,6 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     const { password, ...configToTrack } = getEmbedConfig();
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
         usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
         usedCustomizationRules:
             embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
