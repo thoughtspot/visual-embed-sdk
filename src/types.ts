@@ -589,6 +589,13 @@ export interface EmbedConfig {
      * @version SDK: 1.28.5 | Thoughtspot: *
      */
     disableTokenVerification?: boolean;
+
+    /**
+     * This flag is used to disable showing the login failure page in the embedded app.
+     *
+     * @version SDK 1.32.3 | Thoughtspot: *
+     */
+    disableLoginFailurePage?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
