@@ -3,6 +3,7 @@ import { AuthType, RuntimeFilterOp, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
 import {
     getAnswerData, removeColumns, addFilter, addColumns,
+    getSQLQuery,
 } from './answer-queries';
 import * as queries from './answer-queries';
 import * as authTokenInstance from '../../../authToken';
@@ -421,5 +422,31 @@ describe('Answer service tests', () => {
                 }),
             }),
         );
+    });
+
+    test('Get SQL query should call the right API', async () => {
+        fetchMock.mockResponseOnce(JSON.stringify({
+            data: {
+                Answer__getQuery: {
+                    id: {},
+                    sql: 'SELECT * FROM table',
+                },
+            },
+        }));
+        const answerService = createAnswerService();
+        const sql = await answerService.getSQLQuery();
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=GetSQLQuery',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'GetSQLQuery',
+                    query: getSQLQuery,
+                    variables: {
+                        session: defaultSession,
+                    },
+                }),
+            }),
+        );
+        expect(sql).toBe('SELECT * FROM table');
     });
 });
