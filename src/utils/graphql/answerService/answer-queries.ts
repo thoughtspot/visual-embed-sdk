@@ -101,7 +101,6 @@ export const getAnswer = `
                     isDiscoverable
                     isHidden
                     modifiedAt
-                    tags
                 }
                 visualizations {
                     ... on TableViz {
