@@ -2274,8 +2274,7 @@ export enum HostEvent {
      * ```js
      * const frameUrl = AppEmbed.trigger(HostEvent.GetIframeUrl)
      * ```
-     * @version SDK: 1.35.0 | Thoughtspot: 10.4.cl
-     * @hidden
+     * @version SDK: 1.35.0 | Thoughtspot: 10.4.0.cl
      */
     GetIframeUrl = 'GetIframeUrl',
     /**
