@@ -2270,6 +2270,11 @@ export enum HostEvent {
     Reload = 'reload',
     /**
      * Get current iframe src
+     * @example
+     * ```js
+     * const frameUrl = AppEmbed.trigger(HostEvent.GetIframeUrl)
+     * ```
+     * @version SDK: 1.35.0 | Thoughtspot: 10.4.cl
      * @hidden
      */
     GetIframeUrl = 'GetIframeUrl',
