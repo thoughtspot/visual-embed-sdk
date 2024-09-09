@@ -2261,6 +2261,15 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
+     * Get current iframe src
+     * @example
+     * ```js
+     * const frameUrl = AppEmbed.trigger(HostEvent.GetIframeUrl)
+     * ```
+     * @version SDK: 1.35.0 | Thoughtspot: 10.4.0.cl
+     */
+    GetIframeUrl = 'GetIframeUrl',
+    /**
      * Display specific visualizations on a Liveboard.
      * @param - An array of GUIDs of the visualization to show. The visualization IDs not passed
      *  in this parameter will be hidden.
