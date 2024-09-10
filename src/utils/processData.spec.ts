@@ -1,3 +1,4 @@
+import { disable } from 'mixpanel-browser';
 import * as processDataInstance from './processData';
 import * as answerServiceInstance from './graphql/answerService/answerService';
 import * as auth from '../auth';
@@ -170,5 +171,20 @@ describe('Unit test for process data', () => {
         expect(base.notifyLogout).toBeCalled();
         expect(el.innerHTML).toBe('Hello');
         expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
+    });
+
+    test('process authFailure AuthType=None', () => {
+        const e = { type: EmbedEvent.AuthFailure };
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            authType: AuthType.EmbeddedSSO,
+            disableLoginFailurePage: true,
+        });
+        const el: any = {};
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).not.toBeCalled();
+        expect(el.innerHTML).not.toBe('Hello');
     });
 });
