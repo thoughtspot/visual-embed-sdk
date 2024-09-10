@@ -288,21 +288,21 @@ export interface LiveboardViewConfig
      * This flag is used to enable the compact header in liveboard
      * @type {boolean}
      * @default false
-     * @version SDK: 1.34.0 | ThoughtSpot:10.3.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
      *    ... // other options
-     *    isLiveboardHeaderV2Enabled: true,
+     *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
      */
-    isLiveboardHeaderV2Enabled?: boolean;
+    isLiveboardCompactHeaderEnabled?: boolean;
     /**
      * This flag is used to show/hide verified Icon in liveboard compact header
      * @type {boolean}
-     * @default false
-     * @version SDK: 1.34.0 | ThoughtSpot:10.4.0.cl
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -315,8 +315,8 @@ export interface LiveboardViewConfig
     /**
      * This flag is used to show/hide re-verify banner in liveboard compact header
      * @type {boolean}
-     * @default false
-     * @version SDK: 1.34.0 | ThoughtSpot:10.4.0.cl
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -380,7 +380,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
-            isLiveboardHeaderV2Enabled = true,
+            isLiveboardCompactHeaderEnabled = false,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
             enableAskSage,
@@ -433,7 +433,7 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
-        params[Param.LiveboardHeaderV2] = isLiveboardHeaderV2Enabled;
+        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
 
