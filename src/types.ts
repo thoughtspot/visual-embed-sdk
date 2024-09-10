@@ -3139,6 +3139,9 @@ export enum Param {
     FocusSearchBarOnRender = 'focusSearchBarOnRender',
     DisableRedirectionLinksInNewTab = 'disableRedirectionLinksInNewTab',
     HomePageSearchBarMode = 'homePageSearchBarMode',
+    ShowLiveboardVerifiedBadge = 'showLiveboardVerifiedBadge',
+    ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
+    LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
 }
 
 /**

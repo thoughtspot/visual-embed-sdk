@@ -284,6 +284,48 @@ export interface LiveboardViewConfig
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
+    /**
+     * This flag is used to enable the compact header in liveboard
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.34.0 | ThoughtSpot:10.3.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    isLiveboardHeaderV2Enabled: true,
+     * })
+     * ```
+     */
+    isLiveboardHeaderV2Enabled?: boolean;
+    /**
+     * This flag is used to show/hide verified Icon in liveboard compact header
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.34.0 | ThoughtSpot:10.4.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardVerifiedBadge: true,
+     * })
+     * ```
+     */
+    showLiveboardVerifiedBadge?: boolean;
+    /**
+     * This flag is used to show/hide re-verify banner in liveboard compact header
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.34.0 | ThoughtSpot:10.4.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardReverifyBanner: true,
+     * })
+     * ```
+     */
+    showLiveboardReverifyBanner?: boolean;
 }
 
 /**
@@ -338,6 +380,9 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
+            isLiveboardHeaderV2Enabled = true,
+            showLiveboardVerifiedBadge = true,
+            showLiveboardReverifyBanner = true,
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = true,
@@ -388,6 +433,9 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.LiveboardHeaderV2] = isLiveboardHeaderV2Enabled;
+        params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
+        params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         const queryParams = getQueryParamString(params, true);
