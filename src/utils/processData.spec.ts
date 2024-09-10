@@ -1,3 +1,4 @@
+import { disable } from 'mixpanel-browser';
 import * as processDataInstance from './processData';
 import * as answerServiceInstance from './graphql/answerService/answerService';
 import * as auth from '../auth';
@@ -5,7 +6,6 @@ import * as base from '../embed/base';
 import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
 import * as sessionInfoService from './sessionInfoService';
-import { disable } from 'mixpanel-browser';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
