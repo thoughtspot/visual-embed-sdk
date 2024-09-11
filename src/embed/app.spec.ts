@@ -375,6 +375,51 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add isLiveboardCompactHeaderEnabled flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLiveboardCompactHeaderEnabled: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderV2Enabled=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add showLiveboardReverifyBanner flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showLiveboardReverifyBanner: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardReverifyBanner=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add showLiveboardVerifiedBadge flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showLiveboardVerifiedBadge: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardVerifiedBadge=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add default values of flags to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

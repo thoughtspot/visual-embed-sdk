@@ -402,6 +402,48 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @version SDK : 1.33.0 | Thoughtspot : 10.2.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
+    /**
+     * This flag is used to enable the compact header in liveboard
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    isLiveboardCompactHeaderEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardCompactHeaderEnabled?: boolean;
+    /**
+     * This flag is used to show/hide verified Icon in liveboard compact header
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardVerifiedBadge: true,
+     * })
+     * ```
+     */
+    showLiveboardVerifiedBadge?: boolean;
+    /**
+     * This flag is used to show/hide re-verify banner in liveboard compact header
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    showLiveboardReverifyBanner: true,
+     * })
+     * ```
+     */
+    showLiveboardReverifyBanner?: boolean;
 }
 
 /**
@@ -454,6 +496,9 @@ export class AppEmbed extends V1Embed {
             /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
+            isLiveboardCompactHeaderEnabled = false,
+            showLiveboardVerifiedBadge = true,
+            showLiveboardReverifyBanner = true,
             homePageSearchBarMode,
         } = this.viewConfig;
 
@@ -468,6 +513,9 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
+        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
+        params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
 
         params = this.getBaseQueryParams(params);
 

@@ -241,6 +241,54 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add isLiveboardCompactHeaderEnabled flag to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardCompactHeaderEnabled: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardHeaderV2Enabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add showLiveboardReverifyBanner flag to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showLiveboardReverifyBanner: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showLiveboardReverifyBanner=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add showLiveboardVerifiedBadge flag to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showLiveboardVerifiedBadge: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showLiveboardVerifiedBadge=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
