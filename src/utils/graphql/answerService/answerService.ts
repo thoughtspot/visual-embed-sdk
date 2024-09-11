@@ -223,6 +223,25 @@ export class AnswerService {
     }
 
     /**
+     * Fetch the data for the answer as a PNG blob. This might be
+     * quicker for larger data.
+     * @param userLocale
+     * @param omitBackground Omit the background in the PNG
+     * @param deviceScaleFactor The scale factor for the PNG
+     * @return Response
+     */
+    public async fetchPNGBlob(userLocale = 'en-us', includeInfo = false, omitBackground = false, deviceScaleFactor = 2): Promise<Response> {
+        const fetchUrl = this.getFetchPNGBlobUrl(
+            userLocale,
+            omitBackground,
+            deviceScaleFactor,
+        );
+        return tokenizedFetch(fetchUrl, {
+            credentials: 'include',
+        });
+    }
+
+    /**
      * Just get the internal URL for this answer's data
      * as a CSV blob.
      * @param userLocale
@@ -231,6 +250,14 @@ export class AnswerService {
      */
     public getFetchCSVBlobUrl(userLocale = 'en-us', includeInfo = false): string {
         return `${this.thoughtSpotHost}/prism/download/answer/csv?sessionId=${this.session.sessionId}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data&hideCsvHeader=${!includeInfo}`;
+    }
+
+    /**
+     * Just get the internal URL for this answer's data
+     * as a PNG blob.
+     */
+    public getFetchPNGBlobUrl(userLocale = 'en-us', omitBackground = false, deviceScaleFactor = 2): string {
+        return `${this.thoughtSpotHost}/prism/download/answer/png?sessionId=${this.session.sessionId}&deviceScaleFactor=${deviceScaleFactor}&omitBackground=${omitBackground}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data`;
     }
 
     /**

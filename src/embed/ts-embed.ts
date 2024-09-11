@@ -1214,7 +1214,7 @@ export class TsEmbed {
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
-        const { session } = await this.trigger(HostEvent.GetAnswerSession, { vizId });
+        const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
 
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }
@@ -1291,7 +1291,6 @@ export class V1Embed extends TsEmbed {
 
     /**
      * Only for testing purposes.
-     *
      * @hidden
      */
     // eslint-disable-next-line camelcase
