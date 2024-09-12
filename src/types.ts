@@ -2139,8 +2139,8 @@ export enum EmbedEvent {
      * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
      * for this embed event to get emitted.
      *
-     * Parameter: payload
-     * Parameter: responder
+     * @param: payload
+     * @param: responder
      * Contains elements that lets developers define whether ThoughtSpot
      * will run the search or not, and if not, which error message to provide.
      *
@@ -2152,6 +2152,7 @@ export enum EmbedEvent {
      *
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      *
+     * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
      * (payload, responder) => {
@@ -2187,7 +2188,6 @@ export enum EmbedEvent {
      *  }})
      * })
      *```
-     *
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
