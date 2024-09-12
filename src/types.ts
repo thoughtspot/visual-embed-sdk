@@ -2143,10 +2143,14 @@ export enum EmbedEvent {
      * Parameter: responder
      * Contains elements that lets developers define whether ThoughtSpot
      * will run the search or not, and if not, which error message to provide.
+     *
      * execute: When execute returns true, the search will be run.
      * When execute returns false, the search will not be executed.
+     *
      * error: Developers can customize the user facing message when execute is
      * set to false using the error parameter in responder
+     *
+     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      *
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2184,7 +2188,6 @@ export enum EmbedEvent {
      * })
      *```
      *
-     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
