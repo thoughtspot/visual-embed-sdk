@@ -164,6 +164,11 @@ export interface CustomCssVariables {
     '--ts-var-button--primary--hover-background'?: string;
 
     /**
+     * Backgroud color of the primary buttons when active.
+     */
+    '--ts-var-button--primary--active-background'?: string;
+
+    /**
      * Font color of the text on the secondary buttons.
      */
     '--ts-var-button--secondary-color'?: string;
@@ -184,6 +189,11 @@ export interface CustomCssVariables {
     '--ts-var-button--secondary--hover-background'?: string;
 
     /**
+     * Backgroud color of the secondary buttons when active.
+     */
+    '--ts-var-button--secondary--active-background'?: string;
+
+    /**
      * Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset*
      * buttons on the *Search* page.
      */
@@ -198,6 +208,11 @@ export interface CustomCssVariables {
      * Background color of the tertiary button when a user hovers over these buttons.
      */
     '--ts-var-button--tertiary--hover-background'?: string;
+
+    /**
+     * Backgroud color of the tertiary buttons when active.
+     */
+    '--ts-var-button--tertiary--active-background'?: string;
 
     /**
      * Font color of the title text of a visualization or Answer.
