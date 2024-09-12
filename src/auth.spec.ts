@@ -14,6 +14,7 @@ const thoughtSpotHost = 'http://localhost:3000';
 const username = 'tsuser';
 const password = '12345678';
 const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%235e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
+const orgId = '0';
 
 export const embedConfig: any = {
     doTokenAuthSuccess: (token: string) => ({
@@ -323,7 +324,23 @@ describe('Unit test for auth', () => {
 
             await authInstance.doBasicAuth(embedConfig.doBasicAuth);
             // expect(tokenAuthService.fetchSessionInfoService).toBeCalled();
-            expect(authService.fetchBasicAuthService).toBeCalled();
+            expect(authService.fetchBasicAuthService)
+                .toBeCalledWith(thoughtSpotHost, username, password);
+            expect(authInstance.loggedInStatus).toBe(true);
+        });
+
+        it('when user includes the orgId when logging in', async () => {
+            jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
+            jest.spyOn(authService, 'fetchBasicAuthService').mockImplementation(() => ({
+                status: 200,
+                ok: true,
+            }));
+            const embedConfigForBasicAuth = { orgId, ...embedConfig.doBasicAuth };
+
+            await authInstance.doBasicAuth(embedConfigForBasicAuth);
+            // expect(tokenAuthService.fetchSessionInfoService).toBeCalled();
+            expect(authService.fetchBasicAuthService)
+                .toBeCalledWith(thoughtSpotHost, username, password, orgId);
             expect(authInstance.loggedInStatus).toBe(true);
         });
     });

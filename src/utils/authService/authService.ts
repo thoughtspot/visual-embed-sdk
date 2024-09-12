@@ -116,19 +116,24 @@ export async function fetchAuthPostService(
  * @param thoughtSpotHost
  * @param username
  * @param password
+ * @param orgId
  */
 export async function fetchBasicAuthService(
     thoughtSpotHost: string,
     username: string,
     password: string,
+    orgId?: string,
 ): Promise<any> {
+    const bodyPrams = orgId
+        ? `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&orgId=${encodeURIComponent(orgId)}`
+        : `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}}`;
     return failureLoggedFetch(`${thoughtSpotHost}${EndPoints.BASIC_LOGIN}`, {
         method: 'POST',
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             'x-requested-by': 'ThoughtSpot',
         },
-        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+        body: bodyPrams,
         credentials: 'include',
     });
 }

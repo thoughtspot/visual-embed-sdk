@@ -352,6 +352,13 @@ export interface EmbedConfig {
     password?: string;
 
     /**
+     * This is an orgId of the org in which the user logs into
+     *
+     * Warning: This feature is still not supported in SAML and OIDC.
+     */
+    orgId?: string;
+
+    /**
      * [SSO] For SSO Authentication, if `noRedirect` is set to true, it will
      * open the SAML auth flow in a popup, instead of redirecting the browser in
      * place.
