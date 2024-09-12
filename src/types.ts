@@ -353,7 +353,7 @@ export interface EmbedConfig {
 
     /**
      * This is an orgId of the org in which the user logs into
-     * 
+     *
      * Warning: This feature is still not supported in SAML and OIDC.
      */
     orgId?: string;

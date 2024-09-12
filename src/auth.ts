@@ -214,7 +214,6 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  * Services to be called after the login is successful,
  * This should be called after the cookie is set for cookie auth or
  * after the token is set for cookieless.
- *
  * @return {Promise<void>}
  * @example
  * ```js
@@ -330,10 +329,12 @@ export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<b
  * @param embedConfig The embed configuration
  */
 export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
-    const { thoughtSpotHost, username, password, orgId } = embedConfig;
+    const {
+        thoughtSpotHost, username, password, orgId,
+    } = embedConfig;
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (!loggedIn) {
-        const response =  orgId
+        const response = orgId
             ? await fetchBasicAuthService(thoughtSpotHost, username, password, orgId)
             : await fetchBasicAuthService(thoughtSpotHost, username, password);
         loggedInStatus = response.ok;
