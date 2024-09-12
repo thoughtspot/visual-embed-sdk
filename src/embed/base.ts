@@ -263,17 +263,17 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
  * ```js
  *   executeTML({
  * //Array of metadata Tmls
-    metadata_tmls: [
-      "'\''{\"guid\":\"9bd202f5-d431-44bf-9a07-b4f7be372125\",
-      \"liveboard\":{\"name\":\"Parameters Liveboard\"}}'\''"
-    ],
-    import_policy: 'PARTIAL', // Specifies the import policy for the TML import.
-    create_new: false, // If selected, creates TML objects with new GUIDs.
-  }).then(result => {
-    console.log(result);
-  }).catch(error => {
-    console.error(error);
-  });
+        metadata_tmls: [
+            "'\''{\"guid\":\"9bd202f5-d431-44bf-9a07-b4f7be372125\",
+            \"liveboard\":{\"name\":\"Parameters Liveboard\"}}'\''"
+        ],
+        import_policy: 'PARTIAL', // Specifies the import policy for the TML import.
+        create_new: false, // If selected, creates TML objects with new GUIDs.
+    }).then(result => {
+        console.log(result);
+    }).catch(error => {
+        console.error(error);
+    });
  *```
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  * @group Global methods
