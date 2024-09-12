@@ -2133,20 +2133,57 @@ export enum EmbedEvent {
      */
     Rename = 'rename',
     /**
-     * Emitted when user wants to intercept the search execution
+     * Emitted if the user wants to intercept the search execution
+     * and implement logic to decide whether to run the search or not
      *
-     * Set IsOnBeforeGetVizDataInterceptEnabled : true to use
-     * this embed event
+     * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
+     * for this embed event to get emitted.
+     *
+     * Parameter: payload
+     * Parameter: responder
+     * Contains elements that lets developers define whether ThoughtSpot
+     * will run the search or not, and if not, which error message to provide.
+     * execute: When execute returns true, the search will be run.
+     * When execute returns false, the search will not be executed.
+     * error: Developers can customize the user facing message when execute is
+     * set to false using the error parameter in responder
      *
      *```js
-     * searchEmbed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
+     * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
      * (payload, responder) => {
      *  responder({
      *      data: {
-     *          execute: true,
-     *   }})
+     *          execute:false,
+     *          error: {
+     *          //Provide a custom error message to explain to your end user
+     *          //why their search did not run
+     *          errorText: "This search query cannot be run.
+     *          Please contact your administrator for more details."
+     *          }
+     *  }})
+     * })
+     * ```
+     *
+     *```js
+     * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
+     * (payload, responder) => {
+     * const query = payload.data.data.answer.search_query
+     * responder({
+     *  data: {
+     *      // returns true as long as the query does not include
+     *      // both the 'sales' AND the 'county' column
+     *      execute: !(query.includes("sales")&&query.includes("county")),
+     *      error: {
+     *      //Provide a custom error message to explain to your end user
+     *      // why their search did not run, and which searches are accepted by your custom logic.
+     *      errorText: "You can't use this query :" + query + ".
+     *      The 'sales' measures can never be used at the 'county' level.
+     *      Please try another measure, or remove 'county' from your search."
+     *      }
+     *  }})
      * })
      *```
+     *
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',

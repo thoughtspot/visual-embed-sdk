@@ -274,7 +274,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
   }).catch(error => {
     console.error(error);
   });
- *
+ *```
  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
  * @group Global methods
  */
