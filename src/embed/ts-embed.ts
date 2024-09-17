@@ -493,9 +493,7 @@ export class TsEmbed {
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
         }
-        if (additionalFlags && additionalFlags.constructor.name === 'Object') {
-            Object.assign(queryParams, additionalFlags);
-        }
+
         if (linkOverride) {
             queryParams[Param.LinkOverride] = linkOverride;
         }
@@ -508,6 +506,13 @@ export class TsEmbed {
 
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
+
+        if (additionalFlags && additionalFlags.constructor.name === 'Object') {
+            Object.assign(queryParams, additionalFlags);
+        }
+
+        // Do not add any flags below this, as we want additional flags to
+        // override other flags
 
         return queryParams;
     }
