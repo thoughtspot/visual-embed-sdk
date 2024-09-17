@@ -24,9 +24,12 @@ export interface CustomCssVariables {
     '--ts-var-root-text-transform'?: string;
 
     /**
-     * application color, it replaces #2770EF which is rd-color(blue,base) and
-     * its similar colors like rd-color(blue,60), rd-color(accent, base) and
-     * rd-color(text, accent) in the app.
+     * Font color of the text on toggle buttons such as
+     * **All**, **Answers**, and **Liveboards** on the Home page (Classic experience),
+     * the text color of the chart and table tiles on Home page (New modular Homepage experience),
+     * and title text on the AI-generated charts and tables.
+     * The default color code is #2770EF.
+     *
      */
     '--ts-var-application-color'?: string;
 
