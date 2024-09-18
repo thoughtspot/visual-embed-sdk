@@ -164,7 +164,6 @@ export class TsEmbed {
         if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
             this.embedConfig.authTriggerContainer = domSelector;
         }
-        this.checkThoughtSpotHost();
         this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
         this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
@@ -181,19 +180,6 @@ export class TsEmbed {
         });
     }
 
-    private async checkThoughtSpotHost() {
-        try {
-            this.thoughtSpotHost = this.embedConfig.thoughtSpotHost;
-            const response = await fetch(`${this.thoughtSpotHost}/config`);
-            if (response.status !== 200) {
-                this.handleError(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST)
-            } else {
-                logger.log("ThoughtSpot host is valid.");
-            }
-        } catch (error) {
-            this.handleError(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST)
-        }
-    }
     /**
      * Throws error encountered during initialization.
      */

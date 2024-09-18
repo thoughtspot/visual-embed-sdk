@@ -36,6 +36,7 @@ export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b
  */
 export enum AuthFailureType {
     SDK = 'SDK',
+    INVALID_TS_HOST = 'INVALID_TS_HOST',
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
     EXPIRY = 'EXPIRY',
     OTHER = 'OTHER',
