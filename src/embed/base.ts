@@ -209,14 +209,14 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     if (getEmbedConfig().callPrefetch) {
         prefetch(getEmbedConfig().thoughtSpotHost);
     }
-    validateThoughtSpotHost(embedConfig.thoughtSpotHost, authEE);
+    validateThoughtSpotHost(embedConfig.thoughtSpotHost);
     return authEE as AuthEventEmitter;
 };
 
 
-const validateThoughtSpotHost = async (thoughtSpotHost: string, authEE: EventEmitter<AuthStatus | AuthEvent>) => {
+const validateThoughtSpotHost = async (thoughtSpotHost: string) => {
     try {
-        const response = await fetch(`${thoughtSpotHost}/config`);
+        const response = await fetch(`${thoughtSpotHost}`);
         if (response.status !== 200) {
             logger.error(`Check if Thoughtspot Host is Valid: ${response.statusText}`);
             notifyAuthFailure(AuthFailureType.INVALID_TS_HOST);
