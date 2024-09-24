@@ -29,7 +29,9 @@ describe('Unit test for authService', () => {
         const response = await fetchSessionInfoService(thoughtSpotHost);
         expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {});
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {
+            "credentials": "include"
+        });
     });
 
     test('fetchAuthTokenService', async () => {
