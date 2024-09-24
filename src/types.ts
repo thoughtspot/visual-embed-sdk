@@ -2946,10 +2946,23 @@ export enum HostEvent {
      *     filter: {
      *         column: "item type",
      *         oper: "IN",
-     *         values: ["bags","shirts"],
+     *         values: ["bags","shirts"]
      *        }
      *    });
      * ```
+     * @example
+     * ```js
+     *
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "date",
+     *         oper: "EQ",
+     *         values: ["JULY","2023"],
+     *         type: "MONTH_YEAR"
+     *        }
+     *    });
+     * ```
+     *
      * @example
      *
      * ```js
@@ -2967,7 +2980,8 @@ export enum HostEvent {
      *    {
      *      column: "Date",
      *      oper: 'EQ',
-     *      values: ["1656680400"]
+     *      values: ["2023-07-31"],
+     *      types: "EXACT_DATE"
      *    }]
      * });
      * ```
