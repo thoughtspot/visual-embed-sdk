@@ -23,9 +23,9 @@ export const tokenizedFetch: typeof fetch = async (input, init): Promise<Respons
     const embedConfig = getEmbedConfig();
     if (embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) {
         return fetch(input, {
-            ...init,
             // ensure cookies are included for the non cookie-less api calls.
             credentials: 'include',
+            ...init,
         });
     }
 
