@@ -2234,7 +2234,7 @@ export enum EmbedEvent {
  *      ]);
  *    };
  *```
- * You can also attach an EmbedEvent to a Host Event to trigger
+ * You can also attach an Embed event to a Host event to trigger
  * a specific action as shown in this example:
  *
  * ```js
