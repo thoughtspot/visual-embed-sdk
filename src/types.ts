@@ -2206,7 +2206,7 @@ export enum EmbedEvent {
 
 /**
  * Event types that can be triggered by the host application
- * to the embedded ThoughtSpot app
+ * to the embedded ThoughtSpot app.
  *
  * To trigger an event use the corresponding
  * {@link LiveboardEmbed.trigger} or {@link AppEmbed.trigger} or {@link
@@ -2223,6 +2223,35 @@ export enum EmbedEvent {
  *   { columnName: 'state, operator: RuntimeFilterOp.EQ, values: ['california']}
  * ]);
  * ```
+ * @example
+ * If using React components to embed, use the format shown in this example:
+ *
+ * ```js
+ *  const selectVizs = () => {
+ *      embedRef.current.trigger(HostEvent.SetVisibleVizs, [
+ *         "715e4613-c891-4884-be44-aa8d13701c06",
+ *         "3f84d633-e325-44b2-be25-c6650e5a49cf"
+ *      ]);
+ *    };
+ *```
+ * You can also attach an Embed event to a Host event to trigger
+ * a specific action as shown in this example:
+ *
+ * ```js
+ *  const onLiveboardRendered = () => {
+ *      embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+ *   };
+ *
+ *  return (
+ *      <LiveboardEmbed
+ *         ref={embedRef}
+ *         liveboardId="<liveboard-guid>"
+ *         onLiveboardRendered={onLiveboardRendered}
+ *      />
+ *  );
+ *
+ * ```
+ *
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -2917,10 +2946,23 @@ export enum HostEvent {
      *     filter: {
      *         column: "item type",
      *         oper: "IN",
-     *         values: ["bags","shirts"],
+     *         values: ["bags","shirts"]
      *        }
      *    });
      * ```
+     * @example
+     * ```js
+     *
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "date",
+     *         oper: "EQ",
+     *         values: ["JULY","2023"],
+     *         type: "MONTH_YEAR"
+     *        }
+     *    });
+     * ```
+     *
      * @example
      *
      * ```js
@@ -2938,7 +2980,8 @@ export enum HostEvent {
      *    {
      *      column: "Date",
      *      oper: 'EQ',
-     *      values: ["1656680400"]
+     *      values: ["2023-07-31"],
+     *      types: "EXACT_DATE"
      *    }]
      * });
      * ```
