@@ -5855,7 +5855,7 @@
 					},
 					{
 						"tag": "example",
-						"text": "\nIf using React components to embed, use the format shown in this example:\n\n```js\n const selectVizs = () => {\n     embedRef.current.trigger(HostEvent.SetVisibleVizs, [\n        \"715e4613-c891-4884-be44-aa8d13701c06\",\n        \"3f84d633-e325-44b2-be25-c6650e5a49cf\"\n     ]);\n   };\n```\nYou can also attach an EmbedEvent to a Host Event to trigger\na specific action as shown in this example:\n\n```js\n const onLiveboardRendered = () => {\n     embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);\n  };\n\n return (\n     <LiveboardEmbed\n        ref={embedRef}\n        liveboardId=\"<liveboard-guid>\"\n        onLiveboardRendered={onLiveboardRendered}\n     />\n );\n\n```\n"
+						"text": "\nIf using React components to embed, use the format shown in this example:\n\n```js\n const selectVizs = () => {\n     embedRef.current.trigger(HostEvent.SetVisibleVizs, [\n        \"715e4613-c891-4884-be44-aa8d13701c06\",\n        \"3f84d633-e325-44b2-be25-c6650e5a49cf\"\n     ]);\n   };\n```\nYou can also attach an Embed event to a Host event to trigger\na specific action as shown in this example:\n\n```js\n const onLiveboardRendered = () => {\n     embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);\n  };\n\n return (\n     <LiveboardEmbed\n        ref={embedRef}\n        liveboardId=\"<liveboard-guid>\"\n        onLiveboardRendered={onLiveboardRendered}\n     />\n );\n\n```\n"
 					},
 					{
 						"tag": "group",
