@@ -30,7 +30,7 @@ describe('Unit test for authService', () => {
         expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {
-            "credentials": "include"
+            credentials: 'include',
         });
     });
 
