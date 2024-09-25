@@ -1264,6 +1264,26 @@ export interface RuntimeParameter {
  *   console.log('Drilldown event', drilldown);
  * }));
  * ```
+ *
+ * If using React components to embed, use `on<EventName>` to register event listeners.
+ *
+ *  @example
+ * ```js
+ * // ...
+ * const MyComponent = ({ dataSources }) => {
+ *      const onLoad = () => {
+ *      console.log(EmbedEvent.Load, {});
+ *      };
+ *
+ *      return (
+ *          <SearchEmbed
+ *              dataSources={dataSources}
+ *              onLoad = {logEvent("Load")}
+ *          />
+ *     );
+ * };
+ * ```
+ *
  * @group Events
  */
 // eslint-disable-next-line no-shadow
