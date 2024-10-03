@@ -218,6 +218,9 @@ export const getCustomisations = (
                 ...customizationsFromEmbedConfig?.style?.customCSS,
                 ...customizationsFromViewConfig?.style?.customCSS,
             },
+            customCSSUrl:
+                customizationsFromViewConfig?.style?.customCSSUrl
+                || customizationsFromEmbedConfig?.style?.customCSSUrl,
         },
         content: {
             ...customizationsFromEmbedConfig?.content,
