@@ -255,6 +255,7 @@ export interface customCssInterface {
  * Styles within the {@link CustomisationsInterface}.
  */
 export interface CustomStyles {
+    customCSSUrl?: string;
     customCSS?: customCssInterface;
 }
 
