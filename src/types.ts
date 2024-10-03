@@ -1266,7 +1266,9 @@ export interface RuntimeParameter {
  * }));
  * ```
  *
- * If using React components to embed, use `on<EventName>` to register event listeners.
+ * If you are using React components for embedding, you can register to any
+ * events from the `EmbedEvent` list by using the `on<EventName>` convention.
+ * For example,`onAlert`, `onCopyToClipboard` and so on.
  *
  *  @example
  * ```js
@@ -2254,23 +2256,28 @@ export enum EmbedEvent {
  *         "3f84d633-e325-44b2-be25-c6650e5a49cf"
  *      ]);
  *    };
- *```
+ * ```
+ *
+ *
  * You can also attach an Embed event to a Host event to trigger
  * a specific action as shown in this example:
  *
+ * @example
  * ```js
- *  const onLiveboardRendered = () => {
- *      embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
- *   };
+ *  const EmbeddedComponent = () => {
+ *       const embedRef = useRef(null); // import { useRef } from react
+ *       const onLiveboardRendered = () => {
+ *          embedRef.current.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
+ *      };
  *
- *  return (
- *      <LiveboardEmbed
- *         ref={embedRef}
- *         liveboardId="<liveboard-guid>"
- *         onLiveboardRendered={onLiveboardRendered}
- *      />
- *  );
- *
+ *      return (
+ *          <LiveboardEmbed
+ *              ref={embedRef}
+ *              liveboardId="<liveboard-guid>"
+ *              onLiveboardRendered={onLiveboardRendered}
+ *          />
+ *      );
+ *  }
  * ```
  *
  * @group Events
