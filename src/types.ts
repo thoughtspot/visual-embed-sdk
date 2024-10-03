@@ -449,14 +449,6 @@ export interface EmbedConfig {
      */
     queueMultiRenders?: boolean;
 
-    // /**
-    //  * Dynamic CSS URL to be injected in the loaded application.
-    //  * You would also need to set `style-src` in the CSP settings.
-    //  * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
-    //  * @default ''
-    //  */
-    // customCssUrl?: string;
-
     /**
      * [AuthServer|Basic] Detect if third-party party cookies are enabled by doing an
      * additional call. This is slower and should be avoided. Listen to the
@@ -3208,7 +3200,6 @@ export enum Param {
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
     VisibleActions = 'visibleAction',
-    // CustomCSSUrl = 'customCssUrl',
     DisableLoginRedirect = 'disableLoginRedirect',
     visibleVizs = 'pinboardVisibleVizs',
     LiveboardV2Enabled = 'isPinboardV2Enabled',

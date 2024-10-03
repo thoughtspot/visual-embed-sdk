@@ -454,12 +454,6 @@ export class TsEmbed {
             return queryParams;
         }
 
-        // const cssUrlParam = customizations?.style?.customCSSUrl || this.embedConfig.customCssUrl;
-
-        // if (cssUrlParam) {
-        //     queryParams[Param.CustomCSSUrl] = cssUrlParam;
-        // }
-
         if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;
         }
