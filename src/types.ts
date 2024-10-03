@@ -448,7 +448,7 @@ export interface EmbedConfig {
      * @default false
      */
     queueMultiRenders?: boolean;
-    
+
     // /**
     //  * Dynamic CSS URL to be injected in the loaded application.
     //  * You would also need to set `style-src` in the CSP settings.
@@ -456,7 +456,6 @@ export interface EmbedConfig {
     //  * @default ''
     //  */
     // customCssUrl?: string;
-
 
     /**
      * [AuthServer|Basic] Detect if third-party party cookies are enabled by doing an
