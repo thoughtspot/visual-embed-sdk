@@ -347,19 +347,6 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * To enable custom column groups in data panel v2.
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed', {
-     *   ... // other app view config
-     *   enableCustomColumnGroups: true,
-     * });
-     * ```
-     */
-    enableCustomColumnGroups?: boolean;
-    /**
      * This controls the initial behaviour of custom column groups accordion.
      * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
      * List of different enum values:-

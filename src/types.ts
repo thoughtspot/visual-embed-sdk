@@ -1054,6 +1054,19 @@ export interface ViewConfig {
      * ```
      */
     dataPanelV2?: boolean;
+    /**
+     * To enable custom column groups in data panel v2
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *   ... // other options
+     *   enableCustomColumnGroups: true,
+     * });
+     * ```
+     */
+    enableCustomColumnGroups?: boolean;
 }
 
 /**
