@@ -2966,8 +2966,11 @@ export enum HostEvent {
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
      * `values` - An array of one or several values. The value definition on the
-     *  data type you choose to filter on. For a complete list of supported data types,
-     *  see link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Developer Documentation].
+     *  data type you choose to filter on. For a complete list of supported data types, see
+     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types]
+     * `type`  - To update filters for date time, specify the date format type.
+     * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
+     *
      * @example
      * ```js
      *
@@ -3101,7 +3104,7 @@ export enum HostEvent {
      */
     AskSage = 'AskSage',
     /**
-     * Trigger UpdateCrossFilter for Liveboard
+     * Trigger cross filter update action on a Liveboard
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateCrossFilter, {
@@ -3116,7 +3119,7 @@ export enum HostEvent {
      */
     UpdateCrossFilter = 'UpdateCrossFilter',
     /**
-     * Trigger ResetLiveboardPersonalisedView for Liveboard
+     * Trigger reset action for a personalized Liveboard view.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
