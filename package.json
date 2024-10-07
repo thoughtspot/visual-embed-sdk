@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.33.0",
+    "version": "1.33.1",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -37,8 +37,8 @@
     },
     "size-limit": [
         {
-            "path": "dist/tsembed.js",
-            "limit": "49 kB"
+            "path": "dist/es/index.js",
+            "limit": "30 kB"
         }
     ],
     "scripts": {
@@ -80,7 +80,8 @@
         "mixpanel-browser": "2.47.0",
         "ts-deepmerge": "^6.0.2",
         "tslib": "^2.5.3",
-        "use-deep-compare-effect": "^1.8.1"
+        "use-deep-compare-effect": "^1.8.1",
+        "yaml": "^2.5.1"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
@@ -96,8 +97,8 @@
         "@testing-library/react": "^11.2.7",
         "@testing-library/user-event": "^13.1.8",
         "@types/jest": "^22.2.3",
-        "@types/mixpanel-browser": "^2.35.6",
         "@types/lodash": "^4.17.0",
+        "@types/mixpanel-browser": "^2.35.6",
         "@types/react-test-renderer": "^17.0.1",
         "@typescript-eslint/eslint-plugin": "^4.6.0",
         "@typescript-eslint/parser": "^4.6.0",
@@ -106,6 +107,7 @@
         "babel-preset-gatsby": "^1.10.0",
         "command-line-args": "^5.1.1",
         "coveralls": "^3.1.0",
+        "crypto": "^1.0.1",
         "current-git-branch": "^1.1.0",
         "dts-bundle": "^0.7.3",
         "eslint": "^7.12.1",
@@ -132,7 +134,7 @@
         "react-resize-detector": "^6.6.0",
         "react-test-renderer": "^17.0.2",
         "react-use-flexsearch": "^0.1.1",
-        "rollup": "2.30.0",
+        "rollup": "4.24.0",
         "rollup-plugin-typescript2": "0.27.3",
         "ts-jest": "^26.5.5",
         "ts-loader": "8.0.4",

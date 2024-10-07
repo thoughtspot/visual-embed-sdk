@@ -1,3 +1,4 @@
+// import YAML from 'yaml';
 import { tokenizedFetch } from '../../../tokenizedFetch';
 import type {
     ColumnValue, RuntimeFilter, RuntimeFilterOp, VizPoint,
@@ -54,6 +55,8 @@ export interface UnderlyingDataPoint {
 export class AnswerService {
     private answer: Promise<any>;
 
+    private tmlOverride = {};
+
     /**
      * Should not need to be called directly.
      * @param session
@@ -68,14 +71,7 @@ export class AnswerService {
         private selectedPoints?: VizPoint[],
     ) {
         this.session = removeTypename(session);
-        if (!answer) {
-            this.answer = this.executeQuery(
-                queries.getAnswer,
-                {},
-            ).then((data) => data?.answer);
-        } else {
-            this.answer = answer;
-        }
+        this.answer = answer;
     }
 
     /**
@@ -83,7 +79,7 @@ export class AnswerService {
      * This can be used to get the list of all columns in the data source for example.
      */
     public async getSourceDetail() {
-        const sourceId = (await this.answer).sources[0].header.guid;
+        const sourceId = (await this.getAnswer()).sources[0].header.guid;
         return getSourceDetail(
             this.thoughtSpotHost,
             sourceId,
@@ -226,6 +222,7 @@ export class AnswerService {
      * Fetch the data for the answer as a PNG blob. This might be
      * quicker for larger data.
      * @param userLocale
+     * @param includeInfo
      * @param omitBackground Omit the background in the PNG
      * @param deviceScaleFactor The scale factor for the PNG
      * @return Response
@@ -255,6 +252,9 @@ export class AnswerService {
     /**
      * Just get the internal URL for this answer's data
      * as a PNG blob.
+     * @param userLocale
+     * @param omitBackground
+     * @param deviceScaleFactor
      */
     public getFetchPNGBlobUrl(userLocale = 'en-us', omitBackground = false, deviceScaleFactor = 2): string {
         return `${this.thoughtSpotHost}/prism/download/answer/png?sessionId=${this.session.sessionId}&deviceScaleFactor=${deviceScaleFactor}&omitBackground=${omitBackground}&genNo=${this.session.genNo}&userLocale=${userLocale}&exportFileName=data`;
@@ -355,8 +355,47 @@ export class AnswerService {
         return this.session;
     }
 
-    public getAnswer() {
+    public async getAnswer() {
+        if (this.answer) {
+            return this.answer;
+        }
+        this.answer = this.executeQuery(
+            queries.getAnswer,
+            {},
+        ).then((data) => data?.answer);
         return this.answer;
+    }
+
+    public async getTML(): Promise<any> {
+        const { object } = await this.executeQuery(
+            queries.getAnswerTML,
+            {},
+        );
+        const edoc = object[0].edoc;
+        const YAML = await import('yaml');
+        const parsedDoc = YAML.parse(edoc);
+        return {
+            answer: {
+                ...parsedDoc.answer,
+                ...this.tmlOverride,
+            },
+        };
+    }
+
+    public async addDisplayedVizToLiveboard(liveboardId: string) {
+        const { displayMode, visualizations } = await this.getAnswer();
+        const viz = getDisplayedViz(visualizations, displayMode);
+        return this.executeQuery(
+            queries.addVizToLiveboard,
+            {
+                liveboardId,
+                vizId: viz.id,
+            },
+        );
+    }
+
+    public setTMLOverride(override: any) {
+        this.tmlOverride = override;
     }
 }
 
@@ -422,4 +461,22 @@ function getSelectedPointsForUnderlyingDataQuery(
         p.selectedAttributes.forEach(addPointFromColVal);
     });
     return underlyingDataPoint;
+}
+
+/**
+ *
+ * @param visualizations
+ * @param displayMode
+ */
+function getDisplayedViz(visualizations: any[], displayMode: string) {
+    if (displayMode === 'CHART_MODE') {
+        return visualizations.find(
+            // eslint-disable-next-line no-underscore-dangle
+            (viz: any) => viz.__typename === 'ChartViz',
+        );
+    }
+    return visualizations.find(
+        // eslint-disable-next-line no-underscore-dangle
+        (viz: any) => viz.__typename === 'TableViz',
+    );
 }

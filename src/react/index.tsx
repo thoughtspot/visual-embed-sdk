@@ -10,6 +10,7 @@ import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
+import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
@@ -39,11 +40,11 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             tsEmbed.destroy();
         };
 
-        const handlePreRenderRendering = (tsEmbed : InstanceType<T>) => {
+        const handlePreRenderRendering = (tsEmbed: InstanceType<T>) => {
             tsEmbed.preRender();
         };
 
-        const handleDefaultRendering = (tsEmbed : InstanceType<T>) => {
+        const handleDefaultRendering = (tsEmbed: InstanceType<T>) => {
             // if component is connected to a preRendered component
             if (props.preRenderId) {
                 tsEmbed.showPreRender();
@@ -53,7 +54,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             tsEmbed.render();
         };
 
-        const handleRendering = (tsEmbed : InstanceType<T>) => {
+        const handleRendering = (tsEmbed: InstanceType<T>) => {
             if (isPreRenderedComponent) {
                 handlePreRenderRendering(tsEmbed);
                 return;
@@ -63,16 +64,16 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
         useDeepCompareEffect(() => {
             const tsEmbed = new EmbedConstructor(
-                    ref!.current,
-                    deepMerge(
-                        {
-                            insertAsSibling: viewConfig.insertAsSibling,
-                            frameParams: {
-                                class: viewConfig.insertAsSibling ? className || '' : '',
-                            },
+                ref!.current,
+                deepMerge(
+                    {
+                        insertAsSibling: viewConfig.insertAsSibling,
+                        frameParams: {
+                            class: viewConfig.insertAsSibling ? className || '' : '',
                         },
-                        viewConfig,
-                    ),
+                    },
+                    viewConfig,
+                ),
             ) as InstanceType<T>;
             Object.keys(listeners).forEach((eventName) => {
                 tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
@@ -98,33 +99,33 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 interface SearchProps extends EmbedProps, SearchViewConfig { }
 
 interface PreRenderProps {
-   /**
-    * PreRender id to be used for PreRendering the embed.
-    * Use PreRender to render the embed in the background and then
-    * show or hide the rendered embed using showPreRender or hidePreRender respectively.
-    * @example
-    * ```js
-    * const embed = new LiveboardEmbed('#embed', {
-    *   ... // other liveboard view config
-    *   preRenderId: "preRenderId-123"
-    * });
-    * embed.showPreRender();
-    * ```
-    *
-    * Use PreRendered react component for pre rendering embed components.
-    * @example
-    * ```tsx
-    * function LandingPageComponent() {
-    *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
-    * }
-    * ```
-    * function MyComponent() {
-    *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
-    * }
-    * ```
-    * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
-    */
-  preRenderId: string;
+    /**
+     * PreRender id to be used for PreRendering the embed.
+     * Use PreRender to render the embed in the background and then
+     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   preRenderId: "preRenderId-123"
+     * });
+     * embed.showPreRender();
+     * ```
+     *
+     * Use PreRendered react component for pre rendering embed components.
+     * @example
+     * ```tsx
+     * function LandingPageComponent() {
+     *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
+     * }
+     * ```
+     * function MyComponent() {
+     *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
+     * }
+     * ```
+     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     */
+    preRenderId: string;
 }
 
 /**
@@ -329,11 +330,58 @@ export const PreRenderedSageEmbed = componentFactory<
     SageViewConfig
 >(_SageEmbed, true);
 
+interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
+
+/**
+ * React component for LLM based conversation BI.
+ * @example
+ * ```tsx
+ * function Sage() {
+ *  return <ConversationEmbed
+ *      worksheetId="<worksheet-id-here>"
+ *      searchOptions={{
+ *          searchQuery: "<search query to start with>"
+ *      }}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const ConversationEmbed = componentFactory<
+    typeof _ConversationEmbed, ConversationEmbedProps, ConversationViewConfig>(
+        _ConversationEmbed,
+    );
+
+/**
+ * React component for PreRendered Conversation embed.
+ *
+ * PreRenderedConversationEmbed will preRender the ConversationEmbed and will be hidden by
+ * default.
+ *
+ * SageEmbed with preRenderId passed will call showPreRender on the embed.
+ * @example
+ * ```tsx
+ * function LandingPageComponent() {
+ *  return <PreRenderedConversationEmbed preRenderId="someId" worksheetId={"id-"} />
+ * }
+ * ```
+ * function MyComponent() {
+ *  return <ConversationEmbed preRenderId="someId" worksheetId="id" />
+ * }
+ * ```
+ */
+export const PreRenderedConversationEmbed = componentFactory<
+    typeof _ConversationEmbed,
+    SageEmbedProps & PreRenderProps,
+    ConversationViewConfig
+>(_ConversationEmbed, true);
+
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
-    | typeof SageEmbed;
+    | typeof SageEmbed
+    | typeof ConversationEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.
@@ -352,7 +400,7 @@ type EmbedComponent = typeof SearchEmbed
  * @returns {React.MutableRefObject<T extends TsEmbed>} ref
  */
 export function useEmbedRef<T extends EmbedComponent>():
-  React.MutableRefObject<React.ComponentRef<T>> {
+    React.MutableRefObject<React.ComponentRef<T>> {
     return React.useRef<React.ComponentRef<T>>(null);
 }
 

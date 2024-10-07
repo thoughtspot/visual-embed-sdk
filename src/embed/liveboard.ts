@@ -609,6 +609,25 @@ export class LiveboardEmbed extends V1Embed {
             this.render();
         }
     }
+
+    /**
+     * Returns the full url of the liveboard/viz which can be used to open
+     * this liveboard inside the full Thoughtspot application in a new tab.
+     *
+     * @returns url string
+     */
+    public getLiveboardUrl(): string {
+        let url = `${this.thoughtSpotHost}/#/pinboard/${this.viewConfig.liveboardId}`;
+        if (this.viewConfig.activeTabId) {
+            url = `${url}/tab/${this.viewConfig.activeTabId}`;
+        }
+
+        if (this.viewConfig.vizId) {
+            url = `${url}/${this.viewConfig.vizId}`;
+        }
+
+        return url;
+    }
 }
 
 /**

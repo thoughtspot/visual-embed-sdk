@@ -19,7 +19,7 @@ export async function graphqlQuery({
     variables: any,
     thoughtSpotHost: string,
     isCompositeQuery?: boolean
-}) {
+}): Promise<any> {
     const operationName = getOperationNameFromQuery(query);
     try {
         const response = await tokenizedFetch(`${thoughtSpotHost}/prism/?op=${operationName}`, {

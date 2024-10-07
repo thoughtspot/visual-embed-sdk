@@ -42,6 +42,7 @@ describe('Unit test for process data', () => {
                     selectedPoints: undefined,
                     session: undefined,
                     thoughtSpotHost: 'http://localhost',
+                    tmlOverride: {},
                 },
             }),
         );

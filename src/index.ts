@@ -19,6 +19,8 @@ import {
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
+import { BodylessConversation, BodylessConversationViewConfig } from './embed/bodyless-conversation';
+import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -55,6 +57,8 @@ import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/gr
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
+import { getAnswerFromQuery } from './utils/graphql/nlsService/nls-answer-service';
+import { createLiveboardWithAnswers } from './utils/liveboardService/liveboardService';
 
 export {
     init,
@@ -67,12 +71,18 @@ export {
     getEmbedConfig as getInitConfig,
     getSessionInfo,
     tokenizedFetch,
+    getAnswerFromQuery,
+    createLiveboardWithAnswers,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
     LiveboardEmbed,
     SageEmbed,
     AppEmbed,
+    BodylessConversation,
+    BodylessConversationViewConfig,
+    ConversationEmbed,
+    ConversationViewConfig,
     AuthFailureType,
     AuthStatus,
     AuthEvent,

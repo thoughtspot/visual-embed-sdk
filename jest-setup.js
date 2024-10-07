@@ -1,4 +1,5 @@
 const fetchMock = require('jest-fetch-mock');
+const crypto = require('crypto');
 
 fetchMock.enableMocks();
 
@@ -31,4 +32,11 @@ global.MessageChannel = jest.fn().mockImplementation(() => {
             },
         },
     };
+});
+
+Object.defineProperty(global, 'crypto', {
+    value: {
+        getRandomValues: (arr) => crypto.randomBytes(arr.length),
+        randomUUID: () => crypto.randomBytes(16).toString('hex'),
+    },
 });

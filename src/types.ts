@@ -585,7 +585,6 @@ export interface EmbedConfig {
 
     /**
      * This flag is used to disable showing the login failure page in the embedded app.
-     *
      * @version SDK 1.32.3 | Thoughtspot: *
      */
     disableLoginFailurePage?: boolean;
@@ -1283,7 +1282,6 @@ export interface RuntimeParameter {
  * If you are using React components for embedding, you can register to any
  * events from the `EmbedEvent` list by using the `on<EventName>` convention.
  * For example,`onAlert`, `onCopyToClipboard` and so on.
- *
  *  @example
  * ```js
  * // ...
@@ -1300,7 +1298,6 @@ export interface RuntimeParameter {
  *     );
  * };
  * ```
- *
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -2175,7 +2172,6 @@ export enum EmbedEvent {
      *
      * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
      * for this embed event to get emitted.
-     *
      * @param: payload
      * @param: responder
      * Contains elements that lets developers define whether ThoughtSpot
@@ -2186,9 +2182,7 @@ export enum EmbedEvent {
      *
      * error: Developers can customize the user facing message when execute is
      * set to false using the error parameter in responder
-     *
      * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
-     *
      * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2275,7 +2269,6 @@ export enum EmbedEvent {
  *
  * You can also attach an Embed event to a Host event to trigger
  * a specific action as shown in this example:
- *
  * @example
  * ```js
  *  const EmbeddedComponent = () => {
@@ -2293,7 +2286,6 @@ export enum EmbedEvent {
  *      );
  *  }
  * ```
- *
  * @group Events
  */
 // eslint-disable-next-line no-shadow
@@ -2595,28 +2587,23 @@ export enum HostEvent {
     /**
      * Trigger the **Make a copy** action on a Liveboard,
      * visualization, or Answer page.
-     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.MakeACopy)
      * ```
-     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.MakeACopy, {
      * vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
-     *
      * @example
      * ```js
      * vizEmbed.trigger(HostEvent.MakeACopy)
      * ```
-     *
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.MakeACopy)
      * ```
-     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     MakeACopy = 'makeACopy',
@@ -2642,7 +2629,6 @@ export enum HostEvent {
     /**
      * Trigger the **Create alert** action on a KPI chart
      * in a Liveboard or saved Answer.
-     *
      * @param - an object with `vizId` as a key
      * @example
      * ```js
@@ -2650,7 +2636,6 @@ export enum HostEvent {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
-     *
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.CreateMonitor)
@@ -2661,7 +2646,6 @@ export enum HostEvent {
     /**
      * Trigger the **Manage alerts** action on a KPI chart
      * in a visualization or saved Answer.
-     *
      * @param - an object with `vizId` as a key
      * @example
      * ```js
@@ -2669,12 +2653,10 @@ export enum HostEvent {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
-     *
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.ManageMonitor)
      * ```
-     *
      * @example
      * ```js
      * vizEmbed.trigger(HostEvent.ManageMonitor)
@@ -3004,7 +2986,6 @@ export enum HostEvent {
      *        }
      *    });
      * ```
-     *
      * @example
      *
      * ```js
@@ -3086,7 +3067,6 @@ export enum HostEvent {
     /**
      * Get the answer session for a Search or
      * Liveboard visualization.
-     *
      * @example
      * ```js
      * const {session} = await embed.trigger(
@@ -3094,12 +3074,10 @@ export enum HostEvent {
      *      vizId: '123', // For Liveboard Visualization.
      *  })
      * ```
-     *
      * @example
      * ```js
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
      */
     GetAnswerSession = 'getAnswerSession',
@@ -3274,6 +3252,7 @@ export enum Param {
     ShowLiveboardVerifiedBadge = 'showLiveboardVerifiedBadge',
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
+    SpotterEnabled = 'isSpotterExperienceEnabled',
 }
 
 /**
@@ -3829,7 +3808,6 @@ export enum Action {
     /**
      * @deprecated
      * Reports errors
-     *
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
@@ -4059,14 +4037,12 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RequestVerification]
      * ```
-     *
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
      */
     RequestVerification = 'requestVerification',
     /**
      *
-     * Allows users to mark a Liveboard as verified.
-     *
+     *Allows users to mark a Liveboard as verified.
      * @example
      * ```js
      * disabledActions: [Action.MarkAsVerified]
@@ -4077,7 +4053,6 @@ export enum Action {
     /**
      * The **Add Tab** action on a Liveboard.
      * Allows adding a new tab to a Liveboard view.
-     *
      * @example
      * ```js
      * disabledActions: [Action.AddTab]
@@ -4087,8 +4062,7 @@ export enum Action {
     AddTab = 'addTab',
     /**
      *
-     * Initiates contextual change analysis on KPI charts.
-     *
+     *Initiates contextual change analysis on KPI charts.
      * @example
      * ```js
      * disabledActions: [Action.EnableContextualChangeAnalysis]
@@ -4102,7 +4076,6 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ShowSageQuery]
      * ```
-     *
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      */
     ShowSageQuery = 'showSageQuery',
@@ -4117,8 +4090,7 @@ export enum Action {
     EditSageAnswer = 'editSageAnswer',
     /**
      *
-     * This action allows users to send feedback on AI-generated Answers.
-     *
+     *This action allows users to send feedback on AI-generated Answers.
      * @example
      * ```js
      * disabledActions: [Action.SageAnswerFeedback]
@@ -4197,7 +4169,6 @@ export enum Action {
      * hiddenAction: [Action.CreateLiveboard]
      * disabledActions: [Action.CreateLiveboard]
      * ```
-     *
      * @version SDK: 1.32.0 | Thoughtspot: 10.1.0.cl
      */
     CreateLiveboard = 'createLiveboard',
@@ -4304,7 +4275,6 @@ export enum Action {
 
     /**
      * The **Manage Tags** action on Homepage Favourite Module.
-     *
      * @example
      * ```js
      * disabledActions: [Action.ManageTags]
