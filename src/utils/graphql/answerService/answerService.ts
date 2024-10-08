@@ -230,7 +230,7 @@ export class AnswerService {
      * @param deviceScaleFactor The scale factor for the PNG
      * @return Response
      */
-    public async fetchPNGBlob(userLocale = 'en-us', includeInfo = false, omitBackground = false, deviceScaleFactor = 2): Promise<Response> {
+    public async fetchPNGBlob(userLocale = 'en-us', omitBackground = false, deviceScaleFactor = 2): Promise<Response> {
         const fetchUrl = this.getFetchPNGBlobUrl(
             userLocale,
             omitBackground,
