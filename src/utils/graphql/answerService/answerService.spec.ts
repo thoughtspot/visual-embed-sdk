@@ -165,6 +165,30 @@ describe('Answer service tests', () => {
         );
     });
 
+    test('fetchPNGBlob should call the right API', () => {
+        const answerService = createAnswerService();
+
+        const mockEmbedConfig = {
+            thougthspotHost: '/test',
+            authType: AuthType.TrustedAuthTokenCookieless,
+        };
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
+        jest.spyOn(authTokenInstance, 'getAuthenticationToken').mockReturnValueOnce(Promise.resolve('token'));
+        const mockTokenizedFetch = jest.spyOn(tokenizedFetch, 'tokenizedFetch');
+        answerService.fetchPNGBlob(undefined, true);
+
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(`https://tshost/prism/download/answer/png?sessionId=${defaultSession.sessionId}&deviceScaleFactor=2&omitBackground=true&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data`, expect.objectContaining({}));
+
+        answerService.fetchPNGBlob('en-uk', true);
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(`https://tshost/prism/download/answer/png?sessionId=${defaultSession.sessionId}&deviceScaleFactor=2&omitBackground=true&genNo=${defaultSession.genNo}&userLocale=en-uk&exportFileName=data`, expect.objectContaining({}));
+
+        answerService.fetchPNGBlob(undefined, false);
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(`https://tshost/prism/download/answer/png?sessionId=${defaultSession.sessionId}&deviceScaleFactor=2&omitBackground=false&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data`, expect.objectContaining({}));
+
+        answerService.fetchPNGBlob(undefined, true, 3);
+        expect(mockTokenizedFetch).toHaveBeenCalledWith(`https://tshost/prism/download/answer/png?sessionId=${defaultSession.sessionId}&deviceScaleFactor=3&omitBackground=true&genNo=${defaultSession.genNo}&userLocale=en-us&exportFileName=data`, expect.objectContaining({}));
+    });
+
     test('getUnderlyingDataForPoint should call the right APIs', async () => {
         fetchMock.mockResponses(
             JSON.stringify({
