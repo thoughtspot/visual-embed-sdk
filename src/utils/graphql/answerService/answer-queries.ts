@@ -104,6 +104,7 @@ export const getAnswer = `
                 }
                 visualizations {
                     ... on TableViz {
+                        id
                         columns {
                             column {
                                 id
@@ -114,6 +115,9 @@ export const getAnswer = `
                                 }
                             }
                         }
+                    }
+                    ... on ChartViz {
+                        id
                     }
                 }
             }
@@ -172,3 +176,23 @@ export const getSQLQuery = `
         }
     }
 `;
+
+export const getAnswerTML = `
+mutation GetUnsavedAnswerTML($session: BachSessionIdInput!, $exportDependencies: Boolean, $formatType:  EDocFormatType, $exportPermissions: Boolean, $exportFqn: Boolean) {
+  UnsavedAnswer_getTML(
+    session: $session
+    exportDependencies: $exportDependencies
+    formatType: $formatType
+    exportPermissions: $exportPermissions
+    exportFqn: $exportFqn
+  ) {
+    zipFile
+    object {
+      edoc
+      name
+      type
+      __typename
+    }
+    __typename
+  }
+}`;

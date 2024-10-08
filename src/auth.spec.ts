@@ -1,8 +1,9 @@
+import 'jest-fetch-mock';
 import * as authInstance from './auth';
 import * as authTokenService from './authToken';
 import * as EmbedConfig from './embed/embedConfig';
 import * as mixPanelService from './mixpanel-service';
-import { executeAfterWait } from './test/test-utils';
+import { executeAfterWait, mockSessionInfo } from './test/test-utils';
 import { AuthType, EmbedEvent } from './types';
 import * as checkReleaseVersionInBetaInstance from './utils';
 import * as authService from './utils/authService/authService';
@@ -102,17 +103,6 @@ export const embedConfig: any = {
 };
 
 const originalWindow = window;
-export const mockSessionInfo = {
-    userGUID: '1234',
-    mixpanelToken: 'abc123',
-    isPublicUser: false,
-    sessionId: '6588e7d9-710c-453e-a7b4-535fb3a8cbb2',
-    genNo: 3,
-    acSession: {
-        sessionId: 'cb202c48-b14b-4466-8a70-899ea666d46q',
-        genNo: 5,
-    },
-};
 
 export const mockSessionInfoApiResponse = {
     userGUID: '1234',
@@ -205,6 +195,7 @@ describe('Unit test for auth', () => {
     });
 
     test('doTokenAuth: when user is not loggedIn & getAuthToken not present, isLoggedIn should called', async () => {
+        fetchMock.mockResponse(JSON.stringify({ mixpanelAccessToken: '' }));
         jest.spyOn(tokenAuthService, 'isActiveService').mockImplementation(async () => false);
         jest.spyOn(authService, 'fetchAuthTokenService').mockImplementation(() => ({
             text: () => Promise.resolve('abc'),

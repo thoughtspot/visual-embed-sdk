@@ -1020,7 +1020,9 @@ export class TsEmbed {
      * THOUGHTSPOT URL params starts with a prefix "ts-"
      * @version SDK: 1.14.0 | ThoughtSpot: 8.4.0.cl, 8.4.1-sw
      */
-    public getThoughtSpotPostUrlParams(): string {
+    public getThoughtSpotPostUrlParams(
+        additionalParams: { [key: string]: string | number } = {},
+    ): string {
         const urlHash = window.location.hash;
         const queryParams = window.location.search;
         const postHashParams = urlHash.split('?');
@@ -1036,6 +1038,7 @@ export class TsEmbed {
         };
         queryParamsObj.forEach(addKeyValuePairCb);
         postURLParamsObj.forEach(addKeyValuePairCb);
+        Object.entries(additionalParams).forEach(([k, v]) => params.append(k, v as string));
 
         let tsParams = params.toString();
         tsParams = tsParams ? `?${tsParams}` : '';

@@ -18,6 +18,12 @@ query GetEurekaVizSnapshots(
   } 
 `;
 
+/**
+ *
+ * @param thoughtSpotHost
+ * @param vizId
+ * @param liveboardId
+ */
 export async function getPreview(
     thoughtSpotHost: string,
     vizId: string,

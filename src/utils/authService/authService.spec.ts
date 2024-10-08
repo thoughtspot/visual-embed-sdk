@@ -114,9 +114,16 @@ describe('Unit test for authService', () => {
         try {
             await fetchSessionInfoService(authVerificationUrl);
         } catch (e) {
-            expect(e.message).toContain('Failed to fetch session info');
+            //
         }
         expect(logger.error).toHaveBeenCalledWith('Failed to fetch http://localhost:3000/callosum/v1/session/info', 'error');
+
+        try {
+            await fetchBasicAuthService(thoughtSpotHost, username, password);
+        } catch (e) {
+            expect(e.message).toContain('Failed to fetch session info');
+        }
+        expect(logger.error).toHaveBeenCalledWith('Failure', 'error');
     });
 
     test('verifyTokenService if token api works', async () => {

@@ -214,7 +214,6 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  * Services to be called after the login is successful,
  * This should be called after the cookie is set for cookie auth or
  * after the token is set for cookieless.
- *
  * @return {Promise<void>}
  * @example
  * ```js
@@ -231,7 +230,7 @@ export async function postLoginService(): Promise<void> {
             initMixpanel(sessionInfo);
         }
     } catch (e) {
-        logger.error('Post login services failed.', e.message);
+        logger.error('Post login services failed.', e.message, e);
     }
 }
 

@@ -2,7 +2,6 @@
  * Copyright (c) 2020
  *
  * Rollup configuration for building ThoughtSpot Embed UI SDK module
- *
  * @summary Rollup config
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -13,20 +12,19 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
 
-import pkg from './package.json';
+import pkg from './package.json' assert {type: "json"};
+
 const plugins = [
-        typescript({
-            typescript: require('typescript'),
-        }),
-        nodeResolve(),
-        commonjs(),
-        json({
-            compact: true
-        }),
-        replace({
-            'process.env.NODE_ENV': JSON.stringify('production'),
-        })
-    ];
+    typescript(),
+    nodeResolve(),
+    commonjs(),
+    json({
+        compact: true,
+    }),
+    replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+];
 
 export default [{
     input: 'src/index.ts',
@@ -34,10 +32,11 @@ export default [{
         {
             file: 'dist/tsembed.js',
             format: 'umd',
+            inlineDynamicImports: true,
             name: 'tsembed',
         },
         {
-            file: 'dist/tsembed.es.js',
+            dir: 'dist/es',
             format: 'es',
         },
     ],
@@ -51,10 +50,12 @@ export default [{
         {
             file: 'dist/tsembed-react.js',
             format: 'umd',
+            inlineDynamicImports: true,
             name: 'tsembed',
         },
         {
-            file: 'dist/tsembed-react.es.js',
+            dir: 'dist/es/react',
+            inlineDynamicImports: true,
             format: 'es',
         },
     ],

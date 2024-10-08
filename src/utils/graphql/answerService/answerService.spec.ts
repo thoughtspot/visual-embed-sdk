@@ -473,4 +473,90 @@ describe('Answer service tests', () => {
         );
         expect(sql).toBe('SELECT * FROM table');
     });
+
+    test('Add displayed Viz should call the right API', async () => {
+        fetchMock.mockResponseOnce(JSON.stringify({
+            data: {
+                Answer__addDisplayedViz: {
+                    id: {
+                        genNo: 2,
+                    },
+                },
+            },
+        }));
+        const answer = {
+            displayMode: 'CHART_MODE',
+            visualizations: [{
+                id: 'table1',
+                __typename: 'TableViz',
+            }, {
+                id: 'chart1',
+                __typename: 'ChartViz',
+            }],
+        };
+        const answerService = createAnswerService(answer);
+        await answerService.addDisplayedVizToLiveboard('lbId');
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=AddVizToLiveboard',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'AddVizToLiveboard',
+                    query: queries.addVizToLiveboard,
+                    variables: {
+                        session: defaultSession,
+                        liveboardId: 'lbId',
+                        vizId: 'chart1',
+                    },
+                }),
+            }),
+        );
+
+        answer.displayMode = 'TABLE_MODE';
+        const answerService2 = createAnswerService(answer);
+        await answerService2.addDisplayedVizToLiveboard('lbId');
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=AddVizToLiveboard',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'AddVizToLiveboard',
+                    query: queries.addVizToLiveboard,
+                    variables: {
+                        session: defaultSession,
+                        liveboardId: 'lbId',
+                        vizId: 'table1',
+                    },
+                }),
+            }),
+        );
+    });
+
+    test('GetTML should call the right API', async () => {
+        fetchMock.mockResponseOnce(JSON.stringify({
+            data: {
+                UnsavedAnswer_getTML: {
+                    object: [{
+                        edoc: `answer: 
+                            id: bar`,
+                    }],
+                },
+            },
+        }));
+        const answerService = createAnswerService();
+        answerService.setTMLOverride({ name: 'name' });
+        const { answer } = await answerService.getTML();
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=GetUnsavedAnswerTML',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'GetUnsavedAnswerTML',
+                    query: queries.getAnswerTML,
+                    variables: {
+                        session: defaultSession,
+                    },
+                }),
+            }),
+        );
+        expect(answer.name).toBe('name');
+        expect(answer.id).toBe('bar');
+    });
 });

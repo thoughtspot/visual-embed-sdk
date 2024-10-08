@@ -16,7 +16,11 @@ const thoughtSpotHost = 'TSHOST';
 
 describe('graphQl tests', () => {
     test('should call tokenizedFetch with correct parameters when graphqlQuery is called', async () => {
-        jest.spyOn(tokenizedFetchUtil, 'tokenizedFetch');
+        jest.spyOn(tokenizedFetchUtil, 'tokenizedFetch').mockResolvedValue({
+            json: jest.fn().mockResolvedValue({
+                data: {},
+            }),
+        });
 
         const details = await graphqlQuery({
             query: getSourceDetailQuery,
@@ -33,6 +37,15 @@ describe('graphQl tests', () => {
                 accept: '*/*', 'accept-language': 'en-us', 'content-type': 'application/json;charset=UTF-8', 'x-requested-by': 'ThoughtSpot',
             },
             method: 'POST',
+        });
+
+        const details2 = await graphqlQuery({
+            query: getSourceDetailQuery,
+            variables: {
+                ids: [2],
+            },
+            thoughtSpotHost,
+            isCompositeQuery: true,
         });
     });
 });

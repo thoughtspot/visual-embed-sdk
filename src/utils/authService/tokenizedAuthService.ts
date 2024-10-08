@@ -18,7 +18,6 @@ function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Pr
 
 /**
  * Fetches the session info from the ThoughtSpot server.
- *
  * @param thoughtspotHost
  * @returns {Promise<any>}
  * @example
@@ -52,7 +51,6 @@ export async function fetchLogoutService(thoughtSpotHost: string): Promise<any> 
 
 /**
  * Is active service to check if the user is logged in.
- *
  * @param thoughtSpotHost
  * @version SDK: 1.28.4 | ThoughtSpot: *
  */

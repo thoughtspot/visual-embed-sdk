@@ -1,12 +1,16 @@
+import { has } from 'lodash';
 import { version } from '../../package.json';
 import { Action, AuthType } from '../types';
 
 /**
  Initialises fetch to the global object
  */
-global.fetch = jest.fn(() => Promise.resolve({
-    json: () => ({ mixpanelAccessToken: '' }),
-}));
+if (!(global.fetch as any).mockResponse) {
+    console.log('mocking fetch');
+    global.fetch = jest.fn(() => Promise.resolve({
+        json: () => ({ mixpanelAccessToken: '' }),
+    }));
+}
 
 export const defaultParamsWithoutHiddenActions = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}&blockNonEmbedFullAppAccess=true`;
 export const defaultParams = `&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
@@ -106,6 +110,27 @@ export const expectUrlMatchesWithParams = (source: string, target: string) => {
     const sourceParamsObj = Object.fromEntries(sourceUrl.searchParams);
     const targetParamsObj = Object.fromEntries(targetUrl.searchParams);
     expect(sourceParamsObj).toMatchObject(targetParamsObj);
+
+    const sourceHashParams = getHashQueryParams(sourceUrl.hash);
+    const targetHashParams = getHashQueryParams(targetUrl.hash);
+    expect(sourceHashParams).toMatchObject(targetHashParams);
+};
+
+export const expectUrlToHaveParamsWithValues = (
+    url: string, paramsWithValues: Record<string, any>,
+) => {
+    const urlObj = new URL(url);
+    const urlParams = Object.fromEntries(urlObj.searchParams);
+
+    const sourceHashParams = getHashQueryParams(urlObj.hash);
+    const sourceParams = {
+        ...urlParams, ...sourceHashParams,
+    };
+
+    Object.entries(paramsWithValues).forEach(([key, value]) => {
+        expect(has(sourceParams, key)).toBeTruthy();
+        expect(`${sourceParams[key]}`).toBe(`${value}`);
+    });
 };
 
 export const expectUrlMatch = (source: string, target: string) => {
@@ -122,4 +147,22 @@ export const createRootEleForEmbed = () => {
     tsEmbedDiv.id = 'tsEmbedDiv';
     rootEle.appendChild(tsEmbedDiv);
     document.body.appendChild(rootEle);
+};
+
+export const getHashQueryParams = (hash: string): any => {
+    const params = hash.split('?')[1];
+    const hashParams = new URLSearchParams(params);
+    return Object.fromEntries(hashParams);
+};
+
+export const mockSessionInfo = {
+    userGUID: '1234',
+    mixpanelToken: 'abc123',
+    isPublicUser: false,
+    sessionId: '6588e7d9-710c-453e-a7b4-535fb3a8cbb2',
+    genNo: 3,
+    acSession: {
+        sessionId: 'cb202c48-b14b-4466-8a70-899ea666d46q',
+        genNo: 5,
+    },
 };
