@@ -386,6 +386,7 @@ export class LiveboardEmbed extends V1Embed {
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = true,
+            enableCustomColumnGroups = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -438,6 +439,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
