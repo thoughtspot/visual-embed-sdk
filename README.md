@@ -49,7 +49,7 @@ import {
     LiveboardEmbed,
     AuthType,
     init,
-} from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/es/index.js';
+} from 'https://cdn.jsdelivr.net/npm/@thoughtspot/visual-embed-sdk/dist/tsembed.es.js';
 ```
 
 <br/>
