@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.33.1",
+    "version": "1.33.2",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -37,7 +37,7 @@
     },
     "size-limit": [
         {
-            "path": "dist/es/index.js",
+            "path": "dist/tsembed.es.js",
             "limit": "30 kB"
         }
     ],

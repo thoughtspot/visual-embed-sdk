@@ -26,6 +26,8 @@ const plugins = [
     }),
 ];
 
+const banner = `/* @thoughtspot/visual-embed-sdk version ${pkg.version} */`;
+
 export default [{
     input: 'src/index.ts',
     output: [
@@ -34,10 +36,13 @@ export default [{
             format: 'umd',
             inlineDynamicImports: true,
             name: 'tsembed',
+            banner,
         },
         {
-            dir: 'dist/es',
+            dir: 'dist',
             format: 'es',
+            entryFileNames: 'tsembed.es.js',
+            banner,
         },
     ],
     external: [
@@ -52,11 +57,13 @@ export default [{
             format: 'umd',
             inlineDynamicImports: true,
             name: 'tsembed',
+            banner,
         },
         {
-            dir: 'dist/es/react',
-            inlineDynamicImports: true,
+            dir: 'dist',
             format: 'es',
+            entryFileNames: 'tsembed-react.es.js',
+            banner,
         },
     ],
     external: [
