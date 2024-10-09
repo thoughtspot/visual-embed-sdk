@@ -5,7 +5,7 @@ import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
-import { getDOMNode, getRedirectUrl } from './utils';
+import { getDOMNode, getRedirectUrl, getSSOMarker } from './utils';
 import {
     EndPoints,
     fetchAuthPostService,
@@ -245,7 +245,7 @@ export function getReleaseVersion() {
  * Check if we are stuck at the SSO redirect URL
  */
 function isAtSSORedirectUrl(): boolean {
-    return window.location.href.indexOf(SSO_REDIRECTION_MARKER_GUID) >= 0;
+    return window.location.href.indexOf(getSSOMarker(SSO_REDIRECTION_MARKER_GUID)) >= 0;
 }
 
 /**
@@ -257,7 +257,11 @@ function removeSSORedirectUrlMarker(): void {
     // reload the page which we don't want. We'll live with adding an
     // unnecessary hash to the parent page URL until we find any use case where
     // that creates an issue.
-    window.location.hash = window.location.hash.replace(SSO_REDIRECTION_MARKER_GUID, '');
+    
+    // Replace any occurences of ?ssoMarker=guid or &ssoMarker=guid.
+    let updatedHash = window.location.hash.replace(`?${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '')
+    updatedHash = updatedHash.replace(`&${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '')
+    window.location.hash = updatedHash;
 }
 
 /**
