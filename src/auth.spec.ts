@@ -14,7 +14,7 @@ import * as SessionService from './utils/sessionInfoService';
 const thoughtSpotHost = 'http://localhost:3000';
 const username = 'tsuser';
 const password = '12345678';
-const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%235e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
+const samalLoginUrl = `${thoughtSpotHost}/callosum/v1/saml/login?targetURLPath=%23%3FtsSSOMarker%3D5e16222e-ef02-43e9-9fbd-24226bf3ce5b`;
 
 export const embedConfig: any = {
     doTokenAuthSuccess: (token: string) => ({
@@ -348,6 +348,12 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: 'asd.com#?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                    hash: '?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                },
+            });
             jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
             await authInstance.doSamlAuth(embedConfig.doSamlAuth);
             expect(window.location.hash).toBe('');
@@ -401,6 +407,12 @@ describe('Unit test for auth', () => {
         });
 
         it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: 'asd.com#?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                    hash: '?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                },
+            });
             jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
             await authInstance.doOIDCAuth(embedConfig.doOidcAuth);
             expect(window.location.hash).toBe('');

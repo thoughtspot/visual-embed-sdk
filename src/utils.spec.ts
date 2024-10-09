@@ -119,9 +119,9 @@ describe('unit test for utils', () => {
 
     test('appendToUrlHash', () => {
         expect(appendToUrlHash('http://myhost:3000', 'hashFrag')).toBe(
-            'http://myhost:3000#hashFrag',
+            'http://myhost:3000#?tsSSOMarker=hashFrag',
         );
-        expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foobar');
+        expect(appendToUrlHash('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foo?tsSSOMarker=bar');
     });
 
     describe('getRedirectURL', () => {
@@ -135,9 +135,9 @@ describe('unit test for utils', () => {
 
         test('Should return correct value when path is undefined', () => {
             expect(getRedirectUrl('http://myhost:3000', 'hashFrag')).toBe(
-                'http://myhost:3000#hashFrag',
+                'http://myhost:3000#?tsSSOMarker=hashFrag',
             );
-            expect(getRedirectUrl('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foobar');
+            expect(getRedirectUrl('http://xyz.com/#foo', 'bar')).toBe('http://xyz.com/#foo?tsSSOMarker=bar');
         });
 
         test('Should return correct value when path is set', () => {
@@ -148,11 +148,11 @@ describe('unit test for utils', () => {
             }));
 
             expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
-                'http://myhost:3000/bar#hashFrag',
+                'http://myhost:3000/bar#?tsSSOMarker=hashFrag',
             );
 
             expect(getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar')).toBe(
-                'http://myhost:3000/#/barhashFrag',
+                'http://myhost:3000/#/bar?tsSSOMarker=hashFrag',
             );
         });
     });
