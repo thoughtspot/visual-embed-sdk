@@ -1042,7 +1042,7 @@ export interface ViewConfig {
     disableRedirectionLinksInNewTab?: boolean;
     /**
      * Flag to control Data panel experience
-     * @default true
+     * @default false
      * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      * @example
      * ```js
