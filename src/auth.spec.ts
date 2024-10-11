@@ -331,8 +331,8 @@ describe('Unit test for auth', () => {
             spyOn(checkReleaseVersionInBetaInstance, 'checkReleaseVersionInBeta');
             Object.defineProperty(window, 'location', {
                 value: {
-                    href: authInstance.SSO_REDIRECTION_MARKER_GUID,
-                    hash: '',
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
                 },
             });
             jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(
