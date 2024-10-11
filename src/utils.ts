@@ -134,7 +134,7 @@ export const getCssDimension = (value: number | string): string => {
 export const getSSOMarker = (markerId: string) => {
     const encStringToAppend = encodeURIComponent(markerId);
     return `tsSSOMarker=${encStringToAppend}`;
-}
+};
 
 /**
  * Append a string to a URL's hash fragment
@@ -150,11 +150,11 @@ export const appendToUrlHash = (url: string, stringToAppend: string) => {
     let splitAdder = '';
 
     if (url.indexOf('#') >= 0) {
-        // If second half of hash contains a '?' already add a '&' instead of '?' which appends
-        // to query params.
+        // If second half of hash contains a '?' already add a '&' instead of
+        // '?' which appends to query params.
         splitAdder = url.split('#')[1].indexOf('?') >= 0 ? '&' : '?';
     } else {
-        splitAdder = '#?'
+        splitAdder = '#?';
     }
     outputUrl = `${outputUrl}${splitAdder}${marker}`;
 

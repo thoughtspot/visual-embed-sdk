@@ -257,10 +257,10 @@ function removeSSORedirectUrlMarker(): void {
     // reload the page which we don't want. We'll live with adding an
     // unnecessary hash to the parent page URL until we find any use case where
     // that creates an issue.
-    
+
     // Replace any occurences of ?ssoMarker=guid or &ssoMarker=guid.
-    let updatedHash = window.location.hash.replace(`?${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '')
-    updatedHash = updatedHash.replace(`&${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '')
+    let updatedHash = window.location.hash.replace(`?${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '');
+    updatedHash = updatedHash.replace(`&${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '');
     window.location.hash = updatedHash;
 }
 

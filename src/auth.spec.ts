@@ -350,8 +350,8 @@ describe('Unit test for auth', () => {
         it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
             Object.defineProperty(window, 'location', {
                 value: {
-                    href: 'asd.com#?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
-                    hash: '?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
                 },
             });
             jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
@@ -409,8 +409,8 @@ describe('Unit test for auth', () => {
         it('when user is not loggedIn & isAtSSORedirectUrl is true', async () => {
             Object.defineProperty(window, 'location', {
                 value: {
-                    href: 'asd.com#?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
-                    hash: '?tsSSOMarker=' + authInstance.SSO_REDIRECTION_MARKER_GUID,
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
                 },
             });
             jest.spyOn(tokenAuthService, 'fetchSessionInfoService').mockImplementation(() => Promise.reject());
