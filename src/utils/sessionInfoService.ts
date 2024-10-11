@@ -19,7 +19,6 @@ let sessionInfo: null | SessionInfo = null;
  * Returns the session info object and caches it for future use.
  * Once fetched the session info object is cached and returned from the cache on
  * subsequent calls.
- *
  * @example ```js
  * const sessionInfo = await getSessionInfo();
  * console.log(sessionInfo);
@@ -40,7 +39,6 @@ export async function getSessionInfo(): Promise<SessionInfo> {
 /**
  * Returns the cached session info object. If the client is not authenticated the
  * function will return null.
- *
  * @example ```js
  * const sessionInfo = getCachedSessionInfo();
  * if (sessionInfo) {
@@ -58,7 +56,6 @@ export function getCachedSessionInfo(): SessionInfo | null {
 
 /**
  * Processes the session info response and returns the session info object.
- *
  *  @param sessionInfoResp {any} Response from the session info API.
  *  @returns {SessionInfo} The session info object.
  *  @example ```js
@@ -87,7 +84,6 @@ export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
 
 /**
  * Resets the cached session info object and forces a new fetch on the next call.
- *
  * @example ```js
  * resetCachedSessionInfo();
  * const sessionInfo = await getSessionInfo();

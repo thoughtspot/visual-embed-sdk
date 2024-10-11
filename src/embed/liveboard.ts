@@ -270,7 +270,6 @@ export interface LiveboardViewConfig
      *
      * Since, this will show preview images, be careful that it may show
      * undesired data to the user when using row level security.
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -280,7 +279,6 @@ export interface LiveboardViewConfig
      * });
      * embed.render();
      * ```
-     *
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
@@ -613,7 +611,6 @@ export class LiveboardEmbed extends V1Embed {
     /**
      * Returns the full url of the liveboard/viz which can be used to open
      * this liveboard inside the full Thoughtspot application in a new tab.
-     *
      * @returns url string
      */
     public getLiveboardUrl(): string {

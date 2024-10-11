@@ -26,8 +26,8 @@ export interface CustomCssVariables {
     /**
      * Font color of the text on toggle buttons such as
      * **All**, **Answers**, and **Liveboards** on the Home page (Classic experience),
-     * the text color of the chart and table tiles on Home page (New modular Homepage experience),
-     * and title text on the AI-generated charts and tables.
+     * the text color of the chart and table tiles on Home page (New modular Homepage
+     * experience), and title text on the AI-generated charts and tables.
      * The default color code is #2770EF.
      *
      */
