@@ -67,7 +67,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should render liveboard with data panel v2 flag set to true by default', async () => {
+    test('should render liveboard with data panel v2 flag set to false by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -76,7 +76,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=true#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=false#/embed/viz/${liveboardId}`,
             );
         });
     });

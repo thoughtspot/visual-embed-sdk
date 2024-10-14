@@ -383,7 +383,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardReverifyBanner = true,
             enableAskSage,
             enable2ColumnLayout,
-            dataPanelV2 = true,
+            dataPanelV2 = false,
             enableCustomColumnGroups = false,
         } = this.viewConfig;
 
