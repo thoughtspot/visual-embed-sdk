@@ -411,6 +411,18 @@ describe('Base TS Embed', () => {
         });
         expect(embedConfigInstance.getEmbedConfig().inPopup).toBe(false);
     });
+    test('@P0 @SCAL-226935 embedConfig should contain correct value of customCSSUrl when added in init ', async () => {
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            customizations: {
+                style: {
+                    customCSSUrl: 'test.com',
+                },
+            },
+        });
+        expect(embedConfigInstance.getEmbedConfig().customizations.style.customCSSUrl).toEqual('test.com');
+    });
 });
 
 describe('Base without init', () => {
