@@ -417,11 +417,11 @@ describe('Base TS Embed', () => {
             authType: index.AuthType.None,
             customizations: {
                 style: {
-                    customCSSUrl:"test.com"
-                }
-            }
+                    customCSSUrl: 'test.com',
+                },
+            },
         });
-        expect(embedConfigInstance.getEmbedConfig().customizations.style.customCSSUrl).toEqual("test.com");
+        expect(embedConfigInstance.getEmbedConfig().customizations.style.customCSSUrl).toEqual('test.com');
     });
 });
 
