@@ -431,6 +431,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     showLiveboardReverifyBanner?: boolean;
+    /**
+     * This flag is used to enable unified search experience for full app embed.
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    isUnifiedSearchExperienceEnabled: true,
+     * })
+     * ```
+     */
+    isUnifiedSearchExperienceEnabled?: boolean;
 }
 
 /**
@@ -487,6 +501,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
             homePageSearchBarMode,
+            isUnifiedSearchExperienceEnabled = true,
         } = this.viewConfig;
 
         let params = {};
@@ -503,6 +518,7 @@ export class AppEmbed extends V1Embed {
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
+        params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
 
         params = this.getBaseQueryParams(params);
 
