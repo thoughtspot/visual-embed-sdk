@@ -4311,7 +4311,7 @@ export enum Action {
      * ```js
      * const disabledActions = [Action.DisableChipReorder]
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.5.0.cl
+     * @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
      */
     DisableChipReorder = 'disableChipReorder',
 }
