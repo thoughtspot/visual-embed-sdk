@@ -4305,6 +4305,15 @@ export enum Action {
      *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     KPIAnalysisCTA = 'kpiAnalysisCTA',
+    /**
+     * Action ID for disabling chip reorder in Answer and Liveboard
+     * @example
+     * ```js
+     * const disabledActions = [Action.DisableChipReorder]
+     * ```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.5.0.cl
+     */
+    DisableChipReorder = 'disableChipReorder',
 }
 
 export interface AnswerServiceType {
