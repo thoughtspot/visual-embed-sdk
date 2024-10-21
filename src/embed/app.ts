@@ -386,11 +386,11 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * Flag to use home page search bar mode
-     * @version SDK : 1.33.0 | Thoughtspot : 10.2.0.cl
+     * @version SDK : 1.33.0 | Thoughtspot : 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
-     * This flag is used to enable the compact header in liveboard
+     * This flag can be used to enable the compact header in Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -404,7 +404,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
-     * This flag is used to show/hide verified Icon in liveboard compact header
+     * This flag can be used to show or hide the Liveboard verified icon in the compact header.
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -418,7 +418,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
-     * This flag is used to show/hide re-verify banner in liveboard compact header
+     * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl

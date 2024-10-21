@@ -1,7 +1,7 @@
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
-    LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a liveboard to embed.',
-    TRIGGER_TIMED_OUT: 'Trigger timedout in getting response',
+    LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
+    TRIGGER_TIMED_OUT: 'Trigger timed out in getting response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'Search Embed is in Beta in this release.',
     SAGE_EMBED_BETA_WARNING_MESSAGE: 'Sage Embed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',

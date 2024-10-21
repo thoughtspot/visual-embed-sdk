@@ -2182,7 +2182,7 @@ export enum EmbedEvent {
      *
      * error: Developers can customize the user facing message when execute is
      * set to false using the error parameter in responder
-     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
      * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2230,7 +2230,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
 }
@@ -2962,7 +2962,8 @@ export enum HostEvent {
      *
      * `values` - An array of one or several values. The value definition on the
      *  data type you choose to filter on. For a complete list of supported data types, see
-     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types]
+     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types].
+     *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
      *
