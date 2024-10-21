@@ -202,7 +202,7 @@ export enum HomeLeftNavItem {
      */
     SpotIQAnalysis = 'spotiq-analysis',
     /**
-     * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.34.0| ThoughtSpot: 10.4.0.cl
      */
     LiveboardSchedules = 'liveboard-schedules'
 }
@@ -1017,9 +1017,9 @@ export interface ViewConfig {
     // eslint-disable-next-line camelcase
     enableV2Shell_experimental?: boolean;
     /**
-     * To set the initial state of the search bar in case of saved-answers.
+     * To set the initial state of the search bar in case of saved Answers.
      * @default true
-     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -1030,7 +1030,7 @@ export interface ViewConfig {
     collapseSearchBar?: boolean;
     /**
      * This flag can be used to disable links inside the embedded app,
-     * and disables redirection of links in a new tab.
+     * and disable redirection of links in a new tab.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -1043,7 +1043,7 @@ export interface ViewConfig {
     /**
      * Flag to control Data panel experience
      * @default false
-     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -2168,7 +2168,7 @@ export enum EmbedEvent {
     Rename = 'rename',
     /**
      * Emitted if the user wants to intercept the search execution
-     * and implement logic to decide whether to run the search or not
+     * and implement logic to decide whether to run search or not
      *
      * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
      * for this embed event to get emitted.
@@ -2222,8 +2222,8 @@ export enum EmbedEvent {
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
-     * Emitted when parameter changes in an answer
-     * or liveboard
+     * Emitted when parameter changes in an Answer
+     * or Liveboard
      *
      * ```js
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
@@ -4238,12 +4238,12 @@ export enum Action {
     AIHighlights = 'AIHighlights',
 
     /**
-     * Action ID for edit schedule action on schedule on homepage
+     * Action ID for edit the schedule action on schedule on homepage
      * @example
      * ```js
      * disabledActions: [Action.EditScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     EditScheduleHomepage = 'editScheduleHomepage',
 
@@ -4253,7 +4253,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.PauseScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     PauseScheduleHomepage = 'pauseScheduleHomepage',
 
@@ -4263,7 +4263,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ViewScheduleRunHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     ViewScheduleRunHomepage = 'viewScheduleRunHomepage',
 
@@ -4273,7 +4273,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.UnsubscribeScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
 
@@ -4283,7 +4283,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ManageTags]
      * ```
-     * @version SDK : 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK : 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     ManageTags = 'manageTags',
 
@@ -4293,7 +4293,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DeleteScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     DeleteScheduleHomepage = 'deleteScheduleHomepage',
 
@@ -4303,7 +4303,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.KPIAnalysisCTA]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
      */
     KPIAnalysisCTA = 'kpiAnalysisCTA',
 }

@@ -954,7 +954,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -1285,7 +1285,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Action ID for edit schedule action on schedule on homepage",
+						"shortText": "Action ID for edit the schedule action on schedule on homepage",
 						"tags": [
 							{
 								"tag": "example",
@@ -1293,7 +1293,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -1469,7 +1469,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -1625,7 +1625,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK : 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -1760,7 +1760,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -2523,7 +2523,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -2603,7 +2603,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -4709,7 +4709,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted if the user wants to intercept the search execution\nand implement logic to decide whether to run the search or not",
+						"shortText": "Emitted if the user wants to intercept the search execution\nand implement logic to decide whether to run search or not",
 						"text": "Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true\nfor this embed event to get emitted.",
 						"tags": [
 							{
@@ -4746,7 +4746,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when parameter changes in an answer\nor liveboard",
+						"shortText": "Emitted when parameter changes in an Answer\nor Liveboard",
 						"text": "```js\nliveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {\n    console.log('payload', payload);\n})\n```",
 						"tags": [
 							{
@@ -5567,7 +5567,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0| ThoughtSpot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0| ThoughtSpot: 10.4.0.cl\n"
 							}
 						]
 					},
@@ -16541,7 +16541,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -16549,7 +16549,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -16740,7 +16740,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -16810,7 +16810,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -17727,7 +17727,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.3.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot:10.5.0.cl"
 							},
 							{
 								"tag": "example",
@@ -19329,7 +19329,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -19337,7 +19337,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -19454,7 +19454,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -19487,7 +19487,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -20558,7 +20558,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -20566,7 +20566,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -20683,7 +20683,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -20716,7 +20716,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -25887,7 +25887,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -25895,7 +25895,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -26012,7 +26012,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -26082,7 +26082,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -26773,7 +26773,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.3.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot:10.5.0.cl"
 							},
 							{
 								"tag": "example",
@@ -27890,7 +27890,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -27898,7 +27898,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -28015,7 +28015,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -28071,7 +28071,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -29228,7 +29228,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -29236,7 +29236,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -29418,7 +29418,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",
@@ -30335,7 +30335,7 @@
 						"tags": [
 							{
 								"tag": "version:",
-								"text": "SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | ThoughtSpot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -30397,7 +30397,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved-answers.",
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
 						"tags": [
 							{
 								"tag": "default",
@@ -30405,7 +30405,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -30596,7 +30596,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | Thoughtspot: 10.3.0.cl"
+								"text": "SDK: 1.34.0 | Thoughtspot: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -30698,7 +30698,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disables redirection of links in a new tab.",
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
 						"tags": [
 							{
 								"tag": "example",

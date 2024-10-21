@@ -91,7 +91,7 @@ export interface SearchViewConfig
     /**
      * If set to true, the data panel is collapsed on load,
      * but can be expanded manually.
-     * @version: SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
+     * @version: SDK: 1.34.0 | ThoughtSpot: 10.4.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {

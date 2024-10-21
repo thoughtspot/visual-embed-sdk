@@ -393,7 +393,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * This flag can be used to enable the compact header in Liveboard
      * @type {boolean}
      * @default false
-     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot:10.5.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
