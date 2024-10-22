@@ -366,7 +366,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
-     * This flag is used to enable the 2 column layout in liveboard
+     * This attribute can be used to enable the two-column layout on an embedded Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
@@ -380,7 +380,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     enable2ColumnLayout?: boolean;
     /**
-     * Flag to use OnBeforeSearchExecute embed event
+     * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;

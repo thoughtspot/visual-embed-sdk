@@ -2167,21 +2167,25 @@ export enum EmbedEvent {
      */
     Rename = 'rename',
     /**
-     * Emitted if the user wants to intercept the search execution
-     * and implement logic to decide whether to run search or not
      *
-     * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
+     * This event can be emitted to intercept search execution initiated by
+     * the users and implement the logic to allow or restrict search execution.
+     * You can can also show custom error text if the search query must be
+     * restricted due to your application or business requirements.
+
+     * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
      * for this embed event to get emitted.
      * @param: payload
      * @param: responder
      * Contains elements that lets developers define whether ThoughtSpot
-     * will run the search or not, and if not, which error message to provide.
+     * should run the search, and if not, what error message
+     * should be shown to the user.
      *
-     * execute: When execute returns true, the search will be run.
-     * When execute returns false, the search will not be executed.
+     * execute: When execute returns `true`, the search will be run.
+     * When execute returns `false`, the search will not be executed.
      *
-     * error: Developers can customize the user facing message when execute is
-     * set to false using the error parameter in responder
+     * error: Developers can customize the error message text when `execute`
+     * returns `false` using the error parameter in responder.
      * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
      * @example
      *```js
