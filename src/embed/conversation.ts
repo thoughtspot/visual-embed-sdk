@@ -50,7 +50,7 @@ export class ConversationEmbed extends TsEmbed {
             searchOptions,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
-        if(!worksheetId) {
+        if (!worksheetId) {
             this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
         }
         const queryParams = this.getBaseQueryParams();
