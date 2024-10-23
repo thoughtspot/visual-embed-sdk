@@ -202,7 +202,7 @@ export enum HomeLeftNavItem {
      */
     SpotIQAnalysis = 'spotiq-analysis',
     /**
-     * @version SDK: 1.34.0| ThoughtSpot: 10.4.0.cl
+     * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
     LiveboardSchedules = 'liveboard-schedules'
 }
@@ -1019,7 +1019,7 @@ export interface ViewConfig {
     /**
      * To set the initial state of the search bar in case of saved Answers.
      * @default true
-     * @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -1043,7 +1043,7 @@ export interface ViewConfig {
     /**
      * Flag to control Data panel experience
      * @default false
-     * @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -4247,7 +4247,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.EditScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     EditScheduleHomepage = 'editScheduleHomepage',
 
@@ -4257,7 +4257,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.PauseScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     PauseScheduleHomepage = 'pauseScheduleHomepage',
 
@@ -4267,7 +4267,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ViewScheduleRunHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     ViewScheduleRunHomepage = 'viewScheduleRunHomepage',
 
@@ -4277,7 +4277,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.UnsubscribeScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
 
@@ -4287,7 +4287,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ManageTags]
      * ```
-     * @version SDK : 1.34.0 | Thoughtspot: 10.4.0.cl
+     * @version SDK : 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     ManageTags = 'manageTags',
 
@@ -4297,7 +4297,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DeleteScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     DeleteScheduleHomepage = 'deleteScheduleHomepage',
 
@@ -4307,7 +4307,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.KPIAnalysisCTA]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.4.0.cl
+     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      */
     KPIAnalysisCTA = 'kpiAnalysisCTA',
 }
