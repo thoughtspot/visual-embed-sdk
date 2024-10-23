@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from 'src/errors';
+import { ERROR_MESSAGE } from '../errors';
 import { ViewConfig, Param } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString } from '../utils';
