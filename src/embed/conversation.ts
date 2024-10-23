@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from 'src/errors';
 import { ViewConfig, Param } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString } from '../utils';
@@ -49,6 +50,9 @@ export class ConversationEmbed extends TsEmbed {
             searchOptions,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
+        if(!worksheetId) {
+            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
+        }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
 
