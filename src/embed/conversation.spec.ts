@@ -14,6 +14,7 @@ import {
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
+import { ERROR_MESSAGE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 
@@ -43,4 +44,18 @@ describe('ConversationEmbed', () => {
             `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
+
+    it('should handle error when worksheetId is not provided', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: '',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+        };
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const errorSpy = jest.spyOn(conversationEmbed as any, 'handleError').mockImplementation(() => {});
+        await conversationEmbed.render();
+        expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
+    });
+    
 });
