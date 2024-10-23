@@ -53,9 +53,8 @@ describe('ConversationEmbed', () => {
             },
         };
         const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
-        const errorSpy = jest.spyOn(conversationEmbed as any, 'handleError').mockImplementation(() => {});
+        (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
-        expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
+        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
     });
-    
 });
