@@ -56,7 +56,7 @@ describe('Base TS Embed', () => {
         authEE.on(auth.AuthStatus.FAILURE, (reason) => {
             expect(reason).toEqual(auth.AuthFailureType.NO_COOKIE_ACCESS);
             expect(window.alert).toBeCalledWith(
-                'Third party cookie access is blocked on this browser, please allow third party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
+                'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
             );
             done();
         });

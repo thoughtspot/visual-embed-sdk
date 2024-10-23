@@ -1615,7 +1615,7 @@ describe('Unit test case for ts embed', () => {
             });
             libEmbed.preRender();
 
-            expect(logger.error).toHaveBeenCalledWith('PreRender id is required for preRender');
+            expect(logger.error).toHaveBeenCalledWith('PreRender ID is required for preRender');
         });
 
         it('showPreRender should preRender if not available', async () => {

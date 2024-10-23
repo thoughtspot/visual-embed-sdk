@@ -1017,7 +1017,7 @@ export interface ViewConfig {
     // eslint-disable-next-line camelcase
     enableV2Shell_experimental?: boolean;
     /**
-     * To set the initial state of the search bar in case of saved-answers.
+     * To set the initial state of the search bar in case of saved Answers.
      * @default true
      * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
      * @example
@@ -1030,7 +1030,7 @@ export interface ViewConfig {
     collapseSearchBar?: boolean;
     /**
      * This flag can be used to disable links inside the embedded app,
-     * and disables redirection of links in a new tab.
+     * and disable redirection of links in a new tab.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -2167,22 +2167,26 @@ export enum EmbedEvent {
      */
     Rename = 'rename',
     /**
-     * Emitted if the user wants to intercept the search execution
-     * and implement logic to decide whether to run the search or not
      *
-     * Prerequisite: Set isOnBeforeGetVizDataInterceptEnabled : true
+     * This event can be emitted to intercept search execution initiated by
+     * the users and implement the logic to allow or restrict search execution.
+     * You can can also show custom error text if the search query must be
+     * restricted due to your application or business requirements.
+
+     * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
      * for this embed event to get emitted.
      * @param: payload
      * @param: responder
      * Contains elements that lets developers define whether ThoughtSpot
-     * will run the search or not, and if not, which error message to provide.
+     * should run the search, and if not, what error message
+     * should be shown to the user.
      *
-     * execute: When execute returns true, the search will be run.
-     * When execute returns false, the search will not be executed.
+     * execute: When execute returns `true`, the search will be run.
+     * When execute returns `false`, the search will not be executed.
      *
-     * error: Developers can customize the user facing message when execute is
-     * set to false using the error parameter in responder
-     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     * error: Developers can customize the error message text when `execute`
+     * returns `false` using the error parameter in responder.
+     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
      * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2222,15 +2226,15 @@ export enum EmbedEvent {
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
-     * Emitted when parameter changes in an answer
-     * or liveboard
+     * Emitted when parameter changes in an Answer
+     * or Liveboard
      *
      * ```js
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.29.0 | Thoughtspot : 10.2.0.cl
+     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
 }
@@ -2962,7 +2966,8 @@ export enum HostEvent {
      *
      * `values` - An array of one or several values. The value definition on the
      *  data type you choose to filter on. For a complete list of supported data types, see
-     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types]
+     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types].
+     *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
      *
@@ -4237,7 +4242,7 @@ export enum Action {
     AIHighlights = 'AIHighlights',
 
     /**
-     * Action ID for edit schedule action on schedule on homepage
+     * Action ID for edit the schedule action on schedule on homepage
      * @example
      * ```js
      * disabledActions: [Action.EditScheduleHomepage]
