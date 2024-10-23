@@ -1,5 +1,6 @@
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
+    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a worksheet to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
