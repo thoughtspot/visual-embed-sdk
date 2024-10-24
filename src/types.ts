@@ -3261,6 +3261,7 @@ export enum Param {
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
+    IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
 }
 
 /**
