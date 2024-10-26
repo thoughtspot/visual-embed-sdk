@@ -4,6 +4,10 @@ import { Conversation as ConversationService } from '../utils/graphql/nlsService
 import { getEmbedConfig } from './embedConfig';
 import { getQueryParamString } from '../utils';
 
+/**
+ * Configuration for bodyless conversation options.
+ * @group Embed components
+ */
 export interface BodylessConversationViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
@@ -60,6 +64,19 @@ class ConversationMessage extends TsEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
+ * @example
+ * ```js
+ * import { BodylessConversation } from '@thoughtspot/visual-embed-sdk';
+ *
+ * const conversation = new BodylessConversation({
+ *  worksheetId: 'worksheetId',
+ * });
+ *
+ * const { container, error } = await conversation.sendMessage('show me sales by region');
+ *
+ * // append the container to the DOM
+ * document.body.appendChild(container); // or to any other element
+ * ```
  * @group Embed components
  * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
  */
