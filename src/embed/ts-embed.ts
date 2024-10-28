@@ -442,6 +442,7 @@ export class TsEmbed {
             linkOverride,
             insertInToSlide,
             disableRedirectionLinksInNewTab,
+            overrideOrgId,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -502,6 +503,9 @@ export class TsEmbed {
         }
         if (disableRedirectionLinksInNewTab) {
             queryParams[Param.DisableRedirectionLinksInNewTab] = disableRedirectionLinksInNewTab;
+        }
+        if (overrideOrgId !== undefined) {
+            queryParams[Param.OverrideOrgId] = overrideOrgId;
         }
 
         queryParams[Param.OverrideNativeConsole] = true;

@@ -1066,6 +1066,19 @@ export interface ViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * View content for another org directly without having to use the org switcher
+     * This flag is honoured if orgPerUrl feature is enabled for the ThoughtSpot cluster
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other options
+     *   overrideOrgId: 142536
+     * });
+     * ```
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
+     */
+    overrideOrgId?: number;
 }
 
 /**
@@ -3262,6 +3275,7 @@ export enum Param {
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
+    OverrideOrgId = 'orgId',
 }
 
 /**
