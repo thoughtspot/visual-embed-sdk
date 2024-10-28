@@ -1409,7 +1409,7 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&numberFormatLocale=en-US&dateFormatLocale=en-IN&currencyFormat=USD${defaultParamsPost}#/home`,
             );
         });
-        it.skip('Sets the overrideOrgId param', async () => {
+        it('Sets the overrideOrgId param', async () => {
             const overrideOrgId = 142536;
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
