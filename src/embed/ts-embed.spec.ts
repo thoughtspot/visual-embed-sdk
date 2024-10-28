@@ -13,6 +13,7 @@ import {
 import {
     Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
     RuntimeParameter,
+    Param,
 } from '../types';
 import {
     executeAfterWait,
@@ -24,6 +25,7 @@ import {
     defaultParamsForPinboardEmbed,
     waitFor,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     mockMessageChannel,
     createRootEleForEmbed,
 } from '../test/test-utils';
@@ -1406,6 +1408,20 @@ describe('Unit test case for ts embed', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&numberFormatLocale=en-US&dateFormatLocale=en-IN&currencyFormat=USD${defaultParamsPost}#/home`,
             );
+        });
+        it.skip('Sets the overrideOrgId param', async () => {
+            const overrideOrgId = 142536;
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                overrideOrgId,
+            });
+            await appEmbed.render();
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                orgId: overrideOrgId,
+            });
         });
     });
 
