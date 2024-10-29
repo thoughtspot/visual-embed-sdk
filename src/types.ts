@@ -2978,12 +2978,13 @@ export enum HostEvent {
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
      * `values` - An array of one or several values. The value definition on the
-     *  data type you choose to filter on. For a complete list of supported data types, see
-     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types].
+     *  data type you choose to filter on. For a complete list of supported data types,
+     *  see
+     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported
+     *  data types].
      *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
-     *
      * @example
      * ```js
      *
@@ -3273,6 +3274,7 @@ export enum Param {
     ShowLiveboardVerifiedBadge = 'showLiveboardVerifiedBadge',
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
+    HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',

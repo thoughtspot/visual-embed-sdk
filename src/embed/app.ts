@@ -418,6 +418,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
+     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.5.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    hideIrrelevantChipsInLiveboardTabs: true,
+     * })
+     * ```
+     */
+    hideIrrelevantChipsInLiveboardTabs?: boolean;
+    /**
      * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
      * @type {boolean}
      * @default true
@@ -500,6 +514,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardCompactHeaderEnabled = false,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
+            hideIrrelevantChipsInLiveboardTabs = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
         } = this.viewConfig;
@@ -518,6 +533,7 @@ export class AppEmbed extends V1Embed {
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
+        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
 
         params = this.getBaseQueryParams(params);
