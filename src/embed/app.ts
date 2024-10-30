@@ -420,7 +420,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
     /**
      * This flag is used to enable/disable hide irrelevant filters in liveboard tab
      * @type {boolean}
-     * @default true
+     * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.5.0.cl
      * @example
      * ```js
