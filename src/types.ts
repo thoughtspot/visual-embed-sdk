@@ -605,7 +605,7 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
+     * @version SDK: 1.33.5 | ThoughtSpot: *
      */
     additionalFlags?: { [key: string]: string | number | boolean };
 }

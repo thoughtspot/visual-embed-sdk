@@ -101,6 +101,7 @@ const hostUrlToFeatureUrl = {
  * to your app.
  * @param url The URL provided for prefetch
  * @param prefetchFeatures Specify features which needs to be prefetched.
+ * @param additionalFlags This can be used to add any URL flag.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
  * @group Global methods
  */
