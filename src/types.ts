@@ -3295,6 +3295,7 @@ export enum Param {
     ShowLiveboardVerifiedBadge = 'showLiveboardVerifiedBadge',
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
+    HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
@@ -4356,6 +4357,16 @@ export enum Action {
      * @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
      */
     DisableChipReorder = 'disableChipReorder',
+
+    /**
+     * Action ID for Hide Irrelevant filters button
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * ```
+     *  @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
+     */
+    ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 }
 
 export interface AnswerServiceType {

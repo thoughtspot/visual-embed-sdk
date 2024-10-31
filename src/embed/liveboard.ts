@@ -324,6 +324,20 @@ export interface LiveboardViewConfig
      * ```
      */
     showLiveboardReverifyBanner?: boolean;
+    /**
+     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.35.0 | ThoughtSpot:10.5.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    hideIrrelevantChipsInLiveboardTabs: true,
+     * })
+     * ```
+     */
+    hideIrrelevantChipsInLiveboardTabs?: boolean;
 }
 
 /**
@@ -380,6 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardCompactHeaderEnabled = false,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
+            hideIrrelevantChipsInLiveboardTabs = false,
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = false,
@@ -434,6 +449,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
+        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;

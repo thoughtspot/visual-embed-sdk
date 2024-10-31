@@ -289,6 +289,22 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            hideIrrelevantChipsInLiveboardTabs: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&hideIrrelevantFiltersAtTabLevel=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
