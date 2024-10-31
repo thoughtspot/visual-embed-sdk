@@ -42,7 +42,6 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
     }
     // const urlParams = urlParts[7];
     // const hash = urlParts[8];
-
     return `${protocol}//${host}${path}`;
 };
 

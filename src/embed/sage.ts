@@ -158,7 +158,6 @@ export class SageEmbed extends V1Embed {
         } = this.viewConfig;
 
         const params = this.getBaseQueryParams();
-        params[Param.EmbedApp] = true;
         params[Param.IsSageEmbed] = true;
         params[Param.DisableWorksheetChange] = !!disableWorksheetChange;
         params[Param.HideWorksheetSelector] = !!hideWorksheetSelector;

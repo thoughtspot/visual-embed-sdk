@@ -7,6 +7,8 @@
  */
 
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -398,6 +400,7 @@ export class TsEmbed {
         if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
+        queryParams[Param.EmbedApp] = true;
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
@@ -435,7 +438,7 @@ export class TsEmbed {
             hiddenTabs,
             visibleTabs,
             showAlerts,
-            additionalFlags,
+            additionalFlags: additionalFlagsFromView,
             locale,
             customizations,
             contextMenuTrigger,
@@ -444,6 +447,13 @@ export class TsEmbed {
             disableRedirectionLinksInNewTab,
             overrideOrgId,
         } = this.viewConfig;
+
+        const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
+
+        const additionalFlags = {
+            ...additionalFlagsFromInit,
+            ...additionalFlagsFromView,
+        };
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError('You cannot have both hidden actions and visible actions');
@@ -511,7 +521,7 @@ export class TsEmbed {
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
-        if (additionalFlags && additionalFlags.constructor.name === 'Object') {
+        if (isObject(additionalFlags) && !isEmpty(additionalFlags)) {
             Object.assign(queryParams, additionalFlags);
         }
 

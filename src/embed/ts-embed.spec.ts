@@ -30,6 +30,7 @@ import {
     createRootEleForEmbed,
 } from '../test/test-utils';
 import * as config from '../config';
+import * as embedConfig from './embedConfig';
 import * as tsEmbedInstance from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
 import * as authInstance from '../auth';
@@ -1273,6 +1274,36 @@ describe('Unit test case for ts embed', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
                 + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+            );
+        });
+
+        it('should set the additional flags correctly on the iframe src from init and view config', async () => {
+            init({
+                thoughtSpotHost: 'http://tshost',
+                authType: AuthType.None,
+                additionalFlags: {
+                    foo: 'bar1',
+                    foo2: 'bar2',
+                    foo3: false,
+                },
+            });
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                additionalFlags: {
+                    foo: 'bar',
+                    baz: 1,
+                    bool: true,
+                },
+            });
+            await appEmbed.render();
+            console.log('val ', getIFrameSrc());
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
+                + `&foo=bar&foo2=bar2&foo3=false&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
