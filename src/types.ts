@@ -588,6 +588,26 @@ export interface EmbedConfig {
      * @version SDK 1.32.3 | Thoughtspot: *
      */
     disableLoginFailurePage?: boolean;
+    /**
+     * This is an object (key/val) of override flags which will be applied
+     * to the internal embedded object. This can be used to add any
+     * URL flag.
+     * Warning: This option is for advanced use only and is used internally
+     * to control embed behavior in non-regular ways. We do not publish the
+     * list of supported keys and values associated with each.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   additionalFlags: {
+     *        flag1: 'value1',
+     *        flag2: 'value2'
+     *     }
+     * });
+     * ```
+     * @version SDK: 1.33.5 | ThoughtSpot: *
+     */
+    additionalFlags?: { [key: string]: string | number | boolean };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -779,6 +799,7 @@ export interface ViewConfig {
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
+     * If the same flags are passed in init, they will be overriden by the values here.
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
@@ -1134,7 +1155,7 @@ export type MessageCallbackObj = {
 export type GenericCallbackFn = (...args: any[]) => any;
 
 export type QueryParams = {
-    [key: string]: string;
+    [key: string]: string | boolean | number;
 };
 
 /**
@@ -2978,12 +2999,13 @@ export enum HostEvent {
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
      * `values` - An array of one or several values. The value definition on the
-     *  data type you choose to filter on. For a complete list of supported data types, see
-     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported data types].
+     *  data type you choose to filter on. For a complete list of supported data types,
+     *  see
+     *  link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported
+     *  data types].
      *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
-     *
      * @example
      * ```js
      *

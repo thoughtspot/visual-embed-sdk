@@ -505,7 +505,6 @@ export class AppEmbed extends V1Embed {
         } = this.viewConfig;
 
         let params = {};
-        params[Param.EmbedApp] = true;
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;

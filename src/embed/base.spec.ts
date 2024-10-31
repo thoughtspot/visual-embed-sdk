@@ -249,7 +249,7 @@ describe('Base TS Embed', () => {
     });
 
     test('Should add the prefetch iframe when prefetch is called. Should remove it once init is called.', async () => {
-        const url = 'https://10.87.90.95/';
+        const url = 'https://10.87.90.95/?embedApp=true';
         index.init({
             thoughtSpotHost: url,
             authType: index.AuthType.None,
@@ -266,8 +266,8 @@ describe('Base TS Embed', () => {
 
     test('Should add the prefetch iframe when prefetch is called with multiple options', async () => {
         const url = 'https://10.87.90.95/';
-        const searchUrl = `${url}v2/#/embed/answer`;
-        const liveboardUrl = url;
+        const searchUrl = `${url}v2/?embedApp=true#/embed/answer`;
+        const liveboardUrl = `${url}?embedApp=true`;
         index.prefetch(url, [
             index.PrefetchFeatures.SearchEmbed,
             index.PrefetchFeatures.LiveboardEmbed,
@@ -279,6 +279,51 @@ describe('Base TS Embed', () => {
         expect(firstIframe.src).toBe(searchUrl);
         const secondIframe = <HTMLIFrameElement>prefetchIframe[1];
         expect(secondIframe.src).toBe(liveboardUrl);
+    });
+
+    test('Should add the prefetch iframe with additionalFlags', async () => {
+        const url = 'https://10.87.90.95/';
+        const searchUrl = `${url}v2/?embedApp=true&flag2=bool&flag3=block&flag1=true#/embed/answer`;
+        const liveboardUrl = `${url}?embedApp=true&flag2=bool&flag3=block&flag1=true`;
+        base.init({
+            thoughtSpotHost: url,
+            authType: index.AuthType.None,
+            additionalFlags: {
+                flag2: 'bar',
+                flag3: 'block',
+            },
+        });
+        index.prefetch(url, [
+            index.PrefetchFeatures.SearchEmbed,
+            index.PrefetchFeatures.LiveboardEmbed,
+        ],
+        { flag1: true, flag2: 'bool' });
+        expect(getAllIframeEl().length).toBe(2);
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
+        expect(prefetchIframe.length).toBe(2);
+        const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
+        expect(firstIframe.src).toBe(searchUrl);
+        const secondIframe = <HTMLIFrameElement>prefetchIframe[1];
+        expect(secondIframe.src).toBe(liveboardUrl);
+    });
+
+    test('Should add the prefetch iframe with additionalFlags for prefetch from init', async () => {
+        const url = 'https://10.87.90.95/';
+        const prefetchUrl = `${url}?embedApp=true&flag2=bar&flag3=block`;
+        base.init({
+            thoughtSpotHost: url,
+            authType: index.AuthType.None,
+            additionalFlags: {
+                flag2: 'bar',
+                flag3: 'block',
+            },
+            callPrefetch: true,
+        });
+        expect(getAllIframeEl().length).toBe(1);
+        const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
+        expect(prefetchIframe.length).toBe(1);
+        const firstIframe = <HTMLIFrameElement>prefetchIframe[0];
+        expect(firstIframe.src).toBe(prefetchUrl);
     });
 
     test('Should not generate a prefetch iframe when url is empty string', async () => {

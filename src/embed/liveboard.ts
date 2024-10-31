@@ -363,7 +363,6 @@ export class LiveboardEmbed extends V1Embed {
      */
     protected getEmbedParams() {
         let params = {};
-        params[Param.EmbedApp] = true;
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,

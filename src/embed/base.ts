@@ -15,7 +15,7 @@ import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
 import {
-    AuthType, EmbedConfig, LogLevel, PrefetchFeatures,
+    AuthType, EmbedConfig, LogLevel, Param, PrefetchFeatures,
 } from '../types';
 import {
     authenticate,
@@ -33,6 +33,7 @@ import {
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
+import { getQueryParamString } from '../utils';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -88,10 +89,10 @@ export const handleAuth = (): Promise<boolean> => {
 };
 
 const hostUrlToFeatureUrl = {
-    [PrefetchFeatures.SearchEmbed]: (url: string) => `${url}v2/#/embed/answer`,
-    [PrefetchFeatures.LiveboardEmbed]: (url: string) => url,
-    [PrefetchFeatures.FullApp]: (url: string) => url,
-    [PrefetchFeatures.VizEmbed]: (url: string) => url,
+    [PrefetchFeatures.SearchEmbed]: (url: string, flags: string) => `${url}v2/?${flags}#/embed/answer`,
+    [PrefetchFeatures.LiveboardEmbed]: (url: string, flags: string) => `${url}?${flags}`,
+    [PrefetchFeatures.FullApp]: (url: string, flags: string) => `${url}?${flags}`,
+    [PrefetchFeatures.VizEmbed]: (url: string, flags: string) => `${url}?${flags}`,
 };
 
 /**
@@ -100,20 +101,33 @@ const hostUrlToFeatureUrl = {
  * to your app.
  * @param url The URL provided for prefetch
  * @param prefetchFeatures Specify features which needs to be prefetched.
+ * @param additionalFlags This can be used to add any URL flag.
  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
  * @group Global methods
  */
-export const prefetch = (url?: string, prefetchFeatures?: PrefetchFeatures[]): void => {
+export const prefetch = (
+    url?: string,
+    prefetchFeatures?: PrefetchFeatures[],
+    additionalFlags?: { [key: string]: string | number | boolean },
+): void => {
     if (url === '') {
         // eslint-disable-next-line no-console
         logger.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
+        const prefetchFlags = {
+            [Param.EmbedApp]: true,
+            ...getEmbedConfig()?.additionalFlags,
+            ...additionalFlags,
+        };
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
         Array.from(
             new Set(features
-                .map((feature) => hostUrlToFeatureUrl[feature](hostUrl))),
+                .map((feature) => hostUrlToFeatureUrl[feature](
+                    hostUrl,
+                    getQueryParamString(prefetchFlags),
+                ))),
         )
             .forEach(
                 (prefetchUrl, index) => {
