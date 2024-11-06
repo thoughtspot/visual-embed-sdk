@@ -89,6 +89,29 @@ describe('Unit test case for ts embed', () => {
         jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
     });
 
+    describe('Vaidate iframe properties', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        test.only('should set proper allow policies', async () => {
+            // we dont have origin specific policies so just checking if
+            // policies are ending with ;
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                const policiesAdded = iframe.allow.split(' ');
+                policiesAdded.forEach((policy) => {
+                    expect(policy.endsWith(';')).toBe(true);
+                });
+            });
+        });
+    });
+
     describe('AuthExpire embedEvent in cookieless authentication authType', () => {
         beforeAll(() => {
             jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
