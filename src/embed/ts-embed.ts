@@ -992,7 +992,7 @@ export class TsEmbed {
             return null;
         }
 
-        if (!isEmbedApiEvent(messageType, data)) {
+        if (isEmbedApiEvent(messageType, data)) {
             return processEmbedApiEvent(this.iFrame, messageType, this.thoughtSpotHost, data);
         }
 
