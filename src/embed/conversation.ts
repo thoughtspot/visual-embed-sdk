@@ -41,6 +41,7 @@ export interface ConversationViewConfig extends ViewConfig {
  */
 export class ConversationEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
+        viewConfig.embedComponentType = 'conversation';
         super(container, viewConfig);
     }
 
