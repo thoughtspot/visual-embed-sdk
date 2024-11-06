@@ -24,6 +24,7 @@ interface ConversationMessageViewConfig extends BodylessConversationViewConfig {
 
 class ConversationMessage extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: ConversationMessageViewConfig) {
+        viewConfig.embedComponentType = 'bodyless-conversation';
         super(container, viewConfig);
     }
 
