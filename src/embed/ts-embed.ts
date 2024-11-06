@@ -9,6 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import { isEmbedApiEvent, processEmbedApiEvent } from '../utils/embedApi/processEmbedApi';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -990,6 +991,11 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
+
+        if (!isEmbedApiEvent(messageType, data)) {
+            return processEmbedApiEvent(this.iFrame, messageType, this.thoughtSpotHost, data);
+        }
+
         return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
