@@ -18,6 +18,7 @@ const defaultConfig: SageViewConfig = {
     hideAutocompleteSuggestions: false,
     hideSampleQuestions: false,
     isProductTour: false,
+    dataPanelV2: false,
 };
 
 const thoughtSpotHost = 'tshost';
@@ -42,7 +43,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -53,7 +54,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=true&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=true&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -67,7 +68,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=true&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=true&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -81,7 +82,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=true&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -95,7 +96,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=true&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=true&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -109,7 +110,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=true&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=true&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -122,7 +123,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -136,7 +137,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id`,
             );
         });
     });
@@ -153,7 +154,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id&query=test%20query`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?worksheet=worksheet-id&query=test%20query`,
             );
         });
     });
@@ -170,7 +171,21 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?executeSearch=true&query=test-query`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&hideAction=%5B%22reportError%22%5D#/embed/eureka?executeSearch=true&query=test-query`,
+            );
+        });
+    });
+
+    test('should set enableDataPanelV2 to true if data panel v2 flag is true', async () => {
+        const sageEmbed = new SageEmbed(getRootEl(), {
+            ...defaultConfig,
+            dataPanelV2: true,
+        });
+        await sageEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatch(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
