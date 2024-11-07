@@ -9,7 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
-import { isEmbedApiEvent, processEmbedApiEvent } from '../utils/embedApi/processEmbedApi';
+import { FlattenType, HostEventRequest, HostEventResponse } from 'src/utils/embedApi/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -63,6 +63,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { HostEventClient } from '../utils/embedApi/embedApiClient';
 
 const { version } = pkgInfo;
 
@@ -274,6 +275,7 @@ export class TsEmbed {
         const onlineEventListener = (e: Event) => {
             this.trigger(HostEvent.Reload);
         };
+
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
@@ -979,7 +981,11 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public trigger<HostEventT extends HostEvent>(
+        messageType: HostEventT,
+        data?: HostEventRequest<HostEventT>,
+    ):
+      Promise<FlattenType<HostEventResponse<HostEventT>>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -992,11 +998,8 @@ export class TsEmbed {
             return null;
         }
 
-        if (isEmbedApiEvent(messageType, data)) {
-            return processEmbedApiEvent(this.iFrame, messageType, this.thoughtSpotHost, data);
-        }
-
-        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+        const hostEventClient = new HostEventClient(this.iFrame, this.thoughtSpotHost);
+        return hostEventClient.executeHostEvent(messageType, data);
     }
 
     /**

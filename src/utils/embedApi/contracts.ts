@@ -1,8 +1,21 @@
 import { HostEvent } from '../../types';
 
+export enum EmbedApiEvent {
+  addVizToPinboard = 'addVizToPinboard',
+  saveAnswer = 'saveAnswer',
+  getA3AnalysisColumns = 'getA3AnalysisColumns',
+  getPinboardTabInfo = 'getPinboardTabInfo',
+  getDiscoverabilityStatus = 'getDiscoverabilityStatus',
+  getAvailableEmbedApis = 'getAvailableEmbedApis',
+  getAnswerPageConfig = 'getAnswerPageConfig',
+  getPinboardPageConfig = 'getPinboardPageConfig',
+  embedApiEventNotFound = 'embedApiEventNotFound',
+}
+
 export type EmbedApiContractBase = {
-  addVizToPinboard: (payload: {
-      vizId: string;
+  [EmbedApiEvent.addVizToPinboard]: {
+    request: {
+      vizId?: string;
       newVizName: string;
       newVizDescription?: string;
       pinboardId?: string;
@@ -10,51 +23,90 @@ export type EmbedApiContractBase = {
       newPinboardName?: string;
       newTabName?: string;
       pinFromStore?: boolean;
-  }) => {
-      pinboardId: string;
+    };
+    response: {
+      pinboardId: string extends string ? null : string;
       tabId: string;
       vizId: string;
       errors?: any;
+    };
   };
-  saveAnswer: (payload: {
+  [EmbedApiEvent.saveAnswer]: {
+    request: {
       name: string;
       description: string;
       vizId: string;
       isDiscoverable?: boolean;
-  }) => any;
-  getA3AnalysisColumns: (
-      payload: {
-          vizId: string;
-      } & any,
-  ) => {
+    };
+    response: any;
+  };
+  [EmbedApiEvent.getA3AnalysisColumns]: {
+    request: {
+      vizId: string;
+    };
+    response: {
       data?: any;
       errors?: any;
+    };
   };
-  getPinboardTabInfo: () => any;
-  getDiscoverabilityStatus: () => {
+  [EmbedApiEvent.getPinboardTabInfo]: {
+    request: any;
+    response: any;
+  };
+  [EmbedApiEvent.getDiscoverabilityStatus]: {
+    request: any;
+    response: {
       shouldShowDiscoverability: boolean;
       isDiscoverabilityCheckboxUnselectedPerOrg: boolean;
+    };
   };
-  getAvailableEmbedApis: () => {
+  [EmbedApiEvent.getAvailableEmbedApis]: {
+    request: any;
+    response: {
       keys: string[];
+    };
   };
-  getAnswerPageConfig: (payload: { vizId: string }) => any;
-  getPinboardPageConfig: () => any;
-  _notFound: (payload: any) => any;
+  [EmbedApiEvent.getAnswerPageConfig]: {
+    request: {
+      vizId: string;
+    };
+    response: any;
+  };
+  [EmbedApiEvent.getPinboardPageConfig]: {
+    request: any;
+    response: any;
+  };
+  [EmbedApiEvent.embedApiEventNotFound]: {
+    request: any;
+    response: any;
+  };
 };
 
-export type EmbedApiName = keyof EmbedApiContractBase;
+export type EmbedApiRequest<T extends keyof EmbedApiContractBase> = EmbedApiContractBase[T]['request'];
+export type EmbedApiResponse<T extends keyof EmbedApiContractBase> = EmbedApiContractBase[T]['response'];
 
-export type EmbedApiArrayResponse<ApiName extends EmbedApiName> =
+export type EmbedApiArrayResponse<ApiName extends keyof EmbedApiContractBase> =
   Promise<Array<{
     redId?: string;
-    value?: ReturnType<EmbedApiContractBase[ApiName]>;
+    value?: EmbedApiResponse<ApiName>;
     error?: any;
   }>>
 
 export type EmbedApiHostEventMapping = {
-  [key: string]: string;
-  [HostEvent.Pin]: 'addVizToPinboard';
+  [HostEvent.Pin]: EmbedApiEvent.addVizToPinboard;
+  'hostEventNotMapped': EmbedApiEvent.embedApiEventNotFound;
 }
 
-export type EmbedApiEventResponse<HostEventT extends HostEvent> = ReturnType<EmbedApiContractBase[EmbedApiHostEventMapping[HostEventT] extends keyof EmbedApiContractBase ? EmbedApiHostEventMapping[HostEventT] : '_notFound']>;
+export type FlattenType<T> = T extends infer R ? { [K in keyof R]: R[K] } : never;
+
+export type HostEventRequest<HostEventT extends HostEvent> =
+HostEventT extends keyof EmbedApiHostEventMapping ?
+FlattenType<EmbedApiRequest<EmbedApiHostEventMapping[HostEventT]>> : any;
+
+export type HostEventResponse<HostEventT extends HostEvent> =
+  HostEventT extends keyof EmbedApiHostEventMapping ?
+    {
+      value?: EmbedApiResponse<EmbedApiHostEventMapping[HostEventT]>
+      error?: any;
+    }
+   : any;
