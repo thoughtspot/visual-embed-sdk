@@ -97,7 +97,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test.only('should set proper allow policies', async () => {
+        test('should set proper allow policies', async () => {
             // we dont have origin specific policies so just checking if
             // policies are ending with ;
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
