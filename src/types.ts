@@ -2409,10 +2409,14 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Get current iframe src
+     * Get iframe URL for the current embed view on the playground.
+     * Developers can use this URL to embed a ThoughtSpot object
+     * in apps like Salesforce or Sharepoint.
+     *
      * @example
      * ```js
-     * const frameUrl = AppEmbed.trigger(HostEvent.GetIframeUrl)
+     * const url = embed.trigger(HostEvent.GetIframeUrl);
+     * console.log("iFrameURL",url);
      * ```
      * @version SDK: 1.35.0 | Thoughtspot: 10.4.0.cl
      */
@@ -2529,6 +2533,9 @@ export enum HostEvent {
      * Liveboard filters, runtime filters applied on visualizations on a
      * Liveboard, and Liveboard layout, changes to visualizations such as
      * sorting, toggling of legends, and data drill down.
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/fetch-data-and-report-apis#transient-lb-content[Liveboard data with unsaved changes].
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
@@ -3419,8 +3426,8 @@ export enum Action {
      */
     Share = 'share',
     /**
-     * The **Add filter** action on a Liveboard and Search page.
-     * Allows adding filters to Answers and visualizations on a Liveboard.
+     * The **Add filter** action on a Liveboard page.
+     * Allows adding filters to visualizations on a Liveboard.
      * @example
      * ```js
      * disabledActions: [Action.AddFilter]
@@ -3429,8 +3436,8 @@ export enum Action {
     AddFilter = 'addFilter',
     /**
      * The **Add Data Panel Objects** action on the data panel v2.
-     * Allows to show action menu to add different objects (like
-     * formulas, parameters) in data panel v2.
+     * Allows to show action menu to add different objects (such as
+     * formulas, Parameters) in data panel new experience.
      * @example
      * ```js
      * disabledActions: [Action.AddDataPanelObjects]
@@ -3439,9 +3446,9 @@ export enum Action {
      */
     AddDataPanelObjects = 'addDataPanelObjects',
     /**
-     * Filter configuration options on a Liveboard and Search page.
-     * Allows configuring filter options when adding filters to a
-     * Liveboard or Answer.
+     * Filter configuration options on a Liveboard page.
+     * Allows configuring filters on a
+     * Liveboard.
      * @example
      * ```js
      * disabledActions: [Action.ConfigureFilter]
