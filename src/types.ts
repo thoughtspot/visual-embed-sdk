@@ -2410,7 +2410,8 @@ export enum HostEvent {
     Reload = 'reload',
     /**
      * Get iframe URL for the current embed view on the playground.
-     * Developers can use this URL to embed a ThoughtSpot object in apps like Salesforce or Sharepoint.
+     * Developers can use this URL to embed a ThoughtSpot object
+     * in apps like Salesforce or Sharepoint.
      *
      * @example
      * ```js
