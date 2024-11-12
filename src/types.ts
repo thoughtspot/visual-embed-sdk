@@ -2531,6 +2531,9 @@ export enum HostEvent {
      * Liveboard filters, runtime filters applied on visualizations on a
      * Liveboard, and Liveboard layout, changes to visualizations such as
      * sorting, toggling of legends, and data drill down.
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/fetch-data-and-report-apis#transient-lb-content[Liveboard data with unsaved changes].
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
