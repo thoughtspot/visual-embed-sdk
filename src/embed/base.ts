@@ -192,6 +192,8 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+
+    const isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
     sanity(embedConfig);
     resetCachedAuthToken();
     embedConfig = setEmbedConfig(
@@ -202,9 +204,16 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         }),
     );
 
-    setGlobalLogLevelOverride(embedConfig.logLevel);
-    registerReportingObserver();
+    if (!isReactNative) {
+        setGlobalLogLevelOverride(embedConfig.logLevel);
+        registerReportingObserver();
 
+        if (getEmbedConfig().callPrefetch) {
+            prefetch(getEmbedConfig().thoughtSpotHost);
+        }
+    } else {
+        console.log('Inside react native skipping this setup');
+    }
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
@@ -220,9 +229,6 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
     });
 
-    if (getEmbedConfig().callPrefetch) {
-        prefetch(getEmbedConfig().thoughtSpotHost);
-    }
     return authEE as AuthEventEmitter;
 };
 
