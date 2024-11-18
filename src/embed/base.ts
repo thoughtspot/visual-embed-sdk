@@ -192,7 +192,8 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
-    const isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+    // const isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+    const isReactNative = true;
     console.log('is it reac native env? : ', isReactNative);
     sanity(embedConfig);
     resetCachedAuthToken();
