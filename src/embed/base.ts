@@ -14,7 +14,9 @@ import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
-import { AuthType, EmbedConfig, LogLevel, Param, PrefetchFeatures } from '../types';
+import {
+    AuthType, EmbedConfig, LogLevel, Param, PrefetchFeatures,
+} from '../types';
 import {
     authenticate,
     logout as _logout,
@@ -60,7 +62,9 @@ export let authPromise: Promise<boolean>;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
 
-export { notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout };
+export {
+    notifyAuthFailure, notifyAuthSDKSuccess, notifyAuthSuccess, notifyLogout,
+};
 
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
@@ -85,8 +89,7 @@ export const handleAuth = (): Promise<boolean> => {
 };
 
 const hostUrlToFeatureUrl = {
-    [PrefetchFeatures.SearchEmbed]: (url: string, flags: string) =>
-        `${url}v2/?${flags}#/embed/answer`,
+    [PrefetchFeatures.SearchEmbed]: (url: string, flags: string) => `${url}v2/?${flags}#/embed/answer`,
     [PrefetchFeatures.LiveboardEmbed]: (url: string, flags: string) => `${url}?${flags}`,
     [PrefetchFeatures.FullApp]: (url: string, flags: string) => `${url}?${flags}`,
     [PrefetchFeatures.VizEmbed]: (url: string, flags: string) => `${url}?${flags}`,
@@ -121,9 +124,10 @@ export const prefetch = (
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
         Array.from(
             new Set(
-                features.map((feature) =>
-                    hostUrlToFeatureUrl[feature](hostUrl, getQueryParamString(prefetchFlags)),
-                ),
+                features.map((feature) => hostUrlToFeatureUrl[feature](
+                    hostUrl,
+                    getQueryParamString(prefetchFlags),
+                )),
             ),
         ).forEach((prefetchUrl, index) => {
             const iFrame = document.createElement('iframe');
@@ -172,6 +176,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * to actually embed. That is handled internally.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
+ * @param isReactNative
  * @example
  * ```js
  *   const authStatus = init({
@@ -187,7 +192,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (
     embedConfig: EmbedConfig,
-    isReactNative: boolean = false,
+    isReactNative = false,
 ): AuthEventEmitter => {
     console.log('is it reac native env? : ', isReactNative);
     sanity(embedConfig);
