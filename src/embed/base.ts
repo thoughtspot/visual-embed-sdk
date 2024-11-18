@@ -207,7 +207,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     if (!isReactNative) {
         console.log('Not inside native component');
         setGlobalLogLevelOverride(embedConfig.logLevel);
-        registerReportingObserver();
+        // registerReportingObserver();
 
         if (getEmbedConfig().callPrefetch) {
             prefetch(getEmbedConfig().thoughtSpotHost);
