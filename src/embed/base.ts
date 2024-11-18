@@ -193,6 +193,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     const isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+    console.log("is it reac native env? : ",isReactNative);
     sanity(embedConfig);
     resetCachedAuthToken();
     embedConfig = setEmbedConfig(
@@ -204,6 +205,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     );
 
     if (!isReactNative) {
+        console.log("Not inside native component");
         setGlobalLogLevelOverride(embedConfig.logLevel);
         registerReportingObserver();
 
