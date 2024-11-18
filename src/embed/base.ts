@@ -191,8 +191,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
-    const isReactNative = true;
+export const init = (embedConfig: EmbedConfig, isReactNative: Boolean = false): AuthEventEmitter => {
     console.log('is it reac native env? : ', isReactNative);
     sanity(embedConfig);
     resetCachedAuthToken();
