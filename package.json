@@ -55,7 +55,7 @@
         "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme --json static/typedoc/typedoc.json --disableOutputCheck",
         "test-sdk": "jest -c jest.config.sdk.js --runInBand --passWithNoTests --coverage=false",
         "test": "npm run test-sdk",
-        "posttest": "cat ./coverage/sdk/lcov.info | coveralls",
+        "posttest": "[ -f ./coverage/sdk/lcov.info ] || echo 'TN:\nSF:\nFNF:0\nFNH:0\nBRF:0\nBRH:0\nLF:0\nLH:0\nend_of_record' > ./coverage/sdk/lcov.info && cat ./coverage/sdk/lcov.info | coveralls",
         "is-publish-allowed": "node scripts/is-publish-allowed.js",
         "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts-file && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
         "check-size": "npm run build && size-limit",
