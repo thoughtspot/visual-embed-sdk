@@ -216,8 +216,9 @@ export const init = (
     } else {
         console.log('Inside react native skipping this setup');
     }
-    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    setAuthEE(authEE);
+    // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    const authEE: any = null;
+    // setAuthEE(authEE);
     handleAuth();
 
     const { password, ...configToTrack } = getEmbedConfig();
