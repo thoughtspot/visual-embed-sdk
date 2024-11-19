@@ -14,7 +14,7 @@ module.exports = {
         },
     },
     testPathIgnorePatterns: ['/lib/', '/docs/', '/cjs/'],
-    testMatch: ['**/src/**/*.spec.(ts|tsx)'],
+    testMatch: ['**/src/**/*.spec.(py)'],
     setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     globals: {
         window: {
