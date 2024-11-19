@@ -195,42 +195,44 @@ export const init = (
     isReactNative = false,
 ): AuthEventEmitter => {
     console.log('is it reac native env? : ', isReactNative);
-    sanity(embedConfig);
-    resetCachedAuthToken();
-    embedConfig = setEmbedConfig(
-        backwardCompat({
-            ...CONFIG_DEFAULTS,
-            ...embedConfig,
-            thoughtSpotHost: getThoughtSpotHost(embedConfig),
-        }),
-    );
-
-    if (!isReactNative) {
-        console.log('Not inside native component');
-        setGlobalLogLevelOverride(embedConfig.logLevel);
-        // registerReportingObserver();
-
-        if (getEmbedConfig().callPrefetch) {
-            prefetch(getEmbedConfig().thoughtSpotHost);
-        }
-    } else {
-        console.log('Inside react native skipping this setup');
+    if(isReactNative) {
+        sanity(embedConfig);
+        // resetCachedAuthToken();
+        embedConfig = setEmbedConfig(
+            backwardCompat({
+                ...CONFIG_DEFAULTS,
+                ...embedConfig,
+                thoughtSpotHost: getThoughtSpotHost(embedConfig),
+            }),
+        );
     }
+
+    // if (!isReactNative) {
+    //     console.log('Not inside native component');
+    //     setGlobalLogLevelOverride(embedConfig.logLevel);
+    //     // registerReportingObserver();
+
+    //     if (getEmbedConfig().callPrefetch) {
+    //         prefetch(getEmbedConfig().thoughtSpotHost);
+    //     }
+    // } else {
+    //     console.log('Inside react native skipping this setup');
+    // }
     // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     const authEE: any = null;
     // setAuthEE(authEE);
     handleAuth();
 
     const { password, ...configToTrack } = getEmbedConfig();
-    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-        usedCustomizationRules:
-            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-    });
+    // uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+    //     ...configToTrack,
+    //     usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+    //     usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+    //     usedCustomizationRules:
+    //         embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+    //     usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+    //     usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+    // });
 
     return authEE as AuthEventEmitter;
 };
