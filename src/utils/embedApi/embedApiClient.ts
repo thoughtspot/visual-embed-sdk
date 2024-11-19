@@ -19,7 +19,7 @@ export class HostEventClient {
   async executeEmbedApi<ApiName extends keyof EmbedApiContractBase>(apiName: ApiName,
       parameters: EmbedApiRequest<ApiName>):
     EmbedApiArrayResponse<ApiName> {
-      const res = await processTrigger(this.iFrame, HostEvent.EmbedApi, this.thoughtSpotHost, {
+      const res = await processTrigger(this.iFrame, HostEvent.UiPassthrough, this.thoughtSpotHost, {
           type: apiName,
           parameters,
       });

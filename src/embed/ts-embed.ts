@@ -9,7 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
-import { FlattenType, HostEventRequest, HostEventResponse } from 'src/utils/embedApi/contracts';
+import { FlattenType, HostEventRequest, HostEventResponse } from '../utils/embedApi/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -985,7 +985,7 @@ export class TsEmbed {
         messageType: HostEventT,
         data?: HostEventRequest<HostEventT>,
     ):
-      Promise<FlattenType<HostEventResponse<HostEventT>>> {
+      Promise<HostEventResponse<HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
