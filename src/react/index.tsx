@@ -8,7 +8,7 @@ import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
 
-import { EmbedEvent, ViewConfig } from '../types';
+import { EmbedEvent, HostEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 

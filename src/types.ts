@@ -3187,7 +3187,14 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     GetParameters = 'GetParameters',
-}
+
+    /**
+     * EmbedApi
+     *
+     * @hidden
+     */
+    UiPassthrough = 'UiPassthrough',
+  }
 
 /**
  * The different visual modes that the data sources panel within
