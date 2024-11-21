@@ -1,3 +1,4 @@
+import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { ViewConfig, Param } from '../types';
 import { TsEmbed } from './ts-embed';
@@ -22,6 +23,33 @@ export interface ConversationViewConfig extends ViewConfig {
      * Ability to pass a starting search query to the conversation.
      */
     searchOptions?: SearchOptions;
+    /**
+     * disableSourceSelection : Disables data source selection
+     * but still display the selected data source.
+     * @example
+     * ```js
+     * const embed = new ConversationEmbed('#tsEmbed', {
+     *    ... // other options
+     *    disableSourceSelection : true,
+     * })
+     * ```
+     *
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    disableSourceSelection?: boolean;
+    /**
+     * hideSourceSelection : Hide data source selection
+     * @example
+     * ```js
+     * const embed = new ConversationEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideSourceSelection : true,
+     * })
+     * ```
+     *
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    hideSourceSelection?: boolean;
 }
 
 /**
@@ -49,6 +77,8 @@ export class ConversationEmbed extends TsEmbed {
         const {
             worksheetId,
             searchOptions,
+            disableSourceSelection,
+            hideSourceSelection,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -56,6 +86,12 @@ export class ConversationEmbed extends TsEmbed {
         }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
+        if (!isUndefined(disableSourceSelection)) {
+            queryParams[Param.DisableSourceSelection] = !!disableSourceSelection;
+        }
+        if (!isUndefined(hideSourceSelection)) {
+            queryParams[Param.HideSourceSelection] = !!hideSourceSelection;
+        }
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
