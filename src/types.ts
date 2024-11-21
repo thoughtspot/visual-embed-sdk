@@ -3264,6 +3264,8 @@ export enum Param {
     IsSageEmbed = 'isSageEmbed',
     HideWorksheetSelector = 'hideWorksheetSelector',
     DisableWorksheetChange = 'disableWorksheetChange',
+    HideSourceSelection = 'hideSourceSelection',
+    DisableSourceSelection = 'disableSourceSelection',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
     HideAutocompleteSuggestions = 'hideAutocompleteSuggestions',
@@ -4374,6 +4376,36 @@ export enum Action {
      *  @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
      */
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
+
+    /**
+     * Action ID for hide/disable Preview data button in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.PreviewDataSpotter]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    PreviewDataSpotter = 'previewDataSpotter',
+
+    /**
+     * Action ID for hide/disable reset button in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    ResetSpotterChat = 'resetSpotterChat',
+
+    /**
+     * Action ID for hide/disable feedback in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    SpotterFeedback = 'spotterFeedback',
 }
 
 export interface AnswerServiceType {

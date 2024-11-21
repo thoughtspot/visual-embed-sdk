@@ -45,6 +45,40 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with worksheets disabled', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            disableSourceSelection: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableSourceSelection=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with worksheets hidden', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            hideSourceSelection: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&hideSourceSelection=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should handle error when worksheetId is not provided', async () => {
         const viewConfig: ConversationViewConfig = {
             worksheetId: '',
