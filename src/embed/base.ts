@@ -123,24 +123,22 @@ export const prefetch = (
         };
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
         Array.from(
-            new Set(features
-                .map((feature) => hostUrlToFeatureUrl[feature](
+            new Set(
+                features.map((feature) => hostUrlToFeatureUrl[feature](
                     hostUrl,
                     getQueryParamString(prefetchFlags),
-                ))),
-        )
-            .forEach(
-                (prefetchUrl, index) => {
-                    const iFrame = document.createElement('iframe');
-                    iFrame.src = prefetchUrl;
-                    iFrame.style.width = '0';
-                    iFrame.style.height = '0';
-                    iFrame.style.border = '0';
-                    iFrame.classList.add('prefetchIframe');
-                    iFrame.classList.add(`prefetchIframeNum-${index}`);
-                    document.body.appendChild(iFrame);
-                },
-            );
+                )),
+            ),
+        ).forEach((prefetchUrl, index) => {
+            const iFrame = document.createElement('iframe');
+            iFrame.src = prefetchUrl;
+            iFrame.style.width = '0';
+            iFrame.style.height = '0';
+            iFrame.style.border = '0';
+            iFrame.classList.add('prefetchIframe');
+            iFrame.classList.add(`prefetchIframeNum-${index}`);
+            document.body.appendChild(iFrame);
+        });
     }
 };
 
@@ -178,6 +176,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * to actually embed. That is handled internally.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.
+ * @param isReactNative
  * @example
  * ```js
  *   const authStatus = init({
@@ -191,38 +190,51 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
-    sanity(embedConfig);
-    resetCachedAuthToken();
-    embedConfig = setEmbedConfig(
-        backwardCompat({
-            ...CONFIG_DEFAULTS,
-            ...embedConfig,
-            thoughtSpotHost: getThoughtSpotHost(embedConfig),
-        }),
-    );
+export const init = (
+    embedConfig: EmbedConfig,
+    isReactNative = false,
+): AuthEventEmitter => {
+    console.log('is it reac native env? : ', isReactNative);
+    if (isReactNative) {
+        sanity(embedConfig);
+        // resetCachedAuthToken();
+        embedConfig = setEmbedConfig(
+            backwardCompat({
+                ...CONFIG_DEFAULTS,
+                ...embedConfig,
+                thoughtSpotHost: getThoughtSpotHost(embedConfig),
+            }),
+        );
+    }
 
-    setGlobalLogLevelOverride(embedConfig.logLevel);
-    registerReportingObserver();
+    // if (!isReactNative) {
+    //     console.log('Not inside native component');
+    //     setGlobalLogLevelOverride(embedConfig.logLevel);
+    //     // registerReportingObserver();
 
-    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    setAuthEE(authEE);
+    //     if (getEmbedConfig().callPrefetch) {
+    //         prefetch(getEmbedConfig().thoughtSpotHost);
+    //     }
+    // } else {
+    //     console.log('Inside react native skipping this setup');
+    // }
+    // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    const authEE: any = null;
+    // setAuthEE(authEE);
     handleAuth();
 
     const { password, ...configToTrack } = getEmbedConfig();
-    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-        usedCustomizationRules:
-            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-    });
+    // uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+    //     ...configToTrack,
+    //     usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+    //     usedCustomizationVariables:
+    // embedConfig.customizations?.style?.customCSS?.variables != null,
+    //     usedCustomizationRules:
+    //         embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+    //     usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+    //     usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+    // });
 
-    if (getEmbedConfig().callPrefetch) {
-        prefetch(getEmbedConfig().thoughtSpotHost);
-    }
     return authEE as AuthEventEmitter;
 };
 
