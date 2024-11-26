@@ -223,9 +223,25 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     if (getEmbedConfig().callPrefetch) {
         prefetch(getEmbedConfig().thoughtSpotHost);
     }
+    validateThoughtSpotHost(embedConfig.thoughtSpotHost);
     return authEE as AuthEventEmitter;
 };
 
+
+const validateThoughtSpotHost = async (thoughtSpotHost: string) => {
+    try {
+        const response = await fetch(`${thoughtSpotHost}`);
+        if (response.status !== 200) {
+            logger.error(`Check if Thoughtspot Host is Valid: ${response.statusText}`);
+            notifyAuthFailure(AuthFailureType.INVALID_TS_HOST);
+        } else {
+            logger.info("ThoughtSpot host is valid.");
+        }
+    } catch (error) {
+        logger.error("Error validating ThoughtSpot host:", error);
+        notifyAuthFailure(AuthFailureType.INVALID_TS_HOST);
+    }
+};
 /**
  *
  */
