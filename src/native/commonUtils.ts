@@ -1,5 +1,5 @@
-import { getQueryParamString } from 'src/utils';
-import { AuthType, Param } from 'src/types';
+import { getQueryParamString } from '../utils';
+import { AuthType, Param } from '../types';
 import pkgInfo from '../../package.json';
 
 const { version } = pkgInfo;
