@@ -27,15 +27,15 @@
             "require": "./cjs/src/react/all-types-export.js",
             "types": "./lib/src/react/all-types-export.d.ts"
         }, 
-        "./parsers": {
-            "import": "./lib/src/parsers/index.js",
-            "require": "./cjs/src/parsers/index.js",
-            "types": "./lib/src/parsers/index.d.ts"
+        "./native": {
+            "import": "./lib/src/native/index.js",
+            "require": "./cjs/src/native/index.js",
+            "types": "./lib/src/native/index.d.ts"
         },
-        "./lib/src/parsers": {
-            "import": "./lib/src/parsers/index.js",
-            "require": "./cjs/src/parsers/index.js",
-            "types": "./lib/src/parsers/index.d.ts"
+        "./lib/src/native": {
+            "import": "./lib/src/native/index.js",
+            "require": "./cjs/src/native/index.js",
+            "types": "./lib/src/native/index.d.ts"
         }
     },
     "typesVersions": {
