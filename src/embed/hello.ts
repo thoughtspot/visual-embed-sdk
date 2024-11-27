@@ -1,3 +1,1 @@
-export const sayHelloWorld = () => {
-    return 3212;
-}
+export const sayHelloWorld = (): string => "1312";
