@@ -1,1 +1,1 @@
-export { sayHelloWorld } from './sayHelloWorld';
+export { getWebViewSrc } from './commonUtils';
