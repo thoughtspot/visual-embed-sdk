@@ -1,1 +1,1 @@
-export const sayHelloWorld = (): string => "1312";
+export const sayHelloWorld = (): string => '1312';
