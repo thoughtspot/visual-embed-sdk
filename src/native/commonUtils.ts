@@ -1,6 +1,6 @@
-import { AuthType, Param } from 'src/types';
-import pkgInfo from '../../package.json';
 import { getQueryParamString } from 'src/utils';
+import pkgInfo from '../../package.json';
+import { AuthType, Param } from 'src/types';
 
 const { version } = pkgInfo;
 
@@ -11,12 +11,14 @@ interface WebViewConfig {
 
 /**
  * Constructs the WebView URL based on the provided configuration.
- * @param wConfig - Configuration for the WebView.
- * @returns The constructed WebView URL.
+ * @param {WebViewConfig} wConfig - Configuration for the WebView.
+ * @returns {string} The constructed WebView URL.
  */
 export const getWebViewUrl = (wConfig: WebViewConfig): string => {
   const hostAppUrl = encodeURIComponent(
-    wConfig.host.includes('localhost') || wConfig.host.includes('127.0.0.1') || wConfig.host.includes('10.0.2.2')
+    wConfig.host.includes('localhost') ||
+      wConfig.host.includes('127.0.0.1') ||
+      wConfig.host.includes('10.0.2.2')
       ? 'local-host'
       : wConfig.host
   );
@@ -26,9 +28,11 @@ export const getWebViewUrl = (wConfig: WebViewConfig): string => {
     [Param.HostAppUrl]: hostAppUrl,
     [Param.Version]: version,
     [Param.AuthType]: wConfig.authType,
-    ...(wConfig.authType === AuthType.TrustedAuthTokenCookieless ? { [Param.cookieless]: true } : {}),
+    ...(wConfig.authType === AuthType.TrustedAuthTokenCookieless
+      ? { [Param.cookieless]: true }
+      : {}),
   };
 
   const queryString = getQueryParamString(queryParams);
-  return `${wConfig.host}?${queryString}`;
+  return `${wConfig.host}/embed?${queryString}`;
 };

@@ -1,1 +1,1 @@
-export { getWebViewSrc } from './commonUtils';
+export { getWebViewUrl } from './commonUtils';
