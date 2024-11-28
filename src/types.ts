@@ -3308,6 +3308,7 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
+    EnableFlipTooltipToContextMenu = 'flipTooltipToContextMenuEnabled',
 }
 
 /**
