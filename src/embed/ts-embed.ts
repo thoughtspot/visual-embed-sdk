@@ -62,6 +62,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { getSessionInfo } from '../utils/sessionInfoService';
 
 const { version } = pkgInfo;
 
@@ -653,6 +654,11 @@ export class TsEmbed {
                             elWidth: this.iFrame.clientWidth,
                             elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
+                        });
+                        getSessionInfo().then((data) => {
+                            if (data?.info) {
+                                this.trigger(HostEvent.InfoSuccess, data);
+                            }
                         });
                     });
                     this.iFrame.addEventListener('error', () => {

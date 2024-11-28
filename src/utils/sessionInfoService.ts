@@ -66,18 +66,25 @@ export function getCachedSessionInfo(): SessionInfo | null {
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
 export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
-    const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
-    const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
-    const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
+    const infoResp = sessionInfoResp?.info ?? sessionInfoResp;
+    let configInfo = sessionInfoResp?.info
+        ? sessionInfoResp.info?.configInfo
+        : sessionInfoResp.configInfo;
+
+    configInfo = configInfo || {};
+
+    const devMixpanelToken = configInfo.mixpanelConfig?.devSdkKey;
+    const prodMixpanelToken = configInfo.mixpanelConfig?.prodSdkKey;
+    const mixpanelToken = configInfo.mixpanelConfig?.production
         ? prodMixpanelToken
         : devMixpanelToken;
     return {
-        userGUID: sessionInfoResp.userGUID,
+        userGUID: infoResp.userGUID,
         mixpanelToken,
-        isPublicUser: sessionInfoResp.configInfo.isPublicUser,
+        isPublicUser: configInfo.isPublicUser,
         releaseVersion: sessionInfoResp.releaseVersion,
-        clusterId: sessionInfoResp.configInfo.selfClusterId,
-        clusterName: sessionInfoResp.configInfo.selfClusterName,
+        clusterId: configInfo.selfClusterId,
+        clusterName: configInfo.selfClusterName,
         ...sessionInfoResp,
     };
 };

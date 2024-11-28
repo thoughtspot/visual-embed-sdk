@@ -55,6 +55,10 @@ export enum AuthStatus {
      */
     SDK_SUCCESS = 'SDK_SUCCESS',
     /**
+     * Emits when the SDK authenticates successfully
+     */
+    SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
+    /**
      * Emits when the app sends an authentication success message
      */
     SUCCESS = 'SUCCESS',

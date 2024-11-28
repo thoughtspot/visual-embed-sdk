@@ -3180,7 +3180,17 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     GetParameters = 'GetParameters',
-}
+    /**
+     * Notify when info call is completed successfully
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
+     *  console.log('parameters', parameter);
+     * });
+     *```
+     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     */
+     InfoSuccess = 'InfoSuccess',
+    }
 
 /**
  * The different visual modes that the data sources panel within

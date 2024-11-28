@@ -3,6 +3,7 @@ import { logger } from '../logger';
 export const EndPoints = {
     AUTH_VERIFICATION: '/callosum/v1/session/info',
     SESSION_INFO: '/callosum/v1/session/info',
+    PREAUTH_INFO: '/prism/preauth/info',
     SAML_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/saml/login?targetURLPath=${targetUrl}`,
     OIDC_LOGIN_TEMPLATE: (targetUrl: string) => `/callosum/v1/oidc/login?targetURLPath=${targetUrl}`,
     TOKEN_LOGIN: '/callosum/v1/session/login/token',
