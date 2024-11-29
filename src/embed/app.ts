@@ -463,7 +463,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * Flag to control new flip tooltip context menu experience
      *
      * @default false
-     * @version SDK: 1.35.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     enableFlipTooltipToContextMenu?: boolean;
 }
@@ -524,7 +524,6 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         let params = {};
@@ -587,7 +586,6 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        params[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
             || dataPanelCustomGroupsAccordionInitialState
