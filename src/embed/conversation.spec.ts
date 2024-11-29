@@ -58,7 +58,7 @@ describe('ConversationEmbed', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery&flipTooltipToContextMenuEnabled=true`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&flipTooltipToContextMenuEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
             );
         });
     });
