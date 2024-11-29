@@ -338,13 +338,6 @@ export interface LiveboardViewConfig
      * ```
      */
     hideIrrelevantChipsInLiveboardTabs?: boolean;
-    /**
-     * Flag to control new flip tooltip context menu experience
-     *
-     * @default false
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
-     */
-    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
