@@ -156,6 +156,7 @@ export class SageEmbed extends V1Embed {
             isProductTour,
             hideSageAnswerHeader,
             hideAutocompleteSuggestions,
+            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const params = this.getBaseQueryParams();
@@ -167,6 +168,9 @@ export class SageEmbed extends V1Embed {
         if (showObjectSuggestions) {
             params[Param.HideEurekaSuggestions] = !showObjectSuggestions;
             // support backwards compatibility
+        }
+        if (enableFlipTooltipToContextMenu) {
+            params[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
         params[Param.HideSampleQuestions] = !!hideSampleQuestions;
         params[Param.IsProductTour] = !!isProductTour;

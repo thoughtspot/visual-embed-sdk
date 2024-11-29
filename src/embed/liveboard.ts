@@ -338,6 +338,13 @@ export interface LiveboardViewConfig
      * ```
      */
     hideIrrelevantChipsInLiveboardTabs?: boolean;
+    /**
+     * Flag to control new flip tooltip context menu experience
+     *
+     * @default false
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
@@ -399,6 +406,7 @@ export class LiveboardEmbed extends V1Embed {
             enable2ColumnLayout,
             dataPanelV2 = false,
             enableCustomColumnGroups = false,
+            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -443,6 +451,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
+        }
+        if (enableFlipTooltipToContextMenu) {
+            params[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

@@ -1100,6 +1100,13 @@ export interface ViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
+    /**
+     * Flag to control new flip tooltip context menu experience
+     *
+     * @default false
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
