@@ -45,6 +45,42 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+        const appEmbed = new ConversationEmbed(getRootEl(), {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            enableFlipTooltipToContextMenu: true,
+        } as ConversationViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery&flipTooltipToContextMenuEnabled=true`,
+            );
+        });
+    });
+
+    it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when flag is false', async () => {
+        const appEmbed = new ConversationEmbed(getRootEl(), {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            enableFlipTooltipToContextMenu: false,
+        } as ConversationViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+    });
+
     it('should render the conversation embed with worksheets disabled', async () => {
         const viewConfig: ConversationViewConfig = {
             worksheetId: 'worksheetId',
