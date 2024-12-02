@@ -9,6 +9,7 @@ interface WebViewConfig {
   authType: AuthType;
   liveboardId: string;
   getAuthToken: () => Promise<string>;
+  handleMessage?: (event: any, injectJavaScript: (code: string) => void) => void;
 }
 
 /**
@@ -17,7 +18,7 @@ interface WebViewConfig {
  * @param webViewRef Reference to the WebView instance for communication.
  * @returns The constructed WebView URL.
  */
-export const getWebViewUrl = async (config: WebViewConfig, webViewRef: any): Promise<string> => {
+export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
     if (typeof config.getAuthToken !== 'function') {
         throw new Error('`getAuthToken` must be a function that returns a Promise.');
     }
@@ -45,25 +46,23 @@ export const getWebViewUrl = async (config: WebViewConfig, webViewRef: any): Pro
 
     const queryString = getQueryParamString(queryParams);
     const webViewUrl = `${config.host}/embed?${queryString}#/embed/viz/${encodeURIComponent(config.liveboardId)}`;
-
-    setupWebViewMessageHandler(config, webViewRef);
-
     return webViewUrl;
 };
 
 /**
- * Sets up the message handling for the WebView to handle events like `appInit` and `AuthExpired`.
+ * Sets up the message handling for the WebView to process events like `appInit`.
  * @param config The WebView configuration.
- * @param webViewRef Reference to the WebView instance for communication.
+ * @param event The message event from the WebView.
+ * @param injectJavaScript Function to inject JavaScript into the WebView.
  */
-const setupWebViewMessageHandler = (config: WebViewConfig, webViewRef: any) => {
-    const injectJavaScript = (code: string) => {
-        webViewRef.current?.injectJavaScript(code);
-    };
+export const setupWebViewMessageHandler = (
+    config: WebViewConfig,
+    event: any,
+    injectJavaScript: (code: string) => void,
+) => {
+    const message = JSON.parse(event.nativeEvent.data);
 
-    const handleMessage = async (event: any) => {
-        const message = JSON.parse(event.nativeEvent.data);
-
+    const defaultHandleMessage = async () => {
         switch (message.type) {
             case 'appInit': {
                 try {
@@ -119,5 +118,9 @@ const setupWebViewMessageHandler = (config: WebViewConfig, webViewRef: any) => {
         }
     };
 
-    webViewRef.current?.addEventListener('message', handleMessage);
+    if (config.handleMessage) {
+        config.handleMessage(event, injectJavaScript);
+    } else {
+        defaultHandleMessage();
+    }
 };
