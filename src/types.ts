@@ -3316,6 +3316,9 @@ export enum Param {
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
     EnableFlipTooltipToContextMenu = 'flipTooltipToContextMenuEnabled',
+    OauthPollingInterval = 'oAuthPollingInterval',
+    IsForceRedirect = 'isForceRedirect',
+    DataSourceId = 'dataSourceId',
 }
 
 /**
