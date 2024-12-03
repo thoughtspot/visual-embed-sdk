@@ -1494,20 +1494,8 @@ describe('Unit test case for ts embed', () => {
                 orgId: overrideOrgId,
             });
         });
-        it('Sets the enableFlipTooltipToContextMenu param', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                },
-                enableFlipTooltipToContextMenu: true,
-            });
-            await appEmbed.render();
-            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
-                enableFlipTooltipToContextMenu: true,
-            });
-        });
-        it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+
+        it('AppEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 enableFlipTooltipToContextMenu: true,
@@ -1522,7 +1510,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+        it('AppEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 enableFlipTooltipToContextMenu: false,
@@ -1537,7 +1525,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+        it('LiveboardEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
             const appEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
@@ -1548,12 +1536,12 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&flipTooltipToContextMenuEnabled=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
+                    `http://${thoughtSpotHost}/?embedApp=true&flipTooltipToContextMenuEnabled=true${defaultParams}#/embed/viz/${liveboardId}`,
                 );
             });
         });
 
-        it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+        it('LiveboardEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
             const appEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
@@ -1564,12 +1552,12 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
                 );
             });
         });
 
-        it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+        it('SageViewConfig: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
             const defaultConfig: SageViewConfig = {
                 disableWorksheetChange: false,
                 hideWorksheetSelector: false,
@@ -1593,7 +1581,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+        it('SageViewConfig: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
             const defaultConfig: SageViewConfig = {
                 disableWorksheetChange: false,
                 hideWorksheetSelector: false,
@@ -1617,7 +1605,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+        it('ConversationEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
             const appEmbed = new ConversationEmbed(getRootEl(), {
                 worksheetId: 'worksheetId',
                 searchOptions: {
@@ -1635,7 +1623,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when flag is false', async () => {
+        it('ConversationEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when flag is false', async () => {
             const appEmbed = new ConversationEmbed(getRootEl(), {
                 worksheetId: 'worksheetId',
                 searchOptions: {
@@ -1653,7 +1641,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+        it('SearchEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
             const dataSources = ['data-source-1'];
             const appEmbed = new SearchEmbed(getRootEl(), {
                 ...defaultViewConfig,
@@ -1670,7 +1658,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+        it('SearchEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
             const dataSources = ['data-source-1'];
             const appEmbed = new SearchEmbed(getRootEl(), {
                 ...defaultViewConfig,
