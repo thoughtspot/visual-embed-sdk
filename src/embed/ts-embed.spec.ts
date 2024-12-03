@@ -63,7 +63,6 @@ const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 export const defaultParamsWithoutHiddenActions = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}&blockNonEmbedFullAppAccess=true`;
 export const defaultParams = `&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
-const prefixParams = '&isLiveboardEmbed=true';
 const hideBydefault = `&hideAction=${fixedEncodeURI(
     JSON.stringify([Action.ReportError, ...HiddenActionItemByDefaultForSearchEmbed]),
 )}`;
@@ -1653,7 +1652,7 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false&flipTooltipToContextMenuEnabled=true${prefixParams}#/embed/answer`,
+                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false&flipTooltipToContextMenuEnabled=true#/embed/answer`,
                 );
             });
         });
@@ -1670,7 +1669,7 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
                 );
             });
         });
