@@ -172,6 +172,23 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should enable viz oAuthPollingInterval true', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            oAuthPollingInterval: 1000,
+            isForceRedirect: true,
+            dataSourceId: '12356',
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&oAuthPollingInterval=1000&isForceRedirect=true&dataSourceId=12356${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should disable viz transformations when enableVizTransformations false', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             enableVizTransformations: false,
