@@ -479,36 +479,6 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            enableFlipTooltipToContextMenu: true,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&flipTooltipToContextMenuEnabled=true${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
-    test('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            enableFlipTooltipToContextMenu: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
     test('Should add hideHomepageLeftNav flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

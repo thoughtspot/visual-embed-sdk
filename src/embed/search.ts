@@ -341,7 +341,6 @@ export class SearchEmbed extends TsEmbed {
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
             collapseSearchBar = true,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -386,10 +385,6 @@ export class SearchEmbed extends TsEmbed {
 
         if (!focusSearchBarOnRender) {
             queryParams[Param.FocusSearchBarOnRender] = focusSearchBarOnRender;
-        }
-
-        if (enableFlipTooltipToContextMenu) {
-            queryParams[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;

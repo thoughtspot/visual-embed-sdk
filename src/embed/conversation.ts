@@ -79,7 +79,6 @@ export class ConversationEmbed extends TsEmbed {
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -92,9 +91,6 @@ export class ConversationEmbed extends TsEmbed {
         }
         if (!isUndefined(hideSourceSelection)) {
             queryParams[Param.HideSourceSelection] = !!hideSourceSelection;
-        }
-        if (enableFlipTooltipToContextMenu) {
-            queryParams[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
 
         let query = '';

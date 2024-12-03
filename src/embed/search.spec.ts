@@ -58,40 +58,6 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-        const dataSources = ['data-source-1'];
-        const appEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            dataSources,
-            enableFlipTooltipToContextMenu: true,
-        } as SearchViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false&flipTooltipToContextMenuEnabled=true${prefixParams}#/embed/answer`,
-            );
-        });
-    });
-
-    test('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-        const dataSources = ['data-source-1'];
-        const appEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            dataSources,
-            enableFlipTooltipToContextMenu: false,
-        } as SearchViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
-            );
-        });
-    });
-
     test('should pass in data sources', async () => {
         const dataSources = ['data-source-1'];
         const searchEmbed = new SearchEmbed(getRootEl(), {

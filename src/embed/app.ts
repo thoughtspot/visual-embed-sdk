@@ -517,7 +517,6 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         let params = {};
@@ -573,10 +572,6 @@ export class AppEmbed extends V1Embed {
 
         if (homePageSearchBarMode) {
             params[Param.HomePageSearchBarMode] = homePageSearchBarMode;
-        }
-
-        if (enableFlipTooltipToContextMenu) {
-            params[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

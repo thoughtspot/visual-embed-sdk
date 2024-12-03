@@ -67,38 +67,6 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-        const appEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-            enableFlipTooltipToContextMenu: true,
-        } as LiveboardViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&flipTooltipToContextMenuEnabled=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
-            );
-        });
-    });
-
-    test('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-        const appEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-            enableFlipTooltipToContextMenu: false,
-        } as LiveboardViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
-            );
-        });
-    });
-
     test('should render liveboard with data panel v2 flag set to false by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -59,36 +59,6 @@ describe('Sage  embed tests', () => {
         });
     });
 
-    test('Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-        const appEmbed = new SageEmbed(getRootEl(), {
-            ...defaultConfig,
-            enableFlipTooltipToContextMenu: true,
-        } as SageViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatch(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D&flipTooltipToContextMenuEnabled=true#/embed/eureka`,
-            );
-        });
-    });
-
-    test('Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-        const appEmbed = new SageEmbed(getRootEl(), {
-            ...defaultConfig,
-            enableFlipTooltipToContextMenu: false,
-        } as SageViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatch(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
-            );
-        });
-    });
-
     test('should render sage with disable worksheet change flag', async () => {
         const sageEmbed = new SageEmbed(getRootEl(), {
             ...defaultConfig,

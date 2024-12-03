@@ -399,7 +399,6 @@ export class LiveboardEmbed extends V1Embed {
             enable2ColumnLayout,
             dataPanelV2 = false,
             enableCustomColumnGroups = false,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -444,9 +443,6 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
-        }
-        if (enableFlipTooltipToContextMenu) {
-            params[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
