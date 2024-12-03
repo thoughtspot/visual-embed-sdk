@@ -2,7 +2,6 @@ import {
     SearchEmbed,
     HiddenActionItemByDefaultForSearchEmbed,
     DataPanelCustomColumnGroupsAccordionState,
-    SearchViewConfig,
 } from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
