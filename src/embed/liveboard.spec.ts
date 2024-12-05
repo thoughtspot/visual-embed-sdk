@@ -25,6 +25,7 @@ import * as tsEmbed from './ts-embed';
 import * as processTriggerInstance from '../utils/processTrigger';
 import * as auth from '../auth';
 import * as previewService from '../utils/graphql/preview-service';
+import { replace } from 'lodash';
 
 const defaultViewConfig = {
     frameParams: {
@@ -549,7 +550,7 @@ describe('Liveboard/viz embed tests', () => {
         });
         executeAfterWait(() => {
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
-            expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
+            expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, { path: 'embed/viz/lb1/viz1', replace: false });
             done();
         });
     });

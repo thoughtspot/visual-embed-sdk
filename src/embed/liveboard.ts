@@ -588,7 +588,7 @@ export class LiveboardEmbed extends V1Embed {
             this.setActiveTab(data);
             return Promise.resolve(null);
         }
-        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
+        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId && messageType !== HostEvent.Navigate) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
         return super.trigger(messageType, dataWithVizId);
