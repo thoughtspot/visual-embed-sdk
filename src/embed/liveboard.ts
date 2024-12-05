@@ -515,7 +515,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private setActiveTab(data: { tabId: string }) {
         if (!this.viewConfig.vizId) {
-            const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
+            const prefixPath = this.iFrame.src.split('#/')[1]?.split('/tab')[0];
             const path = `${prefixPath}/tab/${data.tabId}`;
             super.trigger(HostEvent.Navigate, path);
         }
