@@ -73,7 +73,7 @@ export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): str
  * parameter to the ThoughtSpot app.
  * @param value Any parameter value
  */
-const serializeParam = (value: any) => {
+export const serializeParam = (value: any) => {
     // do not serialize primitive types
     if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
         return value;
@@ -88,7 +88,7 @@ const serializeParam = (value: any) => {
  * in case of any other type, we directly return the value.
  * @param value
  */
-const paramToString = (value: any) => (Array.isArray(value) ? value.join(',') : value);
+export const paramToString = (value: any) => (Array.isArray(value) ? value.join(',') : value);
 
 /**
  * Return a query param string composed from the given params object
