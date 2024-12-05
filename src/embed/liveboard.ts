@@ -515,7 +515,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private setActiveTab(data: { tabId: string }) {
         if (!this.viewConfig.vizId) {
-            const prefixPath = this.iFrame.src.split('#/')[1]?.split('/tab')[0];
+            const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
             const path = `${prefixPath}/tab/${data.tabId}`;
             super.trigger(HostEvent.Navigate, path);
         }
@@ -609,13 +609,18 @@ export class LiveboardEmbed extends V1Embed {
         return this;
     }
 
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
+    public navigateToLiveboard(
+        liveboardId: string,
+        vizId?: string,
+        activeTabId?: string,
+        replacePath = false,
+    ): void {
         const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
         if (this.isRendered) {
-            this.trigger(HostEvent.Navigate, path.substring(1));
+            this.trigger(HostEvent.Navigate, { path: path.substring(1), replace: replacePath });
         } else if (this.viewConfig.preRenderId) {
             this.preRender(true);
         } else {
