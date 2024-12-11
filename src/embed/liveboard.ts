@@ -338,6 +338,45 @@ export interface LiveboardViewConfig
      * ```
      */
     hideIrrelevantChipsInLiveboardTabs?: boolean;
+
+    /**
+     * The Liveboard to run on regular intervals to fetch the cdw token.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    oAuthPollingInterval: value in milliseconds,
+     * })
+     */
+    oAuthPollingInterval?: number;
+
+    /**
+     * The Liveboard is set to force a token fetch during the initial load.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    isForceRedirect: false,
+     * })
+     */
+    isForceRedirect?: boolean;
+
+    /**
+     * The source connection ID for authentication.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    dataSourceId: '',
+     * })
+     */
+    dataSourceId?: string;
 }
 
 /**
@@ -399,6 +438,9 @@ export class LiveboardEmbed extends V1Embed {
             enable2ColumnLayout,
             dataPanelV2 = false,
             enableCustomColumnGroups = false,
+            oAuthPollingInterval,
+            isForceRedirect,
+            dataSourceId,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -443,6 +485,18 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
+        }
+
+        if (oAuthPollingInterval !== undefined) {
+            params[Param.OauthPollingInterval] = oAuthPollingInterval;
+        }
+
+        if (isForceRedirect) {
+            params[Param.IsForceRedirect] = isForceRedirect;
+        }
+
+        if (dataSourceId !== undefined) {
+            params[Param.DataSourceId] = dataSourceId;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
