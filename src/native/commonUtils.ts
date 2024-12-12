@@ -1,15 +1,15 @@
-import { getQueryParamString } from '../utils';
-import { AuthType, Param } from '../types';
+import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
+import { AuthType, CustomisationsInterface, Param } from '../types';
 import pkgInfo from '../../package.json';
-
 const { version } = pkgInfo;
 
-interface WebViewConfig {
+export interface WebViewConfig {
   host: string;
   authType: AuthType;
   liveboardId: string;
   getAuthToken: () => Promise<string>;
   handleMessage?: (event: any, injectJavaScript: (code: string) => void) => void;
+  customizations?: CustomisationsInterface;
 }
 
 /**
@@ -72,6 +72,7 @@ export const setupWebViewMessageHandler = (
                         data: {
                             host: config.host,
                             authToken,
+                            customisations: getCustomisationsMobileEmbed(config),
                         },
                     };
                     injectJavaScript(`window.postMessage(${JSON.stringify(initPayload)}, '*');`);

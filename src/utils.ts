@@ -16,6 +16,7 @@ import {
     ViewConfig,
     RuntimeParameter,
 } from './types';
+import { WebViewConfig } from './native/commonUtils';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -237,6 +238,28 @@ export const getCustomisations = (
         content: {
             ...customizationsFromEmbedConfig?.content,
             ...customizationsFromViewConfig?.content,
+        },
+    };
+    return customizations;
+};
+
+export const getCustomisationsMobileEmbed = (
+    embedConfig: WebViewConfig,
+): CustomisationsInterface => {
+    const customizationsFromEmbedConfig = embedConfig.customizations
+        || ((embedConfig as any).customisations as CustomisationsInterface);
+
+    const customizations: CustomisationsInterface = {
+        style: {
+            ...customizationsFromEmbedConfig?.style,
+            customCSS: {
+                ...customizationsFromEmbedConfig?.style?.customCSS,
+            },
+            customCSSUrl:
+                customizationsFromEmbedConfig?.style?.customCSSUrl,
+        },
+        content: {
+            ...customizationsFromEmbedConfig?.content,
         },
     };
     return customizations;
