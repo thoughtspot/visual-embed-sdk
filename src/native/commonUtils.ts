@@ -2,6 +2,7 @@ import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
 import { Param } from '../types';
 import pkgInfo from '../../package.json';
 import { WebViewConfig } from './types';
+
 const { version } = pkgInfo;
 
 /**
