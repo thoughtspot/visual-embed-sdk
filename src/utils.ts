@@ -16,7 +16,7 @@ import {
     ViewConfig,
     RuntimeParameter,
 } from './types';
-import { WebViewConfig } from './native/commonUtils';
+import { WebViewConfig } from './native/types';
 
 /**
  * Construct a runtime filters query string from the given filters.
