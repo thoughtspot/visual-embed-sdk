@@ -1,4 +1,4 @@
-import { AuthType, CustomisationsInterface } from "src/types";
+import { AuthType, CustomisationsInterface } from 'src/types';
 
 export interface WebViewConfig {
   host: string;

@@ -27,7 +27,7 @@ describe('getWebViewUrl', () => {
         expect(mockGetAuthToken).toHaveBeenCalledTimes(1);
         expect(url).toContain('https://example.com/embed');
         expect(url).toContain(`authType=${AuthType.TrustedAuthTokenCookieless}`);
-        expect(url).toContain(`test-liveboard-id`);
+        expect(url).toContain('test-liveboard-id');
         expect(url).toContain(`sdkVersion=${pkgInfo.version}`);
     });
 
