@@ -3,7 +3,7 @@ import { AuthType } from '../types';
 import pkgInfo from '../../package.json';
 
 jest.mock('../utils', () => ({
-    getQueryParamString: jest.fn((params) => Object.keys(params).map(key => `${key}=${params[key]}`).join('&')),
+    getQueryParamString: jest.fn((params) => Object.keys(params).map((key: any) => `${key}=${params[key]}`).join('&')),
 }));
 
 describe('getWebViewUrl', () => {
@@ -31,7 +31,7 @@ describe('getWebViewUrl', () => {
         expect(url).toContain(`sdkVersion=${pkgInfo.version}`);
     });
 
-    it('should throw an error if `getAuthToken` is not a function', async () => {
+    it('should throw an error if getAuthToken is not a function', async () => {
         const config = {
             host: 'https://example.com',
             authType: AuthType.TrustedAuthTokenCookieless,
@@ -68,138 +68,3 @@ describe('getWebViewUrl', () => {
         expect(url).toContain('hostAppUrl=local-host');
     });
 });
-
-//describe('setupWebViewMessageHandler', () => {
-//    const mockInjectJavaScript = jest.fn();
-//     const mockGetAuthToken = jest.fn();
-
-//     beforeEach(() => {
-//         jest.clearAllMocks();
-//     });
-
-//     it('should handle `appInit` message correctly', async () => {
-//         mockGetAuthToken.mockResolvedValue('mock-token');
-//         const config = {
-//             host: 'https://example.com',
-//             authType: AuthType.TrustedAuthTokenCookieless,
-//             liveboardId: 'test-liveboard-id',
-//             getAuthToken: mockGetAuthToken,
-//         };
-
-//         const event = {
-//             nativeEvent: {
-//                 data: JSON.stringify({ type: 'appInit' }),
-//             },
-//         };
-
-//         setupWebViewMessageHandler(config, event, mockInjectJavaScript);
-
-//         expect(mockGetAuthToken).toHaveBeenCalledTimes(1);
-//         expect(mockInjectJavaScript).toHaveBeenCalledWith(
-//             `window.postMessage(${JSON.stringify({
-//                 type: 'appInit',
-//                 data: {
-//                     host: config.host,
-//                     authToken: 'mock-token',
-//                 },
-//             })}, '*');`
-//         );
-//     });
-
-//     it('should handle `ThoughtspotAuthExpired` message correctly', async () => {
-//         mockGetAuthToken.mockResolvedValue('new-token');
-//         const config = {
-//             host: 'https://example.com',
-//             authType: AuthType.TrustedAuthTokenCookieless,
-//             liveboardId: 'test-liveboard-id',
-//             getAuthToken: mockGetAuthToken,
-//         };
-
-//         const event = {
-//             nativeEvent: {
-//                 data: JSON.stringify({ type: 'ThoughtspotAuthExpired' }),
-//             },
-//         };
-
-//         await setupWebViewMessageHandler(config, event, mockInjectJavaScript);
-
-//         expect(mockGetAuthToken).toHaveBeenCalledTimes(1);
-//         expect(mockInjectJavaScript).toHaveBeenCalledWith(
-//             `window.postMessage(${JSON.stringify({
-//                 type: 'ThoughtspotAuthExpired',
-//                 data: { authToken: 'new-token' },
-//             })}, '*');`
-//         );
-//     });
-
-//     it('should handle `ThoughtspotAuthFailure` message correctly', async () => {
-//         mockGetAuthToken.mockResolvedValue('new-token');
-//         const config = {
-//             host: 'https://example.com',
-//             authType: AuthType.TrustedAuthTokenCookieless,
-//             liveboardId: 'test-liveboard-id',
-//             getAuthToken: mockGetAuthToken,
-//         };
-
-//         const event = {
-//             nativeEvent: {
-//                 data: JSON.stringify({ type: 'ThoughtspotAuthFailure' }),
-//             },
-//         };
-
-//         await setupWebViewMessageHandler(config, event, mockInjectJavaScript);
-
-//         expect(mockGetAuthToken).toHaveBeenCalledTimes(1);
-//         expect(mockInjectJavaScript).toHaveBeenCalledWith(
-//             `window.postMessage(${JSON.stringify({
-//                 type: 'ThoughtspotAuthFailure',
-//                 data: { authToken: 'new-token' },
-//             })}, '*');`
-//         );
-//     });
-
-//     it('should warn for unhandled message types', async () => {
-//         console.warn = jest.fn();
-
-//         const config = {
-//             host: 'https://example.com',
-//             authType: AuthType.TrustedAuthTokenCookieless,
-//             liveboardId: 'test-liveboard-id',
-//             getAuthToken: mockGetAuthToken,
-//         };
-
-//         const event = {
-//             nativeEvent: {
-//                 data: JSON.stringify({ type: 'UnknownMessageType' }),
-//             },
-//         };
-
-//         await setupWebViewMessageHandler(config, event, mockInjectJavaScript);
-
-//         expect(console.warn).toHaveBeenCalledWith('Unhandled message type:', 'UnknownMessageType');
-//     });
-
-//     it('should use custom `handleMessage` if provided', async () => {
-//         const mockHandleMessage = jest.fn();
-//         const config = {
-//             host: 'https://example.com',
-//             authType: AuthType.TrustedAuthTokenCookieless,
-//             liveboardId: 'test-liveboard-id',
-//             getAuthToken: mockGetAuthToken,
-//             handleMessage: mockHandleMessage,
-//         };
-
-//         const event = {
-//             nativeEvent: {
-//                 data: JSON.stringify({ type: 'appInit' }),
-//             },
-//         };
-
-//         await setupWebViewMessageHandler(config, event, mockInjectJavaScript);
-
-//         expect(mockHandleMessage).toHaveBeenCalledWith(event, mockInjectJavaScript);
-//         expect(mockGetAuthToken).not.toHaveBeenCalled(); // Ensure default handler is not called
-//         expect(mockInjectJavaScript).not.toHaveBeenCalled(); // Ensure no injection happens
-//     });
-// });
-
