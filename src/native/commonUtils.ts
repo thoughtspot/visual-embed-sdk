@@ -1,16 +1,8 @@
 import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
 import { AuthType, CustomisationsInterface, Param } from '../types';
 import pkgInfo from '../../package.json';
+import { WebViewConfig } from './types';
 const { version } = pkgInfo;
-
-export interface WebViewConfig {
-  host: string;
-  authType: AuthType;
-  liveboardId: string;
-  getAuthToken: () => Promise<string>;
-  handleMessage?: (event: any, injectJavaScript: (code: string) => void) => void;
-  customizations?: CustomisationsInterface;
-}
 
 /**
  * Constructs the WebView URL for embedding and handles internal events.
