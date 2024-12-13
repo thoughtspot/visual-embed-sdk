@@ -4402,7 +4402,7 @@ export enum Action {
      * Action ID for hide/disable reset button in spotter
      *  @example
      * ```js
-     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * hiddenAction: [Action.ResetSpotterChat]
      * ```
      *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
@@ -4412,11 +4412,41 @@ export enum Action {
      * Action ID for hide/disable feedback in spotter
      *  @example
      * ```js
-     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * hiddenAction: [Action.SpotterFeedback]
      * ```
      *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     SpotterFeedback = 'spotterFeedback',
+
+    /**
+     * Action ID for hide/disable editing previous prompt in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.EditPreviousPrompt]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    EditPreviousPrompt = 'editPreviousPrompt',
+
+    /**
+     * Action ID for hide/disable deleting previous prompt in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.DeletePreviousPrompt]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    DeletePreviousPrompt = 'deletePreviousPrompt',
+
+    /**
+     * Action ID for hide/disable edit of tokens on spotter results.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.EditTokens]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    EditTokens = 'editTokens',
 }
 
 export interface AnswerServiceType {
