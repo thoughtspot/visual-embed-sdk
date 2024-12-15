@@ -608,6 +608,20 @@ export interface EmbedConfig {
      * @version SDK: 1.33.5 | ThoughtSpot: *
      */
     additionalFlags?: { [key: string]: string | number | boolean };
+    /**
+     * This is an object (key/val) for customVariables being 
+     * used by the third party tool's script.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   customVariablesForThirdPartyTools: {
+     *        key1: 'value1',
+     *        key2: 'value2'
+     *     }
+     * });
+     */
+    customVariablesForThirdPartyTools?: { [key: string]: string | number | boolean };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
