@@ -35,6 +35,7 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
         [Param.Version]: pkgInfo.version,
         [Param.AuthType]: config.authType,
         [Param.livedBoardEmbed]: true,
+        [Param.EnableFlipTooltipToContextMenu]: true,
     };
 
     const queryString = getQueryParamString(queryParams);
