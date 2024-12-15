@@ -3194,6 +3194,14 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
     GetParameters = 'GetParameters',
+    /**
+     * Triggers update of persoanlised view for a liveboard
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
+     * ```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    UpdatePersonalisedView = 'UpdatePersonalisedView',
 }
 
 /**
