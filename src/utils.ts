@@ -16,6 +16,7 @@ import {
     ViewConfig,
     RuntimeParameter,
 } from './types';
+import { WebViewConfig } from './native/types';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -73,7 +74,7 @@ export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): str
  * parameter to the ThoughtSpot app.
  * @param value Any parameter value
  */
-const serializeParam = (value: any) => {
+export const serializeParam = (value: any) => {
     // do not serialize primitive types
     if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
         return value;
@@ -88,7 +89,7 @@ const serializeParam = (value: any) => {
  * in case of any other type, we directly return the value.
  * @param value
  */
-const paramToString = (value: any) => (Array.isArray(value) ? value.join(',') : value);
+export const paramToString = (value: any) => (Array.isArray(value) ? value.join(',') : value);
 
 /**
  * Return a query param string composed from the given params object
@@ -237,6 +238,28 @@ export const getCustomisations = (
         content: {
             ...customizationsFromEmbedConfig?.content,
             ...customizationsFromViewConfig?.content,
+        },
+    };
+    return customizations;
+};
+
+export const getCustomisationsMobileEmbed = (
+    embedConfig: WebViewConfig,
+): CustomisationsInterface => {
+    const customizationsFromEmbedConfig = embedConfig.customizations
+        || ((embedConfig as any).customisations as CustomisationsInterface);
+
+    const customizations: CustomisationsInterface = {
+        style: {
+            ...customizationsFromEmbedConfig?.style,
+            customCSS: {
+                ...customizationsFromEmbedConfig?.style?.customCSS,
+            },
+            customCSSUrl:
+                customizationsFromEmbedConfig?.style?.customCSSUrl,
+        },
+        content: {
+            ...customizationsFromEmbedConfig?.content,
         },
     };
     return customizations;
