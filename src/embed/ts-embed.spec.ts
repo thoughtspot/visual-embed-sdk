@@ -91,9 +91,9 @@ const customisationsView = {
 };
 
 const customVariablesForThirdPartyTools = {
-    key1: "!@#",
-    key2: "*%^",
-}
+    key1: '!@#',
+    key2: '*%^',
+};
 
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
@@ -180,7 +180,7 @@ describe('Unit test case for ts embed', () => {
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
                 customizations: customisations,
-                customVariablesForThirdPartyTools: customVariablesForThirdPartyTools,
+                customVariablesForThirdPartyTools,
             });
         });
 
@@ -285,7 +285,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('customVariablesForThirdPartyTools should be part of the app_init payload', async() => {
+        test('customVariablesForThirdPartyTools should be part of the app_init payload', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -319,8 +319,7 @@ describe('Unit test case for ts embed', () => {
                     customVariablesForThirdPartyTools,
                 },
             });
-
-        })
+        });
 
         test('Reordering the home page modules from view Config should be part of app_init payload', async () => {
             const mockEmbedEventPayload = {
@@ -727,7 +726,7 @@ describe('Unit test case for ts embed', () => {
                         hiddenHomepageModules: [],
                         hostConfig: undefined,
                         reorderedHomepageModules: [],
-                        customVariablesForThirdPartyTools:{},
+                        customVariablesForThirdPartyTools: {},
                     },
                 });
             });

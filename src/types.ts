@@ -609,7 +609,7 @@ export interface EmbedConfig {
      */
     additionalFlags?: { [key: string]: string | number | boolean };
     /**
-     * This is an object (key/val) for customVariables being 
+     * This is an object (key/val) for customVariables being
      * used by the third party tool's script.
      * @example
      * ```js
