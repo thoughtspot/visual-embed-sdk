@@ -9,6 +9,12 @@ import {
     LiveboardViewConfig,
     AppEmbed,
     LiveboardEmbed,
+    AppViewConfig,
+    SageEmbed,
+    SageViewConfig,
+    ConversationViewConfig,
+    ConversationEmbed,
+    SearchViewConfig,
 } from '../index';
 import {
     Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
@@ -28,6 +34,8 @@ import {
     expectUrlToHaveParamsWithValues,
     mockMessageChannel,
     createRootEleForEmbed,
+    expectUrlMatch,
+    fixedEncodeURI,
 } from '../test/test-utils';
 import * as config from '../config';
 import * as embedConfig from './embedConfig';
@@ -38,6 +46,8 @@ import * as baseInstance from './base';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 import * as authService from '../utils/authService/authService';
 import { logger } from '../utils/logger';
+import { version } from '../../package.json';
+import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 
 const defaultViewConfig = {
     frameParams: {
@@ -51,6 +61,12 @@ const tabId1 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const tabId2 = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
+export const defaultParamsWithoutHiddenActions = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}&blockNonEmbedFullAppAccess=true`;
+export const defaultParams = `&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22]`;
+const hideBydefault = `&hideAction=${fixedEncodeURI(
+    JSON.stringify([Action.ReportError, ...HiddenActionItemByDefaultForSearchEmbed]),
+)}`;
+const defaultParamsWithHiddenActions = defaultParamsWithoutHiddenActions + hideBydefault;
 
 beforeAll(() => {
     spyOn(window, 'alert');
@@ -87,6 +103,29 @@ describe('Unit test case for ts embed', () => {
 
     beforeAll(() => {
         jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
+    });
+
+    describe('Vaidate iframe properties', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        test('should set proper allow policies', async () => {
+            // we dont have origin specific policies so just checking if
+            // policies are ending with ;
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                const policiesAdded = iframe.allow.split(' ');
+                policiesAdded.forEach((policy) => {
+                    expect(policy.endsWith(';')).toBe(true);
+                });
+            });
+        });
     });
 
     describe('AuthExpire embedEvent in cookieless authentication authType', () => {
@@ -1452,6 +1491,186 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlToHaveParamsWithValues(getIFrameSrc(), {
                 orgId: overrideOrgId,
+            });
+        });
+
+        it('AppEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                enableFlipTooltipToContextMenu: true,
+            } as AppViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&flipTooltipToContextMenuEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+                );
+            });
+        });
+
+        it('AppEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                enableFlipTooltipToContextMenu: false,
+            } as AppViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                );
+            });
+        });
+
+        it('LiveboardEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+            const appEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                enableFlipTooltipToContextMenu: true,
+            } as LiveboardViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&flipTooltipToContextMenuEnabled=true${defaultParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        it('LiveboardEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+            const appEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                enableFlipTooltipToContextMenu: false,
+            } as LiveboardViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        it('SageViewConfig: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+            const appEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+                enableFlipTooltipToContextMenu: true,
+            } as SageViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D&flipTooltipToContextMenuEnabled=true#/embed/eureka`,
+                );
+            });
+        });
+
+        it('SageViewConfig: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+            const appEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+                enableFlipTooltipToContextMenu: false,
+            } as SageViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                );
+            });
+        });
+
+        it('ConversationEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+            const appEmbed = new ConversationEmbed(getRootEl(), {
+                worksheetId: 'worksheetId',
+                searchOptions: {
+                    searchQuery: 'searchQuery',
+                },
+                enableFlipTooltipToContextMenu: true,
+            } as ConversationViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&flipTooltipToContextMenuEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+                );
+            });
+        });
+
+        it('ConversationEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when flag is false', async () => {
+            const appEmbed = new ConversationEmbed(getRootEl(), {
+                worksheetId: 'worksheetId',
+                searchOptions: {
+                    searchQuery: 'searchQuery',
+                },
+                enableFlipTooltipToContextMenu: false,
+            } as ConversationViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+                );
+            });
+        });
+
+        it('SearchEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
+            const dataSources = ['data-source-1'];
+            const appEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                dataSources,
+                enableFlipTooltipToContextMenu: true,
+            } as SearchViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false&flipTooltipToContextMenuEnabled=true#/embed/answer`,
+                );
+            });
+        });
+
+        it('SearchEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
+            const dataSources = ['data-source-1'];
+            const appEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                dataSources,
+                enableFlipTooltipToContextMenu: false,
+            } as SearchViewConfig);
+
+            appEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
+                );
             });
         });
     });

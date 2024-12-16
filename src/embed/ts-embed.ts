@@ -447,6 +447,7 @@ export class TsEmbed {
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
+            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -455,6 +456,10 @@ export class TsEmbed {
             ...additionalFlagsFromInit,
             ...additionalFlagsFromView,
         };
+
+        if (enableFlipTooltipToContextMenu) {
+            queryParams[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
+        }
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError('You cannot have both hidden actions and visible actions');
@@ -577,7 +582,7 @@ export class TsEmbed {
         iFrame.mozallowfullscreen = true;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        iFrame.allow = 'clipboard-read; clipboard-write fullscreen';
+        iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
         const {
             height: frameHeight,

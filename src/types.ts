@@ -1100,6 +1100,13 @@ export interface ViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
+    /**
+     * Flag to control new flip tooltip context menu experience
+     *
+     * @default false
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
@@ -2409,10 +2416,14 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Get current iframe src
+     * Get iframe URL for the current embed view on the playground.
+     * Developers can use this URL to embed a ThoughtSpot object
+     * in apps like Salesforce or Sharepoint.
+     *
      * @example
      * ```js
-     * const frameUrl = AppEmbed.trigger(HostEvent.GetIframeUrl)
+     * const url = embed.trigger(HostEvent.GetIframeUrl);
+     * console.log("iFrameURL",url);
      * ```
      * @version SDK: 1.35.0 | Thoughtspot: 10.4.0.cl
      */
@@ -2529,6 +2540,9 @@ export enum HostEvent {
      * Liveboard filters, runtime filters applied on visualizations on a
      * Liveboard, and Liveboard layout, changes to visualizations such as
      * sorting, toggling of legends, and data drill down.
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/fetch-data-and-report-apis#transient-lb-content[Liveboard data with unsaved changes].
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
@@ -3190,7 +3204,15 @@ export enum HostEvent {
      * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
      */
      InfoSuccess = 'InfoSuccess',
-    }
+    /**
+     * Triggers update of persoanlised view for a liveboard
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
+     * ```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    UpdatePersonalisedView = 'UpdatePersonalisedView',
+}
 
 /**
  * The different visual modes that the data sources panel within
@@ -3267,6 +3289,8 @@ export enum Param {
     IsSageEmbed = 'isSageEmbed',
     HideWorksheetSelector = 'hideWorksheetSelector',
     DisableWorksheetChange = 'disableWorksheetChange',
+    HideSourceSelection = 'hideSourceSelection',
+    DisableSourceSelection = 'disableSourceSelection',
     HideEurekaResults = 'hideEurekaResults',
     HideEurekaSuggestions = 'hideEurekaSuggestions',
     HideAutocompleteSuggestions = 'hideAutocompleteSuggestions',
@@ -3309,6 +3333,10 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
+    EnableFlipTooltipToContextMenu = 'flipTooltipToContextMenuEnabled',
+    OauthPollingInterval = 'oAuthPollingInterval',
+    IsForceRedirect = 'isForceRedirect',
+    DataSourceId = 'dataSourceId',
 }
 
 /**
@@ -3429,8 +3457,8 @@ export enum Action {
      */
     Share = 'share',
     /**
-     * The **Add filter** action on a Liveboard and Search page.
-     * Allows adding filters to Answers and visualizations on a Liveboard.
+     * The **Add filter** action on a Liveboard page.
+     * Allows adding filters to visualizations on a Liveboard.
      * @example
      * ```js
      * disabledActions: [Action.AddFilter]
@@ -3439,8 +3467,8 @@ export enum Action {
     AddFilter = 'addFilter',
     /**
      * The **Add Data Panel Objects** action on the data panel v2.
-     * Allows to show action menu to add different objects (like
-     * formulas, parameters) in data panel v2.
+     * Allows to show action menu to add different objects (such as
+     * formulas, Parameters) in data panel new experience.
      * @example
      * ```js
      * disabledActions: [Action.AddDataPanelObjects]
@@ -3449,9 +3477,9 @@ export enum Action {
      */
     AddDataPanelObjects = 'addDataPanelObjects',
     /**
-     * Filter configuration options on a Liveboard and Search page.
-     * Allows configuring filter options when adding filters to a
-     * Liveboard or Answer.
+     * Filter configuration options on a Liveboard page.
+     * Allows configuring filters on a
+     * Liveboard.
      * @example
      * ```js
      * disabledActions: [Action.ConfigureFilter]
@@ -4377,6 +4405,36 @@ export enum Action {
      *  @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
      */
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
+
+    /**
+     * Action ID for hide/disable Preview data button in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.PreviewDataSpotter]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    PreviewDataSpotter = 'previewDataSpotter',
+
+    /**
+     * Action ID for hide/disable reset button in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    ResetSpotterChat = 'resetSpotterChat',
+
+    /**
+     * Action ID for hide/disable feedback in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    SpotterFeedback = 'spotterFeedback',
 }
 
 export interface AnswerServiceType {
