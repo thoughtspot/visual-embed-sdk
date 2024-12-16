@@ -3195,13 +3195,12 @@ export enum HostEvent {
      */
     GetParameters = 'GetParameters',
     /**
+     * @hidden
      * Notify when info call is completed successfully
      * ```js
-     * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
-     *  console.log('parameters', parameter);
-     * });
+     * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
      *```
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
      InfoSuccess = 'InfoSuccess',
     /**
