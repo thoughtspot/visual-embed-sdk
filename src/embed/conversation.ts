@@ -33,7 +33,6 @@ export interface ConversationViewConfig extends ViewConfig {
      *    disableSourceSelection : true,
      * })
      * ```
-     *
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     disableSourceSelection?: boolean;
@@ -46,7 +45,6 @@ export interface ConversationViewConfig extends ViewConfig {
      *    hideSourceSelection : true,
      * })
      * ```
-     *
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     hideSourceSelection?: boolean;
