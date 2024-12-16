@@ -169,7 +169,7 @@ export interface CustomCssVariables {
     /**
      * Backgroud color of the primary buttons when active.
      */
-    '--ts-var-button--primary--active-background'?: string;
+    '--ts-var-button--primary--active-background--ruchi'?: string;
 
     /**
      * Font color of the text on the secondary buttons.
