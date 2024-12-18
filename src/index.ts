@@ -6,7 +6,9 @@
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
-import { AppEmbed, Page, AppViewConfig } from './embed/app';
+import {
+    AppEmbed, Page, AppViewConfig, HomePageSearchBarMode,
+} from './embed/app';
 import {
     init,
     prefetch,
@@ -122,6 +124,7 @@ export {
     LogLevel,
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
+    HomePageSearchBarMode,
     VizPoint,
     CustomActionPayload,
 };

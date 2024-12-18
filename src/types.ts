@@ -1102,7 +1102,6 @@ export interface ViewConfig {
     overrideOrgId?: number;
     /**
      * Flag to control new flip tooltip context menu experience
-     *
      * @default false
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
@@ -2419,7 +2418,6 @@ export enum HostEvent {
      * Get iframe URL for the current embed view on the playground.
      * Developers can use this URL to embed a ThoughtSpot object
      * in apps like Salesforce or Sharepoint.
-     *
      * @example
      * ```js
      * const url = embed.trigger(HostEvent.GetIframeUrl);
@@ -2542,7 +2540,6 @@ export enum HostEvent {
      * sorting, toggling of legends, and data drill down.
      * For more information, see
      * link:https://developers.thoughtspot.com/docs/fetch-data-and-report-apis#transient-lb-content[Liveboard data with unsaved changes].
-     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
@@ -4410,7 +4407,7 @@ export enum Action {
      * Action ID for hide/disable reset button in spotter
      *  @example
      * ```js
-     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * hiddenAction: [Action.ResetSpotterChat]
      * ```
      *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
@@ -4420,11 +4417,41 @@ export enum Action {
      * Action ID for hide/disable feedback in spotter
      *  @example
      * ```js
-     * hiddenAction: [Action.ChangeFilterVisibilityInTab]
+     * hiddenAction: [Action.SpotterFeedback]
      * ```
      *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     SpotterFeedback = 'spotterFeedback',
+
+    /**
+     * Action ID for hide/disable editing previous prompt in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.EditPreviousPrompt]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    EditPreviousPrompt = 'editPreviousPrompt',
+
+    /**
+     * Action ID for hide/disable deleting previous prompt in spotter
+     *  @example
+     * ```js
+     * hiddenAction: [Action.DeletePreviousPrompt]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    DeletePreviousPrompt = 'deletePreviousPrompt',
+
+    /**
+     * Action ID for hide/disable edit of tokens on spotter results.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.EditTokens]
+     * ```
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    EditTokens = 'editTokens',
 }
 
 export interface AnswerServiceType {
