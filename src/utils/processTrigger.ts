@@ -54,8 +54,9 @@ export function processTrigger(
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
             channel.port1.close();
-            if (responseData.error) {
-                rej(responseData.error);
+            const error = responseData.error || responseData?.data?.error;
+            if (error) {
+                rej(error);
             } else {
                 res(responseData);
             }
