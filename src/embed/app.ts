@@ -418,7 +418,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
-     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
      * @type {boolean}
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl

@@ -174,7 +174,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable. This function needs to be called before any ThoughtSpot
- * component like liveboard etc can be embedded. But need not wait for AuthEvent.SUCCESS
+ * component like Liveboard etc can be embedded. But need not wait for AuthEvent.SUCCESS
  * to actually embed. That is handled internally.
  * @param embedConfig The configuration object containing ThoughtSpot host,
  * authentication mechanism and so on.

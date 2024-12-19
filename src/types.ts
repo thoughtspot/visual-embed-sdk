@@ -1088,8 +1088,12 @@ export interface ViewConfig {
      */
     enableCustomColumnGroups?: boolean;
     /**
-     * View content for another org directly without having to use the org switcher
-     * This flag is honoured if orgPerUrl feature is enabled for the ThoughtSpot cluster
+     * Overrides an Org context for embedding application users.
+     * This parameter allows a user authenticated to one Org to view the
+     * objects from another Org.
+     * The `overrideOrgId` setting is honoured only if the
+     * Per Org URL feature is enabled on your ThoughtSpot instance.
+     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -2365,7 +2369,7 @@ export enum HostEvent {
      * @param - autoDrillDown - Optional. If true, the drill down will be
      * done automatically on the most popular column.
      * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
-     * in case of a liveboard.
+     * in case of a Liveboard.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3170,7 +3174,7 @@ export enum HostEvent {
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
-     * Triggers Update RuntimeParameters for answers and liveboard
+     * Triggers an event to Update Parameter values for Answers and Liveboard
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
@@ -3192,7 +3196,7 @@ export enum HostEvent {
      */
     GetParameters = 'GetParameters',
     /**
-     * Triggers update of persoanlised view for a liveboard
+     * Triggers an event to update a persoanlised view of a Liveboard
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
@@ -4179,7 +4183,7 @@ export enum Action {
      */
     ModifySageAnswer = 'modifySageAnswer',
     /**
-     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * The **Move to Tab** menu action on visualizations in Liveboard edit mode.
      * Allows moving a visualization to a different tab.
      * @example
      * ```js
@@ -4234,7 +4238,8 @@ export enum Action {
     TML = 'tml',
 
     /**
-     * Action Id for CreateLiveboard for liveboard list page & Pin Modal
+     * Action ID for the create Liveboard option on the Liveboard list page
+     * and Pin modal
      * @example
      * ```js
      * hiddenAction: [Action.CreateLiveboard]

@@ -248,7 +248,7 @@ export interface LiveboardViewConfig
      */
     enableAskSage?: boolean;
     /**
-     * This flag is used to enable the 2 column layout in liveboard
+     * This flag is used to enable the 2 column layout on a Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
@@ -283,7 +283,7 @@ export interface LiveboardViewConfig
      */
     showPreviewLoader?: boolean;
     /**
-     * This flag is used to enable the compact header in liveboard
+     * This flag is used to enable the compact header on a Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -297,7 +297,7 @@ export interface LiveboardViewConfig
      */
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
-     * This flag is used to show/hide verified Icon in liveboard compact header
+     * This flag is used to show/hide verified icon in the Liveboard compact header
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -311,7 +311,8 @@ export interface LiveboardViewConfig
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
-     * This flag is used to show/hide re-verify banner in liveboard compact header
+     * This flag is used to show/hide the re-verify banner
+     * in Liveboard compact header
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -325,7 +326,7 @@ export interface LiveboardViewConfig
      */
     showLiveboardReverifyBanner?: boolean;
     /**
-     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * This flag is used to enable/disable hide irrelevant filters in a Liveboard tab
      * @type {boolean}
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
@@ -678,8 +679,8 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     /**
-     * Returns the full url of the liveboard/viz which can be used to open
-     * this liveboard inside the full Thoughtspot application in a new tab.
+     * Returns the full url of the Liveboard/visualization which can be used to open
+     * this Liveboard inside the full Thoughtspot application in a new tab.
      * @returns url string
      */
     public getLiveboardUrl(): string {
