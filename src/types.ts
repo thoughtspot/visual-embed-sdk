@@ -4379,7 +4379,7 @@ export enum Action {
      * ```js
      * const disabledActions = [Action.DisableChipReorder]
      * ```
-     * @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     DisableChipReorder = 'disableChipReorder',
 
@@ -4389,7 +4389,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.ChangeFilterVisibilityInTab]
      * ```
-     *  @version SDK: 1.35.0 | Thoughtspot: 10.5.0.cl
+     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 
