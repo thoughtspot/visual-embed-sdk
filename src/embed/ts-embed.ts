@@ -330,6 +330,8 @@ export class TsEmbed {
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
                     ? this.viewConfig?.hiddenHomeLeftNavItems
                     : [],
+                customVariablesForThirdPartyTools:
+                    this.embedConfig.customVariablesForThirdPartyTools || {},
             },
         });
     };
