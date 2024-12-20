@@ -29,7 +29,7 @@ describe('Unit test for authService', () => {
         const response = await fetchSessionInfoService(thoughtSpotHost);
         expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {
+        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.PREAUTH_INFO}`, {
             credentials: 'include',
         });
     });
@@ -116,7 +116,7 @@ describe('Unit test for authService', () => {
         } catch (e) {
             //
         }
-        expect(logger.error).toHaveBeenCalledWith('Failed to fetch http://localhost:3000/callosum/v1/session/info', 'error');
+        expect(logger.error).toHaveBeenCalledWith('Failed to fetch http://localhost:3000/prism/preauth/info', 'error');
 
         try {
             await fetchBasicAuthService(thoughtSpotHost, username, password);

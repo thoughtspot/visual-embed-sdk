@@ -3192,6 +3192,15 @@ export enum HostEvent {
      */
     GetParameters = 'GetParameters',
     /**
+     * @hidden
+     * Notify when info call is completed successfully
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
+     *```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+     InfoSuccess = 'InfoSuccess',
+    /**
      * Triggers update of persoanlised view for a liveboard
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
