@@ -620,8 +620,20 @@ export interface EmbedConfig {
      *        key2: 'value2'
      *     }
      * });
+     * ```
+     *  @version SDK 1.37 | Thoughtspot: 10.7
      */
-    customVariablesForThirdPartyTools?: { [key: string]: string | number | boolean };
+    customVariablesForThirdPartyTools?: EmbedCustomerGuideInterface;
+}
+
+type stringBooleanNumber = string | number | boolean;
+
+/**
+ * This is an object (key/val) for customVariables being
+ * used by the third party tool's script.
+*/
+interface EmbedCustomerGuideInterface {
+    [key: string]: stringBooleanNumber | stringBooleanNumber[] | Record<string, any>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
