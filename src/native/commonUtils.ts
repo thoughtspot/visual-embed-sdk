@@ -3,13 +3,15 @@ import { Param } from '../types';
 import pkgInfo from '../../package.json';
 import { WebViewConfig } from './types';
 
-const { version } = pkgInfo;
-
 /**
- * Constructs the WebView URL for embedding and handles internal events.
- * @param config Configuration for the WebView.
- * @param webViewRef Reference to the WebView instance for communication.
- * @returns The constructed WebView URL.
+ * This method constructs the webview URL with given config.
+ * @param config To get the webviewURL pass the necessary config options.
+ * host: string;
+ * authType: AuthType;
+ * liveboardId: string;
+ * getAuthToken: () => Promise<string>;
+ * These four are necessary arguments.
+ * @returns The Promise for WebView URL.
  */
 export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
     if (typeof config.getAuthToken !== 'function') {
@@ -45,17 +47,25 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
 };
 
 /**
- * Sets up the message handling for the WebView to process events like `appInit`.
- * @param config The WebView configuration.
+ * setting up message handling for the message replies to TS instances.
+ * @param config The webview config
  * @param event The message event from the WebView.
- * @param injectJavaScript Function to inject JavaScript into the WebView.
+ * @param WebViewRef Ref to use and inject javascript
  */
 export const setupWebViewMessageHandler = (
     config: WebViewConfig,
     event: any,
-    injectJavaScript: (code: string) => void,
+    webViewRef: any,
 ) => {
     const message = JSON.parse(event.nativeEvent.data);
+
+    const injectJavaScript = (codeSnip: string) => {
+        if(webViewRef?.current) {
+            webViewRef.current.injectJavaScript(codeSnip);
+        } else {
+            logger.error("Reference for Webview not found!!")
+        }
+    }
 
     const defaultHandleMessage = async () => {
         switch (message.type) {
@@ -70,6 +80,7 @@ export const setupWebViewMessageHandler = (
                             customisations: getCustomisationsMobileEmbed(config),
                         },
                     };
+                    injectJavaScript(jsCodeToHandleInteractionsForContextMenu);
                     injectJavaScript(`window.postMessage(${JSON.stringify(initPayload)}, '*');`);
                 } catch (error) {
                     console.error('Error handling appInit:', error);
@@ -115,8 +126,63 @@ export const setupWebViewMessageHandler = (
     };
 
     if (config.handleMessage) {
-        config.handleMessage(event, injectJavaScript);
+        config.handleMessage(event);
     } else {
         defaultHandleMessage();
     }
 };
+
+
+const jsCodeToHandleInteractionsForContextMenu = `
+// Disabling auofocus
+document.querySelectorAll('input[autofocus], textarea[autofocus]').forEach(el => el.removeAttribute('autofocus'));
+
+// adding meta tag to keep fixed viewport scalign
+const meta = document.createElement('meta');
+meta.name = 'viewport';
+meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+document.head.appendChild(meta);
+
+
+// 
+document.getElement
+
+// input focus problem. -> we can just force it inside our view. 
+document.addEventListener('focusin', (event) => {
+  const target = event.target;
+
+  if (
+    target.tagName === 'INPUT' || 
+    target.tagName === 'TEXTAREA'
+  ) {
+    const rect = target.getBoundingClientRect();
+    if (
+      rect.top < 0 || 
+      rect.bottom > window.innerHeight || 
+      rect.left < 0 || 
+      rect.right > window.innerWidth
+    ) {
+      event.preventDefault();
+      // target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'end' });
+      const horizontalPadding = 10;
+
+      let scrollX = 0;
+
+      if (rect.left < horizontalPadding) {
+        scrollX = rect.left - horizontalPadding;
+      }  
+      if (rect.right > window.innerWidth - horizontalPadding) {
+        scrollX = rect.right - window.innerWidth + horizontalPadding;
+      }
+      const scrollY = rect.top - (window.innerHeight / 2 - rect.height / 2);
+
+      window.scrollBy({
+        top: scrollY,
+        left: scrollX,
+        behavior: 'smooth',
+      });
+
+    }
+  }
+});
+`

@@ -5,6 +5,6 @@ export interface WebViewConfig {
   authType: AuthType;
   liveboardId: string;
   getAuthToken: () => Promise<string>;
-  handleMessage?: (event: any, injectJavaScript: (code: string) => void) => void;
+  handleMessage?: (event: any) => void;
   customizations?: CustomisationsInterface;
 }
