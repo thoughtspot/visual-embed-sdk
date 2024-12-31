@@ -10,7 +10,11 @@ import { EndPoints } from './authService';
 function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return tokenizedFetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            logger.error(`Failed to fetch ${url}`, await r.text?.());
+            if (r.status === 404) {
+                logger.warn(`Failed to fetch ${url}`, await r.text?.());
+            } else {
+                logger.error(`Failed to fetch ${url}`, await r.text?.());
+            }
         }
         return r;
     });
@@ -29,7 +33,9 @@ export async function fetchPreauthInfoService(thoughtspotHost: string): Promise<
     const sessionInfoPath = `${thoughtspotHost}${EndPoints.PREAUTH_INFO}`;
     const response = await tokenizedFailureLoggedFetch(sessionInfoPath);
     if (!response.ok) {
-        throw new Error(`Failed to fetch auth info: ${response.statusText}`);
+        const error: any = new Error(`Failed to fetch auth info: ${response.statusText}`);
+        error.status = response.status; // Attach the status code to the error object
+        throw error;
     }
 
     return response;
@@ -48,7 +54,9 @@ export async function fetchV1InfoService(thoughtspotHost: string): Promise<any> 
     const sessionInfoPath = `${thoughtspotHost}${EndPoints.SESSION_INFO}`;
     const response = await tokenizedFailureLoggedFetch(sessionInfoPath);
     if (!response.ok) {
-        throw new Error(`Failed to fetch session info: ${response.statusText}`);
+        const error: any = new Error(`Failed to fetch session info: ${response.statusText}`);
+        error.status = response.status; // Attach the status code to the error object
+        throw error;
     }
 
     return response;

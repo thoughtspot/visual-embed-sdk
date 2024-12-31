@@ -105,14 +105,16 @@ export const embedConfig: any = {
 const originalWindow = window;
 
 export const mockSessionInfoApiResponse = {
-    userGUID: '1234',
-    releaseVersion: 'test',
-    configInfo: {
-        isPublicUser: false,
-        mixpanelConfig: {
-            production: true,
-            devSdkKey: 'devKey',
-            prodSdkKey: 'prodKey',
+    info: {
+        userGUID: '1234',
+        releaseVersion: 'test',
+        configInfo: {
+            isPublicUser: false,
+            mixpanelConfig: {
+                production: true,
+                devSdkKey: 'devKey',
+                prodSdkKey: 'prodKey',
+            },
         },
     },
 };
