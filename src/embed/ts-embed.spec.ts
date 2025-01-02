@@ -126,6 +126,19 @@ describe('Unit test case for ts embed', () => {
                 });
             });
         });
+
+        test('should set proper height, width and min-height to iframe', async () => {
+            // we dont have origin specific policies so just checking if
+            // policies are ending with ;
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                expect(iframe.style.width).toBe(`${defaultViewConfig.frameParams.width}px`);
+                expect(iframe.style.height).toBe(`${defaultViewConfig.frameParams.height}px`);
+                expect(iframe.style.minHeight).toBe(`${defaultViewConfig.frameParams.height}px`);
+            });
+        });
     });
 
     describe('AuthExpire embedEvent in cookieless authentication authType', () => {
