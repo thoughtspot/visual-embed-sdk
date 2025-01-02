@@ -97,7 +97,7 @@ describe('WebView Utilities', () => {
 
     describe('setupWebViewMessageHandler', () => {
         it('should reply to and call injectJavaScript with appInit payload', async () => {
-            mockConfig.getAuthToken.mockResolvedValue('mockAuthToken'); 
+            mockConfig.getAuthToken.mockResolvedValue('mockAuthToken');
             await setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef);
 
             expect(mockConfig.getAuthToken).toHaveBeenCalled();
@@ -105,7 +105,7 @@ describe('WebView Utilities', () => {
                 expect.stringContaining('"type":"appInit"'),
             );
         });
-    
+
         it('should handle ThoughtspotAuthExpired and refresh the token', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'ThoughtspotAuthExpired' });
             mockConfig.getAuthToken.mockResolvedValue('bearer-token');
@@ -129,11 +129,11 @@ describe('WebView Utilities', () => {
                 expect.stringContaining('"type":"ThoughtspotAuthFailure"'),
             );
         });
-    
+
         it('should warn for unhandled message types', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'unknownType' });
 
-            await setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef);    
+            await setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef);
             expect(mockWebViewRef.current.injectJavaScript).not.toHaveBeenCalled();
         });
     });
