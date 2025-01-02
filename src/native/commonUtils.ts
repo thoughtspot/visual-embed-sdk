@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
-import { AuthEvent, AuthStatus, setAuthEE } from 'src/auth';
-import { setMobileEmbedConfig } from 'src/embed/embedConfig';
+import { AuthEvent, AuthStatus, setAuthEE } from '../auth';
+import { setMobileEmbedConfig } from '../embed/embedConfig';
 import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
 import { Param } from '../types';
 import pkgInfo from '../../package.json';
