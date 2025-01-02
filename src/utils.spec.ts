@@ -278,144 +278,143 @@ describe('unit test for utils', () => {
 
 describe('getCustomisationsMobileEmbed', () => {
     it('should return empty style and content if no customizations are defined', () => {
-      const embedConfig: Partial<WebViewConfig> = {};
+        const embedConfig: Partial<WebViewConfig> = {};
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result).toEqual({
-        style: {
-          customCSS: {},
-          customCSSUrl: undefined,
-        },
-        content: {},
-      });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result).toEqual({
+            style: {
+                customCSS: {},
+                customCSSUrl: undefined,
+            },
+            content: {},
+        });
     });
 
     it('should use embedConfig.customizations when present', () => {
-      const embedConfig: Partial<WebViewConfig> = {
-        customizations: {
-          style: {
-            customCSS: { 
-                rules_UNSTABLE: {
-                    '.title': { fontSize: '20px' },
-                }
-             },
-            customCSSUrl: 'http://example.com/styles.css',
-          },
-          content: {
-            headerText: 'Hello World',
-          },
-        },
-      };
+        const embedConfig: Partial<WebViewConfig> = {
+            customizations: {
+                style: {
+                    customCSS: {
+                        rules_UNSTABLE: {
+                            '.title': { fontSize: '20px' },
+                        },
+                    },
+                    customCSSUrl: 'http://example.com/styles.css',
+                },
+                content: {
+                    headerText: 'Hello World',
+                },
+            },
+        };
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result).toEqual({
-        style: {
-          customCSS: { 
-            rules_UNSTABLE: {
-                '.title': { fontSize: '20px' },
-            }
-           },
-          customCSSUrl: 'http://example.com/styles.css',
-        },
-        content: {
-          headerText: 'Hello World',
-        },
-      });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result).toEqual({
+            style: {
+                customCSS: {
+                    rules_UNSTABLE: {
+                        '.title': { fontSize: '20px' },
+                    },
+                },
+                customCSSUrl: 'http://example.com/styles.css',
+            },
+            content: {
+                headerText: 'Hello World',
+            },
+        });
     });
 
     it('should fallback to embedConfig.customisations if customizations is undefined', () => {
-      const embedConfig: Partial<WebViewConfig> = {
-        customizations: {
-          style: {
-            backgroundColor: 'green',
-            customCSS: { '.anotherClass': { color: 'white' } },
-          },
-          content: {
-            footerText: 'Footer content',
-          },
-        } as CustomisationsInterface,
-      };
+        const embedConfig: Partial<WebViewConfig> = {
+            customizations: {
+                style: {
+                    backgroundColor: 'green',
+                    customCSS: { '.anotherClass': { color: 'white' } },
+                },
+                content: {
+                    footerText: 'Footer content',
+                },
+            } as CustomisationsInterface,
+        };
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result).toEqual({
-        style: {
-          backgroundColor: 'green',
-          customCSS: { '.anotherClass': { color: 'white' } },
-          customCSSUrl: undefined,
-        },
-        content: {
-          footerText: 'Footer content',
-        },
-      });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result).toEqual({
+            style: {
+                backgroundColor: 'green',
+                customCSS: { '.anotherClass': { color: 'white' } },
+                customCSSUrl: undefined,
+            },
+            content: {
+                footerText: 'Footer content',
+            },
+        });
     });
 
     it('should merge style objects correctly (customCSS stays as an object)', () => {
-      const embedConfig: Partial<WebViewConfig> = {
-        customizations: {
-          style: {
-            customCSS: {
-                rules_UNSTABLE: {
-                    '.title': { fontSize: '20px' },
-                }
+        const embedConfig: Partial<WebViewConfig> = {
+            customizations: {
+                style: {
+                    customCSS: {
+                        rules_UNSTABLE: {
+                            '.title': { fontSize: '20px' },
+                        },
+                    },
+                    customCSSUrl: 'http://example.com/old-styles.css',
+                },
             },
-            customCSSUrl: 'http://example.com/old-styles.css',
-          },
-        },
-      };
+        };
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result).toEqual({
-        style: {
-          customCSS: {
-            rules_UNSTABLE: {
-                '.title': { fontSize: '20px' },
-            }
-          },
-          customCSSUrl: 'http://example.com/old-styles.css',
-        },
-        content: {},
-      });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result).toEqual({
+            style: {
+                customCSS: {
+                    rules_UNSTABLE: {
+                        '.title': { fontSize: '20px' },
+                    },
+                },
+                customCSSUrl: 'http://example.com/old-styles.css',
+            },
+            content: {},
+        });
     });
 
     it('should handle missing style or content keys gracefully', () => {
-      const embedConfig: Partial<WebViewConfig> = {
-        customizations: {
-          style: undefined, // style is missing
-          content: undefined, // content is missing
-        },
-      };
+        const embedConfig: Partial<WebViewConfig> = {
+            customizations: {
+                style: undefined, // style is missing
+                content: undefined, // content is missing
+            },
+        };
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result).toEqual({
-        style: {
-          customCSS: {},
-          customCSSUrl: undefined,
-        },
-        content: {},
-      });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result).toEqual({
+            style: {
+                customCSS: {},
+                customCSSUrl: undefined,
+            },
+            content: {},
+        });
     });
 
     it('should override customCSSUrl with embedConfig.customizations.style.customCSSUrl if defined', () => {
-      const embedConfig: Partial<WebViewConfig> = {
-        customizations: {
-          style: {
-            customCSSUrl: 'http://example.com/custom.css',
-            customCSS: { 
-                rules_UNSTABLE: {
-                    '.title': { fontSize: '20px' },
-                }
-             },
-          },
-        },
-      };
+        const embedConfig: Partial<WebViewConfig> = {
+            customizations: {
+                style: {
+                    customCSSUrl: 'http://example.com/custom.css',
+                    customCSS: {
+                        rules_UNSTABLE: {
+                            '.title': { fontSize: '20px' },
+                        },
+                    },
+                },
+            },
+        };
 
-      const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
-      expect(result.style?.customCSSUrl).toBe('http://example.com/custom.css');
-      expect(result.style?.customCSS).toEqual({ 
-        rules_UNSTABLE: {
-            '.title': { fontSize: '20px' },
-        }
-       });
+        const result = getCustomisationsMobileEmbed(embedConfig as WebViewConfig);
+        expect(result.style?.customCSSUrl).toBe('http://example.com/custom.css');
+        expect(result.style?.customCSS).toEqual({
+            rules_UNSTABLE: {
+                '.title': { fontSize: '20px' },
+            },
+        });
     });
-  });
-
+});
