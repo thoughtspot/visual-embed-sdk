@@ -55,6 +55,7 @@ export enum AuthStatus {
      */
     SDK_SUCCESS = 'SDK_SUCCESS',
     /**
+     * @hidden
      * Emits when the SDK authenticates successfully
      */
     SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
