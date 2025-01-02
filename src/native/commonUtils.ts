@@ -1,8 +1,12 @@
+import EventEmitter from 'eventemitter3';
+import { AuthEvent, AuthStatus, setAuthEE } from 'src/auth';
+import { setMobileEmbedConfig } from 'src/embed/embedConfig';
 import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
 import { Param } from '../types';
 import pkgInfo from '../../package.json';
 import { WebViewConfig } from './types';
 import { logger } from '../utils/logger';
+import { handleAuth } from './handleAuth';
 
 /**
  * This method constructs the webview URL with given config.
@@ -25,11 +29,11 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
     }
 
     const hostAppUrl = encodeURIComponent(
-        config.host.includes('localhost')
-      || config.host.includes('127.0.0.1')
-      || config.host.includes('10.0.2.2')
+        config.thoughtSpotHost.includes('localhost')
+      || config.thoughtSpotHost.includes('127.0.0.1')
+      || config.thoughtSpotHost.includes('10.0.2.2')
             ? 'local-host'
-            : config.host,
+            : config.thoughtSpotHost,
     );
 
     const queryParams = {
@@ -43,7 +47,7 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
     };
 
     const queryString = getQueryParamString(queryParams);
-    const webViewUrl = `${config.host}/embed?${queryString}#/embed/viz/${encodeURIComponent(config.liveboardId)}`;
+    const webViewUrl = `${config.thoughtSpotHost}/embed?${queryString}#/embed/viz/${encodeURIComponent(config.liveboardId)}`;
     return webViewUrl;
 };
 
@@ -52,6 +56,7 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
  * @param config The webview config
  * @param event The message event from the WebView.
  * @param WebViewRef Ref to use and inject javascript
+ * @param webViewRef
  */
 export const setupWebViewMessageHandler = async (
     config: WebViewConfig,
@@ -76,7 +81,7 @@ export const setupWebViewMessageHandler = async (
                     const initPayload = {
                         type: 'appInit',
                         data: {
-                            host: config.host,
+                            host: config.thoughtSpotHost,
                             authToken,
                             customisations: getCustomisationsMobileEmbed(config),
                         },
@@ -132,6 +137,34 @@ export const setupWebViewMessageHandler = async (
         await defaultHandleMessage();
     }
 };
+
+/**
+ *
+ * @param embedConfig
+ * @param webViewRef
+ */
+export function initMobile(embedConfig: WebViewConfig, webViewRef?: any)
+: EventEmitter<AuthStatus | AuthEvent> {
+    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    setMobileEmbedConfig(embedConfig);
+    setAuthEE(authEE);
+
+    handleAuth();
+
+    if (embedConfig.autoAttachWebViewHandler && webViewRef?.current) {
+        const originalOnMessage = webViewRef.current.props?.onMessage;
+        webViewRef.current.props.onMessage = (event: any) => {
+            // If the user has some onMessage Added.
+            if (originalOnMessage) {
+                originalOnMessage(event);
+            }
+            // Then we execute ours.
+            setupWebViewMessageHandler(embedConfig, event, webViewRef);
+        };
+    }
+
+    return authEE;
+}
 
 const jsCodeToHandleInteractionsForContextMenu = `
 // Disabling auofocus
