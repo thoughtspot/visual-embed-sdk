@@ -58,15 +58,15 @@ export const setupWebViewMessageHandler = async (
     event: any,
     webViewRef: any,
 ) => {
-   const message = JSON.parse(event.nativeEvent.data);
+    const message = JSON.parse(event.nativeEvent.data);
 
     const injectJavaScript = (codeSnip: string) => {
-        if(webViewRef?.current) {
+        if (webViewRef?.current) {
             webViewRef.current.injectJavaScript(codeSnip);
         } else {
-            logger.error("Reference for Webview not found!!")
+            logger.error('Reference for Webview not found!!')
         }
-    }
+    };
 
     const defaultHandleMessage = async () => {
         switch (message.type) {
@@ -133,7 +133,6 @@ export const setupWebViewMessageHandler = async (
     }
 };
 
-
 const jsCodeToHandleInteractionsForContextMenu = `
 // Disabling auofocus
 document.querySelectorAll('input[autofocus], textarea[autofocus]').forEach(el => el.removeAttribute('autofocus'));
@@ -143,10 +142,6 @@ const meta = document.createElement('meta');
 meta.name = 'viewport';
 meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
 document.head.appendChild(meta);
-
-
-// 
-document.getElement
 
 // input focus problem. -> we can just force it inside our view. 
 document.addEventListener('focusin', (event) => {
@@ -181,9 +176,8 @@ document.addEventListener('focusin', (event) => {
         top: scrollY,
         left: scrollX,
         behavior: 'smooth',
-      });
-
+      })
     }
   }
 });
-`
+`;
