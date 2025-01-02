@@ -2456,7 +2456,7 @@ export enum HostEvent {
      */
     SetActiveTab = 'SetActiveTab',
     /**
-     * Update runtime filters applied on a Saved Answer or Liveboard. The
+     * Update runtime filters applied on a Liveboard. The
      * runtime filters passed here are appended to the existing runtime
      * filters.
      * Pass an array of runtime filters with the following attributes:
@@ -2474,8 +2474,11 @@ export enum HostEvent {
      *
      * **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
      * Search embedding (SearchEmbed) and Natural Language Search
-     * embedding (SageEmbed).
+     * embedding (SageEmbed). In appEmbed, it updates the runtime filters applied
+     * on a saved Answer as well.
+     *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
