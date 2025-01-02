@@ -18,7 +18,6 @@ import {
     executeTMLInput,
     exportTMLInput,
 } from './embed/base';
-import { sayHelloWorld } from './embed/hello';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
@@ -128,7 +127,6 @@ export {
     HomePageSearchBarMode,
     VizPoint,
     CustomActionPayload,
-    sayHelloWorld,
 };
 
 export { resetCachedAuthToken } from './authToken';
