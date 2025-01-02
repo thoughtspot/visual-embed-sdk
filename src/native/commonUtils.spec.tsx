@@ -14,7 +14,7 @@ describe('getWebViewUrl', () => {
         jest.clearAllMocks();
     });
 
-    it('should construct the WebView URL correctly', async () => {
+    test('should construct the WebView URL correctly', async () => {
         mockGetAuthToken.mockResolvedValue('mock-token');
         const config = {
             host: 'https://lookat-webview.com',
@@ -32,7 +32,7 @@ describe('getWebViewUrl', () => {
         expect(url).toContain(`sdkVersion=${pkgInfo.version}`);
     });
 
-    it('should throw an error if getAuthToken is not a function', async () => {
+    test('should throw an error if getAuthToken is not a function', async () => {
         const config = {
             host: 'https://lookat-webview.com',
             authType: AuthType.TrustedAuthTokenCookieless,
@@ -43,7 +43,7 @@ describe('getWebViewUrl', () => {
         await expect(getWebViewUrl(config)).rejects.toThrow('`getAuthToken` must be a function that returns a Promise.');
     });
 
-    it('should throw an error if `getAuthToken` resolves to a falsy value', async () => {
+    test('should throw an error if `getAuthToken` resolves to a falsy value', async () => {
         mockGetAuthToken.mockResolvedValue(null);
         const config = {
             host: 'https://lookat-webview.com',
@@ -55,7 +55,7 @@ describe('getWebViewUrl', () => {
         await expect(getWebViewUrl(config)).rejects.toThrow('Failed to fetch initial authentication token.');
     });
 
-    it('should encode localhost URLs correctly', async () => {
+    test('should encode localhost URLs correctly', async () => {
         mockGetAuthToken.mockResolvedValue('mock-token');
         const config = {
             host: 'localhost',
@@ -96,7 +96,7 @@ describe('WebView Utilities', () => {
     });
 
     describe('setupWebViewMessageHandler', () => {
-        it('should reply to and call injectJavaScript with appInit payload', async () => {
+        test('should reply to and call injectJavaScript with appInit payload', async () => {
             mockConfig.getAuthToken.mockResolvedValue('mockAuthToken');
             await setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef);
 
@@ -106,7 +106,7 @@ describe('WebView Utilities', () => {
             );
         });
 
-        it('should handle ThoughtspotAuthExpired and refresh the token', async () => {
+        test('should handle ThoughtspotAuthExpired and refresh the token', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'ThoughtspotAuthExpired' });
             mockConfig.getAuthToken.mockResolvedValue('bearer-token');
 
@@ -118,7 +118,7 @@ describe('WebView Utilities', () => {
             );
         });
 
-        it('should handle ThoughtspotAuthFailure and refresh the token', async () => {
+        test('should handle ThoughtspotAuthFailure and refresh the token', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'ThoughtspotAuthFailure' });
             mockConfig.getAuthToken.mockResolvedValue('bearer-token');
 
@@ -130,11 +130,32 @@ describe('WebView Utilities', () => {
             );
         });
 
-        it('should warn for unhandled message types', async () => {
+        test('should warn for unhandled message types', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'unknownType' });
 
             await setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef);
             expect(mockWebViewRef.current.injectJavaScript).not.toHaveBeenCalled();
         });
+
+        test('should throw if getAuthToken fails during appInit', async () => {
+            mockEvent.nativeEvent.data = JSON.stringify({ type: 'appInit' });
+            mockConfig.getAuthToken.mockRejectedValue(new Error('Token fetch error'));
+          
+            await expect(setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef))
+              .rejects
+              .toThrow('Error handling appInit:');
+          });
+
+          test('should call config.handleMessage instead of default handler', async () => {
+            const handleMessageSpy = jest.fn();
+            const localConfig = { ...mockConfig, handleMessage: handleMessageSpy };
+            mockEvent.nativeEvent.data = JSON.stringify({ type: 'appInit' });
+
+            await setupWebViewMessageHandler(localConfig, mockEvent, mockWebViewRef);
+
+            expect(handleMessageSpy).toHaveBeenCalledWith(mockEvent);
+            // default logic never called
+            expect(mockWebViewRef.current.injectJavaScript).not.toHaveBeenCalled();
+          });
     });
 });
