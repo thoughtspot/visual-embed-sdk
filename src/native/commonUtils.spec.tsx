@@ -17,7 +17,7 @@ describe('getWebViewUrl', () => {
     test('should construct the WebView URL correctly', async () => {
         mockGetAuthToken.mockResolvedValue('mock-token');
         const config = {
-            host: 'https://lookat-webview.com',
+            thoughtSpotHost: 'https://lookat-webview.com',
             authType: AuthType.TrustedAuthTokenCookieless,
             liveboardId: 'test-liveboard-id',
             getAuthToken: mockGetAuthToken,
@@ -34,7 +34,7 @@ describe('getWebViewUrl', () => {
 
     test('should throw an error if getAuthToken is not a function', async () => {
         const config = {
-            host: 'https://lookat-webview.com',
+            thoughtSpotHost: 'https://lookat-webview.com',
             authType: AuthType.TrustedAuthTokenCookieless,
             liveboardId: 'test-liveboard-id',
             getAuthToken: undefined as any,
@@ -46,7 +46,7 @@ describe('getWebViewUrl', () => {
     test('should throw an error if `getAuthToken` resolves to a falsy value', async () => {
         mockGetAuthToken.mockResolvedValue(null);
         const config = {
-            host: 'https://lookat-webview.com',
+            thoughtSpotHost: 'https://lookat-webview.com',
             authType: AuthType.TrustedAuthTokenCookieless,
             liveboardId: 'test-liveboard-id',
             getAuthToken: mockGetAuthToken,
@@ -58,7 +58,7 @@ describe('getWebViewUrl', () => {
     test('should encode localhost URLs correctly', async () => {
         mockGetAuthToken.mockResolvedValue('mock-token');
         const config = {
-            host: 'localhost',
+            thoughtSpotHost: 'localhost',
             authType: AuthType.TrustedAuthTokenCookieless,
             liveboardId: 'test-liveboard-id',
             getAuthToken: mockGetAuthToken,
@@ -72,7 +72,7 @@ describe('getWebViewUrl', () => {
 
 describe('WebView Utilities', () => {
     const mockConfig = {
-        host: 'https://example.com',
+        thoughtSpotHost: 'https://example.com',
         authType: AuthType.TrustedAuthTokenCookieless,
         liveboardId: '1234',
         getAuthToken: jest.fn(),
