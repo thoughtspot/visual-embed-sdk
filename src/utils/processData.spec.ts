@@ -192,7 +192,7 @@ describe('Unit test for process data', () => {
     test('should return the event if type is unknown (default branch)', () => {
         const unknownEvent = { type: 'SomeRandomEvent' };
         const result = processDataInstance.processEventData(
-            'SomeRandomEvent' as any, 
+            'SomeRandomEvent' as any,
             unknownEvent,
             thoughtSpotHost,
             null,
@@ -206,7 +206,7 @@ describe('Unit test for process data', () => {
             payload: { userGUID: 'payload-guid' },
             data: {},
         };
-        jest.spyOn(base, 'notifyAuthSuccess').mockImplementation(() => {});
+        jest.spyOn(base, 'notifyAuthSuccess').mockImplementation(jest.fn());
         const result = processDataInstance.processEventData(e.type, e, '', null);
         expect(result.data.userGUID).toBe('payload-guid');
         expect(base.notifyAuthSuccess).toHaveBeenCalled();
@@ -221,9 +221,9 @@ describe('Unit test for process data', () => {
             suppressErrorAlerts: true,
             ignoreNoCookieAccess: false,
         });
-        jest.spyOn(window, 'alert').mockImplementation(() => {});
+        jest.spyOn(window, 'alert').mockImplementation(jest.fn());
         jest.spyOn(base, 'notifyAuthFailure');
-    
+
         const result = processDataInstance.processEventData(e.type, e, '', el);
         expect(result).toEqual({ type: e.type });
         expect(window.alert).not.toHaveBeenCalled();

@@ -140,13 +140,13 @@ describe('WebView Utilities', () => {
         test('should throw if getAuthToken fails during appInit', async () => {
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'appInit' });
             mockConfig.getAuthToken.mockRejectedValue(new Error('Token fetch error'));
-          
-            await expect(setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef))
-              .rejects
-              .toThrow('Error handling appInit:');
-          });
 
-          test('should call config.handleMessage instead of default handler', async () => {
+            await expect(setupWebViewMessageHandler(mockConfig, mockEvent, mockWebViewRef))
+                .rejects
+                .toThrow('Error handling appInit:');
+        });
+
+        test('should call config.handleMessage instead of default handler', async () => {
             const handleMessageSpy = jest.fn();
             const localConfig = { ...mockConfig, handleMessage: handleMessageSpy };
             mockEvent.nativeEvent.data = JSON.stringify({ type: 'appInit' });
@@ -156,6 +156,6 @@ describe('WebView Utilities', () => {
             expect(handleMessageSpy).toHaveBeenCalledWith(mockEvent);
             // default logic never called
             expect(mockWebViewRef.current.injectJavaScript).not.toHaveBeenCalled();
-          });
+        });
     });
 });
