@@ -2,6 +2,7 @@ import { getCustomisationsMobileEmbed, getQueryParamString } from '../utils';
 import { Param } from '../types';
 import pkgInfo from '../../package.json';
 import { WebViewConfig } from './types';
+import { logger } from '../utils/logger';
 
 /**
  * This method constructs the webview URL with given config.
@@ -52,12 +53,12 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
  * @param event The message event from the WebView.
  * @param WebViewRef Ref to use and inject javascript
  */
-export const setupWebViewMessageHandler = (
+export const setupWebViewMessageHandler = async (
     config: WebViewConfig,
     event: any,
     webViewRef: any,
 ) => {
-    const message = JSON.parse(event.nativeEvent.data);
+   const message = JSON.parse(event.nativeEvent.data);
 
     const injectJavaScript = (codeSnip: string) => {
         if(webViewRef?.current) {
@@ -126,9 +127,9 @@ export const setupWebViewMessageHandler = (
     };
 
     if (config.handleMessage) {
-        config.handleMessage(event);
+        await config.handleMessage(event);
     } else {
-        defaultHandleMessage();
+        await defaultHandleMessage();
     }
 };
 
