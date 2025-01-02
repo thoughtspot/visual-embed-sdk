@@ -64,7 +64,7 @@ export const setupWebViewMessageHandler = async (
         if (webViewRef?.current) {
             webViewRef.current.injectJavaScript(codeSnip);
         } else {
-            logger.error('Reference for Webview not found!!')
+            logger.error('Reference for Webview not found!!');
         }
     };
 
