@@ -594,6 +594,8 @@ export class TsEmbed {
 
         iFrame.style.width = `${width}`;
         iFrame.style.height = `${height}`;
+        // Set minimum height to the frame so that, scaling down on the fullheight doesn't impact this.
+        iFrame.style.minHeight = `${height}`;
         iFrame.style.border = '0';
         iFrame.name = 'ThoughtSpot Embedded Analytics';
         return iFrame;
