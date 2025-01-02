@@ -1,11 +1,12 @@
 import EventEmitter from 'eventemitter3';
-import { AuthEvent, AuthFailureType, AuthStatus } from 'src/auth';
-import { getAuthenticationToken, resetCachedAuthToken } from 'src/authToken';
-import { getMobileEmbedConfig } from 'src/embed/embedConfig';
-import { AuthType } from 'src/types';
-import { isActiveService } from 'src/utils/authService/tokenizedAuthService';
-import { fetchBasicAuthService } from 'src/utils/authService';
+import { AuthEvent, AuthFailureType, AuthStatus } from '../auth';
+import { getAuthenticationToken, resetCachedAuthToken } from '../authToken';
+import { getMobileEmbedConfig } from '../embed/embedConfig';
+import { AuthType } from '../types';
+import { isActiveService } from '../utils/authService/tokenizedAuthService';
+import { fetchBasicAuthService } from '../utils/authService';
 import { WebViewConfig } from './types';
+import { logger } from '../utils/logger';
 
 let loggedInStatus = false;
 let authPromise: Promise<boolean> | null = null;
