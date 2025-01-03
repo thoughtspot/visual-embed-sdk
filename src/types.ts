@@ -3203,6 +3203,16 @@ export enum HostEvent {
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * Triggers the action to get the current view of the liveboard
+     * @version SDK: 1.34.0 | Thoughtspot: 10.6.0.cl
+     */
+    SaveAnswer = 'saveAnswer',
+    /**
+     * EmbedApi
+     * @hidden
+     */
+    UiPassthrough = 'UiPassthrough',
 }
 
 /**
