@@ -1351,7 +1351,6 @@ describe('Unit test case for ts embed', () => {
                 },
             });
             await appEmbed.render();
-            console.log('val ', getIFrameSrc());
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`

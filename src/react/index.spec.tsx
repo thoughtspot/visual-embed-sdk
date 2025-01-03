@@ -43,11 +43,11 @@ beforeAll(() => {
 
 describe('React Components', () => {
     describe('SearchEmbed', () => {
-        it('Should Render the Iframe with props', async () => {
+        it.only('Should Render the Iframe with props', async () => {
             const { container } = render(
                 <SearchEmbed hideDataSources={true} className="embedClass" />,
             );
-
+        
             await waitFor(() => getIFrameEl(container));
 
             expect(

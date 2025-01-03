@@ -52,20 +52,23 @@ export class HostEventClient {
   }
 
   async executeHostEvent<T extends HostEvent>(
-      iFrame:HTMLIFrameElement, hostEvent: HostEvent, payload?: HostEventRequest<T>,
+      iFrame: HTMLIFrameElement, hostEvent: HostEvent, payload?: HostEventRequest<T>,
   ):
     Promise<HostEventResponse<HostEvent>> {
       if (hostEvent === HostEvent.Pin && payload?.newVizName) {
           return this.handleUiPassthroughForHostEvent(
-              iFrame,
-              UiPassthroughEvent.addVizToPinboard, payload,
+              iFrame, UiPassthroughEvent.addVizToPinboard, payload,
           );
       }
 
       if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
-          return this.handleUiPassthroughForHostEvent(iFrame,
-              UiPassthroughEvent.saveAnswer, payload);
+          return this.handleUiPassthroughForHostEvent(
+              iFrame, UiPassthroughEvent.saveAnswer, payload,
+          );
       }
+
+      // fallback for save answer is Save
+      if (hostEvent === HostEvent.SaveAnswer) hostEvent = HostEvent.Save;
 
       return this.hostEventFallback(iFrame, hostEvent, payload);
   }
