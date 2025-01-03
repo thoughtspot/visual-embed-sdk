@@ -1088,8 +1088,12 @@ export interface ViewConfig {
      */
     enableCustomColumnGroups?: boolean;
     /**
-     * View content for another org directly without having to use the org switcher
-     * This flag is honoured if orgPerUrl feature is enabled for the ThoughtSpot cluster
+     * Overrides an Org context for embedding application users.
+     * This parameter allows a user authenticated to one Org to view the
+     * objects from another Org.
+     * The `overrideOrgId` setting is honoured only if the
+     * Per Org URL feature is enabled on your ThoughtSpot instance.
+     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -2365,7 +2369,7 @@ export enum HostEvent {
      * @param - autoDrillDown - Optional. If true, the drill down will be
      * done automatically on the most popular column.
      * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
-     * in case of a liveboard.
+     * in case of a Liveboard.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -2452,26 +2456,26 @@ export enum HostEvent {
      */
     SetActiveTab = 'SetActiveTab',
     /**
-     * Update runtime filters applied on a Saved Answer or Liveboard. The
-     * runtime filters passed here are appended to the existing runtime
-     * filters.
+     * Updates the runtime filters applied on a Liveboard. The filter
+     * attributes passed with this event are appended to the existing runtime
+     * filters applied on a Liveboard.
+     *
      * Pass an array of runtime filters with the following attributes:
      *
-     * `columnName`
-     * _String_. The name of the column to filter on.
+     * `columnName` - _String_. The name of the column to filter on.
      *
-     * `operator`
-     * Runtime filter operator to apply. For information,
+     * `operator` - Runtime filter operator to apply. For more information,
      * see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
      *
-     * `values`
-     * List of operands. Some operators such as EQ, LE allow a single value, whereas
-     * operators such as BW and IN accept multiple operands.
+     * `values` - List of operands. Some operators such as EQ and LE allow a
+     * single value, whereas BW and IN accept multiple values.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
-     * Search embedding (SearchEmbed) and Natural Language Search
-     * embedding (SageEmbed).
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
+     * and `AppEmbed` only. In full application embedding, this event updates
+     * the runtime filters applied on the Liveboard and saved Answer objects.
+     *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
@@ -3170,7 +3174,7 @@ export enum HostEvent {
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
-     * Triggers Update RuntimeParameters for answers and liveboard
+     * Triggers an event to Update Parameter values for Answers and Liveboard
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
@@ -3192,7 +3196,7 @@ export enum HostEvent {
      */
     GetParameters = 'GetParameters',
     /**
-     * Triggers update of persoanlised view for a liveboard
+     * Triggers an event to update a persoanlised view of a Liveboard
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
@@ -4179,7 +4183,7 @@ export enum Action {
      */
     ModifySageAnswer = 'modifySageAnswer',
     /**
-     * The **Move to Tab** menu action on visualizations in liveboard edit mode.
+     * The **Move to Tab** menu action on visualizations in Liveboard edit mode.
      * Allows moving a visualization to a different tab.
      * @example
      * ```js
@@ -4234,7 +4238,8 @@ export enum Action {
     TML = 'tml',
 
     /**
-     * Action Id for CreateLiveboard for liveboard list page & Pin Modal
+     * Action ID for the create Liveboard option on the Liveboard list page
+     * and Pin modal
      * @example
      * ```js
      * hiddenAction: [Action.CreateLiveboard]
