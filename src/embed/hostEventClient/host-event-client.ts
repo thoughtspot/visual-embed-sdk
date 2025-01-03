@@ -55,14 +55,14 @@ export class HostEventClient {
       iFrame:HTMLIFrameElement, hostEvent: HostEvent, payload?: HostEventRequest<T>,
   ):
     Promise<HostEventResponse<HostEvent>> {
-      if (hostEvent === HostEvent.Pin && typeof payload === 'object') {
+      if (hostEvent === HostEvent.Pin && payload?.newVizName) {
           return this.handleUiPassthroughForHostEvent(
               iFrame,
               UiPassthroughEvent.addVizToPinboard, payload,
           );
       }
 
-      if (hostEvent === HostEvent.SaveAnswer && typeof payload === 'object') {
+      if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
           return this.handleUiPassthroughForHostEvent(iFrame,
               UiPassthroughEvent.saveAnswer, payload);
       }
