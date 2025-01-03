@@ -998,6 +998,11 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
+        if (messageType === HostEvent.Delete) {
+            const trigger = processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+            processTrigger(this.iFrame, HostEvent.Save, this.thoughtSpotHost, {});
+            return trigger;
+        }
         return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
     }
 
