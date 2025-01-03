@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { getAuthenticationToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 
