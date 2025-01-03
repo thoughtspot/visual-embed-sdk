@@ -2472,9 +2472,9 @@ export enum HostEvent {
      * List of operands. Some operators such as EQ, LE allow a single value, whereas
      * operators such as BW and IN accept multiple operands.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed` and `AppEmbed` only.
-     * In full application embedding, the event updates the runtime filters applied
-     * on a saved Answer as well.
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed`
+     * and `AppEmbed` only. In full application embedding, the event updates
+     * the runtime filters applied on a saved Answer as well.
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      *

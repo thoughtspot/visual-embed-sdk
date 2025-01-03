@@ -7768,7 +7768,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Updates the runtime filters applied on a Liveboard. The\nruntime filters passed with this event are appended to the existing runtime\nfilters applied on a Liveboard.\nPass an array of runtime filters with the following attributes:",
-						"text": "`columnName`\n_String_. The name of the column to filter on.\n\n`operator`\nRuntime filter operator to apply. For information,\nsee link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].\n\n`values`\nList of operands. Some operators such as EQ, LE allow a single value, whereas\noperators such as BW and IN accept multiple operands.\n\n**Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed` and `AppEmbed` only.\nIn full application embedding, the event updates the runtime filters applied\non a saved Answer as well.\n",
+						"text": "`columnName`\n_String_. The name of the column to filter on.\n\n`operator`\nRuntime filter operator to apply. For information,\nsee link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].\n\n`values`\nList of operands. Some operators such as EQ, LE allow a single value, whereas\noperators such as BW and IN accept multiple operands.\n\n**Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed`\nand `AppEmbed` only. In full application embedding, the event updates\nthe runtime filters applied on a saved Answer as well.\n",
 						"tags": [
 							{
 								"tag": "param",
