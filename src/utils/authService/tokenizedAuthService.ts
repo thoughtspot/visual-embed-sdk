@@ -10,7 +10,11 @@ import { EndPoints } from './authService';
 function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return tokenizedFetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            logger.error(`Failed to fetch ${url}`, await r.text?.());
+            if (r.status === 404) {
+                logger.warn(`Failed to fetch ${url}`, await r.text?.());
+            } else {
+                logger.error(`Failed to fetch ${url}`, await r.text?.());
+            }
         }
         return r;
     });
@@ -25,14 +29,74 @@ function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Pr
  *  const response = await sessionInfoService();
  * ```
  */
-export async function fetchSessionInfoService(thoughtspotHost: string): Promise<any> {
+export async function fetchPreauthInfoService(thoughtspotHost: string): Promise<any> {
+    const sessionInfoPath = `${thoughtspotHost}${EndPoints.PREAUTH_INFO}`;
+    const response = await tokenizedFailureLoggedFetch(sessionInfoPath);
+    if (!response.ok) {
+        const error: any = new Error(`Failed to fetch auth info: ${response.statusText}`);
+        error.status = response.status; // Attach the status code to the error object
+        throw error;
+    }
+
+    return response;
+}
+
+/**
+ * Fetches the session info from the ThoughtSpot server.
+ * @param thoughtspotHost
+ * @returns {Promise<any>}
+ * @example
+ * ```js
+ *  const response = await sessionInfoService();
+ * ```
+ */
+export async function fetchV1InfoService(thoughtspotHost: string): Promise<any> {
     const sessionInfoPath = `${thoughtspotHost}${EndPoints.SESSION_INFO}`;
     const response = await tokenizedFailureLoggedFetch(sessionInfoPath);
     if (!response.ok) {
-        throw new Error(`Failed to fetch session info: ${response.statusText}`);
+        const error: any = new Error(`Failed to fetch session info: ${response.statusText}`);
+        error.status = response.status; // Attach the status code to the error object
+        throw error;
     }
-    const data = await response.json();
-    return data;
+
+    return response;
+}
+
+/**
+ * Fetches the session info from the ThoughtSpot server.
+ * @param thoughtspotHost
+ * @returns {Promise<any>}
+ * @example
+ * ```js
+ *  const response = await sessionInfoService();
+ * ```
+ */
+export async function fetchSessionInfoService(thoughtspotHost: string): Promise<any> {
+    try {
+        const response = await fetchPreauthInfoService(thoughtspotHost);
+
+        // Convert Headers to a plain object
+        const headers: Record<string, string> = {};
+        response?.headers?.forEach((value: string, key: string) => {
+            headers[key] = value;
+        });
+        const data = await response.json();
+
+        return {
+            ...data,
+            status: 200,
+            headers,
+        };
+    } catch (error) {
+        if (error.status === 404) {
+            const response = await fetchV1InfoService(thoughtspotHost);
+            const data = await response.json();
+
+            return data;
+        }
+
+        return {};
+    }
 }
 
 /**
