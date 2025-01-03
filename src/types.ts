@@ -2456,25 +2456,23 @@ export enum HostEvent {
      */
     SetActiveTab = 'SetActiveTab',
     /**
-     * Updates the runtime filters applied on a Liveboard. The
-     * runtime filters passed with this event are appended to the existing runtime
+     * Updates the runtime filters applied on a Liveboard. The filter
+     * attributes passed with this event are appended to the existing runtime
      * filters applied on a Liveboard.
+     *
      * Pass an array of runtime filters with the following attributes:
      *
-     * `columnName`
-     * _String_. The name of the column to filter on.
+     * `columnName` - _String_. The name of the column to filter on.
      *
-     * `operator`
-     * Runtime filter operator to apply. For information,
+     * `operator` - Runtime filter operator to apply. For more information,
      * see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
      *
-     * `values`
-     * List of operands. Some operators such as EQ, LE allow a single value, whereas
-     * operators such as BW and IN accept multiple operands.
+     * `values` - List of operands. Some operators such as EQ and LE allow a
+     * single value, whereas BW and IN accept multiple values.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed`
-     * and `AppEmbed` only. In full application embedding, the event updates
-     * the runtime filters applied on a saved Answer as well.
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
+     * and `AppEmbed` only. In full application embedding, this event updates
+     * the runtime filters applied on the Liveboard and saved Answer objects.
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      *
