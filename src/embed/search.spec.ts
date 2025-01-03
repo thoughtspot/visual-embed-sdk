@@ -16,6 +16,7 @@ import {
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import { SearchBarEmbed } from './search-bar';
 
 const defaultViewConfig = {
     frameParams: {
@@ -500,6 +501,21 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
+        const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expect(
+                getIFrameSrc(),
+            ).toEqual(
+                'http://tshost/v2/?embedApp=true&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=1.35.3&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22reportError%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed',
             );
         });
     });
