@@ -4,7 +4,6 @@ export enum UiPassthroughEvent {
   addVizToPinboard = 'addVizToPinboard',
   saveAnswer = 'saveAnswer',
   getA3AnalysisColumns = 'getA3AnalysisColumns',
-  getPinboardTabInfo = 'getPinboardTabInfo',
   getDiscoverabilityStatus = 'getDiscoverabilityStatus',
   getAvailableUiPassthroughs = 'getAvailableUiPassthroughs',
   getAnswerPageConfig = 'getAnswerPageConfig',
@@ -51,10 +50,6 @@ export type UiPassthroughContractBase = {
       data?: any;
       errors?: any;
     };
-  };
-  [UiPassthroughEvent.getPinboardTabInfo]: {
-    request: any;
-    response: any;
   };
   [UiPassthroughEvent.getDiscoverabilityStatus]: {
     request: any;
