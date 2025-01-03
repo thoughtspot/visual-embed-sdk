@@ -9,6 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -62,6 +63,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
 
@@ -121,8 +123,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-     * This is the base to access ThoughtSpot V2.
-     */
+    * This is the base to access ThoughtSpot V2.
+    */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -159,6 +161,8 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    protected hostEventClient: HostEventClient;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         // TODO: handle error
@@ -180,6 +184,7 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
+        this.hostEventClient = new HostEventClient(this.iFrame, this.embedConfig.thoughtSpotHost);
     }
 
     /**
@@ -986,7 +991,11 @@ export class TsEmbed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public trigger<HostEventT extends HostEvent>(
+        messageType: HostEventT,
+        data?: HostEventRequest<HostEventT>,
+    ):
+        Promise<HostEventResponse<HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -998,7 +1007,8 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
-        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+
+        return this.hostEventClient.executeHostEvent(this.iFrame, messageType, data);
     }
 
     /**
