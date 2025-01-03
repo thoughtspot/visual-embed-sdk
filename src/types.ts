@@ -2456,9 +2456,9 @@ export enum HostEvent {
      */
     SetActiveTab = 'SetActiveTab',
     /**
-     * Update runtime filters applied on a Liveboard. The
-     * runtime filters passed here are appended to the existing runtime
-     * filters.
+     * Updates the runtime filters applied on a Liveboard. The
+     * runtime filters passed with this event are appended to the existing runtime
+     * filters applied on a Liveboard.
      * Pass an array of runtime filters with the following attributes:
      *
      * `columnName`
@@ -2472,9 +2472,8 @@ export enum HostEvent {
      * List of operands. Some operators such as EQ, LE allow a single value, whereas
      * operators such as BW and IN accept multiple operands.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is not supported in
-     * Search embedding (SearchEmbed) and Natural Language Search
-     * embedding (SageEmbed). In appEmbed, it updates the runtime filters applied
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported with `LiveboardEmbed` and `AppEmbed` only.
+     * In appEmbed, it updates the runtime filters applied
      * on a saved Answer as well.
      *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
