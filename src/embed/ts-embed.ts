@@ -1255,7 +1255,7 @@ export class TsEmbed {
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const A = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
-        console.log(A, 'awd') 
+        console.log(A, 'awd');
         const { session } = A;
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }

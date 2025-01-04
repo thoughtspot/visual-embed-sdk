@@ -47,7 +47,7 @@ describe('React Components', () => {
             const { container } = render(
                 <SearchEmbed hideDataSources={true} className="embedClass" />,
             );
-        
+
             await waitFor(() => getIFrameEl(container));
 
             expect(
