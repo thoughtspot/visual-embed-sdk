@@ -43,7 +43,7 @@ beforeAll(() => {
 
 describe('React Components', () => {
     describe('SearchEmbed', () => {
-        it.only('Should Render the Iframe with props', async () => {
+        it('Should Render the Iframe with props', async () => {
             const { container } = render(
                 <SearchEmbed hideDataSources={true} className="embedClass" />,
             );

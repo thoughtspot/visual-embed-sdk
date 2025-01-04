@@ -60,16 +60,13 @@ export class HostEventClient {
               iFrame, UiPassthroughEvent.addVizToPinboard, payload,
           );
       }
-
       if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
           return this.handleUiPassthroughForHostEvent(
               iFrame, UiPassthroughEvent.saveAnswer, payload,
           );
       }
-
       // fallback for save answer is Save
       if (hostEvent === HostEvent.SaveAnswer) hostEvent = HostEvent.Save;
-
       return this.hostEventFallback(iFrame, hostEvent, payload);
   }
 }

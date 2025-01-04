@@ -570,6 +570,27 @@ describe('Liveboard/viz embed tests', () => {
             done();
         });
     });
+
+    test('navigateToLiveboard with preRender', (done) => {
+      mockMessageChannel();
+      const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+          ...defaultViewConfig,
+          preRenderId: "test"
+      } as LiveboardViewConfig);
+      const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
+      liveboardEmbed.prerenderGeneric();
+      executeAfterWait(() => {
+          const iframe = getIFrameEl();
+          postMessageToParent(iframe.contentWindow, {
+              type: EmbedEvent.APP_INIT,
+          });
+      });
+      executeAfterWait(() => {
+          liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
+          expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
+          done();
+      });
+  });
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -658,6 +679,17 @@ describe('Liveboard/viz embed tests', () => {
                 expect(getRootEl().innerHTML).not.toContain('ts-viz-preview-loader');
             });
         });
+
+        test('get liveboard url value', async () => {
+          const libEmbed = new LiveboardEmbed(getRootEl(), {
+              liveboardId: '1234',
+          });
+          await libEmbed.render();
+          await executeAfterWait(() => {
+             const url = libEmbed.getLiveboardUrl();
+             expect(url).toEqual("http://tshost/#/pinboard/1234");
+          });
+      });
 
         test('Show preview loader should show the loader if viz embed and showPreviewLoader is true', async () => {
             jest.spyOn(previewService, 'getPreview').mockResolvedValue({

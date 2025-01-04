@@ -138,6 +138,8 @@ describe('Unit test for auth', () => {
         expect(sessionInfo.mixpanelToken).toEqual('prodKey');
         expect(sessionInfo.isPublicUser).toEqual(false);
         await SessionService.getSessionInfo();
+        const cachedInfo = SessionService.getCachedSessionInfo();
+        expect(cachedInfo).toEqual(sessionInfo);
         expect(tokenAuthService.fetchSessionInfoService).toHaveBeenCalledTimes(1);
     });
 

@@ -15,6 +15,7 @@ import {
     ConversationViewConfig,
     ConversationEmbed,
     SearchViewConfig,
+    AnswerService,
 } from '../index';
 import {
     Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
@@ -48,7 +49,11 @@ import * as authService from '../utils/authService/authService';
 import { logger } from '../utils/logger';
 import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
+import { processTrigger } from '../utils/processTrigger';
 
+jest.mock('../utils/processTrigger');
+
+const mockProcessTrigger = processTrigger as jest.Mock;
 const defaultViewConfig = {
     frameParams: {
         width: 1280,
@@ -124,6 +129,17 @@ describe('Unit test case for ts embed', () => {
                 policiesAdded.forEach((policy) => {
                     expect(policy.endsWith(';')).toBe(true);
                 });
+            });
+        });
+
+        test('should get answer service', async () => {
+            // we dont have origin specific policies so just checking if
+            // policies are ending with ;
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                expect(await searchEmbed.getAnswerService()).toBeInstanceOf(AnswerService);
             });
         });
 
@@ -1816,6 +1832,7 @@ describe('Unit test case for ts embed', () => {
         afterAll(() => {
             const rootEle = document.getElementById('myRoot');
             rootEle.remove();
+            jest.clearAllMocks();
         });
 
         it('should preRender and hide the iframe', async () => {
