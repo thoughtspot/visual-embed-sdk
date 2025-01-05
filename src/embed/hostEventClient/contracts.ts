@@ -21,7 +21,6 @@ export type UiPassthroughContractBase = {
       tabId?: string;
       newPinboardName?: string;
       newTabName?: string;
-      pinFromStore?: boolean;
     };
     response: {
       pinboardId: string;
@@ -105,7 +104,6 @@ export type HostEventRequest<HostEventT extends HostEvent> =
 export type HostEventResponse<HostEventT extends HostEvent> =
   HostEventT extends keyof EmbedApiHostEventMapping ?
   {
-    value?: UiPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
-    error?: any;
+    value?: UiPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
   }
   : any;

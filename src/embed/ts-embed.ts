@@ -994,8 +994,7 @@ export class TsEmbed {
     public trigger<HostEventT extends HostEvent>(
         messageType: HostEventT,
         data?: HostEventRequest<HostEventT>,
-    ):
-        Promise<HostEventResponse<HostEventT>> {
+    ): Promise<HostEventResponse<HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -1254,9 +1253,7 @@ export class TsEmbed {
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
-        const A = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
-        console.log(A, 'awd');
-        const { session } = A;
+        const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }
 }

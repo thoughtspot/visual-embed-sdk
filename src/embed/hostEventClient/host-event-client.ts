@@ -34,12 +34,12 @@ export class HostEventClient {
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
-          throw new Error('No answer found');
+          throw { error: 'No answer response found' };
       }
 
       const errors = response.error || (response.value as any)?.errors;
       if (errors) {
-          throw new Error(JSON.stringify({ errors: response.error }));
+          throw { error: response.error };
       }
 
       return { ...response.value };
