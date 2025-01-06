@@ -30,7 +30,7 @@ export type UiPassthroughContractBase = {
     request: {
       name: string;
       description: string;
-      vizId: string;
+      vizId?: string;
       isDiscoverable?: boolean;
     };
     response: {
