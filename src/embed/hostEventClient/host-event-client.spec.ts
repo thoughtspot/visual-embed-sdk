@@ -155,17 +155,33 @@ describe('HostEventClient', () => {
                 description: 'Test Description',
                 vizId: 'testVizId',
             };
-            const mockResponse = { answerId: 'testAnswerId' };
-            jest.spyOn(client, 'handleUiPassthroughForHostEvent').mockResolvedValue(mockResponse);
-
+            const mockResponse = [{
+                value: {
+                    saveResponse: {
+                        data: {
+                            Answer__save: {
+                                answer: {
+                                    id: 'newAnswer',
+                                },
+                            },
+                        },
+                    },
+                },
+                refId: 'testVizId',
+            }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
             const result = await client.executeHostEvent(getIFrameEl(), hostEvent, payload);
 
-            expect(client.handleUiPassthroughForHostEvent).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
                 null,
-                UiPassthroughEvent.saveAnswer,
-                payload,
+                'UiPassthrough',
+                'http://localhost',
+                {
+                    parameters: payload,
+                    type: 'saveAnswer',
+                },
             );
-            expect(result).toEqual(mockResponse);
+            expect(result).toEqual({ answerId: 'newAnswer', ...mockResponse[0].value });
         });
 
         it('should call hostEventFallback for unmapped events', async () => {
