@@ -639,9 +639,9 @@ export class LiveboardEmbed extends V1Embed {
      * @param data The payload to send with the message
      */
     public trigger<HostEventT extends HostEvent>(
-      messageType: HostEventT,
-      data?: HostEventRequest<HostEventT>,
-    ): Promise<HostEventResponse<HostEventT>> {    
+        messageType: HostEventT,
+        data?: HostEventRequest<HostEventT>,
+    ): Promise<HostEventResponse<HostEventT>> {
         const dataWithVizId = data;
         if (messageType === HostEvent.SetActiveTab) {
             this.setActiveTab(data);
