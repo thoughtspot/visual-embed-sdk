@@ -512,10 +512,9 @@ describe('Search embed tests', () => {
         });
         searchEmbed.render();
         await executeAfterWait(() => {
-            expect(
+            expectUrlMatchesWithParams(
                 getIFrameSrc(),
-            ).toEqual(
-                'http://tshost/v2/?embedApp=true&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=1.35.3&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22reportError%22]&overrideConsoleLogs=true&clientLogLevel=ERROR&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed',
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&useLastSelectedSources=false${prefixParams}#/embed/search-bar-embed`,
             );
         });
     });
