@@ -72,7 +72,7 @@ export class HostEventClient {
           );
           return {
               ...data,
-              answerId: data.saveResponse.Answer__save.answer.id,
+              answerId: data?.saveResponse?.Answer__save?.answer?.id,
           };
       }
       // fallback for save answer is Save
