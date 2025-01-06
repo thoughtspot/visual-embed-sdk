@@ -67,9 +67,13 @@ export class HostEventClient {
           );
       }
       if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
-          return this.handleUiPassthroughForHostEvent(
+          const data = await this.handleUiPassthroughForHostEvent(
               iFrame, UiPassthroughEvent.saveAnswer, payload,
           );
+          return {
+              ...data,
+              answerId: data.saveResponse.Answer__save.answer.id,
+          };
       }
       // fallback for save answer is Save
       if (hostEvent === HostEvent.SaveAnswer) hostEvent = HostEvent.Save;

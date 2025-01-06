@@ -35,6 +35,8 @@ export type UiPassthroughContractBase = {
     };
     response: {
       answerId: string,
+      saveResponse: any;
+      shareResponse?: any;
       errors?: any;
     };
   };
