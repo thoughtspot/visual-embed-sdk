@@ -34,8 +34,9 @@ export class HostEventClient {
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
+          const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
           // eslint-disable-next-line no-throw-literal
-          throw { error: 'No answer response found' };
+          throw { error };
       }
 
       const errors = response.error || (response.value as any)?.errors;

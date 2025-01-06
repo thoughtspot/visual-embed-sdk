@@ -86,7 +86,21 @@ describe('HostEventClient', () => {
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
             await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
-                .rejects.toThrow('No answer found');
+                .rejects.toEqual({ error: 'No answer found.' });
+        });
+
+        it('should throw an error if no valid response is found for vizId', async () => {
+            const { client } = createHostEventClient();
+            const apiName = UiPassthroughEvent.addVizToPinboard;
+            const parameters: UiPassthroughRequest<typeof apiName> = {
+                newVizName: 'testViz',
+                vizId: 'testVizId',
+            };
+            const triggerResponse: UiPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
+            mockProcessTrigger.mockResolvedValue(triggerResponse);
+
+            await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+                .rejects.toEqual({ error: 'No answer found for vizId: testVizId.' });
         });
 
         it('should throw an error if the response contains errors', async () => {
@@ -101,7 +115,7 @@ describe('HostEventClient', () => {
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
             await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
-                .rejects.toThrow(JSON.stringify({ errors: 'Some error' }));
+                .rejects.toEqual({ error: 'Some error' });
         });
     });
 
