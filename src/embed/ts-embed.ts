@@ -1015,7 +1015,7 @@ export class TsEmbed {
      * Triggers an event to the embedded app, skipping the UI flow.
      * @param {UiPassthroughEvent} apiName - The name of the API to be triggered.
      * @param {UiPassthroughRequest} parameters - The parameters to be passed to the API.
-     * @returns {Promise<UiPassthroughRequest>} - A promise that resolves with the response 
+     * @returns {Promise<UiPassthroughRequest>} - A promise that resolves with the response
      * from the embedded app.
      */
     // eslint-disable-next-line arrow-body-style
