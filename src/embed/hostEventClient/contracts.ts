@@ -3,7 +3,6 @@ import { HostEvent } from '../../types';
 export enum UiPassthroughEvent {
   addVizToPinboard = 'addVizToPinboard',
   saveAnswer = 'saveAnswer',
-  getA3AnalysisColumns = 'getA3AnalysisColumns',
   getDiscoverabilityStatus = 'getDiscoverabilityStatus',
   getAvailableUiPassthroughs = 'getAvailableUiPassthroughs',
   getAnswerPageConfig = 'getAnswerPageConfig',
@@ -36,15 +35,6 @@ export type UiPassthroughContractBase = {
     };
     response: {
       answerId: string,
-      errors?: any;
-    };
-  };
-  [UiPassthroughEvent.getA3AnalysisColumns]: {
-    request: {
-      vizId?: string;
-    };
-    response: {
-      data?: any;
       errors?: any;
     };
   };
