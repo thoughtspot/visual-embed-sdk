@@ -9,7 +9,13 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
-import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
+import {
+    HostEventRequest,
+    HostEventResponse,
+    UiPassthroughArrayResponse,
+    UiPassthroughEvent,
+    UiPassthroughRequest,
+} from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -63,7 +69,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
-import { HostEventClient, UiPassthroughHandler } from './hostEventClient/host-event-client';
+import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
 
@@ -1019,7 +1025,10 @@ export class TsEmbed {
      * from the embedded app.
      */
     // eslint-disable-next-line arrow-body-style
-    public triggerUiPassThrough: UiPassthroughHandler = (apiName, parameters) => {
+    public triggerUiPassThrough<UiPassthroughEventT extends UiPassthroughEvent>(
+        apiName: UiPassthroughEventT,
+        parameters: UiPassthroughRequest<UiPassthroughEventT>,
+    ): UiPassthroughArrayResponse<UiPassthroughEventT> {
         return this.hostEventClient.executeUiPassthroughApi(this.iFrame, apiName, parameters);
     }
 

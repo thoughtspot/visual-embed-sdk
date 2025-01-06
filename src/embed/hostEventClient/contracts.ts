@@ -8,7 +8,6 @@ export enum UiPassthroughEvent {
   getAvailableUiPassthroughs = 'getAvailableUiPassthroughs',
   getAnswerPageConfig = 'getAnswerPageConfig',
   getPinboardPageConfig = 'getPinboardPageConfig',
-  UiPassthroughEventNotFound = 'UiPassthroughEventNotFound',
 }
 
 export type UiPassthroughContractBase = {
@@ -72,14 +71,12 @@ export type UiPassthroughContractBase = {
     request: any;
     response: any;
   };
-  [UiPassthroughEvent.UiPassthroughEventNotFound]: {
-    request: any;
-    response: any;
-  };
 };
 
-export type UiPassthroughRequest<T extends keyof UiPassthroughContractBase> = UiPassthroughContractBase[T]['request'];
-export type UiPassthroughResponse<T extends keyof UiPassthroughContractBase> = UiPassthroughContractBase[T]['response'];
+export type FlattenType<T> = T extends infer R ? { [K in keyof R]: R[K] } : never;
+
+export type UiPassthroughRequest<T extends keyof UiPassthroughContractBase> = FlattenType<UiPassthroughContractBase[T]['request']>;
+export type UiPassthroughResponse<T extends keyof UiPassthroughContractBase> = FlattenType<UiPassthroughContractBase[T]['response']>;
 
 export type UiPassthroughArrayResponse<ApiName extends keyof UiPassthroughContractBase> =
   Promise<Array<{
@@ -91,10 +88,7 @@ export type UiPassthroughArrayResponse<ApiName extends keyof UiPassthroughContra
 export type EmbedApiHostEventMapping = {
   [HostEvent.Pin]: UiPassthroughEvent.addVizToPinboard;
   [HostEvent.SaveAnswer]: UiPassthroughEvent.saveAnswer;
-  'hostEventNotMapped': UiPassthroughEvent.UiPassthroughEventNotFound;
 }
-
-export type FlattenType<T> = T extends infer R ? { [K in keyof R]: R[K] } : never;
 
 export type HostEventRequest<HostEventT extends HostEvent> =
   HostEventT extends keyof EmbedApiHostEventMapping ?
