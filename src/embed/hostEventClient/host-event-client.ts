@@ -34,11 +34,13 @@ export class HostEventClient {
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
+          // eslint-disable-next-line no-throw-literal
           throw { error: 'No answer response found' };
       }
 
       const errors = response.error || (response.value as any)?.errors;
       if (errors) {
+          // eslint-disable-next-line no-throw-literal
           throw { error: response.error };
       }
 
