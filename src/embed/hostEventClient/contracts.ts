@@ -26,7 +26,6 @@ export type UiPassthroughContractBase = {
       pinboardId: string;
       tabId: string;
       vizId: string;
-      errors?: any;
     };
   };
   [UiPassthroughEvent.saveAnswer]: {
@@ -85,7 +84,7 @@ export type UiPassthroughResponse<T extends keyof UiPassthroughContractBase> = U
 export type UiPassthroughArrayResponse<ApiName extends keyof UiPassthroughContractBase> =
   Promise<Array<{
     redId?: string;
-    value?: UiPassthroughArrayResponse<ApiName>;
+    value?: UiPassthroughResponse<ApiName>;
     error?: any;
   }>>
 

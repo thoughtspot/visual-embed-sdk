@@ -50,6 +50,7 @@ import { logger } from '../utils/logger';
 import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 import { processTrigger } from '../utils/processTrigger';
+import { UiPassthroughEvent } from './hostEventClient/contracts';
 
 jest.mock('../utils/processTrigger');
 
@@ -133,13 +134,35 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('should get answer service', async () => {
-            // we dont have origin specific policies so just checking if
-            // policies are ending with ;
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             searchEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
                 expect(await searchEmbed.getAnswerService()).toBeInstanceOf(AnswerService);
+            });
+        });
+
+        test('triggerUiPassThrough with params', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                const payload = { newVizName: 'test' };
+                expect(
+                    await searchEmbed.triggerUiPassThrough(
+                        UiPassthroughEvent.addVizToPinboard,
+                        payload,
+                    ),
+                );
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    getIFrameEl(),
+                    HostEvent.UiPassthrough,
+                    'http://tshost',
+                    {
+                        parameters: payload,
+                        type: UiPassthroughEvent.addVizToPinboard,
+                    },
+                );
             });
         });
 

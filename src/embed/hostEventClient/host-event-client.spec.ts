@@ -16,7 +16,7 @@ const mockProcessTrigger = processTrigger as jest.Mock;
 const createHostEventClient = () => {
     const mockIframe = getIFrameEl();
     const mockThoughtSpotHost = 'http://localhost';
-    const client = new HostEventClient(mockIframe, mockThoughtSpotHost);
+    const client = new HostEventClient(mockThoughtSpotHost);
     return { client, mockIframe, mockThoughtSpotHost };
 };
 

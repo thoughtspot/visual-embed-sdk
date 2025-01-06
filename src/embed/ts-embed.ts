@@ -63,7 +63,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
-import { HostEventClient } from './hostEventClient/host-event-client';
+import { HostEventClient, UiPassthroughHandler } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
 
@@ -184,7 +184,7 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
-        this.hostEventClient = new HostEventClient(this.iFrame, this.embedConfig.thoughtSpotHost);
+        this.hostEventClient = new HostEventClient(this.embedConfig.thoughtSpotHost);
     }
 
     /**
@@ -990,6 +990,7 @@ export class TsEmbed {
      * Triggers an event to the embedded app
      * @param messageType The event type
      * @param data The payload to send with the message
+     * @returns A promise that resolves with the response from the embedded app
      */
     public trigger<HostEventT extends HostEvent>(
         messageType: HostEventT,
@@ -1008,6 +1009,18 @@ export class TsEmbed {
         }
 
         return this.hostEventClient.executeHostEvent(this.iFrame, messageType, data);
+    }
+
+    /**
+     * Triggers an event to the embedded app, skipping the UI flow.
+     * @param {UiPassthroughEvent} apiName - The name of the API to be triggered.
+     * @param {UiPassthroughRequest} parameters - The parameters to be passed to the API.
+     * @returns {Promise<UiPassthroughRequest>} - A promise that resolves with the response 
+     * from the embedded app.
+     */
+    // eslint-disable-next-line arrow-body-style
+    public triggerUiPassThrough: UiPassthroughHandler = (apiName, parameters) => {
+        return this.hostEventClient.executeUiPassthroughApi(this.iFrame, apiName, parameters);
     }
 
     /**

@@ -61,6 +61,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
 import { getAnswerFromQuery } from './utils/graphql/nlsService/nls-answer-service';
 import { createLiveboardWithAnswers } from './utils/liveboardService/liveboardService';
+import { UiPassthroughEvent } from './embed/hostEventClient/contracts';
 
 export {
     init,
@@ -127,6 +128,7 @@ export {
     HomePageSearchBarMode,
     VizPoint,
     CustomActionPayload,
+    UiPassthroughEvent,
 };
 
 export { resetCachedAuthToken } from './authToken';

@@ -4,18 +4,28 @@ import {
     UiPassthroughArrayResponse,
     UiPassthroughEvent, HostEventRequest, HostEventResponse,
     UiPassthroughRequest,
+    FlattenType,
 } from './contracts';
+
+type UiPassthroughHandlerWithIframe = <UiPassthroughEventT extends UiPassthroughEvent>(
+    iFrame: HTMLIFrameElement,
+    apiName: UiPassthroughEventT,
+    parameters: FlattenType<UiPassthroughRequest<UiPassthroughEventT>>,
+) => UiPassthroughArrayResponse<UiPassthroughEventT>;
+
+export type UiPassthroughHandler = <UiPassthroughEventT extends UiPassthroughEvent>(
+  apiName: UiPassthroughEventT,
+  parameters: FlattenType<UiPassthroughRequest<UiPassthroughEventT>>,
+) => UiPassthroughArrayResponse<UiPassthroughEventT>;
 
 export class HostEventClient {
   thoughtSpotHost: string;
 
-  constructor(iFrame: HTMLIFrameElement, thoughtSpotHost: string) {
+  constructor(thoughtSpotHost: string) {
       this.thoughtSpotHost = thoughtSpotHost;
   }
 
-  async executeUiPassthroughApi(iFrame: HTMLIFrameElement, apiName: UiPassthroughEvent,
-      parameters: UiPassthroughRequest<UiPassthroughEvent>):
-    UiPassthroughArrayResponse<UiPassthroughEvent> {
+  executeUiPassthroughApi:UiPassthroughHandlerWithIframe = async (iFrame, apiName, parameters) => {
       const res = await processTrigger(iFrame, HostEvent.UiPassthrough, this.thoughtSpotHost, {
           type: apiName,
           parameters,
@@ -24,29 +34,25 @@ export class HostEventClient {
       return res;
   }
 
-  async handleUiPassthroughForHostEvent(
-      iFrame: HTMLIFrameElement,
-      apiName: UiPassthroughEvent,
-      parameters: UiPassthroughRequest<UiPassthroughEvent>,
-  ):
-    UiPassthroughArrayResponse<UiPassthroughEvent> {
-      const response = (await this.executeUiPassthroughApi(iFrame, apiName, parameters))
-          ?.filter?.((r) => r.error || r.value)[0];
+  handleUiPassthroughForHostEvent:UiPassthroughHandlerWithIframe =
+     async (iFrame, apiName, parameters) => {
+         const response = (await this.executeUiPassthroughApi(iFrame, apiName, parameters))
+             ?.filter?.((r) => r.error || r.value)[0];
 
-      if (!response) {
-          const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
-          // eslint-disable-next-line no-throw-literal
-          throw { error };
-      }
+         if (!response) {
+             const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
+             // eslint-disable-next-line no-throw-literal
+             throw { error };
+         }
 
-      const errors = response.error || (response.value as any)?.errors;
-      if (errors) {
-          // eslint-disable-next-line no-throw-literal
-          throw { error: response.error };
-      }
+         const errors = response.error || (response.value as any)?.errors;
+         if (errors) {
+             // eslint-disable-next-line no-throw-literal
+             throw { error: response.error };
+         }
 
-      return { ...response.value };
-  }
+         return { ...response.value };
+     }
 
   async hostEventFallback(
       iFrame: HTMLIFrameElement, hostEvent: HostEvent, data: any,
