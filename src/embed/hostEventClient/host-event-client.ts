@@ -123,11 +123,6 @@ export class HostEventClient {
       };
   }
 
-  protected eventHandlerMap: Partial<EventHandlerMap> = {
-      [HostEvent.Pin]: 'handlePinEvent',
-      [HostEvent.SaveAnswer]: 'handleSaveAnswerEvent',
-  }
-
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
