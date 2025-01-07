@@ -620,8 +620,10 @@ export interface EmbedConfig {
      *        key2: 'value2'
      *     }
      * });
+     * ```
+     *  @version SDK 1.37.0 | Thoughtspot: 10.7.0.cl
      */
-    customVariablesForThirdPartyTools?: { [key: string]: string | number | boolean };
+    customVariablesForThirdPartyTools?: Record< string, any >;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
