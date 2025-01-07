@@ -2,9 +2,9 @@ import { getIFrameEl } from '../../test/test-utils';
 import { HostEvent } from '../../types';
 import { processTrigger } from '../../utils/processTrigger';
 import {
-    UiPassthroughEvent,
-    UiPassthroughRequest,
-    UiPassthroughArrayResponse,
+    UIPassthroughEvent,
+    UIPassthroughRequest,
+    UIPassthroughArrayResponse,
     HostEventRequest,
 } from './contracts';
 import { HostEventClient } from './host-event-client';
@@ -25,12 +25,12 @@ describe('HostEventClient', () => {
         jest.clearAllMocks();
     });
 
-    describe('executeUiPassthroughApi', () => {
+    describe('executeUIPassthroughApi', () => {
         it('should call processTrigger with correct parameters and return response', async () => {
             const { client, mockIframe, mockThoughtSpotHost } = createHostEventClient();
 
-            const apiName = UiPassthroughEvent.addVizToPinboard;
-            const parameters: UiPassthroughRequest<typeof apiName> = {
+            const apiName = UIPassthroughEvent.addVizToPinboard;
+            const parameters: UIPassthroughRequest<typeof apiName> = {
                 newVizName: 'testViz',
             };
             const triggerResponse = Promise.resolve([
@@ -39,11 +39,11 @@ describe('HostEventClient', () => {
 
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            const result = await client.executeUiPassthroughApi(getIFrameEl(), apiName, parameters);
+            const result = await client.executeUIPassthroughApi(getIFrameEl(), apiName, parameters);
 
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 mockIframe,
-                HostEvent.UiPassthrough,
+                HostEvent.UIPassthrough,
                 mockThoughtSpotHost,
                 {
                     type: apiName,
@@ -54,11 +54,11 @@ describe('HostEventClient', () => {
         });
     });
 
-    describe('handleUiPassthroughForHostEvent', () => {
+    describe('handleUIPassthroughForHostEvent', () => {
         it('should return the value from the first valid response', async () => {
             const { client } = createHostEventClient();
-            const apiName = UiPassthroughEvent.addVizToPinboard;
-            const parameters: UiPassthroughRequest<typeof apiName> = {
+            const apiName = UIPassthroughEvent.addVizToPinboard;
+            const parameters: UIPassthroughRequest<typeof apiName> = {
                 newVizName: 'testViz',
             };
             const triggerResponse = Promise.resolve([
@@ -66,7 +66,7 @@ describe('HostEventClient', () => {
             ]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            const result = await client.handleUiPassthroughForHostEvent(getIFrameEl(),
+            const result = await client.handleUIPassthroughForHostEvent(getIFrameEl(),
                 apiName, parameters);
 
             expect(result).toEqual({
@@ -78,49 +78,49 @@ describe('HostEventClient', () => {
 
         it('should throw an error if no valid response is found', async () => {
             const { client } = createHostEventClient();
-            const apiName = UiPassthroughEvent.addVizToPinboard;
-            const parameters: UiPassthroughRequest<typeof apiName> = {
+            const apiName = UIPassthroughEvent.addVizToPinboard;
+            const parameters: UIPassthroughRequest<typeof apiName> = {
                 newVizName: 'testViz',
             };
-            const triggerResponse: UiPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
+            const triggerResponse: UIPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'No answer found.' });
         });
 
         it('should throw an error if no valid response is found for vizId', async () => {
             const { client } = createHostEventClient();
-            const apiName = UiPassthroughEvent.addVizToPinboard;
-            const parameters: UiPassthroughRequest<typeof apiName> = {
+            const apiName = UIPassthroughEvent.addVizToPinboard;
+            const parameters: UIPassthroughRequest<typeof apiName> = {
                 newVizName: 'testViz',
                 vizId: 'testVizId',
             };
-            const triggerResponse: UiPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
+            const triggerResponse: UIPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'No answer found for vizId: testVizId.' });
         });
 
         it('should throw an error if the response contains errors', async () => {
             const { client } = createHostEventClient();
-            const apiName = UiPassthroughEvent.addVizToPinboard;
-            const parameters: UiPassthroughRequest<typeof apiName> = {
+            const apiName = UIPassthroughEvent.addVizToPinboard;
+            const parameters: UIPassthroughRequest<typeof apiName> = {
                 newVizName: 'testViz',
             };
-            const triggerResponse: UiPassthroughArrayResponse<typeof apiName> = Promise.resolve([
+            const triggerResponse: UIPassthroughArrayResponse<typeof apiName> = Promise.resolve([
                 { error: 'Some error' },
             ]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUiPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'Some error' });
         });
     });
 
     describe('executeHostEvent', () => {
-        it('should call handleUiPassthroughForHostEvent for Pin event', async () => {
+        it('should call handleUIPassthroughForHostEvent for Pin event', async () => {
             const { client } = createHostEventClient();
             const hostEvent = HostEvent.Pin;
             const payload: HostEventRequest<typeof hostEvent> = {
@@ -140,14 +140,14 @@ describe('HostEventClient', () => {
 
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 getIFrameEl(),
-                HostEvent.UiPassthrough,
+                HostEvent.UIPassthrough,
                 'http://localhost',
-                { parameters: payload, type: UiPassthroughEvent.addVizToPinboard },
+                { parameters: payload, type: UIPassthroughEvent.addVizToPinboard },
             );
             expect(result).toEqual(mockResponse.value);
         });
 
-        it('should call handleUiPassthroughForHostEvent for SaveAnswer event', async () => {
+        it('should call handleUIPassthroughForHostEvent for SaveAnswer event', async () => {
             const { client } = createHostEventClient();
             const hostEvent = HostEvent.SaveAnswer;
             const payload: HostEventRequest<typeof hostEvent> = {
@@ -174,7 +174,7 @@ describe('HostEventClient', () => {
 
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 null,
-                'UiPassthrough',
+                'UIPassthrough',
                 'http://localhost',
                 {
                     parameters: payload,

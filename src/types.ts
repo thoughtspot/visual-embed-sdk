@@ -3212,7 +3212,7 @@ export enum HostEvent {
      * EmbedApi
      * @hidden
      */
-    UiPassthrough = 'UiPassthrough',
+    UIPassthrough = 'UiPassthrough',
 }
 
 /**

@@ -50,7 +50,7 @@ import { logger } from '../utils/logger';
 import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 import { processTrigger } from '../utils/processTrigger';
-import { UiPassthroughEvent } from './hostEventClient/contracts';
+import { UIPassthroughEvent } from './hostEventClient/contracts';
 
 jest.mock('../utils/processTrigger');
 
@@ -142,25 +142,25 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('triggerUiPassThrough with params', async () => {
+        test('triggerUIPassThrough with params', async () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             searchEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
                 const payload = { newVizName: 'test' };
                 expect(
-                    await searchEmbed.triggerUiPassThrough(
-                        UiPassthroughEvent.addVizToPinboard,
+                    await searchEmbed.triggerUIPassThrough(
+                        UIPassthroughEvent.addVizToPinboard,
                         payload,
                     ),
                 );
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
                     getIFrameEl(),
-                    HostEvent.UiPassthrough,
+                    HostEvent.UIPassthrough,
                     'http://tshost',
                     {
                         parameters: payload,
-                        type: UiPassthroughEvent.addVizToPinboard,
+                        type: UIPassthroughEvent.addVizToPinboard,
                     },
                 );
             });

@@ -1,16 +1,16 @@
 import { HostEvent } from '../../types';
 
-export enum UiPassthroughEvent {
+export enum UIPassthroughEvent {
   addVizToPinboard = 'addVizToPinboard',
   saveAnswer = 'saveAnswer',
   getDiscoverabilityStatus = 'getDiscoverabilityStatus',
-  getAvailableUiPassthroughs = 'getAvailableUiPassthroughs',
+  getAvailableUIPassthroughs = 'getAvailableUIPassthroughs',
   getAnswerPageConfig = 'getAnswerPageConfig',
   getPinboardPageConfig = 'getPinboardPageConfig',
 }
 
-export type UiPassthroughContractBase = {
-  [UiPassthroughEvent.addVizToPinboard]: {
+export type UIPassthroughContractBase = {
+  [UIPassthroughEvent.addVizToPinboard]: {
     request: {
       vizId?: string;
       newVizName: string;
@@ -26,7 +26,7 @@ export type UiPassthroughContractBase = {
       vizId: string;
     };
   };
-  [UiPassthroughEvent.saveAnswer]: {
+  [UIPassthroughEvent.saveAnswer]: {
     request: {
       name: string;
       description: string;
@@ -40,26 +40,26 @@ export type UiPassthroughContractBase = {
       errors?: any;
     };
   };
-  [UiPassthroughEvent.getDiscoverabilityStatus]: {
+  [UIPassthroughEvent.getDiscoverabilityStatus]: {
     request: any;
     response: {
       shouldShowDiscoverability: boolean;
       isDiscoverabilityCheckboxUnselectedPerOrg: boolean;
     };
   };
-  [UiPassthroughEvent.getAvailableUiPassthroughs]: {
+  [UIPassthroughEvent.getAvailableUIPassthroughs]: {
     request: any;
     response: {
       keys: string[];
     };
   };
-  [UiPassthroughEvent.getAnswerPageConfig]: {
+  [UIPassthroughEvent.getAnswerPageConfig]: {
     request: {
       vizId?: string;
     };
     response: any;
   };
-  [UiPassthroughEvent.getPinboardPageConfig]: {
+  [UIPassthroughEvent.getPinboardPageConfig]: {
     request: any;
     response: any;
   };
@@ -67,28 +67,28 @@ export type UiPassthroughContractBase = {
 
 export type FlattenType<T> = T extends infer R ? { [K in keyof R]: R[K] } : never;
 
-export type UiPassthroughRequest<T extends keyof UiPassthroughContractBase> = FlattenType<UiPassthroughContractBase[T]['request']>;
-export type UiPassthroughResponse<T extends keyof UiPassthroughContractBase> = FlattenType<UiPassthroughContractBase[T]['response']>;
+export type UIPassthroughRequest<T extends keyof UIPassthroughContractBase> = FlattenType<UIPassthroughContractBase[T]['request']>;
+export type UIPassthroughResponse<T extends keyof UIPassthroughContractBase> = FlattenType<UIPassthroughContractBase[T]['response']>;
 
-export type UiPassthroughArrayResponse<ApiName extends keyof UiPassthroughContractBase> =
+export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContractBase> =
   Promise<Array<{
     redId?: string;
-    value?: UiPassthroughResponse<ApiName>;
+    value?: UIPassthroughResponse<ApiName>;
     error?: any;
   }>>
 
 export type EmbedApiHostEventMapping = {
-  [HostEvent.Pin]: UiPassthroughEvent.addVizToPinboard;
-  [HostEvent.SaveAnswer]: UiPassthroughEvent.saveAnswer;
+  [HostEvent.Pin]: UIPassthroughEvent.addVizToPinboard;
+  [HostEvent.SaveAnswer]: UIPassthroughEvent.saveAnswer;
 }
 
 export type HostEventRequest<HostEventT extends HostEvent> =
   HostEventT extends keyof EmbedApiHostEventMapping ?
-  FlattenType<UiPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>> : any;
+  FlattenType<UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>> : any;
 
 export type HostEventResponse<HostEventT extends HostEvent> =
   HostEventT extends keyof EmbedApiHostEventMapping ?
   {
-    value?: UiPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
+    value?: UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
   }
   : any;

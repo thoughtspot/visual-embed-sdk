@@ -1,10 +1,10 @@
 import { HostEvent } from '../../types';
 import { processTrigger } from '../../utils/processTrigger';
 import {
-    UiPassthroughArrayResponse,
-    UiPassthroughEvent, HostEventRequest, HostEventResponse,
-    UiPassthroughRequest,
-    UiPassthroughResponse,
+    UIPassthroughArrayResponse,
+    UIPassthroughEvent, HostEventRequest, HostEventResponse,
+    UIPassthroughRequest,
+    UIPassthroughResponse,
 } from './contracts';
 
 export class HostEventClient {
@@ -14,12 +14,12 @@ export class HostEventClient {
       this.thoughtSpotHost = thoughtSpotHost;
   }
 
-  public async executeUiPassthroughApi<UiPassthroughEventT extends UiPassthroughEvent>(
+  public async executeUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
       iFrame: HTMLIFrameElement,
-      apiName: UiPassthroughEventT,
-      parameters: UiPassthroughRequest<UiPassthroughEventT>,
-  ): UiPassthroughArrayResponse<UiPassthroughEventT> {
-      const res = await processTrigger(iFrame, HostEvent.UiPassthrough, this.thoughtSpotHost, {
+      apiName: UIPassthroughEventT,
+      parameters: UIPassthroughRequest<UIPassthroughEventT>,
+  ): UIPassthroughArrayResponse<UIPassthroughEventT> {
+      const res = await processTrigger(iFrame, HostEvent.UIPassthrough, this.thoughtSpotHost, {
           type: apiName,
           parameters,
       });
@@ -27,12 +27,12 @@ export class HostEventClient {
       return res;
   }
 
-  public async handleUiPassthroughForHostEvent<UiPassthroughEventT extends UiPassthroughEvent>(
+  public async handleUIPassthroughForHostEvent<UIPassthroughEventT extends UIPassthroughEvent>(
       iFrame: HTMLIFrameElement,
-      apiName: UiPassthroughEventT,
-      parameters: UiPassthroughRequest<UiPassthroughEventT>,
-  ): Promise<UiPassthroughResponse<UiPassthroughEventT>> {
-      const response = (await this.executeUiPassthroughApi(iFrame, apiName, parameters))
+      apiName: UIPassthroughEventT,
+      parameters: UIPassthroughRequest<UIPassthroughEventT>,
+  ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
+      const response = (await this.executeUIPassthroughApi(iFrame, apiName, parameters))
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
@@ -62,13 +62,13 @@ export class HostEventClient {
       payload?: HostEventRequest<T>,
   ): Promise<HostEventResponse<HostEvent>> {
       if (hostEvent === HostEvent.Pin && payload?.newVizName) {
-          return this.handleUiPassthroughForHostEvent(
-              iFrame, UiPassthroughEvent.addVizToPinboard, payload,
+          return this.handleUIPassthroughForHostEvent(
+              iFrame, UIPassthroughEvent.addVizToPinboard, payload,
           );
       }
       if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
-          const data = await this.handleUiPassthroughForHostEvent(
-              iFrame, UiPassthroughEvent.saveAnswer, payload,
+          const data = await this.handleUIPassthroughForHostEvent(
+              iFrame, UIPassthroughEvent.saveAnswer, payload,
           );
           return {
               ...data,
