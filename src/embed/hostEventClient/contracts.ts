@@ -9,6 +9,7 @@ export enum UIPassthroughEvent {
   getPinboardPageConfig = 'getPinboardPageConfig',
 }
 
+// UI Passthrough Contract
 export type UIPassthroughContractBase = {
   [UIPassthroughEvent.addVizToPinboard]: {
     request: {
@@ -65,10 +66,17 @@ export type UIPassthroughContractBase = {
   };
 };
 
+// Utils to make the types more clear
 export type FlattenType<T> = T extends infer R ? { [K in keyof R]: R[K] } : never;
 
-export type UIPassthroughRequest<T extends keyof UIPassthroughContractBase> = FlattenType<UIPassthroughContractBase[T]['request']>;
-export type UIPassthroughResponse<T extends keyof UIPassthroughContractBase> = FlattenType<UIPassthroughContractBase[T]['response']>;
+// UI Passthrough Request and Response
+export type UIPassthroughRequest<T
+  extends keyof UIPassthroughContractBase
+> = FlattenType<UIPassthroughContractBase[T]['request']>;
+
+export type UIPassthroughResponse<
+  T extends keyof UIPassthroughContractBase
+> = FlattenType<UIPassthroughContractBase[T]['response']>;
 
 export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContractBase> =
   Promise<Array<{
@@ -77,18 +85,19 @@ export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContra
     error?: any;
   }>>
 
+// Host event and UI Passthrough Event Mapping
 export type EmbedApiHostEventMapping = {
   [HostEvent.Pin]: UIPassthroughEvent.addVizToPinboard;
   [HostEvent.SaveAnswer]: UIPassthroughEvent.saveAnswer;
 }
 
+// Host Event Request and Response
 export type HostEventRequest<HostEventT extends HostEvent> =
-  HostEventT extends keyof EmbedApiHostEventMapping ?
-  FlattenType<UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>> : any;
+  HostEventT extends keyof EmbedApiHostEventMapping
+    ? FlattenType<UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>>
+    : any;
 
 export type HostEventResponse<HostEventT extends HostEvent> =
-  HostEventT extends keyof EmbedApiHostEventMapping ?
-  {
-    value?: UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
-  }
-  : any;
+  HostEventT extends keyof EmbedApiHostEventMapping
+    ? { value?: UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]> }
+    : any;
