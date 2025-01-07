@@ -66,7 +66,7 @@ describe('HostEventClient', () => {
             ]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            const result = await client.handleUIPassthroughForHostEvent(getIFrameEl(),
+            const result = await client.handleHostEventWithParam(getIFrameEl(),
                 apiName, parameters);
 
             expect(result).toEqual({
@@ -85,7 +85,7 @@ describe('HostEventClient', () => {
             const triggerResponse: UIPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleHostEventWithParam(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'No answer found.' });
         });
 
@@ -99,7 +99,7 @@ describe('HostEventClient', () => {
             const triggerResponse: UIPassthroughArrayResponse<typeof apiName> = Promise.resolve([]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleHostEventWithParam(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'No answer found for vizId: testVizId.' });
         });
 
@@ -114,7 +114,7 @@ describe('HostEventClient', () => {
             ]);
             mockProcessTrigger.mockResolvedValue(triggerResponse);
 
-            await expect(client.handleUIPassthroughForHostEvent(getIFrameEl(), apiName, parameters))
+            await expect(client.handleHostEventWithParam(getIFrameEl(), apiName, parameters))
                 .rejects.toEqual({ error: 'Some error' });
         });
     });

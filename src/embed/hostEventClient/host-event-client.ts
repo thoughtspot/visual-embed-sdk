@@ -27,7 +27,7 @@ export class HostEventClient {
       return res;
   }
 
-  public async handleUIPassthroughForHostEvent<UIPassthroughEventT extends UIPassthroughEvent>(
+  public async handleHostEventWithParam<UIPassthroughEventT extends UIPassthroughEvent>(
       iFrame: HTMLIFrameElement,
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
@@ -62,12 +62,12 @@ export class HostEventClient {
       payload?: HostEventRequest<T>,
   ): Promise<HostEventResponse<HostEvent>> {
       if (hostEvent === HostEvent.Pin && payload?.newVizName) {
-          return this.handleUIPassthroughForHostEvent(
+          return this.handleHostEventWithParam(
               iFrame, UIPassthroughEvent.addVizToPinboard, payload,
           );
       }
       if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
-          const data = await this.handleUIPassthroughForHostEvent(
+          const data = await this.handleHostEventWithParam(
               iFrame, UIPassthroughEvent.saveAnswer, payload,
           );
           return {
