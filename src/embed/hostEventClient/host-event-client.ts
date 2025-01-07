@@ -1,38 +1,52 @@
 import { HostEvent } from '../../types';
-import { processTrigger } from '../../utils/processTrigger';
+import { processTrigger as processTriggerService } from '../../utils/processTrigger';
+import { getEmbedConfig } from '../embedConfig';
 import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent, HostEventRequest, HostEventResponse,
     UIPassthroughRequest,
     UIPassthroughResponse,
+    TriggerPayload,
+    TriggerResponse,
 } from './contracts';
 
-export class HostEventClient {
-  thoughtSpotHost: string;
+// Define a type for the eventHandlerMap
+type EventHandlerMap = {
+  [K in HostEvent]: any;
+};
 
-  constructor(thoughtSpotHost: string) {
-      this.thoughtSpotHost = thoughtSpotHost;
+export class HostEventClient {
+  iFrame: HTMLIFrameElement;
+
+  constructor(iFrame?: HTMLIFrameElement) {
+      this.iFrame = iFrame;
   }
 
-  public async executeUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
-      iFrame: HTMLIFrameElement,
-      apiName: UIPassthroughEventT,
-      parameters: UIPassthroughRequest<UIPassthroughEventT>,
-  ): UIPassthroughArrayResponse<UIPassthroughEventT> {
-      const res = await processTrigger(iFrame, HostEvent.UIPassthrough, this.thoughtSpotHost, {
-          type: apiName,
-          parameters,
-      });
+  /**
+   * A wrapper over process trigger to
+   * @param {HostEvent} message Host event to send
+   * @param {any} data Data to send with the host event
+   * @returns {Promise<any>} - the response from the process trigger
+   */
+  protected async processTrigger(message: HostEvent, data: any): Promise<any> {
+      if (!this.iFrame) {
+          throw new Error('Iframe element is not set');
+      }
 
-      return res;
+      const thoughtspotHost = getEmbedConfig().thoughtSpotHost;
+      return processTriggerService(
+          this.iFrame,
+          message,
+          thoughtspotHost,
+          data,
+      );
   }
 
   public async handleHostEventWithParam<UIPassthroughEventT extends UIPassthroughEvent>(
-      iFrame: HTMLIFrameElement,
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
-      const response = (await this.executeUIPassthroughApi(iFrame, apiName, parameters))
+      const response = (await this.triggerUIPassthroughApi(apiName, parameters))
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
@@ -41,7 +55,10 @@ export class HostEventClient {
           throw { error };
       }
 
-      const errors = response.error || (response.value as any)?.errors;
+      const errors = response.error
+        || (response.value as any)?.errors
+        || (response.value as any)?.error;
+
       if (errors) {
       // eslint-disable-next-line no-throw-literal
           throw { error: response.error };
@@ -51,32 +68,82 @@ export class HostEventClient {
   }
 
   public async hostEventFallback(
-      iFrame: HTMLIFrameElement, hostEvent: HostEvent, data: any,
+      hostEvent: HostEvent,
+      data: any,
   ): Promise<any> {
-      return processTrigger(iFrame, hostEvent, this.thoughtSpotHost, data);
+      return this.processTrigger(hostEvent, data);
   }
 
-  public async executeHostEvent<T extends HostEvent>(
-      iFrame: HTMLIFrameElement,
-      hostEvent: HostEvent,
-      payload?: HostEventRequest<T>,
-  ): Promise<HostEventResponse<HostEvent>> {
-      if (hostEvent === HostEvent.Pin && payload?.newVizName) {
-          return this.handleHostEventWithParam(
-              iFrame, UIPassthroughEvent.addVizToPinboard, payload,
-          );
+  /**
+   * Setter for the iframe element used for host events
+   * @param {HTMLIFrameElement} iFrame - the iframe element to set
+   */
+  public setIframeElement(iFrame: HTMLIFrameElement): void {
+      this.iFrame = iFrame;
+  }
+
+  public async triggerUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
+      apiName: UIPassthroughEventT,
+      parameters: UIPassthroughRequest<UIPassthroughEventT>,
+  ): Promise<UIPassthroughArrayResponse<UIPassthroughEventT>> {
+      const res = await this.processTrigger(HostEvent.UIPassthrough, {
+          type: apiName,
+          parameters,
+      });
+
+      return res;
+  }
+
+  protected async handlePinEvent(
+      payload: HostEventRequest<HostEvent.Pin>,
+  ): Promise<HostEventResponse<HostEvent.Pin>> {
+      if (!payload || !('newVizName' in payload)) {
+          return this.hostEventFallback(HostEvent.Pin, payload);
       }
-      if (hostEvent === HostEvent.SaveAnswer && payload?.name) {
-          const data = await this.handleHostEventWithParam(
-              iFrame, UIPassthroughEvent.saveAnswer, payload,
-          );
-          return {
-              ...data,
-              answerId: data?.saveResponse?.data?.Answer__save?.answer?.id,
-          };
+
+      return this.handleHostEventWithParam(
+          UIPassthroughEvent.PinAnswerToLiveboard, payload,
+      );
+  }
+
+  protected async handleSaveAnswerEvent(
+      payload: HostEventRequest<HostEvent.SaveAnswer>,
+  ): Promise<any> {
+      if (!payload || !('name' in payload) || !('description' in payload)) {
+          // Save is the fallback for SaveAnswer
+          return this.hostEventFallback(HostEvent.Save, payload);
       }
-      // fallback for save answer is Save
-      if (hostEvent === HostEvent.SaveAnswer) hostEvent = HostEvent.Save;
-      return this.hostEventFallback(iFrame, hostEvent, payload);
+
+      const data = await this.handleHostEventWithParam(
+          UIPassthroughEvent.SaveAnswer, payload,
+      );
+      return {
+          ...data,
+          answerId: data?.saveResponse?.data?.Answer__save?.answer?.id,
+      };
+  }
+
+  protected eventHandlerMap: Partial<EventHandlerMap> = {
+      [HostEvent.Pin]: 'handlePinEvent',
+      [HostEvent.SaveAnswer]: 'handleSaveAnswerEvent',
+  }
+
+  public async triggerHostEvent<
+    HostEventT extends HostEvent,
+    PayloadT,
+  >(
+      hostEvent: HostEventT,
+      payload?: TriggerPayload<PayloadT, HostEventT>,
+  ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+      switch (hostEvent) {
+          case HostEvent.Pin:
+              return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>) as any;
+          case HostEvent.SaveAnswer:
+              return this.handleSaveAnswerEvent(
+                  payload as HostEventRequest<HostEvent.SaveAnswer>,
+              ) as any;
+          default:
+              return this.hostEventFallback(hostEvent, payload);
+      }
   }
 }

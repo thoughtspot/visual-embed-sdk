@@ -150,7 +150,7 @@ describe('Unit test case for ts embed', () => {
                 const payload = { newVizName: 'test' };
                 expect(
                     await searchEmbed.triggerUIPassThrough(
-                        UIPassthroughEvent.addVizToPinboard,
+                        UIPassthroughEvent.PinAnswerToLiveboard,
                         payload,
                     ),
                 );
@@ -160,7 +160,7 @@ describe('Unit test case for ts embed', () => {
                     'http://tshost',
                     {
                         parameters: payload,
-                        type: UIPassthroughEvent.addVizToPinboard,
+                        type: UIPassthroughEvent.PinAnswerToLiveboard,
                     },
                 );
             });

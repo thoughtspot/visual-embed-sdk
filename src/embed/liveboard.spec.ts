@@ -484,8 +484,10 @@ describe('Liveboard/viz embed tests', () => {
             liveboardId,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
-        const result = await liveboardEmbed.trigger(HostEvent.Pin);
-        expect(mockProcessTrigger).toBeCalled();
+        await executeAfterWait(async () => {
+            await liveboardEmbed.trigger(HostEvent.Pin);
+            expect(mockProcessTrigger).toBeCalled();
+        });
     });
 
     test('should render active tab when activeTab present', async () => {
