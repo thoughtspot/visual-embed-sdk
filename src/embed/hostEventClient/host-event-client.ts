@@ -10,11 +10,6 @@ import {
     TriggerResponse,
 } from './contracts';
 
-// Define a type for the eventHandlerMap
-type EventHandlerMap = {
-  [K in HostEvent]: any;
-};
-
 export class HostEventClient {
   iFrame: HTMLIFrameElement;
 
