@@ -1093,7 +1093,6 @@ export interface ViewConfig {
      * objects from another Org.
      * The `overrideOrgId` setting is honoured only if the
      * Per Org URL feature is enabled on your ThoughtSpot instance.
-     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -2473,9 +2472,7 @@ export enum HostEvent {
      * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
      * and `AppEmbed` only. In full application embedding, this event updates
      * the runtime filters applied on the Liveboard and saved Answer objects.
-     *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
-     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [

@@ -639,7 +639,7 @@ export class AppEmbed extends V1Embed {
             '/insights/liveboard/',
         ];
 
-        if (liveboardRelatedRoutes.some(path => data.data.currentPath.startsWith(path))) {
+        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
             // Ignore the height reset of the frame, if the navigation is
             // only within the liveboard page.
             return;
