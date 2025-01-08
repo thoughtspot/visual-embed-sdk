@@ -23,6 +23,7 @@ import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
+import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -637,7 +638,10 @@ export class LiveboardEmbed extends V1Embed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public trigger<HostEventT extends HostEvent>(
+        messageType: HostEventT,
+        data?: HostEventRequest<HostEventT>,
+    ): Promise<HostEventResponse<HostEventT>> {
         const dataWithVizId = data;
         if (messageType === HostEvent.SetActiveTab) {
             this.setActiveTab(data);

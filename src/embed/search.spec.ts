@@ -16,6 +16,7 @@ import {
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import { SearchBarEmbed } from './search-bar';
 
 const defaultViewConfig = {
     frameParams: {
@@ -500,6 +501,20 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
+        const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&useLastSelectedSources=false${prefixParams}#/embed/search-bar-embed`,
             );
         });
     });

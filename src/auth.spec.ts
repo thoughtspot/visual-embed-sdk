@@ -125,6 +125,7 @@ describe('Unit test for auth', () => {
     afterEach(() => {
         authTokenService.resetCachedAuthToken();
         SessionService.resetCachedSessionInfo();
+        jest.resetAllMocks();
     });
     test('endpoints, SAML_LOGIN_TEMPLATE', () => {
         const ssoTemplateUrl = authService.EndPoints.SAML_LOGIN_TEMPLATE(thoughtSpotHost);
@@ -137,6 +138,8 @@ describe('Unit test for auth', () => {
         expect(sessionInfo.mixpanelToken).toEqual('prodKey');
         expect(sessionInfo.isPublicUser).toEqual(false);
         await SessionService.getSessionInfo();
+        const cachedInfo = SessionService.getCachedSessionInfo();
+        expect(cachedInfo).toEqual(sessionInfo);
         expect(tokenAuthService.fetchSessionInfoService).toHaveBeenCalledTimes(1);
     });
 
@@ -146,6 +149,16 @@ describe('Unit test for auth', () => {
         jest.spyOn(EmbedConfig, 'getEmbedConfig').mockReturnValue({ disableSDKTracking: true });
         authInstance.postLoginService();
         expect(mixPanelService.initMixpanel).not.toBeCalled();
+    });
+
+    test('Log error is postLogin faild', async () => {
+        jest.spyOn(mixPanelService, 'initMixpanel');
+        jest.spyOn(SessionService, 'getSessionInfo').mockRejectedValueOnce(mockSessionInfo);
+        jest.spyOn(EmbedConfig, 'getEmbedConfig').mockReturnValue({ disableSDKTracking: true });
+        jest.spyOn(logger, 'error').mockResolvedValue(true);
+        await authInstance.postLoginService();
+        expect(mixPanelService.initMixpanel).not.toBeCalled();
+        expect(logger.error).toBeCalled();
     });
 
     test('doCookielessTokenAuth: when authEndpoint and getAuthToken are not there, it throw error', async () => {

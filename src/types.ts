@@ -1718,8 +1718,8 @@ export enum EmbedEvent {
      *
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
-     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`, `EmbedEvent.DownloadAsCSV`,
-     * or `EmbedEvent.DownloadAsXLSX`
+     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`,
+     * `EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -3203,6 +3203,16 @@ export enum HostEvent {
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * Triggers the action to get the current view of the liveboard
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    SaveAnswer = 'saveAnswer',
+    /**
+     * EmbedApi
+     * @hidden
+     */
+    UIPassthrough = 'UiPassthrough',
 }
 
 /**

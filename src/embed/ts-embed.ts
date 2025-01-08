@@ -9,6 +9,15 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import {
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+    UIPassthroughArrayResponse,
+    UIPassthroughEvent,
+    UIPassthroughRequest,
+} from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -62,6 +71,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
 
@@ -77,7 +87,7 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  * We cannot rename v1 event types to maintain backward compatibility
  * @internal
  */
-const V1EventMap = {};
+const V1EventMap: Record<string, any> = {};
 
 /**
  * Base class for embedding v2 experience
@@ -111,6 +121,15 @@ export class TsEmbed {
      */
     protected iFrame: HTMLIFrameElement;
 
+    /**
+     * Setter for the iframe element
+     * @param {HTMLIFrameElement} iFrame HTMLIFrameElement
+     */
+    protected setIframeElement(iFrame: HTMLIFrameElement): void {
+        this.iFrame = iFrame;
+        this.hostEventClient.setIframeElement(iFrame);
+    }
+
     protected viewConfig: ViewConfig;
 
     protected embedConfig: EmbedConfig;
@@ -121,8 +140,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-     * This is the base to access ThoughtSpot V2.
-     */
+    * This is the base to access ThoughtSpot V2.
+    */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -159,6 +178,8 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    protected hostEventClient: HostEventClient;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         // TODO: handle error
@@ -180,6 +201,7 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
+        this.hostEventClient = new HostEventClient(this.iFrame);
     }
 
     /**
@@ -241,7 +263,7 @@ export class TsEmbed {
         return eventData;
     }
 
-    private subscribedListeners = {};
+    private subscribedListeners: Record<string, any> = {};
 
     /**
      * Adds a global event listener to window for "message" events.
@@ -609,7 +631,7 @@ export class TsEmbed {
             this.insertIntoDOM(child);
         }
         if (this.insertedDomEl instanceof Node) {
-            this.insertedDomEl[this.embedNodeKey] = this;
+            (this.insertedDomEl as any)[this.embedNodeKey] = this;
         }
     }
 
@@ -647,7 +669,7 @@ export class TsEmbed {
                         return;
                     }
 
-                    this.iFrame = this.iFrame || this.createIframeEl(url);
+                    this.setIframeElement(this.iFrame || this.createIframeEl(url));
                     this.iFrame.addEventListener('load', () => {
                         nextInQueue();
                         const loadTimestamp = Date.now();
@@ -717,7 +739,7 @@ export class TsEmbed {
         if (this.preRenderWrapper && this.preRenderChild) {
             this.isPreRendered = true;
             if (this.preRenderChild instanceof HTMLIFrameElement) {
-                this.iFrame = this.preRenderChild;
+                this.setIframeElement(this.preRenderChild);
             }
             this.insertedDomEl = this.preRenderWrapper;
             this.isRendered = true;
@@ -766,7 +788,7 @@ export class TsEmbed {
         this.preRenderWrapper = preRenderWrapper;
 
         if (preRenderChild instanceof HTMLIFrameElement) {
-            this.iFrame = preRenderChild;
+            this.setIframeElement(preRenderChild);
         }
         this.insertedDomEl = preRenderWrapper;
 
@@ -983,10 +1005,14 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
-     * @param messageType The event type
-     * @param data The payload to send with the message
+     * @param {HostEvent} messageType The event type
+     * @param {any} data The payload to send with the message
+     * @returns A promise that resolves with the response from the embedded app
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public async trigger<HostEventT extends HostEvent, PayloadT>(
+        messageType: HostEventT,
+        data?: TriggerPayload<PayloadT, HostEventT>,
+    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -998,7 +1024,23 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
-        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+
+        return this.hostEventClient.triggerHostEvent(messageType, data);
+    }
+
+    /**
+     * Triggers an event to the embedded app, skipping the UI flow.
+     * @param {UIPassthroughEvent} apiName - The name of the API to be triggered.
+     * @param {UIPassthroughRequest} parameters - The parameters to be passed to the API.
+     * @returns {Promise<UIPassthroughRequest>} - A promise that resolves with the response
+     * from the embedded app.
+     */
+    public async triggerUIPassThrough<UIPassthroughEventT extends UIPassthroughEvent>(
+        apiName: UIPassthroughEventT,
+        parameters: UIPassthroughRequest<UIPassthroughEventT>,
+    ): Promise<UIPassthroughArrayResponse<UIPassthroughEventT>> {
+        const response = this.hostEventClient.triggerUIPassthroughApi(apiName, parameters);
+        return response;
     }
 
     /**
@@ -1104,14 +1146,14 @@ export class TsEmbed {
 
     private validatePreRenderViewConfig = (viewConfig: ViewConfig) => {
         const preRenderAllowedKeys = ['preRenderId', 'vizId', 'liveboardId'];
-        const preRenderedObject = this.insertedDomEl?.[this.embedNodeKey] as TsEmbed;
+        const preRenderedObject = (this.insertedDomEl as any)?.[this.embedNodeKey] as TsEmbed;
         if (!preRenderedObject) return;
         if (viewConfig.preRenderId) {
             const allOtherKeys = Object.keys(viewConfig).filter(
                 (key) => !preRenderAllowedKeys.includes(key) && !key.startsWith('on'),
             );
 
-            allOtherKeys.forEach((key) => {
+            allOtherKeys.forEach((key: keyof ViewConfig) => {
                 if (
                     !isUndefined(viewConfig[key])
                     && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
@@ -1245,7 +1287,6 @@ export class TsEmbed {
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
-
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }
 }
