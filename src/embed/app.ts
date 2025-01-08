@@ -627,10 +627,14 @@ export class AppEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
-        if (!data.data.currentPath.startsWith('/pinboard/')) {
-            this.setIFrameHeight(frameHeight || this.defaultHeight);
+        const { frameParams } = this.viewConfig || {};
+        if (
+            data.data.currentPath.startsWith('/embed/viz/')
+          || data.data.currentPath.startsWith('/embed/insights/viz/')
+        ) {
+            return;
         }
+        this.setIFrameHeight(frameParams?.height || this.defaultHeight);
     };
 
     /**
