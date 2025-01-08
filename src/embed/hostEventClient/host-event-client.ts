@@ -50,13 +50,13 @@ export class HostEventClient {
           throw { error };
       }
 
-      const errors = response.error
+      const error = response.error
         || (response.value as any)?.errors
         || (response.value as any)?.error;
 
-      if (errors) {
+      if (error) {
       // eslint-disable-next-line no-throw-literal
-          throw { error: response.error };
+          throw { error };
       }
 
       return { ...response.value };
