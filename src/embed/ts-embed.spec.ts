@@ -96,6 +96,11 @@ const customisationsView = {
     },
 };
 
+const customVariablesForThirdPartyTools = {
+    key1: '!@#',
+    key2: '*%^',
+};
+
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
     beforeEach(() => {
@@ -227,6 +232,7 @@ describe('Unit test case for ts embed', () => {
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
                 customizations: customisations,
+                customVariablesForThirdPartyTools,
             });
         });
 
@@ -255,6 +261,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -287,6 +294,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -324,6 +332,43 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
+                },
+            });
+        });
+
+        test('customVariablesForThirdPartyTools should be part of the app_init payload', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+
+            const searchEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+            });
+            searchEmbed.render();
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: {
+                    customisations,
+                    authToken: '',
+                    hostConfig: undefined,
+                    runtimeFilterParams: null,
+                    runtimeParameterParams: null,
+                    hiddenHomeLeftNavItems: [],
+                    hiddenHomepageModules: [],
+                    reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -361,6 +406,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Watchlist],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -401,6 +447,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -442,6 +489,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -482,6 +530,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -523,6 +572,7 @@ describe('Unit test case for ts embed', () => {
                     hiddenHomepageModules: [],
                     hostConfig: undefined,
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -561,6 +611,7 @@ describe('Unit test case for ts embed', () => {
                         [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
                     hiddenHomepageModules: [],
                     reorderedHomepageModules: [],
+                    customVariablesForThirdPartyTools,
                 },
             });
         });
@@ -727,6 +778,7 @@ describe('Unit test case for ts embed', () => {
                         hiddenHomepageModules: [],
                         hostConfig: undefined,
                         reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools: {},
                     },
                 });
             });
