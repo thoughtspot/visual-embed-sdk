@@ -203,6 +203,22 @@ export interface SearchViewConfig
      */
     searchOptions?: SearchOptions;
     /**
+     * Exclude the search token string from the URL.
+     * If set to true, the search token string is not appended to the URL.
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.7.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *  searchOptions: {
+     *    searchTokenString: '[quantity purchased] [region]',
+     *    executeSearch: true,
+     *  },
+     *  excludeSearchTokenStringFromURL: true,
+     * });
+     * ```
+     */
+    excludeSearchTokenStringFromURL?: boolean;
+    /**
      * The GUID of a saved answer to load initially.
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
@@ -340,6 +356,7 @@ export class SearchEmbed extends TsEmbed {
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
+            excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
@@ -355,7 +372,7 @@ export class SearchEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions?.searchTokenString) {
+        if (searchOptions?.searchTokenString && !excludeSearchTokenStringFromURL) {
             queryParams[Param.searchTokenString] = encodeURIComponent(
                 searchOptions.searchTokenString,
             );

@@ -72,6 +72,7 @@ import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { SearchViewConfig } from './search';
 
 const { version } = pkgInfo;
 
@@ -352,6 +353,9 @@ export class TsEmbed {
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
                     ? this.viewConfig?.hiddenHomeLeftNavItems
                     : [],
+                searchOptions: (this.viewConfig as SearchViewConfig).excludeSearchTokenStringFromURL
+                    ? (this.viewConfig as SearchViewConfig).searchOptions
+                    : null,
                 customVariablesForThirdPartyTools:
                     this.embedConfig.customVariablesForThirdPartyTools || {},
             },
