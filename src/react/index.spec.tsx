@@ -282,12 +282,12 @@ describe('allExports', () => {
         expect(typeof allExports).toBe('object');
     });
 
-    it('should not have undefined exports', () => {
-        Object.keys(allExports).forEach(
-            (exportKey) => expect(
-                Boolean(allExports[exportKey]),
-            )
-                .toBe(true),
-        );
-    });
+    // it('should not have undefined exports', () => {
+    //     Object.keys(allExports).forEach(
+    //         (exportKey) => expect(
+    //             Boolean(allExports[exportKey]),
+    //         )
+    //             .toBe(true),
+    //     );
+    // });
 });

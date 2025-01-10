@@ -73,6 +73,12 @@ export const setupWebViewMessageHandler = async (
         }
     };
 
+
+    // scaligent -> some page -> sending some data to scaligent 
+    // static page -> we have send to scaligent -> 
+    // iframe -> .onMessage(()) ->  
+
+
     const defaultHandleMessage = async () => {
         switch (message.type) {
             case 'appInit': {
