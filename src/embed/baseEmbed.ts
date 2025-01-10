@@ -6,14 +6,11 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
-import { processAuthFailure } from 'src/utils/processData';
-import { AuthFailureType } from 'src/auth';
+import { AuthFailureType } from '../auth';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
-import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getQueryParamString,
