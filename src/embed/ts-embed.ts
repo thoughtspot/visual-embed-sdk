@@ -181,13 +181,6 @@ export class TsEmbed extends BaseEmbed {
     }
 
     /**
-     * Throws error encountered during initialization.
-     */
-    private throwInitError() {
-        this.handleError('You need to init the ThoughtSpot SDK module first');
-    }
-
-    /**
      * Handles errors within the SDK
      * @param error The error message or object
      */
