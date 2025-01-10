@@ -250,19 +250,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -283,19 +285,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations: customisationsView,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations: customisationsView,
+                        authToken: '',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -321,19 +325,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        hostConfig: undefined,
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -356,20 +362,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        hostConfig: undefined,
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -395,19 +402,22 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    reorderedHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Watchlist],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        hostConfig: undefined,
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        reorderedHomepageModules:
+                            [HomepageModule.MyLibrary, HomepageModule.Watchlist],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -436,19 +446,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: 'param1=color&paramVal1=blue',
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: 'param1=color&paramVal1=blue',
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -478,19 +490,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -519,19 +533,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -561,19 +577,21 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 
@@ -599,20 +617,23 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: {
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems:
-                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
-                    hiddenHomepageModules: [],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                },
+
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations,
+                        authToken: '',
+                        hostConfig: undefined,
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems:
+                      [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
+                        hiddenHomepageModules: [],
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools,
+                    },
+                });
             });
         });
 

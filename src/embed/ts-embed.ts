@@ -60,6 +60,7 @@ import {
     FrameParams,
     ContextMenuTriggerOptions,
     RuntimeFilter,
+    DefaultAppInitData,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -72,7 +73,6 @@ import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { HostEventClient } from './hostEventClient/host-event-client';
-import { SearchViewConfig } from './search';
 
 const { version } = pkgInfo;
 
@@ -320,46 +320,62 @@ export class TsEmbed {
         });
     }
 
+    protected async getAuthTokenForCookielessInit() {
+        let authToken = '';
+        if (this.embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) return authToken;
+
+        try {
+            authToken = await getAuthenticationToken(this.embedConfig);
+        } catch (e) {
+            processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            throw e;
+        }
+
+        return authToken;
+    }
+
+    protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
+        const authToken = await this.getAuthTokenForCookielessInit();
+        return {
+            customisations: getCustomisations(this.embedConfig, this.viewConfig),
+            authToken,
+            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
+                ? getRuntimeFilters(this.viewConfig.runtimeFilters)
+                : null,
+            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
+                ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
+                : null,
+            hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
+            reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
+            hostConfig: this.embedConfig.hostConfig,
+            hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
+                ? this.viewConfig?.hiddenHomeLeftNavItems
+                : [],
+            customVariablesForThirdPartyTools:
+            this.embedConfig.customVariablesForThirdPartyTools || {},
+        };
+    }
+
+    protected async getAppInitData() {
+        return this.getDefaultAppInitData();
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
      * @param responder
      */
     private appInitCb = async (_: any, responder: any) => {
-        let authToken = '';
-        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-            try {
-                authToken = await getAuthenticationToken(this.embedConfig);
-            } catch (e) {
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-                return;
-            }
+        try {
+            const appInitData = await this.getAppInitData();
+            this.isAppInitialized = true;
+            responder({
+                type: EmbedEvent.APP_INIT,
+                data: appInitData,
+            });
+        } catch (e) {
+            logger.error(`AppInit failed, Error : ${e?.message}`);
         }
-        this.isAppInitialized = true;
-        responder({
-            type: EmbedEvent.APP_INIT,
-            data: {
-                customisations: getCustomisations(this.embedConfig, this.viewConfig),
-                authToken,
-                runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
-                    ? getRuntimeFilters(this.viewConfig.runtimeFilters)
-                    : null,
-                runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
-                    ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
-                    : null,
-                hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
-                reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
-                hostConfig: this.embedConfig.hostConfig,
-                hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
-                    ? this.viewConfig?.hiddenHomeLeftNavItems
-                    : [],
-                searchOptions: (this.viewConfig as SearchViewConfig).excludeSearchTokenStringFromURL
-                    ? (this.viewConfig as SearchViewConfig).searchOptions
-                    : null,
-                customVariablesForThirdPartyTools:
-                    this.embedConfig.customVariablesForThirdPartyTools || {},
-            },
-        });
     };
 
     /**

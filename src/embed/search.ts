@@ -12,6 +12,7 @@ import {
     Param,
     Action,
     ViewConfig,
+    DefaultAppInitData,
 } from '../types';
 import {
     getQueryParamString,
@@ -303,6 +304,10 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
     Action.AnswerDelete,
 ];
 
+export interface SearchAppInitData extends DefaultAppInitData {
+  searchOptions?: SearchOptions;
+}
+
 /**
  * Embed ThoughtSpot search
  * @group Embed components
@@ -333,6 +338,21 @@ export class SearchEmbed extends TsEmbed {
         }
 
         return dataSourceMode;
+    }
+
+    protected getSearchInitData() {
+        return {
+            ...(this.viewConfig.excludeSearchTokenStringFromURL ? {
+                searchOptions: {
+                    searchTokenString: this.viewConfig.searchOptions?.searchTokenString,
+                },
+            } : {}),
+        };
+    }
+
+    protected async getAppInitData(): Promise<SearchAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return { ...defaultAppInitData, ...this.getSearchInitData() };
     }
 
     protected getEmbedParams(): string {
