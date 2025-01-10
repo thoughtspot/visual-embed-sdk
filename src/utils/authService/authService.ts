@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch';
 import { logger } from '../logger';
 
 export const EndPoints = {
