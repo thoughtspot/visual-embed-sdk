@@ -9,6 +9,15 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import {
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+    UIPassthroughArrayResponse,
+    UIPassthroughEvent,
+    UIPassthroughRequest,
+} from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -63,6 +72,7 @@ import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { BaseEmbed } from './baseEmbed';
+import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
 
@@ -79,6 +89,7 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  * @internal
  */
 const V1EventMap: Record<string, any> = {};
+
 /**
  * Base class for embedding v2 experience
  * Note: the v2 version of ThoughtSpot Blink is built on the new stack:
@@ -110,6 +121,29 @@ export class TsEmbed extends BaseEmbed {
     protected iFrame: HTMLIFrameElement;
 
     /**
+     * Setter for the iframe element
+     * @param {HTMLIFrameElement} iFrame HTMLIFrameElement
+     */
+    protected setIframeElement(iFrame: HTMLIFrameElement): void {
+        this.iFrame = iFrame;
+        this.hostEventClient.setIframeElement(iFrame);
+    }
+
+    protected viewConfig: ViewConfig;
+
+    protected embedConfig: EmbedConfig;
+
+    /**
+     * The ThoughtSpot hostname or IP address
+     */
+    protected thoughtSpotHost: string;
+
+    /*
+    * This is the base to access ThoughtSpot V2.
+    */
+    protected thoughtSpotV2Base: string;
+
+    /**
      * A map of event handlers for particular message types triggered
      * by the embedded app; multiple event handlers can be registered
      * against a particular message type.
@@ -128,6 +162,8 @@ export class TsEmbed extends BaseEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    protected hostEventClient: HostEventClient;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         super(viewConfig);
         this.el = getDOMNode(domSelector);
@@ -138,6 +174,17 @@ export class TsEmbed extends BaseEmbed {
         }
         this.eventHandlerMap = new Map();
         this.registerAppInit();
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
+            ...viewConfig,
+        });
+        this.hostEventClient = new HostEventClient(this.iFrame);
+    }
+
+    /**
+     * Throws error encountered during initialization.
+     */
+    private throwInitError() {
+        this.handleError('You need to init the ThoughtSpot SDK module first');
     }
 
     /**
@@ -281,6 +328,8 @@ export class TsEmbed extends BaseEmbed {
                 hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
                     ? this.viewConfig?.hiddenHomeLeftNavItems
                     : [],
+                customVariablesForThirdPartyTools:
+                    this.embedConfig.customVariablesForThirdPartyTools || {},
             },
         });
     };
@@ -378,7 +427,7 @@ export class TsEmbed extends BaseEmbed {
                         return;
                     }
 
-                    this.iFrame = this.iFrame || this.createIframeEl(url);
+                    this.setIframeElement(this.iFrame || this.createIframeEl(url));
                     this.iFrame.addEventListener('load', () => {
                         nextInQueue();
                         const loadTimestamp = Date.now();
@@ -448,7 +497,7 @@ export class TsEmbed extends BaseEmbed {
         if (this.preRenderWrapper && this.preRenderChild) {
             this.isPreRendered = true;
             if (this.preRenderChild instanceof HTMLIFrameElement) {
-                this.iFrame = this.preRenderChild;
+                this.setIframeElement(this.preRenderChild);
             }
             this.insertedDomEl = this.preRenderWrapper;
             this.isRendered = true;
@@ -497,7 +546,7 @@ export class TsEmbed extends BaseEmbed {
         this.preRenderWrapper = preRenderWrapper;
 
         if (preRenderChild instanceof HTMLIFrameElement) {
-            this.iFrame = preRenderChild;
+            this.setIframeElement(preRenderChild);
         }
         this.insertedDomEl = preRenderWrapper;
 
@@ -707,10 +756,14 @@ export class TsEmbed extends BaseEmbed {
 
     /**
      * Triggers an event to the embedded app
-     * @param messageType The event type
-     * @param data The payload to send with the message
+     * @param {HostEvent} messageType The event type
+     * @param {any} data The payload to send with the message
+     * @returns A promise that resolves with the response from the embedded app
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public async trigger<HostEventT extends HostEvent, PayloadT>(
+        messageType: HostEventT,
+        data?: TriggerPayload<PayloadT, HostEventT>,
+    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -722,7 +775,23 @@ export class TsEmbed extends BaseEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
-        return processTrigger(this.iFrame, messageType, this.thoughtSpotHost, data);
+
+        return this.hostEventClient.triggerHostEvent(messageType, data);
+    }
+
+    /**
+     * Triggers an event to the embedded app, skipping the UI flow.
+     * @param {UIPassthroughEvent} apiName - The name of the API to be triggered.
+     * @param {UIPassthroughRequest} parameters - The parameters to be passed to the API.
+     * @returns {Promise<UIPassthroughRequest>} - A promise that resolves with the response
+     * from the embedded app.
+     */
+    public async triggerUIPassThrough<UIPassthroughEventT extends UIPassthroughEvent>(
+        apiName: UIPassthroughEventT,
+        parameters: UIPassthroughRequest<UIPassthroughEventT>,
+    ): Promise<UIPassthroughArrayResponse<UIPassthroughEventT>> {
+        const response = this.hostEventClient.triggerUIPassthroughApi(apiName, parameters);
+        return response;
     }
 
     /**
@@ -933,12 +1002,11 @@ export class TsEmbed extends BaseEmbed {
     /**
      * Returns the answerService which can be used to make arbitrary graphql calls on top
      * session.
-     * @param vizId [Optional] to get for a specific viz in case of a liveboard.
+     * @param vizId [Optional] to get for a specific viz in case of a Liveboard.
      * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
-
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
     }
 }

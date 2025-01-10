@@ -418,7 +418,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
-     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
      * @type {boolean}
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
@@ -628,9 +628,23 @@ export class AppEmbed extends V1Embed {
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
         const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
-        if (!data.data.currentPath.startsWith('/pinboard/')) {
-            this.setIFrameHeight(frameHeight || this.defaultHeight);
+
+        const liveboardRelatedRoutes = [
+            '/pinboard/',
+            '/insights/pinboard/',
+            '/schedules/',
+            '/embed/viz/',
+            '/embed/insights/viz/',
+            '/liveboard/',
+            '/insights/liveboard/',
+        ];
+
+        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
+            // Ignore the height reset of the frame, if the navigation is
+            // only within the liveboard page.
+            return;
         }
+        this.setIFrameHeight(frameHeight || this.defaultHeight);
     };
 
     /**

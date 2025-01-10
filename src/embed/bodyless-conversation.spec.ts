@@ -123,7 +123,6 @@ describe.skip('BodylessConversation', () => {
 
         const conversationEmbed = new BodylessConversation(viewConfig);
         const result = await conversationEmbed.sendMessage('userMessage');
-        console.log(result.container);
         const iframeSrc = getIFrameSrc(result.container);
         expectUrlToHaveParamsWithValues(iframeSrc, {
             sessionId: 'sessionId',

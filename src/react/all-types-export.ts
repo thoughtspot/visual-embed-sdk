@@ -51,4 +51,5 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     resetCachedAuthToken,
+    UIPassthroughEvent,
 } from '../index';

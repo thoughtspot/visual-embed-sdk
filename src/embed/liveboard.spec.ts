@@ -484,8 +484,10 @@ describe.skip('Liveboard/viz embed tests', () => {
             liveboardId,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
-        const result = await liveboardEmbed.trigger(HostEvent.Pin);
-        expect(mockProcessTrigger).toBeCalled();
+        await executeAfterWait(async () => {
+            await liveboardEmbed.trigger(HostEvent.Pin);
+            expect(mockProcessTrigger).toBeCalled();
+        });
     });
 
     test('should render active tab when activeTab present', async () => {
@@ -555,6 +557,27 @@ describe.skip('Liveboard/viz embed tests', () => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
+        } as LiveboardViewConfig);
+        const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
+        liveboardEmbed.prerenderGeneric();
+        executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.APP_INIT,
+            });
+        });
+        executeAfterWait(() => {
+            liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
+            expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
+            done();
+        });
+    });
+
+    test('navigateToLiveboard with preRender', (done) => {
+        mockMessageChannel();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            preRenderId: 'test',
         } as LiveboardViewConfig);
         const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
         liveboardEmbed.prerenderGeneric();
@@ -656,6 +679,17 @@ describe.skip('Liveboard/viz embed tests', () => {
             await libEmbed.render();
             await executeAfterWait(() => {
                 expect(getRootEl().innerHTML).not.toContain('ts-viz-preview-loader');
+            });
+        });
+
+        test('get liveboard url value', async () => {
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '1234',
+            });
+            await libEmbed.render();
+            await executeAfterWait(() => {
+                const url = libEmbed.getLiveboardUrl();
+                expect(url).toEqual('http://tshost/#/pinboard/1234');
             });
         });
 
