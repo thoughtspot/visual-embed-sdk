@@ -9,6 +9,8 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import { processAuthFailure } from 'src/utils/processData';
+import { AuthFailureType } from 'src/auth';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -33,9 +35,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import pkgInfo from '../../package.json';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
-import { processAuthFailure } from 'src/utils/processData';
 import { handleAuth, notifyAuthFailure } from './base';
-import { AuthFailureType } from 'src/auth';
 
 const { version } = pkgInfo;
 
@@ -59,10 +59,7 @@ const V1EventMap = {};
  * React+GraphQL
  */
 export class BaseEmbed {
-
-
     protected isAppInitialized = false;
-
 
     protected viewConfig: ViewConfig;
 
@@ -83,7 +80,6 @@ export class BaseEmbed {
      */
     protected isError: boolean;
 
-
     /**
      * Should we encode URL Query Params using base64 encoding which thoughtspot
      * will generate for embedding. This provides additional security to
@@ -95,7 +91,6 @@ export class BaseEmbed {
     private defaultHiddenActions = [Action.ReportError];
 
     constructor(viewConfig?: ViewConfig) {
-
         // TODO: handle error
         this.embedConfig = getEmbedConfig();
         this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
@@ -150,7 +145,7 @@ export class BaseEmbed {
             handleAuth();
         }
         notifyAuthFailure(AuthFailureType.EXPIRY);
-    };    
+    };
 
     /**
      * Constructs the base URL string to load the ThoughtSpot app.
@@ -395,7 +390,6 @@ export class BaseEmbed {
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
-        //no-op
+        // no-op
     }
-
 }

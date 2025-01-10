@@ -84,7 +84,7 @@ const V1EventMap: Record<string, any> = {};
  * Note: the v2 version of ThoughtSpot Blink is built on the new stack:
  * React+GraphQL
  */
-export class TsEmbed extends BaseEmbed{
+export class TsEmbed extends BaseEmbed {
     /**
      * The DOM node which was inserted by the SDK to either
      * render the iframe or display an error message.
@@ -284,7 +284,6 @@ export class TsEmbed extends BaseEmbed{
             },
         });
     };
-
 
     /**
      * Register APP_INIT event and sendback init payload
@@ -575,7 +574,6 @@ export class TsEmbed extends BaseEmbed{
             }
         });
     }
-
 
     /**
      * Gets the v1 event type (if applicable) for the EmbedEvent type
