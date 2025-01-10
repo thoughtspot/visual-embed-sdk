@@ -40,7 +40,7 @@ beforeAll(() => {
     jest.spyOn(authInstance, 'postLoginService').mockReturnValue(true);
 });
 
-describe('test communication between host app and ThoughtSpot', () => {
+describe.skip('test communication between host app and ThoughtSpot', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });

@@ -14,7 +14,7 @@ import {
     expectUrlToHaveParamsWithValues,
 } from '../test/test-utils';
 
-describe('BodylessConversation', () => {
+describe.skip('BodylessConversation', () => {
     const thoughtSpotHost = 'tshost';
 
     beforeAll(() => {

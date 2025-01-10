@@ -7,6 +7,7 @@ import { getCustomisations, getCustomisationsMobileEmbed } from '../utils';
 import { getThoughtSpotHost, getV2BasePath } from '../config';
 import { getEmbedConfig } from './embedConfig';
 import { AuthType, Param } from '../types';
+import { BaseEmbed } from './baseEmbed';
 
 /**
  * A reference type for the RN WebView (React ref).
@@ -24,33 +25,17 @@ export interface NativeEmbedConfig {
   // Add any other fields relevant to your scenario...
 }
 
-export class NativeEmbed {
+export class NativeEmbed extends BaseEmbed {
   private config: NativeEmbedConfig;
 
-  private embedConfig = getEmbedConfig(); // Global or user-supplied
-
   private webViewRef?: WebViewRef;
-
-  /**
-   * Cached info about the final TS host, v2 base path,
-   * and whether we base64-encode URL params.
-   */
-  private thoughtSpotHost: string;
-
-  private thoughtSpotV2Base: string;
-
-  private shouldEncodeUrlQueryParams = false;
-
-  /**
-   * Track if we've run into errors
-   */
-  private isError = false;
 
   constructor(
       config: NativeEmbedConfig,
       webViewRef?: WebViewRef,
   ) {
       // Merge user config with any global embed config if needed
+      super();
       this.config = config;
 
       // Set up references
