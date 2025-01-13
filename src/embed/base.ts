@@ -201,7 +201,7 @@ export const init = (embedConfig: EmbedConfig) => {
     //         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     //     }),
     // );
-
+    const x = "shilo-loo"
     // setGlobalLogLevelOverride(embedConfig.logLevel);
     // registerReportingObserver();
 
@@ -224,7 +224,7 @@ export const init = (embedConfig: EmbedConfig) => {
     // if (getEmbedConfig().callPrefetch) {
     //     prefetch(getEmbedConfig().thoughtSpotHost);
     // }
-    return 'init hai bhai';
+    return x;
 };
 
 /**
