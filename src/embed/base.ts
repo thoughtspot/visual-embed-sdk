@@ -213,7 +213,8 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     // uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
     //     ...configToTrack,
     //     usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-    //     usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+    //     usedCustomizationVariables: 
+    //          embedConfig.customizations?.style?.customCSS?.variables != null,
     //     usedCustomizationRules:
     //         embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
     //     usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
