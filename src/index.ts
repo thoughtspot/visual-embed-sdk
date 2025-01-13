@@ -21,7 +21,10 @@ import {
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { BodylessConversation, BodylessConversationViewConfig } from './embed/bodyless-conversation';
+import {
+    BodylessConversation,
+    BodylessConversationViewConfig,
+} from './embed/bodyless-conversation';
 import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
@@ -55,7 +58,12 @@ import {
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import { ObjectSearchEmbed, ObjectSearchViewConfig } from './embed/objectSearch';
+import {
+    AnswerService,
+    SessionInterface,
+    UnderlyingDataPoint,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -81,6 +89,7 @@ export {
     PinboardEmbed,
     LiveboardEmbed,
     SageEmbed,
+    ObjectSearchEmbed,
     AppEmbed,
     BodylessConversation,
     BodylessConversationViewConfig,
@@ -108,6 +117,7 @@ export {
     SearchBarViewConfig,
     LiveboardViewConfig,
     SageViewConfig,
+    ObjectSearchViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
