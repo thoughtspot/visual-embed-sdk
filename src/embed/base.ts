@@ -201,7 +201,7 @@ export const init = (embedConfig: EmbedConfig) => {
     //         thoughtSpotHost: getThoughtSpotHost(embedConfig),
     //     }),
     // );
-    const x = "shilo-loo"
+    const x = 'shillooe-olio';
     // setGlobalLogLevelOverride(embedConfig.logLevel);
     // registerReportingObserver();
 
