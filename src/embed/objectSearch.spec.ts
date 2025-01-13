@@ -13,15 +13,6 @@ import * as authInstance from '../auth';
 
 const thoughtSpotHost = 'tshost';
 
-beforeAll(() => {
-    init({
-        thoughtSpotHost,
-        authType: AuthType.None,
-    });
-    spyOn(window, 'alert');
-    jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
-});
-
 describe('Object search embed tests', () => {
     beforeAll(() => {
         init({
