@@ -1,1 +1,1 @@
-import { getWebViewUrl, setupWebViewMessageHandler } from './commonUtils';
+export { getWebViewUrl, setupWebViewMessageHandler } from './commonUtils';

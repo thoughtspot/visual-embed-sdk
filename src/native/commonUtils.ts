@@ -142,33 +142,33 @@ export const setupWebViewMessageHandler = async (
     }
 };
 
-/**
- *
- * @param embedConfig
- * @param webViewRef
- */
-export function initMobile(embedConfig: WebViewConfig, webViewRef?: any)
-: EventEmitter<AuthStatus | AuthEvent> {
-    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    setMobileEmbedConfig(embedConfig);
-    setAuthEE(authEE);
+// /**
+//  *
+//  * @param embedConfig
+//  * @param webViewRef
+//  */
+// export function initMobile(embedConfig: WebViewConfig, webViewRef?: any)
+// : EventEmitter<AuthStatus | AuthEvent> {
+//     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+//     setMobileEmbedConfig(embedConfig);
+//     setAuthEE(authEE);
 
-    handleAuth();
+//     handleAuth();
 
-    if (embedConfig.autoAttachWebViewHandler && webViewRef?.current) {
-        const originalOnMessage = webViewRef.current.props?.onMessage;
-        webViewRef.current.props.onMessage = (event: any) => {
-            // If the user has some onMessage Added.
-            if (originalOnMessage) {
-                originalOnMessage(event);
-            }
-            // Then we execute ours.
-            setupWebViewMessageHandler(embedConfig, event, webViewRef);
-        };
-    }
+//     if (embedConfig.autoAttachWebViewHandler && webViewRef?.current) {
+//         const originalOnMessage = webViewRef.current.props?.onMessage;
+//         webViewRef.current.props.onMessage = (event: any) => {
+//             // If the user has some onMessage Added.
+//             if (originalOnMessage) {
+//                 originalOnMessage(event);
+//             }
+//             // Then we execute ours.
+//             setupWebViewMessageHandler(embedConfig, event, webViewRef);
+//         };
+//     }
 
-    return authEE;
-}
+//     return authEE;
+// }
 
 const jsCodeToHandleInteractionsForContextMenu = `
 // Disabling auofocus
