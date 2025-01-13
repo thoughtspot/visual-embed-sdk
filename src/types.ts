@@ -204,7 +204,7 @@ export enum HomeLeftNavItem {
     /**
      * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
-    LiveboardSchedules = 'liveboard-schedules'
+    LiveboardSchedules = 'liveboard-schedules',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -623,7 +623,7 @@ export interface EmbedConfig {
      * ```
      *  @version SDK 1.37.0 | Thoughtspot: 10.7.0.cl
      */
-    customVariablesForThirdPartyTools?: Record< string, any >;
+    customVariablesForThirdPartyTools?: Record<string, any>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3256,6 +3256,7 @@ export enum DataSourceVisualMode {
 export enum Param {
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
+    IsObjectSearchEmbed = 'isObjectSearchEmbed',
     DataSourceMode = 'dataSourceMode',
     DisableActions = 'disableAction',
     DisableActionReason = 'disableHint',
