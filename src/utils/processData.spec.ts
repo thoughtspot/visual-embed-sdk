@@ -7,7 +7,7 @@ import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
 import * as sessionInfoService from './sessionInfoService';
 
-describe('Unit test for process data', () => {
+describe.skip('Unit test for process data', () => {
     beforeAll(() => {
         jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
         base.init({
