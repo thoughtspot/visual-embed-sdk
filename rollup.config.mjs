@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2020
- *
  * Rollup configuration for building ThoughtSpot Embed UI SDK module
- * @summary Rollup config
- * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
 import typescript from 'rollup-plugin-typescript2';
@@ -28,61 +24,87 @@ const plugins = [
 
 const banner = `/* @thoughtspot/visual-embed-sdk version ${pkg.version} */`;
 
-export default [{
-    input: 'src/index.ts',
-    output: [
-        {
-            file: 'dist/tsembed.js',
-            format: 'umd',
-            inlineDynamicImports: true,
-            name: 'tsembed',
-            banner,
-        },
-        {
-            dir: 'dist',
-            format: 'es',
-            entryFileNames: 'tsembed.es.js',
-            banner,
-        },
-    ],
-    external: [
-        ...Object.keys(pkg.peerDependencies || {}),
-    ],
-    plugins,
-}, {
-    input: 'src/react/index.tsx',
-    output: [
-        {
-            file: 'dist/tsembed-react.js',
-            format: 'umd',
-            inlineDynamicImports: true,
-            name: 'tsembed',
-            banner,
-        },
-        {
-            dir: 'dist',
-            format: 'es',
-            entryFileNames: 'tsembed-react.es.js',
-            banner,
-        },
-    ],
-    external: [
-        ...Object.keys(pkg.peerDependencies || {}),
-    ],
-    plugins,
-}, 
-{
-    input: 'src/native/index.ts',
-    output: [
-        {
-            file: 'dist/tsembed-parsers.js',
-            format: 'umd',
-            name: 'tsembed',
-        },
-        {
-            file: 'dist/tsembed-parsers.es.js',
-            format: 'es',
-        },
-    ],
-    plugins,
-}];
+export default [
+    {
+        input: 'src/index.ts',
+        output: [
+            {
+                file: 'dist/tsembed.js',
+                format: 'umd',
+                inlineDynamicImports: true,
+                name: 'tsembed',
+                banner,
+            },
+            {
+                dir: 'dist',
+                format: 'es',
+                entryFileNames: 'tsembed.es.js',
+                banner,
+            },
+        ],
+        external: [
+            ...Object.keys(pkg.peerDependencies || {}),
+        ],
+        plugins,
+    },
+    {
+        input: 'src/react/index.tsx',
+        output: [
+            {
+                file: 'dist/tsembed-react.js',
+                format: 'umd',
+                inlineDynamicImports: true,
+                name: 'tsembed',
+                banner,
+            },
+            {
+                dir: 'dist',
+                format: 'es',
+                entryFileNames: 'tsembed-react.es.js',
+                banner,
+            },
+        ],
+        external: [
+            ...Object.keys(pkg.peerDependencies || {}),
+        ],
+        plugins,
+    },
+    {
+        input: 'index.mobile.ts',
+        output: [
+            {
+                file: 'dist/index.mobile.js',
+                format: 'cjs',
+                sourcemap: true,
+                banner,
+            },
+            {
+                file: 'dist/index.mobile.es.js',
+                format: 'es',
+                sourcemap: true,
+                banner,
+            },
+        ],
+        external: [
+            ...Object.keys(pkg.peerDependencies || {}).filter(
+                (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
+            ),
+        ],
+        plugins,
+    },
+    {
+        input: 'src/native/index.ts',
+        output: [
+            {
+                file: 'dist/tsembed-parsers.js',
+                format: 'umd',
+                name: 'tsembed',
+            },
+            {
+                file: 'dist/tsembed-parsers.es.js',
+                format: 'es',
+            },
+        ],
+        plugins,
+    }
+];

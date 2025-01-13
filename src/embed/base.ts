@@ -191,7 +191,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+export const init = (embedConfig: EmbedConfig) => {
     // sanity(embedConfig);
     // resetCachedAuthToken();
     // embedConfig = setEmbedConfig(
@@ -205,8 +205,8 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     // setGlobalLogLevelOverride(embedConfig.logLevel);
     // registerReportingObserver();
 
-    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    setAuthEE(authEE);
+    // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    // setAuthEE(authEE);
     // handleAuth();
 
     // const { password, ...configToTrack } = getEmbedConfig();
@@ -224,7 +224,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     // if (getEmbedConfig().callPrefetch) {
     //     prefetch(getEmbedConfig().thoughtSpotHost);
     // }
-    return authEE as AuthEventEmitter;
+    return 'init hai bhai';
 };
 
 /**

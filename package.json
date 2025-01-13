@@ -4,6 +4,7 @@
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
+    "mobile": "dist/index.mobile.js",
     "types": "lib/src/index.d.ts",
     "files": [
         "dist/**",
@@ -15,7 +16,13 @@
         ".": {
             "import": "./lib/src/index.js",
             "require": "./cjs/src/index.js",
-            "types": "./lib/src/index.d.ts"
+            "types": "./lib/src/index.d.ts",
+            "react-native": "./dist/index.mobile.js"
+        },
+        "./mobile": {
+            "import": "./dist/index.mobile.js",
+            "require": "./dist/index.mobile.js",
+            "types": "./dist/index.mobile.d.ts"
         },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
