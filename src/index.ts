@@ -6,9 +6,7 @@
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
-import {
-    AppEmbed, Page, AppViewConfig, HomePageSearchBarMode,
-} from './embed/app';
+import { AppEmbed, Page, AppViewConfig, HomePageSearchBarMode } from './embed/app';
 import {
     init,
     prefetch,
@@ -21,11 +19,12 @@ import {
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { BodylessConversation, BodylessConversationViewConfig } from './embed/bodyless-conversation';
-import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import {
-    AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
-} from './auth';
+    BodylessConversation,
+    BodylessConversationViewConfig,
+} from './embed/bodyless-conversation';
+import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter } from './auth';
 import { getSessionInfo } from './utils/sessionInfoService';
 import {
     AuthType,
@@ -55,7 +54,12 @@ import {
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import { ObjectSearchEmbed, ObjectSearchViewConfig } from './embed/objectSearch';
+import {
+    AnswerService,
+    SessionInterface,
+    UnderlyingDataPoint,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -81,6 +85,7 @@ export {
     PinboardEmbed,
     LiveboardEmbed,
     SageEmbed,
+    ObjectSearchEmbed,
     AppEmbed,
     BodylessConversation,
     BodylessConversationViewConfig,
@@ -108,6 +113,7 @@ export {
     SearchBarViewConfig,
     LiveboardViewConfig,
     SageViewConfig,
+    ObjectSearchViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
