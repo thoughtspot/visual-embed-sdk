@@ -23,13 +23,22 @@ beforeAll(() => {
 });
 
 describe('Object search embed tests', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost,
+            authType: AuthType.None,
+        });
+        spyOn(window, 'alert');
+        jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
+    });
+
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
 
     test('should render object search embed', async () => {
-        const sageEmbed = new ObjectSearchEmbed(getRootEl(), {});
-        await sageEmbed.render();
+        const embed = new ObjectSearchEmbed(getRootEl(), {});
+        await embed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
@@ -39,12 +48,12 @@ describe('Object search embed tests', () => {
     });
 
     test('should render object search embed with query', async () => {
-        const sageEmbed = new ObjectSearchEmbed(getRootEl(), {
+        const embed = new ObjectSearchEmbed(getRootEl(), {
             searchOptions: {
                 searchQuery: 'test-query',
             },
         });
-        await sageEmbed.render();
+        await embed.render();
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),

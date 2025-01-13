@@ -144,18 +144,11 @@ export class ObjectSearchEmbed extends V1Embed {
      */
     public getIFrameSrc(): string {
         const path = 'insights/eureka';
-        const postHashObj = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         const { searchOptions } = this.viewConfig;
-
-        let objectSearchPostHashParams = new URLSearchParams(postHashObj).toString();
-        if (objectSearchPostHashParams) {
-            objectSearchPostHashParams = `${
-                tsPostHashParams ? '&' : '?'
-            }${objectSearchPostHashParams}`;
-        }
+        let objectSearchPostHashParams = '';
         if (searchOptions?.searchQuery) {
-            objectSearchPostHashParams += `${objectSearchPostHashParams ? '&' : '?'}${[
+            objectSearchPostHashParams += `${tsPostHashParams ? '&' : '?'}${[
                 Param.Query,
             ]}=${encodeURIComponent(searchOptions.searchQuery)}`;
         }
