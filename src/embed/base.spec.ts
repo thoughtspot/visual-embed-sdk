@@ -22,7 +22,6 @@ import { logger } from '../utils/logger';
 const thoughtSpotHost = 'tshost';
 let authEE: EventEmitter;
 
-
 describe.skip('Base without init', () => {
     test('notify should error when called without init', () => {
         base.reset();
