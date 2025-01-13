@@ -6,7 +6,9 @@
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
-import { AppEmbed, Page, AppViewConfig, HomePageSearchBarMode } from './embed/app';
+import {
+    AppEmbed, Page, AppViewConfig, HomePageSearchBarMode,
+} from './embed/app';
 import {
     init,
     prefetch,
@@ -24,7 +26,9 @@ import {
     BodylessConversationViewConfig,
 } from './embed/bodyless-conversation';
 import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
-import { AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter } from './auth';
+import {
+    AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
+} from './auth';
 import { getSessionInfo } from './utils/sessionInfoService';
 import {
     AuthType,

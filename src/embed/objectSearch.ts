@@ -93,7 +93,6 @@ export interface ObjectSearchViewConfig
      * Includes the following properties:
      *
      * `searchQuery`: The search query string to pass in the search bar.
-     *
      * @example
      * ```js
      * searchOptions: {
