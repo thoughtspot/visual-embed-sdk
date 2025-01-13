@@ -70,7 +70,7 @@ export default [
         plugins,
     },
     {
-        input: 'index.mobile.ts',
+        input: 'src/index.mobile.ts',
         output: [
             {
                 file: 'dist/index.mobile.js',
