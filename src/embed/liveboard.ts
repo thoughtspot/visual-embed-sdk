@@ -560,13 +560,24 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (
-            data.data.currentPath.startsWith('/embed/viz/')
-            || data.data.currentPath.startsWith('/embed/insights/viz/')
-        ) {
+        const { height: frameHeight } = this.viewConfig.frameParams || {};
+
+        const liveboardRelatedRoutes = [
+            '/pinboard/',
+            '/insights/pinboard/',
+            '/schedules/',
+            '/embed/viz/',
+            '/embed/insights/viz/',
+            '/liveboard/',
+            '/insights/liveboard/',
+        ];
+
+        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
+            // Ignore the height reset of the frame, if the navigation is
+            // only within the liveboard page.
             return;
         }
-        this.setIFrameHeight(this.defaultHeight);
+        this.setIFrameHeight(frameHeight || this.defaultHeight);
     };
 
     private setActiveTab(data: { tabId: string }) {

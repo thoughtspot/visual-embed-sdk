@@ -627,7 +627,7 @@ export class AppEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
+        const { height: frameHeight } = this.viewConfig.frameParams || {};
 
         const liveboardRelatedRoutes = [
             '/pinboard/',
