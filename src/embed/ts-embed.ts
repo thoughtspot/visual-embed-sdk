@@ -1033,7 +1033,7 @@ export class TsEmbed {
      */
     public async trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data?: TriggerPayload<PayloadT, HostEventT>,
+        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
@@ -1047,7 +1047,7 @@ export class TsEmbed {
             return null;
         }
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data || {});
+        return this.hostEventClient.triggerHostEvent(messageType, data);
     }
 
     /**
