@@ -95,54 +95,54 @@ const hostUrlToFeatureUrl = {
     [PrefetchFeatures.VizEmbed]: (url: string, flags: string) => `${url}?${flags}`,
 };
 
-// /**
-//  * Prefetches static resources from the specified URL. Web browsers can then cache the
-//  * prefetched resources and serve them from the user's local disk to provide faster access
-//  * to your app.
-//  * @param url The URL provided for prefetch
-//  * @param prefetchFeatures Specify features which needs to be prefetched.
-//  * @param additionalFlags This can be used to add any URL flag.
-//  * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
-//  * @group Global methods
-//  */
-// export const prefetch = (
-//     url?: string,
-//     prefetchFeatures?: PrefetchFeatures[],
-//     additionalFlags?: { [key: string]: string | number | boolean },
-// ): void => {
-//     if (url === '') {
-//         // eslint-disable-next-line no-console
-//         logger.warn('The prefetch method does not have a valid URL');
-//     } else {
-//         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
-//         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
-//         const prefetchFlags = {
-//             [Param.EmbedApp]: true,
-//             ...getEmbedConfig()?.additionalFlags,
-//             ...additionalFlags,
-//         };
-//         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
-//         Array.from(
-//             new Set(features
-//                 .map((feature) => hostUrlToFeatureUrl[feature](
-//                     hostUrl,
-//                     getQueryParamString(prefetchFlags),
-//                 ))),
-//         )
-//             .forEach(
-//                 (prefetchUrl, index) => {
-//                     const iFrame = document.createElement('iframe');
-//                     iFrame.src = prefetchUrl;
-//                     iFrame.style.width = '0';
-//                     iFrame.style.height = '0';
-//                     iFrame.style.border = '0';
-//                     iFrame.classList.add('prefetchIframe');
-//                     iFrame.classList.add(`prefetchIframeNum-${index}`);
-//                     document.body.appendChild(iFrame);
-//                 },
-//             );
-//     }
-// };
+/**
+ * Prefetches static resources from the specified URL. Web browsers can then cache the
+ * prefetched resources and serve them from the user's local disk to provide faster access
+ * to your app.
+ * @param url The URL provided for prefetch
+ * @param prefetchFeatures Specify features which needs to be prefetched.
+ * @param additionalFlags This can be used to add any URL flag.
+ * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 7.2.1
+ * @group Global methods
+ */
+export const prefetch = (
+    url?: string,
+    prefetchFeatures?: PrefetchFeatures[],
+    additionalFlags?: { [key: string]: string | number | boolean },
+): void => {
+    if (url === '') {
+        // eslint-disable-next-line no-console
+        logger.warn('The prefetch method does not have a valid URL');
+    } else {
+        const features = prefetchFeatures || [PrefetchFeatures.FullApp];
+        let hostUrl = url || getEmbedConfig().thoughtSpotHost;
+        const prefetchFlags = {
+            [Param.EmbedApp]: true,
+            ...getEmbedConfig()?.additionalFlags,
+            ...additionalFlags,
+        };
+        hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
+        Array.from(
+            new Set(features
+                .map((feature) => hostUrlToFeatureUrl[feature](
+                    hostUrl,
+                    getQueryParamString(prefetchFlags),
+                ))),
+        )
+            .forEach(
+                (prefetchUrl, index) => {
+                    const iFrame = document.createElement('iframe');
+                    iFrame.src = prefetchUrl;
+                    iFrame.style.width = '0';
+                    iFrame.style.height = '0';
+                    iFrame.style.border = '0';
+                    iFrame.classList.add('prefetchIframe');
+                    iFrame.classList.add(`prefetchIframeNum-${index}`);
+                    document.body.appendChild(iFrame);
+                },
+            );
+    }
+};
 
 /**
  *
@@ -272,133 +272,133 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
     return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
 };
 
-// /**
-//  * Imports TML representation of the metadata objects into ThoughtSpot.
-//  * @param data
-//  * @returns imports TML data into ThoughtSpot
-//  * @example
-//  * ```js
-//  *  executeTML({
-//  * //Array of metadata Tmls in string format
-//  *      metadata_tmls: [
-//  *          "'\''{\"guid\":\"9bd202f5-d431-44bf-9a07-b4f7be372125\",
-//  *          \"liveboard\":{\"name\":\"Parameters Liveboard\"}}'\''"
-//  *      ],
-//  *      import_policy: 'PARTIAL', // Specifies the import policy for the TML import.
-//  *      create_new: false, // If selected, creates TML objects with new GUIDs.
-//  *  }).then(result => {
-//  *      console.log(result);
-//  *  }).catch(error => {
-//  *      console.error(error);
-//  *  });
-//  *```
-//  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
-//  * @group Global methods
-//  */
-// export const executeTML = async (data: executeTMLInput): Promise<any> => {
-//     try {
-//         sanity(getEmbedConfig());
-//     } catch (err) {
-//         return Promise.reject(err);
-//     }
+/**
+ * Imports TML representation of the metadata objects into ThoughtSpot.
+ * @param data
+ * @returns imports TML data into ThoughtSpot
+ * @example
+ * ```js
+ *  executeTML({
+ * //Array of metadata Tmls in string format
+ *      metadata_tmls: [
+ *          "'\''{\"guid\":\"9bd202f5-d431-44bf-9a07-b4f7be372125\",
+ *          \"liveboard\":{\"name\":\"Parameters Liveboard\"}}'\''"
+ *      ],
+ *      import_policy: 'PARTIAL', // Specifies the import policy for the TML import.
+ *      create_new: false, // If selected, creates TML objects with new GUIDs.
+ *  }).then(result => {
+ *      console.log(result);
+ *  }).catch(error => {
+ *      console.error(error);
+ *  });
+ *```
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ * @group Global methods
+ */
+export const executeTML = async (data: executeTMLInput): Promise<any> => {
+    try {
+        sanity(getEmbedConfig());
+    } catch (err) {
+        return Promise.reject(err);
+    }
 
-//     const { thoughtSpotHost, authType } = getEmbedConfig();
-//     const headers: Record<string, string | undefined> = {
-//         'Content-Type': 'application/json',
-//         'x-requested-by': 'ThoughtSpot',
-//     };
+    const { thoughtSpotHost, authType } = getEmbedConfig();
+    const headers: Record<string, string | undefined> = {
+        'Content-Type': 'application/json',
+        'x-requested-by': 'ThoughtSpot',
+    };
 
-//     const payload = {
-//         metadata_tmls: data.metadata_tmls,
-//         import_policy: data.import_policy || 'PARTIAL',
-//         create_new: data.create_new || false,
-//     };
-//     return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
-//         method: 'POST',
-//         headers,
-//         body: JSON.stringify(payload),
-//         credentials: 'include',
-//     })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error(
-//                     `Failed to import TML data: ${response.status} - ${response.statusText}`,
-//                 );
-//             }
-//             return response.json();
-//         })
-//         .catch((error) => {
-//             throw error;
-//         });
-// };
+    const payload = {
+        metadata_tmls: data.metadata_tmls,
+        import_policy: data.import_policy || 'PARTIAL',
+        create_new: data.create_new || false,
+    };
+    return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXECUTE_TML}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+        credentials: 'include',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to import TML data: ${response.status} - ${response.statusText}`,
+                );
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            throw error;
+        });
+};
 
-// /**
-//  * Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML
-//  * format.
-//  * @param data
-//  * @returns exports TML data
-//  * @example
-//  * ```js
-//  * exportTML({
-//  *   metadata: [
-//  *     {
-//  *       type: "LIVEBOARD", //Metadata Type
-//  *       identifier: "9bd202f5-d431-44bf-9a07-b4f7be372125" //Metadata Id
-//  *     }
-//  *   ],
-//  *   export_associated: false,//indicates whether to export associated metadata objects
-//  *   export_fqn: false, //Adds FQNs of the referenced objects.For example, if you are
-//  *                      //exporting a Liveboard and its associated objects, the API
-//  *                      //returns the Liveboard TML data with the FQNs of the referenced
-//  *                      //worksheet. If the exported TML data includes FQNs, you don't need
-//  *                      //to manually add FQNs of the referenced objects during TML import.
-//  *   edoc_format: "JSON" //It takes JSON or YAML value
-//  * }).then(result => {
-//  *   console.log(result);
-//  * }).catch(error => {
-//  *   console.error(error);
-//  * });
-//  * ```
-//  * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
-//  * @group Global methods
-//  */
-// export const exportTML = async (data: exportTMLInput): Promise<any> => {
-//     const { thoughtSpotHost, authType } = getEmbedConfig();
-//     try {
-//         sanity(getEmbedConfig());
-//     } catch (err) {
-//         return Promise.reject(err);
-//     }
-//     const payload = {
-//         metadata: data.metadata,
-//         export_associated: data.export_associated || false,
-//         export_fqn: data.export_fqn || false,
-//         edoc_format: data.edoc_format || 'YAML',
-//     };
+/**
+ * Exports TML representation of the metadata objects from ThoughtSpot in JSON or YAML
+ * format.
+ * @param data
+ * @returns exports TML data
+ * @example
+ * ```js
+ * exportTML({
+ *   metadata: [
+ *     {
+ *       type: "LIVEBOARD", //Metadata Type
+ *       identifier: "9bd202f5-d431-44bf-9a07-b4f7be372125" //Metadata Id
+ *     }
+ *   ],
+ *   export_associated: false,//indicates whether to export associated metadata objects
+ *   export_fqn: false, //Adds FQNs of the referenced objects.For example, if you are
+ *                      //exporting a Liveboard and its associated objects, the API
+ *                      //returns the Liveboard TML data with the FQNs of the referenced
+ *                      //worksheet. If the exported TML data includes FQNs, you don't need
+ *                      //to manually add FQNs of the referenced objects during TML import.
+ *   edoc_format: "JSON" //It takes JSON or YAML value
+ * }).then(result => {
+ *   console.log(result);
+ * }).catch(error => {
+ *   console.error(error);
+ * });
+ * ```
+ * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+ * @group Global methods
+ */
+export const exportTML = async (data: exportTMLInput): Promise<any> => {
+    const { thoughtSpotHost, authType } = getEmbedConfig();
+    try {
+        sanity(getEmbedConfig());
+    } catch (err) {
+        return Promise.reject(err);
+    }
+    const payload = {
+        metadata: data.metadata,
+        export_associated: data.export_associated || false,
+        export_fqn: data.export_fqn || false,
+        edoc_format: data.edoc_format || 'YAML',
+    };
 
-//     const headers: Record<string, string | undefined> = {
-//         'Content-Type': 'application/json',
-//         'x-requested-by': 'ThoughtSpot',
-//     };
+    const headers: Record<string, string | undefined> = {
+        'Content-Type': 'application/json',
+        'x-requested-by': 'ThoughtSpot',
+    };
 
-//     return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXPORT_TML}`, {
-//         method: 'POST',
-//         headers,
-//         body: JSON.stringify(payload),
-//         credentials: 'include',
-//     })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error(
-//                     `Failed to export TML: ${response.status} - ${response.statusText}`,
-//                 );
-//             }
-//             return response.json();
-//         })
-//         .catch((error) => {
-//             throw error;
-//         });
-// };
+    return tokenizedFetch(`${thoughtSpotHost}${EndPoints.EXPORT_TML}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+        credentials: 'include',
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to export TML: ${response.status} - ${response.statusText}`,
+                );
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            throw error;
+        });
+};
 
 // For testing purposes only
 /**
