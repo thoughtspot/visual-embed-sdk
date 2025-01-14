@@ -817,6 +817,7 @@ describe('Unit test case for ts embed', () => {
                 authType: AuthType.TrustedAuthTokenCookieless,
                 getAuthToken: () => Promise.reject(),
             });
+            jest.spyOn(logger, 'error').mockResolvedValue(true);
         });
 
         afterEach(() => {
