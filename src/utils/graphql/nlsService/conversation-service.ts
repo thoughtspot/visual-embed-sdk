@@ -45,12 +45,14 @@ export class Conversation {
                 {
                     params: {
                         convId: this.conversationId,
+                        headers: [],
                         msg: {
                             data: {
                                 userCmdData: {
                                     cmdText: userMessage,
                                     nlsData: {
                                         worksheetId: this.worksheetId,
+                                        questionType: 'ANSWER_SPEC_GENERATION',
                                     },
                                 },
                             },
