@@ -15,7 +15,7 @@ import {
 } from './utils/authService';
 import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
-import { getSessionInfo } from './utils/sessionInfoService';
+import { getSessionInfo, getPreauthInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -54,6 +54,11 @@ export enum AuthStatus {
      * Emits when the SDK authenticates successfully
      */
     SDK_SUCCESS = 'SDK_SUCCESS',
+    /**
+     * @hidden
+     * Emits when iframe is loaded and session info is available
+     */
+    SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
     /**
      * Emits when the app sends an authentication success message
      */
@@ -167,6 +172,7 @@ export async function notifyAuthSuccess(): Promise<void> {
         return;
     }
     try {
+        getPreauthInfo();
         const sessionInfo = await getSessionInfo();
         authEE.emit(AuthStatus.SUCCESS, sessionInfo);
     } catch (e) {
@@ -223,6 +229,7 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  */
 export async function postLoginService(): Promise<void> {
     try {
+        getPreauthInfo();
         const sessionInfo = await getSessionInfo();
         releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();

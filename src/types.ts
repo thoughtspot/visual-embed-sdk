@@ -3202,6 +3202,15 @@ export enum HostEvent {
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * @hidden
+     * Notify when info call is completed successfully
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
+     *```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+     InfoSuccess = 'InfoSuccess',
 }
 
 /**

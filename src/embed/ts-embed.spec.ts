@@ -44,7 +44,7 @@ import * as mixpanelInstance from '../mixpanel-service';
 import * as authInstance from '../auth';
 import * as baseInstance from './base';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
-import * as authService from '../utils/authService/authService';
+import * as authService from '../utils/authService';
 import { logger } from '../utils/logger';
 import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
@@ -935,6 +935,86 @@ describe('Unit test case for ts embed', () => {
                 expect(getRootEl().innerHTML).toContain('Failed to Login');
                 done();
             });
+        });
+    });
+
+    describe('Trigger infoSuccess event on iframe load', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost,
+                authType: AuthType.None,
+                loginFailedMessage: 'Failed to Login',
+            });
+        });
+
+        const setup = async (isLoggedIn = false) => {
+            jest.spyOn(window, 'addEventListener').mockImplementationOnce(
+                (event, handler, options) => {
+                    handler({
+                        data: {
+                            type: 'xyz',
+                        },
+                        ports: [3000],
+                        source: null,
+                    });
+                },
+            );
+            const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService').mockResolvedValueOnce({
+                ok: true,
+                headers: new Headers({ 'content-type': 'application/json' }), // Mock headers correctly
+                json: async () => ({
+                    info: {
+                        configInfo: {
+                            mixpanelConfig: {
+                                devSdkKey: 'devSdkKey',
+                            },
+                        },
+                        userGUID: 'userGUID',
+                    },
+                }), // Mock JSON response
+            });
+            const iFrame: any = document.createElement('div');
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(isLoggedIn);
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            iFrame.contentWindow = {
+                postMessage: jest.fn(),
+            };
+            tsEmbed.on(EmbedEvent.CustomAction, jest.fn());
+            jest.spyOn(iFrame, 'addEventListener').mockImplementationOnce(
+                (event, handler, options) => {
+                    handler({});
+                },
+            );
+            jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
+            await tsEmbed.render();
+
+            return {
+                mockPreauthInfoFetch,
+                iFrame,
+            };
+        };
+
+        test('should call InfoSuccess Event on preauth call success', async () => {
+            const {
+                mockPreauthInfoFetch,
+                iFrame,
+            } = await setup(true);
+            expect(mockPreauthInfoFetch).toHaveBeenCalledTimes(1);
+
+            await waitFor(() => {
+                try {
+                    expect(iFrame.contentWindow.postMessage).toHaveBeenCalledTimes(1);
+                    return true; // If the expectation passes, return true
+                } catch (error) {
+                    return false; // If the expectation fails, return false to keep waiting
+                }
+            });
+
+            expect(iFrame.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'InfoSuccess' }),
+                `http://${thoughtSpotHost}`,
+                expect.any(Array),
+            );
         });
     });
 
