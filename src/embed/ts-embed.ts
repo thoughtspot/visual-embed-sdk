@@ -1046,8 +1046,8 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
-
-        return this.hostEventClient.triggerHostEvent(messageType, data);
+        // send an empty object, this is needed for liveboard default handlers
+        return this.hostEventClient.triggerHostEvent(messageType, data || {});
     }
 
     /**
