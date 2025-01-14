@@ -153,11 +153,9 @@ describe('Unit test case for ts embed', () => {
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
                 const payload = { newVizName: 'test' };
-                expect(
-                    await searchEmbed.triggerUIPassThrough(
-                        UIPassthroughEvent.PinAnswerToLiveboard,
-                        payload,
-                    ),
+                await searchEmbed.triggerUIPassThrough(
+                    UIPassthroughEvent.PinAnswerToLiveboard,
+                    payload,
                 );
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
                     getIFrameEl(),
@@ -167,6 +165,26 @@ describe('Unit test case for ts embed', () => {
                         parameters: payload,
                         type: UIPassthroughEvent.PinAnswerToLiveboard,
                     },
+                );
+            });
+        });
+
+        test('Host event with empty param', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '123',
+                ...defaultViewConfig,
+            });
+            liveboardEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                await liveboardEmbed.trigger(
+                    HostEvent.Save,
+                );
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    getIFrameEl(),
+                    HostEvent.Save,
+                    'http://tshost',
+                    {},
                 );
             });
         });
