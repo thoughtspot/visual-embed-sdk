@@ -224,10 +224,10 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
 export async function postLoginService(): Promise<void> {
     try {
         const sessionInfo = await getSessionInfo();
-        releaseVersion = sessionInfo.releaseVersion;
+        // releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();
         if (!embedConfig.disableSDKTracking) {
-            initMixpanel(sessionInfo);
+            // initMixpanel(sessionInfo);
         }
     } catch (e) {
         logger.error('Post login services failed.', e.message, e);
