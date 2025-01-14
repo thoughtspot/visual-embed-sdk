@@ -189,6 +189,27 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        test('Host event with falsy param', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '123',
+                ...defaultViewConfig,
+            });
+            liveboardEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                await liveboardEmbed.trigger(
+                    HostEvent.Save,
+                    false,
+                );
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    getIFrameEl(),
+                    HostEvent.Save,
+                    'http://tshost',
+                    false,
+                );
+            });
+        });
+
         test('should set proper height, width and min-height to iframe', async () => {
             // we dont have origin specific policies so just checking if
             // policies are ending with ;
