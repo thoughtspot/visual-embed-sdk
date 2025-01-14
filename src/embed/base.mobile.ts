@@ -1,8 +1,6 @@
 import {
-    authenticate, AuthEvent, AuthEventEmitter, AuthFailureType,
-    AuthStatus, notifyAuthFailure, notifyAuthSDKSuccess, postLoginService, setAuthEE,
+    authenticate, postLoginService,
 } from 'src/auth';
-import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from 'src/types';
 import { getEmbedConfig } from './embedConfig';
 /* eslint-disable import/no-mutable-exports */
@@ -15,21 +13,20 @@ export const handleAuth = (): Promise<boolean> => {
     authPromise.then(
         (isLoggedIn) => {
             if (!isLoggedIn) {
-                notifyAuthFailure(AuthFailureType.SDK);
+                console.log('not logged in');
             } else {
                 // Post login service is called after successful login.
                 postLoginService();
-                notifyAuthSDKSuccess();
             }
         },
         () => {
-            notifyAuthFailure(AuthFailureType.SDK);
+            console.log('second arg fun');
         },
     );
     return authPromise;
 };
 
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+export const init = (embedConfig: EmbedConfig) => {
     // sanity(embedConfig);
     // resetCachedAuthToken();
     // embedConfig = setEmbedConfig(
@@ -43,8 +40,8 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     // setGlobalLogLevelOverride(embedConfig.logLevel);
     // registerReportingObserver();
 
-    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    setAuthEE(authEE);
+    // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    // setAuthEE(authEE);
     handleAuth();
 
     // const { password, ...configToTrack } = getEmbedConfig();
@@ -62,5 +59,5 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     // if (getEmbedConfig().callPrefetch) {
     //     prefetch(getEmbedConfig().thoughtSpotHost);
     // }
-    return authEE;
+    return x;
 };
