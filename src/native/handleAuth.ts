@@ -62,13 +62,13 @@ export function handleAuth(): Promise<boolean> {
     authPromise.then(
         (isLoggedIn) => {
             if (!isLoggedIn) {
-                notifyAuthFailure(AuthFailureType.SDK);
+                console.log('handleauth not logged in');
             } else {
-                notifyAuthSDKSuccess();
+                console.log('auth sccess');
             }
         },
         () => {
-            notifyAuthFailure(AuthFailureType.SDK);
+            console.log('handleauth fn');
         },
     );
 
