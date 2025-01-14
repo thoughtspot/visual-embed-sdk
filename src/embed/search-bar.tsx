@@ -1,4 +1,4 @@
-import { Param, ViewConfig } from '../types';
+import { DefaultAppInitData, Param, ViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -79,6 +79,26 @@ export interface SearchBarViewConfig
      * ```
      */
     searchOptions?: SearchOptions;
+    /**
+     * Exclude the search token string from the URL.
+     * If set to true, the search token string is not appended to the URL.
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.7.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *  searchOptions: {
+     *    searchTokenString: '[quantity purchased] [region]',
+     *    executeSearch: true,
+     *  },
+     *  excludeSearchTokenStringFromURL: true,
+     * });
+     * ```
+     */
+    excludeSearchTokenStringFromURL?: boolean;
+}
+
+export interface SearchAppInitData extends DefaultAppInitData {
+    searchOptions: SearchOptions;
 }
 
 /**
@@ -110,6 +130,7 @@ export class SearchBarEmbed extends TsEmbed {
             dataSource,
             dataSources,
             useLastSelectedSources = false,
+            excludeSearchTokenStringFromURL,
         } = this.viewConfig;
         const path = 'search-bar-embed';
         const queryParams = this.getBaseQueryParams();
@@ -122,7 +143,7 @@ export class SearchBarEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions?.searchTokenString) {
+        if (searchOptions?.searchTokenString && !excludeSearchTokenStringFromURL) {
             queryParams[Param.searchTokenString] = encodeURIComponent(
                 searchOptions.searchTokenString,
             );
@@ -156,5 +177,18 @@ export class SearchBarEmbed extends TsEmbed {
         const src = this.getIFrameSrc();
         await this.renderIFrame(src);
         return this;
+    }
+
+    protected getSearchInitData() {
+        return {
+            searchOptions: this.viewConfig.excludeSearchTokenStringFromURL
+                ? this.viewConfig.searchOptions
+                : null,
+        };
+    }
+
+    protected async getAppInitData(): Promise<SearchAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return { ...defaultAppInitData, ...this.getSearchInitData() };
     }
 }
