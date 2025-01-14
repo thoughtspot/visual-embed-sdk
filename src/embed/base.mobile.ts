@@ -5,7 +5,7 @@ import {
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from 'src/types';
 import { getEmbedConfig } from './embedConfig';
-
+/* eslint-disable import/no-mutable-exports */
 export let authPromise: Promise<boolean>;
 
 export const getAuthPromise = (): Promise<boolean> => authPromise;
