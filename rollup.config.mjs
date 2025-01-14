@@ -1,19 +1,17 @@
-/**
- * Rollup configuration for building ThoughtSpot Embed UI SDK module
- */
-
 import typescript from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
 
-import pkg from './package.json' assert {type: "json"};
+import pkg from './package.json' assert { type: 'json' };
 
 const plugins = [
     typescript(),
     nodeResolve(),
-    commonjs(),
+    commonjs({
+        transformMixedEsModules: true,
+    }),
     json({
         compact: true,
     }),
@@ -86,6 +84,8 @@ export default [
             },
         ],
         external: [
+            'react-native', // Ensure react-native is external
+            'react-native-url-polyfill', // Ensure the polyfill is external
             ...Object.keys(pkg.peerDependencies || {}).filter(
                 (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
             ),
@@ -106,5 +106,5 @@ export default [
             },
         ],
         plugins,
-    }
+    },
 ];
