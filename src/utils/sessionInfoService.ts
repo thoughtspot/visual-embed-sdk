@@ -83,8 +83,9 @@ export function getCachedSessionInfo(): SessionInfo | null | string {
 // };
 
 const getSessionDetails = () => {
-    return '';
-}
+    const x = '5';
+    return x;
+};
 
 /**
  * Resets the cached session info object and forces a new fetch on the next call.

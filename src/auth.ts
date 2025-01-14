@@ -224,7 +224,7 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
 export async function postLoginService(): Promise<void> {
     try {
         const sessionInfo = await getSessionInfo();
-        // releaseVersion = sessionInfo.releaseVersion;
+        releaseVersion = '1.29.0'
         const embedConfig = getEmbedConfig();
         if (!embedConfig.disableSDKTracking) {
             // initMixpanel(sessionInfo);
