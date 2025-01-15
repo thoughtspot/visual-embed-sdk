@@ -92,11 +92,15 @@ export default [
         plugins: plugins({
             compilerOptions: {
                 declaration: true,
+                jsx: 'react-native',
                 declarationMap: true,
                 declarationDir: 'dist',
                 outDir: 'dist',
                 rootDir: 'src',
-                // moduleResolution: 'node',
+                target: 'ESNext',
+                module: 'ESNext',
+                lib: ['esnext'],
+                moduleResolution: 'node',
             },
             include: ['src/index.mobile.ts'],
         }),
