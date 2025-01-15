@@ -95,7 +95,7 @@ export default [
                 declarationMap: true,
                 declarationDir: 'dist',
                 outDir: 'dist',
-                moduleResolution: 'node16',
+                moduleResolution: 'node',
             },
             include: ['src/index.mobile.ts'],
         }),
