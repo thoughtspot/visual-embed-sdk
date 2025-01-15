@@ -84,8 +84,8 @@ export default [
             },
         ],
         external: [
-            'react-native', // Ensure react-native is external
-            'react-native-url-polyfill', // Ensure the polyfill is external
+            // 'react-native', // Ensure react-native is external
+            // 'react-native-url-polyfill', // Ensure the polyfill is external
             ...Object.keys(pkg.peerDependencies || {}).filter(
                 (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
             ),

@@ -499,6 +499,26 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> =
 };
 
 /**
+ * The main authenticate function. Only supports the following:
+ * - TrustedAuthTokenCookieless
+ * - Basic
+ * - None
+ * @param embedConfig
+ */
+export async function authenticateMobile(embedConfig: EmbedConfig): Promise<boolean> {
+    switch (embedConfig.authType) {
+        case AuthType.TrustedAuthTokenCookieless:
+            return doCookielessTokenAuth(embedConfig);
+        case AuthType.Basic:
+            return doBasicAuth(embedConfig);
+        case AuthType.None:
+        default:
+            loggedInStatus = true;
+            return true;
+    }
+}
+
+/**
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;

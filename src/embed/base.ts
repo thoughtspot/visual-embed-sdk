@@ -30,6 +30,7 @@ import {
     setAuthEE,
     AuthEventEmitter,
     postLoginService,
+    authenticateMobile,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
@@ -67,10 +68,19 @@ export {
 };
 
 /**
+ * Checks if the environment is mobile or not
+ * @returns boolean if it's mobile environment
+ */
+const isMobile = (): boolean => {
+    return typeof navigator !== 'undefined' && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
+}
+
+/**
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
-    authPromise = authenticate(getEmbedConfig());
+    const authFn = isMobile() ? authenticateMobile : authenticate;
+    authPromise = authFn(getEmbedConfig());
     authPromise.then(
         (isLoggedIn) => {
             if (!isLoggedIn) {
