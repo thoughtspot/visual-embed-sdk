@@ -3461,7 +3461,8 @@ export enum Action {
     ResetLayout = 'resetLayout',
     /**
      * The **Schedule** menu action on a Liveboard.
-     * Allows scheduling a Liveboard notification.
+     * Allows scheduling a Liveboard job, for example,
+     * sending periodic notifications.
      * @example
      * ```js
      * disabledActions: [Action.Schedule]
@@ -3615,6 +3616,8 @@ export enum Action {
     /**
      * The **Show underlying data** menu action on a visualization or
      * Answer page.
+     * Displays detailed information and raw data
+     * for a given visualization.
      * @example
      * ```js
      * disabledActions: [Action.ShowUnderlyingData]
@@ -3816,6 +3819,7 @@ export enum Action {
     AnalysisInfo = 'analysisInfo',
     /**
      * The **Schedule** menu action on a Liveboard.
+     * Allows scheduling a Liveboard job.
      * @example
      * ```js
      * disabledActions: [Action.Subscription]
@@ -3886,8 +3890,13 @@ export enum Action {
      */
     RequestAccess = 'requestAccess',
     /**
-     * The **Query visualizer** and **Query SQL** buttons in Query details panel
-     * of the Answer page
+     * The **Query visualizer** and **Query SQL** buttons in
+     * Query details panel of the Answer page.
+     *
+     * **Query visualizer** - Displays the tables
+     * and filters used in a search query.
+     * **Query SQL** - Displays the SQL statements used
+     * in a search query to fetch data.
      * @example
      * ```js
      * disabledActions: [Action.QueryDetailsButtons]
@@ -4270,7 +4279,10 @@ export enum Action {
      */
     MoveToTab = 'onContainerMove',
     /**
-     * The **Manage Alertsb** menu action on KPI visualizations.
+     * The **Manage Alerts** menu action on KPI visualizations.
+     * Allows creating, viewing, and editing monitor
+     * alerts for a KPI chart.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ManageMonitor]
