@@ -100,7 +100,7 @@ export default [
                 target: 'ESNext',
                 module: 'ESNext',
                 lib: ['esnext'],
-                moduleResolution: 'node',
+                moduleResolution: 'bundler',
             },
             include: ['src/index.mobile.ts'],
         }),
