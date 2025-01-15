@@ -72,8 +72,10 @@ export {
  * @returns boolean if it's mobile environment
  */
 const isMobile = (): boolean => {
-    return typeof navigator !== 'undefined' && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
-}
+    const isMobileEnv = typeof navigator !== 'undefined'
+        && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
+    return isMobileEnv;
+};
 
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
@@ -222,13 +224,13 @@ export const init = (embedConfig: EmbedConfig) => {
     // const { password, ...configToTrack } = getEmbedConfig();
     // uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
     //     ...configToTrack,
-    //     usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-    //     usedCustomizationVariables:
-    //          embedConfig.customizations?.style?.customCSS?.variables != null,
-    //     usedCustomizationRules:
-    //         embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-    //     usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-    //     usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+    // usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl
+    // != null, usedCustomizationVariables:
+    // embedConfig.customizations?.style?.customCSS?.variables != null,
+    // usedCustomizationRules:
+    // embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+    // usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+    // usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
     // });
 
     // if (getEmbedConfig().callPrefetch) {
