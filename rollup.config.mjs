@@ -6,14 +6,10 @@ import replace from '@rollup/plugin-replace';
 
 import pkg from './package.json' assert { type: 'json' };
 
-const plugins = [
+const plugins = (tsconfigOverride) => [
     typescript({
-        tsconfigOverride: {
-            compilerOptions: {
-                outDir: "dist/", // outDir for mobile builds
-            },
-            include: ["src/index.mobile.ts"], // mobile-specific source
-        },
+        tsconfigOverride,
+        useTsconfigDeclarationDir: true,
     }),
     nodeResolve(),
     commonjs({
@@ -48,7 +44,7 @@ export default [
             },
         ],
         external: [...Object.keys(pkg.peerDependencies || {})],
-        plugins,
+        plugins: plugins({}),
     },
     {
         input: 'src/react/index.tsx',
@@ -68,7 +64,7 @@ export default [
             },
         ],
         external: [...Object.keys(pkg.peerDependencies || {})],
-        plugins,
+        plugins: plugins({}),
     },
     {
         input: 'src/index.mobile.ts',
@@ -93,7 +89,15 @@ export default [
                 (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
             ),
         ],
-        plugins,
+        plugins: plugins({
+            compilerOptions: {
+                declaration: true,
+                declarationMap: true,
+                declarationDir: 'dist',
+                outDir: 'dist',
+            },
+            include: ['src/index.mobile.ts'],
+        }),
     },
     {
         input: 'src/native/index.ts',
@@ -108,6 +112,6 @@ export default [
                 format: 'es',
             },
         ],
-        plugins,
+        plugins: plugins({}),
     },
 ];
