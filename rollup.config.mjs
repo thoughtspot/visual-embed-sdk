@@ -7,7 +7,14 @@ import replace from '@rollup/plugin-replace';
 import pkg from './package.json' assert { type: 'json' };
 
 const plugins = [
-    typescript(),
+    typescript({
+        tsconfigOverride: {
+            compilerOptions: {
+                outDir: "dist/", // outDir for mobile builds
+            },
+            include: ["src/index.mobile.ts"], // mobile-specific source
+        },
+    }),
     nodeResolve(),
     commonjs({
         transformMixedEsModules: true,
@@ -40,9 +47,7 @@ export default [
                 banner,
             },
         ],
-        external: [
-            ...Object.keys(pkg.peerDependencies || {}),
-        ],
+        external: [...Object.keys(pkg.peerDependencies || {})],
         plugins,
     },
     {
@@ -62,9 +67,7 @@ export default [
                 banner,
             },
         ],
-        external: [
-            ...Object.keys(pkg.peerDependencies || {}),
-        ],
+        external: [...Object.keys(pkg.peerDependencies || {})],
         plugins,
     },
     {

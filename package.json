@@ -22,7 +22,7 @@
         "./mobile": {
             "import": "./dist/index.mobile.js",
             "require": "./dist/index.mobile.js",
-            "types": "./lib/src/index.mobile.d.ts"
+            "types": "./dist/index.mobile.d.ts"
         },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
