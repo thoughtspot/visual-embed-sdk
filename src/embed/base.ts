@@ -89,7 +89,7 @@ export const handleAuth = (): Promise<boolean> => {
                 notifyAuthFailure(AuthFailureType.SDK);
             } else {
                 // Post login service is called after successful login.
-                // postLoginService();
+                postLoginService();
                 notifyAuthSDKSuccess();
             }
         },

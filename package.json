@@ -20,8 +20,8 @@
             "react-native": "./dist/index.mobile.js"
         },
         "./mobile": {
-            "import": "./lib/index.mobile.js",
-            "require": "./cjs/index.mobile.js",
+            "import": "./lib/src/index.mobile.js",
+            "require": "./cjs/src/index.mobile.js",
             "types": "./lib/src/index.mobile.d.ts"
         },
         "./react": {
