@@ -522,4 +522,4 @@ export async function authenticateMobile(embedConfig: EmbedConfig): Promise<bool
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;
-// general class - > which doesn't have mixpanel. 
+// general class - > which doesn't have mixpanel.
