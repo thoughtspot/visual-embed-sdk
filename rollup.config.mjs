@@ -84,14 +84,14 @@ export default [
             {
                 dir: 'dist', // Dir for CJS
                 format: 'cjs',
-                entryFileNames: 'index.mobile.js',
+                entryFileNames: 'tsembed-mobile.js',
                 sourcemap: true,
                 banner,
             },
             {
                 dir: 'dist', // Dir for ES
                 format: 'es',
-                entryFileNames: 'index.mobile.es.js',
+                entryFileNames: 'tsembed-mobile.es.js',
                 sourcemap: true,
                 banner,
             }
@@ -104,19 +104,19 @@ export default [
             ),
         ],
         plugins: plugins({
-            compilerOptions: {
-                declaration: true,
-                jsx: 'react-native',
-                declarationMap: true,
-                declarationDir: 'dist',
-                outDir: 'dist',
-                rootDir: 'src',
-                target: 'ES5',
-                module: 'ESNext',
-                lib: ['esnext'],
-                moduleResolution: 'nodenext',
-            },
-            include: ['src/index.mobile.ts'],
+            // compilerOptions: {
+            //     declaration: true,
+            //     jsx: 'react-native',
+            //     declarationMap: true,
+            //     declarationDir: 'dist',
+            //     outDir: 'dist',
+            //     rootDir: 'src',
+            //     target: 'ES5',
+            //     module: 'ESNext',
+            //     lib: ['esnext'],
+            //     moduleResolution: 'nodenext',
+            // },
+            // include: ['src/index.mobile.ts'],
         }),
     },
     {
