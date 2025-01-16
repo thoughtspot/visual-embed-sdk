@@ -9,6 +9,8 @@ export {
     PreRenderedAppEmbed,
     SageEmbed,
     PreRenderedSageEmbed,
+    ConversationEmbed,
+    PreRenderedConversationEmbed,
     useEmbedRef,
 } from './index';
 
