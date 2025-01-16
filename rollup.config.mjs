@@ -69,40 +69,54 @@ export default [
     {
         input: 'src/index.mobile.ts',
         output: [
+            // {
+            //     file: 'dist/index.mobile.js',
+            //     format: 'cjs',
+            //     sourcemap: true,
+            //     banner,
+            // },
+            // {
+            //     file: 'dist/index.mobile.es.js',
+            //     format: 'es',
+            //     sourcemap: true,
+            //     banner,
+            // },
             {
-                file: 'dist/index.mobile.js',
+                dir: 'dist', // Dir for CJS
                 format: 'cjs',
+                entryFileNames: 'index.mobile.js',
                 sourcemap: true,
                 banner,
             },
             {
-                file: 'dist/index.mobile.es.js',
+                dir: 'dist', // Dir for ES
                 format: 'es',
+                entryFileNames: 'index.mobile.es.js',
                 sourcemap: true,
                 banner,
-            },
+            }
         ],
         external: [
-            // 'react-native', // Ensure react-native is external
-            // 'react-native-url-polyfill', // Ensure the polyfill is external
+            // 'react-native', // Ensuring react-native is external
+            // 'react-native-url-polyfill', // Ensuring the polyfill is external
             ...Object.keys(pkg.peerDependencies || {}).filter(
                 (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
             ),
         ],
         plugins: plugins({
-            compilerOptions: {
-                declaration: true,
-                jsx: 'react-native',
-                declarationMap: true,
-                declarationDir: 'dist',
-                outDir: 'dist',
-                rootDir: 'src',
-                // target: 'ESNext',
-                // module: 'ESNext',
-                // lib: ['esnext'],
-                // moduleResolution: 'node',
-            },
-            include: ['src/index.mobile.ts'],
+            // compilerOptions: {
+            //     declaration: true,
+            //     jsx: 'react-native',
+            //     declarationMap: true,
+            //     declarationDir: 'dist',
+            //     outDir: 'dist',
+            //     rootDir: 'src',
+            //     target: 'ES5',
+            //     module: 'ESNext',
+            //     lib: ['esnext'],
+            //     moduleResolution: 'nodenext',
+            // },
+            // include: ['src/index.mobile.ts'],
         }),
     },
     {

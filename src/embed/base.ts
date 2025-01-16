@@ -219,7 +219,7 @@ export const init = (embedConfig: EmbedConfig) => {
 
     // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     // setAuthEE(authEE);
-    // handleAuth();
+    handleAuth();
 
     // const { password, ...configToTrack } = getEmbedConfig();
     // uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
