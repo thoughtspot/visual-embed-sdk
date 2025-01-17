@@ -799,10 +799,6 @@ export class TsEmbed extends BaseEmbed {
         return this;
     }
 
-    public getIframeSrc(): string {
-        return '';
-    }
-
     protected handleRenderForPrerender() {
         this.render();
     }
@@ -1024,27 +1020,6 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): Promise<any> {
         return this.renderIFrame(iframeSrc);
-    }
-
-    protected getRootIframeSrc(): string {
-        const queryParams = this.getEmbedParams();
-        let queryString = queryParams;
-
-        if (!this.viewConfig.excludeRuntimeParametersfromURL) {
-            const runtimeParameters = this.viewConfig.runtimeParameters;
-            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-            queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
-        }
-
-        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
-            const runtimeFilters = this.viewConfig.runtimeFilters;
-
-            const filterQuery = getFilterQuery(runtimeFilters || []);
-            queryString = [filterQuery, queryString].filter(Boolean).join('&');
-        }
-        return (this.viewConfig.enableV2Shell_experimental)
-            ? this.getEmbedBasePath(queryString)
-            : this.getV1EmbedBasePath(queryString);
     }
 
     /**

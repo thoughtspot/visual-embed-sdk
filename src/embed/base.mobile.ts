@@ -1,5 +1,5 @@
 import { EmbedConfig } from 'src/types';
-import { handleAuth } from '../native/handleAuth';
+import { handleAuth } from '../embed/base';
 
 export const init = (embedConfig: EmbedConfig) => {
     // sanity(embedConfig);

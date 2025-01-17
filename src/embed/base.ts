@@ -15,10 +15,10 @@ import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
 import {
+    AuthFunction,
     AuthType, EmbedConfig, LogLevel, Param, PrefetchFeatures,
 } from '../types';
 import {
-    authenticate,
     logout as _logout,
     AuthFailureType,
     AuthStatus,
@@ -30,11 +30,11 @@ import {
     setAuthEE,
     AuthEventEmitter,
     postLoginService,
-    authenticateMobile,
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, isMobile } from '../utils';
+import { embedConfig } from 'src/auth.spec';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -68,20 +68,21 @@ export {
 };
 
 /**
- * Checks if the environment is mobile or not
- * @returns boolean if it's mobile environment
- */
-const isMobile = (): boolean => {
-    const isMobileEnv = typeof navigator !== 'undefined'
-        && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
-    return isMobileEnv;
-};
-
-/**
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
-    const authFn = isMobile() ? authenticateMobile : authenticate;
+    let authFn: AuthFunction;
+    // if(isMobile()) {
+        authFn = async (embedConfig) => {
+            const { authenticateMobile } = await import('../auth');
+            return authenticateMobile(embedConfig);
+        }
+    // } else {
+    //     authFn = async (embedConfig) => {
+    //         const { authenticate } = await import('../auth');
+    //         return authenticate(embedConfig);
+    //     }
+    // }
     authPromise = authFn(getEmbedConfig());
     authPromise.then(
         (isLoggedIn) => {

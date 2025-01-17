@@ -1,1 +1,1 @@
-export { init, AuthType, NativeEmbed } from './index';
+export { init, AuthType, NativeEmbed, LiveboardEmbed } from './index';

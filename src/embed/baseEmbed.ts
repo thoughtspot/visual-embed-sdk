@@ -13,7 +13,10 @@ import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import {
     getEncodedQueryParamsString,
+    getFilterQuery,
     getQueryParamString,
+    getRuntimeParameters,
+    isMobile,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -28,7 +31,7 @@ import {
     ContextMenuTriggerOptions,
     EmbedEvent,
 } from '../types';
-import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+// import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import pkgInfo from '../../package.json';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
@@ -100,9 +103,11 @@ export class BaseEmbed {
             ...viewConfig,
         };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
-            ...viewConfig,
-        });
+        // if(!isMobile()) {
+        //     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
+        //         ...viewConfig,
+        //     });
+        // }
     }
 
     /**
@@ -334,10 +339,26 @@ export class BaseEmbed {
         return getQueryParamString(queryParams);
     }
 
-    protected getRootIframeSrc() {
-        const query = this.getEmbedParams();
-        return this.getEmbedBasePath(query);
-    }
+    protected getRootIframeSrc(): string {
+        const queryParams = this.getEmbedParams();
+        let queryString = queryParams;
+
+        if (!this.viewConfig.excludeRuntimeParametersfromURL) {
+            const runtimeParameters = this.viewConfig.runtimeParameters;
+            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+            queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
+        }
+
+        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
+            const runtimeFilters = this.viewConfig.runtimeFilters;
+
+            const filterQuery = getFilterQuery(runtimeFilters || []);
+            queryString = [filterQuery, queryString].filter(Boolean).join('&');
+        }
+        return (this.viewConfig.enableV2Shell_experimental)
+            ? this.getEmbedBasePath(queryString)
+            : this.getV1EmbedBasePath(queryString);
+    } 
 
     /**
      * Returns the ThoughtSpot hostname or IP address.

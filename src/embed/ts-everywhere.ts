@@ -1,4 +1,3 @@
-import { WebView } from 'react-native-webview';
 import { logger } from '../utils/logger';
 import pkgInfo from '../../package.json';
 import { getAuthenticationToken } from '../authToken';
@@ -6,37 +5,25 @@ import { processAuthFailure } from '../utils/processData';
 import { getCustomisations, getCustomisationsMobileEmbed } from '../utils';
 import { getThoughtSpotHost, getV2BasePath } from '../config';
 import { getEmbedConfig } from './embedConfig';
-import { AuthType, Param } from '../types';
+import { AuthType, Param, ViewConfig } from '../types';
 import { BaseEmbed } from './baseEmbed';
 
 /**
  * A reference type for the RN WebView (React ref).
  */
-type WebViewRef = { current: WebView | null };
-
-/**
- * Minimal config interface for a NativeEmbed scenario.
- */
-export interface NativeEmbedConfig {
-  thoughtSpotHost?: string; // e.g., 'https://my-instance.cloud'
-  authType?: AuthType; // e.g., 'TrustedAuthTokenCookieless'
-  hiddenActions?: string[]; // e.g., ['ReportError']
-  additionalFlags?: Record<string, any>;
-  // Add any other fields relevant to your scenario...
-}
+type WebViewRef = { current: any | null };
 
 export class NativeEmbed extends BaseEmbed {
-  private config: NativeEmbedConfig;
 
   private webViewRef?: WebViewRef;
 
   constructor(
-      config: NativeEmbedConfig,
+      config: ViewConfig,
       webViewRef?: WebViewRef,
   ) {
       // Merge user config with any global embed config if needed
       super();
-      this.config = config;
+      this.viewConfig = config;
 
       // Set up references
       if (webViewRef) {
@@ -44,7 +31,7 @@ export class NativeEmbed extends BaseEmbed {
       }
 
       // Determine final ThoughtSpot host, base path, and flags
-      this.thoughtSpotHost = this.config.thoughtSpotHost || getThoughtSpotHost(this.embedConfig);
+      this.thoughtSpotHost = this.embedConfig.thoughtSpotHost || getThoughtSpotHost(this.embedConfig);
       this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
       this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams || false;
 
@@ -89,35 +76,6 @@ export class NativeEmbed extends BaseEmbed {
   }
 
   /**
-   * Build base query params similar to how the web embed does, but stripped of
-   * DOM/iframe specifics.
-   */
-  protected getBaseQueryParams(): Record<string, string | boolean | number> {
-      const p: Record<string, string | boolean | number> = {};
-
-      // e.g., always embed
-      p[Param.EmbedApp] = true;
-
-      // client SDK version
-      p[Param.Version] = pkgInfo.version;
-
-      // Handle authType from config
-      p[Param.AuthType] = this.config.authType || AuthType.TrustedAuthTokenCookieless;
-
-      // Possibly hide some actions
-      if (this.config.hiddenActions && this.config.hiddenActions.length) {
-          p[Param.HideActions] = this.config.hiddenActions.join(',');
-      }
-
-      // If user has additional flags
-      if (this.config.additionalFlags) {
-          Object.assign(p, this.config.additionalFlags);
-      }
-
-      return p;
-  }
-
-  /**
    * Convert the query params object to a query string, e.g. { embedApp: true } => '?embedApp=true'
    * @param params
    */
@@ -156,7 +114,7 @@ export class NativeEmbed extends BaseEmbed {
    */
   public async handleAppInit() {
       // e.g., if token is needed
-      if (this.config.authType === AuthType.TrustedAuthTokenCookieless) {
+      if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
           try {
               const token = await getAuthenticationToken(this.embedConfig);
               const initPayload = {
@@ -182,7 +140,7 @@ export class NativeEmbed extends BaseEmbed {
    * token and re-inject it.
    */
   public async handleAuthExpired() {
-      if (this.config.authType === AuthType.TrustedAuthTokenCookieless) {
+      if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
           try {
               const newToken = await getAuthenticationToken(this.embedConfig);
               const msg = {
@@ -197,7 +155,7 @@ export class NativeEmbed extends BaseEmbed {
           }
       }
   }
-
+  
   /**
    * Called from your RN <WebView onMessage> flow.
    * E.g., parse the message data and handle known event types or logs.
@@ -235,7 +193,7 @@ export class NativeEmbed extends BaseEmbed {
    */
   public render(): void {
       // Do nothing; in RN, you load getEmbedUrl() in a <WebView>.
-      logger.log('NativeEmbed: render called (no operation in RN).');
+      logger.log('NativeEmbed: render called (no operation in Mobile Embed).');
   }
 
   /**
