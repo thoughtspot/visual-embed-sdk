@@ -543,11 +543,9 @@ export class LiveboardEmbed extends NativeEmbed {
 
     // private setActiveTab(data: { tabId: string }) {
     //     if (!this.viewConfig.vizId) {
-    //         const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
-    //         const path = `${prefixPath}/tab/${data.tabId}`;
-    //         super.trigger(HostEvent.Navigate, path);
-    //     }
-    // }
+    // const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
+    // const path = `${prefixPath}/tab/${data.tabId}`;
+    // super.trigger(HostEvent.Navigate, path); } }
 
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
@@ -559,23 +557,17 @@ export class LiveboardEmbed extends NativeEmbed {
 
         const src = this.getWebViewSrc();
 
-
         return src;
     }
 
-    // public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
-    //     const path = this.getWebViewSuffixSrc(liveboardId, vizId, activeTabId);
-    //     this.viewConfig.liveboardId = liveboardId;
-    //     this.viewConfig.activeTabId = activeTabId;
-    //     this.viewConfig.vizId = vizId;
-    //     if (this.isRendered) {
-    //         this.trigger(HostEvent.Navigate, path.substring(1));
-    //     } else if (this.viewConfig.preRenderId) {
-    //         this.preRender(true);
-    //     } else {
-    //         this.render();
-    //     }
-    // }
+    // public navigateToLiveboard(liveboardId: string, vizId?: string,
+    // activeTabId?: string) { const path =
+    // this.getWebViewSuffixSrc(liveboardId, vizId, activeTabId);
+    // this.viewConfig.liveboardId = liveboardId; this.viewConfig.activeTabId =
+    // activeTabId; this.viewConfig.vizId = vizId; if (this.isRendered) {
+    // this.trigger(HostEvent.Navigate, path.substring(1)); } else if
+    // (this.viewConfig.preRenderId) { this.preRender(true); } else {
+    // this.render(); } }
 
     /**
      * Returns the full url of the Liveboard/visualization which can be used to open

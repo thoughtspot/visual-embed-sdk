@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
+import { embedConfig } from 'src/auth.spec';
 import { registerReportingObserver } from '../utils/reporting';
 import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
@@ -34,7 +35,6 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, isMobile } from '../utils';
-import { embedConfig } from 'src/auth.spec';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -73,10 +73,10 @@ export {
 export const handleAuth = (): Promise<boolean> => {
     let authFn: AuthFunction;
     // if(isMobile()) {
-        authFn = async (embedConfig) => {
-            const { authenticateMobile } = await import('../auth');
-            return authenticateMobile(embedConfig);
-        }
+    authFn = async (embedConfig) => {
+        const { authenticateMobile } = await import('../auth');
+        return authenticateMobile(embedConfig);
+    };
     // } else {
     //     authFn = async (embedConfig) => {
     //         const { authenticate } = await import('../auth');

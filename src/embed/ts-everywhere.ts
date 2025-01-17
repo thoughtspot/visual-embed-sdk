@@ -14,7 +14,6 @@ import { BaseEmbed } from './baseEmbed';
 type WebViewRef = { current: any | null };
 
 export class NativeEmbed extends BaseEmbed {
-
   private webViewRef?: WebViewRef;
 
   constructor(
@@ -155,7 +154,7 @@ export class NativeEmbed extends BaseEmbed {
           }
       }
   }
-  
+
   /**
    * Called from your RN <WebView onMessage> flow.
    * E.g., parse the message data and handle known event types or logs.

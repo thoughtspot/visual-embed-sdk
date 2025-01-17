@@ -358,7 +358,7 @@ export class BaseEmbed {
         return (this.viewConfig.enableV2Shell_experimental)
             ? this.getEmbedBasePath(queryString)
             : this.getV1EmbedBasePath(queryString);
-    } 
+    }
 
     /**
      * Returns the ThoughtSpot hostname or IP address.

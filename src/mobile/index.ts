@@ -3,4 +3,6 @@ import { init } from '../embed/base.mobile';
 import { AuthType } from '../types';
 import { LiveboardEmbed } from '../embed/liveboard.mobile';
 
-export { init, AuthType, NativeEmbed, LiveboardEmbed };
+export {
+    init, AuthType, NativeEmbed, LiveboardEmbed,
+};
