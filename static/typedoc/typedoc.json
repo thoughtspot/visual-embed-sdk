@@ -34404,7 +34404,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The custom css variables, which can be set.\nThe allowed list is in the CustomCssVariables\ninterface.\nOr here: https://try-everywhere.thoughtspot.cloud/resources/static/css/custom_variables.css"
+						"shortText": "The custom css variables, which can be set.\nThe allowed list is in the CustomCssVariables\ninterface. For more information, see\nlink:https://developers.thoughtspot.com/docs/css-variables-reference"
 					},
 					"sources": [
 						{

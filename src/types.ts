@@ -216,8 +216,8 @@ export interface customCssInterface {
     /**
      * The custom css variables, which can be set.
      * The allowed list is in the CustomCssVariables
-     * interface.
-     * Or here: https://try-everywhere.thoughtspot.cloud/resources/static/css/custom_variables.css
+     * interface. For more information, see
+     * link:https://developers.thoughtspot.com/docs/css-variables-reference
      */
     variables?: CustomCssVariables;
     /**
