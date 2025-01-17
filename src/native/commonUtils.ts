@@ -29,9 +29,9 @@ export const getWebViewUrl = async (config: WebViewConfig): Promise<string> => {
     }
 
     const hostAppUrl = encodeURIComponent(
-        config.thoughtSpotHost.includes('localhost') ||
-        config.thoughtSpotHost.includes('127.0.0.1') ||
-        config.thoughtSpotHost.includes('10.0.2.2')
+        config.thoughtSpotHost.includes('localhost')
+        || config.thoughtSpotHost.includes('127.0.0.1')
+        || config.thoughtSpotHost.includes('10.0.2.2')
             ? 'local-host'
             : config.thoughtSpotHost,
     );
