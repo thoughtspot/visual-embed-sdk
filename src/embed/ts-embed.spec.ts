@@ -1105,6 +1105,7 @@ describe('Unit test case for ts embed', () => {
 
     describe('Trigger infoSuccess event on iframe load', () => {
         beforeAll(() => {
+            jest.clearAllMocks();
             init({
                 thoughtSpotHost,
                 authType: AuthType.None,
@@ -1124,6 +1125,7 @@ describe('Unit test case for ts embed', () => {
                     });
                 },
             );
+            mockProcessTrigger.mockResolvedValueOnce({ session: 'test' });
             const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService').mockResolvedValueOnce({
                 ok: true,
                 headers: new Headers({ 'content-type': 'application/json' }), // Mock headers correctly
@@ -1166,20 +1168,14 @@ describe('Unit test case for ts embed', () => {
             } = await setup(true);
             expect(mockPreauthInfoFetch).toHaveBeenCalledTimes(1);
 
-            await waitFor(() => {
-                try {
-                    expect(iFrame.contentWindow.postMessage).toHaveBeenCalledTimes(1);
-                    return true; // If the expectation passes, return true
-                } catch (error) {
-                    return false; // If the expectation fails, return false to keep waiting
-                }
+            await executeAfterWait(() => {
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    iFrame,
+                    HostEvent.InfoSuccess,
+                    'http://tshost',
+                    expect.objectContaining({ info: expect.any(Object) }),
+                );
             });
-
-            expect(iFrame.contentWindow.postMessage).toHaveBeenCalledWith(
-                expect.objectContaining({ type: 'InfoSuccess' }),
-                `http://${thoughtSpotHost}`,
-                expect.any(Array),
-            );
         });
     });
 
