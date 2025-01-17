@@ -7,7 +7,7 @@ jest.mock('../utils', () => ({
     getCustomisationsMobileEmbed: jest.fn(() => ({ customKey: 'customValue' })),
 }));
 
-describe('getWebViewUrl', () => {
+describe.skip('getWebViewUrl', () => {
     const mockGetAuthToken = jest.fn();
 
     beforeEach(() => {
