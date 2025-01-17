@@ -9,6 +9,8 @@ export {
     PreRenderedAppEmbed,
     SageEmbed,
     PreRenderedSageEmbed,
+    ConversationEmbed,
+    PreRenderedConversationEmbed,
     useEmbedRef,
 } from './index';
 
@@ -51,4 +53,5 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     resetCachedAuthToken,
+    UIPassthroughEvent,
 } from '../index';

@@ -6,7 +6,9 @@
  * @summary ThoughtSpot Visual Embed SDK
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
-import { AppEmbed, Page, AppViewConfig } from './embed/app';
+import {
+    AppEmbed, Page, AppViewConfig, HomePageSearchBarMode,
+} from './embed/app';
 import {
     init,
     prefetch,
@@ -59,6 +61,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
 import { getAnswerFromQuery } from './utils/graphql/nlsService/nls-answer-service';
 import { createLiveboardWithAnswers } from './utils/liveboardService/liveboardService';
+import { UIPassthroughEvent } from './embed/hostEventClient/contracts';
 
 export {
     init,
@@ -122,8 +125,10 @@ export {
     LogLevel,
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
+    HomePageSearchBarMode,
     VizPoint,
     CustomActionPayload,
+    UIPassthroughEvent,
 };
 
 export { resetCachedAuthToken } from './authToken';

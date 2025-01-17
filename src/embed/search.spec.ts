@@ -2,10 +2,13 @@ import {
     SearchEmbed,
     HiddenActionItemByDefaultForSearchEmbed,
     DataPanelCustomColumnGroupsAccordionState,
+    SearchOptions,
 } from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
-import { Action, AuthType, RuntimeFilterOp } from '../types';
+import {
+    Action, AuthType, EmbedEvent, RuntimeFilterOp,
+} from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -14,8 +17,11 @@ import {
     fixedEncodeURI,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
+    getIFrameEl,
+    postMessageToParent,
 } from '../test/test-utils';
 import { version } from '../../package.json';
+import { SearchBarEmbed } from './search-bar';
 
 const defaultViewConfig = {
     frameParams: {
@@ -505,6 +511,20 @@ describe('Search embed tests', () => {
     });
 
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
+        const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            // eslint-disable-next-line max-len
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&useLastSelectedSources=false${prefixParams}#/embed/search-bar-embed`,
+            );
+        });
+    });
+
+    test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             // eslint-disable-next-line max-len
@@ -515,6 +535,66 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('with excludeSearchTokenStringFromURL', async () => {
+        const searchOptions: SearchOptions = {
+            searchTokenString: '[commit date][revenue]',
+            executeSearch: true,
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchOptions,
+            excludeSearchTokenStringFromURL: true,
+        });
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+        searchEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+
+        expect(mockPort.postMessage).toHaveBeenCalledWith({
+            type: EmbedEvent.APP_INIT,
+            data: expect.objectContaining({
+                searchOptions: {
+                    searchTokenString: '[commit date][revenue]',
+                },
+            }),
+        });
+    });
+
+    test('without excludeSearchTokenStringFromURL', async () => {
+        const searchOptions: SearchOptions = {
+            searchTokenString: '[commit date][revenue]',
+            executeSearch: true,
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            searchOptions,
+            excludeSearchTokenStringFromURL: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&searchTokenString=[commit date][revenue]${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });

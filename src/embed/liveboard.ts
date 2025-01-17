@@ -23,6 +23,7 @@ import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
+import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -248,7 +249,7 @@ export interface LiveboardViewConfig
      */
     enableAskSage?: boolean;
     /**
-     * This flag is used to enable the 2 column layout in liveboard
+     * This flag is used to enable the 2 column layout on a Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
@@ -283,7 +284,7 @@ export interface LiveboardViewConfig
      */
     showPreviewLoader?: boolean;
     /**
-     * This flag is used to enable the compact header in liveboard
+     * This flag is used to enable the compact header on a Liveboard
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -297,7 +298,7 @@ export interface LiveboardViewConfig
      */
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
-     * This flag is used to show/hide verified Icon in liveboard compact header
+     * This flag is used to show/hide verified icon in the Liveboard compact header
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -311,7 +312,8 @@ export interface LiveboardViewConfig
      */
     showLiveboardVerifiedBadge?: boolean;
     /**
-     * This flag is used to show/hide re-verify banner in liveboard compact header
+     * This flag is used to show/hide the re-verify banner
+     * in Liveboard compact header
      * @type {boolean}
      * @default true
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -325,10 +327,10 @@ export interface LiveboardViewConfig
      */
     showLiveboardReverifyBanner?: boolean;
     /**
-     * This flag is used to enable/disable hide irrelevant filters in liveboard tab
+     * This flag is used to enable/disable hide irrelevant filters in a Liveboard tab
      * @type {boolean}
      * @default false
-     * @version SDK: 1.35.0 | ThoughtSpot:10.5.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -636,7 +638,10 @@ export class LiveboardEmbed extends V1Embed {
      * @param messageType The event type
      * @param data The payload to send with the message
      */
-    public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
+    public trigger<HostEventT extends HostEvent>(
+        messageType: HostEventT,
+        data?: HostEventRequest<HostEventT>,
+    ): Promise<HostEventResponse<HostEventT>> {
         const dataWithVizId = data;
         if (messageType === HostEvent.SetActiveTab) {
             this.setActiveTab(data);
@@ -678,8 +683,8 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     /**
-     * Returns the full url of the liveboard/viz which can be used to open
-     * this liveboard inside the full Thoughtspot application in a new tab.
+     * Returns the full url of the Liveboard/visualization which can be used to open
+     * this Liveboard inside the full Thoughtspot application in a new tab.
      * @returns url string
      */
     public getLiveboardUrl(): string {

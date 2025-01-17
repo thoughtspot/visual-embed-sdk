@@ -15,7 +15,7 @@ describe('AuthToken Unit tests', () => {
         expect(authServiceInstance.verifyTokenService).not.toBeCalled();
     });
 
-    test.only('getAuthenticationToken: When verification is enabled', async () => {
+    test('getAuthenticationToken: When verification is enabled', async () => {
         resetCachedAuthToken();
         jest.clearAllMocks();
         jest.spyOn(authServiceInstance, 'verifyTokenService').mockImplementation(() => true);
