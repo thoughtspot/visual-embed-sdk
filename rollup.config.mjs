@@ -67,7 +67,7 @@ export default [
         plugins: plugins({}),
     },
     {
-        input: 'src/index.mobile.ts',
+        input: 'src/mobile/index.ts',
         output: [
             // {
             //     file: 'dist/index.mobile.js',
