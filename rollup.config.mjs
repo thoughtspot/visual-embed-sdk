@@ -9,7 +9,7 @@ import pkg from './package.json' assert { type: 'json' };
 const plugins = (tsconfigOverride) => [
     typescript({
         tsconfigOverride,
-        useTsconfigDeclarationDir: true,
+        // useTsconfigDeclarationDir: true,
     }),
     nodeResolve(),
     commonjs({
