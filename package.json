@@ -19,14 +19,14 @@
             "react-native": "./dist/index.mobile.js"
         },
         "./mobile": {
-            "import": "./lib/src/mobile/index.js",
-            "require": "./cjs/src/mobile/index.js",
-            "types": "./lib/src/mobile/index.d.ts"
+            "import": "./lib/src/mobile/all-types-export.js",
+            "require": "./cjs/src/mobile/all-types-export.js",
+            "types": "./lib/src/mobile/all-types-export.d.ts"
         },
         "./lib/src/mobile": {
-            "import": "./lib/src/mobile/index.js",
-            "require": "./cjs/src/mobile/index.js",
-            "types": "./lib/src/mobile/index.d.ts"
+            "import": "./lib/src/mobile/all-types-export.js",
+            "require": "./cjs/src/mobile/all-types-export.js",
+            "types": "./lib/src/mobile/all-types-export.d.ts"
         },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
