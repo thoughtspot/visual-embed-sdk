@@ -8,7 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
-import { embedConfig } from 'src/auth.spec';
+// import { embedConfig } from 'src/auth.spec';
 import { registerReportingObserver } from '../utils/reporting';
 import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
@@ -71,9 +71,9 @@ export {
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
-    let authFn: AuthFunction;
+    // let authFn: AuthFunction;
     // if(isMobile()) {
-    authFn = async (embedConfig) => {
+    const authFn: AuthFunction = async (embedConfig) => {
         const { authenticateMobile } = await import('../auth');
         return authenticateMobile(embedConfig);
     };

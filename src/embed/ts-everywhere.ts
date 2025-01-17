@@ -30,7 +30,8 @@ export class NativeEmbed extends BaseEmbed {
       }
 
       // Determine final ThoughtSpot host, base path, and flags
-      this.thoughtSpotHost = this.embedConfig.thoughtSpotHost || getThoughtSpotHost(this.embedConfig);
+      this.thoughtSpotHost = this.embedConfig.thoughtSpotHost
+        || getThoughtSpotHost(this.embedConfig);
       this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
       this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams || false;
 
