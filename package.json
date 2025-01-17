@@ -23,6 +23,11 @@
             "require": "./cjs/src/mobile/index.js",
             "types": "./lib/src/mobile/index.d.ts"
         },
+        "./lib/src/mobile": {
+            "import": "./lib/src/mobile/index.js",
+            "require": "./cjs/src/mobile/index.js",
+            "types": "./lib/src/mobile/index.d.ts"
+        },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
             "require": "./cjs/src/react/all-types-export.js",

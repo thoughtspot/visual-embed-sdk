@@ -81,20 +81,29 @@ export default [
             //     sourcemap: true,
             //     banner,
             // },
+            // {
+            //     dir: 'dist', // Dir for CJS
+            //     format: 'cjs',
+            //     entryFileNames: 'tsembed-mobile.js',
+            //     sourcemap: true,
+            //     banner,
+            // },
+            // {
+            //     dir: 'dist', // Dir for ES
+            //     format: 'es',
+            //     entryFileNames: 'tsembed-mobile.es.js',
+            //     sourcemap: true,
+            //     banner,
+            // }
             {
-                dir: 'dist', // Dir for CJS
+                file: 'dist/tsembed-mobile.js',
                 format: 'cjs',
-                entryFileNames: 'tsembed-mobile.js',
-                sourcemap: true,
-                banner,
+                name: 'tsembed',
             },
             {
-                dir: 'dist', // Dir for ES
+                file: 'dist/tsembed-mobile.es.js',
                 format: 'es',
-                entryFileNames: 'tsembed-mobile.es.js',
-                sourcemap: true,
-                banner,
-            }
+            },
         ],
         external: [
             // 'react-native', // Ensuring react-native is external
