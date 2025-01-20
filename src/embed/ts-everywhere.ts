@@ -118,7 +118,7 @@ export class NativeEmbed extends BaseEmbed {
           try {
               const token = await getAuthenticationToken(this.embedConfig);
               const initPayload = {
-                  type: 'APP_INIT_RESPONSE',
+                  type: 'appInit',
                   data: {
                       authToken: token,
                       customisations: getCustomisationsMobileEmbed(this.embedConfig),
@@ -144,7 +144,7 @@ export class NativeEmbed extends BaseEmbed {
           try {
               const newToken = await getAuthenticationToken(this.embedConfig);
               const msg = {
-                  type: 'ThoughtspotAuthExpiredResponse',
+                  type: 'ThoughtspotAuthExpired',
                   data: { authToken: newToken },
               };
               this.injectJavaScript(`
@@ -161,13 +161,14 @@ export class NativeEmbed extends BaseEmbed {
    * E.g., parse the message data and handle known event types or logs.
    * @param message
    */
-  public handleWebViewMessage(message: any) {
+  public handleWebViewMessage(event: any) {
+    const message = JSON.parse(event.nativeEvent.data);
       if (!message || typeof message !== 'object' || !message.type) {
           logger.warn('NativeEmbed handleWebViewMessage: Invalid message:', message);
           return;
       }
       switch (message.type) {
-          case 'APP_INIT':
+          case 'appInit':
               this.handleAppInit();
               break;
           case 'ThoughtspotAuthExpired':

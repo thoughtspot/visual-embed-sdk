@@ -215,11 +215,11 @@ export const init = (embedConfig: EmbedConfig) => {
         }),
     );
     const x = 'shillooe-olio';
-    // setGlobalLogLevelOverride(embedConfig.logLevel);
+    setGlobalLogLevelOverride(embedConfig.logLevel);
     // registerReportingObserver();
 
-    // const authEE = new EventEmitter<AuthStatus | AuthEvent>();
-    // setAuthEE(authEE);
+    const authEE = new EventEmitter<AuthStatus | AuthEvent>();
+    setAuthEE(authEE);
     handleAuth();
 
     // const { password, ...configToTrack } = getEmbedConfig();
@@ -237,7 +237,7 @@ export const init = (embedConfig: EmbedConfig) => {
     // if (getEmbedConfig().callPrefetch) {
     //     prefetch(getEmbedConfig().thoughtSpotHost);
     // }
-    return x;
+    return authEE;
 };
 
 /**
