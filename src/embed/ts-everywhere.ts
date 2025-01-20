@@ -162,7 +162,7 @@ export class NativeEmbed extends BaseEmbed {
    * @param message
    */
   public handleWebViewMessage(event: any) {
-    const message = JSON.parse(event.nativeEvent.data);
+      const message = JSON.parse(event.nativeEvent.data);
       if (!message || typeof message !== 'object' || !message.type) {
           logger.warn('NativeEmbed handleWebViewMessage: Invalid message:', message);
           return;
