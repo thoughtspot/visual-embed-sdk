@@ -1,3 +1,3 @@
 export {
-    init, AuthType, NativeEmbed, LiveboardEmbed,
+    init, AuthType, MobileEmbed, LiveboardEmbed,
 } from './index';

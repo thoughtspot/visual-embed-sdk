@@ -19,12 +19,12 @@ import {
     HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString, isUndefined } from '../utils';
+import { getQueryParamString, isMobile, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
-import { NativeEmbed } from './ts-everywhere';
+import { MobileEmbed } from './ts-mobile';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -397,7 +397,7 @@ export interface LiveboardViewConfig
  * ```
  * @group Embed components
  */
-export class LiveboardEmbed extends NativeEmbed {
+export class LiveboardEmbed extends MobileEmbed {
     protected viewConfig: LiveboardViewConfig;
 
     private defaultHeight = 500;
@@ -518,8 +518,10 @@ export class LiveboardEmbed extends NativeEmbed {
         if (vizId) {
             suffix = `${suffix}/${vizId}`;
         }
-        const tsPostHashParams = this.getThoughtSpotPostUrlParams();
-        suffix = `${suffix}${tsPostHashParams}`;
+        if(!isMobile()) {
+            const tsPostHashParams = this.getThoughtSpotPostUrlParams();
+            suffix = `${suffix}${tsPostHashParams}`;
+        }
         return suffix;
     }
 
@@ -553,7 +555,6 @@ export class LiveboardEmbed extends NativeEmbed {
      * visualization ID and the runtime filters.
      */
     public async getWebViewUrl(): Promise<string> {
-        super.render();
 
         const src = this.getWebViewSrc();
 

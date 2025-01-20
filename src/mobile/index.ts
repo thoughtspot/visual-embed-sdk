@@ -1,8 +1,8 @@
-import { NativeEmbed } from '../embed/ts-everywhere';
+import { MobileEmbed } from '../embed/ts-mobile';
 import { init } from '../embed/base';
 import { AuthType } from '../types';
 import { LiveboardEmbed } from '../embed/liveboard.mobile';
 
 export {
-    init, AuthType, NativeEmbed, LiveboardEmbed,
+    init, AuthType, MobileEmbed, LiveboardEmbed,
 };

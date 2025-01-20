@@ -350,7 +350,7 @@ export const removeStyleProperties = (element: HTMLElement, styleProperties: str
 export const isMobile = (): boolean => {
     const isMobileEnv = typeof navigator !== 'undefined'
         && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
-    return isMobileEnv;
+    return true;
 };
 
 export const isUndefined = (value: any): boolean => value === undefined;

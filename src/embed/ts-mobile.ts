@@ -13,7 +13,7 @@ import { BaseEmbed } from './baseEmbed';
  */
 type WebViewRef = { current: any | null };
 
-export class NativeEmbed extends BaseEmbed {
+export class MobileEmbed extends BaseEmbed {
   private webViewRef?: WebViewRef;
 
   constructor(
