@@ -518,7 +518,7 @@ export class LiveboardEmbed extends MobileEmbed {
         if (vizId) {
             suffix = `${suffix}/${vizId}`;
         }
-        if(!isMobile()) {
+        if (!isMobile()) {
             const tsPostHashParams = this.getThoughtSpotPostUrlParams();
             suffix = `${suffix}${tsPostHashParams}`;
         }
@@ -548,14 +548,12 @@ export class LiveboardEmbed extends MobileEmbed {
     // const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
     // const path = `${prefixPath}/tab/${data.tabId}`;
     // super.trigger(HostEvent.Navigate, path); } }
-
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
      * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
      */
     public async getWebViewUrl(): Promise<string> {
-
         const src = this.getWebViewSrc();
 
         return src;
