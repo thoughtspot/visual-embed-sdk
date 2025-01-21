@@ -245,7 +245,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Favorites icon (*) for Answers,\nLiveboard, and data objects like Worksheet, Model,\nTables and Views.\nAllows adding an object to the user’s favorites list.",
+						"shortText": "The Favorites icon (*) for Answers,\nLiveboard, and data objects like Worksheet, Model,\nTables and Views.\nAllows adding an object to the user’s favorites list.",
 						"tags": [
 							{
 								"tag": "example",
@@ -393,7 +393,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -421,7 +421,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -449,7 +449,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -477,7 +477,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -505,7 +505,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -533,7 +533,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -561,7 +561,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -589,7 +589,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -617,7 +617,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -645,7 +645,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -673,7 +673,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -701,7 +701,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -980,7 +980,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -2108,7 +2108,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw\n"
 							}
 						]
 					},
@@ -2164,7 +2164,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl\n"
+								"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -2693,7 +2693,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "@version SDK : 1.32.0 | ThoughtSpot: 10.1.0.cl\n"
+								"text": "@version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl\n"
 							}
 						]
 					},

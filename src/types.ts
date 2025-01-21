@@ -3926,7 +3926,7 @@ export enum Action {
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
-     * Favorites icon (*) for Answers,
+     * The Favorites icon (*) for Answers,
      * Liveboard, and data objects like Worksheet, Model,
      * Tables and Views.
      * Allows adding an object to the user’s favorites list.
@@ -4005,7 +4005,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.CrossFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.8.0.sw
      */
     CrossFilter = 'context-menu-item-cross-filter',
     /**
@@ -4025,7 +4025,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SyncToTeams]
      * ```
-     * @version @version SDK : 1.32.0 | ThoughtSpot: 10.1.0.cl
+     * @version @version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
      */
     SyncToTeams = 'syncToTeams',
     /**
@@ -4036,7 +4036,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RemoveCrossFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     RemoveCrossFilter = 'context-menu-item-remove-cross-filter',
     /**
@@ -4047,7 +4047,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuAggregate]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuAggregate = 'axisMenuAggregate',
     /**
@@ -4058,7 +4058,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuTimeBucket]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuTimeBucket = 'axisMenuTimeBucket',
     /**
@@ -4070,7 +4070,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuFilter = 'axisMenuFilter',
     /**
@@ -4081,7 +4081,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuConditionalFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuConditionalFormat = 'axisMenuConditionalFormat',
     /**
@@ -4092,7 +4092,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuConditionalFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuSort = 'axisMenuSort',
     /**
@@ -4104,7 +4104,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuGroup]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuGroup = 'axisMenuGroup',
     /**
@@ -4115,7 +4115,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuPosition]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuPosition = 'axisMenuPosition',
     /**
@@ -4125,7 +4125,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuRename]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuRename = 'axisMenuRename',
     /**
@@ -4136,7 +4136,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuEdit]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuEdit = 'axisMenuEdit',
     /**
@@ -4146,7 +4146,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuNumberFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuNumberFormat = 'axisMenuNumberFormat',
     /**
@@ -4156,7 +4156,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuTextWrapping]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuTextWrapping = 'axisMenuTextWrapping',
     /**
@@ -4168,7 +4168,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuRemove]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuRemove = 'axisMenuRemove',
     /**
@@ -4182,7 +4182,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RenameModalTitleDescription]
      * ```
-     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.8.0.sw
      */
     RenameModalTitleDescription = 'renameModalTitleDescription',
     /**
