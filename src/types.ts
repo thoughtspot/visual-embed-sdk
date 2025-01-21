@@ -1120,7 +1120,8 @@ export interface ViewConfig {
      */
     overrideOrgId?: number;
     /**
-     * Flag to control new flip tooltip context menu experience
+     * Flag to enhance the visual effects of charts
+     * This feature is a beta release for 10.6
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
@@ -3308,7 +3309,12 @@ export enum Param {
     AuthType = 'authType',
     IconSpriteUrl = 'iconSprite',
     cookieless = 'cookieless',
-    ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
+    // Deprecated: `isContextMenuEnabledOnLeftClick`
+    // Introduced: `contextMenuEnabledOnWhichClick` with values: 'left',
+    // 'right', or 'both'. This update only affects ThoughtSpot URL parameters
+    // and does not impact existing workflows or use cases. Added support for
+    // 'both' clicks in `contextMenuTrigger` configuration.
+    ContextMenuTrigger = 'contextMenuEnabledOnWhichClick',
     LinkOverride = 'linkOverride',
     blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
@@ -4587,10 +4593,12 @@ export enum PrefetchFeatures {
 
 /**
  * Enum for options to change context trigger
+ * BOTH_CLICKS option is introduced in 10.7
  */
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
     RIGHT_CLICK = 'right-click',
+    BOTH_CLICKS = 'both-clicks',
 }
 
 export interface ColumnValue {
