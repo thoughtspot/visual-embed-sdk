@@ -203,7 +203,8 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = async (embedConfig: EmbedConfig) => {
+export const init = (embedConfig: EmbedConfig):
+    AuthEventEmitter => {
     sanity(embedConfig);
     resetCachedAuthToken();
     embedConfig = setEmbedConfig(
@@ -213,9 +214,7 @@ export const init = async (embedConfig: EmbedConfig) => {
             thoughtSpotHost: getThoughtSpotHost(embedConfig),
         }),
     );
-    const x = 'shillooe-olio';
     setGlobalLogLevelOverride(embedConfig.logLevel);
-    // registerReportingObserver();
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
@@ -223,25 +222,27 @@ export const init = async (embedConfig: EmbedConfig) => {
 
     const { password, ...configToTrack } = getEmbedConfig();
     if (process.env.SDK_ENVIRONMENT === 'web') {
-        const { uploadMixpanelEvent, MIXPANEL_EVENT } = await import('../mixpanel-service');
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-            ...configToTrack,
-            usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl
-        != null,
-            usedCustomizationVariables:
-        embedConfig.customizations?.style?.customCSS?.variables != null,
-            usedCustomizationRules:
-        embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-            usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-            usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+        registerReportingObserver();
+        (async () => {
+            const { uploadMixpanelEvent, MIXPANEL_EVENT } = await import('../mixpanel-service');
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+                ...configToTrack,
+                usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl
+            != null,
+                usedCustomizationVariables:
+            embedConfig.customizations?.style?.customCSS?.variables != null,
+                usedCustomizationRules:
+            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+                usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+                usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+            });
         });
+        if (getEmbedConfig().callPrefetch) {
+            prefetch(getEmbedConfig().thoughtSpotHost);
+        }
     } else {
         console.log('emptying out no mixpanel for mobile');
     }
-
-    // if (getEmbedConfig().callPrefetch) {
-    //     prefetch(getEmbedConfig().thoughtSpotHost);
-    // }
     return authEE;
 };
 
