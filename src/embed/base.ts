@@ -222,7 +222,7 @@ export const init = async (embedConfig: EmbedConfig) => {
     handleAuth();
 
     const { password, ...configToTrack } = getEmbedConfig();
-    if (process.env.SDK_ENVIRONMENT == 'web') {
+    if (process.env.SDK_ENVIRONMENT === 'web') {
         const { uploadMixpanelEvent, MIXPANEL_EVENT } = await import('../mixpanel-service');
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
             ...configToTrack,
