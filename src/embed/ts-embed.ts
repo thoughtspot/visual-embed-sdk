@@ -58,6 +58,7 @@ import {
     FrameParams,
     ContextMenuTriggerOptions,
     RuntimeFilter,
+    DefaultAppInitData,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -718,7 +719,7 @@ export class TsEmbed extends BaseEmbed {
      */
     public async trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data?: TriggerPayload<PayloadT, HostEventT>,
+        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
@@ -731,7 +732,7 @@ export class TsEmbed extends BaseEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
-
+        // send an empty object, this is needed for liveboard default handlers
         return this.hostEventClient.triggerHostEvent(messageType, data);
     }
 

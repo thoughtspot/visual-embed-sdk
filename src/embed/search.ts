@@ -12,6 +12,7 @@ import {
     Param,
     Action,
     ViewConfig,
+    DefaultAppInitData,
 } from '../types';
 import {
     getQueryParamString,
@@ -203,6 +204,22 @@ export interface SearchViewConfig
      */
     searchOptions?: SearchOptions;
     /**
+     * Exclude the search token string from the URL.
+     * If set to true, the search token string is not appended to the URL.
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.7.0.cl
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *  searchOptions: {
+     *    searchTokenString: '[quantity purchased] [region]',
+     *    executeSearch: true,
+     *  },
+     *  excludeSearchTokenStringFromURL: true,
+     * });
+     * ```
+     */
+    excludeSearchTokenStringFromURL?: boolean;
+    /**
      * The GUID of a saved answer to load initially.
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
@@ -287,6 +304,10 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
     Action.AnswerDelete,
 ];
 
+export interface SearchAppInitData extends DefaultAppInitData {
+  searchOptions?: SearchOptions;
+}
+
 /**
  * Embed ThoughtSpot search
  * @group Embed components
@@ -319,6 +340,21 @@ export class SearchEmbed extends TsEmbed {
         return dataSourceMode;
     }
 
+    protected getSearchInitData() {
+        return {
+            ...(this.viewConfig.excludeSearchTokenStringFromURL ? {
+                searchOptions: {
+                    searchTokenString: this.viewConfig.searchOptions?.searchTokenString,
+                },
+            } : {}),
+        };
+    }
+
+    protected async getAppInitData(): Promise<SearchAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return { ...defaultAppInitData, ...this.getSearchInitData() };
+    }
+
     protected getEmbedParams(): string {
         const {
             hideResults,
@@ -340,6 +376,7 @@ export class SearchEmbed extends TsEmbed {
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
+            excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
@@ -355,7 +392,7 @@ export class SearchEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions?.searchTokenString) {
+        if (searchOptions?.searchTokenString && !excludeSearchTokenStringFromURL) {
             queryParams[Param.searchTokenString] = encodeURIComponent(
                 searchOptions.searchTokenString,
             );
