@@ -468,6 +468,45 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
+
+    /**
+     * The Liveboard to run on regular intervals to fetch the cdw token.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    oAuthPollingInterval: value in milliseconds,
+     * })
+     */
+    oAuthPollingInterval?: number;
+
+    /**
+     * The Liveboard is set to force a token fetch during the initial load.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    isForceRedirect: false,
+     * })
+     */
+    isForceRedirect?: boolean;
+
+    /**
+     * The source connection ID for authentication.
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    dataSourceId: '',
+     * })
+     */
+    dataSourceId?: string;
 }
 
 /**
@@ -526,6 +565,9 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
+            oAuthPollingInterval,
+            isForceRedirect,
+            dataSourceId,
         } = this.viewConfig;
 
         let params = {};
@@ -581,6 +623,18 @@ export class AppEmbed extends V1Embed {
 
         if (homePageSearchBarMode) {
             params[Param.HomePageSearchBarMode] = homePageSearchBarMode;
+        }
+
+        if (oAuthPollingInterval !== undefined) {
+            params[Param.OauthPollingInterval] = oAuthPollingInterval;
+        }
+
+        if (isForceRedirect) {
+            params[Param.IsForceRedirect] = isForceRedirect;
+        }
+
+        if (dataSourceId !== undefined) {
+            params[Param.DataSourceId] = dataSourceId;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

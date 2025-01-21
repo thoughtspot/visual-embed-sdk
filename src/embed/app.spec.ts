@@ -128,6 +128,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should enable viz oAuthPollingInterval true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            oAuthPollingInterval: 1000,
+            isForceRedirect: true,
+            dataSourceId: '12356',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&oAuthPollingInterval=1000&isForceRedirect=true&dataSourceId=12356${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     describe('should render the correct routes for pages', () => {
         /* eslint-disable no-loop-func */
         const pageRouteMap = {
