@@ -71,8 +71,8 @@ export {
  */
 export const handleAuth = (): Promise<boolean> => {
     let authFn: AuthFunction;
-    if (process.env.SDK_ENVIRONMENT == 'mobile') {
-        const authFn: AuthFunction = async (embedConfig) => {
+    if (process.env.SDK_ENVIRONMENT === 'mobile') {
+        authFn = async (embedConfig) => {
             const { authenticateMobile } = await import('../auth');
             return authenticateMobile(embedConfig);
         };
