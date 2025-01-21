@@ -67,28 +67,26 @@ export class MobileEmbed extends BaseEmbed {
           return;
       }
 
-      this.webViewRef.current.onMessage = (event: any) => {
-          try {
-              const message = JSON.parse(event.nativeEvent.data);
-              if (!message || typeof message !== 'object' || !message.type) {
-                  logger.warn('Invalid message received:', message);
-                  return;
-              }
-              switch (message.type) {
-                  case 'appInit':
-                      this.handleAppInit();
-                      break;
-                  case 'ThoughtspotAuthExpired':
-                      this.handleAuthExpired();
-                      break;
-                  default:
-                      logger.log('NativeEmbed received an unknown message type:', message.type, message);
-                      break;
-              }
-          } catch (error: any) {
-              this.handleError(`Failed to process Message : ${String(error)}`);
+      try {
+          const message = JSON.parse(event.nativeEvent.data);
+          if (!message || typeof message !== 'object' || !message.type) {
+              logger.warn('Invalid message received:', message);
+              return;
           }
-      };
+          switch (message.type) {
+              case 'appInit':
+                  this.handleAppInit();
+                  break;
+              case 'ThoughtspotAuthExpired':
+                  this.handleAuthExpired();
+                  break;
+              default:
+                  logger.log('NativeEmbed received an unknown message type:', message.type, message);
+                  break;
+          }
+      } catch (error: any) {
+          this.handleError(`Failed to process Message : ${String(error)}`);
+      }
   }
 
   /**
@@ -117,12 +115,11 @@ export class MobileEmbed extends BaseEmbed {
           }
       }
       try {
+          const appInitData = await this.getAppInitData();
+          this.isAppInitialized = true;
           const initPayload = {
               type: 'appInit',
-              data: {
-                  authToken,
-                  customisations: getCustomisations(this.embedConfig, this.viewConfig),
-              },
+              data: appInitData,
           };
           // Send the token + custom UI settings back to the page:
           this.injectJavaScript(`
