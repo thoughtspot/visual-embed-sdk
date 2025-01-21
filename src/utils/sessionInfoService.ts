@@ -13,7 +13,7 @@ export type SessionInfo = {
     [key: string]: any;
 };
 
-let sessionInfo: null | SessionInfo | string = null;
+let sessionInfo: null | SessionInfo = null;
 
 /**
  * Returns the session info object and caches it for future use.
@@ -26,11 +26,11 @@ let sessionInfo: null | SessionInfo | string = null;
  * @version SDK: 1.28.3 | ThoughtSpot: *
  * @returns {Promise<SessionInfo>} The session info object.
  */
-export async function getSessionInfo(): Promise<SessionInfo | string> {
+export async function getSessionInfo(): Promise<SessionInfo> {
     if (!sessionInfo) {
         const host = getEmbedConfig().thoughtSpotHost;
         const sessionResponse = await fetchSessionInfoService(host);
-        const processedSessionInfo = getSessionDetails();
+        const processedSessionInfo = getSessionDetails(sessionResponse);
         sessionInfo = processedSessionInfo;
     }
     return sessionInfo;
@@ -50,7 +50,7 @@ export async function getSessionInfo(): Promise<SessionInfo | string> {
  * @returns {SessionInfo | null} The session info object.
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
-export function getCachedSessionInfo(): SessionInfo | null | string {
+export function getCachedSessionInfo(): SessionInfo | null {
     return sessionInfo;
 }
 
@@ -65,26 +65,21 @@ export function getCachedSessionInfo(): SessionInfo | null | string {
  *  ```
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
-// export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
-//     const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
-//     const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
-//     const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
-//         ? prodMixpanelToken
-//         : devMixpanelToken;
-//     return {
-//         userGUID: sessionInfoResp.userGUID,
-//         mixpanelToken,
-//         isPublicUser: sessionInfoResp.configInfo.isPublicUser,
-//         releaseVersion: sessionInfoResp.releaseVersion,
-//         clusterId: sessionInfoResp.configInfo.selfClusterId,
-//         clusterName: sessionInfoResp.configInfo.selfClusterName,
-//         ...sessionInfoResp,
-//     };
-// };
-
-const getSessionDetails = () => {
-    const x = '5';
-    return x;
+export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
+    const devMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.devSdkKey;
+    const prodMixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.prodSdkKey;
+    const mixpanelToken = sessionInfoResp.configInfo.mixpanelConfig.production
+        ? prodMixpanelToken
+        : devMixpanelToken;
+    return {
+        userGUID: sessionInfoResp.userGUID,
+        mixpanelToken,
+        isPublicUser: sessionInfoResp.configInfo.isPublicUser,
+        releaseVersion: sessionInfoResp.releaseVersion,
+        clusterId: sessionInfoResp.configInfo.selfClusterId,
+        clusterName: sessionInfoResp.configInfo.selfClusterName,
+        ...sessionInfoResp,
+    };
 };
 
 /**
