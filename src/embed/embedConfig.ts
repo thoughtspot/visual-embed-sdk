@@ -1,8 +1,6 @@
-import { WebViewConfig } from 'src/native/types';
 import { EmbedConfig } from '../types';
 
 let config = {} as EmbedConfig;
-let nativeConfig = {} as WebViewConfig;
 
 /**
  * Gets the configuration embed was initialized with.
@@ -11,7 +9,6 @@ let nativeConfig = {} as WebViewConfig;
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => config;
-export const getMobileEmbedConfig = (): WebViewConfig => nativeConfig;
 
 /**
  * Sets the configuration embed was initialized with.
@@ -25,14 +22,3 @@ export const setEmbedConfig = (newConfig: EmbedConfig) => {
     return newConfig;
 };
 
-/**
- * Sets the configuration embed was initialized with.
- * And returns the new configuration.
- * @param newConfig The configuration to set.
- * @version SDK: 1.35.3 | ThoughtSpot: 10.6.0.cl
- * @group Global methods
- */
-export const setMobileEmbedConfig = (newConfig: WebViewConfig) => {
-    nativeConfig = newConfig;
-    return newConfig;
-};

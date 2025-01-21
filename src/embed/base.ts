@@ -8,7 +8,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import EventEmitter from 'eventemitter3';
-// import { embedConfig } from 'src/auth.spec';
 import { registerReportingObserver } from '../utils/reporting';
 import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
@@ -33,7 +32,7 @@ import {
     postLoginService,
 } from '../auth';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString, isMobile } from '../utils';
+import { getQueryParamString } from '../utils';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -243,7 +242,7 @@ export const init = (embedConfig: EmbedConfig):
     } else {
         console.log('emptying out no mixpanel for mobile');
     }
-    return authEE;
+    return authEE as AuthEventEmitter;
 };
 
 /**

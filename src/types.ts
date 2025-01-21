@@ -4626,3 +4626,15 @@ export enum LogLevel {
      */
     TRACE = 'TRACE',
 }
+
+export interface DefaultAppInitData {
+    customisations: CustomisationsInterface;
+    authToken: string;
+    runtimeFilterParams: string | null;
+    runtimeParameterParams: string | null;
+    hiddenHomepageModules: HomepageModule[];
+    reorderedHomepageModules: string[];
+    hostConfig: Record<string, any>;
+    hiddenHomeLeftNavItems: string[];
+    customVariablesForThirdPartyTools: Record<string, any>;
+}

@@ -23,9 +23,8 @@ export class MobileEmbed extends BaseEmbed {
       super();
       this.viewConfig = config;
 
-      // Setup the reference
       if (webViewRef) {
-          this.webViewRef = webViewRef;
+            this.setWebViewRef(webViewRef);
       }
 
       this.thoughtSpotHost = this.embedConfig.thoughtSpotHost
@@ -40,6 +39,57 @@ export class MobileEmbed extends BaseEmbed {
    */
   public setWebViewRef(ref: WebViewRef) {
       this.webViewRef = ref;
+      this.extendMessageHandler();
+
+  }
+
+  private extendMessageHandler() {
+    if (!this.webViewRef?.current) {
+        logger.warn('WebViewRef is not set. Cannot extend message handler.');
+        return;
+    }
+    const originalOnMessage = this.webViewRef.current.onMessage;
+    this.webViewRef.current.onMessage = (event: any) => {
+        this.attachWebViewMessageHandler(event);
+
+        if (typeof originalOnMessage === 'function') {
+            try {
+                originalOnMessage(event);
+            } catch (err) {
+                logger.error('Error in customer-defined onMessage handler:', err);
+            }
+        }
+    };
+  }
+
+  private attachWebViewMessageHandler(event: any) {
+    if (!this.webViewRef?.current) {
+        logger.warn('WebViewRef not set, Unable to attach message handler');
+        return;
+    }
+
+    this.webViewRef.current.onMessage = (event: any) => {
+        try {
+            const message = JSON.parse(event.nativeEvent.data);
+            if (!message || typeof message !== 'object' || !message.type) {
+                logger.warn('Invalid message received:', message);
+                return;
+            }
+            switch (message.type) {
+                case 'appInit':
+                    this.handleAppInit();
+                    break;
+                case 'ThoughtspotAuthExpired':
+                    this.handleAuthExpired();
+                    break;
+                default:
+                    logger.log('NativeEmbed received an unknown message type:', message.type, message);
+                    break;
+            }
+        } catch (error: any) {
+            this.handleError(`Failed to process Message : ${String(error)}`);
+        }
+    };
   }
 
   /**

@@ -7,8 +7,6 @@
  */
 
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
-import isObject from 'lodash/isObject';
 import {
     HostEventRequest,
     HostEventResponse,
@@ -74,7 +72,6 @@ import { ERROR_MESSAGE } from '../errors';
 import { BaseEmbed } from './baseEmbed';
 import { HostEventClient } from './hostEventClient/host-event-client';
 
-const { version } = pkgInfo;
 
 /**
  * Global prefix for all Thoughtspot postHash Params.
@@ -129,20 +126,6 @@ export class TsEmbed extends BaseEmbed {
         this.hostEventClient.setIframeElement(iFrame);
     }
 
-    protected viewConfig: ViewConfig;
-
-    protected embedConfig: EmbedConfig;
-
-    /**
-     * The ThoughtSpot hostname or IP address
-     */
-    protected thoughtSpotHost: string;
-
-    /*
-    * This is the base to access ThoughtSpot V2.
-    */
-    protected thoughtSpotV2Base: string;
-
     /**
      * A map of event handlers for particular message types triggered
      * by the embedded app; multiple event handlers can be registered
@@ -167,8 +150,6 @@ export class TsEmbed extends BaseEmbed {
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         super(viewConfig);
         this.el = getDOMNode(domSelector);
-        // TODO: handle error
-        this.embedConfig = getEmbedConfig();
         if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
             this.embedConfig.authTriggerContainer = domSelector;
         }
@@ -288,44 +269,27 @@ export class TsEmbed extends BaseEmbed {
         });
     }
 
+    protected handleAuthFailure(error: Error): void {
+        processAuthFailure(error, this.el);
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
      * @param responder
      */
     private appInitCb = async (_: any, responder: any) => {
-        let authToken = '';
-        if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-            try {
-                authToken = await getAuthenticationToken(this.embedConfig);
-            } catch (e) {
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-                return;
-            }
+        try {
+            const appInitData = await this.getAppInitData();
+            this.isAppInitialized = true;
+            responder({
+                type: EmbedEvent.APP_INIT,
+                data: appInitData,
+            });
+        } catch (e) {
+            logger.error(`AppInit failed, Error : ${e?.message}`);
         }
-        this.isAppInitialized = true;
-        responder({
-            type: EmbedEvent.APP_INIT,
-            data: {
-                customisations: getCustomisations(this.embedConfig, this.viewConfig),
-                authToken,
-                runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
-                    ? getRuntimeFilters(this.viewConfig.runtimeFilters)
-                    : null,
-                runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
-                    ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
-                    : null,
-                hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
-                reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
-                hostConfig: this.embedConfig.hostConfig,
-                hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
-                    ? this.viewConfig?.hiddenHomeLeftNavItems
-                    : [],
-                customVariablesForThirdPartyTools:
-                    this.embedConfig.customVariablesForThirdPartyTools || {},
-            },
-        });
-    };
+    }; 
 
     /**
      * Register APP_INIT event and sendback init payload
@@ -1020,6 +984,27 @@ export class V1Embed extends TsEmbed {
      */
     protected renderV1Embed(iframeSrc: string): Promise<any> {
         return this.renderIFrame(iframeSrc);
+    }
+
+    protected getRootIframeSrc(): string {
+        const queryParams = this.getEmbedParams();
+        let queryString = queryParams;
+
+        if (!this.viewConfig.excludeRuntimeParametersfromURL) {
+            const runtimeParameters = this.viewConfig.runtimeParameters;
+            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+            queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
+        }
+
+        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
+            const runtimeFilters = this.viewConfig.runtimeFilters;
+
+            const filterQuery = getFilterQuery(runtimeFilters || []);
+            queryString = [filterQuery, queryString].filter(Boolean).join('&');
+        }
+        return (this.viewConfig.enableV2Shell_experimental)
+            ? this.getEmbedBasePath(queryString)
+            : this.getV1EmbedBasePath(queryString);
     }
 
     /**

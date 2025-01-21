@@ -12,9 +12,11 @@ import { AuthFailureType } from '../auth';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import {
+    getCustomisations,
     getEncodedQueryParamsString,
     getFilterQuery,
     getQueryParamString,
+    getRuntimeFilters,
     getRuntimeParameters,
     isMobile,
 } from '../utils';
@@ -30,6 +32,7 @@ import {
     ViewConfig,
     ContextMenuTriggerOptions,
     EmbedEvent,
+    DefaultAppInitData,
 } from '../types';
 // import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import pkgInfo from '../../package.json';
@@ -43,20 +46,11 @@ const { version } = pkgInfo;
  * Global prefix for all Thoughtspot postHash Params.
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
-const TS_EMBED_ID = '_thoughtspot-embed';
 
 /**
- * The event id map from v2 event names to v1 event id
- * v1 events are the classic embed events implemented in Blink v1
- * We cannot rename v1 event types to maintain backward compatibility
- * @internal
- */
-const V1EventMap = {};
-
-/**
- * Base class for embedding v2 experience
- * Note: the v2 version of ThoughtSpot Blink is built on the new stack:
- * React+GraphQL
+ * This is base class From which Mobile and Web parts will derive 
+ * TODO: Add Events handling in base class
+ * Currently handling URL construct
  */
 export class BaseEmbed {
     protected isAppInitialized = false;
@@ -103,11 +97,6 @@ export class BaseEmbed {
             ...viewConfig,
         };
         this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
-        // if(!isMobile()) {
-        //     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
-        //         ...viewConfig,
-        //     });
-        // }
     }
 
     /**
@@ -123,6 +112,50 @@ export class BaseEmbed {
      */
     protected handleError(error: string | Record<string, unknown>) {
         this.isError = true;
+    }
+
+    protected handleAuthFailure(error: Error) {
+        throw new Error('Not implemented in child classes');
+    }
+
+    protected async getAuthTokenForCookielessInit() {
+        let authToken = '';
+        if (this.embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) return authToken;
+
+        try {
+            authToken = await getAuthenticationToken(this.embedConfig);
+        } catch (error: any) {
+            this.handleAuthFailure(error);
+            throw error;
+        }
+
+        return authToken;
+    }
+
+    protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
+        const authToken = await this.getAuthTokenForCookielessInit();
+        return {
+            customisations: getCustomisations(this.embedConfig, this.viewConfig),
+            authToken,
+            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
+                ? getRuntimeFilters(this.viewConfig.runtimeFilters)
+                : null,
+            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
+                ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
+                : null,
+            hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
+            reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
+            hostConfig: this.embedConfig.hostConfig,
+            hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
+                ? this.viewConfig?.hiddenHomeLeftNavItems
+                : [],
+            customVariablesForThirdPartyTools:
+            this.embedConfig.customVariablesForThirdPartyTools || {},
+        };
+    }
+
+    protected async getAppInitData() {
+        return this.getDefaultAppInitData();
     }
 
     /**
@@ -142,6 +175,7 @@ export class BaseEmbed {
                 });
             } catch (e) {
                 logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                this.handleAuthFailure(e);
             }
         } else if (autoLogin) {
             handleAuth();
@@ -339,25 +373,9 @@ export class BaseEmbed {
         return getQueryParamString(queryParams);
     }
 
-    protected getRootIframeSrc(): string {
-        const queryParams = this.getEmbedParams();
-        let queryString = queryParams;
-
-        if (!this.viewConfig.excludeRuntimeParametersfromURL) {
-            const runtimeParameters = this.viewConfig.runtimeParameters;
-            const parameterQuery = getRuntimeParameters(runtimeParameters || []);
-            queryString = [parameterQuery, queryParams].filter(Boolean).join('&');
-        }
-
-        if (!this.viewConfig.excludeRuntimeFiltersfromURL) {
-            const runtimeFilters = this.viewConfig.runtimeFilters;
-
-            const filterQuery = getFilterQuery(runtimeFilters || []);
-            queryString = [filterQuery, queryString].filter(Boolean).join('&');
-        }
-        return (this.viewConfig.enableV2Shell_experimental)
-            ? this.getEmbedBasePath(queryString)
-            : this.getV1EmbedBasePath(queryString);
+    protected getRootIframeSrc() {
+        const query = this.getEmbedParams();
+        return this.getEmbedBasePath(query);
     }
 
     /**

@@ -1,7 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
-import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
@@ -224,10 +223,12 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
 export async function postLoginService(): Promise<void> {
     try {
         const sessionInfo = await getSessionInfo();
-        releaseVersion = '1.29.0';
+        releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();
-        if (!embedConfig.disableSDKTracking) {
-            // initMixpanel(sessionInfo);
+        // TODO : mixpanel tracking for mobile events
+        if (!embedConfig.disableSDKTracking && process.env.SDK_ENVIRONMENT === 'web') {
+            const { initMixpanel } = await import('./mixpanel-service');
+            initMixpanel(sessionInfo);
         }
     } catch (e) {
         logger.error('Post login services failed.', e.message, e);
@@ -522,4 +523,4 @@ export async function authenticateMobile(embedConfig: EmbedConfig): Promise<bool
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;
-// general class - > which doesn't have mixpanel.
+
