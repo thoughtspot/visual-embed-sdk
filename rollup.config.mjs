@@ -6,7 +6,7 @@ import replace from '@rollup/plugin-replace';
 
 import pkg from './package.json' assert { type: 'json' };
 
-const plugins = (tsconfigOverride) => [
+const plugins = (tsconfigOverride, env) => [
     typescript({
         tsconfigOverride,
         // useTsconfigDeclarationDir: true,
@@ -19,6 +19,7 @@ const plugins = (tsconfigOverride) => [
         compact: true,
     }),
     replace({
+        'process.env.SDK_ENVIRONMENT': JSON.stringify(env),
         'process.env.NODE_ENV': JSON.stringify('production'),
     }),
 ];
@@ -44,7 +45,7 @@ export default [
             },
         ],
         external: [...Object.keys(pkg.peerDependencies || {})],
-        plugins: plugins({}),
+        plugins: plugins({}, 'web'),
     },
     {
         input: 'src/react/index.tsx',
@@ -64,7 +65,7 @@ export default [
             },
         ],
         external: [...Object.keys(pkg.peerDependencies || {})],
-        plugins: plugins({}),
+        plugins: plugins({}, 'web'),
     },
     {
         input: 'src/mobile/index.ts',
@@ -96,13 +97,19 @@ export default [
             //     banner,
             // }
             {
+                // dir: 'dist/mobile',
+                // entryFileNames: 'tsembed-mobile.js',
                 file: 'dist/tsembed-mobile.js',
                 format: 'cjs',
+                inlineDynamicImports: true,
                 name: 'tsembed',
             },
             {
+                // dir: 'dist/mobile',
+                // entryFileNames: 'tsembed-mobile.es.js',
                 file: 'dist/tsembed-mobile.es.js',
                 format: 'es',
+                inlineDynamicImports: true,
             },
         ],
         external: [
@@ -126,7 +133,7 @@ export default [
             //     moduleResolution: 'nodenext',
             // },
             // include: ['src/index.mobile.ts'],
-        }),
+        }, 'mobile'),
     },
     {
         input: 'src/native/index.ts',
@@ -141,6 +148,6 @@ export default [
                 format: 'es',
             },
         ],
-        plugins: plugins({}),
+        plugins: plugins({}, 'mobile'),
     },
 ];

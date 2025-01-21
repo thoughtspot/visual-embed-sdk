@@ -20,22 +20,18 @@ export class MobileEmbed extends BaseEmbed {
       config: ViewConfig,
       webViewRef?: WebViewRef,
   ) {
-      // Merge user config with any global embed config if needed
       super();
       this.viewConfig = config;
 
-      // Set up references
+      // Setup the reference
       if (webViewRef) {
           this.webViewRef = webViewRef;
       }
 
-      // Determine final ThoughtSpot host, base path, and flags
       this.thoughtSpotHost = this.embedConfig.thoughtSpotHost
         || getThoughtSpotHost(this.embedConfig);
       this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
       this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams || false;
-
-      logger.log('NativeEmbed constructed with config:', config);
   }
 
   /**
@@ -44,56 +40,6 @@ export class MobileEmbed extends BaseEmbed {
    */
   public setWebViewRef(ref: WebViewRef) {
       this.webViewRef = ref;
-  }
-
-  /**
-   * Construct a final embed URL for the “iframe” concept,
-   * but in native we'll load this in <WebView source={{ uri: ... }} />.
-   */
-  public getEmbedUrl(): string {
-      // 1) Build an object of base query params
-      const queryParams = this.getBaseQueryParams();
-
-      // 2) Convert to query string
-      let queryString = this.toQueryString(queryParams);
-
-      // 3) If base64 encoding is required, do that
-      if (this.shouldEncodeUrlQueryParams) {
-      // strip off leading '?'
-          queryString = `?base64UrlEncodedFlags=${this.encodeQueryString(queryString.slice(1))}`;
-      }
-
-      // 4) Combine with host + v2 base path
-      const baseUrl = `${[this.thoughtSpotHost, this.thoughtSpotV2Base, queryString]
-          .filter(Boolean)
-          .join('/')}#`;
-
-      // For example:
-      //   https://my-instance.com/v2?embedApp=true&authType=...
-      //   plus a '#' route or /embed?someFlags#/embed/viz
-      logger.log('NativeEmbed final URL:', baseUrl);
-      return baseUrl;
-  }
-
-  /**
-   * Convert the query params object to a query string, e.g. { embedApp: true } => '?embedApp=true'
-   * @param params
-   */
-  protected toQueryString(params: Record<string, any>): string {
-      const sp = new URLSearchParams();
-      Object.entries(params).forEach(([k, v]) => {
-          sp.set(k, String(v));
-      });
-      return `?${sp.toString()}`;
-  }
-
-  /**
-   * If we do base64 encoding of the entire query string
-   * @param qs
-   */
-  protected encodeQueryString(qs: string): string {
-      // A safe base64 or a custom approach
-      return btoa(qs); // e.g., basic btoa if environment supports it
   }
 
   /**
@@ -113,26 +59,29 @@ export class MobileEmbed extends BaseEmbed {
    * to fetch an auth token or do custom styling.
    */
   public async handleAppInit() {
-      // e.g., if token is needed
+      let authToken = '';
       if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
           try {
-              const token = await getAuthenticationToken(this.embedConfig);
-              const initPayload = {
-                  type: 'appInit',
-                  data: {
-                      authToken: token,
-                      customisations: getCustomisationsMobileEmbed(this.embedConfig),
-                  },
-              };
-              // Send the token + custom UI settings back to the page:
-              this.injectJavaScript(`
-          window.postMessage(${JSON.stringify(initPayload)}, "*");
-        `);
+              authToken = await getAuthenticationToken(this.embedConfig);
           } catch (err) {
               this.handleError(`Failed to fetch token for APP_INIT: ${String(err)}`);
           }
       }
-      // else do nothing
+      try {
+          const initPayload = {
+              type: 'appInit',
+              data: {
+                  authToken,
+                  customisations: getCustomisations(this.embedConfig, this.viewConfig),
+              },
+          };
+          // Send the token + custom UI settings back to the page:
+          this.injectJavaScript(`
+            window.postMessage(${JSON.stringify(initPayload)}, "*");
+        `);
+      } catch (error: any) {
+          this.handleError(`Unable to Handle appInit ${error}`);
+      }
   }
 
   /**
@@ -140,26 +89,32 @@ export class MobileEmbed extends BaseEmbed {
    * token and re-inject it.
    */
   public async handleAuthExpired() {
+      let newToken = '';
       if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
           try {
-              const newToken = await getAuthenticationToken(this.embedConfig);
-              const msg = {
-                  type: 'ThoughtspotAuthExpired',
-                  data: { authToken: newToken },
-              };
-              this.injectJavaScript(`
-          window.postMessage(${JSON.stringify(msg)}, "*");
-        `);
+              newToken = await getAuthenticationToken(this.embedConfig);
           } catch (err) {
               this.handleError(`Failed to refresh token after expiry: ${String(err)}`);
           }
       }
+      try {
+          const msg = {
+              type: 'ThoughtspotAuthExpired',
+              data: { authToken: newToken },
+          };
+          this.injectJavaScript(`
+            window.postMessage(${JSON.stringify(msg)}, "*");
+        `);
+      } catch (error: any) {
+          this.handleError(`Unable to handle Token Expired Event ${error}`);
+      }
   }
 
   /**
-   * Called from your RN <WebView onMessage> flow.
-   * E.g., parse the message data and handle known event types or logs.
+   * Called from Mobile Embed onMessage of the Webview
+   * Parse the message data and handle known event types or logs.
    * @param message
+   * @param event
    */
   public handleWebViewMessage(event: any) {
       const message = JSON.parse(event.nativeEvent.data);
@@ -193,15 +148,14 @@ export class MobileEmbed extends BaseEmbed {
    * If you want an optional "render" method, typically no-ops in native:
    */
   public render(): void {
-      // Do nothing; in RN, you load getEmbedUrl() in a <WebView>.
+      // Do nothing in the case of Mobile Embed
       logger.log('NativeEmbed: render called (no operation in Mobile Embed).');
   }
 
   /**
-   * A basic destroy if needed
+   * TODO: Destroy the map for the events after implementation
    */
   public destroy(): void {
-      logger.log('NativeEmbed: destroy called.');
       // Clear references, etc.
       this.webViewRef = undefined;
   }
