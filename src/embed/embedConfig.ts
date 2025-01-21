@@ -21,4 +21,3 @@ export const setEmbedConfig = (newConfig: EmbedConfig) => {
     config = newConfig;
     return newConfig;
 };
-

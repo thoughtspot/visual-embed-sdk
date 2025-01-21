@@ -523,4 +523,3 @@ export async function authenticateMobile(embedConfig: EmbedConfig): Promise<bool
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;
-

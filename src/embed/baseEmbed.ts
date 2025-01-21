@@ -48,7 +48,7 @@ const { version } = pkgInfo;
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 
 /**
- * This is base class From which Mobile and Web parts will derive 
+ * This is base class From which Mobile and Web parts will derive
  * TODO: Add Events handling in base class
  * Currently handling URL construct
  */

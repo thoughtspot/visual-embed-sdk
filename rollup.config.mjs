@@ -135,19 +135,4 @@ export default [
             // include: ['src/index.mobile.ts'],
         }, 'mobile'),
     },
-    {
-        input: 'src/native/index.ts',
-        output: [
-            {
-                file: 'dist/tsembed-parsers.js',
-                format: 'umd',
-                name: 'tsembed',
-            },
-            {
-                file: 'dist/tsembed-parsers.es.js',
-                format: 'es',
-            },
-        ],
-        plugins: plugins({}, 'mobile'),
-    },
 ];

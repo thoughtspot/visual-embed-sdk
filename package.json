@@ -37,16 +37,6 @@
             "import": "./lib/src/react/all-types-export.js",
             "require": "./cjs/src/react/all-types-export.js",
             "types": "./lib/src/react/all-types-export.d.ts"
-        },
-        "./native": {
-            "import": "./lib/src/native/index.js",
-            "require": "./cjs/src/native/index.js",
-            "types": "./lib/src/native/index.d.ts"
-        },
-        "./lib/src/native": {
-            "import": "./lib/src/native/index.js",
-            "require": "./cjs/src/native/index.js",
-            "types": "./lib/src/native/index.d.ts"
         }
     },
     "typesVersions": {

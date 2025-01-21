@@ -72,7 +72,6 @@ import { ERROR_MESSAGE } from '../errors';
 import { BaseEmbed } from './baseEmbed';
 import { HostEventClient } from './hostEventClient/host-event-client';
 
-
 /**
  * Global prefix for all Thoughtspot postHash Params.
  */
@@ -289,7 +288,7 @@ export class TsEmbed extends BaseEmbed {
         } catch (e) {
             logger.error(`AppInit failed, Error : ${e?.message}`);
         }
-    }; 
+    };
 
     /**
      * Register APP_INIT event and sendback init payload
