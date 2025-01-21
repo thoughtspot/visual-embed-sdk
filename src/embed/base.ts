@@ -236,7 +236,7 @@ export const init = (embedConfig: EmbedConfig):
                 usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
                 usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
             });
-        });
+        })();
         if (getEmbedConfig().callPrefetch) {
             prefetch(getEmbedConfig().thoughtSpotHost);
         }
