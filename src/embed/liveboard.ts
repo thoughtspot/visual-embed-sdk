@@ -419,7 +419,7 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        let params = {};
+        let params: Record<any, any> = {};
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,
