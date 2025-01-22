@@ -39,7 +39,7 @@ export class MobileEmbed extends BaseEmbed {
    */
   public setWebViewRef(ref: WebViewRef) {
       this.webViewRef = ref;
-      this.extendMessageHandler();
+      //   this.extendMessageHandler();
   }
 
   private extendMessageHandler() {
@@ -48,9 +48,9 @@ export class MobileEmbed extends BaseEmbed {
           return;
       }
 
-      const originalOnMessage = this.webViewRef.current.props?.onMessage;
+      const originalOnMessage = this.webViewRef.current.onMessage;
 
-      this.webViewRef.current.props.onMessage = (event: any) => {
+      this.webViewRef.current.onMessage = (event: any) => {
           this.attachWebViewMessageHandler(event);
 
           if (typeof originalOnMessage === 'function') {
@@ -63,7 +63,7 @@ export class MobileEmbed extends BaseEmbed {
       };
   }
 
-  private attachWebViewMessageHandler(event: any) {
+  public attachWebViewMessageHandler(event: any) {
       if (!this.webViewRef?.current) {
           logger.warn('WebViewRef not set, Unable to attach message handler');
           return;
@@ -108,7 +108,7 @@ export class MobileEmbed extends BaseEmbed {
    * to fetch an auth token or do custom styling.
    */
   public async handleAppInit() {
-      let authToken = '';
+      let authToken;
       if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
           try {
               authToken = await getAuthenticationToken(this.embedConfig);
