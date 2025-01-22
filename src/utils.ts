@@ -320,16 +320,6 @@ export const removeStyleProperties = (element: HTMLElement, styleProperties: str
     });
 };
 
-/**
- * Checks if the environment is mobile or not
- * @returns boolean if it's mobile environment
- */
-export const isMobile = (): boolean => {
-    const isMobileEnv = typeof navigator !== 'undefined'
-        && /Mobile|Android|iP(hone|ad|od)/i.test(navigator.userAgent);
-    return true;
-};
-
 export const isUndefined = (value: any): boolean => value === undefined;
 
 // Return if the value is a string, double or boolean.

@@ -83,7 +83,6 @@
     "dependencies": {
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
-        "cross-fetch": "^4.1.0",
         "dompurify": "^2.3.4",
         "eventemitter3": "^4.0.7",
         "gatsby-plugin-vercel": "^1.0.3",

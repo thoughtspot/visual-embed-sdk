@@ -8,22 +8,12 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
-    EmbedEvent,
-    MessagePayload,
     Param,
-    RuntimeFilter,
-    DOMSelector,
-    HostEvent,
     ViewConfig,
 } from '../types';
 import { getQueryParamString, isMobile, isUndefined } from '../utils';
-import { getAuthPromise } from './base';
-import { V1Embed } from './ts-embed';
-import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
 import { MobileEmbed } from './ts-mobile';
 
 /**
@@ -543,11 +533,6 @@ export class LiveboardEmbed extends MobileEmbed {
         )}`;
     }
 
-    // private setActiveTab(data: { tabId: string }) {
-    //     if (!this.viewConfig.vizId) {
-    // const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
-    // const path = `${prefixPath}/tab/${data.tabId}`;
-    // super.trigger(HostEvent.Navigate, path); } }
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
      * @param renderOptions An object specifying the Liveboard ID,
@@ -555,18 +540,8 @@ export class LiveboardEmbed extends MobileEmbed {
      */
     public async getWebViewUrl(): Promise<string> {
         const src = this.getWebViewSrc();
-
         return src;
     }
-
-    // public navigateToLiveboard(liveboardId: string, vizId?: string,
-    // activeTabId?: string) { const path =
-    // this.getWebViewSuffixSrc(liveboardId, vizId, activeTabId);
-    // this.viewConfig.liveboardId = liveboardId; this.viewConfig.activeTabId =
-    // activeTabId; this.viewConfig.vizId = vizId; if (this.isRendered) {
-    // this.trigger(HostEvent.Navigate, path.substring(1)); } else if
-    // (this.viewConfig.preRenderId) { this.preRender(true); } else {
-    // this.render(); } }
 
     /**
      * Returns the full url of the Liveboard/visualization which can be used to open

@@ -528,7 +528,7 @@ export class AppEmbed extends V1Embed {
             isUnifiedSearchExperienceEnabled = true,
         } = this.viewConfig;
 
-        let params = {};
+        let params: Record<any, any> = {};
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;

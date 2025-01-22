@@ -102,7 +102,7 @@ export class MobileEmbed extends BaseEmbed {
    * If your embedded page sends a message "APP_INIT", we might handle it here
    * to fetch an auth token or do custom styling.
    */
-  public async handleAppInit() {     
+  public async handleAppInit() {
       try {
           const appInitData = await this.getAppInitData();
           this.isAppInitialized = true;
@@ -124,7 +124,7 @@ export class MobileEmbed extends BaseEmbed {
    * token and re-inject it.
    */
   public async handleAuthExpired() {
-      let newToken = this.getAuthTokenForCookielessInit();
+      const newToken = this.getAuthTokenForCookielessInit();
       try {
           const msg = {
               type: 'ThoughtspotAuthExpired',
