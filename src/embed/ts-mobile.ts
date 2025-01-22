@@ -47,8 +47,10 @@ export class MobileEmbed extends BaseEmbed {
           logger.warn('WebViewRef is not set. Cannot extend message handler.');
           return;
       }
-      const originalOnMessage = this.webViewRef.current.onMessage;
-      this.webViewRef.current.onMessage = (event: any) => {
+
+      const originalOnMessage = this.webViewRef.current.props?.onMessage;
+
+      this.webViewRef.current.props.onMessage = (event: any) => {
           this.attachWebViewMessageHandler(event);
 
           if (typeof originalOnMessage === 'function') {

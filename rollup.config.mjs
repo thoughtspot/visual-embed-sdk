@@ -19,8 +19,9 @@ const plugins = (tsconfigOverride, env) => [
         compact: true,
     }),
     replace({
-        'process.env.SDK_ENVIRONMENT': JSON.stringify(env),
+        'process.env.SDK_ENVIRONMENT': JSON.stringify(env || 'web'),
         'process.env.NODE_ENV': JSON.stringify('production'),
+        preventAssignment:true,
     }),
 ];
 
@@ -112,13 +113,17 @@ export default [
                 inlineDynamicImports: true,
             },
         ],
-        external: [
-            // 'react-native', // Ensuring react-native is external
-            // 'react-native-url-polyfill', // Ensuring the polyfill is external
-            ...Object.keys(pkg.peerDependencies || {}).filter(
-                (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
-            ),
-        ],
+        // external: [
+        //     // 'react-native', // Ensuring react-native is external
+        //     // 'react-native-url-polyfill', // Ensuring the polyfill is external
+        //     ...Object.keys(pkg.peerDependencies || {}).filter(
+        //         (dep) => dep !== 'react-dom' // Exclude react-dom for mobile builds
+        //     ),
+        // ],
+        external: (id) => {
+            // Mark `mixpanel-service` as external for mobile builds
+            return id.includes('mixpanel-service') || Object.keys(pkg.peerDependencies || {}).includes(id);
+        },
         plugins: plugins({
             // compilerOptions: {
             //     declaration: true,
@@ -134,5 +139,7 @@ export default [
             // },
             // include: ['src/index.mobile.ts'],
         }, 'mobile'),
+        treeshake: true,
+        
     },
 ];

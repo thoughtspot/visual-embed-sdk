@@ -225,10 +225,13 @@ export async function postLoginService(): Promise<void> {
         const sessionInfo = await getSessionInfo();
         releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();
-        // TODO : mixpanel tracking for mobile events
-        if (!embedConfig.disableSDKTracking && process.env.SDK_ENVIRONMENT === 'web') {
-            const { initMixpanel } = await import('./mixpanel-service');
-            initMixpanel(sessionInfo);
+
+        if (!embedConfig.disableSDKTracking) {
+            if(process.env.SDK_ENVIRONMENT === 'web')
+            {
+                const { initMixpanel } = await import('./mixpanel-service');
+                initMixpanel(sessionInfo);
+            }
         }
     } catch (e) {
         logger.error('Post login services failed.', e.message, e);
