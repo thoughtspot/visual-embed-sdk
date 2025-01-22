@@ -227,8 +227,7 @@ export async function postLoginService(): Promise<void> {
         const embedConfig = getEmbedConfig();
 
         if (!embedConfig.disableSDKTracking) {
-            if(process.env.SDK_ENVIRONMENT === 'web')
-            {
+            if (process.env.SDK_ENVIRONMENT === 'web') {
                 const { initMixpanel } = await import('./mixpanel-service');
                 initMixpanel(sessionInfo);
             }
