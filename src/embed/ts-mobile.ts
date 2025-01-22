@@ -1,11 +1,6 @@
 import { logger } from '../utils/logger';
-import pkgInfo from '../../package.json';
-import { getAuthenticationToken } from '../authToken';
-import { processAuthFailure } from '../utils/processData';
-import { getCustomisations } from '../utils';
 import { getThoughtSpotHost, getV2BasePath } from '../config';
-import { getEmbedConfig } from './embedConfig';
-import { AuthType, Param, ViewConfig } from '../types';
+import { ViewConfig } from '../types';
 import { BaseEmbed } from './baseEmbed';
 
 /**
@@ -107,15 +102,7 @@ export class MobileEmbed extends BaseEmbed {
    * If your embedded page sends a message "APP_INIT", we might handle it here
    * to fetch an auth token or do custom styling.
    */
-  public async handleAppInit() {
-      let authToken;
-      if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-          try {
-              authToken = await getAuthenticationToken(this.embedConfig);
-          } catch (err) {
-              this.handleError(`Failed to fetch token for APP_INIT: ${String(err)}`);
-          }
-      }
+  public async handleAppInit() {     
       try {
           const appInitData = await this.getAppInitData();
           this.isAppInitialized = true;
@@ -137,14 +124,7 @@ export class MobileEmbed extends BaseEmbed {
    * token and re-inject it.
    */
   public async handleAuthExpired() {
-      let newToken = '';
-      if (this.embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-          try {
-              newToken = await getAuthenticationToken(this.embedConfig);
-          } catch (err) {
-              this.handleError(`Failed to refresh token after expiry: ${String(err)}`);
-          }
-      }
+      let newToken = this.getAuthTokenForCookielessInit();
       try {
           const msg = {
               type: 'ThoughtspotAuthExpired',

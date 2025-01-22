@@ -119,7 +119,7 @@ export class BaseEmbed {
     }
 
     protected async getAuthTokenForCookielessInit() {
-        let authToken = '';
+        let authToken: string = '';
         if (this.embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) return authToken;
 
         try {
