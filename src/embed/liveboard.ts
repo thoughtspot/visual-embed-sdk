@@ -642,7 +642,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger<HostEventT extends HostEvent>(
         messageType: HostEventT,
-        data?: HostEventRequest<HostEventT>,
+        data: HostEventRequest<HostEventT> = ({} as any),
     ): Promise<HostEventResponse<HostEventT>> {
         const dataWithVizId = data;
         if (messageType === HostEvent.SetActiveTab) {
