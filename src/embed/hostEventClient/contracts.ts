@@ -4,7 +4,7 @@ export enum UIPassthroughEvent {
   PinAnswerToLiveboard = 'addVizToPinboard',
   SaveAnswer = 'saveAnswer',
   GetDiscoverabilityStatus = 'getDiscoverabilityStatus',
-  GetAvailableUIPassthroughs = 'getAvailableUIPassthroughs',
+  GetAvailableUIPassthroughs = 'getAvailableUiPassthroughs',
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
 }
