@@ -208,6 +208,8 @@ export enum HomeLeftNavItem {
 }
 export type DOMSelector = string | HTMLElement;
 
+export type AuthFunction = (embedConfig: EmbedConfig) => Promise<boolean>;
+
 /**
  * inline customCSS within the {@link CustomisationsInterface}.
  * Use {@link CustomCssVariables} or css rules.

@@ -12,7 +12,7 @@ import {
     setStyleProperties,
     isUndefined,
 } from './utils';
-import { RuntimeFilterOp } from './types';
+import { CustomisationsInterface, RuntimeFilterOp } from './types';
 
 describe('unit test for utils', () => {
     test('getQueryParamString', () => {

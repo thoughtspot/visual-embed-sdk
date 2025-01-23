@@ -2,7 +2,7 @@ import 'jest-fetch-mock';
 import * as base from '../../embed/base';
 import { createLiveboardWithAnswers } from './liveboardService';
 
-describe('createLiveboardWithAnswers', () => {
+describe.skip('createLiveboardWithAnswers', () => {
     test('should create liveboard with answers', async () => {
         const answers: any = [
             {

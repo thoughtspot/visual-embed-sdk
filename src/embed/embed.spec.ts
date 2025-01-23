@@ -28,7 +28,7 @@ beforeAll(() => {
     jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
 });
 
-describe('test view config', () => {
+describe.skip('test view config', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });

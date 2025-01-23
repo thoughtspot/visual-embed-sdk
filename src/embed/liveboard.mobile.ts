@@ -8,22 +8,13 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
-    EmbedEvent,
-    MessagePayload,
     Param,
-    RuntimeFilter,
-    DOMSelector,
-    HostEvent,
     ViewConfig,
 } from '../types';
-import { getQueryParamString, isUndefined } from '../utils';
-import { getAuthPromise } from './base';
-import { V1Embed } from './ts-embed';
-import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
+import { getQueryParamString, isMobile, isUndefined } from '../utils';
+import { MobileEmbed } from './ts-mobile';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -37,14 +28,12 @@ export interface LiveboardViewConfig
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
-     *
      * **Note**:  Using fullHeight loads all visualizations on the
      * Liveboard simultaneously, which results in multiple warehouse
      * queries and potentially a longer wait for the topmost
      * visualizations to display on the screen.
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
-     *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
@@ -398,20 +387,15 @@ export interface LiveboardViewConfig
  * ```
  * @group Embed components
  */
-export class LiveboardEmbed extends V1Embed {
+export class LiveboardEmbed extends MobileEmbed {
     protected viewConfig: LiveboardViewConfig;
 
     private defaultHeight = 500;
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
+    constructor(viewConfig: LiveboardViewConfig, webViewRef : any) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
-        super(domSelector, viewConfig);
-        if (this.viewConfig.fullHeight === true) {
-            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
-            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
-            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-        }
+        super(viewConfig, webViewRef);
     }
 
     /**
@@ -516,7 +500,7 @@ export class LiveboardEmbed extends V1Embed {
         return queryParams;
     }
 
-    private getIframeSuffixSrc(liveboardId: string, vizId: string, activeTabId: string) {
+    private getWebViewSuffixSrc(liveboardId: string, vizId: string, activeTabId: string) {
         let suffix = `/embed/viz/${liveboardId}`;
         if (activeTabId) {
             suffix = `${suffix}/tab/${activeTabId} `;
@@ -524,8 +508,10 @@ export class LiveboardEmbed extends V1Embed {
         if (vizId) {
             suffix = `${suffix}/${vizId}`;
         }
-        const tsPostHashParams = this.getThoughtSpotPostUrlParams();
-        suffix = `${suffix}${tsPostHashParams}`;
+        if (!isMobile()) {
+            const tsPostHashParams = this.getThoughtSpotPostUrlParams();
+            suffix = `${suffix}${tsPostHashParams}`;
+        }
         return suffix;
     }
 
@@ -533,14 +519,14 @@ export class LiveboardEmbed extends V1Embed {
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.
      */
-    private getIFrameSrc(): string {
+    private getWebViewSrc(): string {
         const { vizId, activeTabId } = this.viewConfig;
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
             this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION);
         }
-        return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
+        return `${this.getRootIframeSrc()}${this.getWebViewSuffixSrc(
             liveboardId,
             vizId,
             activeTabId,
@@ -548,140 +534,13 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     /**
-     * Set the iframe height as per the computed height received
-     * from the ThoughtSpot app.
-     * @param data The event payload
-     */
-    private updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
-    };
-
-    private embedIframeCenter = (data: MessagePayload, responder: any) => {
-        const obj = this.getIframeCenter();
-        responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
-    };
-
-    private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (
-            data.data.currentPath.startsWith('/embed/viz/')
-            || data.data.currentPath.startsWith('/embed/insights/viz/')
-        ) {
-            return;
-        }
-        this.setIFrameHeight(this.defaultHeight);
-    };
-
-    private setActiveTab(data: { tabId: string }) {
-        if (!this.viewConfig.vizId) {
-            const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
-            const path = `${prefixPath}/tab/${data.tabId}`;
-            super.trigger(HostEvent.Navigate, path);
-        }
-    }
-
-    private async showPreviewLoader() {
-        if (!this.viewConfig.showPreviewLoader || !this.viewConfig.vizId) {
-            return;
-        }
-
-        try {
-            const preview = await getPreview(
-                this.thoughtSpotHost,
-                this.viewConfig.vizId,
-                this.viewConfig.liveboardId,
-            );
-
-            if (!preview.vizContent) {
-                return;
-            }
-            addPreviewStylesIfNotPresent();
-
-            const div = document.createElement('div');
-            div.innerHTML = `
-                <div class=ts-viz-preview-loader>
-                    ${preview.vizContent}
-                </div>
-                `;
-            const previewDiv = div.firstElementChild as HTMLElement;
-            this.el.appendChild(previewDiv);
-            this.el.style.position = 'relative';
-            this.on(EmbedEvent.Data, () => {
-                previewDiv.remove();
-            });
-        } catch (error) {
-            console.error('Error fetching preview', error);
-        }
-    }
-
-    protected beforePrerenderVisible(): void {
-        const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
-
-        if (isUndefined(embedObj)) return;
-
-        const showDifferentLib = this.viewConfig.liveboardId
-            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
-
-        if (showDifferentLib) {
-            const libId = this.viewConfig.liveboardId;
-            this.navigateToLiveboard(libId);
-        }
-    }
-
-    protected handleRenderForPrerender(): void {
-        if (isUndefined(this.viewConfig.liveboardId)) {
-            this.prerenderGeneric();
-            return;
-        }
-        super.handleRenderForPrerender();
-    }
-
-    /**
-     * Triggers an event to the embedded app
-     * @param messageType The event type
-     * @param data The payload to send with the message
-     */
-    public trigger<HostEventT extends HostEvent>(
-        messageType: HostEventT,
-        data: HostEventRequest<HostEventT> = ({} as any),
-    ): Promise<HostEventResponse<HostEventT>> {
-        const dataWithVizId = data;
-        if (messageType === HostEvent.SetActiveTab) {
-            this.setActiveTab(data);
-            return Promise.resolve(null);
-        }
-        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
-            dataWithVizId.vizId = this.viewConfig.vizId;
-        }
-        return super.trigger(messageType, dataWithVizId);
-    }
-
-    /**
      * Render an embedded ThoughtSpot Liveboard or visualization
      * @param renderOptions An object specifying the Liveboard ID,
      * visualization ID and the runtime filters.
      */
-    public async render(): Promise<LiveboardEmbed> {
-        super.render();
-
-        const src = this.getIFrameSrc();
-        await this.renderV1Embed(src);
-        this.showPreviewLoader();
-
-        return this;
-    }
-
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
-        const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
-        this.viewConfig.liveboardId = liveboardId;
-        this.viewConfig.activeTabId = activeTabId;
-        this.viewConfig.vizId = vizId;
-        if (this.isRendered) {
-            this.trigger(HostEvent.Navigate, path.substring(1));
-        } else if (this.viewConfig.preRenderId) {
-            this.preRender(true);
-        } else {
-            this.render();
-        }
+    public async getWebViewUrl(): Promise<string> {
+        const src = this.getWebViewSrc();
+        return src;
     }
 
     /**

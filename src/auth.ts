@@ -1,7 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
-import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
@@ -226,8 +225,12 @@ export async function postLoginService(): Promise<void> {
         const sessionInfo = await getSessionInfo();
         releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();
+
         if (!embedConfig.disableSDKTracking) {
-            initMixpanel(sessionInfo);
+            if (process.env.SDK_ENVIRONMENT === 'web') {
+                const { initMixpanel } = await import('./mixpanel-service');
+                initMixpanel(sessionInfo);
+            }
         }
     } catch (e) {
         logger.error('Post login services failed.', e.message, e);
@@ -497,6 +500,26 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> =
             return Promise.resolve(true);
     }
 };
+
+/**
+ * The main authenticate function. Only supports the following:
+ * - TrustedAuthTokenCookieless
+ * - Basic
+ * - None
+ * @param embedConfig
+ */
+export async function authenticateMobile(embedConfig: EmbedConfig): Promise<boolean> {
+    switch (embedConfig.authType) {
+        case AuthType.TrustedAuthTokenCookieless:
+            return doCookielessTokenAuth(embedConfig);
+        case AuthType.Basic:
+            return doBasicAuth(embedConfig);
+        case AuthType.None:
+        default:
+            loggedInStatus = true;
+            return true;
+    }
+}
 
 /**
  * Check if we are authenticated to the ThoughtSpot cluster

@@ -15,10 +15,10 @@ import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
 import { getThoughtSpotHost } from '../config';
 import {
+    AuthFunction,
     AuthType, EmbedConfig, LogLevel, Param, PrefetchFeatures,
 } from '../types';
 import {
-    authenticate,
     logout as _logout,
     AuthFailureType,
     AuthStatus,
@@ -31,7 +31,6 @@ import {
     AuthEventEmitter,
     postLoginService,
 } from '../auth';
-import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString } from '../utils';
 
@@ -70,7 +69,19 @@ export {
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
-    authPromise = authenticate(getEmbedConfig());
+    let authFn: AuthFunction;
+    if (process.env.SDK_ENVIRONMENT === 'mobile') {
+        authFn = async (embedConfig) => {
+            const { authenticateMobile } = await import('../auth');
+            return authenticateMobile(embedConfig);
+        };
+    } else {
+        authFn = async (embedConfig) => {
+            const { authenticate } = await import('../auth');
+            return authenticate(embedConfig);
+        };
+    }
+    authPromise = authFn(getEmbedConfig());
     authPromise.then(
         (isLoggedIn) => {
             if (!isLoggedIn) {
@@ -191,7 +202,8 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+export const init = (embedConfig: EmbedConfig):
+    AuthEventEmitter => {
     sanity(embedConfig);
     resetCachedAuthToken();
     embedConfig = setEmbedConfig(
@@ -201,27 +213,34 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
             thoughtSpotHost: getThoughtSpotHost(embedConfig),
         }),
     );
-
     setGlobalLogLevelOverride(embedConfig.logLevel);
-    registerReportingObserver();
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     handleAuth();
 
     const { password, ...configToTrack } = getEmbedConfig();
-    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-        usedCustomizationRules:
+    if (process.env.SDK_ENVIRONMENT === 'web') {
+        registerReportingObserver();
+        (async () => {
+            const { uploadMixpanelEvent, MIXPANEL_EVENT } = await import('../mixpanel-service');
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+                ...configToTrack,
+                usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl
+            != null,
+                usedCustomizationVariables:
+            embedConfig.customizations?.style?.customCSS?.variables != null,
+                usedCustomizationRules:
             embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-    });
-
-    if (getEmbedConfig().callPrefetch) {
-        prefetch(getEmbedConfig().thoughtSpotHost);
+                usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+                usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+            });
+        })();
+        if (getEmbedConfig().callPrefetch) {
+            prefetch(getEmbedConfig().thoughtSpotHost);
+        }
+    } else {
+        console.log('emptying out no mixpanel for mobile');
     }
     return authEE as AuthEventEmitter;
 };
