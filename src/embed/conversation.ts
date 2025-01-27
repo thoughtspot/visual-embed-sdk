@@ -14,6 +14,10 @@ export interface SearchOptions {
     searchQuery: string;
 }
 
+/**
+ * The configuration for the embedded conversationEmbed options.
+ * @group Embed components
+ */
 export interface ConversationViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
