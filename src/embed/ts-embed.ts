@@ -537,9 +537,11 @@ export class TsEmbed {
          *  menu click
          */
         if (contextMenuTrigger === ContextMenuTriggerOptions.LEFT_CLICK) {
-            queryParams[Param.ContextMenuTrigger] = true;
+            queryParams[Param.ContextMenuTrigger] = 'left';
         } else if (contextMenuTrigger === ContextMenuTriggerOptions.RIGHT_CLICK) {
-            queryParams[Param.ContextMenuTrigger] = false;
+            queryParams[Param.ContextMenuTrigger] = 'right';
+        } else if (contextMenuTrigger === ContextMenuTriggerOptions.BOTH_CLICKS) {
+            queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
         const spriteUrl = customizations?.iconSpriteUrl

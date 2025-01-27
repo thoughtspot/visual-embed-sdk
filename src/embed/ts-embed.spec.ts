@@ -18,9 +18,15 @@ import {
     AnswerService,
 } from '../index';
 import {
-    Action, HomeLeftNavItem, RuntimeFilter, RuntimeFilterOp, HomepageModule, HostEvent,
+    Action,
+    HomeLeftNavItem,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    HomepageModule,
+    HostEvent,
     RuntimeParameter,
     Param,
+    ContextMenuTriggerOptions,
 } from '../types';
 import {
     executeAfterWait,
@@ -1524,6 +1530,7 @@ describe('Unit test case for ts embed', () => {
                 expect(getIFrameSrc()).toContain('?base64UrlEncodedFlags');
             });
         });
+
         it('should return the correct encoded query params string when app is embeded', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -1810,6 +1817,158 @@ describe('Unit test case for ts embed', () => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
                     `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        it('Should not add contextMenuEnabledOnWhichClick flag to the iframe src when it is not passed', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+
+            const sageEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+            } as SageViewConfig);
+
+            sageEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                );
+            });
+        });
+
+        it('Should add contextMenuEnabledOnWhichClick flag to the iframe with left value', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                contextMenuTrigger: ContextMenuTriggerOptions.LEFT_CLICK,
+            } as LiveboardViewConfig);
+
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=left#/embed/viz/${liveboardId}`,
+                );
+            });
+
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+
+            const sageEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+                contextMenuTrigger: ContextMenuTriggerOptions.LEFT_CLICK,
+            } as SageViewConfig);
+
+            sageEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=left&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                );
+            });
+        });
+
+        it('Should add contextMenuEnabledOnWhichClick flag to the iframe with right value', async () => {
+            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                contextMenuTrigger: ContextMenuTriggerOptions.RIGHT_CLICK,
+            } as LiveboardViewConfig);
+
+            livebaordEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=right#/embed/viz/${liveboardId}`,
+                );
+            });
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+
+            const sageEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+                contextMenuTrigger: ContextMenuTriggerOptions.RIGHT_CLICK,
+            } as SageViewConfig);
+
+            sageEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=right&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                );
+            });
+        });
+
+        it('Should add contextMenuEnabledOnWhichClick flag to the iframe with both value', async () => {
+            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                contextMenuTrigger: ContextMenuTriggerOptions.BOTH_CLICKS,
+            } as LiveboardViewConfig);
+
+            livebaordEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=both#/embed/viz/${liveboardId}`,
+                );
+            });
+            const defaultConfig: SageViewConfig = {
+                disableWorksheetChange: false,
+                hideWorksheetSelector: false,
+                hideSageAnswerHeader: false,
+                hideAutocompleteSuggestions: false,
+                hideSampleQuestions: false,
+                isProductTour: false,
+                dataPanelV2: false,
+            };
+
+            const sageEmbed = new SageEmbed(getRootEl(), {
+                ...defaultConfig,
+                contextMenuTrigger: ContextMenuTriggerOptions.BOTH_CLICKS,
+            } as SageViewConfig);
+
+            sageEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatch(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=both&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
                 );
             });
         });

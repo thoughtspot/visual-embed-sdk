@@ -257,8 +257,17 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     enableSearchAssist?: boolean;
     /**
-     * If set to true, the embedded object container dynamically resizes
-     * according to the height of the pages which support fullHeight mode.
+     * If set to true, the Liveboard container dynamically resizes
+     * according to the height of the Liveboard.
+     *
+     * **Note**: Using fullHeight loads all visualizations
+     * on the Liveboard simultaneously, which results in
+     * multiple warehouse queries and potentially a
+     * longer wait for the topmost visualizations to
+     * display on the screen. Setting fullHeight to
+     * `false` fetches visualizations incrementally as
+     * users scroll the page to view the charts and tables.
+     *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
      * @example
      * ```js

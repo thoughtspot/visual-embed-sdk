@@ -17,7 +17,7 @@ import type { SessionInterface } from './utils/graphql/answerService/answerServi
 // eslint-disable-next-line no-shadow
 export enum AuthType {
     /**
-     * No authentication on the SDK. Passthrough to the embedded App. Alias for
+     * No authentication on the SDK. Pass-through to the embedded App. Alias for
      * `Passthrough`.
      * @example
      * ```js
@@ -216,8 +216,8 @@ export interface customCssInterface {
     /**
      * The custom css variables, which can be set.
      * The allowed list is in the CustomCssVariables
-     * interface.
-     * Or here: https://try-everywhere.thoughtspot.cloud/resources/static/css/custom_variables.css
+     * interface. For more information, see
+     * link:https://developers.thoughtspot.com/docs/css-variables-reference
      */
     variables?: CustomCssVariables;
     /**
@@ -261,7 +261,7 @@ export interface CustomStyles {
 
 /**
  * Configuration to define the customization on the Embedded
- * Thoughtspot components.
+ * ThoughtSpot components.
  * You can customize styles, text strings, and icons.
  * For more information, see https://developers.thoughtspot.com/docs/custom-css.
  * @example
@@ -388,7 +388,7 @@ export interface EmbedConfig {
     /**
      * Boolean to define if the query parameters in the ThoughtSpot URL
      * should be encoded in base64. This provides additional security to
-     * Thoughtspot clusters against cross-site scripting attacks.
+     * ThoughtSpot clusters against cross-site scripting attacks.
      * @default false
      */
     shouldEncodeUrlQueryParams?: boolean;
@@ -553,18 +553,18 @@ export interface EmbedConfig {
      */
     disableSDKTracking?: boolean;
     /**
-     * Overrides default/user preffered locale for date formatting
-     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     * Overrides default/user preferred locale for date formatting
+     * @version SDK: 1.28.4 | ThoughtSpot: 10.0.0.cl, 9.5.0.sw
      */
     dateFormatLocale?: string;
     /**
-     * Overrides default/user preffered locale for number formatting
-     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     * Overrides default/user preferred locale for number formatting
+     * @version SDK: 1.28.4 | ThoughtSpot: 10.0.0.cl, 9.5.0.sw
      */
     numberFormatLocale?: string;
     /**
      * Format to be used for currency when currency format is set to infer from browser
-     * @version SDK: 1.28.4 | Thoughtspot: 10.0.0.cl, 9.5.0.sw
+     * @version SDK: 1.28.4 | ThoughtSpot: 10.0.0.cl, 9.5.0.sw
      */
     currencyFormat?: string;
 
@@ -579,13 +579,13 @@ export interface EmbedConfig {
      *   disableTokenVerification : true
      * })
      * ```
-     * @version SDK: 1.28.5 | Thoughtspot: *
+     * @version SDK: 1.28.5 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     disableTokenVerification?: boolean;
 
     /**
      * This flag is used to disable showing the login failure page in the embedded app.
-     * @version SDK 1.32.3 | Thoughtspot: *
+     * @version SDK 1.32.3 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     disableLoginFailurePage?: boolean;
     /**
@@ -621,7 +621,7 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     *  @version SDK 1.37.0 | Thoughtspot: 10.7.0.cl
+     *  @version SDK 1.37.0 | ThoughtSpot: 10.7.0.cl
      */
     customVariablesForThirdPartyTools?: Record< string, any >;
 }
@@ -784,7 +784,7 @@ export interface ViewConfig {
     /**
      * The list of parameter override to apply to a search answer,
      * visualization, or Liveboard.
-     * @version SDK : 1.25.0 | Thoughtspot: 9.2.0.cl, 9.5.0.sw
+     * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -842,7 +842,7 @@ export interface ViewConfig {
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
-     * @version SDK: 1.2.0 | Thoughtspot: 9.0.0.cl, 9.0.0.sw
+     * @version SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -915,7 +915,7 @@ export interface ViewConfig {
      *  'f547ec54-2a37-4516-a222-2b06719af726']
      * });
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     hiddenTabs?: string[];
     /**
@@ -925,7 +925,7 @@ export interface ViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -942,7 +942,7 @@ export interface ViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0| Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -957,7 +957,7 @@ export interface ViewConfig {
      * Only the tabs specified in the array will be shown in the Liveboard.
      *
      * Use either `visibleTabs` or `hiddenTabs`.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -985,7 +985,7 @@ export interface ViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
@@ -1000,7 +1000,7 @@ export interface ViewConfig {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
@@ -1056,7 +1056,7 @@ export interface ViewConfig {
     /**
      * To set the initial state of the search bar in case of saved Answers.
      * @default true
-     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -1080,7 +1080,7 @@ export interface ViewConfig {
     /**
      * Flag to control Data panel experience
      * @default false
-     * @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1092,7 +1092,7 @@ export interface ViewConfig {
     dataPanelV2?: boolean;
     /**
      * To enable custom column groups in data panel v2
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      * @default false
      * @example
      * ```js
@@ -1120,9 +1120,10 @@ export interface ViewConfig {
      */
     overrideOrgId?: number;
     /**
-     * Flag to control new flip tooltip context menu experience
+     * Flag to enhance the visual effects of charts
+     * This feature is a beta release for 10.6
      * @default false
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     enableFlipTooltipToContextMenu?: boolean;
 }
@@ -1255,7 +1256,7 @@ export enum RuntimeFilterOp {
  * **Note**: This option does not apply to the classic homepage.
  * To access the updated modular homepage, set
  * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
- * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+ * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
 // eslint-disable-next-line no-shadow
 export enum HomepageModule {
@@ -2102,7 +2103,7 @@ export enum EmbedEvent {
      */
     Explore = 'explore',
     /**
-     * Emitted when a user clicks **Copy link** action on a visualization
+     * Emitted when a user clicks **Copy link** action on a visualization.
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
@@ -2152,23 +2153,26 @@ export enum EmbedEvent {
      */
     FilterChanged = 'filterChanged',
     /**
-     *  Emitted when a user clicks the **Go** button on the sage embed
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     *  Emitted when a user clicks the **Go** button to initiate
+     *  a Natural Language Search query
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
-     * Emitted when a user selects a data source on the sage embed
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     * Emitted when a user selects a data source on the embedded
+     * Natural Language Search interface.
+     *
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
      * Emitted when a user updates a connection on the **Data** page
-     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     UpdateConnection = 'updateConnection',
     /**
      * Emitted when a user updates a connection on the **Data** page
-     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     CreateConnection = 'createConnection',
     /**
@@ -2178,7 +2182,7 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
@@ -2187,7 +2191,7 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SavePersonalisedView = 'savePersonalisedView',
     /**
@@ -2196,28 +2200,28 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     ResetLiveboard = 'resetLiveboard',
     /**
      * Emitted when a PersonalisedView is deleted.
      * @returns views: string[]
      * @returns liveboardId: string
-     * @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     DeletePersonalisedView = 'deletePersonalisedView',
     /**
      * Emitted when a user creates a new worksheet
-     * @version SDK : 1.27.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK : 1.27.0 | ThoughtSpot Cloud: 9.8.0.cl
      */
     CreateWorksheet = 'createWorksheet',
     /**
-     * Emitted when Ask Sage is initialized.
+     * Emitted when the *Ask Sage* is initialized.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
     AskSageInit = 'AskSageInit',
     /**
@@ -2245,7 +2249,7 @@ export enum EmbedEvent {
      *
      * error: Developers can customize the error message text when `execute`
      * returns `false` using the error parameter in responder.
-     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
      * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2293,7 +2297,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.29.0 | Thoughtspot : 10.3.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
 }
@@ -2442,7 +2446,7 @@ export enum HostEvent {
      * const url = embed.trigger(HostEvent.GetIframeUrl);
      * console.log("iFrameURL",url);
      * ```
-     * @version SDK: 1.35.0 | Thoughtspot: 10.4.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl
      */
     GetIframeUrl = 'GetIframeUrl',
     /**
@@ -2475,6 +2479,11 @@ export enum HostEvent {
      * attributes passed with this event are appended to the existing runtime
      * filters applied on a Liveboard.
      *
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
+     * and `AppEmbed` only. In full application embedding, this event updates
+     * the runtime filters applied on the Liveboard and saved Answer objects.
+     *
+     *
      * Pass an array of runtime filters with the following attributes:
      *
      * `columnName` - _String_. The name of the column to filter on.
@@ -2485,9 +2494,12 @@ export enum HostEvent {
      * `values` - List of operands. Some operators such as EQ and LE allow a
      * single value, whereas BW and IN accept multiple values.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
-     * and `AppEmbed` only. In full application embedding, this event updates
-     * the runtime filters applied on the Liveboard and saved Answer objects.
+     * **Note**: Updating runtime filters resets the ThoughtSpot
+     * object to its original state and applies new filter conditions.
+     * Any user changes (like drilling into a visualization)
+     * will be cleared, restoring the original visualization
+     * with the updated filters.
+     *
      * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
      * @example
      * ```js
@@ -2502,7 +2514,7 @@ export enum HostEvent {
     UpdateRuntimeFilters = 'UpdateRuntimeFilters',
     /**
      * Navigate to a specific page in the embedded ThoughtSpot application.
-     * This is the same as calling `appEmbed.navigateToPage(path, true)`
+     * This is the same as calling `appEmbed.navigateToPage(path, true)`.
      * @param - `path` - the path to navigate to to go forward or back. The path value can
      * be a number; for example, `1`, `-1`.
      * @example
@@ -2797,7 +2809,9 @@ export enum HostEvent {
      */
     GetTML = 'getTML',
     /**
-     * Trigger the **Show underlying data** action on visualization or search
+     * Trigger the **Show underlying data** action on a
+     * chart or table.
+     *
      * @param - an object with vizId as a key
      * @example
      * ```js
@@ -2831,8 +2845,8 @@ export enum HostEvent {
      */
     Delete = 'onDeleteAnswer',
     /**
-     * Trigger the **SpotIQ analyze** action on visualization
-     * or search.
+     * Trigger the **SpotIQ analyze** action on a
+     * chart or table.
      * @param - Liveboard embed takes `vizId` as a
      * key. Can be left undefined when embedding Search or
      * visualization.
@@ -3105,7 +3119,7 @@ export enum HostEvent {
      *  '430496d6-6903-4601-937e-2c691821af3c',
      *  'f547ec54-2a37-4516-a222-2b06719af726'])
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SetVisibleTabs = 'SetPinboardVisibleTabs',
     /**
@@ -3118,7 +3132,7 @@ export enum HostEvent {
      *  '630496d6-6903-4601-937e-2c691821af3c',
      *  'i547ec54-2a37-4516-a222-2b06719af726'])
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SetHiddenTabs = 'SetPinboardHiddenTabs',
     /**
@@ -3132,7 +3146,7 @@ export enum HostEvent {
      *  executeSearch: true,
      * })
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     UpdateSageQuery = 'updateSageQuery',
     /**
@@ -3149,21 +3163,22 @@ export enum HostEvent {
      * ```js
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     GetAnswerSession = 'getAnswerSession',
     /**
-     * Trigger Ask Sage for viz
+     * Trigger the *Ask Sage* action for visualizations
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.AskSage,
      * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
      * ```
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
     AskSage = 'AskSage',
     /**
-     * Trigger cross filter update action on a Liveboard
+     * Trigger cross filter update action on a Liveboard.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateCrossFilter, {
@@ -3174,7 +3189,7 @@ export enum HostEvent {
      *    ],
      * });
      * ```
-     * @version SDK: 1.29.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot Cloud: 10.0.0.cl, 10.1.0.sw
      */
     UpdateCrossFilter = 'UpdateCrossFilter',
     /**
@@ -3183,11 +3198,13 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
      * ```
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot Cloud: 10.1.0.cl, 10.1.0.sw
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
-     * Triggers an event to Update Parameter values for Answers and Liveboard
+     * Triggers an action to update Parameter values on embedded
+     * Answers and Liveboard.
+     *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
@@ -3195,25 +3212,25 @@ export enum HostEvent {
      * value: "almond"
      * }])
      *
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     UpdateParameters = 'UpdateParameters',
     /**
-     * Triggers GetParameters to fetch the runtime parameters
+     * Triggers GetParameters to fetch the runtime Parameters.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
      *  console.log('parameters', parameter);
      * });
      *```
-     * @version SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     GetParameters = 'GetParameters',
     /**
-     * Triggers an event to update a persoanlised view of a Liveboard
+     * Triggers an event to update a personalized view of a Liveboard.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
     /**
@@ -3301,7 +3318,12 @@ export enum Param {
     AuthType = 'authType',
     IconSpriteUrl = 'iconSprite',
     cookieless = 'cookieless',
-    ContextMenuTrigger = 'isContextMenuEnabledOnLeftClick',
+    // Deprecated: `isContextMenuEnabledOnLeftClick`
+    // Introduced: `contextMenuEnabledOnWhichClick` with values: 'left',
+    // 'right', or 'both'. This update only affects ThoughtSpot URL parameters
+    // and does not impact existing workflows or use cases. Added support for
+    // 'both' clicks in `contextMenuTrigger` configuration.
+    ContextMenuTrigger = 'contextMenuEnabledOnWhichClick',
     LinkOverride = 'linkOverride',
     blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
@@ -3454,7 +3476,8 @@ export enum Action {
     ResetLayout = 'resetLayout',
     /**
      * The **Schedule** menu action on a Liveboard.
-     * Allows scheduling a Liveboard notification.
+     * Allows scheduling a Liveboard job, for example,
+     * sending periodic notifications.
      * @example
      * ```js
      * disabledActions: [Action.Schedule]
@@ -3496,7 +3519,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AddDataPanelObjects]
      * ```
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      */
     AddDataPanelObjects = 'addDataPanelObjects',
     /**
@@ -3509,7 +3532,28 @@ export enum Action {
      * ```
      */
     ConfigureFilter = 'configureFilter',
+    /**
+    * The **Collapse data sources** icon on the Search page.
+    * Collapses the panel showing data sources.
+    *
+    * @example
+    * ```js
+    * disabledActions: [Action.CollapseDataPanel]
+    * ```
+    * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
+    */
     CollapseDataSources = 'collapseDataSources',
+    /**
+    * The **Collapse data panel** icon on the Search page.
+    * Collapses the data panel view.
+    *
+    * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl, 10.7.0.sw
+    *
+    * @example
+    * ```js
+    * disabledActions: [Action.CollapseDataPanel]
+    * ```
+    */
     CollapseDataPanel = 'collapseDataPanel',
     /**
      * The **Choose sources** button on Search page.
@@ -3545,7 +3589,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AddColumnSet]
      * ```
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      */
     AddColumnSet = 'addSimpleCohort',
     /**
@@ -3555,7 +3599,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AddQuerySet]
      * ```
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      */
     AddQuerySet = 'addAdvancedCohort',
     /**
@@ -3587,6 +3631,8 @@ export enum Action {
     /**
      * The **Show underlying data** menu action on a visualization or
      * Answer page.
+     * Displays detailed information and raw data
+     * for a given visualization.
      * @example
      * ```js
      * disabledActions: [Action.ShowUnderlyingData]
@@ -3788,6 +3834,7 @@ export enum Action {
     AnalysisInfo = 'analysisInfo',
     /**
      * The **Schedule** menu action on a Liveboard.
+     * Allows scheduling a Liveboard job.
      * @example
      * ```js
      * disabledActions: [Action.Subscription]
@@ -3858,8 +3905,13 @@ export enum Action {
      */
     RequestAccess = 'requestAccess',
     /**
-     * The **Query visualizer** and **Query SQL** buttons in Query details panel
-     * of the Answer page
+     * The **Query visualizer** and **Query SQL** buttons in
+     * Query details panel of the Answer page.
+     *
+     * **Query visualizer** - Displays the tables
+     * and filters used in a search query.
+     * **Query SQL** - Displays the SQL statements used
+     * in a search query to fetch data.
      * @example
      * ```js
      * disabledActions: [Action.QueryDetailsButtons]
@@ -3877,7 +3929,10 @@ export enum Action {
      */
     AnswerDelete = 'onDeleteAnswer',
     /**
-     * The Chart switcher icon on Answer and visualization pages.
+     * The chart switcher icon on Answer page and
+     * visualizations in edit mode.
+     * Allows switching to the table or chart mode
+     * when editing a visualization.
      * @example
      * ```js
      * disabledActions: [Action.AnswerChartSwitcher]
@@ -3886,7 +3941,10 @@ export enum Action {
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
-     * Favorites icon (*) on Answers, Liveboard, and Data pages
+     * The Favorites icon (*) for Answers,
+     * Liveboard, and data objects like Worksheet, Model,
+     * Tables and Views.
+     * Allows adding an object to the user’s favorites list.
      * @example
      * ```js
      * disabledActions: [Action.AddToFavorites]
@@ -3904,7 +3962,9 @@ export enum Action {
      */
     EditDetails = 'editDetails',
     /**
-     * The Create alert action on KPI charts.
+     * The *Create alert* action for KPI charts.
+     * Allows users to schedule threshold-based alerts
+     * for KPI charts.
      * @example
      * ```js
      * disabledActions: [Action.CreateMonitor]
@@ -3960,7 +4020,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.CrossFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.8.0.sw
      */
     CrossFilter = 'context-menu-item-cross-filter',
     /**
@@ -3970,7 +4030,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SyncToSlack]
      * ```
-     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     * @version @version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
      */
     SyncToSlack = 'syncToSlack',
     /**
@@ -3980,7 +4040,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SyncToTeams]
      * ```
-     * @version @version SDK : 1.32.0 | Thoughtspot: 10.1.0.cl
+     * @version @version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
      */
     SyncToTeams = 'syncToTeams',
     /**
@@ -3991,7 +4051,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RemoveCrossFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     RemoveCrossFilter = 'context-menu-item-remove-cross-filter',
     /**
@@ -4002,7 +4062,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuAggregate]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuAggregate = 'axisMenuAggregate',
     /**
@@ -4013,17 +4073,19 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuTimeBucket]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuTimeBucket = 'axisMenuTimeBucket',
     /**
      * The **Filter** action in the chart axis or table column
      * customization menu.
+     * Allows adding, editing, or removing filters.
+     *
      * @example
      * ```js
      * disabledActions: [Action.AxisMenuFilter]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuFilter = 'axisMenuFilter',
     /**
@@ -4034,7 +4096,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuConditionalFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuConditionalFormat = 'axisMenuConditionalFormat',
     /**
@@ -4045,7 +4107,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuConditionalFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuSort = 'axisMenuSort',
     /**
@@ -4057,7 +4119,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuGroup]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuGroup = 'axisMenuGroup',
     /**
@@ -4068,7 +4130,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuPosition]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuPosition = 'axisMenuPosition',
     /**
@@ -4078,7 +4140,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuRename]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuRename = 'axisMenuRename',
     /**
@@ -4089,7 +4151,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuEdit]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuEdit = 'axisMenuEdit',
     /**
@@ -4099,7 +4161,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuNumberFormat]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuNumberFormat = 'axisMenuNumberFormat',
     /**
@@ -4109,7 +4171,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuTextWrapping]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuTextWrapping = 'axisMenuTextWrapping',
     /**
@@ -4121,7 +4183,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AxisMenuRemove]
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuRemove = 'axisMenuRemove',
     /**
@@ -4135,26 +4197,27 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RenameModalTitleDescription]
      * ```
-     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
+     * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.8.0.sw
      */
     RenameModalTitleDescription = 'renameModalTitleDescription',
     /**
-     *
+     * The *Request verification* action on a Liveboard.
+     * Initiates a request for Liveboard verification.
      * @example
      * ```js
      * disabledActions: [Action.RequestVerification]
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 10.1.0.sw
      */
     RequestVerification = 'requestVerification',
     /**
      *
-     *Allows users to mark a Liveboard as verified.
+     * Allows users to mark a Liveboard as verified.
      * @example
      * ```js
      * disabledActions: [Action.MarkAsVerified]
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 10.1.0.sw
      */
     MarkAsVerified = 'markAsVerified',
     /**
@@ -4164,7 +4227,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AddTab]
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     AddTab = 'addTab',
     /**
@@ -4174,35 +4237,42 @@ export enum Action {
      * ```js
      * disabledActions: [Action.EnableContextualChangeAnalysis]
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot Cloud: 9.6.0.cl
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
+     * Action ID to hide or disable Natural Language Search query.
      *
      * @example
      * ```js
      * disabledActions: [Action.ShowSageQuery]
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot Cloud: 9.7.0.cl
      */
     ShowSageQuery = 'showSageQuery',
     /**
+     *
+     * Action ID to hide or disable the edit option for the
+     * results generated from the
+     * Natural Language Search query.
      *
      * @example
      * ```js
      * disabledActions: [Action.EditSageAnswer]
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot Cloud: 9.7.0.cl
      */
     EditSageAnswer = 'editSageAnswer',
     /**
+     * The feedback widget for AI-generated Answers.
+     * Allows users to send feedback on the Answers generated
+     * from a Natural Language Search query.
      *
-     *This action allows users to send feedback on AI-generated Answers.
      * @example
      * ```js
      * disabledActions: [Action.SageAnswerFeedback]
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     SageAnswerFeedback = 'sageAnswerFeedback',
     /**
@@ -4211,7 +4281,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ModifySageAnswer]
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     ModifySageAnswer = 'modifySageAnswer',
     /**
@@ -4224,7 +4294,10 @@ export enum Action {
      */
     MoveToTab = 'onContainerMove',
     /**
-     * The **Manage Alertsb** menu action on KPI visualizations.
+     * The **Manage Alerts** menu action on KPI visualizations.
+     * Allows creating, viewing, and editing monitor
+     * alerts for a KPI chart.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ManageMonitor]
@@ -4232,21 +4305,23 @@ export enum Action {
      */
     ManageMonitor = 'manageMonitor',
     /**
-     * Action ID for Liveboard Personalised Views dropdown
+     * The Liveboard Personalised Views dropdown.
+     * Allows navigating to a personalized Liveboard View.
      *  @example
      * ```js
      * disabledActions: [Action.PersonalisedViewsDropdown]
      * ```
-     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     *  @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
     /**
-     * Action ID for Liveboard Users ( Recently Visited / social proof )
+     * Action ID for show or hide the user details on a
+     * Liveboard (Recently visited / social proof)
      *  @example
      * ```js
      * disabledActions: [Action.LiveboardUsers]
      * ```
-     *  @version SDK : 1.26.0 | Thoughtspot: 9.7.0.cl
+     *  @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     LiveboardUsers = 'liveboardUsers',
 
@@ -4265,119 +4340,133 @@ export enum Action {
      * hiddenAction: [Action.TML] // hide all TML actions
      * disabledActions: [Action.TML] // to disable all TML actions
      * ```
-     * @version SDK : 1.28.3 | Thoughtspot: 9.12.0.cl
+     * @version SDK : 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw
      */
     TML = 'tml',
-
     /**
-     * Action ID for the create Liveboard option on the Liveboard list page
-     * and Pin modal
+     * The **Create Liveboard* action on
+     * the Liveboards page and the Pin modal.
+     * Allows users to create a Liveboard.
+     *
      * @example
      * ```js
      * hiddenAction: [Action.CreateLiveboard]
      * disabledActions: [Action.CreateLiveboard]
      * ```
-     * @version SDK: 1.32.0 | Thoughtspot: 10.1.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     CreateLiveboard = 'createLiveboard',
 
     /**
-     * Action ID for to hide Verified Liveboard Banner
+     * Action ID for to hide or disable the
+     * Verified Liveboard banner.
      *  @example
      * ```js
      * hiddenAction: [Action.VerifiedLiveboard]
      * ```
-     *  @version SDK: 1.29.0 | Thoughtspot: 9.10.0.cl
+     *  @version SDK: 1.29.0 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     VerifiedLiveboard = 'verifiedLiveboard',
 
     /**
-     * Action ID for ask sage button
+     * The *Ask Sage* action for Answers and visualizations.
+     * Allows initiating a Natural Language Search query.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.AskAi]
      * ```
-     *  @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     *  @version SDK: 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
     AskAi = 'AskAi',
 
     /**
      * The **Add KPI to Watchlist** action on Home page watchlist.
+     * Adds a KPI chart to the watchlist on the Home page.
      * @example
      * ```js
      * disabledActions: [Action.AddToWatchlist]
      * ```
-     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     * @version SDK : 1.27.9 | ThoughtSpot Cloud: 9.12.5.cl
      */
     AddToWatchlist = 'addToWatchlist',
 
     /**
      * The **Remove from watchlist** menu action on KPI watchlist.
+     * Removes a KPI chart from the watchlist on the Home page.
      * @example
      * ```js
      * disabledActions: [Action.RemoveFromWatchlist]
      * ```
-     * @version SDK : 1.27.9 | Thoughtspot: 9.12.5.cl
+     * @version SDK : 1.27.9 | ThoughtSpot: 9.12.5.cl
      */
     RemoveFromWatchlist = 'removeFromWatchlist',
-
     /**
-     * The **Organise Favourites** action on Homepage Favourite Module.
+     * The **Organize Favourites** action on Homepage
+     * *Favorites* module.
+     *
      * @example
      * ```js
      * disabledActions: [Action.OrganiseFavourites]
      * ```
-     * @version SDK : 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK : 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     OrganiseFavourites = 'organiseFavourites',
 
     /**
-     * Action ID for AI Highlights button
+     * The **AI Highlights** action on a Liveboard.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.AIHighlights]
      * ```
-     *  @version SDK: 1.27.10 | Thoughtspot: 9.12.5.cl
+     *  @version SDK: 1.27.10 | ThoughtSpot Cloud: 9.12.5.cl
      */
     AIHighlights = 'AIHighlights',
 
     /**
-     * Action ID for edit the schedule action on schedule on homepage
+     * The *Edit* action on the *Liveboard Schedules* page
+     * (new Homepage experience).
+     * Allows editing Liveboard schedules.
+     *
      * @example
      * ```js
      * disabledActions: [Action.EditScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      */
     EditScheduleHomepage = 'editScheduleHomepage',
 
     /**
-     * Action ID for pause schedule action on schedule on homepage
+     * The *Pause* action on the *Liveboard Schedules* page
+     * Pauses a scheduled Liveboard job.
      * @example
      * ```js
      * disabledActions: [Action.PauseScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      */
     PauseScheduleHomepage = 'pauseScheduleHomepage',
 
     /**
-     * Action ID for view schedule run action on schedule on homepage
+     * The **View run history** action **Liveboard Schedules** page.
+     * Allows viewing schedule run history.
      * @example
      * ```js
      * disabledActions: [Action.ViewScheduleRunHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      */
     ViewScheduleRunHomepage = 'viewScheduleRunHomepage',
 
     /**
-     * Action ID for unsubscribe schedule action on schedule on homepage
+     * Action ID to hide or disable the
+     * unsubscribe option for Liveboard schedules.
      * @example
      * ```js
      * disabledActions: [Action.UnsubscribeScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      */
     UnsubscribeScheduleHomepage = 'unsubscribeScheduleHomepage',
 
@@ -4387,17 +4476,18 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ManageTags]
      * ```
-     * @version SDK : 1.34.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK : 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      */
     ManageTags = 'manageTags',
 
     /**
-     * Action ID for delete schedule action on schedule on homepage
+     * The **Delete** action on the **Liveboard Schedules* page.
+     * Deletes a Liveboard schedule.
      * @example
      * ```js
      * disabledActions: [Action.DeleteScheduleHomepage]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      */
     DeleteScheduleHomepage = 'deleteScheduleHomepage',
 
@@ -4407,7 +4497,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.KPIAnalysisCTA]
      * ```
-     *  @version SDK: 1.34.0 | Thoughtspot: 10.3.0.cl
+     *  @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      */
     KPIAnalysisCTA = 'kpiAnalysisCTA',
     /**
@@ -4416,77 +4506,85 @@ export enum Action {
      * ```js
      * const disabledActions = [Action.DisableChipReorder]
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     DisableChipReorder = 'disableChipReorder',
 
     /**
-     * Action ID for Hide Irrelevant filters button
+     * Action ID to show, hide, or disable filters
+     * in a Liveboard tab.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.ChangeFilterVisibilityInTab]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 
     /**
-     * Action ID for hide/disable Preview data button in spotter
+     * The **Preview data** button on the Spotter interface.
+     * Allows previewing the data used for Spotter queries.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.PreviewDataSpotter]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     PreviewDataSpotter = 'previewDataSpotter',
 
     /**
-     * Action ID for hide/disable reset button in spotter
+     * The **Reset** link on the Spotter interface.
+     * Resets the conversation with Spotter.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.ResetSpotterChat]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     ResetSpotterChat = 'resetSpotterChat',
-
     /**
-     * Action ID for hide/disable feedback in spotter
+     * Action ID for hide or disable the
+     * Spotter feedback widget.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.SpotterFeedback]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     SpotterFeedback = 'spotterFeedback',
-
     /**
-     * Action ID for hide/disable editing previous prompt in spotter
+     * Action ID for hide or disable
+     * the previous prompt edit option in Spotter.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.EditPreviousPrompt]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     EditPreviousPrompt = 'editPreviousPrompt',
-
     /**
-     * Action ID for hide/disable deleting previous prompt in spotter
+     * Action ID for hide or disable
+     * the previous prompt deletion option in Spotter.
+     *
      *  @example
      * ```js
      * hiddenAction: [Action.DeletePreviousPrompt]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     DeletePreviousPrompt = 'deletePreviousPrompt',
-
     /**
      * Action ID for hide/disable edit of tokens on spotter results.
      *  @example
      * ```js
      * hiddenAction: [Action.EditTokens]
      * ```
-     *  @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     EditTokens = 'editTokens',
 }
@@ -4504,10 +4602,12 @@ export enum PrefetchFeatures {
 
 /**
  * Enum for options to change context trigger
+ * BOTH_CLICKS option is introduced in 10.7
  */
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
     RIGHT_CLICK = 'right-click',
+    BOTH_CLICKS = 'both-clicks',
 }
 
 export interface ColumnValue {
@@ -4568,7 +4668,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.SILENT,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     SILENT = 'SILENT',
     /**
@@ -4580,7 +4680,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.ERROR,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     ERROR = 'ERROR',
     /**
@@ -4592,7 +4692,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.WARN,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     WARN = 'WARN',
     /**
@@ -4604,7 +4704,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.INFO,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     INFO = 'INFO',
 
@@ -4617,7 +4717,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.DEBUG,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     DEBUG = 'DEBUG',
     /**
@@ -4629,7 +4729,7 @@ export enum LogLevel {
      *  logLevel: LogLevel.TRACE,
      * })
      * ```
-     * @version SDK: 1.26.7 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     TRACE = 'TRACE',
 }

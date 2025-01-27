@@ -1,5 +1,5 @@
 import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
-import { init } from '../index';
+import { init, UIPassthroughEvent } from '../index';
 import {
     Action,
     AuthType,
@@ -532,7 +532,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isContextMenuEnabledOnLeftClick=true&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=left&isLiveboardEmbed=true&isPinboardV2Enabled=true#/embed/viz/${liveboardId}/tab/${activeTabId}`,
             );
         });
     });
@@ -764,6 +764,27 @@ describe('Liveboard/viz embed tests', () => {
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
 
                 done();
+            });
+        });
+    });
+
+    describe('Host events for liveborad', () => {
+        test('Host event with empty param', async () => {
+            const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '123',
+                ...defaultViewConfig,
+                vizId: 'testViz',
+            });
+            liveboardEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                await liveboardEmbed.trigger(
+                    HostEvent.Save,
+                );
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    HostEvent.Save, { vizId: 'testViz' },
+                );
             });
         });
     });
