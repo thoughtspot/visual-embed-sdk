@@ -707,11 +707,14 @@ export class TsEmbed {
                             elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
                         });
-                        getPreauthInfo().then((data) => {
-                            if (data?.info) {
-                                this.trigger(HostEvent.InfoSuccess, data);
-                            }
-                        });
+                        // Disable preauth info fetch for perUrlOrg is enabled
+                        if (this.viewConfig.overrideOrgId === undefined) {
+                            getPreauthInfo().then((data) => {
+                                if (data?.info) {
+                                    this.trigger(HostEvent.InfoSuccess, data);
+                                }
+                            });
+                        }
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();

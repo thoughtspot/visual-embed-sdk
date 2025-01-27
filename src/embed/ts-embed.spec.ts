@@ -51,6 +51,7 @@ import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 import { processTrigger } from '../utils/processTrigger';
 import { UIPassthroughEvent } from './hostEventClient/contracts';
+import * as sessionInfoService from '../utils/sessionInfoService';
 
 jest.mock('../utils/processTrigger');
 
@@ -1113,7 +1114,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        const setup = async (isLoggedIn = false) => {
+        const setup = async (isLoggedIn = false, overrideOrgId: number | undefined = undefined) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
                     handler({
@@ -1126,6 +1127,13 @@ describe('Unit test case for ts embed', () => {
                 },
             );
             mockProcessTrigger.mockResolvedValueOnce({ session: 'test' });
+            // resetCachedPreauthInfo();
+            let mockGetPreauthInfo = null;
+
+            if (overrideOrgId) {
+                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo').mockImplementation(jest.fn());
+            }
+
             const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService').mockResolvedValueOnce({
                 ok: true,
                 headers: new Headers({ 'content-type': 'application/json' }), // Mock headers correctly
@@ -1142,7 +1150,9 @@ describe('Unit test case for ts embed', () => {
             });
             const iFrame: any = document.createElement('div');
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(isLoggedIn);
-            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            const tsEmbed = new SearchEmbed(getRootEl(), {
+                overrideOrgId,
+            });
             iFrame.contentWindow = {
                 postMessage: jest.fn(),
             };
@@ -1157,6 +1167,7 @@ describe('Unit test case for ts embed', () => {
 
             return {
                 mockPreauthInfoFetch,
+                mockGetPreauthInfo,
                 iFrame,
             };
         };
@@ -1176,6 +1187,13 @@ describe('Unit test case for ts embed', () => {
                     expect.objectContaining({ info: expect.any(Object) }),
                 );
             });
+        });
+
+        test('should not call InfoSuccess Event if overrideOrgId is true', async () => {
+            const {
+                mockGetPreauthInfo,
+            } = await setup(true, 123);
+            expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
         });
     });
 
