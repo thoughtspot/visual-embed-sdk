@@ -2300,6 +2300,23 @@ export enum EmbedEvent {
      * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
+    /**
+     * Emitted when the table viz renders.
+     * You can use this event as a hook to trigger
+     * other events on the rendered table viz data.
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
+     *       console.log(payload);
+     *       const columnDataLite = payload.data.data.columnDataLite;
+     *       columnDataLite[0].dataValue[0]="new fob";
+     *       console.log('>>> new Data', columnDataLite);
+     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     * })
+     * ```
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     */
+     TableVizRendered = 'TableVizRendered',
 }
 
 /**
@@ -3243,6 +3260,25 @@ export enum HostEvent {
      * @hidden
      */
     UIPassthrough = 'UiPassthrough',
+    /**
+     * Triggers the table viz rerender with the updated data.
+     * Includes the following properties:
+     * @param - columnDataLite - an array of object containing data
+     * transformed from data picked from TableVizRendered event.
+     * For example, { columnDataLite: []}
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
+     *       console.log(payload);
+     *       const columnDataLite = payload.data.data.columnDataLite;
+     *       columnDataLite[0].dataValue[0]="new fob";
+     *       console.log('>>> new Data', columnDataLite);
+     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     * })
+     * ```
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     */
+    TransformTableVizData = 'TransformTableVizData',
 }
 
 /**
