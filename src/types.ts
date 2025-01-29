@@ -2727,7 +2727,7 @@ export enum HostEvent {
      * @param - an object with `vizId` as a key
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.CreateMonitor {
+     * liveboardEmbed.trigger(HostEvent.CreateMonitor, {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
