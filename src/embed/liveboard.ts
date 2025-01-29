@@ -23,7 +23,7 @@ import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, HostEventResponse, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
