@@ -6361,7 +6361,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.CreateMonitor {\n vizId: '730496d6-6903-4601-937e-2c691821af3c'\n})\n```"
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.CreateMonitor, {\n vizId: '730496d6-6903-4601-937e-2c691821af3c'\n})\n```"
 							},
 							{
 								"tag": "example",
