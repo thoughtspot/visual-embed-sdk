@@ -10,8 +10,6 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    HostEventRequest,
-    HostEventResponse,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
