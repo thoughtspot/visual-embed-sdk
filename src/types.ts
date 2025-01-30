@@ -1119,13 +1119,6 @@ export interface ViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
-    /**
-     * Flag to enhance the visual effects of charts
-     * This feature is a beta release for 10.6
-     * @default false
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
-     */
-    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
@@ -3405,7 +3398,6 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
-    EnableFlipTooltipToContextMenu = 'flipTooltipToContextMenuEnabled',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
