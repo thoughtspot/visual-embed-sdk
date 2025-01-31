@@ -488,7 +488,6 @@ export class TsEmbed {
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -497,10 +496,6 @@ export class TsEmbed {
             ...additionalFlagsFromInit,
             ...additionalFlagsFromView,
         };
-
-        if (enableFlipTooltipToContextMenu) {
-            queryParams[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
-        }
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError('You cannot have both hidden actions and visible actions');
