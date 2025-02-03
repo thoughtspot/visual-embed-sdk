@@ -28,7 +28,6 @@ function postIframeMessage(
     thoughtSpotHost: string,
     channel?: MessageChannel,
 ) {
-    // console.log('=====> postIframeMessage', iFrame, message);
     return iFrame.contentWindow.postMessage(message, thoughtSpotHost, [channel?.port2]);
 }
 
