@@ -624,6 +624,8 @@ export interface EmbedConfig {
      *  @version SDK 1.37.0 | ThoughtSpot: 10.7.0.cl
      */
     customVariablesForThirdPartyTools?: Record< string, any >;
+
+    disablePreauthCache?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3382,6 +3384,7 @@ export enum Param {
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
+    preAuthCache = 'preAuthCache',
 }
 
 /**

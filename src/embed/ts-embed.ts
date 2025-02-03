@@ -248,6 +248,19 @@ export class TsEmbed {
     }
 
     /**
+     * Checks if preauth cache is enabled
+     * from the view config and embed config
+     * @returns boolean
+     */
+    private isPreAuthCacheEnabled() {
+        const isDisabled = (
+            this.viewConfig.overrideOrgId !== undefined
+            || this.embedConfig.disablePreauthCache === true
+        );
+        return !isDisabled;
+    }
+
+    /**
      * fix for ts7.sep.cl
      * will be removed for ts7.oct.cl
      * @param event
@@ -570,6 +583,10 @@ export class TsEmbed {
             queryParams[Param.OverrideOrgId] = overrideOrgId;
         }
 
+        if (this.isPreAuthCacheEnabled()) {
+            queryParams[Param.preAuthCache] = true;
+        }
+
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
@@ -709,8 +726,8 @@ export class TsEmbed {
                             elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
                         });
-                        // Disable preauth info fetch for perUrlOrg is enabled
-                        if (this.viewConfig.overrideOrgId === undefined) {
+                        // Send info event  if preauth cache is enabled
+                        if (this.isPreAuthCacheEnabled()) {
                             getPreauthInfo().then((data) => {
                                 if (data?.info) {
                                     this.trigger(HostEvent.InfoSuccess, data);
