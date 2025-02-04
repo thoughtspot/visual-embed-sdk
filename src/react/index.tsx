@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
@@ -19,13 +19,12 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     // Embed.preRender() method instead of the usual render method, and it will
     // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
-) => React.forwardRef<InstanceType<T>, U>(
+) => memo(React.forwardRef<InstanceType<T>, U>(
+
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
         const { className, ...embedProps } = props;
-        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
-            embedProps,
-        );
+        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(embedProps);
 
         const handleDestroy = (tsEmbed: InstanceType<T>) => {
             // do not destroy if it is a preRender component
@@ -94,7 +93,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             <div data-testid="tsEmbed" ref={ref} className={className}></div>
         );
     },
-);
+));
 
 interface SearchProps extends EmbedProps, SearchViewConfig { }
 
