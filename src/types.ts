@@ -535,7 +535,12 @@ export interface EmbedConfig {
     suppressErrorAlerts?: boolean;
 
     /**
-     * Log level for the SDK.
+     * Suppress or show specific types of logs in the console output.
+     * For example, `LogLevel.ERROR` shows only Visual Embed SDK and
+     * ThoughtSpot application errors and suppresses
+     * other logs such as warnings, information alerts,
+     * and debug messages in the console output.
+     *
      * @default LogLevel.ERROR
      * @example
      * ```js
@@ -4677,9 +4682,17 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+/**
+ * Enum options to show or suppress Visual Embed SDK and
+ * ThoughtSpot application logs in the console output.
+ * This attribute doesn't support suppressing
+ * browser warnings or errors.
+ */
+
 export enum LogLevel {
     /**
-     * No logs will be logged in the console.
+     * No application or SDK-related logs will be logged
+     * in the console output.
      * @example
      * ```js
      * init({
@@ -4691,7 +4704,7 @@ export enum LogLevel {
      */
     SILENT = 'SILENT',
     /**
-     * Only ERROR logs will be logged in the console.
+     * Log only errors in the console output.
      * @example
      * ```js
      * init({
@@ -4703,7 +4716,7 @@ export enum LogLevel {
      */
     ERROR = 'ERROR',
     /**
-     * Only WARN and ERROR logs will be logged in the console.
+     * Log only warnings and errors in the console output.
      * @example
      * ```js
      * init({
@@ -4715,7 +4728,8 @@ export enum LogLevel {
      */
     WARN = 'WARN',
     /**
-     * Only INFO, WARN, and ERROR logs will be logged in the console.
+     * Log only the information alerts, warnings, and errors
+     * in the console output.
      * @example
      * ```js
      * init({
@@ -4728,7 +4742,8 @@ export enum LogLevel {
     INFO = 'INFO',
 
     /**
-     * Only DEBUG, INFO, WARN, and ERROR logs will be logged in the console.
+     * Log debug messages, warnings, information alerts,
+     * and errors in the console output.
      * @example
      * ```js
      * init({
@@ -4740,7 +4755,7 @@ export enum LogLevel {
      */
     DEBUG = 'DEBUG',
     /**
-     * All logs will be logged in the console.
+     * All logs will be logged in the browser console.
      * @example
      * ```js
      * init({
