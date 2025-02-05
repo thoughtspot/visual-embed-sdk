@@ -77,8 +77,13 @@ function processNoCookieAccess(e: any, containerEl: Element) {
  * @param containerEl
  */
 export function processAuthFailure(e: any, containerEl: Element) {
-    const { loginFailedMessage, authType, disableLoginFailurePage } = getEmbedConfig();
-    if (authType !== AuthType.None && !disableLoginFailurePage) {
+    const { loginFailedMessage, authType, disableLoginFailurePage, autoLogin } = getEmbedConfig();
+    if(autoLogin && authType === AuthType.TrustedAuthToken){
+        // eslint-disable-next-line no-param-reassign
+        containerEl.innerHTML = loginFailedMessage;
+        notifyAuthFailure(AuthFailureType.IdleSessionTimeout);
+    }
+    else if (authType !== AuthType.None && !disableLoginFailurePage) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.OTHER);

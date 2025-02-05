@@ -64,9 +64,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
-import {
-    getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
-} from './base';
+import { getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
@@ -139,8 +137,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-    * This is the base to access ThoughtSpot V2.
-    */
+     * This is the base to access ThoughtSpot V2.
+     */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -297,7 +295,8 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
+            const offlineWarning =
+                'Network not Detected. Embed is offline. Please reconnect and refresh';
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
@@ -350,7 +349,7 @@ export class TsEmbed {
                 ? this.viewConfig?.hiddenHomeLeftNavItems
                 : [],
             customVariablesForThirdPartyTools:
-            this.embedConfig.customVariablesForThirdPartyTools || {},
+                this.embedConfig.customVariablesForThirdPartyTools || {},
         };
     }
 
@@ -402,11 +401,39 @@ export class TsEmbed {
     };
 
     /**
+     * Auto Login and send updated authToken to the iFrame to avoid user session logout
+     * @param _
+     * @param responder
+     */
+    private idleSessionTimeout = (_: any, responder: any) => {
+        try {
+            handleAuth().then(async () => {
+                let authToken = ''
+                try {
+                    authToken = await getAuthenticationToken(this.embedConfig);
+                    responder({
+                        type: EmbedEvent.IdleSessionTimeout,
+                        data: { authToken },
+                    });
+                    this.renderIFrame(this.getRootIframeSrc())
+                } catch (e) {
+                    logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                    processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                }
+            })
+        } catch (e) {
+            logger.error(`Session Relogin failed, Error : ${e?.message}`);
+            processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+        }
+    };
+
+    /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
+        this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, {start:false}, true);
     };
 
     /**
@@ -414,7 +441,7 @@ export class TsEmbed {
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
-        let queryString = (query.startsWith('?')) ? query : `?${query}`;
+        let queryString = query.startsWith('?') ? query : `?${query}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
@@ -432,9 +459,7 @@ export class TsEmbed {
      * @param queryParams
      * @returns queryParams
      */
-    protected getBaseQueryParams(
-        queryParams: Record<any, any> = {},
-    ) {
+    protected getBaseQueryParams(queryParams: Record<any, any> = {}) {
         let hostAppUrl = window?.location?.host || '';
 
         // The below check is needed because TS Cloud firewall, blocks
@@ -448,8 +473,9 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
-            ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] =
+            this.embedConfig.blockNonEmbedFullAppAccess ?? true;
+        queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -536,8 +562,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl = customizations?.iconSpriteUrl
-            || this.embedConfig.customizations?.iconSpriteUrl;
+        const spriteUrl =
+            customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -622,11 +648,8 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const {
-            height: frameHeight,
-            width: frameWidth,
-            ...restParams
-        } = this.viewConfig.frameParams || {};
+        const { height: frameHeight, width: frameWidth, ...restParams } =
+            this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -748,8 +771,8 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper
-            || document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper =
+            this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -767,9 +790,9 @@ export class TsEmbed {
 
     protected isPreRenderAvailable(): boolean {
         return (
-            this.isRendered
-            && this.isPreRendered
-            && Boolean(this.preRenderWrapper && this.preRenderChild)
+            this.isRendered &&
+            this.isPreRendered &&
+            Boolean(this.preRenderWrapper && this.preRenderChild)
         );
     }
 
@@ -871,10 +894,10 @@ export class TsEmbed {
             if (
                 // When start status is true it trigger only start releated
                 // payload
-                (callbackObj.options.start && dataStatus === embedEventStatus.START)
+                (callbackObj.options.start && dataStatus === embedEventStatus.START) ||
                 // When start status is false it trigger only end releated
                 // payload
-                || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
+                (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
                 callbackObj.callback(data, (payload) => {
                     this.triggerEventOnPort(eventPort, payload);
@@ -1028,7 +1051,7 @@ export class TsEmbed {
      */
     public async trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
@@ -1172,16 +1195,16 @@ export class TsEmbed {
 
             allOtherKeys.forEach((key: keyof ViewConfig) => {
                 if (
-                    !isUndefined(viewConfig[key])
-                    && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
+                    !isUndefined(viewConfig[key]) &&
+                    !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
                     logger.warn(
-                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with ` +
+                            `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" ` +
+                            `but a different value "${JSON.stringify(viewConfig[key])}" ` +
+                            'was passed to the Embed component. ' +
+                            'The new value provided is ignored, the value provided during ' +
+                            'preRender is used.',
                     );
                 }
             });
@@ -1346,7 +1369,7 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return (this.viewConfig.enableV2Shell_experimental)
+        return this.viewConfig.enableV2Shell_experimental
             ? this.getEmbedBasePath(queryString)
             : this.getV1EmbedBasePath(queryString);
     }

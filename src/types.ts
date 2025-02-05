@@ -1587,6 +1587,13 @@ export enum EmbedEvent {
      * @hidden
      */
     AuthFailure = 'ThoughtspotAuthFailure',
+
+    /**
+     * ThoughtSpot failed to re validate the auth session.
+     * @hidden
+     */
+    IdleSessionTimeout = 'IdleSessionTimeout',
+
     /**
      * ThoughtSpot failed to validate the auth session.
      * @hidden
@@ -3316,6 +3323,7 @@ export enum Param {
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
     Tag = 'tag',
+    AutoLogin = 'autoLogin',
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
