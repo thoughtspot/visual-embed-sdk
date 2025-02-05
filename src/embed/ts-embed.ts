@@ -415,15 +415,15 @@ export class TsEmbed {
                         type: EmbedEvent.IdleSessionTimeout,
                         data: { authToken },
                     });
-                    this.renderIFrame(this.getRootIframeSrc())
                 } catch (e) {
                     logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                     processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
                 }
             })
         } catch (e) {
-            logger.error(`Session Relogin failed, Error : ${e?.message}`);
-            processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            logger.error(`Auto Login failed, Error : ${e?.message}`);
+            notifyAuthFailure(AuthFailureType.IdleSessionTimeout);
+
         }
     };
 
