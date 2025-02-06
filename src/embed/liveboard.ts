@@ -565,6 +565,8 @@ export class LiveboardEmbed extends V1Embed {
         if (
             data.data.currentPath.startsWith('/embed/viz/')
             || data.data.currentPath.startsWith('/embed/insights/viz/')
+            || data.data.currentPath.startsWith('/tsl-editor/PINBOARD_ANSWER_BOOK/')
+            || data.data.currentPath.startsWith('/import-tsl/PINBOARD_ANSWER_BOOK/')
         ) {
             return;
         }
