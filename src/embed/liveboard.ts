@@ -25,6 +25,13 @@ import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
 
+const liveboardHeightWhitelistedRoutes = [
+    '/embed/viz/',
+    '/embed/insights/viz/',
+    '/tsl-editor/PINBOARD_ANSWER_BOOK/',
+    '/import-tsl/PINBOARD_ANSWER_BOOK/',
+]
+
 /**
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
@@ -562,12 +569,7 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (
-            data.data.currentPath.startsWith('/embed/viz/')
-            || data.data.currentPath.startsWith('/embed/insights/viz/')
-            || data.data.currentPath.startsWith('/tsl-editor/PINBOARD_ANSWER_BOOK/')
-            || data.data.currentPath.startsWith('/import-tsl/PINBOARD_ANSWER_BOOK/')
-        ) {
+        if (liveboardHeightWhitelistedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
             return;
         }
         this.setIFrameHeight(this.defaultHeight);
