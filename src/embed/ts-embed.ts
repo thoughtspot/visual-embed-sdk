@@ -253,6 +253,11 @@ export class TsEmbed {
      * @returns boolean
      */
     private isPreAuthCacheEnabled() {
+        // Disable preauth cache when:
+        // 1. overrideOrgId is present since:
+        //    - cached auth info would be for wrong org
+        //    - info call response changes for each different overrideOrgId
+        // 2. disablePreauthCache is explicitly set to true
         const isDisabled = (
             this.viewConfig.overrideOrgId !== undefined
             || this.embedConfig.disablePreauthCache === true
