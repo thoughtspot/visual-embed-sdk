@@ -422,7 +422,7 @@ export class TsEmbed {
             })
         } catch (e) {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
-            notifyAuthFailure(AuthFailureType.IdleSessionTimeout);
+            notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
 
         }
     };
