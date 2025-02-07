@@ -270,7 +270,46 @@ describe('Unit test case for ts embed', () => {
                 });
             });
         });
+
+        test('check for new authToken based on getAuthToken function', async () => {
+            
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+                autoLogin: true,
+            });
+            
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(mockPort.postMessage).not.toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test_auth_token2' },
+                });
+                expect(baseInstance.handleAuth).toHaveBeenCalled();
+            });
+        });
     });
+    
     describe('Called Embed event status for start and end', () => {
         beforeAll(() => {
             init({
@@ -2208,6 +2247,42 @@ describe('Unit test case for ts embed', () => {
                     authInstance.AuthFailureType.IDLE_SESSION_TIMEOUT,
                 );
                 expect(loggerSpy).toHaveBeenCalledTimes(1);
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+
+        test('should handle idle session timeout and show login failure message if handleAuth fails', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+                autoLogin: true,
+            });
+
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.IdleSessionTimeout,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(authInstance, 'authenticate').mockResolvedValue(false);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            const loggerSpy = jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.IDLE_SESSION_TIMEOUT,
+                );
+                expect(loggerSpy).toHaveBeenCalledTimes(0);
             });
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
