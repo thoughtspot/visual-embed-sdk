@@ -569,7 +569,8 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (liveboardHeightWhitelistedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
+        const routePath = data.data.currentPath;
+        if (liveboardHeightWhitelistedRoutes.some((path) => routePath.startsWith(path))) {
             return;
         }
         this.setIFrameHeight(this.defaultHeight);
