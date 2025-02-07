@@ -30,7 +30,7 @@ const liveboardHeightWhitelistedRoutes = [
     '/embed/insights/viz/',
     '/tsl-editor/PINBOARD_ANSWER_BOOK/',
     '/import-tsl/PINBOARD_ANSWER_BOOK/',
-]
+];
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
