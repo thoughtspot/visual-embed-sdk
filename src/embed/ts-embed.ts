@@ -407,23 +407,21 @@ export class TsEmbed {
      * @param responder
      */
     private idleSessionTimeout = (_: any, responder: any) => {
-        try {
-            handleAuth().then(async () => {
-                let authToken = '';
-                try {
-                    authToken = await getAuthenticationToken(this.embedConfig);
-                    responder({
-                        type: EmbedEvent.IdleSessionTimeout,
-                        data: { authToken },
-                    });
-                } catch (e) {
-                    logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
-                    processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-                }
-            });
-        } catch (e) {
+        handleAuth().then(async () => {
+            let authToken = '';
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+                responder({
+                    type: EmbedEvent.IdleSessionTimeout,
+                    data: { authToken },
+                });
+            } catch (e) {
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
+        }).catch((e) => {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
-        }
+        });
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 

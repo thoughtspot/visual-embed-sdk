@@ -272,7 +272,6 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('check for new authToken based on getAuthToken function', async () => {
-            
             init({
                 thoughtSpotHost: 'tshost',
                 customizations: customisations,
@@ -280,7 +279,7 @@ describe('Unit test case for ts embed', () => {
                 getAuthToken: () => Promise.resolve('test_auth_token2'),
                 autoLogin: true,
             });
-            
+
             const mockEmbedEventPayload = {
                 type: EmbedEvent.AuthExpire,
                 data: {},
@@ -309,7 +308,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
     });
-    
+
     describe('Called Embed event status for start and end', () => {
         beforeAll(() => {
             init({
