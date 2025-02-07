@@ -64,7 +64,9 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
-import { getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure } from './base';
+import {
+    getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+} from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
@@ -295,8 +297,7 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning =
-                'Network not Detected. Embed is offline. Please reconnect and refresh';
+            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
@@ -408,7 +409,7 @@ export class TsEmbed {
     private idleSessionTimeout = (_: any, responder: any) => {
         try {
             handleAuth().then(async () => {
-                let authToken = ''
+                let authToken = '';
                 try {
                     authToken = await getAuthenticationToken(this.embedConfig);
                     responder({
@@ -419,11 +420,10 @@ export class TsEmbed {
                     logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                     processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
                 }
-            })
+            });
         } catch (e) {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
             notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
-
         }
     };
 
@@ -433,7 +433,7 @@ export class TsEmbed {
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
-        this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, {start:false}, true);
+        this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
     };
 
     /**
@@ -473,8 +473,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] =
-            this.embedConfig.blockNonEmbedFullAppAccess ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
@@ -562,8 +561,7 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl =
-            customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
+        const spriteUrl = customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -648,8 +646,7 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const { height: frameHeight, width: frameWidth, ...restParams } =
-            this.viewConfig.frameParams || {};
+        const { height: frameHeight, width: frameWidth, ...restParams } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -771,8 +768,7 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper =
-            this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -790,9 +786,9 @@ export class TsEmbed {
 
     protected isPreRenderAvailable(): boolean {
         return (
-            this.isRendered &&
-            this.isPreRendered &&
-            Boolean(this.preRenderWrapper && this.preRenderChild)
+            this.isRendered
+            && this.isPreRendered
+            && Boolean(this.preRenderWrapper && this.preRenderChild)
         );
     }
 
@@ -894,10 +890,10 @@ export class TsEmbed {
             if (
                 // When start status is true it trigger only start releated
                 // payload
-                (callbackObj.options.start && dataStatus === embedEventStatus.START) ||
+                (callbackObj.options.start && dataStatus === embedEventStatus.START)
                 // When start status is false it trigger only end releated
                 // payload
-                (!callbackObj.options.start && dataStatus === embedEventStatus.END)
+                || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
                 callbackObj.callback(data, (payload) => {
                     this.triggerEventOnPort(eventPort, payload);
@@ -1195,16 +1191,16 @@ export class TsEmbed {
 
             allOtherKeys.forEach((key: keyof ViewConfig) => {
                 if (
-                    !isUndefined(viewConfig[key]) &&
-                    !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
+                    !isUndefined(viewConfig[key])
+                    && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
                 ) {
                     logger.warn(
-                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with ` +
-                            `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" ` +
-                            `but a different value "${JSON.stringify(viewConfig[key])}" ` +
-                            'was passed to the Embed component. ' +
-                            'The new value provided is ignored, the value provided during ' +
-                            'preRender is used.',
+                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
