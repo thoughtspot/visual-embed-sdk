@@ -423,8 +423,8 @@ export class TsEmbed {
             });
         } catch (e) {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
-            notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
         }
+        notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
     /**
@@ -473,8 +473,7 @@ export class TsEmbed {
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] =
-            this.embedConfig.blockNonEmbedFullAppAccess ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
@@ -562,8 +561,7 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl =
-            customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
+        const spriteUrl = customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -648,8 +646,7 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const { height: frameHeight, width: frameWidth, ...restParams } =
-            this.viewConfig.frameParams || {};
+        const { height: frameHeight, width: frameWidth, ...restParams } = this.viewConfig.frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -771,8 +768,7 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper =
-            this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 

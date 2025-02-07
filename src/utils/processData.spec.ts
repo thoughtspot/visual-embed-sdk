@@ -188,4 +188,36 @@ describe('Unit test for process data', () => {
         expect(base.notifyAuthFailure).not.toBeCalled();
         expect(el.innerHTML).not.toBe('Hello');
     });
+
+    test('process authFailure AuthType=TrustedAuthToken and autoLogin true', () => {
+        const e = { type: EmbedEvent.AuthFailure };
+        jest.spyOn(base, 'notifyAuthFailure');
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            authType: AuthType.TrustedAuthToken,
+            autoLogin: true,
+        });
+        const el: any = {};
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
+        expect(el.innerHTML).toBe('Hello');
+    });
+
+    test('process authFailure with TrustedAuthTokenCookieless and autoLogin', () => {
+        const e = { type: EmbedEvent.AuthFailure };
+        jest.spyOn(base, 'notifyAuthFailure');
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            authType: AuthType.TrustedAuthTokenCookieless,
+            autoLogin: true,
+        });
+        const el: any = {};
+        expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
+            type: e.type,
+        });
+        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
+        expect(el.innerHTML).toBe('Hello');
+    });
 });

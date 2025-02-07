@@ -77,10 +77,12 @@ function processNoCookieAccess(e: any, containerEl: Element) {
  * @param containerEl
  */
 export function processAuthFailure(e: any, containerEl: Element) {
-    const { loginFailedMessage, authType, disableLoginFailurePage, autoLogin } = getEmbedConfig();
+    const {
+        loginFailedMessage, authType, disableLoginFailurePage, autoLogin,
+    } = getEmbedConfig();
     if (
-        autoLogin &&
-        (authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless)
+        autoLogin
+        && (authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless)
     ) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
