@@ -39,6 +39,7 @@ export enum AuthFailureType {
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
     EXPIRY = 'EXPIRY',
     OTHER = 'OTHER',
+    IDLE_SESSION_TIMEOUT = 'IDLE_SESSION_TIMEOUT'
 }
 
 /**
