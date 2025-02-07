@@ -467,14 +467,14 @@ export class TsEmbed {
         if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
+        const blockNonEmbedFullAppAccess = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.EmbedApp] = true;
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] =
-            this.embedConfig.blockNonEmbedFullAppAccess ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = blockNonEmbedFullAppAccess;
         queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
@@ -562,8 +562,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl =
-            customizations?.iconSpriteUrl || this.embedConfig.customizations?.iconSpriteUrl;
+        const embedCustomizations = this.embedConfig.customizations;
+        const spriteUrl = customizations?.iconSpriteUrl || embedCustomizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -648,8 +648,8 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const { height: frameHeight, width: frameWidth, ...restParams } =
-            this.viewConfig.frameParams || {};
+        const frameParams = this.viewConfig.frameParams;
+        const { height: frameHeight, width: frameWidth, ...restParams } = frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -771,8 +771,8 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper =
-            this.preRenderWrapper || document.getElementById(preRenderIds.wrapper);
+        const preRenderWrapperElement = document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || preRenderWrapperElement;
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 

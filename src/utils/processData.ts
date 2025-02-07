@@ -82,8 +82,8 @@ export function processAuthFailure(e: any, containerEl: Element) {
     } = getEmbedConfig();
     if (
         autoLogin
-        && (authType === AuthType.TrustedAuthToken || 
-            authType === AuthType.TrustedAuthTokenCookieless)
+        && (authType === AuthType.TrustedAuthToken
+            || authType === AuthType.TrustedAuthTokenCookieless)
     ) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
