@@ -48,6 +48,37 @@ describe('Unit test for process data', () => {
         );
     });
 
+    test('ProcessData, when Action is CustomAction with contextMenuPoints', async () => {
+        const processedData = {
+            type: EmbedEvent.CustomAction,
+            data: {
+                contextMenuPoints: {
+                    selectedPoints: [{ x: 1, y: 2 }],
+                },
+            },
+        };
+        jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
+        expect(
+            processDataInstance.processEventData(
+                EmbedEvent.CustomAction,
+                processedData,
+                thoughtSpotHost,
+                null,
+            ),
+        ).toEqual(
+            expect.objectContaining({
+                ...processedData,
+                answerService: {
+                    answer: {},
+                    selectedPoints: [{ x: 1, y: 2 }],
+                    session: undefined,
+                    thoughtSpotHost: 'http://localhost',
+                    tmlOverride: {},
+                },
+            }),
+        );
+    });
+
     test('ProcessData, when Action is non CustomAction', () => {
         const processedData = { type: EmbedEvent.Data };
         jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
