@@ -100,7 +100,7 @@ export class TsEmbed {
      * This is useful for removing the DOM node when the
      * embed instance is destroyed.
      */
-    protected insertedDomEl: Node;
+    public insertedDomEl: Node;
 
     /**
      * The DOM node where the ThoughtSpot app is to be embedded.
@@ -1133,7 +1133,8 @@ export class TsEmbed {
      */
     public destroy(): void {
         try {
-            this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
+            (this.insertedDomEl as HTMLElement)?.remove();
+            // this.insertedDomEl?.remove();
             this.unsubscribeToEvents();
         } catch (e) {
             logger.log('Error destroying TS Embed', e);
