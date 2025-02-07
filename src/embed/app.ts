@@ -646,6 +646,8 @@ export class AppEmbed extends V1Embed {
             '/embed/insights/viz/',
             '/liveboard/',
             '/insights/liveboard/',
+            '/tsl-editor/PINBOARD_ANSWER_BOOK/',
+            '/import-tsl/PINBOARD_ANSWER_BOOK/',
         ];
 
         if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
