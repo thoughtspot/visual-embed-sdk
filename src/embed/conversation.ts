@@ -52,6 +52,33 @@ export interface ConversationViewConfig extends ViewConfig {
      * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     hideSourceSelection?: boolean;
+    /**
+     * showSpotterLimitations : show limitation text
+     * of the spotter underneath the chat input.
+     * default is false.
+     * @example
+     * ```js
+     * const embed = new ConversationEmbed('#tsEmbed', {
+     *    ... // other options
+     *    showSpotterLimitations : true,
+     * })
+     * ```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.5.0.cl
+     */
+    showSpotterLimitations?: boolean;
+    /**
+     * hideSourceSelection : Hide sample questions on
+     * the initial screen of the conversation.
+     * @example
+     * ```js
+     * const embed = new ConversationEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideSampleQuestions : true,
+     * })
+     * ```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+    hideSampleQuestions?: boolean;
 }
 
 /**
@@ -75,12 +102,14 @@ export class ConversationEmbed extends TsEmbed {
         super(container, viewConfig);
     }
 
-    public getIframeSrc() {
+    public getIframeSrc(): string {
         const {
             worksheetId,
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
+            showSpotterLimitations,
+            hideSampleQuestions,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -93,6 +122,14 @@ export class ConversationEmbed extends TsEmbed {
         }
         if (!isUndefined(hideSourceSelection)) {
             queryParams[Param.HideSourceSelection] = !!hideSourceSelection;
+        }
+
+        if (!isUndefined(showSpotterLimitations)) {
+            queryParams[Param.ShowSpotterLimitations] = !!showSpotterLimitations;
+        }
+
+        if (!isUndefined(hideSampleQuestions)) {
+            queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
 
         let query = '';
