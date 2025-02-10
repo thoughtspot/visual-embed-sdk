@@ -62,6 +62,40 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with spotter limitations text if flag is set', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            showSpotterLimitations: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&showSpotterLimitations=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with sample questions hidden', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            hideSampleQuestions: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&hideSampleQuestions=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should render the conversation embed with worksheets hidden', async () => {
         const viewConfig: ConversationViewConfig = {
             worksheetId: 'worksheetId',

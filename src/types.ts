@@ -3414,6 +3414,7 @@ export enum Param {
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
+    ShowSpotterLimitations = 'showSpotterLimitations',
 }
 
 /**
