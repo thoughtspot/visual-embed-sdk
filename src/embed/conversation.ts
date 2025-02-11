@@ -53,6 +53,19 @@ export interface ConversationViewConfig extends ViewConfig {
      */
     hideSourceSelection?: boolean;
     /**
+     * Flag to control Data panel experience
+     * @default false
+     * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataPanelV2: true,
+     * })
+     * ```
+     */
+    dataPanelV2?: boolean;
+    /**
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
@@ -67,7 +80,7 @@ export interface ConversationViewConfig extends ViewConfig {
      */
     showSpotterLimitations?: boolean;
     /**
-     * hideSourceSelection : Hide sample questions on
+     * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
      * @example
      * ```js
@@ -108,6 +121,7 @@ export class ConversationEmbed extends TsEmbed {
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
+            dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
         } = this.viewConfig;
@@ -122,6 +136,10 @@ export class ConversationEmbed extends TsEmbed {
         }
         if (!isUndefined(hideSourceSelection)) {
             queryParams[Param.HideSourceSelection] = !!hideSourceSelection;
+        }
+
+        if (!isUndefined(dataPanelV2)) {
+            queryParams[Param.DataPanelV2Enabled] = !!dataPanelV2;
         }
 
         if (!isUndefined(showSpotterLimitations)) {
