@@ -4113,7 +4113,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the liveboard is created from pin modal or.\nYou can use this event as a hook to trigger\nother events on the liveboard.",
+						"shortText": "Emitted when the liveboard is created from pin modal or liveboard list page.\nYou can use this event as a hook to trigger\nother events on liveboard creation.",
 						"text": "```js\nliveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {\n    console.log('payload', payload);\n})\n```",
 						"tags": [
 							{
