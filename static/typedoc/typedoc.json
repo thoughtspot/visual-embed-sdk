@@ -11824,7 +11824,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 100,
+							"line": 113,
 							"character": 4
 						}
 					],
@@ -12004,7 +12004,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 105,
+							"line": 118,
 							"character": 11
 						}
 					],
@@ -12608,7 +12608,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 148,
+							"line": 166,
 							"character": 17
 						}
 					],
@@ -12984,7 +12984,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 99,
+					"line": 112,
 					"character": 13
 				}
 			],
@@ -22145,7 +22145,7 @@
 			},
 			"children": [
 				{
-					"id": 1264,
+					"id": 1265,
 					"name": "additionalFlags",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22175,20 +22175,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 1265,
+							"id": 1266,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 1266,
+								"id": 1267,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 1267,
+										"id": 1268,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -22224,7 +22224,7 @@
 					}
 				},
 				{
-					"id": 1285,
+					"id": 1286,
 					"name": "collapseSearchBar",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22265,7 +22265,7 @@
 					}
 				},
 				{
-					"id": 1270,
+					"id": 1271,
 					"name": "contextMenuTrigger",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22303,7 +22303,7 @@
 					}
 				},
 				{
-					"id": 1268,
+					"id": 1269,
 					"name": "customizations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22341,7 +22341,7 @@
 					}
 				},
 				{
-					"id": 1287,
+					"id": 1250,
 					"name": "dataPanelV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22357,7 +22357,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl"
+								"text": "SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl"
 							},
 							{
 								"tag": "example",
@@ -22367,8 +22367,8 @@
 					},
 					"sources": [
 						{
-							"fileName": "types.ts",
-							"line": 1097,
+							"fileName": "embed/conversation.ts",
+							"line": 67,
 							"character": 4
 						}
 					],
@@ -22376,13 +22376,13 @@
 						"type": "intrinsic",
 						"name": "boolean"
 					},
-					"inheritedFrom": {
+					"overwrites": {
 						"type": "reference",
 						"name": "ViewConfig.dataPanelV2"
 					}
 				},
 				{
-					"id": 1286,
+					"id": 1287,
 					"name": "disableRedirectionLinksInNewTab",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22452,7 +22452,7 @@
 					}
 				},
 				{
-					"id": 1257,
+					"id": 1258,
 					"name": "disabledActionReason",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22489,7 +22489,7 @@
 					}
 				},
 				{
-					"id": 1256,
+					"id": 1257,
 					"name": "disabledActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22530,7 +22530,7 @@
 					}
 				},
 				{
-					"id": 1281,
+					"id": 1282,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22612,7 +22612,7 @@
 					}
 				},
 				{
-					"id": 1284,
+					"id": 1285,
 					"name": "enableV2Shell_experimental",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22649,7 +22649,7 @@
 					}
 				},
 				{
-					"id": 1274,
+					"id": 1275,
 					"name": "excludeRuntimeFiltersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22687,7 +22687,7 @@
 					}
 				},
 				{
-					"id": 1283,
+					"id": 1284,
 					"name": "excludeRuntimeParametersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22725,7 +22725,7 @@
 					}
 				},
 				{
-					"id": 1253,
+					"id": 1254,
 					"name": "frameParams",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22763,7 +22763,7 @@
 					}
 				},
 				{
-					"id": 1258,
+					"id": 1259,
 					"name": "hiddenActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22808,7 +22808,7 @@
 					}
 				},
 				{
-					"id": 1279,
+					"id": 1280,
 					"name": "hiddenHomeLeftNavItems",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22849,7 +22849,7 @@
 					}
 				},
 				{
-					"id": 1276,
+					"id": 1277,
 					"name": "hiddenHomepageModules",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22891,7 +22891,7 @@
 					}
 				},
 				{
-					"id": 1275,
+					"id": 1276,
 					"name": "hiddenTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22931,7 +22931,7 @@
 					}
 				},
 				{
-					"id": 1251,
+					"id": 1252,
 					"name": "hideSampleQuestions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -22939,7 +22939,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "hideSourceSelection : Hide sample questions on\nthe initial screen of the conversation.",
+						"shortText": "hideSampleQuestions : Hide sample questions on\nthe initial screen of the conversation.",
 						"tags": [
 							{
 								"tag": "example",
@@ -22954,7 +22954,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 81,
+							"line": 94,
 							"character": 4
 						}
 					],
@@ -22997,7 +22997,7 @@
 					}
 				},
 				{
-					"id": 1269,
+					"id": 1270,
 					"name": "insertAsSibling",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23034,7 +23034,7 @@
 					}
 				},
 				{
-					"id": 1271,
+					"id": 1272,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23071,7 +23071,7 @@
 					}
 				},
 				{
-					"id": 1263,
+					"id": 1264,
 					"name": "locale",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23145,7 +23145,7 @@
 					}
 				},
 				{
-					"id": 1280,
+					"id": 1281,
 					"name": "preRenderId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23182,7 +23182,7 @@
 					}
 				},
 				{
-					"id": 1277,
+					"id": 1278,
 					"name": "reorderedHomepageModules",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23224,7 +23224,7 @@
 					}
 				},
 				{
-					"id": 1261,
+					"id": 1262,
 					"name": "runtimeFilters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23265,7 +23265,7 @@
 					}
 				},
 				{
-					"id": 1262,
+					"id": 1263,
 					"name": "runtimeParameters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23329,7 +23329,7 @@
 					}
 				},
 				{
-					"id": 1260,
+					"id": 1261,
 					"name": "showAlerts",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23366,7 +23366,7 @@
 					}
 				},
 				{
-					"id": 1250,
+					"id": 1251,
 					"name": "showSpotterLimitations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23389,7 +23389,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 68,
+							"line": 81,
 							"character": 4
 						}
 					],
@@ -23399,7 +23399,7 @@
 					}
 				},
 				{
-					"id": 1259,
+					"id": 1260,
 					"name": "visibleActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23445,7 +23445,7 @@
 					}
 				},
 				{
-					"id": 1278,
+					"id": 1279,
 					"name": "visibleTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23512,40 +23512,40 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						1264,
-						1285,
-						1270,
-						1268,
-						1287,
+						1265,
 						1286,
-						1248,
-						1257,
-						1256,
-						1281,
-						1288,
-						1284,
-						1274,
-						1283,
-						1253,
-						1258,
-						1279,
-						1276,
-						1275,
-						1251,
-						1249,
-						1269,
 						1271,
-						1263,
-						1289,
+						1269,
+						1250,
+						1287,
+						1248,
+						1258,
+						1257,
+						1282,
+						1288,
+						1285,
+						1275,
+						1284,
+						1254,
+						1259,
 						1280,
 						1277,
-						1261,
-						1262,
-						1247,
-						1260,
-						1250,
-						1259,
+						1276,
+						1252,
+						1249,
+						1270,
+						1272,
+						1264,
+						1289,
+						1281,
 						1278,
+						1262,
+						1263,
+						1247,
+						1261,
+						1251,
+						1260,
+						1279,
 						1246
 					]
 				}
