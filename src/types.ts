@@ -2322,6 +2322,19 @@ export enum EmbedEvent {
      * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
      */
      TableVizRendered = 'TableVizRendered',
+     /**
+     * Emitted when the liveboard is created from pin modal or liveboard list page.
+     * You can use this event as a hook to trigger
+     * other events on liveboard creation.
+     *
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK : 1.36.0 | ThoughtSpot : 10.8.0.cl
+     */
+    CreateLiveboard = 'createLiveboard',
 }
 
 /**
