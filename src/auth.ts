@@ -18,6 +18,8 @@ import { logger } from './utils/logger';
 import { getSessionInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
 
+// this is a test
+
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
 // eslint-disable-next-line import/no-mutable-exports
