@@ -2332,7 +2332,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.35.13 | ThoughtSpot : 10.7.0.cl
+     * @version SDK : 1.36.0 | ThoughtSpot : 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
 }
