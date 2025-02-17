@@ -392,11 +392,12 @@ export class SearchEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions?.searchTokenString && !excludeSearchTokenStringFromURL) {
-            queryParams[Param.searchTokenString] = encodeURIComponent(
-                searchOptions.searchTokenString,
-            );
-
+        if (searchOptions?.searchTokenString) {
+            if (!excludeSearchTokenStringFromURL) {
+                queryParams[Param.searchTokenString] = encodeURIComponent(
+                    searchOptions.searchTokenString,
+                );
+            }
             if (searchOptions.executeSearch) {
                 queryParams[Param.executeSearch] = true;
             }
