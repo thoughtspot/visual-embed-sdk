@@ -293,7 +293,10 @@ export interface LiveboardViewConfig
      */
     showPreviewLoader?: boolean;
     /**
-     * This flag is used to enable the compact header on a Liveboard
+     * Enables or disables the compact header feature on a Liveboard.
+     * Compact Liveboard header is turned off by default on Liveboards in
+     * ThoughtSpot Embedded apps.
+     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
