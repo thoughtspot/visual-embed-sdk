@@ -2613,10 +2613,41 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Trigger the **Pin** action on an embedded object
-     * @param - Liveboard embed takes the `vizId` as a
-     * key. Can be left undefined when embedding Search, full app, or
-     * a visualization.
+     * Trigger the **Pin** action on an embedded object.
+     * The parameters keys are optional. If no parameters are defined,
+     * the pin action is triggered for the Answer that the user is currently on
+     * and a modal opens for Liveboard selection.
+     *
+     * To add an Answer to a Liveboard programmatically without showing
+     * the *Pin to Liveboard* modal, define
+     * the following attributes:
+     * @param
+     * `vizId`-  GUID of the Answer.
+     * `liveboardID` - GUID of the Liveboard to pin an Answer.
+     * `tabId` - GUID of the Liveboard tab.programmatically.
+     * `newVizName` - Name string for the Answer.
+     * `newLiveboardName` - Name of the Liveboard. Creates a new
+     *  Liveboard and pins the Answer.
+     * `newTabName` - Name of the tab. Creates a new tab in the Liveboard
+     *  specified `liveboardId` or `newLiveboardName`.
+     *
+     * @example
+     * ```js
+     * const pinResponse = await liveboardEmbed.trigger(HostEvent.Pin, {
+     *     vizId: "123",
+     *     liveboardId: "123",
+     *     tabId: "123",
+     *  });
+     * ```
+     *
+     * @example
+     * ```js
+     * const pinResponse = await liveboardEmbed.trigger(HostEvent.Pin, {
+     *     newVizName: "Sales by region",
+     *     newLiveboardName: "Sales performance",
+     *     newTabName: "Products",
+     *  });
+     * ```
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Pin)
@@ -3269,7 +3300,24 @@ export enum HostEvent {
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
     /**
-     * Triggers the action to get the current view of the Liveboard.
+     * Trigger the save action for an Answer.
+     * To programmatically save an answer without opening the
+     * *Describe your Answer* modal, define the `name` and `description`
+     * properties.
+     * If no parameters are specified, the save action is
+     * triggered with a modal to prompt users to
+     * add a name and description for the Answer.
+     * @param - optional attributes to set Answer properties.
+     *  `name` - Name string for the Answer.
+     *  `description` - Description text for the Answer.
+     *
+     * @example
+     * ```js
+     * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
+     *      name: "Sales by states",
+     *      description: "Total sales by states in MidWest"
+     *   });
+     * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     SaveAnswer = 'saveAnswer',
