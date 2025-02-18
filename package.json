@@ -70,7 +70,6 @@
     "dependencies": {
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
-        "dompurify": "^3.2.4",
         "eventemitter3": "^4.0.7",
         "gatsby-plugin-vercel": "^1.0.3",
         "html-react-parser": "^1.4.12",
