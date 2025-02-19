@@ -3417,6 +3417,7 @@ export enum Param {
     HostAppUrl = 'hostAppUrl',
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
+    EnablePendoHelp = 'enablePendoHelp',
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
     Tag = 'tag',
