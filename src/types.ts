@@ -629,6 +629,8 @@ export interface EmbedConfig {
      *  @version SDK 1.37.0 | ThoughtSpot: 10.7.0.cl
      */
     customVariablesForThirdPartyTools?: Record< string, any >;
+
+    disablePreauthCache?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -3269,8 +3271,17 @@ export enum HostEvent {
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
     /**
-     * Triggers the action to get the current view of the Liveboard.
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
+     * @hidden
+     * Notify when info call is completed successfully
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
+     *```
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     */
+     InfoSuccess = 'InfoSuccess',
+    /**
+     * Triggers the action to get the current view of the liveboard
+     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
      */
     SaveAnswer = 'saveAnswer',
     /**
@@ -3427,6 +3438,7 @@ export enum Param {
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
+    preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
 }
 
