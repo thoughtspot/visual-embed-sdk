@@ -271,7 +271,45 @@ describe('Unit test case for ts embed', () => {
                 });
             });
         });
+
+        test('check for new authToken based on getAuthToken function', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+                autoLogin: true,
+            });
+
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.AuthExpire,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(baseInstance, 'handleAuth');
+
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.EXPIRY,
+                );
+                expect(mockPort.postMessage).not.toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test_auth_token2' },
+                });
+                expect(baseInstance.handleAuth).toHaveBeenCalled();
+            });
+        });
     });
+
     describe('Called Embed event status for start and end', () => {
         beforeAll(() => {
             init({
@@ -1759,68 +1797,6 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('AppEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                enableFlipTooltipToContextMenu: true,
-            } as AppViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&flipTooltipToContextMenuEnabled=true${defaultParams}${defaultParamsPost}#/home`,
-                );
-            });
-        });
-
-        it('AppEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                enableFlipTooltipToContextMenu: false,
-            } as AppViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
-                );
-            });
-        });
-
-        it('LiveboardEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-            const appEmbed = new LiveboardEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                liveboardId,
-                enableFlipTooltipToContextMenu: true,
-            } as LiveboardViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&flipTooltipToContextMenuEnabled=true${defaultParams}#/embed/viz/${liveboardId}`,
-                );
-            });
-        });
-
-        it('LiveboardEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-            const appEmbed = new LiveboardEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                liveboardId,
-                enableFlipTooltipToContextMenu: false,
-            } as LiveboardViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
-                );
-            });
-        });
-
         it('Should not add contextMenuEnabledOnWhichClick flag to the iframe src when it is not passed', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
@@ -1969,124 +1945,6 @@ describe('Unit test case for ts embed', () => {
                 expectUrlMatch(
                     getIFrameSrc(),
                     `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=both&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
-                );
-            });
-        });
-
-        it('SageViewConfig: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-            const appEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-                enableFlipTooltipToContextMenu: true,
-            } as SageViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D&flipTooltipToContextMenuEnabled=true#/embed/eureka`,
-                );
-            });
-        });
-
-        it('SageViewConfig: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-            const appEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-                enableFlipTooltipToContextMenu: false,
-            } as SageViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
-                );
-            });
-        });
-
-        it('ConversationEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-            const appEmbed = new ConversationEmbed(getRootEl(), {
-                worksheetId: 'worksheetId',
-                searchOptions: {
-                    searchQuery: 'searchQuery',
-                },
-                enableFlipTooltipToContextMenu: true,
-            } as ConversationViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&flipTooltipToContextMenuEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-                );
-            });
-        });
-
-        it('ConversationEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when flag is false', async () => {
-            const appEmbed = new ConversationEmbed(getRootEl(), {
-                worksheetId: 'worksheetId',
-                searchOptions: {
-                    searchQuery: 'searchQuery',
-                },
-                enableFlipTooltipToContextMenu: false,
-            } as ConversationViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-                );
-            });
-        });
-
-        it('SearchEmbed: Should add flipTooltipToContextMenuEnabled flag to the iframe src', async () => {
-            const dataSources = ['data-source-1'];
-            const appEmbed = new SearchEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                dataSources,
-                enableFlipTooltipToContextMenu: true,
-            } as SearchViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false&flipTooltipToContextMenuEnabled=true#/embed/answer`,
-                );
-            });
-        });
-
-        it('SearchEmbed: Should not add flipTooltipToContextMenuEnabled flag to the iframe src when if false', async () => {
-            const dataSources = ['data-source-1'];
-            const appEmbed = new SearchEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                dataSources,
-                enableFlipTooltipToContextMenu: false,
-            } as SearchViewConfig);
-
-            appEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatchesWithParams(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&useLastSelectedSources=false#/embed/answer`,
                 );
             });
         });
@@ -2407,6 +2265,121 @@ describe('Unit test case for ts embed', () => {
                 'PreRender should be called before using syncPreRenderStyle',
             );
             (logger.error as any).mockClear();
+        });
+    });
+
+    describe('IdleSessionTimeout embedEvent for TrustedAuthTokenCookieless authType with autoLogin true', () => {
+        beforeAll(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValueOnce(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+                autoLogin: true,
+            });
+        });
+
+        test('should handle idle session timeout and send updated auth token', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.IdleSessionTimeout,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'handleAuth');
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.IDLE_SESSION_TIMEOUT,
+                );
+                expect(baseInstance.handleAuth).toHaveBeenCalled();
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.IdleSessionTimeout,
+                    data: { authToken: 'test_auth_token2' },
+                });
+            });
+        });
+
+        test('should handle idle session timeout and show login failure message if token fetch fails', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.reject(),
+                autoLogin: true,
+            });
+
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.IdleSessionTimeout,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            const loggerSpy = jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.IDLE_SESSION_TIMEOUT,
+                );
+                expect(loggerSpy).toHaveBeenCalledTimes(1);
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+
+        test('should handle idle session timeout and show login failure message if handleAuth fails', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisations,
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token2'),
+                autoLogin: true,
+            });
+
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.IdleSessionTimeout,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.spyOn(baseInstance, 'notifyAuthFailure');
+            jest.spyOn(authInstance, 'authenticate').mockResolvedValue(false);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            const loggerSpy = jest.spyOn(logger, 'error').mockResolvedValueOnce(true);
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(baseInstance.notifyAuthFailure).toBeCalledWith(
+                    authInstance.AuthFailureType.IDLE_SESSION_TIMEOUT,
+                );
+                expect(loggerSpy).toHaveBeenCalledTimes(0);
+            });
+
+            jest.spyOn(authService, 'verifyTokenService').mockClear();
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
         });
     });
 });

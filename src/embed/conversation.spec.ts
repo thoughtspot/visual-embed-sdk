@@ -4,13 +4,11 @@ import {
 } from './conversation';
 import * as authInstance from '../auth';
 import { init } from '../index';
-import { Action, AuthType, RuntimeFilterOp } from '../types';
+import { AuthType } from '../types';
 import {
-    executeAfterWait,
     getDocumentBody,
     getIFrameSrc,
     getRootEl,
-    fixedEncodeURI,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
@@ -62,6 +60,40 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with spotter limitations text if flag is set', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            showSpotterLimitations: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&showSpotterLimitations=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with sample questions hidden', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            hideSampleQuestions: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&hideSampleQuestions=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should render the conversation embed with worksheets hidden', async () => {
         const viewConfig: ConversationViewConfig = {
             worksheetId: 'worksheetId',
@@ -91,6 +123,23 @@ describe('ConversationEmbed', () => {
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
             ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+        );
+    });
+
+    it('should render the conversation embed if data panel v2 flag is true', async () => {
+        const viewConfig: ConversationViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            dataPanelV2: true,
+        };
+
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enableDataPanelV2=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
 });

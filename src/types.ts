@@ -535,7 +535,12 @@ export interface EmbedConfig {
     suppressErrorAlerts?: boolean;
 
     /**
-     * Log level for the SDK.
+     * Suppress or show specific types of logs in the console output.
+     * For example, `LogLevel.ERROR` shows only Visual Embed SDK and
+     * ThoughtSpot application errors and suppresses
+     * other logs such as warnings, information alerts,
+     * and debug messages in the console output.
+     *
      * @default LogLevel.ERROR
      * @example
      * ```js
@@ -1121,13 +1126,6 @@ export interface ViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
-    /**
-     * Flag to enhance the visual effects of charts
-     * This feature is a beta release for 10.6
-     * @default false
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
-     */
-    enableFlipTooltipToContextMenu?: boolean;
 }
 
 /**
@@ -1596,6 +1594,13 @@ export enum EmbedEvent {
      * @hidden
      */
     AuthFailure = 'ThoughtspotAuthFailure',
+
+    /**
+     * ThoughtSpot failed to re validate the auth session.
+     * @hidden
+     */
+    IdleSessionTimeout = 'IdleSessionTimeout',
+
     /**
      * ThoughtSpot failed to validate the auth session.
      * @hidden
@@ -2302,6 +2307,36 @@ export enum EmbedEvent {
      * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
+    /**
+     * Emitted when the table viz renders.
+     * You can use this event as a hook to trigger
+     * other events on the rendered table viz data.
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
+     *       console.log(payload);
+     *       const columnDataLite = payload.data.data.columnDataLite;
+     *       columnDataLite[0].dataValue[0]="new fob";
+     *       console.log('>>> new Data', columnDataLite);
+     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     * })
+     * ```
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     */
+     TableVizRendered = 'TableVizRendered',
+     /**
+     * Emitted when the liveboard is created from pin modal or liveboard list page.
+     * You can use this event as a hook to trigger
+     * other events on liveboard creation.
+     *
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK : 1.36.0 | ThoughtSpot : 10.8.0.cl
+     */
+    CreateLiveboard = 'createLiveboard',
 }
 
 /**
@@ -2712,7 +2747,7 @@ export enum HostEvent {
      * @param - an object with `vizId` as a key
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.CreateMonitor {
+     * liveboardEmbed.trigger(HostEvent.CreateMonitor, {
      *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
@@ -3254,6 +3289,25 @@ export enum HostEvent {
      * @hidden
      */
     UIPassthrough = 'UiPassthrough',
+    /**
+     * Triggers the table viz rerender with the updated data.
+     * Includes the following properties:
+     * @param - columnDataLite - an array of object containing data
+     * transformed from data picked from TableVizRendered event.
+     * For example, { columnDataLite: []}
+     * @example
+     * ```js
+     * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
+     *       console.log(payload);
+     *       const columnDataLite = payload.data.data.columnDataLite;
+     *       columnDataLite[0].dataValue[0]="new fob";
+     *       console.log('>>> new Data', columnDataLite);
+     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     * })
+     * ```
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     */
+    TransformTableVizData = 'TransformTableVizData',
 }
 
 /**
@@ -3298,6 +3352,7 @@ export enum Param {
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
     Tag = 'tag',
+    AutoLogin = 'autoLogin',
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',
     fullHeight = 'isFullHeightPinboard',
@@ -3380,11 +3435,11 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
-    EnableFlipTooltipToContextMenu = 'flipTooltipToContextMenuEnabled',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
     preAuthCache = 'preAuthCache',
+    ShowSpotterLimitations = 'showSpotterLimitations',
 }
 
 /**
@@ -4661,9 +4716,17 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+/**
+ * Enum options to show or suppress Visual Embed SDK and
+ * ThoughtSpot application logs in the console output.
+ * This attribute doesn't support suppressing
+ * browser warnings or errors.
+ */
+
 export enum LogLevel {
     /**
-     * No logs will be logged in the console.
+     * No application or SDK-related logs will be logged
+     * in the console output.
      * @example
      * ```js
      * init({
@@ -4675,7 +4738,7 @@ export enum LogLevel {
      */
     SILENT = 'SILENT',
     /**
-     * Only ERROR logs will be logged in the console.
+     * Log only errors in the console output.
      * @example
      * ```js
      * init({
@@ -4687,7 +4750,7 @@ export enum LogLevel {
      */
     ERROR = 'ERROR',
     /**
-     * Only WARN and ERROR logs will be logged in the console.
+     * Log only warnings and errors in the console output.
      * @example
      * ```js
      * init({
@@ -4699,7 +4762,8 @@ export enum LogLevel {
      */
     WARN = 'WARN',
     /**
-     * Only INFO, WARN, and ERROR logs will be logged in the console.
+     * Log only the information alerts, warnings, and errors
+     * in the console output.
      * @example
      * ```js
      * init({
@@ -4712,7 +4776,8 @@ export enum LogLevel {
     INFO = 'INFO',
 
     /**
-     * Only DEBUG, INFO, WARN, and ERROR logs will be logged in the console.
+     * Log debug messages, warnings, information alerts,
+     * and errors in the console output.
      * @example
      * ```js
      * init({
@@ -4724,7 +4789,7 @@ export enum LogLevel {
      */
     DEBUG = 'DEBUG',
     /**
-     * All logs will be logged in the console.
+     * All logs will be logged in the browser console.
      * @example
      * ```js
      * init({

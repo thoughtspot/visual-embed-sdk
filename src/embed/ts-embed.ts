@@ -10,8 +10,6 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    HostEventRequest,
-    HostEventResponse,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
@@ -142,8 +140,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-    * This is the base to access ThoughtSpot V2.
-    */
+     * This is the base to access ThoughtSpot V2.
+     */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -371,7 +369,7 @@ export class TsEmbed {
                 ? this.viewConfig?.hiddenHomeLeftNavItems
                 : [],
             customVariablesForThirdPartyTools:
-            this.embedConfig.customVariablesForThirdPartyTools || {},
+                this.embedConfig.customVariablesForThirdPartyTools || {},
         };
     }
 
@@ -423,11 +421,36 @@ export class TsEmbed {
     };
 
     /**
+     * Auto Login and send updated authToken to the iFrame to avoid user session logout
+     * @param _
+     * @param responder
+     */
+    private idleSessionTimeout = (_: any, responder: any) => {
+        handleAuth().then(async () => {
+            let authToken = '';
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+                responder({
+                    type: EmbedEvent.IdleSessionTimeout,
+                    data: { authToken },
+                });
+            } catch (e) {
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
+        }).catch((e) => {
+            logger.error(`Auto Login failed, Error : ${e?.message}`);
+        });
+        notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
+    };
+
+    /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
+        this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
     };
 
     /**
@@ -435,7 +458,7 @@ export class TsEmbed {
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
-        let queryString = (query.startsWith('?')) ? query : `?${query}`;
+        let queryString = query.startsWith('?') ? query : `?${query}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
@@ -453,9 +476,7 @@ export class TsEmbed {
      * @param queryParams
      * @returns queryParams
      */
-    protected getBaseQueryParams(
-        queryParams: Record<any, any> = {},
-    ) {
+    protected getBaseQueryParams(queryParams: Record<any, any> = {}) {
         let hostAppUrl = window?.location?.host || '';
 
         // The below check is needed because TS Cloud firewall, blocks
@@ -463,14 +484,15 @@ export class TsEmbed {
         if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
+        const blockNonEmbedFullAppAccess = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.EmbedApp] = true;
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
-            ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = blockNonEmbedFullAppAccess;
+        queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -509,7 +531,6 @@ export class TsEmbed {
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
-            enableFlipTooltipToContextMenu = false,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -518,10 +539,6 @@ export class TsEmbed {
             ...additionalFlagsFromInit,
             ...additionalFlagsFromView,
         };
-
-        if (enableFlipTooltipToContextMenu) {
-            queryParams[Param.EnableFlipTooltipToContextMenu] = enableFlipTooltipToContextMenu;
-        }
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError('You cannot have both hidden actions and visible actions');
@@ -562,8 +579,8 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl = customizations?.iconSpriteUrl
-            || this.embedConfig.customizations?.iconSpriteUrl;
+        const embedCustomizations = this.embedConfig.customizations;
+        const spriteUrl = customizations?.iconSpriteUrl || embedCustomizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
@@ -652,11 +669,8 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const {
-            height: frameHeight,
-            width: frameWidth,
-            ...restParams
-        } = this.viewConfig.frameParams || {};
+        const frameParams = this.viewConfig.frameParams;
+        const { height: frameHeight, width: frameWidth, ...restParams } = frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -786,8 +800,8 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper
-            || document.getElementById(preRenderIds.wrapper);
+        const preRenderWrapperElement = document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || preRenderWrapperElement;
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -1066,7 +1080,7 @@ export class TsEmbed {
      */
     public async trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
@@ -1215,11 +1229,11 @@ export class TsEmbed {
                 ) {
                     logger.warn(
                         `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
@@ -1384,7 +1398,7 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return (this.viewConfig.enableV2Shell_experimental)
+        return this.viewConfig.enableV2Shell_experimental
             ? this.getEmbedBasePath(queryString)
             : this.getV1EmbedBasePath(queryString);
     }

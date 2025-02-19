@@ -39,6 +39,7 @@ export enum AuthFailureType {
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
     EXPIRY = 'EXPIRY',
     OTHER = 'OTHER',
+    IDLE_SESSION_TIMEOUT = 'IDLE_SESSION_TIMEOUT'
 }
 
 /**
@@ -459,7 +460,8 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
         );
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
+    const baseEndpoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
+    const ssoEndPoint = `${baseEndpoint}${baseEndpoint.includes('?') ? '&' : '?'}forceSAMLAutoRedirect=true`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
     return loggedInStatus;

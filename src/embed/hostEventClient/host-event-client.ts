@@ -96,8 +96,14 @@ export class HostEventClient {
           return this.hostEventFallback(HostEvent.Pin, payload);
       }
 
+      const formattedPayload = {
+          ...payload,
+          pinboardId: payload.liveboardId,
+          newPinboardName: payload.newLiveboardName,
+      };
+
       return this.handleHostEventWithParam(
-          UIPassthroughEvent.PinAnswerToLiveboard, payload,
+          UIPassthroughEvent.PinAnswerToLiveboard, formattedPayload,
       );
   }
 

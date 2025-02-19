@@ -23,7 +23,14 @@ import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, HostEventResponse } from './hostEventClient/contracts';
+import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+
+const liveboardHeightWhitelistedRoutes = [
+    '/embed/viz/',
+    '/embed/insights/viz/',
+    '/tsl-editor/PINBOARD_ANSWER_BOOK/',
+    '/import-tsl/PINBOARD_ANSWER_BOOK/',
+];
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -562,10 +569,8 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        if (
-            data.data.currentPath.startsWith('/embed/viz/')
-            || data.data.currentPath.startsWith('/embed/insights/viz/')
-        ) {
+        const routePath = data.data.currentPath;
+        if (liveboardHeightWhitelistedRoutes.some((path) => routePath.startsWith(path))) {
             return;
         }
         this.setIFrameHeight(this.defaultHeight);
@@ -637,16 +642,17 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Triggers an event to the embedded app
-     * @param messageType The event type
-     * @param data The payload to send with the message
+     * @param {HostEvent} messageType The event type
+     * @param {any} data The payload to send with the message
+     * @returns A promise that resolves with the response from the embedded app
      */
-    public trigger<HostEventT extends HostEvent>(
+    public trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: HostEventRequest<HostEventT> = ({} as any),
-    ): Promise<HostEventResponse<HostEventT>> {
-        const dataWithVizId = data;
+        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
-            this.setActiveTab(data);
+            this.setActiveTab(data as { tabId: string });
             return Promise.resolve(null);
         }
         if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
