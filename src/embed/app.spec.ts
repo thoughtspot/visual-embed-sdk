@@ -509,6 +509,33 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add enablePendoHelp flag to the iframe src conditional on navbar', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?enablePendoHelp=true&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+
+        const noNavEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePendoHelp: false,
+        } as AppViewConfig);
+
+        noNavEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?enablePendoHelp=false&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add HomePageSearchBarMode flag with object search to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
