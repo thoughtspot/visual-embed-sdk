@@ -382,7 +382,7 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
         });
     });
 
-    authEE?.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
+    authEE?.on(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
     return samlCompletionPromise;
 }
 
