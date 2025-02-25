@@ -335,3 +335,24 @@ export const getTypeFromValue = (value: any): [string, string] => {
     }
     return ['', ''];
 };
+
+const sdkWindowKey = '_tsEmbedSDK' as any;
+
+/**
+ * Stores a value in the global `window` object under the `_tsEmbedSDK` namespace.
+ * @param key - The key under which the value will be stored.
+ * @param value - The value to store.
+ */
+export const storeValueInWindow = (key: string, value: any) => {
+    if (!window[sdkWindowKey]) {
+        (window as any)[sdkWindowKey] = {};
+    }
+    window[sdkWindowKey][key as any] = value;
+};
+
+/**
+ * Retrieves a stored value from the global `window` object under the `_tsEmbedSDK` namespace.
+ * @param key - The key whose value needs to be retrieved.
+ * @returns The stored value or `undefined` if the key is not found.
+ */
+export const getValueFromWindow = (key: string): any => window?.[sdkWindowKey]?.[key as any];
