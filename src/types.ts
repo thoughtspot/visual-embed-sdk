@@ -3746,7 +3746,7 @@ export enum Action {
      */
     SpotIQFollow = 'spotIQFollow',
     /**
-     * The Share action for a Liveboard visualization. 
+     * The Share action for a Liveboard visualization.
      */
     ShareViz = 'shareViz',
     /**
@@ -3754,8 +3754,8 @@ export enum Action {
      */
     ReplaySearch = 'replaySearch',
     /**
-     * The **Show underlying data** menu action on a visualization or
-     * Answer page.
+     * The **Show underlying data** menu action on a
+     * visualization or Answer page.
      * Displays detailed information and raw data
      * for a given visualization.
      * @example
@@ -3765,8 +3765,8 @@ export enum Action {
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * The **Download** menu action on Liveboard visualizations
-     * and Answers.
+     * The **Download** menu action on Liveboard
+     * visualizations and Answers.
      * Allows downloading a visualization or Answer.
      * @example
      * ```js
