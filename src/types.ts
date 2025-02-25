@@ -2638,7 +2638,7 @@ export enum HostEvent {
      *  Answer or visualization specified in `vizId`.
      *  Required attribute.
      * @param
-     * `newLiveboardName` - Name of the Liveboard.
+     * `newLiveboardName` - Name string for the Liveboard.
      *  Creates a new Liveboard object with the specified name.
      * @param
      * `newTabName` - Name of the tab. Adds a new tab Liveboard specified
@@ -2650,14 +2650,14 @@ export enum HostEvent {
      *     vizId: "123",
      *     newVizName: "Sales by region",
      *     liveboardId: "123",
-     *     tabId: "123",
+     *     tabId: "123"
      *  });
      * ```
      * @example
      * ```js
      * const pinResponse = await appEmbed.trigger(HostEvent.Pin, {
      *     newVizName: "Total sales of Jackets",
-     *     liveboardId: "123",
+     *     liveboardId: "123"
      *  });
      * ```
      *
@@ -2666,7 +2666,7 @@ export enum HostEvent {
      * const pinResponse = await searchEmbed.trigger(HostEvent.Pin, {
      *     newVizName: "Sales by state",
      *     newLiveboardName: "Sales",
-     *     newTabName: "Products",
+     *     newTabName: "Products"
      *  });
      * ```
      * @example
