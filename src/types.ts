@@ -3745,6 +3745,9 @@ export enum Action {
      * @hidden
      */
     SpotIQFollow = 'spotIQFollow',
+    /**
+     * The Share action for a Liveboard visualization. 
+     */
     ShareViz = 'shareViz',
     /**
      * @hidden
@@ -4137,7 +4140,7 @@ export enum Action {
      * Allows users to manage data sync pipelines to third-party apps.
      * @example
      * ```js
-     * disabledActions: [Action.SyncToOtherApps]
+     * disabledActions: [Action.ManagePipelines]
      * ```
      * @version SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      */
