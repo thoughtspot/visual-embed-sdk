@@ -6,4 +6,8 @@ export {
     fetchBasicAuthService,
     verifyTokenService,
 } from './authService';
-export { fetchLogoutService, fetchSessionInfoService } from './tokenizedAuthService';
+export {
+    fetchLogoutService,
+    fetchSessionInfoService,
+    fetchPreauthInfoService,
+} from './tokenizedAuthService';

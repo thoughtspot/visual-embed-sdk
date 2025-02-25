@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.35.13",
+    "version": "1.36.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -70,10 +70,8 @@
     "dependencies": {
         "algoliasearch": "^4.10.5",
         "classnames": "^2.3.1",
-        "dompurify": "^2.3.4",
         "eventemitter3": "^4.0.7",
         "gatsby-plugin-vercel": "^1.0.3",
-        "html-react-parser": "^1.4.12",
         "lodash": "^4.17.21",
         "mixpanel-browser": "2.47.0",
         "ts-deepmerge": "^6.0.2",
@@ -118,7 +116,7 @@
         "eslint-plugin-comment-length": "1.7.3",
         "eslint-plugin-jsdoc": "^46.9.0",
         "fs-extra": "^10.0.0",
-        "gh-pages": "^3.1.0",
+        "gh-pages": "6.3.0",
         "highlight.js": "^10.6.0",
         "html-to-text": "^8.0.0",
         "identity-obj-proxy": "^3.0.0",

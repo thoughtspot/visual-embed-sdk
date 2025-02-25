@@ -70,6 +70,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
@@ -242,6 +243,24 @@ export class TsEmbed {
             return event.ports[0];
         }
         return null;
+    }
+
+    /**
+     * Checks if preauth cache is enabled
+     * from the view config and embed config
+     * @returns boolean
+     */
+    private isPreAuthCacheEnabled() {
+        // Disable preauth cache when:
+        // 1. overrideOrgId is present since:
+        //    - cached auth info would be for wrong org
+        //    - info call response changes for each different overrideOrgId
+        // 2. disablePreauthCache is explicitly set to true
+        const isDisabled = (
+            this.viewConfig.overrideOrgId !== undefined
+            || this.embedConfig.disablePreauthCache === true
+        );
+        return !isDisabled;
     }
 
     /**
@@ -586,6 +605,10 @@ export class TsEmbed {
             queryParams[Param.OverrideOrgId] = overrideOrgId;
         }
 
+        if (this.isPreAuthCacheEnabled()) {
+            queryParams[Param.preAuthCache] = true;
+        }
+
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
@@ -722,6 +745,14 @@ export class TsEmbed {
                             elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
                         });
+                        // Send info event  if preauth cache is enabled
+                        if (this.isPreAuthCacheEnabled()) {
+                            getPreauthInfo().then((data) => {
+                                if (data?.info) {
+                                    this.trigger(HostEvent.InfoSuccess, data);
+                                }
+                            });
+                        }
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
