@@ -2613,47 +2613,63 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Trigger the **Pin** action on an embedded object.
-     * The parameters keys are optional. If no parameters are defined,
+     * Trigger **Pin** action on an embedded object.
+     * If no parameters are defined,
      * the pin action is triggered for the Answer that the user is currently on
      * and a modal opens for Liveboard selection.
+     * To add an Answer or visualization to a Liveboard programmatically without
+     * showing requiring additional user input via *Pin to Liveboard* modal, define
+     * the following parameters:
      *
-     * To add an Answer to a Liveboard programmatically without showing
-     * the *Pin to Liveboard* modal, define
-     * the following attributes:
      * @param
-     * `vizId`-  GUID of the Answer.
-     * `liveboardID` - GUID of the Liveboard to pin an Answer.
-     * `tabId` - GUID of the Liveboard tab.programmatically.
-     * `newVizName` - Name string for the Answer.
-     * `newLiveboardName` - Name of the Liveboard. Creates a new
-     *  Liveboard and pins the Answer.
-     * `newTabName` - Name of the tab. Creates a new tab in the Liveboard
-     *  specified `liveboardId` or `newLiveboardName`.
+     * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
+     *  Optional when pinning a new chart or table generated from a Search query.
+     * @param
+     * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
+     *  specify the `newLiveboardName` parameter to create a new Liveboard.
+     * @param
+     * `tabId` - GUID of the Liveboard tab. Adds the Answer to the Liveboard tab
+     *  specified in the code.
+     * @param
+     * `newVizName` - Name string for the Answer or visualization. If defined,
+     *  this parameter adds a new visualization object or creates a copy of the
+     *  Answer or visualization specified in `vizId`.
+     *  Required attribute.
+     * @param
+     * `newLiveboardName` - Name of the Liveboard.
+     *  Creates a new Liveboard object with the specified name.
+     * @param
+     * `newTabName` - Name of the tab. Adds a new tab Liveboard specified
+     *  in the code.
      *
      * @example
      * ```js
-     * const pinResponse = await liveboardEmbed.trigger(HostEvent.Pin, {
+     * const pinResponse = await appEmbed.trigger(HostEvent.Pin, {
      *     vizId: "123",
+     *     newVizName: "Sales by region",
      *     liveboardId: "123",
      *     tabId: "123",
+     *  });
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await appEmbed.trigger(HostEvent.Pin, {
+     *     newVizName: "Total sales of Jackets",
+     *     liveboardId: "123",
      *  });
      * ```
      *
      * @example
      * ```js
-     * const pinResponse = await liveboardEmbed.trigger(HostEvent.Pin, {
-     *     newVizName: "Sales by region",
-     *     newLiveboardName: "Sales performance",
+     * const pinResponse = await searchEmbed.trigger(HostEvent.Pin, {
+     *     newVizName: "Sales by state",
+     *     newLiveboardName: "Sales",
      *     newTabName: "Products",
      *  });
      * ```
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Pin)
-     * ```
-     * ```js
-     * searchEmbed.trigger(HostEvent.Pin)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
