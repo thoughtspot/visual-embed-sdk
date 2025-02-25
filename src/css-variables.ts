@@ -112,6 +112,16 @@ export interface CustomCssVariables {
     '--ts-var-search-auto-complete-subtext-font-color'?: string;
 
     /**
+     * Background color of the input box in the Spotter page.
+     */
+    '--ts-var-spotter-input-background'?: string;
+
+    /**
+     * Background color of the previously asked prompt message in the Spotter page.
+     */
+    '--ts-var-spotter-prompt-background': string;
+
+    /**
      * Background color of the data panel.
      */
     '--ts-var-answer-data-panel-background-color'?: string;
