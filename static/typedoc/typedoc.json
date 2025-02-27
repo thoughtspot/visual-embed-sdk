@@ -7164,7 +7164,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Trigger **Pin** action on an embedded object.\nIf no parameters are defined,\nthe pin action is triggered for the Answer that the user is currently on\nand a modal opens for Liveboard selection.\nTo add an Answer or visualization to a Liveboard programmatically without\nshowing requiring additional user input via *Pin to Liveboard* modal, define\nthe following parameters:",
+						"shortText": "Trigger **Pin** action on an embedded object.\nIf no parameters are defined, the pin action is triggered\nfor the Answer that the user is currently on\nand a modal opens for Liveboard selection.\nTo add an Answer or visualization to a Liveboard programmatically without\nshowing requiring additional user input via *Pin to Liveboard* modal, define\nthe following parameters:",
 						"tags": [
 							{
 								"tag": "param",

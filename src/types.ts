@@ -2616,8 +2616,8 @@ export enum HostEvent {
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
      * Trigger **Pin** action on an embedded object.
-     * If no parameters are defined,
-     * the pin action is triggered for the Answer that the user is currently on
+     * If no parameters are defined, the pin action is triggered
+     * for the Answer that the user is currently on
      * and a modal opens for Liveboard selection.
      * To add an Answer or visualization to a Liveboard programmatically without
      * showing requiring additional user input via *Pin to Liveboard* modal, define
