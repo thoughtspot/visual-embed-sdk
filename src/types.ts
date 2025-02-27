@@ -2615,16 +2615,63 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Trigger the **Pin** action on an embedded object
-     * @param - Liveboard embed takes the `vizId` as a
-     * key. Can be left undefined when embedding Search, full app, or
-     * a visualization.
+     * Trigger **Pin** action on an embedded object.
+     * If no parameters are defined, the pin action is triggered
+     * for the Answer that the user is currently on
+     * and a modal opens for Liveboard selection.
+     * To add an Answer or visualization to a Liveboard programmatically without
+     * showing requiring additional user input via *Pin to Liveboard* modal, define
+     * the following parameters:
+     *
+     * @param
+     * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
+     *  Optional when pinning a new chart or table generated from a Search query.
+     * @param
+     * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
+     *  specify the `newLiveboardName` parameter to create a new Liveboard.
+     * @param
+     * `tabId` - GUID of the Liveboard tab. Adds the Answer to the Liveboard tab
+     *  specified in the code.
+     * @param
+     * `newVizName` - Name string for the Answer or visualization. If defined,
+     *  this parameter adds a new visualization object or creates a copy of the
+     *  Answer or visualization specified in `vizId`.
+     *  Required attribute.
+     * @param
+     * `newLiveboardName` - Name string for the Liveboard.
+     *  Creates a new Liveboard object with the specified name.
+     * @param
+     * `newTabName` - Name of the tab. Adds a new tab Liveboard specified
+     *  in the code.
+     *
+     * @example
+     * ```js
+     * const pinResponse = await appEmbed.trigger(HostEvent.Pin, {
+     *     vizId: "123",
+     *     newVizName: "Sales by region",
+     *     liveboardId: "123",
+     *     tabId: "123"
+     *  });
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await appEmbed.trigger(HostEvent.Pin, {
+     *     newVizName: "Total sales of Jackets",
+     *     liveboardId: "123"
+     *  });
+     * ```
+     *
+     * @example
+     * ```js
+     * const pinResponse = await searchEmbed.trigger(HostEvent.Pin, {
+     *     newVizName: "Sales by state",
+     *     newLiveboardName: "Sales",
+     *     newTabName: "Products"
+     *  });
+     * ```
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Pin)
-     * ```
-     * ```js
-     * searchEmbed.trigger(HostEvent.Pin)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3280,8 +3327,25 @@ export enum HostEvent {
      */
      InfoSuccess = 'InfoSuccess',
     /**
-     * Triggers the action to get the current view of the liveboard
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * Trigger the save action for an Answer.
+     * To programmatically save an answer without opening the
+     * *Describe your Answer* modal, define the `name` and `description`
+     * properties.
+     * If no parameters are specified, the save action is
+     * triggered with a modal to prompt users to
+     * add a name and description for the Answer.
+     * @param - optional attributes to set Answer properties.
+     *  `name` - Name string for the Answer.
+     *  `description` - Description text for the Answer.
+     *
+     * @example
+     * ```js
+     * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
+     *      name: "Sales by states",
+     *      description: "Total sales by states in MidWest"
+     *   });
+     * ```
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     SaveAnswer = 'saveAnswer',
     /**
