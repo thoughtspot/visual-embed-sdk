@@ -213,12 +213,12 @@ export type DOMSelector = string | HTMLElement;
  * Use {@link CustomCssVariables} or css rules.
  */
 export interface customCssInterface {
-    /**
-     * The custom css variables, which can be set.
-     * The allowed list is in the CustomCssVariables
-     * interface. For more information, see
-     * link:https://developers.thoughtspot.com/docs/css-variables-reference
-     */
+  /**
+   * The custom css variables, which can be set.
+   * The variables are available in the {@link CustomCssVariables}
+   * interface. For more information, see
+   * link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference].
+   */
     variables?: CustomCssVariables;
     /**
      * Can be used to define a custom font face
@@ -770,7 +770,7 @@ export interface ViewConfig {
      */
     showAlerts?: boolean;
     /**
-     * The list of runtime filters to apply to a search answer,
+     * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
@@ -789,7 +789,7 @@ export interface ViewConfig {
      */
     runtimeFilters?: RuntimeFilter[];
     /**
-     * The list of parameter override to apply to a search answer,
+     * The list of parameter override to apply to a search Answer,
      * visualization, or Liveboard.
      * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
@@ -807,7 +807,7 @@ export interface ViewConfig {
      */
     runtimeParameters?: RuntimeParameter[];
     /**
-     * The locale/language to use for the embedded view.
+     * The locale settings to apply to the embedded view.
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -872,7 +872,7 @@ export interface ViewConfig {
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
     /**
-     * Flag to override openNew tab context menu link
+     * Flag to override the *Open Link in New Tab* context menu option.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
@@ -1012,7 +1012,7 @@ export interface ViewConfig {
     preRenderId?: string;
 
     /**
-     * Determines whether the PreRender component should not dynamically track the size
+     * Determines if the PreRender component should dynamically track the size
      * of its embedding element and adjust its own size accordingly.
      * Enabling this option allows the PreRender component to automatically adapt
      * its dimensions based on changes to the size of the embedding element.
@@ -1402,8 +1402,8 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to answer or Liveboard is received
-     * @return data - The answer or Liveboard data
+     * Data pertaining to an Answer or Liveboard is received
+     * @return data - The Answer or Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      *```js
@@ -1577,7 +1577,7 @@ export enum EmbedEvent {
      */
     Alert = 'alert',
     /**
-     * The ThoughtSpot auth session has expired.
+     * The ThoughtSpot authentication session has expired.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
      *```js
@@ -1649,7 +1649,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the embed does not have cookie access. This happens
      * when Safari and other Web browsers block third-party cookies
-     * are blocked by default. `NoCookieAccess` can trigger
+     * are blocked by default. `NoCookieAccess` can trigger.
      * @example
      *```js
      * appEmbed.on(EmbedEvent.NoCookieAccess)
@@ -1737,7 +1737,7 @@ export enum EmbedEvent {
      */
     Save = 'save',
     /**
-     * Emitted when the download action is triggered on an answer
+     * Emitted when the download action is triggered on an Answer.
      *
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
@@ -1753,7 +1753,7 @@ export enum EmbedEvent {
      */
     Download = 'download',
     /**
-     * Emitted when the download action is triggered on an answer
+     * Emitted when the download action is triggered on an Answer.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
      *```js
@@ -1767,7 +1767,7 @@ export enum EmbedEvent {
      */
     DownloadAsPng = 'downloadAsPng',
     /**
-     * Emitted when the Download as PDF action is triggered on an answer
+     * Emitted when the Download as PDF action is triggered on an Answer
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1781,7 +1781,7 @@ export enum EmbedEvent {
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
-     * Emitted when the Download as CSV action is triggered on an answer
+     * Emitted when the Download as CSV action is triggered on an Answer.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1795,7 +1795,7 @@ export enum EmbedEvent {
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
-     * Emitted when the Download as XLSX action is triggered on an answer
+     * Emitted when the Download as XLSX action is triggered on an Answer.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1823,7 +1823,8 @@ export enum EmbedEvent {
      */
     AnswerDelete = 'answerDelete',
     /**
-     * Emitted when an answer is pinned to a Liveboard
+     * Emitted when a user initiates the Pin action to
+     *  add an Answer to a Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1961,7 +1962,7 @@ export enum EmbedEvent {
      */
     SaveAsView = 'saveAsView',
     /**
-     * Emitted when the user creates a copy of an Answer
+     * Emitted when the user creates a copy of an Answer.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1975,7 +1976,7 @@ export enum EmbedEvent {
      */
     CopyAEdit = 'copyAEdit',
     /**
-     * Emitted when a user clicks Show underlying data on an Answer
+     * Emitted when a user clicks *Show underlying data* on an Answer.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -1986,7 +1987,7 @@ export enum EmbedEvent {
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * Emitted when an answer is switched to a chart or table view.
+     * Emitted when an Answer is switched to a chart or table view.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2120,11 +2121,12 @@ export enum EmbedEvent {
      */
     CopyLink = 'embedDocument',
     /**
-     * Emitted when a user interacts with cross filters on a visualization or Liveboard
+     * Emitted when a user interacts with cross filters on a
+     * visualization or Liveboard.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      *```js
-     * liveboardEmbed.trigger(HostEvent.CrossFilterChanged, {
+     * liveboardEmbed.on(EmbedEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      *```
      */
@@ -2218,8 +2220,8 @@ export enum EmbedEvent {
      */
     DeletePersonalisedView = 'deletePersonalisedView',
     /**
-     * Emitted when a user creates a new worksheet
-     * @version SDK : 1.27.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * Emitted when a user creates a Worksheet.
+     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     CreateWorksheet = 'createWorksheet',
     /**
@@ -2232,8 +2234,8 @@ export enum EmbedEvent {
      */
     AskSageInit = 'AskSageInit',
     /**
-     * Emitted when a LB/viz is renamed
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl
+     * Emitted when a Liveboard or visualization is renamed.
+     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw
      */
     Rename = 'rename',
     /**
@@ -2297,8 +2299,7 @@ export enum EmbedEvent {
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
      * Emitted when parameter changes in an Answer
-     * or Liveboard
-     *
+     * or Liveboard.
      * ```js
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
      *     console.log('payload', payload);
@@ -2325,7 +2326,7 @@ export enum EmbedEvent {
      */
      TableVizRendered = 'TableVizRendered',
      /**
-     * Emitted when the liveboard is created from pin modal or liveboard list page.
+     * Emitted when the liveboard is created from pin modal or Liveboard list page.
      * You can use this event as a hook to trigger
      * other events on liveboard creation.
      *
@@ -2470,7 +2471,7 @@ export enum HostEvent {
      */
     Filter = 'filter',
     /**
-     * Reload the answer or visualization
+     * Reload the Answer or visualization
      * @hidden
      */
     Reload = 'reload',
@@ -2520,12 +2521,10 @@ export enum HostEvent {
      * and `AppEmbed` only. In full application embedding, this event updates
      * the runtime filters applied on the Liveboard and saved Answer objects.
      *
-     *
-     * Pass an array of runtime filters with the following attributes:
-     *
+     * @param - Pass an array of {@link RuntimeFilter} with the following attributes:
      * `columnName` - _String_. The name of the column to filter on.
      *
-     * `operator` - Runtime filter operator to apply. For more information,
+     * `operator` - {@link RuntimeFilterOp} to apply. For more information,
      * see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
      *
      * `values` - List of operands. Some operators such as EQ and LE allow a
@@ -2537,7 +2536,7 @@ export enum HostEvent {
      * will be cleared, restoring the original visualization
      * with the updated filters.
      *
-     * @param - {@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.
+
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
@@ -3186,7 +3185,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetTabs).then((tabDetails) => {
      *   console.log(
-     *      tabDetails // TabDetails of current LB
+     *      tabDetails // TabDetails of current Liveboard
      *   );
      * })
      * ```
@@ -3234,7 +3233,7 @@ export enum HostEvent {
      */
     UpdateSageQuery = 'updateSageQuery',
     /**
-     * Get the answer session for a Search or
+     * Get the Answer session for a Search or
      * Liveboard visualization.
      * @example
      * ```js
@@ -3645,9 +3644,10 @@ export enum Action {
      */
     AddDataPanelObjects = 'addDataPanelObjects',
     /**
-     * Filter configuration options on a Liveboard page.
-     * Allows configuring filters on a
-     * Liveboard.
+     * The filter configuration options for a Liveboard.
+     * The configuration options are available when adding
+     * filters on a Liveboard.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ConfigureFilter]
@@ -3745,14 +3745,17 @@ export enum Action {
      * @hidden
      */
     SpotIQFollow = 'spotIQFollow',
+    /**
+     * The Share action for a Liveboard visualization.
+     */
     ShareViz = 'shareViz',
     /**
      * @hidden
      */
     ReplaySearch = 'replaySearch',
     /**
-     * The **Show underlying data** menu action on a visualization or
-     * Answer page.
+     * The **Show underlying data** menu action on a
+     * visualization or Answer page.
      * Displays detailed information and raw data
      * for a given visualization.
      * @example
@@ -3762,8 +3765,8 @@ export enum Action {
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * The **Download** menu action on Liveboard visualizations
-     * and Answers.
+     * The **Download** menu action on Liveboard
+     * visualizations and Answers.
      * Allows downloading a visualization or Answer.
      * @example
      * ```js
@@ -3784,11 +3787,10 @@ export enum Action {
     /**
      *
      *The **Download PDF** action that downloads a Liveboard,
-     *visualization, or Answer as a PDF file.
+     * visualization, or Answer as a PDF file.
      *
-     *
-     ***NOTE**: The **Download** > **PDF** action is available on
-     *visualizations and Answers if the data is in tabular format.
+     * **NOTE**: The **Download** > **PDF** option is available for
+     * tables in visualizations and Answers.
      * @example
      * ```js
      * disabledActions: [Action.DownloadAsPdf]
@@ -3820,9 +3822,11 @@ export enum Action {
      */
     DownloadTrace = 'downloadTrace',
     /**
-     * The **Export TML** menu action on Liveboard, Answers
-     * Worksheets and Data Connections page.
-     * Exports an object as a TML file.
+     * The **Export TML** menu action on a Liveboard, Answer, and
+     * the Data Workspace pages for data objects and connections.
+     *
+     * Allows exporting an object as a TML file.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ExportTML]
@@ -3830,7 +3834,8 @@ export enum Action {
      */
     ExportTML = 'exportTSL',
     /**
-     * The **Import TML** menu action for Liveboards and Answers.
+     * The **Import TML** menu action on the
+     * *Data Workspace* > *Utilities* page.
      * Imports TML representation of ThoughtSpot objects.
      * @example
      * ```js
@@ -3840,7 +3845,7 @@ export enum Action {
     ImportTML = 'importTSL',
     /**
      * The **Update TML** menu action for Liveboards and Answers.
-     * Update TML representation of ThoughtSpot objects.
+     * Updates TML representation of ThoughtSpot objects.
      * @example
      * ```js
      * disabledActions: [Action.UpdateTML]
@@ -3867,8 +3872,11 @@ export enum Action {
      */
     Present = 'present',
     /**
-     * The tile resize options in the visualization menu.
-     * Allows switching between different preset layouts.
+     * The visualization tile resize option.
+     * Also available via More `...` options menu on a visualization.
+     * Allows resizing visualization tiles and switching
+     * between different preset layout option.
+     *
      * @example
      * ```js
      * disabledActions: [Action.ToggleSize]
@@ -3894,8 +3902,9 @@ export enum Action {
      */
     EditTitle = 'editTitle',
     /**
-     * The **Delete** menu action on Liveboards and visualizations.
-     * Deletes a Liveboard or a visualization from a Liveboard.
+     * The **Delete** action on a Liveboard, *Liveboards* and
+     * *Answers* list pages in full application embedding.
+     *
      * @example
      * ```js
      * disabledActions: [Action.Remove]
@@ -3972,8 +3981,9 @@ export enum Action {
      */
     Explore = 'explore',
     /**
-     * The action to include data points on a drilled-down Answer
-     * or visualization
+     * The contextual menu action to include a specific data point
+     * when drilling down a table or chart on an Answer.
+     *
      * @example
      * ```js
      * disabledActions: [Action.DrillInclude]
@@ -3982,8 +3992,8 @@ export enum Action {
 
     DrillInclude = 'context-menu-item-include',
     /**
-     * The action to exclude data points on a drilled-down Answer
-     * or visualization
+     * The contextual menu action to exclude a specific data point
+     * when drilling down a table or chart on an Answer.
      * @example
      * ```js
      * disabledActions: [Action.DrillInclude]
@@ -4130,7 +4140,7 @@ export enum Action {
      * Allows users to manage data sync pipelines to third-party apps.
      * @example
      * ```js
-     * disabledActions: [Action.SyncToOtherApps]
+     * disabledActions: [Action.ManagePipelines]
      * ```
      * @version SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      */
@@ -4450,7 +4460,7 @@ export enum Action {
     /**
      * Action ID for the Parent TML action
      * The parent action **TML** must be included to access TML-related options
-     * within the cascading menu (specific to the answer page)
+     * within the cascading menu (specific to the Answer page)
      * @example
      * ```js
      * // to include specific TML actions
@@ -4491,8 +4501,10 @@ export enum Action {
     VerifiedLiveboard = 'verifiedLiveboard',
 
     /**
-     * The *Ask Sage* action for Answers and visualizations.
-     * Allows initiating a Natural Language Search query.
+     * Action ID for the *Ask Sage* In Natural Language Search embed,
+     * *Spotter* in Liveboard, full app, and Spotter embed.
+     *
+     * Allows initiating a conversation with ThoughtSpot AI analyst.
      *
      *  @example
      * ```js
@@ -4701,7 +4713,8 @@ export enum Action {
      */
     DeletePreviousPrompt = 'deletePreviousPrompt',
     /**
-     * Action ID for hide/disable edit of tokens on spotter results.
+     * Action ID for hide or disable editing tokens generated from
+     * Spotter results.
      *  @example
      * ```js
      * hiddenAction: [Action.EditTokens]
