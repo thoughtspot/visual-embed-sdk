@@ -1126,6 +1126,21 @@ export interface ViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
+    /**
+     * Hide list page columns
+     * For example: hiddenListColumns = [HomepageModule.MyLibrary]
+     *
+     * **Note**: This option is appplicable only in full app embedding.
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenListColumns : [HomepageModule.Favorite,HomepageModule.Learning],
+     * })
+     * ```
+     */
+    hiddenListColumns?: ListPageColumns[];
 }
 
 /**
@@ -1284,6 +1299,35 @@ export enum HomepageModule {
      * Learning videos
      */
     Learning = 'LEARNING',
+}
+
+/**
+ * List page columns that can be hidden.
+ * **Note**: This option is applicable only in full app embedding.
+ * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+ */
+// eslint-disable-next-line no-shadow
+export enum ListPageColumns {
+    /**
+     * Favourite
+     */
+    Favourite = 'FAVOURITE',
+    /**
+     * Tags
+     */
+    Tags = 'TAGS',
+    /**
+     * Author
+     */
+    Author = 'AUTHOR',
+    /**
+     * Last viewed
+     */
+    LastViewed = 'LAST_VIEWED',
+    /**
+     * Share
+     */
+    Share = 'SHARE',
 }
 
 /**

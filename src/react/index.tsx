@@ -419,4 +419,5 @@ export {
     HomepageModule,
     LogLevel,
     getSessionInfo,
+    ListPageColumns,
 } from '../index';
