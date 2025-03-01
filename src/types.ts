@@ -4920,4 +4920,5 @@ export interface DefaultAppInitData {
     hostConfig: Record<string, any>;
     hiddenHomeLeftNavItems: string[];
     customVariablesForThirdPartyTools: Record<string, any>;
+    hiddenListColumns: ListPageColumns[];
 }
