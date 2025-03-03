@@ -130,7 +130,7 @@ export {
     VizPoint,
     CustomActionPayload,
     UIPassthroughEvent,
-    ListPageColumns
+    ListPageColumns,
 };
 
 export { resetCachedAuthToken } from './authToken';

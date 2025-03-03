@@ -1128,7 +1128,7 @@ export interface ViewConfig {
     overrideOrgId?: number;
     /**
      * Hide list page columns
-     * For example: hiddenListColumns = [HomepageModule.MyLibrary]
+     * For example: hiddenListColumns = [ListPageColumns.Author]
      *
      * **Note**: This option is appplicable only in full app embedding.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1136,7 +1136,7 @@ export interface ViewConfig {
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
-     *    hiddenListColumns : [HomepageModule.Favorite,HomepageModule.Learning],
+     *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
      * })
      * ```
      */
@@ -1321,9 +1321,9 @@ export enum ListPageColumns {
      */
     Author = 'AUTHOR',
     /**
-     * Last viewed
+     * Last viewed/Last modified
      */
-    LastViewed = 'LAST_VIEWED',
+    DateSort = 'DATE_SORT',
     /**
      * Share
      */
