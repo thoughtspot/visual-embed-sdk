@@ -4,6 +4,7 @@ import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
 import * as authService from '../utils/authService/authService';
+import * as tokenAuthServices from '../utils/authService/tokenizedAuthService';
 import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
@@ -412,6 +413,22 @@ describe('Base TS Embed', () => {
             },
         );
         expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
+    });
+
+    test('Logout method should reset caches', async () => {
+        jest.spyOn(authTokenService, 'resetCachedAuthToken');
+        jest.spyOn(sessionInfoService, 'resetCachedSessionInfo');
+        jest.spyOn(tokenAuthServices, 'fetchLogoutService').mockResolvedValueOnce({});
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalled();
+        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalled();
+        await index.logout();
+        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalledTimes(2);
+        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalledTimes(2);
     });
 
     test('config sanity, no ts host', () => {
