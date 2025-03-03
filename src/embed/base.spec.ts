@@ -9,7 +9,7 @@ import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
-import * as sessionInfoService from '../utils/sessionInfoService';
+import * as resetService from '../utils/resetServices';
 
 import {
     executeAfterWait,
@@ -416,19 +416,16 @@ describe('Base TS Embed', () => {
     });
 
     test('Logout method should reset caches', async () => {
-        jest.spyOn(authTokenService, 'resetCachedAuthToken');
-        jest.spyOn(sessionInfoService, 'resetCachedSessionInfo');
         jest.spyOn(tokenAuthServices, 'fetchLogoutService').mockResolvedValueOnce({});
+        jest.spyOn(resetService, 'resetAllServices');
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
             autoLogin: true,
         });
-        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalled();
-        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalled();
+        expect(resetService.resetAllServices).toHaveBeenCalledTimes(1);
         await index.logout();
-        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalledTimes(2);
-        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalledTimes(2);
+        expect(resetService.resetAllServices).toHaveBeenCalledTimes(2);
     });
 
     test('config sanity, no ts host', () => {
@@ -502,15 +499,11 @@ describe('Base without init', () => {
 
 describe('Init tests', () => {
     test('clear caches on init', () => {
-        jest.spyOn(sessionInfoService, 'resetCachedSessionInfo');
-        jest.spyOn(authTokenService, 'resetCachedAuthToken');
-
+        jest.spyOn(resetService, 'resetAllServices');
         base.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
         });
-        expect(sessionInfoService.getCachedSessionInfo()).toBeNull();
-        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalled();
-        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalled();
+        expect(resetService.resetAllServices).toBeCalled();
     });
 });
