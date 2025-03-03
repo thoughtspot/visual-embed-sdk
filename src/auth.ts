@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
+import { getAuthenticationToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
 import {
@@ -15,8 +15,9 @@ import {
 } from './utils/authService';
 import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
-import { getSessionInfo, getPreauthInfo, resetCachedSessionInfo } from './utils/sessionInfoService';
+import { getSessionInfo, getPreauthInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
+import { resetAllServices } from './utils/resetServices';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -470,8 +471,7 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
 export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
     await fetchLogoutService(thoughtSpotHost);
-    resetCachedAuthToken();
-    resetCachedSessionInfo();
+    resetAllServices();
     const thoughtspotIframes = document.querySelectorAll("[data-ts-iframe='true']");
     if (thoughtspotIframes?.length) {
         thoughtspotIframes.forEach((el) => {

@@ -9,7 +9,6 @@
  */
 import EventEmitter from 'eventemitter3';
 import { registerReportingObserver } from '../utils/reporting';
-import { resetCachedAuthToken } from '../authToken';
 import { logger, setGlobalLogLevelOverride } from '../utils/logger';
 import { tokenizedFetch } from '../tokenizedFetch';
 import { EndPoints } from '../utils/authService/authService';
@@ -34,7 +33,7 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString } from '../utils';
-import { resetCachedSessionInfo } from '../utils/sessionInfoService';
+import { resetAllServices } from '../utils/resetServices';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -194,8 +193,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
-    resetCachedAuthToken();
-    resetCachedSessionInfo();
+    resetAllServices();
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
