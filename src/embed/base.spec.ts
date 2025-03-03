@@ -8,6 +8,7 @@ import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
+import * as sessionInfoService from '../utils/sessionInfoService';
 
 import {
     executeAfterWait,
@@ -479,5 +480,20 @@ describe('Base without init', () => {
         base.notifyLogout();
         base.notifyAuthSDKSuccess();
         expect(logger.error).toHaveBeenCalledTimes(4);
+    });
+});
+
+describe('Init tests', () => {
+    test('clear caches on init', () => {
+        jest.spyOn(sessionInfoService, 'resetCachedSessionInfo');
+        jest.spyOn(authTokenService, 'resetCachedAuthToken');
+
+        base.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+        });
+        expect(sessionInfoService.getCachedSessionInfo()).toBeNull();
+        expect(sessionInfoService.resetCachedSessionInfo).toHaveBeenCalled();
+        expect(authTokenService.resetCachedAuthToken).toHaveBeenCalled();
     });
 });
