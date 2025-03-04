@@ -1,6 +1,7 @@
+import { getValueFromWindow, storeValueInWindow } from '../utils';
 import { EmbedConfig } from '../types';
 
-let config = {} as EmbedConfig;
+const configKey = 'embedConfig';
 
 /**
  * Gets the configuration embed was initialized with.
@@ -8,7 +9,7 @@ let config = {} as EmbedConfig;
  * @version SDK: 1.19.0 | ThoughtSpot: *
  * @group Global methods
  */
-export const getEmbedConfig = (): EmbedConfig => config;
+export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || {};
 
 /**
  * Sets the configuration embed was initialized with.
@@ -18,6 +19,6 @@ export const getEmbedConfig = (): EmbedConfig => config;
  * @group Global methods
  */
 export const setEmbedConfig = (newConfig: EmbedConfig) => {
-    config = newConfig;
-    return newConfig;
+    storeValueInWindow(configKey, newConfig);
+    return getValueFromWindow(configKey);
 };
