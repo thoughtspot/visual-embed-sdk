@@ -417,15 +417,15 @@ describe('Base TS Embed', () => {
 
     test('Logout method should reset caches', async () => {
         jest.spyOn(tokenAuthServices, 'fetchLogoutService').mockResolvedValueOnce({});
-        jest.spyOn(resetService, 'resetAllServices');
+        jest.spyOn(resetService, 'resetAllCachedServices');
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
             autoLogin: true,
         });
-        expect(resetService.resetAllServices).toHaveBeenCalledTimes(1);
+        expect(resetService.resetAllCachedServices).toHaveBeenCalledTimes(1);
         await index.logout();
-        expect(resetService.resetAllServices).toHaveBeenCalledTimes(2);
+        expect(resetService.resetAllCachedServices).toHaveBeenCalledTimes(2);
     });
 
     test('config sanity, no ts host', () => {
@@ -499,11 +499,11 @@ describe('Base without init', () => {
 
 describe('Init tests', () => {
     test('clear caches on init', () => {
-        jest.spyOn(resetService, 'resetAllServices');
+        jest.spyOn(resetService, 'resetAllCachedServices');
         base.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
         });
-        expect(resetService.resetAllServices).toBeCalled();
+        expect(resetService.resetAllCachedServices).toBeCalled();
     });
 });

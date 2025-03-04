@@ -1,5 +1,5 @@
 import { resetCachedAuthToken } from '../authToken';
-import { resetCachedSessionInfo } from './sessionInfoService';
+import { resetCachedPreauthInfo, resetCachedSessionInfo } from './sessionInfoService';
 
 /**
  * This function resets all the services that are cached in the SDK.
@@ -7,7 +7,8 @@ import { resetCachedSessionInfo } from './sessionInfoService';
  * when init is called again.
  * @version SDK: 1.30.2 | ThoughtSpot: *
  */
-export function resetAllServices(): void {
+export function resetAllCachedServices(): void {
     resetCachedAuthToken();
     resetCachedSessionInfo();
+    resetCachedPreauthInfo();
 }

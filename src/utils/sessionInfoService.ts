@@ -153,9 +153,23 @@ export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
  * const sessionInfo = await getSessionInfo();
  * console.log(sessionInfo);
  * ```
- * @version SDK: 1.28.3 | ThoughtSpot ts7.april.cl, 7.2.1
+ * @version SDK: 1.28.3 | ThoughtSpot: *
  * @returns {void}
  */
 export function resetCachedSessionInfo(): void {
     sessionInfo = null;
+}
+
+/**
+ * Resets the cached preauth info object and forces a new fetch on the next call.
+ * @example ```js
+ * resetCachedPreauthInfo();
+ * const preauthInfo = await getPreauthInfo();
+ * console.log(preauthInfo);
+ * ```
+ * @version SDK: 1.28.3 | ThoughtSpot: *
+ * @returns {void}
+ */
+export function resetCachedPreauthInfo(): void {
+    preauthInfo = null;
 }

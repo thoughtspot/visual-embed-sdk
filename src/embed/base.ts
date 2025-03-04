@@ -33,7 +33,7 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString } from '../utils';
-import { resetAllServices } from '../utils/resetServices';
+import { resetAllCachedServices } from '../utils/resetServices';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -193,7 +193,7 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     sanity(embedConfig);
-    resetAllServices();
+    resetAllCachedServices();
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
