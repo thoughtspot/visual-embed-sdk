@@ -48,7 +48,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4471,
+							"line": 4483,
 							"character": 4
 						}
 					],
@@ -104,7 +104,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3570,
+							"line": 3569,
 							"character": 4
 						}
 					],
@@ -128,7 +128,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3559,
+							"line": 3558,
 							"character": 4
 						}
 					],
@@ -232,7 +232,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4278,
+							"line": 4288,
 							"character": 4
 						}
 					],
@@ -260,7 +260,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4000,
+							"line": 4010,
 							"character": 4
 						}
 					],
@@ -288,7 +288,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4438,
+							"line": 4450,
 							"character": 4
 						}
 					],
@@ -316,7 +316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3988,
+							"line": 3998,
 							"character": 4
 						}
 					],
@@ -344,7 +344,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3976,
+							"line": 3986,
 							"character": 4
 						}
 					],
@@ -357,7 +357,8 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The *Ask Sage* action for Answers and visualizations.\nAllows initiating a Natural Language Search query.",
+						"shortText": "Action ID for the *Ask Sage* In Natural Language Search embed,\n*Spotter* in Liveboard, full app, and Spotter embed.",
+						"text": "Allows initiating a conversation with ThoughtSpot AI analyst.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -372,7 +373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4427,
+							"line": 4439,
 							"character": 4
 						}
 					],
@@ -400,7 +401,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4113,
+							"line": 4123,
 							"character": 4
 						}
 					],
@@ -428,7 +429,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4147,
+							"line": 4157,
 							"character": 4
 						}
 					],
@@ -456,7 +457,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4202,
+							"line": 4212,
 							"character": 4
 						}
 					],
@@ -484,7 +485,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4136,
+							"line": 4146,
 							"character": 4
 						}
 					],
@@ -512,7 +513,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4170,
+							"line": 4180,
 							"character": 4
 						}
 					],
@@ -540,7 +541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4212,
+							"line": 4222,
 							"character": 4
 						}
 					],
@@ -568,7 +569,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4181,
+							"line": 4191,
 							"character": 4
 						}
 					],
@@ -596,7 +597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4234,
+							"line": 4244,
 							"character": 4
 						}
 					],
@@ -624,7 +625,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4191,
+							"line": 4201,
 							"character": 4
 						}
 					],
@@ -652,7 +653,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4158,
+							"line": 4168,
 							"character": 4
 						}
 					],
@@ -680,7 +681,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4222,
+							"line": 4232,
 							"character": 4
 						}
 					],
@@ -708,7 +709,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4124,
+							"line": 4134,
 							"character": 4
 						}
 					],
@@ -736,7 +737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4569,
+							"line": 4581,
 							"character": 4
 						}
 					],
@@ -829,7 +830,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Filter configuration options on a Liveboard page.\nAllows configuring filters on a\nLiveboard.",
+						"shortText": "The filter configuration options for a Liveboard.\nThe configuration options are available when adding\nfilters on a Liveboard.",
 						"tags": [
 							{
 								"tag": "example",
@@ -855,7 +856,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3927,
+							"line": 3937,
 							"character": 4
 						}
 					],
@@ -879,7 +880,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3518,
+							"line": 3517,
 							"character": 4
 						}
 					],
@@ -903,7 +904,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3926,
+							"line": 3936,
 							"character": 4
 						}
 					],
@@ -931,7 +932,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4404,
+							"line": 4414,
 							"character": 4
 						}
 					],
@@ -959,7 +960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4020,
+							"line": 4030,
 							"character": 4
 						}
 					],
@@ -987,7 +988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4071,
+							"line": 4081,
 							"character": 4
 						}
 					],
@@ -1015,7 +1016,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4626,
+							"line": 4638,
 							"character": 4
 						}
 					],
@@ -1043,7 +1044,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4538,
+							"line": 4550,
 							"character": 4
 						}
 					],
@@ -1071,7 +1072,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4557,
+							"line": 4569,
 							"character": 4
 						}
 					],
@@ -1084,7 +1085,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Download** menu action on Liveboard visualizations\nand Answers.\nAllows downloading a visualization or Answer.",
+						"shortText": "The **Download** menu action on Liveboard\nvisualizations and Answers.\nAllows downloading a visualization or Answer.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1095,7 +1096,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3697,
+							"line": 3700,
 							"character": 4
 						}
 					],
@@ -1119,7 +1120,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3731,
+							"line": 3733,
 							"character": 4
 						}
 					],
@@ -1133,7 +1134,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "The **Download PDF** action that downloads a Liveboard,\nvisualization, or Answer as a PDF file.",
-						"text": "**NOTE**: The **Download** > **PDF** action is available on\nvisualizations and Answers if the data is in tabular format.",
+						"text": "**NOTE**: The **Download** > **PDF** option is available for\ntables in visualizations and Answers.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1144,7 +1145,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3721,
+							"line": 3723,
 							"character": 4
 						}
 					],
@@ -1168,7 +1169,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3707,
+							"line": 3710,
 							"character": 4
 						}
 					],
@@ -1192,7 +1193,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3741,
+							"line": 3743,
 							"character": 4
 						}
 					],
@@ -1216,7 +1217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3943,
+							"line": 3953,
 							"character": 4
 						}
 					],
@@ -1229,7 +1230,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The action to exclude data points on a drilled-down Answer\nor visualization",
+						"shortText": "The contextual menu action to exclude a specific data point\nwhen drilling down a table or chart on an Answer.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1240,7 +1241,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3916,
+							"line": 3926,
 							"character": 4
 						}
 					],
@@ -1253,7 +1254,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The action to include data points on a drilled-down Answer\nor visualization",
+						"shortText": "The contextual menu action to include a specific data point\nwhen drilling down a table or chart on an Answer.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1264,7 +1265,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3907,
+							"line": 3917,
 							"character": 4
 						}
 					],
@@ -1288,7 +1289,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3811,
+							"line": 3819,
 							"character": 4
 						}
 					],
@@ -1312,7 +1313,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3509,
+							"line": 3508,
 							"character": 4
 						}
 					],
@@ -1340,7 +1341,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4009,
+							"line": 4019,
 							"character": 4
 						}
 					],
@@ -1355,7 +1356,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3932,
+							"line": 3942,
 							"character": 4
 						}
 					],
@@ -1383,7 +1384,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4615,
+							"line": 4627,
 							"character": 4
 						}
 					],
@@ -1411,7 +1412,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4311,
+							"line": 4321,
 							"character": 4
 						}
 					],
@@ -1439,7 +1440,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4484,
+							"line": 4496,
 							"character": 4
 						}
 					],
@@ -1463,7 +1464,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3782,
+							"line": 3787,
 							"character": 4
 						}
 					],
@@ -1487,7 +1488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3819,
+							"line": 3827,
 							"character": 4
 						}
 					],
@@ -1500,7 +1501,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Action ID for hide/disable edit of tokens on spotter results.",
+						"shortText": "Action ID for hide or disable editing tokens generated from\nSpotter results.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1515,7 +1516,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4635,
+							"line": 4648,
 							"character": 4
 						}
 					],
@@ -1543,7 +1544,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4288,
+							"line": 4298,
 							"character": 4
 						}
 					],
@@ -1567,7 +1568,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3897,
+							"line": 3906,
 							"character": 4
 						}
 					],
@@ -1580,7 +1581,8 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Export TML** menu action on Liveboard, Answers\nWorksheets and Data Connections page.\nExports an object as a TML file.",
+						"shortText": "The **Export TML** menu action on a Liveboard, Answer, and\nthe Data Workspace pages for data objects and connections.",
+						"text": "Allows exporting an object as a TML file.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -1591,7 +1593,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3755,
+							"line": 3759,
 							"character": 4
 						}
 					],
@@ -1604,7 +1606,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Import TML** menu action for Liveboards and Answers.\nImports TML representation of ThoughtSpot objects.",
+						"shortText": "The **Import TML** menu action on the\n*Data Workspace* > *Utilities* page.\nImports TML representation of ThoughtSpot objects.",
 						"tags": [
 							{
 								"tag": "example",
@@ -1615,7 +1617,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3764,
+							"line": 3769,
 							"character": 4
 						}
 					],
@@ -1643,7 +1645,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4548,
+							"line": 4560,
 							"character": 4
 						}
 					],
@@ -1667,7 +1669,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3859,
+							"line": 3868,
 							"character": 4
 						}
 					],
@@ -1695,7 +1697,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4372,
+							"line": 4382,
 							"character": 4
 						}
 					],
@@ -1719,7 +1721,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3500,
+							"line": 3499,
 							"character": 4
 						}
 					],
@@ -1743,7 +1745,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4352,
+							"line": 4362,
 							"character": 4
 						}
 					],
@@ -1760,7 +1762,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ndisabledActions: [Action.SyncToOtherApps]\n```"
+								"text": "\n```js\ndisabledActions: [Action.ManagePipelines]\n```"
 							},
 							{
 								"tag": "version",
@@ -1771,7 +1773,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4061,
+							"line": 4071,
 							"character": 4
 						}
 					],
@@ -1799,7 +1801,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4527,
+							"line": 4539,
 							"character": 4
 						}
 					],
@@ -1827,7 +1829,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4268,
+							"line": 4278,
 							"character": 4
 						}
 					],
@@ -1854,7 +1856,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4332,
+							"line": 4342,
 							"character": 4
 						}
 					],
@@ -1878,7 +1880,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4341,
+							"line": 4351,
 							"character": 4
 						}
 					],
@@ -1906,7 +1908,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4460,
+							"line": 4472,
 							"character": 4
 						}
 					],
@@ -1934,7 +1936,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4495,
+							"line": 4507,
 							"character": 4
 						}
 					],
@@ -1962,7 +1964,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4362,
+							"line": 4372,
 							"character": 4
 						}
 					],
@@ -1986,7 +1988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3876,
+							"line": 3885,
 							"character": 4
 						}
 					],
@@ -2010,7 +2012,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3792,
+							"line": 3797,
 							"character": 4
 						}
 					],
@@ -2038,7 +2040,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4581,
+							"line": 4593,
 							"character": 4
 						}
 					],
@@ -2063,7 +2065,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3966,
+							"line": 3976,
 							"character": 4
 						}
 					],
@@ -2076,7 +2078,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Delete** menu action on Liveboards and visualizations.\nDeletes a Liveboard or a visualization from a Liveboard.",
+						"shortText": "The **Delete** action on a Liveboard, *Liveboards* and\n*Answers* list pages in full application embedding.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2087,7 +2089,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3828,
+							"line": 3837,
 							"character": 4
 						}
 					],
@@ -2115,7 +2117,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4102,
+							"line": 4112,
 							"character": 4
 						}
 					],
@@ -2143,7 +2145,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4449,
+							"line": 4461,
 							"character": 4
 						}
 					],
@@ -2171,7 +2173,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4248,
+							"line": 4258,
 							"character": 4
 						}
 					],
@@ -2202,7 +2204,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4030,
+							"line": 4040,
 							"character": 4
 						}
 					],
@@ -2226,7 +2228,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3952,
+							"line": 3962,
 							"character": 4
 						}
 					],
@@ -2254,7 +2256,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4258,
+							"line": 4268,
 							"character": 4
 						}
 					],
@@ -2282,7 +2284,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4593,
+							"line": 4605,
 							"character": 4
 						}
 					],
@@ -2310,7 +2312,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4323,
+							"line": 4333,
 							"character": 4
 						}
 					],
@@ -2334,7 +2336,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3469,
+							"line": 3468,
 							"character": 4
 						}
 					],
@@ -2358,7 +2360,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3487,
+							"line": 3486,
 							"character": 4
 						}
 					],
@@ -2382,7 +2384,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3532,
+							"line": 3531,
 							"character": 4
 						}
 					],
@@ -2406,7 +2408,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3541,
+							"line": 3540,
 							"character": 4
 						}
 					],
@@ -2421,7 +2423,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3933,
+							"line": 3943,
 							"character": 4
 						}
 					],
@@ -2445,7 +2447,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3550,
+							"line": 3549,
 							"character": 4
 						}
 					],
@@ -2457,10 +2459,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "The Share action for a Liveboard visualization."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3672,
+							"line": 3675,
 							"character": 4
 						}
 					],
@@ -2488,7 +2493,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4298,
+							"line": 4308,
 							"character": 4
 						}
 					],
@@ -2501,7 +2506,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Show underlying data** menu action on a visualization or\nAnswer page.\nDisplays detailed information and raw data\nfor a given visualization.",
+						"shortText": "The **Show underlying data** menu action on a\nvisualization or Answer page.\nDisplays detailed information and raw data\nfor a given visualization.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2512,7 +2517,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3687,
+							"line": 3690,
 							"character": 4
 						}
 					],
@@ -2564,7 +2569,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4604,
+							"line": 4616,
 							"character": 4
 						}
 					],
@@ -2588,7 +2593,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3889,
+							"line": 3898,
 							"character": 4
 						}
 					],
@@ -2616,7 +2621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4051,
+							"line": 4061,
 							"character": 4
 						}
 					],
@@ -2644,7 +2649,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4040,
+							"line": 4050,
 							"character": 4
 						}
 					],
@@ -2672,7 +2677,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4081,
+							"line": 4091,
 							"character": 4
 						}
 					],
@@ -2700,7 +2705,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4091,
+							"line": 4101,
 							"character": 4
 						}
 					],
@@ -2713,7 +2718,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Action ID for the Parent TML action\nThe parent action **TML** must be included to access TML-related options\nwithin the cascading menu (specific to the answer page)",
+						"shortText": "Action ID for the Parent TML action\nThe parent action **TML** must be included to access TML-related options\nwithin the cascading menu (specific to the Answer page)",
 						"tags": [
 							{
 								"tag": "example",
@@ -2732,7 +2737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4391,
+							"line": 4401,
 							"character": 4
 						}
 					],
@@ -2745,7 +2750,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The tile resize options in the visualization menu.\nAllows switching between different preset layouts.",
+						"shortText": "The visualization tile resize option.\nAlso available via More `...` options menu on a visualization.\nAllows resizing visualization tiles and switching\nbetween different preset layout option.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2756,7 +2761,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3801,
+							"line": 3809,
 							"character": 4
 						}
 					],
@@ -2784,7 +2789,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4517,
+							"line": 4529,
 							"character": 4
 						}
 					],
@@ -2797,7 +2802,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Update TML** menu action for Liveboards and Answers.\nUpdate TML representation of ThoughtSpot objects.",
+						"shortText": "The **Update TML** menu action for Liveboards and Answers.\nUpdates TML representation of ThoughtSpot objects.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2808,7 +2813,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3773,
+							"line": 3778,
 							"character": 4
 						}
 					],
@@ -2836,7 +2841,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4415,
+							"line": 4425,
 							"character": 4
 						}
 					],
@@ -2864,7 +2869,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4506,
+							"line": 4518,
 							"character": 4
 						}
 					],
@@ -2991,7 +2996,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3460,
+					"line": 3459,
 					"character": 12
 				}
 			]
@@ -3529,7 +3534,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4656,
+							"line": 4669,
 							"character": 4
 						}
 					],
@@ -3544,7 +3549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4654,
+							"line": 4667,
 							"character": 4
 						}
 					],
@@ -3559,7 +3564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4655,
+							"line": 4668,
 							"character": 4
 						}
 					],
@@ -3580,7 +3585,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4653,
+					"line": 4666,
 					"character": 12
 				}
 			]
@@ -3607,7 +3612,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3315,
+							"line": 3314,
 							"character": 4
 						}
 					],
@@ -3625,7 +3630,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3319,
+							"line": 3318,
 							"character": 4
 						}
 					],
@@ -3643,7 +3648,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3311,
+							"line": 3310,
 							"character": 4
 						}
 					],
@@ -3664,7 +3669,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3307,
+					"line": 3306,
 					"character": 12
 				}
 			]
@@ -3776,7 +3781,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2023,
+							"line": 2024,
 							"character": 4
 						}
 					],
@@ -3821,7 +3826,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when an answer is switched to a chart or table view.",
+						"shortText": "Emitted when an Answer is switched to a chart or table view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -3836,7 +3841,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1996,
+							"line": 1997,
 							"character": 4
 						}
 					],
@@ -3904,7 +3909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2231,
+							"line": 2233,
 							"character": 4
 						}
 					],
@@ -3917,7 +3922,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The ThoughtSpot auth session has expired.",
+						"shortText": "The ThoughtSpot authentication session has expired.",
 						"tags": [
 							{
 								"tag": "version",
@@ -3992,7 +3997,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2099,
+							"line": 2100,
 							"character": 4
 						}
 					],
@@ -4005,7 +4010,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the user creates a copy of an Answer",
+						"shortText": "Emitted when the user creates a copy of an Answer.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4020,7 +4025,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1974,
+							"line": 1975,
 							"character": 4
 						}
 					],
@@ -4048,7 +4053,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2119,
+							"line": 2120,
 							"character": 4
 						}
 					],
@@ -4076,7 +4081,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1911,
+							"line": 1912,
 							"character": 4
 						}
 					],
@@ -4100,7 +4105,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2182,
+							"line": 2184,
 							"character": 4
 						}
 					],
@@ -4113,7 +4118,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the liveboard is created from pin modal or liveboard list page.\nYou can use this event as a hook to trigger\nother events on liveboard creation.",
+						"shortText": "Emitted when the liveboard is created from pin modal or Liveboard list page.\nYou can use this event as a hook to trigger\nother events on liveboard creation.",
 						"text": "```js\nliveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {\n    console.log('payload', payload);\n})\n```",
 						"tags": [
 							{
@@ -4125,7 +4130,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2337,
+							"line": 2338,
 							"character": 4
 						}
 					],
@@ -4138,18 +4143,18 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user creates a new worksheet",
+						"shortText": "Emitted when a user creates a Worksheet.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.0 | ThoughtSpot Cloud: 9.8.0.cl\n"
+								"text": "SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2222,
+							"line": 2224,
 							"character": 4
 						}
 					],
@@ -4162,7 +4167,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user interacts with cross filters on a visualization or Liveboard",
+						"shortText": "Emitted when a user interacts with cross filters on a\nvisualization or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4170,14 +4175,14 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.CrossFilterChanged, {\n   vizId: '730496d6-6903-4601-937e-2c691821af3c'})\n```\n"
+								"text": "\n```js\nliveboardEmbed.on(EmbedEvent.CrossFilterChanged, {\n   vizId: '730496d6-6903-4601-937e-2c691821af3c'})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2129,
+							"line": 2131,
 							"character": 4
 						}
 					],
@@ -4226,11 +4231,11 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Data pertaining to answer or Liveboard is received",
+						"shortText": "Data pertaining to an Answer or Liveboard is received",
 						"tags": [
 							{
 								"tag": "returns",
-								"text": "data - The answer or Liveboard data"
+								"text": "data - The Answer or Liveboard data"
 							},
 							{
 								"tag": "version",
@@ -4309,7 +4314,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2081,
+							"line": 2082,
 							"character": 4
 						}
 					],
@@ -4341,7 +4346,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2217,
+							"line": 2219,
 							"character": 4
 						}
 					],
@@ -4410,7 +4415,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the download action is triggered on an answer",
+						"shortText": "Emitted when the download action is triggered on an Answer.",
 						"text": "**Note**: This event is deprecated in v1.21.0.\nTo fire an event when a download action is initiated on a chart or table,\nuse `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`,\n`EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`",
 						"tags": [
 							{
@@ -4439,7 +4444,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the Download as CSV action is triggered on an answer",
+						"shortText": "Emitted when the Download as CSV action is triggered on an Answer.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4467,7 +4472,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the Download as PDF action is triggered on an answer",
+						"shortText": "Emitted when the Download as PDF action is triggered on an Answer",
 						"tags": [
 							{
 								"tag": "version",
@@ -4495,7 +4500,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the download action is triggered on an answer",
+						"shortText": "Emitted when the download action is triggered on an Answer.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4523,7 +4528,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the Download as XLSX action is triggered on an answer",
+						"shortText": "Emitted when the Download as XLSX action is triggered on an Answer.",
 						"tags": [
 							{
 								"tag": "version",
@@ -4566,7 +4571,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1900,
+							"line": 1901,
 							"character": 4
 						}
 					],
@@ -4594,7 +4599,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1888,
+							"line": 1889,
 							"character": 4
 						}
 					],
@@ -4666,7 +4671,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2045,
+							"line": 2046,
 							"character": 4
 						}
 					],
@@ -4694,7 +4699,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1934,
+							"line": 1935,
 							"character": 4
 						}
 					],
@@ -4759,7 +4764,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2109,
+							"line": 2110,
 							"character": 4
 						}
 					],
@@ -4787,7 +4792,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1949,
+							"line": 1950,
 							"character": 4
 						}
 					],
@@ -4811,7 +4816,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2159,
+							"line": 2161,
 							"character": 4
 						}
 					],
@@ -4895,7 +4900,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2012,
+							"line": 2013,
 							"character": 4
 						}
 					],
@@ -4987,7 +4992,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2056,
+							"line": 2057,
 							"character": 4
 						}
 					],
@@ -5000,7 +5005,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the embed does not have cookie access. This happens\nwhen Safari and other Web browsers block third-party cookies\nare blocked by default. `NoCookieAccess` can trigger",
+						"shortText": "Emitted when the embed does not have cookie access. This happens\nwhen Safari and other Web browsers block third-party cookies\nare blocked by default. `NoCookieAccess` can trigger.",
 						"tags": [
 							{
 								"tag": "example",
@@ -5052,7 +5057,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2295,
+							"line": 2297,
 							"character": 4
 						}
 					],
@@ -5065,8 +5070,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when parameter changes in an Answer\nor Liveboard",
-						"text": "```js\nliveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {\n    console.log('payload', payload);\n})\n```",
+						"shortText": "Emitted when parameter changes in an Answer\nor Liveboard.\n```js\nliveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {\n    console.log('payload', payload);\n})\n```",
 						"tags": [
 							{
 								"tag": "version",
@@ -5077,7 +5081,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2307,
+							"line": 2308,
 							"character": 4
 						}
 					],
@@ -5090,7 +5094,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when an answer is pinned to a Liveboard",
+						"shortText": "Emitted when a user initiates the Pin action to\n add an Answer to a Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -5105,7 +5109,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1840,
+							"line": 1841,
 							"character": 4
 						}
 					],
@@ -5137,7 +5141,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2071,
+							"line": 2072,
 							"character": 4
 						}
 					],
@@ -5178,18 +5182,18 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a LB/viz is renamed",
+						"shortText": "Emitted when a Liveboard or visualization is renamed.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl\n"
+								"text": "SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2236,
+							"line": 2238,
 							"character": 4
 						}
 					],
@@ -5229,7 +5233,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2210,
+							"line": 2212,
 							"character": 4
 						}
 					],
@@ -5281,7 +5285,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2165,
+							"line": 2167,
 							"character": 4
 						}
 					],
@@ -5305,7 +5309,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2172,
+							"line": 2174,
 							"character": 4
 						}
 					],
@@ -5361,7 +5365,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1960,
+							"line": 1961,
 							"character": 4
 						}
 					],
@@ -5401,7 +5405,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2201,
+							"line": 2203,
 							"character": 4
 						}
 					],
@@ -5429,7 +5433,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2034,
+							"line": 2035,
 							"character": 4
 						}
 					],
@@ -5457,7 +5461,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2090,
+							"line": 2091,
 							"character": 4
 						}
 					],
@@ -5485,7 +5489,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1876,
+							"line": 1877,
 							"character": 4
 						}
 					],
@@ -5498,7 +5502,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user clicks Show underlying data on an Answer",
+						"shortText": "Emitted when a user clicks *Show underlying data* on an Answer.",
 						"tags": [
 							{
 								"tag": "version",
@@ -5513,7 +5517,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1985,
+							"line": 1986,
 							"character": 4
 						}
 					],
@@ -5541,7 +5545,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1858,
+							"line": 1859,
 							"character": 4
 						}
 					],
@@ -5569,7 +5573,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2324,
+							"line": 2325,
 							"character": 5
 						}
 					],
@@ -5593,7 +5597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2177,
+							"line": 2179,
 							"character": 4
 						}
 					],
@@ -5633,7 +5637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2192,
+							"line": 2194,
 							"character": 4
 						}
 					],
@@ -5661,7 +5665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1922,
+							"line": 1923,
 							"character": 4
 						}
 					],
@@ -5757,7 +5761,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2140,
+							"line": 2142,
 							"character": 4
 						}
 					],
@@ -6320,7 +6324,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2588,
+							"line": 2587,
 							"character": 4
 						}
 					],
@@ -6348,7 +6352,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3213,
+							"line": 3212,
 							"character": 4
 						}
 					],
@@ -6381,7 +6385,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2814,
+							"line": 2813,
 							"character": 4
 						}
 					],
@@ -6418,7 +6422,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2758,
+							"line": 2757,
 							"character": 4
 						}
 					],
@@ -6451,7 +6455,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2881,
+							"line": 2880,
 							"character": 4
 						}
 					],
@@ -6483,7 +6487,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2917,
+							"line": 2916,
 							"character": 4
 						}
 					],
@@ -6511,7 +6515,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2949,
+							"line": 2948,
 							"character": 4
 						}
 					],
@@ -6540,7 +6544,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2699,
+							"line": 2698,
 							"character": 4
 						}
 					],
@@ -6568,7 +6572,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2932,
+							"line": 2931,
 							"character": 4
 						}
 					],
@@ -6596,7 +6600,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2966,
+							"line": 2965,
 							"character": 4
 						}
 					],
@@ -6648,7 +6652,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2464,
+							"line": 2465,
 							"character": 4
 						}
 					],
@@ -6682,7 +6686,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2797,
+							"line": 2796,
 							"character": 4
 						}
 					],
@@ -6710,7 +6714,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2677,
+							"line": 2676,
 							"character": 4
 						}
 					],
@@ -6743,7 +6747,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2741,
+							"line": 2740,
 							"character": 4
 						}
 					],
@@ -6771,7 +6775,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2667,
+							"line": 2666,
 							"character": 4
 						}
 					],
@@ -6784,7 +6788,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Get the answer session for a Search or\nLiveboard visualization.",
+						"shortText": "Get the Answer session for a Search or\nLiveboard visualization.",
 						"tags": [
 							{
 								"tag": "example",
@@ -6803,7 +6807,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3203,
+							"line": 3202,
 							"character": 4
 						}
 					],
@@ -6831,7 +6835,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3062,
+							"line": 3061,
 							"character": 4
 						}
 					],
@@ -6859,7 +6863,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2486,
+							"line": 2487,
 							"character": 4
 						}
 					],
@@ -6883,7 +6887,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3262,
+							"line": 3261,
 							"character": 4
 						}
 					],
@@ -6915,7 +6919,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2845,
+							"line": 2844,
 							"character": 4
 						}
 					],
@@ -6932,7 +6936,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.GetTabs).then((tabDetails) => {\n  console.log(\n     tabDetails // TabDetails of current LB\n  );\n})\n```"
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.GetTabs).then((tabDetails) => {\n  console.log(\n     tabDetails // TabDetails of current Liveboard\n  );\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -6943,7 +6947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3146,
+							"line": 3145,
 							"character": 4
 						}
 					],
@@ -6971,7 +6975,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2639,
+							"line": 2638,
 							"character": 4
 						}
 					],
@@ -7011,7 +7015,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2722,
+							"line": 2721,
 							"character": 4
 						}
 					],
@@ -7052,7 +7056,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2779,
+							"line": 2778,
 							"character": 4
 						}
 					],
@@ -7085,7 +7089,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3039,
+							"line": 3038,
 							"character": 4
 						}
 					],
@@ -7118,7 +7122,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2561,
+							"line": 2560,
 							"character": 4
 						}
 					],
@@ -7151,7 +7155,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2578,
+							"line": 2577,
 							"character": 4
 						}
 					],
@@ -7184,7 +7188,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2629,
+							"line": 2628,
 							"character": 4
 						}
 					],
@@ -7217,7 +7221,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2831,
+							"line": 2830,
 							"character": 4
 						}
 					],
@@ -7245,7 +7249,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2731,
+							"line": 2730,
 							"character": 4
 						}
 					],
@@ -7278,7 +7282,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2598,
+							"line": 2597,
 							"character": 4
 						}
 					],
@@ -7306,7 +7310,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3238,
+							"line": 3237,
 							"character": 4
 						}
 					],
@@ -7334,7 +7338,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3051,
+							"line": 3050,
 							"character": 4
 						}
 					],
@@ -7362,7 +7366,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2992,
+							"line": 2991,
 							"character": 4
 						}
 					],
@@ -7386,7 +7390,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3275,
+							"line": 3274,
 							"character": 4
 						}
 					],
@@ -7414,7 +7418,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2648,
+							"line": 2647,
 							"character": 4
 						}
 					],
@@ -7442,7 +7446,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2657,
+							"line": 2656,
 							"character": 4
 						}
 					],
@@ -7481,7 +7485,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2414,
+							"line": 2415,
 							"character": 4
 						}
 					],
@@ -7514,7 +7518,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2511,
+							"line": 2512,
 							"character": 4
 						}
 					],
@@ -7547,7 +7551,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3172,
+							"line": 3171,
 							"character": 4
 						}
 					],
@@ -7580,7 +7584,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3159,
+							"line": 3158,
 							"character": 4
 						}
 					],
@@ -7613,7 +7617,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2499,
+							"line": 2500,
 							"character": 4
 						}
 					],
@@ -7641,7 +7645,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2979,
+							"line": 2978,
 							"character": 4
 						}
 					],
@@ -7674,7 +7678,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2864,
+							"line": 2863,
 							"character": 4
 						}
 					],
@@ -7707,7 +7711,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2901,
+							"line": 2900,
 							"character": 4
 						}
 					],
@@ -7740,7 +7744,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3023,
+							"line": 3022,
 							"character": 4
 						}
 					],
@@ -7773,7 +7777,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3007,
+							"line": 3006,
 							"character": 4
 						}
 					],
@@ -7806,7 +7810,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3299,
+							"line": 3298,
 							"character": 4
 						}
 					],
@@ -7834,7 +7838,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3229,
+							"line": 3228,
 							"character": 4
 						}
 					],
@@ -7880,7 +7884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3133,
+							"line": 3132,
 							"character": 4
 						}
 					],
@@ -7904,7 +7908,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3252,
+							"line": 3251,
 							"character": 4
 						}
 					],
@@ -7928,7 +7932,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3270,
+							"line": 3269,
 							"character": 4
 						}
 					],
@@ -7942,11 +7946,11 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Updates the runtime filters applied on a Liveboard. The filter\nattributes passed with this event are appended to the existing runtime\nfilters applied on a Liveboard.",
-						"text": "**Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`\nand `AppEmbed` only. In full application embedding, this event updates\nthe runtime filters applied on the Liveboard and saved Answer objects.\n\n\nPass an array of runtime filters with the following attributes:\n\n`columnName` - _String_. The name of the column to filter on.\n\n`operator` - Runtime filter operator to apply. For more information,\nsee link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].\n\n`values` - List of operands. Some operators such as EQ and LE allow a\nsingle value, whereas BW and IN accept multiple values.\n\n**Note**: Updating runtime filters resets the ThoughtSpot\nobject to its original state and applies new filter conditions.\nAny user changes (like drilling into a visualization)\nwill be cleared, restoring the original visualization\nwith the updated filters.\n",
+						"text": "**Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`\nand `AppEmbed` only. In full application embedding, this event updates\nthe runtime filters applied on the Liveboard and saved Answer objects.\n",
 						"tags": [
 							{
 								"tag": "param",
-								"text": "{@link RuntimeFilter}[] an array of {@link RuntimeFilter} Types.",
+								"text": "Pass an array of {@link RuntimeFilter} with the following attributes:\n`columnName` - _String_. The name of the column to filter on.\n\n`operator` - {@link RuntimeFilterOp} to apply. For more information,\nsee link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].\n\n`values` - List of operands. Some operators such as EQ and LE allow a\nsingle value, whereas BW and IN accept multiple values.\n\n**Note**: Updating runtime filters resets the ThoughtSpot\nobject to its original state and applies new filter conditions.\nAny user changes (like drilling into a visualization)\nwill be cleared, restoring the original visualization\nwith the updated filters.\n\n",
 								"param": "-"
 							},
 							{
@@ -7966,7 +7970,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2549,
+							"line": 2548,
 							"character": 4
 						}
 					],
@@ -8004,7 +8008,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3186,
+							"line": 3185,
 							"character": 4
 						}
 					],
@@ -8032,7 +8036,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2686,
+							"line": 2685,
 							"character": 4
 						}
 					],
@@ -8060,7 +8064,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2614,
+							"line": 2613,
 							"character": 4
 						}
 					],
@@ -8134,7 +8138,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2394,
+					"line": 2395,
 					"character": 12
 				}
 			]
@@ -8171,7 +8175,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4778,
+							"line": 4791,
 							"character": 4
 						}
 					],
@@ -8199,7 +8203,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4739,
+							"line": 4752,
 							"character": 4
 						}
 					],
@@ -8227,7 +8231,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4764,
+							"line": 4777,
 							"character": 4
 						}
 					],
@@ -8255,7 +8259,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4727,
+							"line": 4740,
 							"character": 4
 						}
 					],
@@ -8283,7 +8287,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4790,
+							"line": 4803,
 							"character": 4
 						}
 					],
@@ -8311,7 +8315,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4751,
+							"line": 4764,
 							"character": 4
 						}
 					],
@@ -8335,7 +8339,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4714,
+					"line": 4727,
 					"character": 12
 				}
 			]
@@ -8516,7 +8520,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4643,
+							"line": 4656,
 							"character": 4
 						}
 					],
@@ -8531,7 +8535,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4645,
+							"line": 4658,
 							"character": 4
 						}
 					],
@@ -8546,7 +8550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4644,
+							"line": 4657,
 							"character": 4
 						}
 					],
@@ -8561,7 +8565,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4646,
+							"line": 4659,
 							"character": 4
 						}
 					],
@@ -8583,7 +8587,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4642,
+					"line": 4655,
 					"character": 12
 				}
 			]
@@ -13024,7 +13028,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 414,
+							"line": 417,
 							"character": 4
 						}
 					],
@@ -13242,7 +13246,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 698,
+							"line": 701,
 							"character": 11
 						}
 					],
@@ -13543,7 +13547,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 679,
+							"line": 682,
 							"character": 11
 						}
 					],
@@ -13891,7 +13895,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 669,
+							"line": 672,
 							"character": 17
 						}
 					],
@@ -14024,7 +14028,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 649,
+							"line": 652,
 							"character": 11
 						}
 					],
@@ -14272,7 +14276,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 408,
+					"line": 411,
 					"character": 13
 				}
 			],
@@ -16316,7 +16320,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search-bar.tsx",
-							"line": 174,
+							"line": 176,
 							"character": 17
 						}
 					],
@@ -16912,7 +16916,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 472,
+							"line": 473,
 							"character": 11
 						}
 					],
@@ -17548,7 +17552,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 483,
+							"line": 484,
 							"character": 17
 						}
 					],
@@ -18427,7 +18431,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -19396,7 +19400,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -19433,7 +19437,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -19692,7 +19696,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -19733,7 +19737,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -21229,7 +21233,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -21667,7 +21671,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -21704,7 +21708,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -21857,7 +21861,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -21898,7 +21902,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -22538,7 +22542,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -23042,7 +23046,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -23079,7 +23083,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -23232,7 +23236,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -23273,7 +23277,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -23590,7 +23594,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4687,
+							"line": 4700,
 							"character": 4
 						}
 					],
@@ -23612,7 +23616,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4688,
+											"line": 4701,
 											"character": 8
 										}
 									],
@@ -23631,7 +23635,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4689,
+											"line": 4702,
 											"character": 8
 										}
 									],
@@ -23667,7 +23671,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4691,
+							"line": 4704,
 							"character": 4
 						}
 					],
@@ -23689,7 +23693,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4699,
+											"line": 4712,
 											"character": 8
 										}
 									],
@@ -23710,7 +23714,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4700,
+											"line": 4713,
 											"character": 8
 										}
 									],
@@ -23731,7 +23735,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4693,
+											"line": 4706,
 											"character": 8
 										}
 									],
@@ -23749,7 +23753,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4692,
+											"line": 4705,
 											"character": 8
 										}
 									],
@@ -23767,7 +23771,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 4694,
+											"line": 4707,
 											"character": 8
 										}
 									],
@@ -23789,7 +23793,7 @@
 													"sources": [
 														{
 															"fileName": "types.ts",
-															"line": 4695,
+															"line": 4708,
 															"character": 12
 														}
 													],
@@ -23811,7 +23815,7 @@
 																	"sources": [
 																		{
 																			"fileName": "types.ts",
-																			"line": 4696,
+																			"line": 4709,
 																			"character": 16
 																		}
 																	],
@@ -23895,7 +23899,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4703,
+							"line": 4716,
 							"character": 4
 						}
 					],
@@ -23916,7 +23920,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4704,
+							"line": 4717,
 							"character": 4
 						}
 					],
@@ -23941,7 +23945,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4686,
+					"line": 4699,
 					"character": 17
 				}
 			]
@@ -28165,7 +28169,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -28646,7 +28650,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 351,
+							"line": 354,
 							"character": 4
 						}
 					],
@@ -28771,7 +28775,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable the compact header on a Liveboard",
+						"shortText": "Enables or disables the compact header feature on a Liveboard.\nCompact Liveboard header is turned off by default on Liveboards in\nThoughtSpot Embedded apps.",
 						"tags": [
 							{
 								"tag": "default",
@@ -28790,7 +28794,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 308,
+							"line": 311,
 							"character": 4
 						}
 					],
@@ -28841,7 +28845,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -28944,7 +28948,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -29088,7 +29092,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -29129,7 +29133,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -29263,7 +29267,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 337,
+							"line": 340,
 							"character": 4
 						}
 					],
@@ -29337,7 +29341,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 322,
+							"line": 325,
 							"character": 4
 						}
 					],
@@ -30260,7 +30264,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -30724,7 +30728,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -30761,7 +30765,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -30872,7 +30876,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -30913,7 +30917,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -31616,7 +31620,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -31964,7 +31968,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -32001,7 +32005,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -32112,7 +32116,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -32968,7 +32972,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Determines whether the PreRender component should not dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
 						"tags": [
 							{
 								"tag": "default",
@@ -33547,7 +33551,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to override openNew tab context menu link",
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
 						"tags": [
 							{
 								"tag": "version",
@@ -33584,7 +33588,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The locale/language to use for the embedded view.",
+						"shortText": "The locale settings to apply to the embedded view.",
 						"tags": [
 							{
 								"tag": "version",
@@ -33695,7 +33699,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of runtime filters to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -33736,7 +33740,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of parameter override to apply to a search answer,\nvisualization, or Liveboard.",
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
 						"tags": [
 							{
 								"tag": "version",
@@ -34248,7 +34252,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4679,
+							"line": 4692,
 							"character": 4
 						}
 					],
@@ -34269,7 +34273,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4680,
+							"line": 4693,
 							"character": 4
 						}
 					],
@@ -34295,7 +34299,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4678,
+					"line": 4691,
 					"character": 17
 				}
 			]
@@ -34417,7 +34421,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The custom css variables, which can be set.\nThe allowed list is in the CustomCssVariables\ninterface. For more information, see\nlink:https://developers.thoughtspot.com/docs/css-variables-reference"
+						"shortText": "The custom css variables, which can be set.\nThe variables are available in the {@link CustomCssVariables}\ninterface. For more information, see\nlink:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference]."
 					},
 					"sources": [
 						{
