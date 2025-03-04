@@ -2775,6 +2775,11 @@ export enum HostEvent {
      * appEmbed.trigger(HostEvent.Remove)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
+     * * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.Remove)
+     * ```
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
      */
     Remove = 'delete',
     /**
