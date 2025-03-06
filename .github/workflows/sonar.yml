@@ -1,4 +1,4 @@
-name: Build
+name: Sonar Scan
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: sonar
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
         with:
