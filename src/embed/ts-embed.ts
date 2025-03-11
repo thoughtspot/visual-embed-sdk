@@ -181,14 +181,7 @@ export class TsEmbed {
 
     protected hostEventClient: HostEventClient;
 
-    protected readyForRenderResolve: (value?: boolean) => void;
-
-    protected readyForRenderReject: (reason?: any) => void;
-
-    protected isReadyForRenderPromise = new Promise<boolean>((resolve, reject) => {
-        this.readyForRenderResolve = resolve;
-        this.readyForRenderReject = reject;
-    });
+    protected isReadyForRenderPromise;
 
     protected isReadyForRender = false;
 
@@ -206,6 +199,15 @@ export class TsEmbed {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
+
+        let readyForRenderResolve: (value?: boolean) => void;
+        let readyForRenderReject: (reason?: any) => void;
+
+        this.isReadyForRenderPromise = new Promise<boolean>((resolve, reject) => {
+            readyForRenderResolve = resolve;
+            readyForRenderReject = reject;
+        });
+
         getInitPromise().then(async () => {
             this.isReadyForRender = true;
             // TODO: handle error
@@ -217,7 +219,8 @@ export class TsEmbed {
             this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
-            this.readyForRenderResolve();
+
+            readyForRenderResolve();
         });
     }
 
