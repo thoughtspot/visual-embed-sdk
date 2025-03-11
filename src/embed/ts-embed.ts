@@ -1141,11 +1141,11 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
-        await this.isReadyForRenderPromise;
-        this.isRendered = true;
-        if (!this.isReadyForRender) {
+        if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
         }
+        await this.isReadyForRenderPromise;
+        this.isRendered = true;
         return this;
     }
 
