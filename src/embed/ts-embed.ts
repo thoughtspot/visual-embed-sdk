@@ -208,7 +208,6 @@ export class TsEmbed {
             readyForRenderReject = reject;
         });
 
-        console.log("here", getEmbedConfig());
         getInitPromise().then(async () => {
             this.isReadyForRender = true;
             // TODO: handle error
@@ -751,7 +750,6 @@ export class TsEmbed {
 
             return this.isReadyForRenderPromise.then(() => getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
-                    console.log('here2 render ocmplet ????');
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
