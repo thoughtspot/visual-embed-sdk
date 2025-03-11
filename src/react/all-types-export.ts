@@ -12,6 +12,7 @@ export {
     ConversationEmbed,
     PreRenderedConversationEmbed,
     useEmbedRef,
+    useInit,
 } from './index';
 
 export {

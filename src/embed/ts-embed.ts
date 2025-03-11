@@ -722,10 +722,6 @@ export class TsEmbed {
      * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
-        if (!this.isReadyForRender) {
-            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
-        }
-
         if (this.isError) {
             return null;
         }
@@ -1145,7 +1141,9 @@ export class TsEmbed {
      */
     public async render(): Promise<TsEmbed> {
         this.isRendered = true;
-
+        if (!this.isReadyForRender) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
+        }
         return this;
     }
 
