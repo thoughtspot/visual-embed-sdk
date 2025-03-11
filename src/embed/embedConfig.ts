@@ -1,5 +1,6 @@
 import { getValueFromWindow, storeValueInWindow } from '../utils';
 import { EmbedConfig } from '../types';
+import { getInitPromise } from './base';
 
 const configKey = 'embedConfig';
 
@@ -10,6 +11,9 @@ const configKey = 'embedConfig';
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || {};
+
+export const getEmbedConfigAsync = ():
+  Promise<EmbedConfig> => getInitPromise().then(() => getEmbedConfig());
 
 /**
  * Sets the configuration embed was initialized with.

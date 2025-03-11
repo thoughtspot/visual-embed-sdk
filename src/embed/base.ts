@@ -32,7 +32,7 @@ import {
 } from '../auth';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
@@ -171,6 +171,24 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
     return newConfig;
 }
 
+const initPromiseKey = 'initPromise';
+const initPromiseResolveKey = 'initPromiseResolve';
+
+const createAndSetInitPromise = (): void => {
+    const initPromise = new Promise<ReturnType<typeof init>>((resolve) => {
+        storeValueInWindow(initPromiseResolveKey, resolve);
+    });
+    storeValueInWindow(initPromiseKey, initPromise, {
+        // In case of diff imports the promise might be already set
+        ignoreIfAlreadyExists: true,
+    });
+};
+
+createAndSetInitPromise();
+
+export const getInitPromise = ():
+    Promise<ReturnType<typeof init>> => getValueFromWindow(initPromiseKey);
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable. This function needs to be called before any ThoughtSpot
@@ -223,6 +241,10 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     if (getEmbedConfig().callPrefetch) {
         prefetch(getEmbedConfig().thoughtSpotHost);
     }
+
+    // Resolves the promise created in the initPromiseKey
+    getValueFromWindow(initPromiseResolveKey)?.(authEE);
+
     return authEE as AuthEventEmitter;
 };
 

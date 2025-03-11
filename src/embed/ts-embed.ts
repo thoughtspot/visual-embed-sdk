@@ -66,9 +66,10 @@ import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+    getInitPromise,
 } from './base';
 import { AuthFailureType } from '../auth';
-import { getEmbedConfig } from './embedConfig';
+import { getEmbedConfig, getEmbedConfigAsync } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
@@ -180,15 +181,19 @@ export class TsEmbed {
 
     protected hostEventClient: HostEventClient;
 
+    protected readyForRenderResolve: (value?: boolean) => void;
+
+    protected readyForRenderReject: (reason?: any) => void;
+
+    protected isReadyForRenderPromise = new Promise<boolean>((resolve, reject) => {
+        this.readyForRenderResolve = resolve;
+        this.readyForRenderReject = reject;
+    });
+
+    protected isReadyForRender = false;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
-        // TODO: handle error
-        this.embedConfig = getEmbedConfig();
-        if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
-            this.embedConfig.authTriggerContainer = domSelector;
-        }
-        this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
-        this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = {
@@ -196,12 +201,24 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: false,
             ...viewConfig,
         };
-        this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
+        getInitPromise().then(async () => {
+            this.isReadyForRender = true;
+            // TODO: handle error
+            const embedConfig = await getEmbedConfigAsync();
+            this.embedConfig = embedConfig;
+            if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
+                this.embedConfig.authTriggerContainer = domSelector;
+            }
+            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
+            this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
+            this.readyForRenderResolve();
+        });
     }
 
     /**
@@ -702,6 +719,10 @@ export class TsEmbed {
      * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
+        if (!this.isReadyForRender) {
+            logger.warn(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
+        }
+
         if (this.isError) {
             return null;
         }
@@ -712,7 +733,7 @@ export class TsEmbed {
             // warn: The URL is too long
         }
 
-        return renderInQueue((nextInQueue) => {
+        return renderInQueue(async (nextInQueue) => {
             const initTimestamp = Date.now();
 
             this.executeCallbacks(EmbedEvent.Init, {
@@ -723,7 +744,8 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            return getAuthPromise()
+
+            return this.isReadyForRenderPromise.then(() => getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
@@ -773,7 +795,7 @@ export class TsEmbed {
                     });
                     this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
-                });
+                }));
         });
     }
 

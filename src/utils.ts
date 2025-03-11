@@ -342,13 +342,29 @@ const sdkWindowKey = '_tsEmbedSDK' as any;
  * Stores a value in the global `window` object under the `_tsEmbedSDK` namespace.
  * @param key - The key under which the value will be stored.
  * @param value - The value to store.
+ * @param options - Additional options.
+ * @param options.ignoreIfAlreadyExists - Does not set if value for key is set.
+ *
+ * @returns The stored value.
+ *
+ * @version SDK: 1.36.2 | ThoughtSpot: *
  */
-export const storeValueInWindow = (key: string, value: any) => {
+export function storeValueInWindow<T>(
+    key: string,
+    value: T,
+    options: { ignoreIfAlreadyExists?: boolean } = {},
+): T {
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
-    window[sdkWindowKey][key as any] = value;
-};
+
+    if (options.ignoreIfAlreadyExists && key in (window as any)[sdkWindowKey]) {
+        return (window as any)[sdkWindowKey][key];
+    }
+
+    (window as any)[sdkWindowKey][key] = value;
+    return value;
+}
 
 /**
  * Retrieves a stored value from the global `window` object under the `_tsEmbedSDK` namespace.
