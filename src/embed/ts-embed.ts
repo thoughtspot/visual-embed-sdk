@@ -723,7 +723,7 @@ export class TsEmbed {
      */
     protected async renderIFrame(url: string): Promise<any> {
         if (!this.isReadyForRender) {
-            logger.warn(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);
         }
 
         if (this.isError) {
