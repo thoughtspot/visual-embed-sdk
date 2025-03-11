@@ -206,9 +206,7 @@ export class SageEmbed extends V1Embed {
      * @returns {SageEmbed} Eureka/Sage embed
      */
     public async render(): Promise<SageEmbed> {
-        super.render();
-        await this.isReadyForRender;
-
+        await super.render();
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
 

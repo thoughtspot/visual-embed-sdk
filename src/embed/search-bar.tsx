@@ -174,9 +174,7 @@ export class SearchBarEmbed extends TsEmbed {
      * Render the embedded ThoughtSpot search
      */
     public async render(): Promise<SearchBarEmbed> {
-        super.render();
-        await this.isReadyForRenderPromise;
-
+        await super.render();
         const src = this.getIFrameSrc();
         await this.renderIFrame(src);
         return this;

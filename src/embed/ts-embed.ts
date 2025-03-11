@@ -67,6 +67,7 @@ import pkgInfo from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
     getInitPromise,
+    getIsInitCalled,
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
@@ -1140,6 +1141,7 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        await this.isReadyForRenderPromise;
         this.isRendered = true;
         if (!this.isReadyForRender) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT_WARNING);

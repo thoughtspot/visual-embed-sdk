@@ -173,11 +173,13 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
 
 const initPromiseKey = 'initPromise';
 const initPromiseResolveKey = 'initPromiseResolve';
+const isInitCalledKey = 'isInitCalled';
 
 const createAndSetInitPromise = (): void => {
     const initPromise = new Promise<ReturnType<typeof init>>((resolve) => {
         storeValueInWindow(initPromiseResolveKey, resolve);
     });
+    storeValueInWindow(isInitCalledKey, false);
     storeValueInWindow(initPromiseKey, initPromise, {
         // In case of diff imports the promise might be already set
         ignoreIfAlreadyExists: true,
@@ -188,6 +190,8 @@ createAndSetInitPromise();
 
 export const getInitPromise = ():
     Promise<ReturnType<typeof init>> => getValueFromWindow(initPromiseKey);
+
+export const getIsInitCalled = (): boolean => getValueFromWindow(isInitCalledKey);
 
 /**
  * Initializes the Visual Embed SDK globally and perform
@@ -244,6 +248,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
 
     // Resolves the promise created in the initPromiseKey
     getValueFromWindow(initPromiseResolveKey)?.(authEE);
+    storeValueInWindow(isInitCalledKey, true);
 
     return authEE as AuthEventEmitter;
 };

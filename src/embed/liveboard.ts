@@ -669,8 +669,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public async render(): Promise<LiveboardEmbed> {
-        super.render();
-        await this.isReadyForRenderPromise;
+        await super.render();
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);

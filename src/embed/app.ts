@@ -761,8 +761,7 @@ export class AppEmbed extends V1Embed {
      * to be embedded.
      */
     public async render(): Promise<AppEmbed> {
-        super.render();
-        await this.isReadyForRenderPromise;
+        await super.render();
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);

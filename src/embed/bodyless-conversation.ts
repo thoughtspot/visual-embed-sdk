@@ -55,8 +55,7 @@ class ConversationMessage extends TsEmbed {
     }
 
     public async render(): Promise<ConversationMessage> {
-        super.render();
-        await this.isReadyForRenderPromise;
+        await super.render();
 
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
