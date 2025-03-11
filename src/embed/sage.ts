@@ -207,6 +207,7 @@ export class SageEmbed extends V1Embed {
      */
     public async render(): Promise<SageEmbed> {
         super.render();
+        await this.isReadyForRender;
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);

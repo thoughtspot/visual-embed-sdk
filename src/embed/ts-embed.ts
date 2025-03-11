@@ -69,7 +69,7 @@ import {
     getInitPromise,
 } from './base';
 import { AuthFailureType } from '../auth';
-import { getEmbedConfig, getEmbedConfigAsync } from './embedConfig';
+import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
@@ -208,10 +208,11 @@ export class TsEmbed {
             readyForRenderReject = reject;
         });
 
+        console.log("here", getEmbedConfig());
         getInitPromise().then(async () => {
             this.isReadyForRender = true;
             // TODO: handle error
-            const embedConfig = await getEmbedConfigAsync();
+            const embedConfig = getEmbedConfig();
             this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
@@ -750,6 +751,7 @@ export class TsEmbed {
 
             return this.isReadyForRenderPromise.then(() => getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
+                    console.log('here2 render ocmplet ????');
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
@@ -1154,21 +1156,21 @@ export class TsEmbed {
     }
 
     protected handleRenderForPrerender() {
-        this.render();
+        return this.render();
     }
 
     /**
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public preRender(showPreRenderByDefault = false): TsEmbed {
+    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        this.handleRenderForPrerender();
+        await this.handleRenderForPrerender();
         return this;
     }
 
@@ -1229,6 +1231,8 @@ export class TsEmbed {
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {
+        await this.isReadyForRender;
+
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;
         return this.renderIFrame(prerenderFrameSrc);
@@ -1271,18 +1275,17 @@ export class TsEmbed {
      * Also, synchronizes the style of the PreRender component with the embedding
      * element.
      */
-    public showPreRender(): void {
+    public async showPreRender(): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
-            return;
+            return this;
         }
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
 
             if (!isAvailable) {
                 // if the Embed component is not preRendered , Render it now and
-                this.preRender(true);
-                return;
+                return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
         }
@@ -1309,6 +1312,8 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
+
+        return this;
     }
 
     /**

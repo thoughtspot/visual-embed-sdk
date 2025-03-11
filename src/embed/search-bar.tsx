@@ -175,6 +175,7 @@ export class SearchBarEmbed extends TsEmbed {
      */
     public async render(): Promise<SearchBarEmbed> {
         super.render();
+        await this.isReadyForRenderPromise;
 
         const src = this.getIFrameSrc();
         await this.renderIFrame(src);

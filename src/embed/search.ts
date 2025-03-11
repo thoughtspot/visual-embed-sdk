@@ -483,8 +483,9 @@ export class SearchEmbed extends TsEmbed {
      */
     public async render(): Promise<SearchEmbed> {
         super.render();
-        const { answerId } = this.viewConfig;
+        await this.isReadyForRenderPromise;
 
+        const { answerId } = this.viewConfig;
         const src = this.getIFrameSrc();
         await this.renderIFrame(src);
         getAuthPromise().then(() => {

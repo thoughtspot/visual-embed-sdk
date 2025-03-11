@@ -553,13 +553,13 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('navigateToLiveboard should trigger the navigate event with the correct path', (done) => {
+    test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
         const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
-        liveboardEmbed.prerenderGeneric();
+        await liveboardEmbed.prerenderGeneric();
         executeAfterWait(() => {
             const iframe = getIFrameEl();
             postMessageToParent(iframe.contentWindow, {
@@ -573,14 +573,14 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('navigateToLiveboard with preRender', (done) => {
+    test('navigateToLiveboard with preRender', async (done) => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             preRenderId: 'test',
         } as LiveboardViewConfig);
         const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
-        liveboardEmbed.prerenderGeneric();
+        await liveboardEmbed.prerenderGeneric();
         executeAfterWait(() => {
             const iframe = getIFrameEl();
             postMessageToParent(iframe.contentWindow, {
@@ -604,7 +604,7 @@ describe('Liveboard/viz embed tests', () => {
                 },
             ],
         } as LiveboardViewConfig);
-        liveboardEmbed.render();
+        await liveboardEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
@@ -637,7 +637,7 @@ describe('Liveboard/viz embed tests', () => {
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
-        liveboardEmbed.render();
+        await liveboardEmbed.render();
         await executeAfterWait(() => {
             const result = liveboardEmbed.trigger(HostEvent.SetActiveTab, {
                 tabId: newActiveTabId,
@@ -650,13 +650,13 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('PreRender flow for liveboard embed', () => {
-        test('it should preRender generic with liveboard id is not passed', (done) => {
+        test('it should preRender generic with liveboard id is not passed', async (done) => {
             const consoleSpy = jest.spyOn(console, 'error');
             const libEmbed = new LiveboardEmbed(getRootEl(), {
                 preRenderId: 'testPreRender',
             });
             const prerenderGenericSpy = jest.spyOn(libEmbed, 'prerenderGeneric');
-            libEmbed.preRender();
+            await libEmbed.preRender();
             executeAfterWait(() => {
                 const iFrame = document.getElementById(
                     libEmbed.getPreRenderIds().child,
@@ -735,7 +735,7 @@ describe('Liveboard/viz embed tests', () => {
                     };
                 });
 
-            libEmbed.preRender();
+            await libEmbed.preRender();
 
             await waitFor(() => !!getIFrameEl());
 
@@ -750,7 +750,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId: testLiveboardId,
             });
             const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
-            newLibEmbed.showPreRender();
+            await newLibEmbed.showPreRender();
 
             executeAfterWait(() => {
                 const iFrame = document.getElementById(
@@ -776,7 +776,7 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
                 vizId: 'testViz',
             });
-            liveboardEmbed.render();
+            await liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
                 await liveboardEmbed.trigger(

@@ -1249,14 +1249,14 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        beforeEach(() => {
+        beforeEach(async () => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(false);
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
             jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
             spyOn(logger, 'error');
-            tsEmbed.render();
+            await tsEmbed.render();
         });
 
         test('mixpanel should call with VISUAL_SDK_RENDER_FAILED', () => {
@@ -1433,7 +1433,7 @@ describe('Unit test case for ts embed', () => {
         test('Error should be true', async () => {
             spyOn(logger, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
-            tsEmbed.render();
+            await tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith(
                 'You need to init the ThoughtSpot SDK module first',
