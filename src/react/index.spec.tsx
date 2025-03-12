@@ -30,7 +30,6 @@ import * as sessionService from '../utils/sessionInfoService';
 const thoughtSpotHost = 'localhost';
 
 beforeAll(() => {
-    console.log("era ")
     init({
         thoughtSpotHost,
         authType: AuthType.None,
