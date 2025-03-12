@@ -184,8 +184,6 @@ export class TsEmbed {
 
     protected isReadyForRenderPromise;
 
-    protected isReadyForRender = false;
-
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
