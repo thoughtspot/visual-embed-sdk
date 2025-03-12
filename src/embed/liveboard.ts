@@ -391,6 +391,22 @@ export interface LiveboardViewConfig
      * })
      */
     dataSourceId?: string;
+
+    /**
+     * This flag is for show/hide checkboxes for include or exclude
+     * cover and filter pages in the Liveboard PDF
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.36.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
 }
 
 /**
@@ -455,10 +471,12 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
+            coverAndFilterOptionInPDF = true,
         } = this.viewConfig;
 
-        const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
-            || this.viewConfig.preventPinboardFilterRemoval;
+        const preventLiveboardFilterRemoval =
+            this.viewConfig.preventLiveboardFilterRemoval ||
+            this.viewConfig.preventPinboardFilterRemoval;
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
@@ -518,7 +536,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-
+        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
@@ -626,8 +644,9 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isUndefined(embedObj)) return;
 
-        const showDifferentLib = this.viewConfig.liveboardId
-            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+        const showDifferentLib =
+            this.viewConfig.liveboardId &&
+            embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
 
         if (showDifferentLib) {
             const libId = this.viewConfig.liveboardId;
@@ -650,7 +669,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
