@@ -426,7 +426,7 @@ export function useInit(config: EmbedConfig) {
         ref.current = authEE;
     }, [config]);
 
-    return ref.current;
+    return ref;
 }
 
 export {
