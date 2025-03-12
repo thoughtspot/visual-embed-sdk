@@ -171,16 +171,24 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
     return newConfig;
 }
 
-const initPromiseKey = 'initPromise';
-const initPromiseResolveKey = 'initPromiseResolve';
-const isInitCalledKey = 'isInitCalled';
+type InitFlagStore = {
+  initPromise: Promise<ReturnType<typeof init>>;
+  isInitCalled: boolean;
+  initPromiseResolve: (value: ReturnType<typeof init>) => void;
+}
+const initFlagKey = 'initFlagKey';
 
-const createAndSetInitPromise = (): void => {
+export const createAndSetInitPromise = (): void => {
+    let initPromiseResolve: (value: ReturnType<typeof init>) => void;
     const initPromise = new Promise<ReturnType<typeof init>>((resolve) => {
-        storeValueInWindow(initPromiseResolveKey, resolve);
+        initPromiseResolve = resolve;
     });
-    storeValueInWindow(isInitCalledKey, false);
-    storeValueInWindow(initPromiseKey, initPromise, {
+    const initFlagStore: InitFlagStore = {
+        initPromise,
+        isInitCalled: false,
+        initPromiseResolve,
+    };
+    storeValueInWindow(initFlagKey, initFlagStore, {
         // In case of diff imports the promise might be already set
         ignoreIfAlreadyExists: true,
     });
@@ -189,9 +197,11 @@ const createAndSetInitPromise = (): void => {
 createAndSetInitPromise();
 
 export const getInitPromise = ():
-    Promise<ReturnType<typeof init>> => getValueFromWindow(initPromiseKey);
+    Promise<
+      ReturnType<typeof init>
+    > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
 
-export const getIsInitCalled = (): boolean => getValueFromWindow(isInitCalledKey);
+export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
 
 /**
  * Initializes the Visual Embed SDK globally and perform
@@ -247,8 +257,8 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     }
 
     // Resolves the promise created in the initPromiseKey
-    getValueFromWindow(initPromiseResolveKey)?.(authEE);
-    storeValueInWindow(isInitCalledKey, true);
+    getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
+    getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
 
     return authEE as AuthEventEmitter;
 };

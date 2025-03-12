@@ -1,4 +1,6 @@
 /* eslint-disable dot-notation */
+import { resetValueFromWindow } from '../utils';
+import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
@@ -2380,6 +2382,82 @@ describe('Unit test case for ts embed', () => {
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
             jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+    });
+
+    describe('Renders should wait for init to completed', () => {
+        const errorSpy = jest.spyOn(logger, 'error').mockResolvedValue(true);
+        beforeEach(() => {
+            errorSpy.mockClear();
+            resetValueFromWindow('initFlagKey');
+            baseInstance.createAndSetInitPromise();
+            document.body.innerHTML = getDocumentBody();
+        });
+        test('Pre-render should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), { preRenderId: 'test', liveboardId: 'test' });
+            lib.preRender();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            const preRenderId = lib.getPreRenderIds().wrapper;
+            expect(document.getElementById(preRenderId)).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
+        });
+
+        test('Render should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), { liveboardId: 'test' });
+            lib.render();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            expect(getRootEl()).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
+        });
+
+        test('Pre Render Generic should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), {});
+            lib.prerenderGeneric();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            expect(getRootEl()).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
         });
     });
 });

@@ -201,17 +201,7 @@ export class TsEmbed {
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
 
-        let readyForRenderResolve: (value?: boolean) => void;
-        let readyForRenderReject: (reason?: any) => void;
-
-        this.isReadyForRenderPromise = new Promise<boolean>((resolve, reject) => {
-            readyForRenderResolve = resolve;
-            readyForRenderReject = reject;
-        });
-
-        getInitPromise().then(async () => {
-            this.isReadyForRender = true;
-            // TODO: handle error
+        this.isReadyForRenderPromise = getInitPromise().then(async () => {
             const embedConfig = getEmbedConfig();
             this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
@@ -220,8 +210,6 @@ export class TsEmbed {
             this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
-
-            readyForRenderResolve();
         });
     }
 
@@ -733,7 +721,7 @@ export class TsEmbed {
             // warn: The URL is too long
         }
 
-        return renderInQueue(async (nextInQueue) => {
+        return renderInQueue((nextInQueue) => {
             const initTimestamp = Date.now();
 
             this.executeCallbacks(EmbedEvent.Init, {
@@ -745,7 +733,7 @@ export class TsEmbed {
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
 
-            return this.isReadyForRenderPromise.then(() => getAuthPromise()
+            return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
@@ -795,7 +783,7 @@ export class TsEmbed {
                     });
                     this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError(error);
-                }));
+                });
         });
     }
 
@@ -1168,8 +1156,7 @@ export class TsEmbed {
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        await this.handleRenderForPrerender();
-        return this;
+        return this.handleRenderForPrerender();
     }
 
     /**
@@ -1229,7 +1216,10 @@ export class TsEmbed {
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {
-        await this.isReadyForRender;
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
 
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;

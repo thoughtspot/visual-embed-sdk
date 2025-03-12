@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { AuthEventEmitter } from 'src/auth';
+import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
 import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';

@@ -371,4 +371,19 @@ export function storeValueInWindow<T>(
  * @param key - The key whose value needs to be retrieved.
  * @returns The stored value or `undefined` if the key is not found.
  */
-export const getValueFromWindow = (key: string): any => window?.[sdkWindowKey]?.[key as any];
+export const getValueFromWindow = <T = any>
+    (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
+
+/**
+ * Resets the key if it exists in the `window` object under the `_tsEmbedSDK` key.
+ * Returns true if the key was reset, false otherwise.
+ * @param key - Key to reset
+ * @returns - boolean indicating if the key was reset
+ */
+export function resetValueFromWindow(key: string): boolean {
+    if (key in window[sdkWindowKey]) {
+        delete (window as any)[sdkWindowKey][key];
+        return true;
+    }
+    return false;
+}
