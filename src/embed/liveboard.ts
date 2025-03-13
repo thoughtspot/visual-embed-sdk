@@ -21,7 +21,7 @@ import {
 } from '../types';
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
-import { V1Embed } from './ts-embed';
+import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 
@@ -635,12 +635,11 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
-    protected handleRenderForPrerender(): void {
+    protected async handleRenderForPrerender(): Promise<TsEmbed> {
         if (isUndefined(this.viewConfig.liveboardId)) {
-            this.prerenderGeneric();
-            return;
+            return this.prerenderGeneric();
         }
-        super.handleRenderForPrerender();
+        return super.handleRenderForPrerender();
     }
 
     /**
@@ -670,7 +669,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public async render(): Promise<LiveboardEmbed> {
-        super.render();
+        await super.render();
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);

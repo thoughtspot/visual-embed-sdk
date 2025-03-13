@@ -1,4 +1,6 @@
 /* eslint-disable dot-notation */
+import { resetValueFromWindow } from '../utils';
+import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
@@ -1249,14 +1251,14 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        beforeEach(() => {
+        beforeEach(async () => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(false);
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             const iFrame: any = document.createElement('div');
             iFrame.contentWindow = null;
             jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
             spyOn(logger, 'error');
-            tsEmbed.render();
+            await tsEmbed.render();
         });
 
         test('mixpanel should call with VISUAL_SDK_RENDER_FAILED', () => {
@@ -1433,7 +1435,7 @@ describe('Unit test case for ts embed', () => {
         test('Error should be true', async () => {
             spyOn(logger, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
-            tsEmbed.render();
+            await tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith(
                 'You need to init the ThoughtSpot SDK module first',
@@ -1446,11 +1448,11 @@ describe('Unit test case for ts embed', () => {
             jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
         });
 
-        test('when isRendered is true than isError will be true', () => {
+        test('when isRendered is true than isError will be true', async () => {
             spyOn(logger, 'warn');
             const viEmbedIns = new tsEmbedInstance.V1Embed(getRootEl(), defaultViewConfig);
             expect(viEmbedIns['isError']).toBe(false);
-            viEmbedIns.render();
+            await viEmbedIns.render();
             viEmbedIns.on(EmbedEvent.CustomAction, jest.fn()).render();
             expect(logger.warn).toHaveBeenCalledWith(
                 'Please register event handlers before calling render',
@@ -2380,6 +2382,82 @@ describe('Unit test case for ts embed', () => {
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
             jest.spyOn(baseInstance, 'notifyAuthFailure').mockClear();
+        });
+    });
+
+    describe('Renders should wait for init to completed', () => {
+        const errorSpy = jest.spyOn(logger, 'error').mockResolvedValue(true);
+        beforeEach(() => {
+            errorSpy.mockClear();
+            resetValueFromWindow('initFlagKey');
+            baseInstance.createAndSetInitPromise();
+            document.body.innerHTML = getDocumentBody();
+        });
+        test('Pre-render should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), { preRenderId: 'test', liveboardId: 'test' });
+            lib.preRender();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            const preRenderId = lib.getPreRenderIds().wrapper;
+            expect(document.getElementById(preRenderId)).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
+        });
+
+        test('Render should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), { liveboardId: 'test' });
+            lib.render();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            expect(getRootEl()).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
+        });
+
+        test('Pre Render Generic should wait for init to complete', async () => {
+            const lib = new LiveboardEmbed(getRootEl(), {});
+            lib.prerenderGeneric();
+            await executeAfterWait(() => {
+                expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+                expect(getRootEl().innerHTML).toContain('');
+            });
+
+            const iframeBeforeInit = getIFrameEl();
+            expect(iframeBeforeInit).toBe(null);
+
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            await waitFor(() => !!getIFrameEl());
+            expect(getRootEl()).not.toBe(null);
+            const iframeAfterInit = getIFrameEl();
+            expect(iframeAfterInit).not.toBe(null);
         });
     });
 });

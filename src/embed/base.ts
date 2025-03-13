@@ -30,9 +30,10 @@ import {
     AuthEventEmitter,
     postLoginService,
 } from '../auth';
+import '../utils/with-resolvers-polyfill';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
@@ -171,6 +172,40 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
     return newConfig;
 }
 
+type InitFlagStore = {
+  initPromise: Promise<ReturnType<typeof init>>;
+  isInitCalled: boolean;
+  initPromiseResolve: (value: ReturnType<typeof init>) => void;
+}
+const initFlagKey = 'initFlagKey';
+
+export const createAndSetInitPromise = (): void => {
+    const {
+        promise: initPromise,
+        resolve: initPromiseResolve,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+    } = Promise.withResolvers<AuthEventEmitter>();
+    const initFlagStore: InitFlagStore = {
+        initPromise,
+        isInitCalled: false,
+        initPromiseResolve,
+    };
+    storeValueInWindow(initFlagKey, initFlagStore, {
+        // In case of diff imports the promise might be already set
+        ignoreIfAlreadyExists: true,
+    });
+};
+
+createAndSetInitPromise();
+
+export const getInitPromise = ():
+    Promise<
+      ReturnType<typeof init>
+    > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
+
+export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable. This function needs to be called before any ThoughtSpot
@@ -223,6 +258,11 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     if (getEmbedConfig().callPrefetch) {
         prefetch(getEmbedConfig().thoughtSpotHost);
     }
+
+    // Resolves the promise created in the initPromiseKey
+    getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
+    getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
+
     return authEE as AuthEventEmitter;
 };
 
