@@ -179,10 +179,11 @@ type InitFlagStore = {
 const initFlagKey = 'initFlagKey';
 
 export const createAndSetInitPromise = (): void => {
-    let initPromiseResolve: (value: ReturnType<typeof init>) => void;
-    const initPromise = new Promise<ReturnType<typeof init>>((resolve) => {
-        initPromiseResolve = resolve;
-    });
+    const {
+        promise: initPromise,
+        resolve: initPromiseResolve,
+        // @ts-ignore
+    } = Promise.withResolvers<AuthEventEmitter>();
     const initFlagStore: InitFlagStore = {
         initPromise,
         isInitCalled: false,
