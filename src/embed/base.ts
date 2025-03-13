@@ -182,6 +182,7 @@ export const createAndSetInitPromise = (): void => {
     const {
         promise: initPromise,
         resolve: initPromiseResolve,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
     } = Promise.withResolvers<AuthEventEmitter>();
     const initFlagStore: InitFlagStore = {
