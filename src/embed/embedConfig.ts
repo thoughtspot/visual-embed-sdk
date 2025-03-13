@@ -9,7 +9,7 @@ const configKey = 'embedConfig';
  * @version SDK: 1.19.0 | ThoughtSpot: *
  * @group Global methods
  */
-export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || {};
+export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || ({} as any);
 
 /**
  * Sets the configuration embed was initialized with.
