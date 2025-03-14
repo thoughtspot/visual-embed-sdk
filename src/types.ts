@@ -1402,8 +1402,9 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to an Answer or Liveboard is received
-     * @return data - The Answer or Liveboard data
+     * Data pertaining to an Answer or Liveboard is received.
+     * The event payload includes the raw data of the object.
+     * @return data -  Answer of Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      *```js
@@ -2309,17 +2310,39 @@ export enum EmbedEvent {
      */
     ParameterChanged = 'parameterChanged',
     /**
-     * Emitted when the table viz renders.
-     * You can use this event as a hook to trigger
-     * other events on the rendered table viz data.
+     * Emits when a table visualization is rendered in
+     * the ThoughtSpot embedded app.
+     * You can also use this event as a hook to trigger host events
+     * such as `HostEvent.TransformTableVizData` on the table visualization.
+     * The event payload contains the data used in the rendered table.
+     * You can extract the relevant data from the payload
+     * stored in `payload.data.data.columnDataLite`.
+     * `columnDataLite` is a multidimensional array that contains
+     * data values for each column, which was used in the query to
+     * generate the table visualization. To find and modify specific cell data,
+     * you can either loop through the array or directly access a cell if
+     * you know its position and data index.
+     * In the following code sample, the first cell in the first column
+     * (`columnDataLite[0].dataValue[0]`) is set to `new fob`.
+     * Note that any changes made to the data in the payload will only update the
+     * visual presentation and do not affect the underlying data.
+     * To persist data value modifications after a reload or during chart
+     * interactions such as drill down, ensure that the modified
+     * payload in the `columnDataLite` is passed on to
+     * `HostEvent.TransformTableVizData` and trigger an update to
+     * the table visualization.
+     * If the Row-Level Security (RLS) rules are applied on the
+     * Worksheet or Model, exercise caution when changing column
+     * or table cell values to maintain data security.
+     *
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
-     *       console.log(payload);
-     *       const columnDataLite = payload.data.data.columnDataLite;
-     *       columnDataLite[0].dataValue[0]="new fob";
-     *       console.log('>>> new Data', columnDataLite);
-     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     *      console.log(payload);
+     *      const columnDataLite = payload.data.data.columnDataLite;
+     *      columnDataLite[0].dataValue[0]="new fob";
+     *      console.log('>>> new Data', columnDataLite);
+     *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
      * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
@@ -3358,19 +3381,20 @@ export enum HostEvent {
      */
     UIPassthrough = 'UiPassthrough',
     /**
-     * Triggers the table viz rerender with the updated data.
+     * Triggers the table visualization re-render with the updated data.
      * Includes the following properties:
-     * @param - columnDataLite - an array of object containing data
-     * transformed from data picked from TableVizRendered event.
-     * For example, { columnDataLite: []}
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     *
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.TableVizRendered, (payload) => {
-     *       console.log(payload);
-     *       const columnDataLite = payload.data.data.columnDataLite;
-     *       columnDataLite[0].dataValue[0]="new fob";
-     *       console.log('>>> new Data', columnDataLite);
-     *       searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
+     *      console.log(payload);
+     *      const columnDataLite = payload.data.data.columnDataLite;
+     *      columnDataLite[0].dataValue[0]="new fob";
+     *      console.log('>>> new Data', columnDataLite);
+     *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
      * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
