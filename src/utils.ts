@@ -353,7 +353,12 @@ export function storeValueInWindow<T>(
     key: string,
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
-): T {
+): T | null {
+    if (typeof window === 'undefined') {
+        console.warn('storeValueInWindow: window is not defined');
+        return null;
+    }
+
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -371,8 +376,13 @@ export function storeValueInWindow<T>(
  * @param key - The key whose value needs to be retrieved.
  * @returns The stored value or `undefined` if the key is not found.
  */
-export const getValueFromWindow = <T = any>
-    (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
+export const getValueFromWindow = <T = any>(key: string): T | undefined => {
+    if (typeof window === 'undefined') {
+        console.warn('getValueFromWindow: window is not defined');
+        return undefined;
+    }
+    return (window as any)?.[sdkWindowKey]?.[key];
+};
 
 /**
  * Resets the key if it exists in the `window` object under the `_tsEmbedSDK` key.
@@ -381,7 +391,12 @@ export const getValueFromWindow = <T = any>
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
-    if (key in window[sdkWindowKey]) {
+    if (typeof window === 'undefined') {
+        console.warn('resetValueFromWindow: window is not defined');
+        return false;
+    }
+
+    if (key in (window as any)[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
     }

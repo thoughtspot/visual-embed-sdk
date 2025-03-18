@@ -260,8 +260,13 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     }
 
     // Resolves the promise created in the initPromiseKey
-    getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
-    getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
+    if (typeof window !== 'undefined') {
+        const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
+        if (initFlagStore) {
+            initFlagStore.initPromiseResolve(authEE);
+            initFlagStore.isInitCalled = true;
+        }
+    } 
 
     return authEE as AuthEventEmitter;
 };
