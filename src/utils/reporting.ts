@@ -17,7 +17,6 @@ let globalObserver: ReportingObserver | null = null;
  */
 export function registerReportingObserver(overrideExisting = false): ReportingObserver | null {
     if (typeof window === 'undefined') {
-        logger.error(ERROR_MESSAGE.WINDOW_OBJECT_NOT_FOUND);
         return null;
     }
 
