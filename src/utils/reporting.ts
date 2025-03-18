@@ -20,7 +20,7 @@ export function registerReportingObserver(overrideExisting = false): ReportingOb
         logger.error(ERROR_MESSAGE.WINDOW_OBJECT_NOT_FOUND);
         return null;
     }
-    
+
     if (!((window as any).ReportingObserver)) {
         logger.warn(ERROR_MESSAGE.MISSING_REPORTING_OBSERVER);
         return null;
