@@ -240,7 +240,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         }),
     );
 
-    setGlobalLogLevelOverride(embedConfig.logLevel || LogLevel.ERROR);
+    // setGlobalLogLevelOverride();
     registerReportingObserver();
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
