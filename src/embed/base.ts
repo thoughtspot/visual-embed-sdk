@@ -266,7 +266,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
             initFlagStore.initPromiseResolve(authEE);
             initFlagStore.isInitCalled = true;
         }
-    } 
+    }
 
     return authEE as AuthEventEmitter;
 };
