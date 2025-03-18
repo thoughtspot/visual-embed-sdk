@@ -68,7 +68,7 @@ export {
 };
 
 if (typeof global !== 'undefined' && typeof window === 'undefined') {
-    (global as any).window = global; 
+    (global as any).window = global;
 }
 /**
  * Perform authentication on the ThoughtSpot app as applicable.
