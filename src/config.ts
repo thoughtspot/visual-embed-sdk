@@ -33,7 +33,7 @@ export const getThoughtSpotHost = (config: EmbedConfig): string => {
         throw new Error(ERROR_MESSAGE.INVALID_THOUGHTSPOT_HOST);
     }
 
-    const protocol = urlParts[2] || window.location.protocol;
+    const protocol = urlParts[2] || window?.location?.protocol;
     const host = urlParts[3];
     let path = urlParts[6];
     // Lose the trailing / if any
