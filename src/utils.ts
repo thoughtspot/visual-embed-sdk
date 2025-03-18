@@ -355,7 +355,6 @@ export function storeValueInWindow<T>(
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T | null {
     if (typeof window === 'undefined') {
-        console.warn('storeValueInWindow: window is not defined');
         return null;
     }
 
@@ -378,7 +377,6 @@ export function storeValueInWindow<T>(
  */
 export const getValueFromWindow = <T = any>(key: string): T | undefined => {
     if (typeof window === 'undefined') {
-        console.warn('getValueFromWindow: window is not defined');
         return undefined;
     }
     return (window as any)?.[sdkWindowKey]?.[key];
@@ -392,7 +390,6 @@ export const getValueFromWindow = <T = any>(key: string): T | undefined => {
  */
 export function resetValueFromWindow(key: string): boolean {
     if (typeof window === 'undefined') {
-        console.warn('resetValueFromWindow: window is not defined');
         return false;
     }
 
