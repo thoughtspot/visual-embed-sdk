@@ -25981,7 +25981,9 @@
 					"name": "--ts-var-spotter-prompt-background",
 					"kind": 1024,
 					"kindString": "Property",
-					"flags": {},
+					"flags": {
+						"isOptional": true
+					},
 					"comment": {
 						"shortText": "Background color of the previously asked prompt message in the Spotter page."
 					},

@@ -119,7 +119,7 @@ export interface CustomCssVariables {
     /**
      * Background color of the previously asked prompt message in the Spotter page.
      */
-    '--ts-var-spotter-prompt-background': string;
+    '--ts-var-spotter-prompt-background'?: string;
 
     /**
      * Background color of the data panel.
