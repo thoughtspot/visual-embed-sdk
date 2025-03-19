@@ -2361,6 +2361,11 @@ export enum EmbedEvent {
      * @version SDK : 1.36.0 | ThoughtSpot : 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
+    /**
+     * Emitted when a user creates a Model.
+     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
+     */
+     CreateModel = 'createModel',
 }
 
 /**
