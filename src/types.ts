@@ -4765,7 +4765,7 @@ export enum Action {
      * ```
      *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
-    ColumnRename = 'columnRename', 
+    ColumnRename = 'columnRename',
 }
 
 export interface AnswerServiceType {
