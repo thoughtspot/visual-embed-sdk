@@ -51,7 +51,6 @@ export interface LiveboardViewConfig
      * visualizations to display on the screen.
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
-     *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
@@ -296,7 +295,6 @@ export interface LiveboardViewConfig
      * Enables or disables the compact header feature on a Liveboard.
      * Compact Liveboard header is turned off by default on Liveboards in
      * ThoughtSpot Embedded apps.
-     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -391,6 +389,22 @@ export interface LiveboardViewConfig
      * })
      */
     dataSourceId?: string;
+
+    /**
+     * This flag is for show/hide checkboxes for include or exclude
+     * cover and filter pages in the Liveboard PDF
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.36.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
 }
 
 /**
@@ -455,10 +469,11 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
+            coverAndFilterOptionInPDF = true,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
-            || this.viewConfig.preventPinboardFilterRemoval;
+        || this.viewConfig.preventPinboardFilterRemoval;
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
@@ -518,7 +533,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-
+        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
@@ -650,7 +665,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
@@ -714,4 +729,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed { }
+export class PinboardEmbed extends LiveboardEmbed {}
