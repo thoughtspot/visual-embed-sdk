@@ -8,11 +8,7 @@ import { graphqlQuery } from '../graphql-request';
 import { getSourceDetail } from '../sourceService';
 import * as queries from './answer-queries';
 
-export interface SessionInterface {
-    sessionId: string;
-    genNo: number;
-    acSession: { sessionId: string; genNo: number };
-}
+
 
 // eslint-disable-next-line no-shadow
 export enum OperationType {

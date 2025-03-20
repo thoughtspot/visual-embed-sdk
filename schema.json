@@ -1,0 +1,1748 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "SessionInterface": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "genNo": {
+          "type": "number"
+        },
+        "acSession": {
+          "type": "object",
+          "properties": {
+            "sessionId": {
+              "type": "string"
+            },
+            "genNo": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "sessionId",
+            "genNo"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "sessionId",
+        "genNo",
+        "acSession"
+      ],
+      "additionalProperties": false
+    },
+    "AuthType": {
+      "type": "string",
+      "enum": [
+        "None",
+        "EmbeddedSSO",
+        "SSO_SAML",
+        "SSO_OIDC",
+        "AuthServer",
+        "AuthServerCookieless",
+        "Basic"
+      ],
+      "description": "The authentication mechanism for allowing access to the the embedded app"
+    },
+    "HomeLeftNavItem": {
+      "type": "string",
+      "enum": [
+        "search-data",
+        "insights-home",
+        "liveboards",
+        "answers",
+        "monitor-alerts",
+        "spotiq-analysis",
+        "liveboard-schedules"
+      ],
+      "description": "This option does not apply to the classic homepage experience. To access the updated modular homepage, set `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+    },
+    "DOMSelector": {
+      "type": "string"
+    },
+    "customCssInterface": {
+      "type": "object",
+      "properties": {
+        "variables": {
+          "$ref": "#/definitions/CustomCssVariables",
+          "description": "The custom css variables, which can be set. The variables are available in the  {@link  CustomCssVariables }  interface. For more information, see link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference]."
+        },
+        "rules_UNSTABLE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "description": "Can be used to define a custom font face like:"
+        }
+      },
+      "additionalProperties": false,
+      "description": "inline customCSS within the  {@link  CustomisationsInterface } . Use  {@link  CustomCssVariables }  or css rules."
+    },
+    "CustomCssVariables": {
+      "type": "object",
+      "properties": {
+        "--ts-var-root-background": {
+          "type": "string",
+          "description": "Background color of the Liveboard, visualization, Search, and Answer pages."
+        },
+        "--ts-var-root-color": {
+          "type": "string",
+          "description": "Color of the text on application pages."
+        },
+        "--ts-var-root-font-family": {
+          "type": "string",
+          "description": "Font type for the text on application pages."
+        },
+        "--ts-var-root-text-transform": {
+          "type": "string",
+          "description": "Text transformation specification for UI elements in the app."
+        },
+        "--ts-var-application-color": {
+          "type": "string",
+          "description": "Font color of the text on toggle buttons such as\n**All**, **Answers**, and **Liveboards** on the Home page (Classic experience), the text color of the chart and table tiles on Home page (New modular Homepage experience), and title text on the AI-generated charts and tables. The default color code is #2770EF."
+        },
+        "--ts-var-nav-background": {
+          "type": "string",
+          "description": "Background color of the top navigation panel."
+        },
+        "--ts-var-nav-color": {
+          "type": "string",
+          "description": "Font color of the top navigation panel."
+        },
+        "--ts-var-search-data-button-background": {
+          "type": "string",
+          "description": "Background color of the *Search data* button."
+        },
+        "--ts-var-search-data-button-font-color": {
+          "type": "string",
+          "description": "Color of the text on the *Search data* button."
+        },
+        "--ts-var-search-data-button-font-family": {
+          "type": "string",
+          "description": "Font of the text on the *Search data* button."
+        },
+        "--ts-var-search-bar-text-font-color": {
+          "type": "string",
+          "description": "Font color of the text in the Search bar."
+        },
+        "--ts-var-search-bar-text-font-family": {
+          "type": "string",
+          "description": "Font of the text in the Search bar."
+        },
+        "--ts-var-search-bar-text-font-style": {
+          "type": "string",
+          "description": "Font style of the text in the Search bar."
+        },
+        "--ts-var-search-bar-background": {
+          "type": "string",
+          "description": "Background color of the search bar."
+        },
+        "--ts-var-search-auto-complete-background": {
+          "type": "string",
+          "description": "Background color of the search suggestions panel."
+        },
+        "--ts-var-search-navigation-button-background": {
+          "type": "string",
+          "description": "Background color of the navigation panel that allows you to undo, redo, and reset search operations."
+        },
+        "--ts-var-search-bar-navigation-help-text-background": {
+          "type": "string",
+          "description": "Background color of the navigation help text that appears at the bottom of the search suggestions panel."
+        },
+        "--ts-var-search-bar-auto-complete-hover-background": {
+          "type": "string",
+          "description": "Background color of the search suggestion block on hover."
+        },
+        "--ts-var-search-auto-complete-font-color": {
+          "type": "string",
+          "description": "Font color of the text in the search suggestion panel."
+        },
+        "--ts-var-search-auto-complete-subtext-font-color": {
+          "type": "string",
+          "description": "Font color of the sub-text that appears below the keyword in the search suggestion panel."
+        },
+        "--ts-var-spotter-input-background": {
+          "type": "string",
+          "description": "Background color of the input box in the Spotter page."
+        },
+        "--ts-var-spotter-prompt-background": {
+          "type": "string",
+          "description": "Background color of the previously asked prompt message in the Spotter page."
+        },
+        "--ts-var-answer-data-panel-background-color": {
+          "type": "string",
+          "description": "Background color of the data panel."
+        },
+        "--ts-var-answer-edit-panel-background-color": {
+          "type": "string",
+          "description": "Background color of the vertical panel on the right side of the Answer page, which includes the options to edit charts and tables."
+        },
+        "--ts-var-answer-view-table-chart-switcher-background": {
+          "type": "string",
+          "description": "Background color of the chart switcher on search results and Answer pages."
+        },
+        "--ts-var-answer-view-table-chart-switcher-active-background": {
+          "type": "string",
+          "description": "Background color of the currently selected chart type in the chart switcher."
+        },
+        "--ts-var-button-border-radius": {
+          "type": "string",
+          "description": "Border-radius of main buttons. For example, the *Search data* button in the top navigation panel."
+        },
+        "--ts-var-button--icon-border-radius": {
+          "type": "string",
+          "description": "Border-radius of small buttons such as secondary buttons. For example, share and favorite buttons."
+        },
+        "--ts-var-button--primary-color": {
+          "type": "string",
+          "description": "Font color of the text on primary buttons. For example, the primary buttons on Liveboard*, Answer, *Data* workspace, *SpotIQ*, or *Home* page."
+        },
+        "--ts-var-button--primary--font-family": {
+          "type": "string",
+          "description": "Font family specification for the text on primary buttons."
+        },
+        "--ts-var-button--primary-background": {
+          "type": "string",
+          "description": "Background color of the primary buttons. For example, the primary buttons such as Pin* and *Save*."
+        },
+        "--ts-var-button--primary--hover-background": {
+          "type": "string",
+          "description": "Background color of the primary buttons on hover."
+        },
+        "--ts-var-button--primary--active-background": {
+          "type": "string",
+          "description": "Backgroud color of the primary buttons when active."
+        },
+        "--ts-var-button--secondary-color": {
+          "type": "string",
+          "description": "Font color of the text on the secondary buttons."
+        },
+        "--ts-var-button--secondary--font-family": {
+          "type": "string",
+          "description": "Font family specification for the text on the secondary buttons."
+        },
+        "--ts-var-button--secondary-background": {
+          "type": "string",
+          "description": "Background color of the secondary buttons."
+        },
+        "--ts-var-button--secondary--hover-background": {
+          "type": "string",
+          "description": "Background color of the secondary button on hover."
+        },
+        "--ts-var-button--secondary--active-background": {
+          "type": "string",
+          "description": "Backgroud color of the secondary buttons when active."
+        },
+        "--ts-var-button--tertiary-color": {
+          "type": "string",
+          "description": "Font color of the tertiary button. For example, the *Undo*, *Redo*, and *Reset* buttons on the *Search* page."
+        },
+        "--ts-var-button--tertiary-background": {
+          "type": "string",
+          "description": "Background color of the tertiary button."
+        },
+        "--ts-var-button--tertiary--hover-background": {
+          "type": "string",
+          "description": "Background color of the tertiary button when a user hovers over these buttons."
+        },
+        "--ts-var-button--tertiary--active-background": {
+          "type": "string",
+          "description": "Backgroud color of the tertiary buttons when active."
+        },
+        "--ts-var-viz-title-color": {
+          "type": "string",
+          "description": "Font color of the title text of a visualization or Answer."
+        },
+        "--ts-var-viz-title-font-family": {
+          "type": "string",
+          "description": "Font family specification for the title text of a visualization/Answer."
+        },
+        "--ts-var-viz-title-text-transform": {
+          "type": "string",
+          "description": "Text transformation specification for visualization and Answer titles."
+        },
+        "--ts-var-viz-description-color": {
+          "type": "string",
+          "description": "Font color of the description text and subtitle of a visualization or Answer."
+        },
+        "--ts-var-viz-description-font-family": {
+          "type": "string",
+          "description": "Font family specification of description text and subtitle of a visualization or Answer."
+        },
+        "--ts-var-viz-description-text-transform": {
+          "type": "string",
+          "description": "Text transformation specification for  description text and subtitle of a visualization or Answer."
+        },
+        "--ts-var-viz-border-radius": {
+          "type": "string",
+          "description": "Border-radius for the visualization tiles and header panel on a Liveboard."
+        },
+        "--ts-var-viz-box-shadow": {
+          "type": "string",
+          "description": "Box shadow property for the visualization tiles and header panel on a Liveboard."
+        },
+        "--ts-var-viz-background": {
+          "type": "string",
+          "description": "Background color of the visualization tiles and header panel on a Liveboard."
+        },
+        "--ts-var-viz-legend-hover-background": {
+          "type": "string",
+          "description": "Background color of the legend on a visualization or Answer."
+        },
+        "--ts-var-answer-chart-select-background": {
+          "type": "string",
+          "description": "Background color of the selected chart type on the chart selection widget."
+        },
+        "--ts-var-answer-chart-hover-background": {
+          "type": "string",
+          "description": "Background color of the chart type element when a user hovers over a chart type on the chart selection widget."
+        },
+        "--ts-var-chip-border-radius": {
+          "type": "string",
+          "description": "Border-radius of filter chips."
+        },
+        "--ts-var-chip-box-shadow": {
+          "type": "string",
+          "description": "Shadow effect for filter chips."
+        },
+        "--ts-var-chip-background": {
+          "type": "string",
+          "description": "Background color of filter chips."
+        },
+        "--ts-var-chip--active-color": {
+          "type": "string",
+          "description": "Font color of the filter label when a filter chip is selected"
+        },
+        "--ts-var-chip--active-background": {
+          "type": "string",
+          "description": "Background color of the filter chips when selected."
+        },
+        "--ts-var-chip--hover-color": {
+          "type": "string",
+          "description": "Font color of the text on filter chips when hovered over."
+        },
+        "--ts-var-chip--hover-background": {
+          "type": "string",
+          "description": "Background color of filter chips on hover."
+        },
+        "--ts-var-chip-color": {
+          "type": "string",
+          "description": "Font color of the text on filter chips."
+        },
+        "--ts-var-chip-title-font-family": {
+          "type": "string",
+          "description": "Font family specification for the text on filter chips."
+        },
+        "--ts-var-axis-title-color": {
+          "type": "string",
+          "description": "Font color of axis title on charts."
+        },
+        "--ts-var-axis-title-font-family": {
+          "type": "string",
+          "description": "Font family specification for the X and Y axis title text."
+        },
+        "--ts-var-axis-data-label-color": {
+          "type": "string",
+          "description": "Font color of the X and Y axis labels."
+        },
+        "--ts-var-axis-data-label-font-family": {
+          "type": "string",
+          "description": "Font family specification for X and Y axis labels."
+        },
+        "--ts-var-menu-color": {
+          "type": "string",
+          "description": "Font color of the menu items."
+        },
+        "--ts-var-menu-background": {
+          "type": "string",
+          "description": "Background color of menu panels."
+        },
+        "--ts-var-menu-font-family": {
+          "type": "string",
+          "description": "Font family specification for the menu items."
+        },
+        "--ts-var-menu-text-transform": {
+          "type": "string",
+          "description": "Text capitalization specification for the menu items."
+        },
+        "--ts-var-menu--hover-background": {
+          "type": "string",
+          "description": "Background color for menu items on hover."
+        },
+        "--ts-var-menu-selected-text-color": {
+          "type": "string",
+          "description": "Text color for selected menu items."
+        },
+        "--ts-var-dialog-body-background": {
+          "type": "string",
+          "description": "Background color of the dialogs."
+        },
+        "--ts-var-dialog-body-color": {
+          "type": "string",
+          "description": "Font color of the body text displayed on dialogs."
+        },
+        "--ts-var-dialog-header-background": {
+          "type": "string",
+          "description": "Background color of the header text on dialogs."
+        },
+        "--ts-var-dialog-header-color": {
+          "type": "string",
+          "description": "Font color of the header text on dialogs."
+        },
+        "--ts-var-dialog-footer-background": {
+          "type": "string",
+          "description": "Background color of the footer area on dialogs."
+        },
+        "--ts-var-list-selected-background": {
+          "type": "string",
+          "description": "Background for selected state in list"
+        },
+        "--ts-var-list-hover-background": {
+          "type": "string",
+          "description": "Background for hover state in list"
+        },
+        "--ts-var-segment-control-hover-background": {
+          "type": "string",
+          "description": "Background for hover state in segment control."
+        },
+        "--ts-var-home-watchlist-selected-text-color": {
+          "type": "string",
+          "description": "Text color for slected item in modular home's watchlist."
+        },
+        "--ts-var-home-favorite-suggestion-card-text-color": {
+          "type": "string",
+          "description": "Text color for favorite carousel find your favorites card in modular home."
+        },
+        "--ts-var-home-favorite-suggestion-card-icon-color": {
+          "type": "string",
+          "description": "Icon color for favorite carousel find your favorites card in modular home."
+        },
+        "--ts-var-home-favorite-suggestion-card-background": {
+          "type": "string",
+          "description": "Background for favorite carousel find your favorites card in modular home."
+        },
+        "--ts-var-checkbox-error-border": {
+          "type": "string",
+          "description": "Border color of checkbox in error state."
+        },
+        "--ts-var-checkbox-border-color": {
+          "type": "string",
+          "description": "Border color of checkbox."
+        },
+        "--ts-var-checkbox-hover-border": {
+          "type": "string",
+          "description": "Border color of checkbox in hover state."
+        },
+        "--ts-var-checkbox-active-color": {
+          "type": "string",
+          "description": "Border and font color of checkbox in active state."
+        },
+        "--ts-var-checkbox-checked-color": {
+          "type": "string",
+          "description": "Border color and font color of checkbox in checked state."
+        },
+        "--ts-var-checkbox-checked-disabled": {
+          "type": "string",
+          "description": "Border and font color of checkbox in disabled state."
+        },
+        "--ts-var-checkbox-background-color": {
+          "type": "string",
+          "description": "Background color of checkbox."
+        }
+      },
+      "required": [
+        "--ts-var-spotter-prompt-background"
+      ],
+      "additionalProperties": false,
+      "description": "The list of customization css variables. These are the only allowed variables possible."
+    },
+    "CustomStyles": {
+      "type": "object",
+      "properties": {
+        "customCSSUrl": {
+          "type": "string"
+        },
+        "customCSS": {
+          "$ref": "#/definitions/customCssInterface"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Styles within the  {@link  CustomisationsInterface } ."
+    },
+    "CustomisationsInterface": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "$ref": "#/definitions/CustomStyles"
+        },
+        "content": {
+          "type": "object",
+          "properties": {
+            "strings": {
+              "$ref": "#/definitions/Record%3Cstring%2Cany%3E"
+            }
+          }
+        },
+        "iconSpriteUrl": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Configuration to define the customization on the Embedded ThoughtSpot components. You can customize styles, text strings, and icons. For more information, see https://developers.thoughtspot.com/docs/custom-css."
+    },
+    "Record<string,any>": {
+      "type": "object"
+    },
+    "EmbedConfig": {
+      "type": "object",
+      "properties": {
+        "thoughtSpotHost": {
+          "type": "string",
+          "description": "The ThoughtSpot cluster hostname or IP address."
+        },
+        "authType": {
+          "$ref": "#/definitions/AuthType",
+          "description": "The authentication mechanism to use."
+        },
+        "authEndpoint": {
+          "type": "string",
+          "description": "[AuthServer] The trusted authentication endpoint to use to get the authentication token. A `GET` request is made to the authentication API endpoint, which  returns the token as a plaintext response. For trusted authentication, the `authEndpoint` or `getAuthToken` attribute is required."
+        },
+        "getAuthToken": {
+          "$comment": "() => Promise<string>",
+          "description": "[AuthServer] A function that invokes the trusted authentication endpoint and returns a Promise that resolves to the `auth token` string. For trusted authentication, the `authEndpoint` or `getAuthToken` attribute is required.\n\nIt is advisable to fetch a new token inside this method and not reuse the old issued token. When auth expires this method is called again and if it is called with an older token, the authentication will not succeed."
+        },
+        "username": {
+          "type": "string",
+          "description": "[AuthServer / Basic] The user name of the ThoughtSpot user. This attribute is required for trusted authentication."
+        },
+        "password": {
+          "type": "string",
+          "description": "[Basic] The ThoughtSpot login password corresponding to the username\n\nWarning: This feature is primarily intended for developer testing. It is strongly advised not to use this authentication method in production."
+        },
+        "noRedirect": {
+          "type": "boolean",
+          "description": "[SSO] For SSO Authentication, if `noRedirect` is set to true, it will open the SAML auth flow in a popup, instead of redirecting the browser in place.",
+          "default": false,
+          "deprecated": true
+        },
+        "inPopup": {
+          "type": "boolean",
+          "description": "[SSO] For SSO Authentication, if `inPopup` is set to true, it will open the SAML auth flow in a popup, instead of redirecting the browser in place.\n\nNeed to use this with `authTriggerContainer`. Or manually trigger the `AuthEvent.TRIGGER_SSO_POPUP` event on a user interaction.",
+          "default": false
+        },
+        "redirectPath": {
+          "type": "string",
+          "description": "[SSO] For SSO Authentication, one can supply an optional path param; This will be the path on the host origin where the SAML flow will be terminated.\n\nEg: \"/dashboard\", \"#/foo\" [Do not include the host]"
+        },
+        "basepath": {
+          "type": "string"
+        },
+        "shouldEncodeUrlQueryParams": {
+          "type": "boolean",
+          "description": "Boolean to define if the query parameters in the ThoughtSpot URL should be encoded in base64. This provides additional security to ThoughtSpot clusters against cross-site scripting attacks.",
+          "default": false
+        },
+        "suppressNoCookieAccessAlert": {
+          "type": "boolean",
+          "description": "Suppress cookie access alert when third-party cookies are blocked by the user's browser. Third-party cookie blocking is the default behaviour on some web browsers like Safari. If you set this attribute to `true`, you are encouraged to handle `noCookieAccess` event, to show your own treatment in this case.",
+          "default": false
+        },
+        "ignoreNoCookieAccess": {
+          "type": "boolean",
+          "description": "Ignore the cookie access alert when third-party cookies are blocked by the user's browser. If you set this to `true`, the embedded iframe behaviour persists even in the case of a non-logged-in user.",
+          "default": false
+        },
+        "autoLogin": {
+          "type": "boolean",
+          "description": "Re-login a user with the previous login options when a user session expires.",
+          "default": false
+        },
+        "disableLoginRedirect": {
+          "type": "boolean",
+          "description": "Disable redirection to the login page when the embedded session expires This flag is typically used alongside the combination of authentication modes such as  {@link  AuthType.AuthServer }  and auto-login behavior  {@link  * EmbedConfig.autoLogin }",
+          "default": false
+        },
+        "loginFailedMessage": {
+          "type": "string",
+          "description": "This message is displayed in the embedded view when a user login fails."
+        },
+        "callPrefetch": {
+          "type": "boolean",
+          "description": "Calls the prefetch method internally when set to `true`",
+          "default": false
+        },
+        "queueMultiRenders": {
+          "type": "boolean",
+          "description": "When there are multiple objects embedded, queue the rendering of embedded objects to start after the previous embed's render is complete. This helps improve performance by decreasing the load on the browser.",
+          "default": false
+        },
+        "detectCookieAccessSlow": {
+          "type": "boolean",
+          "description": "[AuthServer|Basic] Detect if third-party party cookies are enabled by doing an additional call. This is slower and should be avoided. Listen to the `NO_COOKIE_ACCESS` event to handle the situation.\n\nThis is slightly slower than letting the browser handle the cookie check, as it involves an extra network call."
+        },
+        "suppressSearchEmbedBetaWarning": {
+          "type": "boolean",
+          "description": "Hide the `beta` alert warning message for SearchEmbed."
+        },
+        "suppressSageEmbedBetaWarning": {
+          "type": "boolean",
+          "description": "Hide `beta` alert warning message for SageEmbed."
+        },
+        "customizations": {
+          "$ref": "#/definitions/CustomisationsInterface",
+          "description": "Custom style params for embed Config."
+        },
+        "authTriggerContainer": {
+          "type": "string",
+          "description": "For `inPopup` SAMLRedirect or OIDCRedirect authentication, we need a button that the user can click to trigger the flow. This attribute sets a containing element for that button."
+        },
+        "useEventForSAMLPopup": {
+          "type": "boolean",
+          "description": "Specify that we want to use the `AuthEvent.TRIGGER_SSO_POPUP` event to trigger SAML popup. This is useful when you want to trigger the popup on a custom user action."
+        },
+        "authTriggerText": {
+          "type": "string",
+          "description": "Text to show in the button which triggers the popup auth flow. Default: `Authorize`."
+        },
+        "blockNonEmbedFullAppAccess": {
+          "type": "boolean",
+          "description": "Prevent users from accessing the full application or ThoughtSpot application pages access to the embedded application users outside of the iframe.",
+          "default": true
+        },
+        "pendoTrackingKey": {
+          "type": "string",
+          "description": "Pendo API key to enable Pendo tracking to your own subscription, the key is added as an additional key to the embed, as per this link:https://support.pendo.io/hc/en-us/articles/360032201951-Send-data-to-multiple-subscriptions[document]."
+        },
+        "suppressErrorAlerts": {
+          "type": "boolean",
+          "description": "If passed as true all alerts will be suppressed in the embedded app."
+        },
+        "logLevel": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "Suppress or show specific types of logs in the console output. For example, `LogLevel.ERROR` shows only Visual Embed SDK and ThoughtSpot application errors and suppresses other logs such as warnings, information alerts, and debug messages in the console output.",
+          "default": "LogLevel.ERROR"
+        },
+        "disableSDKTracking": {
+          "type": "boolean",
+          "description": "Disables the Mixpanel tracking from the SDK."
+        },
+        "dateFormatLocale": {
+          "type": "string",
+          "description": "Overrides default/user preferred locale for date formatting"
+        },
+        "numberFormatLocale": {
+          "type": "string",
+          "description": "Overrides default/user preferred locale for number formatting"
+        },
+        "currencyFormat": {
+          "type": "string",
+          "description": "Format to be used for currency when currency format is set to infer from browser"
+        },
+        "disableLoginFailurePage": {
+          "type": "boolean",
+          "description": "This flag is used to disable showing the login failure page in the embedded app."
+        },
+        "additionalFlags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "description": "This is an object (key/val) of override flags which will be applied to the internal embedded object. This can be used to add any URL flag. Warning: This option is for advanced use only and is used internally to control embed behavior in non-regular ways. We do not publish the list of supported keys and values associated with each."
+        },
+        "customVariablesForThirdPartyTools": {
+          "$ref": "#/definitions/Record%3Cstring%2Cany%3E",
+          "description": "This is an object (key/val) for customVariables being used by the third party tool's script."
+        },
+        "disablePreauthCache": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "thoughtSpotHost",
+        "authType"
+      ],
+      "additionalProperties": false,
+      "description": "The configuration object for embedding ThoughtSpot content. It includes the ThoughtSpot hostname or IP address, the type of authentication, and the authentication endpoint if a trusted authentication server is used."
+    },
+    "LogLevel": {
+      "type": "string",
+      "enum": [
+        "SILENT",
+        "ERROR",
+        "WARN",
+        "INFO",
+        "DEBUG",
+        "TRACE"
+      ],
+      "description": "Enum options to show or suppress Visual Embed SDK and ThoughtSpot application logs in the console output. This attribute doesn't support suppressing browser warnings or errors."
+    },
+    "LayoutConfig": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "FrameParams": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "description": "The width of the iframe (unit is pixels if numeric)."
+        },
+        "height": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "description": "The height of the iframe (unit is pixels if numeric)."
+        },
+        "loading": {
+          "type": "string",
+          "enum": [
+            "lazy",
+            "eager",
+            "auto"
+          ],
+          "description": "Set to 'lazy' to enable lazy loading of the embedded TS frame. This will defer loading of the frame until it comes into the viewport. This is useful for performance optimization."
+        }
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "not": {}
+          }
+        ],
+        "description": "This parameters will be passed on the iframe as is."
+      },
+      "description": "Embedded iframe configuration"
+    },
+    "ViewConfig": {
+      "type": "object",
+      "properties": {
+        "frameParams": {
+          "$ref": "#/definitions/FrameParams",
+          "description": "The width and height dimensions to render an embedded object inside your app.  Specify the values in pixels or percentage."
+        },
+        "disabledActions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "description": "The list of actions to disable from the primary menu, more menu (...), and the contextual menu. These actions will be disabled for the user. Use this to disable actions."
+        },
+        "disabledActionReason": {
+          "type": "string",
+          "description": "The tooltip to display for disabled actions."
+        },
+        "hiddenActions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "description": "The list of actions to hide from the embedded. This actions will be hidden from the user. Use this to hide an action."
+        },
+        "visibleActions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "description": "The list of actions to display from the primary menu, more menu (...), and the contextual menu. These will be only actions that are visible to the user. Use this to hide all actions except the ones you want to show.\n\nUse either this or hiddenActions."
+        },
+        "showAlerts": {
+          "type": "boolean",
+          "description": "Show alert messages and toast messages in the embedded view in full app embed."
+        },
+        "runtimeFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeFilter"
+          },
+          "description": "The list of runtime filters to apply to a search Answer, visualization, or Liveboard."
+        },
+        "runtimeParameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuntimeParameter"
+          },
+          "description": "The list of parameter override to apply to a search Answer, visualization, or Liveboard."
+        },
+        "locale": {
+          "type": "string",
+          "description": "The locale settings to apply to the embedded view."
+        },
+        "additionalFlags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "description": "This is an object (key/val) of override flags which will be applied to the internal embedded object. This can be used to add any URL flag. If the same flags are passed in init, they will be overriden by the values here. Warning: This option is for advanced use only and is used internally to control embed behavior in non-regular ways. We do not publish the list of supported keys and values associated with each."
+        },
+        "customizations": {
+          "$ref": "#/definitions/CustomisationsInterface",
+          "description": "Dynamic CSSUrl and customCSS to be injected in the loaded application. You would also need to set `style-src` in the CSP settings.",
+          "default": ""
+        },
+        "insertAsSibling": {
+          "type": "boolean",
+          "description": "Insert as a sibling of the target container, instead of appending to a child inside it."
+        },
+        "contextMenuTrigger": {
+          "$ref": "#/definitions/ContextMenuTriggerOptions",
+          "description": "flag to set ContextMenu Trigger to either left or right click."
+        },
+        "linkOverride": {
+          "type": "boolean",
+          "description": "Flag to override the *Open Link in New Tab* context menu option."
+        },
+        "excludeRuntimeFiltersfromURL": {
+          "type": "boolean",
+          "description": "Boolean to exclude runtimeFilters in the URL By default it is true, this flag removes runtime filters from the URL when set to false, runtime filters will be included in the URL.\n\nIrrespective of this flag, runtime filters ( if passed ) will be applied to the embedded view.",
+          "default": false
+        },
+        "hiddenTabs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of tab IDs to hide from the embedded. This Tabs will be hidden from their respective LBs. Use this to hide an tabID."
+        },
+        "hiddenHomepageModules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HomepageModule"
+          },
+          "description": "Hide the home page modules For example: hiddenHomepageModules = [HomepageModule.MyLibrary]\n\n**Note**: This option does not apply to the classic homepage. To access the updated modular homepage, set `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+        },
+        "reorderedHomepageModules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HomepageModule"
+          },
+          "description": "reordering the home page modules eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]\n\n**Note**: This option does not apply to the classic homepage. To access the updated modular homepage, set `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+        },
+        "visibleTabs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of tab IDs to show in the embedded Liveboard. Only the tabs specified in the array will be shown in the Liveboard.\n\nUse either `visibleTabs` or `hiddenTabs`."
+        },
+        "hiddenHomeLeftNavItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HomeLeftNavItem"
+          },
+          "description": "homepageLeftNavItems : Show or hide the left navigation bar items. There are 8 eight home navigation list items. To hide these items, specify the string in the array."
+        },
+        "preRenderId": {
+          "type": "string",
+          "description": "PreRender id to be used for PreRendering the embed. Use PreRender to render the embed in the background and then show or hide the rendered embed using showPreRender or hidePreRender respectively."
+        },
+        "doNotTrackPreRenderSize": {
+          "type": "boolean",
+          "description": "Determines if the PreRender component should dynamically track the size of its embedding element and adjust its own size accordingly. Enabling this option allows the PreRender component to automatically adapt its dimensions based on changes to the size of the embedding element.",
+          "default": false
+        },
+        "excludeRuntimeParametersfromURL": {
+          "type": "boolean",
+          "description": "Boolean to exclude runtimeParameters from the URL when set to true, this flag removes runtime parameters from the URL.\n\nIrrespective of this flag, runtime filters ( if passed ) will be applied to the embedded view.",
+          "default": false
+        },
+        "enableV2Shell_experimental": {
+          "type": "boolean",
+          "description": "Enable the V2 shell. This can provide performance benefits due to a lighterweight shell."
+        },
+        "collapseSearchBar": {
+          "type": "boolean",
+          "description": "To set the initial state of the search bar in case of saved Answers.",
+          "default": true
+        },
+        "disableRedirectionLinksInNewTab": {
+          "type": "boolean",
+          "description": "This flag can be used to disable links inside the embedded app, and disable redirection of links in a new tab."
+        },
+        "dataPanelV2": {
+          "type": "boolean",
+          "description": "Flag to control Data panel experience",
+          "default": false
+        },
+        "enableCustomColumnGroups": {
+          "type": "boolean",
+          "description": "To enable custom column groups in data panel v2",
+          "default": false
+        },
+        "overrideOrgId": {
+          "type": "number",
+          "description": "Overrides an Org context for embedding application users. This parameter allows a user authenticated to one Org to view the objects from another Org. The `overrideOrgId` setting is honoured only if the Per Org URL feature is enabled on your ThoughtSpot instance."
+        }
+      },
+      "additionalProperties": false,
+      "description": "The configuration object for an embedded view."
+    },
+    "Action": {
+      "type": "string",
+      "enum": [
+        "save",
+        "saveAsView",
+        "makeACopy",
+        "editACopy",
+        "embedDocument",
+        "subscription",
+        "schedule-list",
+        "share",
+        "addFilter",
+        "addDataPanelObjects",
+        "configureFilter",
+        "collapseDataSources",
+        "collapseDataPanel",
+        "chooseDataSources",
+        "addFormula",
+        "addParameter",
+        "addSimpleCohort",
+        "addAdvancedCohort",
+        "spotIQAnalyze",
+        "shareViz",
+        "showUnderlyingData",
+        "download",
+        "downloadAsPng",
+        "downloadAsPdf",
+        "downloadAsCSV",
+        "downloadAsXLSX",
+        "exportTSL",
+        "importTSL",
+        "updateTSL",
+        "editTSL",
+        "present",
+        "toggleSize",
+        "edit",
+        "editTitle",
+        "delete",
+        "pinboardInfo",
+        "pin",
+        "explore",
+        "context-menu-item-include",
+        "context-menu-item-exclude",
+        "context-menu-item-copy-to-clipboard",
+        "context-menu-item-copy-and-edit",
+        "context-menu-item-edit-measure",
+        "context-menu-item-separator",
+        "DRILL",
+        "requestAccess",
+        "queryDetailsButtons",
+        "onDeleteAnswer",
+        "answerChartSwitcher",
+        "addToFavorites",
+        "editDetails",
+        "createMonitor",
+        "reportError",
+        "sync-to-sheets",
+        "sync-to-other-apps",
+        "manage-pipeline",
+        "context-menu-item-cross-filter",
+        "syncToSlack",
+        "syncToTeams",
+        "context-menu-item-remove-cross-filter",
+        "axisMenuAggregate",
+        "axisMenuTimeBucket",
+        "axisMenuFilter",
+        "axisMenuConditionalFormat",
+        "axisMenuSort",
+        "axisMenuGroup",
+        "axisMenuPosition",
+        "axisMenuRename",
+        "axisMenuEdit",
+        "axisMenuNumberFormat",
+        "axisMenuTextWrapping",
+        "axisMenuRemove",
+        "renameModalTitleDescription",
+        "requestVerification",
+        "markAsVerified",
+        "addTab",
+        "enableContextualChangeAnalysis",
+        "showSageQuery",
+        "editSageAnswer",
+        "sageAnswerFeedback",
+        "modifySageAnswer",
+        "onContainerMove",
+        "manageMonitor",
+        "personalisedViewsDropdown",
+        "liveboardUsers",
+        "tml",
+        "createLiveboard",
+        "verifiedLiveboard",
+        "AskAi",
+        "addToWatchlist",
+        "removeFromWatchlist",
+        "organiseFavourites",
+        "AIHighlights",
+        "editScheduleHomepage",
+        "pauseScheduleHomepage",
+        "viewScheduleRunHomepage",
+        "unsubscribeScheduleHomepage",
+        "manageTags",
+        "deleteScheduleHomepage",
+        "kpiAnalysisCTA",
+        "disableChipReorder",
+        "changeFilterVisibilityInTab",
+        "previewDataSpotter",
+        "resetSpotterChat",
+        "spotterFeedback",
+        "editPreviousPrompt",
+        "deletePreviousPrompt",
+        "editTokens"
+      ],
+      "description": "ThoughtSpot application pages include actions and menu commands for various user-initiated operations. These actions are represented as enumeration members in the SDK. To show, hide, or disable specific actions in the embedded view, define the Action enumeration members in the `disabledActions`, `visibleActions`, or `hiddenActions` array."
+    },
+    "RuntimeFilter": {
+      "type": "object",
+      "properties": {
+        "columnName": {
+          "type": "string",
+          "description": "The name of the column to filter on (case-sensitive)"
+        },
+        "operator": {
+          "$ref": "#/definitions/RuntimeFilterOp",
+          "description": "The operator to apply"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "boolean",
+              "string"
+            ]
+          },
+          "description": "The list of operands. Some operators like EQ, LE accept a single operand, whereas other operators like BW and IN accept multiple operands."
+        }
+      },
+      "required": [
+        "columnName",
+        "operator",
+        "values"
+      ],
+      "additionalProperties": false,
+      "description": "A filter that can be applied to ThoughtSpot answers, Liveboards, or visualizations at runtime."
+    },
+    "RuntimeFilterOp": {
+      "type": "string",
+      "enum": [
+        "EQ",
+        "NE",
+        "LT",
+        "LE",
+        "GT",
+        "GE",
+        "CONTAINS",
+        "BEGINS_WITH",
+        "ENDS_WITH",
+        "BW_INC_MAX",
+        "BW_INC_MIN",
+        "BW_INC",
+        "BW",
+        "IN",
+        "NOT_IN"
+      ],
+      "description": "A map of the supported runtime filter operations"
+    },
+    "RuntimeParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the runtime parameter to filter on (case-sensitive)"
+        },
+        "value": {
+          "type": [
+            "number",
+            "boolean",
+            "string"
+          ],
+          "description": "Values"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalProperties": false,
+      "description": "A filter that can be applied to ThoughtSpot Answers, Liveboards, or visualizations at runtime."
+    },
+    "ContextMenuTriggerOptions": {
+      "type": "string",
+      "enum": [
+        "left-click",
+        "right-click",
+        "both-clicks"
+      ],
+      "description": "Enum for options to change context trigger BOTH_CLICKS option is introduced in 10.7"
+    },
+    "HomepageModule": {
+      "type": "string",
+      "enum": [
+        "SEARCH",
+        "WATCHLIST",
+        "FAVORITE",
+        "MY_LIBRARY",
+        "TRENDING",
+        "LEARNING"
+      ],
+      "description": "Home page module that can be hidden.\n**Note**: This option does not apply to the classic homepage. To access the updated modular homepage, set `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+    },
+    "MessagePayload": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "data": {},
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "additionalProperties": false,
+      "description": "MessagePayload: Embed event payload: message type, data and status (start/end)"
+    },
+    "MessageOptions": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "boolean",
+          "description": "A boolean value indicating that start status events of this type will be dispatched."
+        }
+      },
+      "additionalProperties": false,
+      "description": "MessageOptions: By providing options, getting specific event start / end based on option"
+    },
+    "MessageCallback": {
+      "$comment": "(\n    /* payload: Message payload contains type, data, and status */\n    payload: MessagePayload,\n    /**\n     *  responder: Message callback function triggered when embed event\n     *  initiated\n     */\n    responder?: (data: any) => void) => void",
+      "type": "object",
+      "properties": {
+        "namedArgs": {
+          "type": "object",
+          "properties": {
+            "payload": {
+              "$ref": "#/definitions/MessagePayload"
+            },
+            "responder": {
+              "$comment": "(data: any) => void",
+              "type": "object",
+              "properties": {
+                "namedArgs": {
+                  "type": "object",
+                  "properties": {
+                    "data": {}
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "description": "responder: Message callback function triggered when embed event initiated"
+            }
+          },
+          "required": [
+            "payload"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "description": "MessageCallback: Embed event message callback"
+    },
+    "MessageCallbackObj": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "$ref": "#/definitions/MessageOptions",
+          "description": "options: It contains start, a boolean value indicating that start status events of this type will be dispatched"
+        },
+        "callback": {
+          "$ref": "#/definitions/MessageCallback"
+        }
+      },
+      "required": [
+        "options",
+        "callback"
+      ],
+      "additionalProperties": false,
+      "description": "MessageCallbackObj: contains message options & callback function"
+    },
+    "GenericCallbackFn": {
+      "$comment": "(...args: any[]) => any",
+      "type": "object",
+      "properties": {
+        "namedArgs": {
+          "type": "object",
+          "properties": {
+            "args": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "args"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "QueryParams": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "boolean",
+          "number"
+        ]
+      }
+    },
+    "EmbedEvent": {
+      "type": "string",
+      "enum": [
+        "init",
+        "authInit",
+        "load",
+        "data",
+        "queryChanged",
+        "drillDown",
+        "dataSourceSelected",
+        "addRemoveColumns",
+        "customAction",
+        "vizPointDoubleClick",
+        "vizPointClick",
+        "Error",
+        "alert",
+        "ThoughtspotAuthExpired",
+        "getDataClick",
+        "ROUTE_CHANGE",
+        "noCookieAccess",
+        "dialog-open",
+        "dialog-close",
+        "PinboardRendered",
+        "*",
+        "save",
+        "download",
+        "downloadAsPng",
+        "downloadAsPdf",
+        "downloadAsCsv",
+        "downloadAsXlsx",
+        "answerDelete",
+        "pin",
+        "spotIQAnalyze",
+        "share",
+        "context-menu-item-include",
+        "context-menu-item-exclude",
+        "context-menu-item-copy-to-clipboard",
+        "updateTSL",
+        "editTSL",
+        "exportTSL",
+        "saveAsView",
+        "copyAEdit",
+        "showUnderlyingData",
+        "answerChartSwitcher",
+        "pinboardInfo",
+        "addToFavorites",
+        "subscription",
+        "edit",
+        "makeACopy",
+        "present",
+        "delete",
+        "schedule-list",
+        "cancel",
+        "explore",
+        "embedDocument",
+        "cross-filter-changed",
+        "vizPointRightClick",
+        "filterChanged",
+        "sageEmbedQuery",
+        "sageWorksheetUpdated",
+        "updateConnection",
+        "createConnection",
+        "updatePersonalisedView",
+        "savePersonalisedView",
+        "resetLiveboard",
+        "deletePersonalisedView",
+        "createWorksheet",
+        "AskSageInit",
+        "rename",
+        "onBeforeGetVizDataIntercept",
+        "parameterChanged",
+        "TableVizRendered",
+        "createLiveboard"
+      ],
+      "description": "Event types emitted by the embedded ThoughtSpot application.\n\nTo add an event listener use the corresponding  {@link  LiveboardEmbed.on  }  or  {@link  AppEmbed.on  }  or  {@link  SearchEmbed.on  }  method."
+    },
+    "HostEvent": {
+      "type": "string",
+      "enum": [
+        "search",
+        "triggerDrillDown",
+        "GetIframeUrl",
+        "SetPinboardVisibleVizs",
+        "SetActiveTab",
+        "UpdateRuntimeFilters",
+        "Navigate",
+        "openFilter",
+        "addColumns",
+        "removeColumn",
+        "getExportRequestForCurrentPinboard",
+        "pin",
+        "pinboardInfo",
+        "subscription",
+        "schedule-list",
+        "exportTSL",
+        "editTSL",
+        "updateTSL",
+        "downloadAsPdf",
+        "makeACopy",
+        "delete",
+        "explore",
+        "createMonitor",
+        "manageMonitor",
+        "edit",
+        "embedDocument",
+        "present",
+        "getTML",
+        "showUnderlyingData",
+        "onDeleteAnswer",
+        "spotIQAnalyze",
+        "downloadAsPng",
+        "downloadAsCSV",
+        "downloadAsXLSX",
+        "share",
+        "save",
+        "sync-to-sheets",
+        "sync-to-other-apps",
+        "manage-pipeline",
+        "resetSearch",
+        "getFilters",
+        "updateFilters",
+        "getTabs",
+        "SetPinboardVisibleTabs",
+        "SetPinboardHiddenTabs",
+        "updateSageQuery",
+        "getAnswerSession",
+        "AskSage",
+        "UpdateCrossFilter",
+        "ResetLiveboardPersonalisedView",
+        "UpdateParameters",
+        "GetParameters",
+        "UpdatePersonalisedView",
+        "saveAnswer",
+        "TransformTableVizData"
+      ],
+      "description": "Event types that can be triggered by the host application to the embedded ThoughtSpot app.\n\nTo trigger an event use the corresponding  {@link  LiveboardEmbed.trigger  }  or  {@link  AppEmbed.trigger  }  or  {@link  * SearchEmbed.trigger }  method."
+    },
+    "DataSourceVisualMode": {
+      "type": "string",
+      "enum": [
+        "hide",
+        "collapse",
+        "expand"
+      ],
+      "description": "The different visual modes that the data sources panel within search could appear in, such as hidden, collapsed, or expanded."
+    },
+    "Param": {
+      "type": "string",
+      "enum": [
+        "embedApp",
+        "dataSources",
+        "dataSourceMode",
+        "disableAction",
+        "disableHint",
+        "forceTable",
+        "preventPinboardFilterRemoval",
+        "searchQuery",
+        "hideAction",
+        "hideObjects",
+        "hostAppUrl",
+        "enableVizTransform",
+        "enableSearchAssist",
+        "enablePendoHelp",
+        "hideResult",
+        "useLastSelectedSources",
+        "tag",
+        "autoLogin",
+        "searchTokenString",
+        "executeSearch",
+        "isFullHeightPinboard",
+        "isLiveboardEmbed",
+        "isSearchEmbed",
+        "isVizEmbed",
+        "sdkVersion",
+        "viewPortHeight",
+        "viewPortWidth",
+        "visibleAction",
+        "disableLoginRedirect",
+        "pinboardVisibleVizs",
+        "isPinboardV2Enabled",
+        "enableDataPanelV2",
+        "showAlerts",
+        "locale",
+        "customStyle",
+        "forceSAMLAutoRedirect",
+        "authType",
+        "iconSprite",
+        "cookieless",
+        "contextMenuEnabledOnWhichClick",
+        "linkOverride",
+        "blockNonEmbedFullAppAccess",
+        "insertInToSlide",
+        "primaryNavHidden",
+        "profileAndHelpInNavBarHidden",
+        "applicationSwitcherHidden",
+        "orgSwitcherHidden",
+        "isSageEmbed",
+        "hideWorksheetSelector",
+        "disableWorksheetChange",
+        "hideSourceSelection",
+        "disableSourceSelection",
+        "hideEurekaResults",
+        "hideEurekaSuggestions",
+        "hideAutocompleteSuggestions",
+        "hideLiveboardHeader",
+        "showLiveboardDescription",
+        "showLiveboardTitle",
+        "hideTabs",
+        "visibleTabs",
+        "hideTabPanel",
+        "hideSampleQuestions",
+        "worksheet",
+        "query",
+        "hideHomepageLeftNav",
+        "modularHomeExperience",
+        "additionalPendoKey",
+        "isLiveboardHeaderSticky",
+        "isProductTour",
+        "hideSearchBarTitle",
+        "hideSageAnswerHeader",
+        "hideSearchBar",
+        "clientLogLevel",
+        "overrideConsoleLogs",
+        "enableAskSage",
+        "collapseSearchBarInitially",
+        "dataPanelCustomGroupsAccordionInitialState",
+        "enableCustomColumnGroups",
+        "dateFormatLocale",
+        "numberFormatLocale",
+        "currencyFormat",
+        "enable2ColumnLayout",
+        "isFullAppEmbed",
+        "isOnBeforeGetVizDataInterceptEnabled",
+        "focusSearchBarOnRender",
+        "disableRedirectionLinksInNewTab",
+        "homePageSearchBarMode",
+        "showLiveboardVerifiedBadge",
+        "showLiveboardReverifyBanner",
+        "isLiveboardHeaderV2Enabled",
+        "hideIrrelevantFiltersAtTabLevel",
+        "isSpotterExperienceEnabled",
+        "isUnifiedSearchExperienceEnabled",
+        "orgId",
+        "oAuthPollingInterval",
+        "isForceRedirect",
+        "dataSourceId",
+        "preAuthCache",
+        "showSpotterLimitations"
+      ],
+      "description": "The query params passed down to the embedded ThoughtSpot app containing configuration and/or visual information."
+    },
+    "AnswerServiceType": {
+      "type": "object",
+      "properties": {
+        "getAnswer": {
+          "$comment": "(offset: number, batchSize: number) => any",
+          "type": "object",
+          "properties": {
+            "namedArgs": {
+              "type": "object",
+              "properties": {
+                "offset": {
+                  "type": "number"
+                },
+                "batchSize": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "offset",
+                "batchSize"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "PrefetchFeatures": {
+      "type": "string",
+      "enum": [
+        "FullApp",
+        "SearchEmbed",
+        "LiveboardEmbed",
+        "VizEmbed"
+      ]
+    },
+    "ColumnValue": {
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "dataType": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "dataType"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "type": "object",
+                  "properties": {
+                    "s": {
+                      "type": "number"
+                    },
+                    "e": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "s",
+                    "e"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "column",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "VizPoint": {
+      "type": "object",
+      "properties": {
+        "selectedAttributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColumnValue"
+          }
+        },
+        "selectedMeasures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ColumnValue"
+          }
+        }
+      },
+      "required": [
+        "selectedAttributes",
+        "selectedMeasures"
+      ],
+      "additionalProperties": false
+    },
+    "CustomActionPayload": {
+      "type": "object",
+      "properties": {
+        "contextMenuPoints": {
+          "type": "object",
+          "properties": {
+            "clickedPoint": {
+              "$ref": "#/definitions/VizPoint"
+            },
+            "selectedPoints": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VizPoint"
+              }
+            }
+          },
+          "required": [
+            "clickedPoint",
+            "selectedPoints"
+          ],
+          "additionalProperties": false
+        },
+        "embedAnswerData": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "sources": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "properties": {
+                    "guid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "guid"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "header"
+              ],
+              "additionalProperties": false
+            },
+            "columns": {
+              "type": "array",
+              "items": {}
+            },
+            "data": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "name",
+            "id",
+            "sources",
+            "columns",
+            "data"
+          ]
+        },
+        "session": {
+          "$ref": "#/definitions/SessionInterface"
+        },
+        "vizId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "embedAnswerData",
+        "session"
+      ],
+      "additionalProperties": false
+    },
+    "DefaultAppInitData": {
+      "type": "object",
+      "properties": {
+        "customisations": {
+          "$ref": "#/definitions/CustomisationsInterface"
+        },
+        "authToken": {
+          "type": "string"
+        },
+        "runtimeFilterParams": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "runtimeParameterParams": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hiddenHomepageModules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HomepageModule"
+          }
+        },
+        "reorderedHomepageModules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hostConfig": {
+          "$ref": "#/definitions/Record%3Cstring%2Cany%3E"
+        },
+        "hiddenHomeLeftNavItems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "customVariablesForThirdPartyTools": {
+          "$ref": "#/definitions/Record%3Cstring%2Cany%3E"
+        }
+      },
+      "required": [
+        "customisations",
+        "authToken",
+        "runtimeFilterParams",
+        "runtimeParameterParams",
+        "hiddenHomepageModules",
+        "reorderedHomepageModules",
+        "hostConfig",
+        "hiddenHomeLeftNavItems",
+        "customVariablesForThirdPartyTools"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
