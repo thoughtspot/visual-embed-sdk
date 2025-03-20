@@ -4757,6 +4757,15 @@ export enum Action {
      *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     EditTokens = 'editTokens',
+    /**
+     * Action ID for hiding rename option for Column rename
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ColumnRename]
+     * ```
+     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     */
+    ColumnRename = 'columnRename', 
 }
 
 export interface AnswerServiceType {
