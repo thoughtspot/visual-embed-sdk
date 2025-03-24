@@ -7,11 +7,8 @@
  */
 
 import { CustomCssVariables } from './css-variables';
-export interface SessionInterface {
-  sessionId: string;
-  genNo: number;
-  acSession: { sessionId: string; genNo: number };
-}
+import type { SessionInterface } from './utils/graphql/answerService/answerService';
+
 /**
  * The authentication mechanism for allowing access to the
  * the embedded app
@@ -209,7 +206,8 @@ export enum HomeLeftNavItem {
      */
     LiveboardSchedules = 'liveboard-schedules'
 }
-export type DOMSelector = string
+export type DOMSelector = string | HTMLElement;
+
 /**
  * inline customCSS within the {@link CustomisationsInterface}.
  * Use {@link CustomCssVariables} or css rules.
@@ -490,7 +488,7 @@ export interface EmbedConfig {
      * ```
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      */
-    authTriggerContainer?: string;
+    authTriggerContainer?: string | HTMLElement;
     /**
      * Specify that we want to use the `AuthEvent.TRIGGER_SSO_POPUP` event to trigger
      * SAML popup. This is useful when you want to trigger the popup on a custom user
@@ -4897,11 +4895,4 @@ export interface DefaultAppInitData {
     hostConfig: Record<string, any>;
     hiddenHomeLeftNavItems: string[];
     customVariablesForThirdPartyTools: Record<string, any>;
-}
-
-export enum lol {
-  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-  b,
-  c,
-  d
 }
