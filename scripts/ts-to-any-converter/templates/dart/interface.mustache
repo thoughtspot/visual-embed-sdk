@@ -1,5 +1,5 @@
-Class {{name}} {
+class {{name}} {
   {{#properties}}
-  {{name}}: {{type}};
+  {{name}}: {{type.name}}{{#type.isArray}}[]{{/type.isArray}};
   {{/properties}}
 }

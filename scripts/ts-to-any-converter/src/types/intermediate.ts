@@ -22,9 +22,14 @@ export interface IBoolean {
 
 export interface IInterface {
   name: string;
+  comment?: string;
   properties: {
     name: string;
-    type: IEnum | IInterface | INumber | IString | IBoolean;
+    type: {
+      name: string;
+      isArray: boolean;
+    };
+    comment?: string;
   }[];
 }
 
