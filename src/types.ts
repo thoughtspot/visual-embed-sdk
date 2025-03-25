@@ -297,6 +297,8 @@ export interface CustomisationsInterface {
          * @version SDK: 1.26.0 | 9.7.0.cl
          */
         strings?: Record<string, any>;
+        stringIDs?: Record<string, string>;
+        stringIDsUrl?: string;
         [key: string]: any;
     };
     iconSpriteUrl?: string;
@@ -3359,6 +3361,7 @@ export enum Param {
     livedBoardEmbed = 'isLiveboardEmbed',
     searchEmbed = 'isSearchEmbed',
     vizEmbed = 'isVizEmbed',
+    StringIDsUrl = 'overrideStringIDsUrl',
     Version = 'sdkVersion',
     ViewPortHeight = 'viewPortHeight',
     ViewPortWidth = 'viewPortWidth',
