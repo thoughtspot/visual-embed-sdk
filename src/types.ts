@@ -4774,7 +4774,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.CoverAndFilterOptionInPDF]
      * ```
-     *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.8.0.cl
+     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
 }
