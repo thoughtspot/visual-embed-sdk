@@ -469,7 +469,7 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
-            coverAndFilterOptionInPDF = true,
+            coverAndFilterOptionInPDF,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -526,6 +526,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (dataSourceId !== undefined) {
             params[Param.DataSourceId] = dataSourceId;
+        }
+
+        if (coverAndFilterOptionInPDF !== undefined) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
@@ -666,7 +670,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
+        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
