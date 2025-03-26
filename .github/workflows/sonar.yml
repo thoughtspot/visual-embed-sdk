@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Sonar
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
