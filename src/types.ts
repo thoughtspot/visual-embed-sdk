@@ -626,7 +626,7 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     *  @version SDK 1.37.0 | ThoughtSpot: 10.7.0.cl
+     *  @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     customVariablesForThirdPartyTools?: Record< string, any >;
 
@@ -2311,17 +2311,19 @@ export enum EmbedEvent {
     ParameterChanged = 'parameterChanged',
     /**
      * Emits when a table visualization is rendered in
-     * the ThoughtSpot embedded app.
+     * the ThoughtSpot embedded app. \n
      * You can also use this event as a hook to trigger host events
      * such as `HostEvent.TransformTableVizData` on the table visualization.
      * The event payload contains the data used in the rendered table.
      * You can extract the relevant data from the payload
      * stored in `payload.data.data.columnDataLite`.
+     *
      * `columnDataLite` is a multidimensional array that contains
      * data values for each column, which was used in the query to
      * generate the table visualization. To find and modify specific cell data,
      * you can either loop through the array or directly access a cell if
      * you know its position and data index.
+     *
      * In the following code sample, the first cell in the first column
      * (`columnDataLite[0].dataValue[0]`) is set to `new fob`.
      * Note that any changes made to the data in the payload will only update the
@@ -2331,6 +2333,7 @@ export enum EmbedEvent {
      * payload in the `columnDataLite` is passed on to
      * `HostEvent.TransformTableVizData` and trigger an update to
      * the table visualization.
+     *
      * If the Row-Level Security (RLS) rules are applied on the
      * Worksheet or Model, exercise caution when changing column
      * or table cell values to maintain data security.
@@ -2345,7 +2348,7 @@ export enum EmbedEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.8.0.cl
      */
      TableVizRendered = 'TableVizRendered',
      /**
@@ -3355,7 +3358,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
      *```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
      InfoSuccess = 'InfoSuccess',
     /**
@@ -3402,7 +3405,7 @@ export enum HostEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.35.12 | ThoughtSpot: 10.7.0.cl
+     * @version SDK: 1.35.12 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
 }
