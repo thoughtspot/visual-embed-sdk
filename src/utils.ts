@@ -426,6 +426,10 @@ export const clearServerStorage = () => {
 };
 
 export const resetValueFromWindow = (key: string): boolean => {
+    if (!isBrowser()) {
+        delete serverStorage[key];
+        return true;
+    }
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
