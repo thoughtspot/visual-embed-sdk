@@ -1132,26 +1132,20 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public async render(): Promise<TsEmbed> {
-        // Check if init has been called or if we're hydrating from server init
-        if (!getIsInitCalled() && !wasInitializedOnServer()) {
-            logger.error(
-                'Looks like render was called before calling init, the render won\'t start until init is called.\n' +
-                'For more info check\n' +
-                '1. https://developers.thoughtspot.com/docs/Function_init#_init\n' +
-                '2.https://developers.thoughtspot.com/docs/getting-started#initSdk'
-            );
-            
-            return getInitPromise().then(() => this.render());
+    public async render(): Promise<any> {
+        // First check if init was called on client
+        if (!getIsInitCalled()) {
+            // If server initialized but client didn't, run client init
+            if (wasInitializedOnServer()) {
+                // Auto-init with the same config from server
+                init(getEmbedConfig());
+            } else {
+                // No initialization at all - show error
+                logger.error('Render called before init. Call init() first.');
+                return getInitPromise().then(() => this.render());
+            }
         }
         
-        // If we're hydrating from server init, ensure client side is initialized
-        if (wasInitializedOnServer() && !getIsInitCalled()) {
-            // Auto-init with the same config from server
-            init(getEmbedConfig());
-        }
-        
-        // Rest of the render function...
         await this.isReadyForRenderPromise;
         this.isRendered = true;
         return this;

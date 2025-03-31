@@ -284,6 +284,11 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         }
     }
 
+    if(isServerInit) {
+        logger.log("init called and server init");
+        storeValueInWindow(SERVER_INIT_KEY, true);
+    }
+
     // Skip browser-only operations when in SSR or tests
     if (isBrowser() && !isTestEnv) {
         // If hydrating, don't send duplicate events
