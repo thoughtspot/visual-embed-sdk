@@ -5,7 +5,7 @@ import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
-import { getDOMNode, getRedirectUrl, getSSOMarker } from './utils';
+import { getDOMNode, getRedirectUrl, getSSOMarker, isBrowser } from './utils';
 import {
     EndPoints,
     fetchAuthPostService,
@@ -230,6 +230,9 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
 export async function postLoginService(): Promise<void> {
+    if (!isBrowser()) {
+        return;
+    }
     try {
         getPreauthInfo();
         const sessionInfo = await getSessionInfo();
