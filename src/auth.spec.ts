@@ -117,7 +117,7 @@ export const mockSessionInfoApiResponse = {
     },
 };
 
-describe.skip('Unit test for auth', () => {
+describe('Unit test for auth', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         global.fetch = window.fetch;
