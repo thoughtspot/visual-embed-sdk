@@ -247,10 +247,6 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     const isServerInit = !isBrowser();
     const isHydrating = isBrowser() && wasInitializedOnServer();
     
-    // Skip test environments
-    const isTestEnv = typeof process !== 'undefined' && 
-        (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined);
-    
     sanity(embedConfig);
     resetAllCachedServices();
     
@@ -265,23 +261,20 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     setGlobalLogLevelOverride(embedConfig.logLevel);
     
     // Only register browser-specific observers when in browser and not in test
-    if (isBrowser() && !isTestEnv) {
+    if (isBrowser()) {
         registerReportingObserver();
     }
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     
-    // Skip auth in test environment
-    if (!isTestEnv) {
-        // For SSR, handle auth differently based on auth type
-        if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+    // For SSR, handle auth differently based on auth type
+    if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
             // Cookieless auth can work in SSR
             handleAuth();
-        } else if (isBrowser()) {
+    } else if (isBrowser()) {
             // Other auth types need browser capabilities
             handleAuth();
-        }
     }
 
     if(isServerInit) {
@@ -289,9 +282,10 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
         storeValueInWindow(SERVER_INIT_KEY, true);
     }
 
-    // Skip browser-only operations when in SSR or tests
-    if (isBrowser() && !isTestEnv) {
+    // Skip browser-only operations when in SSR
+    if (isBrowser()) {
         // If hydrating, don't send duplicate events
+        logger.log("isHydrating", isHydrating);
         if (!isHydrating) {
             console.log('init mixpanel done', getEmbedConfig());
             
@@ -321,9 +315,11 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     
     // If on server, mark for client hydration to detect
     if (isServerInit) {
+        logger.log("isServerInit", isServerInit);
         storeValueInWindow(SERVER_INIT_KEY, true);
         // On client during hydration, we'll look for this marker
     } else if (isBrowser()) {
+        logger.log("no server init, browser init");
         // For browser initialized, store a marker that client can detect
         try {
             localStorage.setItem(SERVER_INIT_KEY, 'true');

@@ -1143,6 +1143,7 @@ export class TsEmbed {
         
         // If server initialized but client didn't, run client init
         if (wasInitializedOnServer() && !getIsInitCalled()) {
+            logger.log("server initialized but client didn't, running client init");
             // Auto-init with the same config from server
             init(getEmbedConfig());
         }
