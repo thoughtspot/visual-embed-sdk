@@ -35,6 +35,7 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
+import { isBrowser } from '../utils';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -238,33 +239,51 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     );
 
     setGlobalLogLevelOverride(embedConfig.logLevel);
-    registerReportingObserver();
+    
+    // Only register browser-specific observers when in browser
+    if (isBrowser()) {
+        registerReportingObserver();
+    }
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
-    handleAuth();
-
-    console.log('init mixpanel done', getEmbedConfig());
-    alert("yaha tak to aa gya bhai bina error ke");
-
-    const { password, ...configToTrack } = getEmbedConfig();
-    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-        usedCustomizationRules:
-            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-    });
-
-    if (getEmbedConfig().callPrefetch) {
-        prefetch(getEmbedConfig().thoughtSpotHost);
+    
+    // For SSR, we handle auth differently based on auth type
+    if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+        // Cookieless auth can work in SSR
+        handleAuth();
+    } else if (isBrowser()) {
+        // Other auth types need browser capabilities
+        handleAuth();
     }
 
-    // Resolves the promise created in the initPromiseKey
-    getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
-    getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
+    // Skip browser-only operations when in SSR
+    if (isBrowser()) {
+        console.log('init mixpanel done', getEmbedConfig());
+        alert("yaha tak to aa gya bhai bina error ke");
+
+        const { password, ...configToTrack } = getEmbedConfig();
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+            ...configToTrack,
+            usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+            usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+            usedCustomizationRules:
+                embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+            usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+            usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+        });
+
+        if (getEmbedConfig().callPrefetch) {
+            prefetch(getEmbedConfig().thoughtSpotHost);
+        }
+    }
+
+    // Store initialization flag in appropriate storage (server or browser)
+    const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
+    if (initFlagStore) {
+        initFlagStore.initPromiseResolve(authEE);
+        initFlagStore.isInitCalled = true;
+    }
 
     return authEE as AuthEventEmitter;
 };

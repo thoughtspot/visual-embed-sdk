@@ -337,6 +337,9 @@ export const getTypeFromValue = (value: any): [string, string] => {
 };
 
 const sdkWindowKey = '_tsEmbedSDK' as any;
+let serverStorage: Record<string, any> = {};
+
+export const isBrowser = () : boolean => typeof window !== 'undefined';
 
 /**
  * Stores a value in the global `window` object under the `_tsEmbedSDK` namespace.
@@ -354,6 +357,15 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
+
+    if (!isBrowser()) {
+        if (options.ignoreIfAlreadyExists && key in serverStorage) {
+            return serverStorage[key];
+        }
+        serverStorage[key] = value;
+        return value;
+    }
+        
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -371,8 +383,12 @@ export function storeValueInWindow<T>(
  * @param key - The key whose value needs to be retrieved.
  * @returns The stored value or `undefined` if the key is not found.
  */
-export const getValueFromWindow = <T = any>
-    (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
+export const getValueFromWindow = <T = any>(key: string): T => {
+    if (!isBrowser()) {
+        return serverStorage[key];
+    }
+    return (window as any)?.[sdkWindowKey]?.[key];
+};
 
 /**
  * Resets the key if it exists in the `window` object under the `_tsEmbedSDK` key.
@@ -381,9 +397,20 @@ export const getValueFromWindow = <T = any>
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
+    if (!isBrowser()) {
+        if (key in serverStorage) {
+            delete serverStorage[key];
+            return true;
+        }
+        return false;
+    }
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
     }
     return false;
 }
+
+export const clearServerStorage = () => {
+    serverStorage = {};
+};
