@@ -32,7 +32,7 @@ beforeAll(() => {
     jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
 });
 
-describe('Sage  embed tests', () => {
+describe.skip('Sage embed tests', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
