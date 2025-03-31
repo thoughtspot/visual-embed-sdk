@@ -246,7 +246,6 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
 
     console.log('init mixpanel done', getEmbedConfig());
     alert("yaha tak to aa gya bhai bina error ke");
-    throw new Error('GGs Bro');
 
     const { password, ...configToTrack } = getEmbedConfig();
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
