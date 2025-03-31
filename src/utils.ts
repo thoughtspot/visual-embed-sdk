@@ -354,13 +354,16 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    if (!isBrowser()) {
+    
         if (options.ignoreIfAlreadyExists && key in serverStorage) {
             return serverStorage[key];
         }
         serverStorage[key] = value;
+        
+    if(!isBrowser()) {
         return value;
     }
+    
 
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
@@ -378,9 +381,11 @@ export function storeValueInWindow<T>(
  * Retrieves a stored value from global storage
  */
 export const getValueFromWindow = <T = any>(key: string): T => {
-    if (!isBrowser()) {
+    if( key in serverStorage) {
+        logger.log("serverStorage: ", serverStorage);
         return serverStorage[key];
     }
+    logger.log("window: key not in serverStorage", (window as any)?.[sdkWindowKey]?.[key]);
     return (window as any)?.[sdkWindowKey]?.[key];
 };
 
