@@ -339,38 +339,35 @@ export const getTypeFromValue = (value: any): [string, string] => {
 const sdkWindowKey = '_tsEmbedSDK' as any;
 let serverStorage: Record<string, any> = {};
 
-export const isBrowser = () : boolean => typeof window !== 'undefined';
+/**
+ * Checks if we're running in a browser environment
+ */
+export const isBrowser = (): boolean => typeof window !== 'undefined';
+
+const SERVER_INIT_MARKER = 'ts_server_initialized';
 
 /**
- * Stores a value in the global `window` object under the `_tsEmbedSDK` namespace.
- * @param key - The key under which the value will be stored.
- * @param value - The value to store.
- * @param options - Additional options.
- * @param options.ignoreIfAlreadyExists - Does not set if value for key is set.
- *
- * @returns The stored value.
- *
- * @version SDK: 1.36.2 | ThoughtSpot: *
+ * Stores a value in the global storage (window in browser, serverStorage in SSR)
  */
 export function storeValueInWindow<T>(
     key: string,
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-
     if (!isBrowser()) {
+        // Server-side storage
         if (options.ignoreIfAlreadyExists && key in serverStorage) {
             return serverStorage[key];
         }
         serverStorage[key] = value;
         return value;
     }
-        
+
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
 
-    if (options.ignoreIfAlreadyExists && key in (window as any)[sdkWindowKey]) {
+    if (options.ignoreIfAlreadyExists && key in window[sdkWindowKey]) {
         return (window as any)[sdkWindowKey][key];
     }
 
@@ -379,9 +376,7 @@ export function storeValueInWindow<T>(
 }
 
 /**
- * Retrieves a stored value from the global `window` object under the `_tsEmbedSDK` namespace.
- * @param key - The key whose value needs to be retrieved.
- * @returns The stored value or `undefined` if the key is not found.
+ * Retrieves a stored value from global storage
  */
 export const getValueFromWindow = <T = any>(key: string): T => {
     if (!isBrowser()) {
@@ -390,25 +385,40 @@ export const getValueFromWindow = <T = any>(key: string): T => {
     return (window as any)?.[sdkWindowKey]?.[key];
 };
 
-/**
- * Resets the key if it exists in the `window` object under the `_tsEmbedSDK` key.
- * Returns true if the key was reset, false otherwise.
- * @param key - Key to reset
- * @returns - boolean indicating if the key was reset
- */
-export function resetValueFromWindow(key: string): boolean {
-    if (!isBrowser()) {
-        if (key in serverStorage) {
-            delete serverStorage[key];
-            return true;
+// Add a function to mark server initialization in DOM when SSR completes
+export function markServerInitInDOM(): void {
+    if (isBrowser()) {
+        // Add a hidden DOM element to indicate server initialization
+        if (!document.getElementById('ts-server-init-marker')) {
+            const marker = document.createElement('script');
+            marker.id = 'ts-server-init-marker';
+            marker.type = 'application/json';
+            marker.textContent = JSON.stringify({
+                initialized: true,
+                timestamp: Date.now()
+            });
+            document.head.appendChild(marker);
         }
+    }
+}
+
+// Add a function to check if server initialized the SDK
+export function wasInitializedOnServer(): boolean {
+    if (!isBrowser()) {
         return false;
     }
-    if (key in window[sdkWindowKey]) {
-        delete (window as any)[sdkWindowKey][key];
+    
+    // First check for DOM marker
+    if (document.getElementById('ts-server-init-marker')) {
         return true;
     }
-    return false;
+    
+    // Then check for localStorage marker (fallback)
+    try {
+        return localStorage.getItem(SERVER_INIT_MARKER) === 'true';
+    } catch {
+        return false;
+    }
 }
 
 export const clearServerStorage = () => {

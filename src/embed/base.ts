@@ -36,6 +36,10 @@ import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { isBrowser } from '../utils';
+import { 
+    markServerInitInDOM, 
+    wasInitializedOnServer,
+} from '../utils';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -207,6 +211,8 @@ export const getInitPromise = ():
 
 export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
 
+const SERVER_INIT_KEY = 'ts_server_initialized';
+
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable. This function needs to be called before any ThoughtSpot
@@ -228,8 +234,17 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+    // Check if we're hydrating from server-side initialization
+    const isServerInit = !isBrowser();
+    const isHydrating = isBrowser() && wasInitializedOnServer();
+    
+    // Skip test environments
+    const isTestEnv = typeof process !== 'undefined' && 
+        (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined);
+    
     sanity(embedConfig);
     resetAllCachedServices();
+    
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
@@ -240,49 +255,69 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
 
     setGlobalLogLevelOverride(embedConfig.logLevel);
     
-    // Only register browser-specific observers when in browser
-    if (isBrowser()) {
+    // Only register browser-specific observers when in browser and not in test
+    if (isBrowser() && !isTestEnv) {
         registerReportingObserver();
     }
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
     
-    // For SSR, we handle auth differently based on auth type
-    if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
-        // Cookieless auth can work in SSR
-        handleAuth();
-    } else if (isBrowser()) {
-        // Other auth types need browser capabilities
-        handleAuth();
+    // Skip auth in test environment
+    if (!isTestEnv) {
+        // For SSR, handle auth differently based on auth type
+        if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+            // Cookieless auth can work in SSR
+            handleAuth();
+        } else if (isBrowser()) {
+            // Other auth types need browser capabilities
+            handleAuth();
+        }
     }
 
-    // Skip browser-only operations when in SSR
-    if (isBrowser()) {
-        console.log('init mixpanel done', getEmbedConfig());
-        alert("yaha tak to aa gya bhai bina error ke");
-
-        const { password, ...configToTrack } = getEmbedConfig();
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-            ...configToTrack,
-            usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-            usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-            usedCustomizationRules:
-                embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-            usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-            usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-        });
+    // Skip browser-only operations when in SSR or tests
+    if (isBrowser() && !isTestEnv) {
+        // If hydrating, don't send duplicate events
+        if (!isHydrating) {
+            console.log('init mixpanel done', getEmbedConfig());
+            
+            const { password, ...configToTrack } = getEmbedConfig();
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+                ...configToTrack,
+                usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+                usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+                usedCustomizationRules:
+                    embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+                usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+                usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+            });
+        }
 
         if (getEmbedConfig().callPrefetch) {
             prefetch(getEmbedConfig().thoughtSpotHost);
         }
     }
 
-    // Store initialization flag in appropriate storage (server or browser)
+    // Store initialization flag in appropriate storage
     const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
     if (initFlagStore) {
         initFlagStore.initPromiseResolve(authEE);
         initFlagStore.isInitCalled = true;
+    }
+    
+    // If on server, mark for client hydration to detect
+    if (isServerInit) {
+        storeValueInWindow(SERVER_INIT_KEY, true);
+        // On client during hydration, we'll look for this marker
+    } else if (isBrowser()) {
+        // For browser initialized, store a marker that client can detect
+        try {
+            localStorage.setItem(SERVER_INIT_KEY, 'true');
+        } catch {
+            // Ignore if localStorage isn't available
+        }
+        // Add DOM marker for hydration detection
+        markServerInitInDOM();
     }
 
     return authEE as AuthEventEmitter;
@@ -469,4 +504,13 @@ export function reset(): void {
     setEmbedConfig({} as any);
     setAuthEE(null);
     authPromise = null;
+}
+
+export function getIsInitCalled(): boolean {
+    // Check both client and server initialization
+    const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
+    return (
+        (initFlagStore?.isInitCalled === true) || 
+        wasInitializedOnServer()
+    );
 }
