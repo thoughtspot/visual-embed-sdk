@@ -46,7 +46,7 @@ beforeAll(() => {
     spyOn(window, 'alert');
 });
 
-describe.skip('Search embed tests', () => {
+describe('Search embed tests', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
         jest.spyOn(authInstance, 'getReleaseVersion').mockReturnValue('7.4.0.sw');

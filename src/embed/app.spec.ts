@@ -56,7 +56,7 @@ const cleanUp = () => {
     window.ResizeObserver = originalResizeObserver;
 };
 
-describe.skip('App embed tests', () => {
+describe('App embed tests', () => {
     beforeEach(() => {
         cleanUp();
     });

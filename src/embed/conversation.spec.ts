@@ -26,7 +26,7 @@ beforeAll(() => {
     document.body.innerHTML = getDocumentBody();
 });
 
-describe.skip('ConversationEmbed', () => {
+describe('ConversationEmbed', () => {
     it('should render the conversation embed', async () => {
         const viewConfig: ConversationViewConfig = {
             worksheetId: 'worksheetId',
