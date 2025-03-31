@@ -209,8 +209,6 @@ export const getInitPromise = ():
       ReturnType<typeof init>
     > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
 
-export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
-
 const SERVER_INIT_KEY = 'ts_server_initialized';
 
 /**

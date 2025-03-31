@@ -523,6 +523,7 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> =
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;
+let authPromise: Promise<boolean>;
 
 // Modify handleAuth to avoid errors in test environment
 export const handleAuth = (): Promise<boolean> => {
