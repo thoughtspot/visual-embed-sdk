@@ -2311,7 +2311,8 @@ export enum EmbedEvent {
     ParameterChanged = 'parameterChanged',
     /**
      * Emits when a table visualization is rendered in
-     * the ThoughtSpot embedded app. \n
+     * the ThoughtSpot embedded app.
+
      * You can also use this event as a hook to trigger host events
      * such as `HostEvent.TransformTableVizData` on the table visualization.
      * The event payload contains the data used in the rendered table.
@@ -2348,7 +2349,7 @@ export enum EmbedEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.35.12 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
      */
      TableVizRendered = 'TableVizRendered',
      /**
@@ -2361,7 +2362,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.36.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
     /**
@@ -2810,7 +2811,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Remove)
      * ```
-     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
      */
     Remove = 'delete',
     /**
@@ -3405,7 +3406,7 @@ export enum HostEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.35.12 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
 }
