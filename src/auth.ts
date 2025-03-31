@@ -523,32 +523,3 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> =
  * Check if we are authenticated to the ThoughtSpot cluster
  */
 export const isAuthenticated = (): boolean => loggedInStatus;
-let authPromise: Promise<boolean>;
-
-// Modify handleAuth to avoid errors in test environment
-export const handleAuth = (): Promise<boolean> => {
-    // Skip in test environments
-    if (typeof process !== 'undefined' && 
-        (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined)) {
-        return Promise.resolve(true);
-    }
-    
-    if (!authPromise) {
-        authPromise = authenticate(getEmbedConfig());
-        authPromise.then(
-            (isLoggedIn) => {
-                if (!isLoggedIn) {
-                    notifyAuthFailure(AuthFailureType.SDK);
-                } else {
-                    // Post login service is called after successful login
-                    postLoginService();
-                    notifyAuthSDKSuccess();
-                }
-            },
-            () => {
-                notifyAuthFailure(AuthFailureType.SDK);
-            },
-        );
-    }
-    return authPromise;
-};
