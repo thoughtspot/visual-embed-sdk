@@ -337,6 +337,7 @@ export const getTypeFromValue = (value: any): [string, string] => {
 };
 
 const sdkWindowKey = '_tsEmbedSDK' as any;
+// Simple object for server storage
 let serverStorage: Record<string, any> = {};
 
 /**
@@ -344,54 +345,67 @@ let serverStorage: Record<string, any> = {};
  */
 export const isBrowser = (): boolean => typeof window !== 'undefined';
 
-const SERVER_INIT_MARKER = 'ts_server_initialized';
-
 /**
- * Stores a value in the global storage (window in browser, serverStorage in SSR)
+ * Stores a value in the global storage (window in browser, serverStorage in server)
+ * @param key Storage key
+ * @param value Value to store
+ * @param options Optional configuration
+ * @returns The stored value
  */
 export function storeValueInWindow<T>(
     key: string,
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    
-    if (options.ignoreIfAlreadyExists && key in serverStorage) {
-        return serverStorage[key];
+    // Check if we should ignore this operation when value exists
+    if (options.ignoreIfAlreadyExists) {
+        // First check server storage
+        if (key in serverStorage) {
+            return serverStorage[key];
+        }
+        
+        // Then check browser storage if in browser
+        if (isBrowser() && window[sdkWindowKey] && key in window[sdkWindowKey]) {
+            return (window as any)[sdkWindowKey][key];
+        }
     }
+
+    // Store in server storage regardless of environment
     serverStorage[key] = value;
-    if(!isBrowser()) {
-        return value;
+    
+    // If in browser, also store in window
+    if (isBrowser()) {
+        if (!window[sdkWindowKey]) {
+            (window as any)[sdkWindowKey] = {};
+        }
+        (window as any)[sdkWindowKey][key] = value;
     }
-
-    if (!window[sdkWindowKey]) {
-        (window as any)[sdkWindowKey] = {};
-    }
-
-    if (options.ignoreIfAlreadyExists && key in window[sdkWindowKey]) {
-        return (window as any)[sdkWindowKey][key];
-    }
-
-    (window as any)[sdkWindowKey][key] = value;
+    
     return value;
 }
 
 /**
  * Retrieves a stored value from global storage
+ * @param key Storage key
+ * @returns The stored value or undefined if not found
  */
 export const getValueFromWindow = <T = any>(key: string): T => {
-    if( key in serverStorage) {
-        if (isBrowser()) {
-            logger.log("serverStorage: ", serverStorage);
-        }
+    // First check server storage
+    if (key in serverStorage) {
         return serverStorage[key];
     }
-    if (isBrowser()) {
-        logger.log("window: key not in serverStorage", (window as any)?.[sdkWindowKey]?.[key]);
+    
+    // Then check browser storage if in browser
+    if (isBrowser() && window[sdkWindowKey]) {
+        return (window as any)[sdkWindowKey][key];
     }
-    return isBrowser() ? (window as any)?.[sdkWindowKey]?.[key] : undefined;
+    
+    return undefined;
 };
 
-// Add a function to mark server initialization in DOM when SSR completes
+/**
+ * Marks server initialization in DOM when SSR completes
+ */
 export function markServerInitInDOM(): void {
     if (isBrowser()) {
         if (!document.getElementById('ts-server-init-marker')) {
@@ -407,36 +421,50 @@ export function markServerInitInDOM(): void {
     }
 }
 
-// Add a function to check if server initialized the SDK
+/**
+ * Checks if server initialized the SDK
+ */
 export function wasInitializedOnServer(): boolean {
     if (!isBrowser()) {
         return false;
     }
     
+    // Check for DOM marker
     if (document.getElementById('ts-server-init-marker')) {
         return true;
     }
     
-    // in case if the marker is not present, we check for the localStorage marker
+    // Fallback to localStorage check
     try {
-        return localStorage.getItem(SERVER_INIT_MARKER) === 'true';
+        return localStorage.getItem('ts_server_initialized') === 'true';
     } catch {
         return false;
     }
 }
 
+/**
+ * Clears all server-side storage
+ */
 export const clearServerStorage = () => {
     serverStorage = {};
 };
 
+/**
+ * Removes a value from the storage
+ * @param key Storage key
+ * @returns true if the value was found and removed, false otherwise
+ */
 export const resetValueFromWindow = (key: string): boolean => {
-    if (!isBrowser() && key in serverStorage) {
+    const existsInServer = key in serverStorage;
+    const existsInBrowser = isBrowser() && window[sdkWindowKey] && key in window[sdkWindowKey];
+    
+    if (existsInServer) {
         delete serverStorage[key];
-        return true;
     }
-    if (key in window[sdkWindowKey]) {
+    
+    if (existsInBrowser) {
         delete (window as any)[sdkWindowKey][key];
-        return true;
     }
-    return false;
+    
+    return existsInServer || existsInBrowser;
 };
