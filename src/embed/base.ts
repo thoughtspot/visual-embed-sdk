@@ -520,11 +520,13 @@ export function reset(): void {
     authPromise = null;
 }
 
+// Check if init was called on client
 export function getIsInitCalled(): boolean {
-    // Check both client and server initialization
     const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
-    return (
-        (initFlagStore?.isInitCalled === true) || 
-        wasInitializedOnServer()
-    );
+    return initFlagStore?.isInitCalled === true;
+}
+
+// New separate function to check any initialization
+export function hasAnyInitialization(): boolean {
+    return getIsInitCalled() || wasInitializedOnServer();
 }

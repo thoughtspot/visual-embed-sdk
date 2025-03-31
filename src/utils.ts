@@ -355,7 +355,6 @@ export function storeValueInWindow<T>(
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
     if (!isBrowser()) {
-        // Server-side storage
         if (options.ignoreIfAlreadyExists && key in serverStorage) {
             return serverStorage[key];
         }
@@ -388,7 +387,6 @@ export const getValueFromWindow = <T = any>(key: string): T => {
 // Add a function to mark server initialization in DOM when SSR completes
 export function markServerInitInDOM(): void {
     if (isBrowser()) {
-        // Add a hidden DOM element to indicate server initialization
         if (!document.getElementById('ts-server-init-marker')) {
             const marker = document.createElement('script');
             marker.id = 'ts-server-init-marker';
@@ -408,12 +406,11 @@ export function wasInitializedOnServer(): boolean {
         return false;
     }
     
-    // First check for DOM marker
     if (document.getElementById('ts-server-init-marker')) {
         return true;
     }
     
-    // Then check for localStorage marker (fallback)
+    // in case if the marker is not present, we check for the localStorage marker
     try {
         return localStorage.getItem(SERVER_INIT_MARKER) === 'true';
     } catch {
@@ -426,7 +423,7 @@ export const clearServerStorage = () => {
 };
 
 export const resetValueFromWindow = (key: string): boolean => {
-    if (!isBrowser()) {
+    if (!isBrowser() && key in serverStorage) {
         delete serverStorage[key];
         return true;
     }
