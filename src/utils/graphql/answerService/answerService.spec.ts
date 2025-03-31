@@ -32,7 +32,7 @@ function createAnswerService(answer = {}, point?: VizPoint[]) {
     );
 }
 
-describe.skip('Answer service tests', () => {
+describe('Answer service tests', () => {
     beforeEach(() => {
         fetchMock.resetMocks();
     });

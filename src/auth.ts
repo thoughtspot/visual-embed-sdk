@@ -235,12 +235,6 @@ export async function postLoginService(): Promise<void> {
         return;
     }
     
-    // Skip in test environments
-    if (typeof process !== 'undefined' && 
-        (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID !== undefined)) {
-        return;
-    }
-    
     try {
         getPreauthInfo();
         const sessionInfo = await getSessionInfo();
