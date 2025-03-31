@@ -382,11 +382,11 @@ export function storeValueInWindow<T>(
  */
 export const getValueFromWindow = <T = any>(key: string): T => {
     if( key in serverStorage) {
-        logger.log("serverStorage: ", serverStorage);
+        isBrowser() && logger.log("serverStorage: ", serverStorage);
         return serverStorage[key];
     }
-    logger.log("window: key not in serverStorage", (window as any)?.[sdkWindowKey]?.[key]);
-    return (window as any)?.[sdkWindowKey]?.[key];
+    isBrowser() && logger.log("window: key not in serverStorage", (window as any)?.[sdkWindowKey]?.[key]);
+    return isBrowser() ? (window as any)?.[sdkWindowKey]?.[key] : undefined;
 };
 
 // Add a function to mark server initialization in DOM when SSR completes
