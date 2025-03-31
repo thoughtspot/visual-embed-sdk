@@ -424,3 +424,11 @@ export function wasInitializedOnServer(): boolean {
 export const clearServerStorage = () => {
     serverStorage = {};
 };
+
+export const resetValueFromWindow = (key: string): boolean => {
+    if (key in window[sdkWindowKey]) {
+        delete (window as any)[sdkWindowKey][key];
+        return true;
+    }
+    return false;
+};
