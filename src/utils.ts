@@ -429,12 +429,10 @@ export function wasInitializedOnServer(): boolean {
         return false;
     }
     
-    // Check for DOM marker
     if (document.getElementById('ts-server-init-marker')) {
         return true;
     }
     
-    // Fallback to localStorage check
     try {
         return localStorage.getItem('ts_server_initialized') === 'true';
     } catch {
