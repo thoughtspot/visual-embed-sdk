@@ -1145,7 +1145,7 @@ export class TsEmbed {
         if (wasInitializedOnServer() && !getIsInitCalled()) {
             logger.log("server initialized but client didn't, running client init");
             // Auto-init with the same config from server
-            init(getEmbedConfig());
+            // init(getEmbedConfig());
         }
         
         // Continue with render
