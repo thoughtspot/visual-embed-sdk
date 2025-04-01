@@ -197,7 +197,9 @@ export const createAndSetInitPromise = (): void => {
     });
 };
 
-createAndSetInitPromise();
+if (isBrowser()) {
+    createAndSetInitPromise();
+}
 
 export const getInitPromise = ():
     Promise<
