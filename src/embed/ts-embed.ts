@@ -585,7 +585,8 @@ export class TsEmbed {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
 
-        const stringIDsUrl = customizations?.content?.stringIDsUrl || embedCustomizations?.content?.stringIDsUrl;
+        const stringIDsUrl = customizations?.content?.stringIDsUrl ||
+            embedCustomizations?.content?.stringIDsUrl;
         if (stringIDsUrl) {
             queryParams[Param.StringIDsUrl] = stringIDsUrl;
         }
