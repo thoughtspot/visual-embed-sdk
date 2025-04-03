@@ -322,7 +322,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should add coverAndFilterOptionInPDF flag to the iframe src', async () => {
+    test('should add coverAndFilterOptionInPDF flag and set value to true to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -337,7 +337,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should add coverAndFilterOptionInPDF flag to the iframe src', async () => {
+    test('should add coverAndFilterOptionInPDF flag and set value to false to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -347,7 +347,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=false${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
