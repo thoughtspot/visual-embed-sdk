@@ -337,6 +337,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should add coverAndFilterOptionInPDF flag to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            coverAndFilterOptionInPDF: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -740,8 +755,9 @@ describe('Liveboard/viz embed tests', () => {
             });
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation((resizeObserverCbParam) => {
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
@@ -794,12 +810,10 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
-                await liveboardEmbed.trigger(
-                    HostEvent.Save,
-                );
-                expect(mockProcessTrigger).toHaveBeenCalledWith(
-                    HostEvent.Save, { vizId: 'testViz' },
-                );
+                await liveboardEmbed.trigger(HostEvent.Save);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(HostEvent.Save, {
+                    vizId: 'testViz',
+                });
             });
         });
     });
