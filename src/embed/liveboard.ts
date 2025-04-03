@@ -397,7 +397,7 @@ export interface LiveboardViewConfig
      * cover and filter pages in the Liveboard PDF
      * @type {boolean}
      * @default true
-     * @version SDK: 1.36.0 | ThoughtSpot:10.8.0.cl
+     * @version SDK: 1.38.0 | ThoughtSpot:10.8.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
