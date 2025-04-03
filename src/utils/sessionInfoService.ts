@@ -79,9 +79,10 @@ export async function getPreauthInfo(allowCache = true): Promise<PreauthInfo> {
 }
 
 /**
- * Returns the session info object and caches it for future use.
+ * Returns the cached session info object and caches it for future use.
  * Once fetched the session info object is cached and returned from the cache on
  * subsequent calls.
+ * This cache is cleared when inti is called OR resetCachedSessionInfo is called.
  * @example ```js
  * const sessionInfo = await getSessionInfo();
  * console.log(sessionInfo);
@@ -152,9 +153,23 @@ export const getSessionDetails = (sessionInfoResp: any): SessionInfo => {
  * const sessionInfo = await getSessionInfo();
  * console.log(sessionInfo);
  * ```
- * @version SDK: 1.28.3 | ThoughtSpot ts7.april.cl, 7.2.1
+ * @version SDK: 1.28.3 | ThoughtSpot: *
  * @returns {void}
  */
 export function resetCachedSessionInfo(): void {
     sessionInfo = null;
+}
+
+/**
+ * Resets the cached preauth info object and forces a new fetch on the next call.
+ * @example ```js
+ * resetCachedPreauthInfo();
+ * const preauthInfo = await getPreauthInfo();
+ * console.log(preauthInfo);
+ * ```
+ * @version SDK: 1.28.3 | ThoughtSpot: *
+ * @returns {void}
+ */
+export function resetCachedPreauthInfo(): void {
+    preauthInfo = null;
 }

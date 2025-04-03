@@ -98,13 +98,18 @@ export class HostEventClient {
 
       const formattedPayload = {
           ...payload,
-          pinboardId: payload.liveboardId,
-          newPinboardName: payload.newLiveboardName,
+          pinboardId: payload.liveboardId ?? (payload as any).pinboardId,
+          newPinboardName: payload.newLiveboardName ?? (payload as any).newPinboardName,
       };
 
-      return this.handleHostEventWithParam(
+      const data = await this.handleHostEventWithParam(
           UIPassthroughEvent.PinAnswerToLiveboard, formattedPayload,
       );
+
+      return {
+          ...data,
+          liveboardId: (data as any).pinboardId,
+      };
   }
 
   protected async handleSaveAnswerEvent(

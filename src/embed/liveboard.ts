@@ -21,7 +21,7 @@ import {
 } from '../types';
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
-import { V1Embed } from './ts-embed';
+import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 
@@ -293,7 +293,10 @@ export interface LiveboardViewConfig
      */
     showPreviewLoader?: boolean;
     /**
-     * This flag is used to enable the compact header on a Liveboard
+     * Enables or disables the compact header feature on a Liveboard.
+     * Compact Liveboard header is turned off by default on Liveboards in
+     * ThoughtSpot Embedded apps.
+     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -632,12 +635,11 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
-    protected handleRenderForPrerender(): void {
+    protected async handleRenderForPrerender(): Promise<TsEmbed> {
         if (isUndefined(this.viewConfig.liveboardId)) {
-            this.prerenderGeneric();
-            return;
+            return this.prerenderGeneric();
         }
-        super.handleRenderForPrerender();
+        return super.handleRenderForPrerender();
     }
 
     /**
@@ -667,7 +669,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public async render(): Promise<LiveboardEmbed> {
-        super.render();
+        await super.render();
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
 import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
@@ -8,9 +9,10 @@ import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
 
-import { EmbedEvent, ViewConfig } from '../types';
+import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
+import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
@@ -402,6 +404,29 @@ type EmbedComponent = typeof SearchEmbed
 export function useEmbedRef<T extends EmbedComponent>():
     React.MutableRefObject<React.ComponentRef<T>> {
     return React.useRef<React.ComponentRef<T>>(null);
+}
+
+/**
+ *
+ * @param config - EmbedConfig
+ * @returns AuthEventEmitter
+ * @example
+ * ```
+ * function Component() {
+ *  const authEE = useInit({ ...initConfig });
+ *  return <LiveboardEmbed ref={ref} liveboardId={<id>} />
+ * }
+ * ```
+ * @version SDK: 1.36.2 | ThoughtSpot: *
+ */
+export function useInit(config: EmbedConfig) {
+    const ref = useRef<AuthEventEmitter | null>(null);
+    useDeepCompareEffect(() => {
+        const authEE = init(config);
+        ref.current = authEE;
+    }, [config]);
+
+    return ref;
 }
 
 export {
