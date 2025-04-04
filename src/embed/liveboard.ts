@@ -391,6 +391,22 @@ export interface LiveboardViewConfig
      * })
      */
     dataSourceId?: string;
+
+    /**
+     * This flag is for show/hide checkboxes for include or exclude
+     * cover and filter pages in the Liveboard PDF
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.38.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
 }
 
 /**
@@ -455,6 +471,7 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
+            coverAndFilterOptionInPDF,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -513,12 +530,15 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
+        if (coverAndFilterOptionInPDF !== undefined) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
