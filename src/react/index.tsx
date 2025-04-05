@@ -24,8 +24,8 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
-        const { className, ...embedProps } = props;
-        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
+        const { className, style, ...embedProps } = props;
+        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
             embedProps,
         );
 
@@ -93,7 +93,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
         return viewConfig.insertAsSibling ? (
             <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
         ) : (
-            <div data-testid="tsEmbed" ref={ref} className={className}></div>
+            <div data-testid="tsEmbed" ref={ref} style={style} className={`ts-embed-container ${className}`}></div>
         );
     },
 );
