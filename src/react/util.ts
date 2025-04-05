@@ -4,6 +4,7 @@ export type EmbedEventHandlers = { [key in keyof typeof EmbedEvent as `on${Capit
 
 export interface EmbedProps extends ViewConfig, EmbedEventHandlers {
     className?: string;
+    style?: React.CSSProperties;
 }
 
 export interface ViewConfigAndListeners<T extends ViewConfig> {
