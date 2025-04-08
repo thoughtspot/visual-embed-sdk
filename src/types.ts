@@ -633,7 +633,7 @@ export interface EmbedConfig {
     disablePreauthCache?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface LayoutConfig {}
 
 /**
