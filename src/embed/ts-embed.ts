@@ -66,6 +66,8 @@ import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+    getInitPromise,
+    getIsInitCalled,
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
@@ -180,15 +182,10 @@ export class TsEmbed {
 
     protected hostEventClient: HostEventClient;
 
+    protected isReadyForRenderPromise;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
-        // TODO: handle error
-        this.embedConfig = getEmbedConfig();
-        if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
-            this.embedConfig.authTriggerContainer = domSelector;
-        }
-        this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
-        this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = {
@@ -196,12 +193,22 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: false,
             ...viewConfig,
         };
-        this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
+
+        this.isReadyForRenderPromise = getInitPromise().then(async () => {
+            const embedConfig = getEmbedConfig();
+            this.embedConfig = embedConfig;
+            if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
+                this.embedConfig.authTriggerContainer = domSelector;
+            }
+            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
+            this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
+        });
     }
 
     /**
@@ -724,6 +731,7 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
@@ -1120,8 +1128,11 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
         this.isRendered = true;
-
         return this;
     }
 
@@ -1130,22 +1141,21 @@ export class TsEmbed {
     }
 
     protected handleRenderForPrerender() {
-        this.render();
+        return this.render();
     }
 
     /**
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public preRender(showPreRenderByDefault = false): TsEmbed {
+    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        this.handleRenderForPrerender();
-        return this;
+        return this.handleRenderForPrerender();
     }
 
     /**
@@ -1205,6 +1215,11 @@ export class TsEmbed {
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
+
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;
         return this.renderIFrame(prerenderFrameSrc);
@@ -1247,18 +1262,17 @@ export class TsEmbed {
      * Also, synchronizes the style of the PreRender component with the embedding
      * element.
      */
-    public showPreRender(): void {
+    public async showPreRender(): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
-            return;
+            return this;
         }
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
 
             if (!isAvailable) {
                 // if the Embed component is not preRendered , Render it now and
-                this.preRender(true);
-                return;
+                return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
         }
@@ -1285,6 +1299,8 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
+
+        return this;
     }
 
     /**

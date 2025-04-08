@@ -138,6 +138,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     disableProfileAndHelp?: boolean;
     /**
+     * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
+     * @default true
+     * Whether the help menu in the top nav bar should be served
+     * from Pendo or ThoughtSpot's internal help items.
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *   ... // other options
+     *  enablePendoHelp: false,
+     * });
+     * ```
+     */
+    enablePendoHelp?: boolean
+    /**
      * Control the visibility of the application switcher button on the nav-bar.
      * By default, the application switcher is shown.
      *
@@ -526,6 +540,7 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
+            enablePendoHelp = true,
         } = this.viewConfig;
 
         let params = {};
@@ -581,6 +596,10 @@ export class AppEmbed extends V1Embed {
 
         if (homePageSearchBarMode) {
             params[Param.HomePageSearchBarMode] = homePageSearchBarMode;
+        }
+
+        if (enablePendoHelp !== undefined) {
+            params[Param.EnablePendoHelp] = enablePendoHelp;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
@@ -742,7 +761,8 @@ export class AppEmbed extends V1Embed {
      * to be embedded.
      */
     public async render(): Promise<AppEmbed> {
-        super.render();
+        await super.render();
+
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
 

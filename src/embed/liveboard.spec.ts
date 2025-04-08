@@ -322,6 +322,36 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should add coverAndFilterOptionInPDF flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            coverAndFilterOptionInPDF: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add coverAndFilterOptionInPDF flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            coverAndFilterOptionInPDF: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=false&${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -553,13 +583,13 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('navigateToLiveboard should trigger the navigate event with the correct path', (done) => {
+    test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
         const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
-        liveboardEmbed.prerenderGeneric();
+        await liveboardEmbed.prerenderGeneric();
         executeAfterWait(() => {
             const iframe = getIFrameEl();
             postMessageToParent(iframe.contentWindow, {
@@ -573,14 +603,14 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('navigateToLiveboard with preRender', (done) => {
+    test('navigateToLiveboard with preRender', async (done) => {
         mockMessageChannel();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             preRenderId: 'test',
         } as LiveboardViewConfig);
         const onSpy = jest.spyOn(liveboardEmbed, 'trigger');
-        liveboardEmbed.prerenderGeneric();
+        await liveboardEmbed.prerenderGeneric();
         executeAfterWait(() => {
             const iframe = getIFrameEl();
             postMessageToParent(iframe.contentWindow, {
@@ -604,7 +634,7 @@ describe('Liveboard/viz embed tests', () => {
                 },
             ],
         } as LiveboardViewConfig);
-        liveboardEmbed.render();
+        await liveboardEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
@@ -637,7 +667,7 @@ describe('Liveboard/viz embed tests', () => {
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
-        liveboardEmbed.render();
+        await liveboardEmbed.render();
         await executeAfterWait(() => {
             const result = liveboardEmbed.trigger(HostEvent.SetActiveTab, {
                 tabId: newActiveTabId,
@@ -650,13 +680,13 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('PreRender flow for liveboard embed', () => {
-        test('it should preRender generic with liveboard id is not passed', (done) => {
+        test('it should preRender generic with liveboard id is not passed', async (done) => {
             const consoleSpy = jest.spyOn(console, 'error');
             const libEmbed = new LiveboardEmbed(getRootEl(), {
                 preRenderId: 'testPreRender',
             });
             const prerenderGenericSpy = jest.spyOn(libEmbed, 'prerenderGeneric');
-            libEmbed.preRender();
+            await libEmbed.preRender();
             executeAfterWait(() => {
                 const iFrame = document.getElementById(
                     libEmbed.getPreRenderIds().child,
@@ -726,7 +756,7 @@ describe('Liveboard/viz embed tests', () => {
 
             let resizeObserverCb: any;
             (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation((resizeObserverCbParam) => {
+                || jest.fn().mockImplementation((resizeObserverCbParam: any) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
@@ -735,7 +765,7 @@ describe('Liveboard/viz embed tests', () => {
                     };
                 });
 
-            libEmbed.preRender();
+            await libEmbed.preRender();
 
             await waitFor(() => !!getIFrameEl());
 
@@ -750,7 +780,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId: testLiveboardId,
             });
             const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
-            newLibEmbed.showPreRender();
+            await newLibEmbed.showPreRender();
 
             executeAfterWait(() => {
                 const iFrame = document.getElementById(
@@ -776,15 +806,13 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
                 vizId: 'testViz',
             });
-            liveboardEmbed.render();
+            await liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
-                await liveboardEmbed.trigger(
-                    HostEvent.Save,
-                );
-                expect(mockProcessTrigger).toHaveBeenCalledWith(
-                    HostEvent.Save, { vizId: 'testViz' },
-                );
+                await liveboardEmbed.trigger(HostEvent.Save);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(HostEvent.Save, {
+                    vizId: 'testViz',
+                });
             });
         });
     });

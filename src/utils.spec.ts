@@ -11,6 +11,8 @@ import {
     removeStyleProperties,
     setStyleProperties,
     isUndefined,
+    storeValueInWindow,
+    getValueFromWindow,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -271,5 +273,24 @@ describe('unit test for utils', () => {
     test('isUndefined', () => {
         expect(isUndefined(undefined)).toBe(true);
         expect(isUndefined({})).toBe(false);
+    });
+
+    describe('getValueFromWindow and storeValueInWindow', () => {
+        test('Store and retrieve', () => {
+            storeValueInWindow('test', 'testValue');
+            expect(getValueFromWindow('test')).toBe('testValue');
+        });
+
+        test('Object should be set if not', () => {
+            // eslint-disable-next-line no-underscore-dangle
+            (window as any)._tsEmbedSDK = null;
+
+            storeValueInWindow('test', 'testValue');
+            expect(getValueFromWindow('test')).toBe('testValue');
+        });
+
+        test('Return undefined if key is not found', () => {
+            expect(getValueFromWindow('notFound')).toBe(undefined);
+        });
     });
 });

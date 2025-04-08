@@ -4,10 +4,12 @@ import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';
 import * as authService from '../utils/authService/authService';
+import * as tokenAuthServices from '../utils/authService/tokenizedAuthService';
 import * as authTokenService from '../authToken';
 import * as index from '../index';
 import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
+import * as resetService from '../utils/resetServices';
 
 import {
     executeAfterWait,
@@ -413,6 +415,19 @@ describe('Base TS Embed', () => {
         expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
     });
 
+    test('Logout method should reset caches', async () => {
+        jest.spyOn(tokenAuthServices, 'fetchLogoutService').mockResolvedValueOnce({});
+        jest.spyOn(resetService, 'resetAllCachedServices');
+        index.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+            autoLogin: true,
+        });
+        expect(resetService.resetAllCachedServices).toHaveBeenCalledTimes(1);
+        await index.logout();
+        expect(resetService.resetAllCachedServices).toHaveBeenCalledTimes(2);
+    });
+
     test('config sanity, no ts host', () => {
         expect(() => {
             index.init({
@@ -479,5 +494,16 @@ describe('Base without init', () => {
         base.notifyLogout();
         base.notifyAuthSDKSuccess();
         expect(logger.error).toHaveBeenCalledTimes(4);
+    });
+});
+
+describe('Init tests', () => {
+    test('clear caches on init', () => {
+        jest.spyOn(resetService, 'resetAllCachedServices');
+        base.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+        });
+        expect(resetService.resetAllCachedServices).toBeCalled();
     });
 });

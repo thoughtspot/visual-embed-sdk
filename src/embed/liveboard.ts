@@ -21,7 +21,7 @@ import {
 } from '../types';
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
-import { V1Embed } from './ts-embed';
+import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 
@@ -293,7 +293,10 @@ export interface LiveboardViewConfig
      */
     showPreviewLoader?: boolean;
     /**
-     * This flag is used to enable the compact header on a Liveboard
+     * Enables or disables the compact header feature on a Liveboard.
+     * Compact Liveboard header is turned off by default on Liveboards in
+     * ThoughtSpot Embedded apps.
+     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
@@ -388,6 +391,22 @@ export interface LiveboardViewConfig
      * })
      */
     dataSourceId?: string;
+
+    /**
+     * This flag is for show/hide checkboxes for include or exclude
+     * cover and filter pages in the Liveboard PDF
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.38.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
 }
 
 /**
@@ -452,6 +471,7 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
+            coverAndFilterOptionInPDF,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -510,12 +530,15 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
+        if (coverAndFilterOptionInPDF !== undefined) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         const queryParams = getQueryParamString(params, true);
@@ -632,12 +655,11 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
-    protected handleRenderForPrerender(): void {
+    protected async handleRenderForPrerender(): Promise<TsEmbed> {
         if (isUndefined(this.viewConfig.liveboardId)) {
-            this.prerenderGeneric();
-            return;
+            return this.prerenderGeneric();
         }
-        super.handleRenderForPrerender();
+        return super.handleRenderForPrerender();
     }
 
     /**
@@ -667,7 +689,7 @@ export class LiveboardEmbed extends V1Embed {
      * visualization ID and the runtime filters.
      */
     public async render(): Promise<LiveboardEmbed> {
-        super.render();
+        await super.render();
 
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
