@@ -2312,7 +2312,7 @@ export enum EmbedEvent {
     /**
      * Emits when a table visualization is rendered in
      * the ThoughtSpot embedded app.
-
+     *
      * You can also use this event as a hook to trigger host events
      * such as `HostEvent.TransformTableVizData` on the table visualization.
      * The event payload contains the data used in the rendered table.
