@@ -82,7 +82,7 @@ export interface SearchBarViewConfig
     /**
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
-     * @version: SDK: 1.35.7 | ThoughtSpot: 10.7.0.cl
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {

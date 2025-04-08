@@ -3709,7 +3709,7 @@ export enum Action {
     * The **Collapse data panel** icon on the Search page.
     * Collapses the data panel view.
     *
-    * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl, 10.7.0.sw
+    * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
     *
     * @example
     * ```js
@@ -4795,8 +4795,8 @@ export enum PrefetchFeatures {
 }
 
 /**
- * Enum for options to change context trigger
- * BOTH_CLICKS option is introduced in 10.7
+ * Enum for options to change context trigger.
+ * The `BOTH_CLICKS` option is available from 10.8.0.cl.
  */
 export enum ContextMenuTriggerOptions {
     LEFT_CLICK = 'left-click',
