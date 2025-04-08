@@ -633,7 +633,7 @@ export interface EmbedConfig {
     disablePreauthCache?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface LayoutConfig {}
 
 /**
@@ -3542,6 +3542,7 @@ export enum Param {
     DataSourceId = 'dataSourceId',
     preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
+    CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
 }
 
 /**
@@ -4761,6 +4762,25 @@ export enum Action {
      *  @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.6.0.cl
      */
     EditTokens = 'editTokens',
+    /**
+     * Action ID for hiding rename option for Column rename
+     *  @example
+     * ```js
+     * hiddenAction: [Action.ColumnRename]
+     * ```
+     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     */
+    ColumnRename = 'columnRename',
+    /**
+     * Action ID for hide checkboxes for include or exclude
+     * cover and filter pages in the Liveboard PDF
+     *  @example
+     * ```js
+     * hiddenAction: [Action.CoverAndFilterOptionInPDF]
+     * ```
+     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     */
+    CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
 }
 
 export interface AnswerServiceType {
