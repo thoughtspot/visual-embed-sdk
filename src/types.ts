@@ -1075,6 +1075,12 @@ export interface ViewConfig {
      */
     collapseSearchBar?: boolean;
     /**
+     * This flag can be used to expose translation IDs on the embedded app.
+     * @default false
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+     */
+    exposeTranslationIDs?: boolean;
+    /**
      * This flag can be used to disable links inside the embedded app,
      * and disable redirection of links in a new tab.
      * @example
@@ -3563,6 +3569,7 @@ export enum Param {
     HideSageAnswerHeader = 'hideSageAnswerHeader',
     HideSearchBar = 'hideSearchBar',
     ClientLogLevel = 'clientLogLevel',
+    ExposeTranslationIDs = 'exposeTranslationIDs',
     OverrideNativeConsole = 'overrideConsoleLogs',
     enableAskSage = 'enableAskSage',
     CollapseSearchBarInitially = 'collapseSearchBarInitially',
