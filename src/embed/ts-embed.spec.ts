@@ -905,6 +905,80 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('StringIDs and StringIDsUrl in customisations', () => {
+        const customisationWithStringIds = {
+            style: {
+                customCSS: {},
+            },
+            content: {
+                strings: {
+                    Liveboard: 'Dashboard',
+                },
+                stringIDsUrl: 'https://sample-string-ids-url.com',
+                stringIDs: {
+                    'liveboard.header.title': 'Dashboard name',
+                },
+            },
+        };
+        beforeEach(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                customizations: customisationWithStringIds,
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token1'),
+            });
+        });
+
+        afterEach(() => {
+            baseInstance.reset();
+            jest.clearAllMocks();
+        });
+
+        test('should pass stringIDsUrl and stringIDs in customisations during APP_INIT', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                expect(iframe.src).toContain('overrideStringIDsUrl=https://sample-string-ids-url.com');
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations: customisationWithStringIds,
+                        authToken: 'test_auth_token1',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools: {},
+                    },
+                });
+                const customisationContent = mockPort.postMessage.mock.calls[0][0].data.customisations.content;
+                expect(customisationContent.stringIDsUrl)
+                    .toBe('https://sample-string-ids-url.com');
+                expect(customisationContent.stringIDs)
+                    .toEqual({
+                        'liveboard.header.title': 'Dashboard name',
+                    });
+            });
+        });
+    });
+
     describe('Token fetch fails in cookieless authentication authType', () => {
         beforeEach(() => {
             jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
