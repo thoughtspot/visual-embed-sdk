@@ -539,6 +539,7 @@ export class TsEmbed {
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
+            exposeTranslationIDs,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -563,6 +564,9 @@ export class TsEmbed {
         }
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
+        }
+        if (exposeTranslationIDs) {
+            queryParams[Param.ExposeTranslationIDs] = exposeTranslationIDs;
         }
         queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
         if (Array.isArray(visibleActions)) {
