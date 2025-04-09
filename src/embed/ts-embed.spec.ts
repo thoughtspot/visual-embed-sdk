@@ -957,10 +957,10 @@ describe('Unit test case for ts embed', () => {
                         customVariablesForThirdPartyTools: {},
                     },
                 });
-                const customisations = mockPort.postMessage.mock.calls[0][0].data.customisations;
-                expect(customisations.content.stringIDsUrl)
+                const customisationContent = mockPort.postMessage.mock.calls[0][0].data.customisations.content;
+                expect(customisationContent.stringIDsUrl)
                     .toBe('https://sample-string-ids-url.com');
-                expect(customisations.content.stringIDs)
+                expect(customisationContent.stringIDs)
                     .toEqual({
                         'liveboard.header.title': 'Dashboard name',
                     });
