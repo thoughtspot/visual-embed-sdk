@@ -109,6 +109,6 @@ export class BodylessConversation {
             acGenNo: data.stateKey.generationNumber,
         });
         await embed.render();
-        return { container };
+        return { container, viz: embed };
     }
 }
