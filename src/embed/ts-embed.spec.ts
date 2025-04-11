@@ -957,12 +957,27 @@ describe('Unit test case for ts embed', () => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.APP_INIT,
                     data: {
-                        customisations: customisationWithStringIds,
+                        customisations: {
+                            content: {
+                                strings: {
+                                    Liveboard: 'Dashboard',
+                                },
+                                stringIDsUrl: 'https://sample-string-ids-url.com',
+                                stringIDs: {
+                                    'liveboard.header.title': 'Dashboard name',
+                                },
+                            },
+                            style: {
+                                customCSS: {},
+                                customCSSUrl: undefined,
+                            },
+                        },
                         authToken: 'test_auth_token1',
                         runtimeFilterParams: null,
                         runtimeParameterParams: null,
                         hiddenHomeLeftNavItems: [],
                         hiddenHomepageModules: [],
+                        hiddenListColumns: [],
                         hostConfig: undefined,
                         reorderedHomepageModules: [],
                         customVariablesForThirdPartyTools: {},
