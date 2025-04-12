@@ -462,7 +462,7 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
 
     // bring back the page to the same URL
     const baseEndpoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
-    const ssoEndPoint = `${baseEndpoint}${baseEndpoint.includes('?') ? '&' : '?'}forceSAMLAutoRedirect=true`;
+    const ssoEndPoint = `${baseEndpoint}${baseEndpoint.includes('?') ? '&' : '?'}forceSAMLAutoRedirect=true&AuthType=EmbeddedSSO`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
     return loggedInStatus;
