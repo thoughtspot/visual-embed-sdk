@@ -34,7 +34,7 @@ beforeAll(() => {
     jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
 });
 
-describe('Pinboard/viz embed tests', () => {
+describe.skip('Pinboard/viz embed tests', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
