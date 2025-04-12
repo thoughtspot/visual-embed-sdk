@@ -570,11 +570,11 @@ export class LiveboardEmbed extends V1Embed {
         if (!liveboardId) {
             this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION);
         }
-        return `${this.embedConfig.thoughtSpotHost}/callosum/v1/oidc/login?targetURL=${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
+        return `${this.embedConfig.thoughtSpotHost}/callosum/v1/oidc/login?targetURL=${encodeURIComponent(this.getRootIframeSrc() + this.getIframeSuffixSrc(
             liveboardId,
             vizId,
             activeTabId,
-        )}`;
+        ))}`;
     }
 
     /**
