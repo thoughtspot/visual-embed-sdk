@@ -495,7 +495,6 @@ export const authenticate = async (embedConfig: EmbedConfig): Promise<boolean> =
             return doSamlAuth(embedConfig);
         case AuthType.OIDC:
         case AuthType.OIDCRedirect:
-        case AuthType.EmbeddedSSO:
             return doOIDCAuth(embedConfig);
         case AuthType.AuthServer:
         case AuthType.TrustedAuthToken:
