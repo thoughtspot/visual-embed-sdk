@@ -992,6 +992,24 @@ describe('Unit test case for ts embed', () => {
                     });
             });
         });
+
+        test('should allow passing exposeTranslationIDs in viewConfig', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, exposeTranslationIDs: true });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                expect(iframe.src).toContain('exposeTranslationIDs=true');
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+        });
     });
 
     describe('Token fetch fails in cookieless authentication authType', () => {
