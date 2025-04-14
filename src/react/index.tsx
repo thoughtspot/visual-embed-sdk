@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { deepMerge } from '../utils';
