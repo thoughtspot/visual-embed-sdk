@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { getAuthenticationToken, resetCachedAuthToken } from './authToken';
+import { getAuthenticationToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
 import {
@@ -15,8 +15,9 @@ import {
 } from './utils/authService';
 import { isActiveService } from './utils/authService/tokenizedAuthService';
 import { logger } from './utils/logger';
-import { getSessionInfo } from './utils/sessionInfoService';
+import { getSessionInfo, getPreauthInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
+import { resetAllCachedServices } from './utils/resetServices';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let loggedInStatus = false;
@@ -39,6 +40,7 @@ export enum AuthFailureType {
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
     EXPIRY = 'EXPIRY',
     OTHER = 'OTHER',
+    IDLE_SESSION_TIMEOUT = 'IDLE_SESSION_TIMEOUT'
 }
 
 /**
@@ -54,6 +56,11 @@ export enum AuthStatus {
      * Emits when the SDK authenticates successfully
      */
     SDK_SUCCESS = 'SDK_SUCCESS',
+    /**
+     * @hidden
+     * Emits when iframe is loaded and session info is available
+     */
+    SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
     /**
      * Emits when the app sends an authentication success message
      */
@@ -167,6 +174,7 @@ export async function notifyAuthSuccess(): Promise<void> {
         return;
     }
     try {
+        getPreauthInfo();
         const sessionInfo = await getSessionInfo();
         authEE.emit(AuthStatus.SUCCESS, sessionInfo);
     } catch (e) {
@@ -223,6 +231,7 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  */
 export async function postLoginService(): Promise<void> {
     try {
+        getPreauthInfo();
         const sessionInfo = await getSessionInfo();
         releaseVersion = sessionInfo.releaseVersion;
         const embedConfig = getEmbedConfig();
@@ -452,7 +461,8 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
         );
 
     // bring back the page to the same URL
-    const ssoEndPoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
+    const baseEndpoint = `${EndPoints.OIDC_LOGIN_TEMPLATE(encodeURIComponent(ssoRedirectUrl))}`;
+    const ssoEndPoint = `${baseEndpoint}${baseEndpoint.includes('?') ? '&' : '?'}forceSAMLAutoRedirect=true`;
 
     await doSSOAuth(embedConfig, ssoEndPoint);
     return loggedInStatus;
@@ -461,7 +471,7 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
 export const logout = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { thoughtSpotHost } = embedConfig;
     await fetchLogoutService(thoughtSpotHost);
-    resetCachedAuthToken();
+    resetAllCachedServices();
     const thoughtspotIframes = document.querySelectorAll("[data-ts-iframe='true']");
     if (thoughtspotIframes?.length) {
         thoughtspotIframes.forEach((el) => {

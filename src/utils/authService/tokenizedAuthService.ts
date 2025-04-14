@@ -25,6 +25,32 @@ function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Pr
  *  const response = await sessionInfoService();
  * ```
  */
+export async function fetchPreauthInfoService(thoughtspotHost: string): Promise<any> {
+    const sessionInfoPath = `${thoughtspotHost}${EndPoints.PREAUTH_INFO}`;
+    const handleError = (e: any) => {
+        const error: any = new Error(`Failed to fetch auth info: ${e.message || e.statusText}`);
+        error.status = e.status; // Attach the status code to the error object
+        throw error;
+    };
+
+    try {
+        const response = await tokenizedFailureLoggedFetch(sessionInfoPath);
+        return response;
+    } catch (e) {
+        handleError(e);
+        return null;
+    }
+}
+
+/**
+ * Fetches the session info from the ThoughtSpot server.
+ * @param thoughtspotHost
+ * @returns {Promise<any>}
+ * @example
+ * ```js
+ *  const response = await sessionInfoService();
+ * ```
+ */
 export async function fetchSessionInfoService(thoughtspotHost: string): Promise<any> {
     const sessionInfoPath = `${thoughtspotHost}${EndPoints.SESSION_INFO}`;
     const response = await tokenizedFailureLoggedFetch(sessionInfoPath);

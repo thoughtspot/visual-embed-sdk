@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
+import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
 import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
@@ -10,9 +11,10 @@ import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
 
-import { EmbedEvent, ViewConfig } from '../types';
+import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
+import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
     EmbedConstructor: T,
@@ -24,8 +26,8 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
-        const { className, ...embedProps } = props;
-        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className'>, V>(
+        const { className, style, ...embedProps } = props;
+        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
             embedProps,
         );
 
@@ -93,7 +95,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
         return viewConfig.insertAsSibling ? (
             <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
         ) : (
-            <div data-testid="tsEmbed" ref={ref} className={className}></div>
+            <div data-testid="tsEmbed" ref={ref} style={style} className={`ts-embed-container ${className}`}></div>
         );
     },
 );
@@ -406,6 +408,29 @@ export function useEmbedRef<T extends EmbedComponent>():
     return React.useRef<React.ComponentRef<T>>(null);
 }
 
+/**
+ *
+ * @param config - EmbedConfig
+ * @returns AuthEventEmitter
+ * @example
+ * ```
+ * function Component() {
+ *  const authEE = useInit({ ...initConfig });
+ *  return <LiveboardEmbed ref={ref} liveboardId={<id>} />
+ * }
+ * ```
+ * @version SDK: 1.36.2 | ThoughtSpot: *
+ */
+export function useInit(config: EmbedConfig) {
+    const ref = useRef<AuthEventEmitter | null>(null);
+    useDeepCompareEffect(() => {
+        const authEE = init(config);
+        ref.current = authEE;
+    }, [config]);
+
+    return ref;
+}
+
 export {
     LiveboardViewConfig,
     SearchViewConfig,
@@ -421,4 +446,5 @@ export {
     HomepageModule,
     LogLevel,
     getSessionInfo,
+    ListPageColumns,
 } from '../index';

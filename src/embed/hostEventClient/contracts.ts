@@ -16,13 +16,13 @@ export type UIPassthroughContractBase = {
       vizId?: string;
       newVizName: string;
       newVizDescription?: string;
-      pinboardId?: string;
+      liveboardId?: string;
       tabId?: string;
-      newPinboardName?: string;
+      newLiveboardName?: string;
       newTabName?: string;
     };
     response: {
-      pinboardId: string;
+      liveboardId: string;
       tabId: string;
       vizId: string;
     };

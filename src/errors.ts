@@ -16,4 +16,5 @@ export const ERROR_MESSAGE = {
     CSP_VIOLATION_ALERT: 'CSP violation detected. Please check the console errors for more details.',
     CSP_FRAME_HOST_VIOLATION_LOG_MESSAGE: 'Please set up CSP correctly for the application to start working. For more information, see https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts. \n If the issue persists, refer to https://developers.thoughtspot.com/docs/security-settings#csp-viz-embed-hosts',
     MISSING_REPORTING_OBSERVER: 'ReportingObserver not supported',
+    RENDER_CALLED_BEFORE_INIT: 'Looks like render was called before calling init, the render won\'t start until init is called.\nFor more info check\n1. https://developers.thoughtspot.com/docs/Function_init#_init\n2.https://developers.thoughtspot.com/docs/getting-started#initSdk',
 };

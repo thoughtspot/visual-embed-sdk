@@ -96,9 +96,20 @@ export class HostEventClient {
           return this.hostEventFallback(HostEvent.Pin, payload);
       }
 
-      return this.handleHostEventWithParam(
-          UIPassthroughEvent.PinAnswerToLiveboard, payload,
+      const formattedPayload = {
+          ...payload,
+          pinboardId: payload.liveboardId ?? (payload as any).pinboardId,
+          newPinboardName: payload.newLiveboardName ?? (payload as any).newPinboardName,
+      };
+
+      const data = await this.handleHostEventWithParam(
+          UIPassthroughEvent.PinAnswerToLiveboard, formattedPayload,
       );
+
+      return {
+          ...data,
+          liveboardId: (data as any).pinboardId,
+      };
   }
 
   protected async handleSaveAnswerEvent(

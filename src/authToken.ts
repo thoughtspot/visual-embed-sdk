@@ -1,9 +1,15 @@
 import { ERROR_MESSAGE } from './errors';
 import { EmbedConfig } from './types';
+import { getValueFromWindow, storeValueInWindow } from './utils';
 import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
 import { logger } from './utils/logger';
 
-let cachedAuthToken: string | null = null;
+const cacheAuthTokenKey = 'cachedAuthToken';
+
+const getCacheAuthToken = (): string | null => getValueFromWindow(cacheAuthTokenKey);
+const storeAuthTokenInCache = (token: string): void => {
+    storeValueInWindow(cacheAuthTokenKey, token);
+};
 
 // This method can be used to get the authToken using the embedConfig
 /**
@@ -11,6 +17,7 @@ let cachedAuthToken: string | null = null;
  * @param embedConfig
  */
 export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<string> {
+    const cachedAuthToken = getCacheAuthToken();
     // Since we don't have token validation enabled , we cannot tell if the
     // cached token is valid or not. So we will always fetch a new token.
     if (cachedAuthToken && !embedConfig.disableTokenVerification) {
@@ -42,7 +49,7 @@ export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<
         throw e;
     }
 
-    cachedAuthToken = authToken;
+    storeAuthTokenInCache(authToken);
     return authToken;
 }
 
@@ -51,6 +58,7 @@ const validateAuthToken = async (
     authToken: string,
     suppressAlert?: boolean,
 ): Promise<boolean> => {
+    const cachedAuthToken = getCacheAuthToken();
     if (embedConfig.disableTokenVerification) {
         logger.info('Token verification is disabled. Assuming token is valid.');
         return true;
@@ -83,5 +91,5 @@ const validateAuthToken = async (
  * @group Authentication / Init
  */
 export const resetCachedAuthToken = (): void => {
-    cachedAuthToken = null;
+    storeAuthTokenInCache(null);
 };

@@ -206,7 +206,7 @@ export interface SearchViewConfig
     /**
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
-     * @version: SDK: 1.35.7 | ThoughtSpot: 10.7.0.cl
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -392,11 +392,12 @@ export class SearchEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions?.searchTokenString && !excludeSearchTokenStringFromURL) {
-            queryParams[Param.searchTokenString] = encodeURIComponent(
-                searchOptions.searchTokenString,
-            );
-
+        if (searchOptions?.searchTokenString) {
+            if (!excludeSearchTokenStringFromURL) {
+                queryParams[Param.searchTokenString] = encodeURIComponent(
+                    searchOptions.searchTokenString,
+                );
+            }
             if (searchOptions.executeSearch) {
                 queryParams[Param.executeSearch] = true;
             }
@@ -481,9 +482,8 @@ export class SearchEmbed extends TsEmbed {
      * Render the embedded ThoughtSpot search
      */
     public async render(): Promise<SearchEmbed> {
-        super.render();
+        await super.render();
         const { answerId } = this.viewConfig;
-
         const src = this.getIFrameSrc();
         await this.renderIFrame(src);
         getAuthPromise().then(() => {

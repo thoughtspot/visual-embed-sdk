@@ -133,6 +133,7 @@ describe('HostEventClient', () => {
             const mockResponse = {
                 value: {
                     pinboardId: 'testPinboard',
+                    liveboardId: 'testPinboard',
                     tabId: 'testTab',
                     vizId: 'testVizId',
                 },
@@ -249,6 +250,66 @@ describe('HostEventClient', () => {
                 {},
             );
             expect(result).toEqual([mockResponse]);
+        });
+
+        it('Pin response support pinboardId as well', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const hostEvent = HostEvent.Pin;
+            const payload: HostEventRequest<typeof hostEvent> = {
+                newVizDescription: 'Test Description',
+                vizId: 'testVizId',
+                newVizName: 'Test Answer',
+                newLiveboardName: 'testLiveboard',
+            } as any;
+            const mockResponse = [{
+                value: {
+                    pinboardId: 'testLiveboard',
+                    liveboardId: 'testPinboard',
+                    tabId: 'testTab',
+                    vizId: 'testVizId',
+                },
+                refId: 'testVizId',
+            }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+            const result = await client.triggerHostEvent(hostEvent, payload);
+            expect(result.liveboardId).toBe('testLiveboard');
+        });
+
+        it('should request liveboardId as well', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const hostEvent = HostEvent.Pin;
+            const payload: HostEventRequest<typeof hostEvent> = {
+                liveboardId: 'test',
+                newVizName: 'Test Answer',
+                newPinboardName: 'testLiveboard1',
+                newLiveboardName: 'testLiveboard',
+            } as any;
+            const mockResponse = [{
+                value: {
+                    pinboardId: 'testLiveboard',
+                    tabId: 'testTab',
+                    vizId: 'testVizId',
+                },
+                refId: 'testVizId',
+            }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+            const result = await client.triggerHostEvent(hostEvent, payload);
+            expect(result.liveboardId).toBe('testLiveboard');
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    parameters: { ...payload, pinboardId: 'test', newPinboardName: 'testLiveboard' },
+                    type: 'addVizToPinboard',
+                },
+            );
+            expect(result).toEqual({
+                pinboardId: 'testLiveboard',
+                tabId: 'testTab',
+                vizId: 'testVizId',
+                liveboardId: 'testLiveboard',
+            });
         });
     });
 });

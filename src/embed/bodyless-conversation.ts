@@ -55,7 +55,8 @@ class ConversationMessage extends TsEmbed {
     }
 
     public async render(): Promise<ConversationMessage> {
-        super.render();
+        await super.render();
+
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
         return this;
@@ -108,6 +109,6 @@ export class BodylessConversation {
             acGenNo: data.stateKey.generationNumber,
         });
         await embed.render();
-        return { container };
+        return { container, viz: embed };
     }
 }

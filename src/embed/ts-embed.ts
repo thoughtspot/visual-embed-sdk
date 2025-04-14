@@ -66,10 +66,13 @@ import { processTrigger } from '../utils/processTrigger';
 import pkgInfo from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+    getInitPromise,
+    getIsInitCalled,
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
+import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 
 const { version } = pkgInfo;
@@ -139,8 +142,8 @@ export class TsEmbed {
     protected thoughtSpotHost: string;
 
     /*
-    * This is the base to access ThoughtSpot V2.
-    */
+     * This is the base to access ThoughtSpot V2.
+     */
     protected thoughtSpotV2Base: string;
 
     /**
@@ -179,15 +182,10 @@ export class TsEmbed {
 
     protected hostEventClient: HostEventClient;
 
+    protected isReadyForRenderPromise;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
-        // TODO: handle error
-        this.embedConfig = getEmbedConfig();
-        if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
-            this.embedConfig.authTriggerContainer = domSelector;
-        }
-        this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
-        this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = {
@@ -195,12 +193,22 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: false,
             ...viewConfig,
         };
-        this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
+
+        this.isReadyForRenderPromise = getInitPromise().then(async () => {
+            const embedConfig = getEmbedConfig();
+            this.embedConfig = embedConfig;
+            if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
+                this.embedConfig.authTriggerContainer = domSelector;
+            }
+            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
+            this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
+        });
     }
 
     /**
@@ -242,6 +250,24 @@ export class TsEmbed {
             return event.ports[0];
         }
         return null;
+    }
+
+    /**
+     * Checks if preauth cache is enabled
+     * from the view config and embed config
+     * @returns boolean
+     */
+    private isPreAuthCacheEnabled() {
+        // Disable preauth cache when:
+        // 1. overrideOrgId is present since:
+        //    - cached auth info would be for wrong org
+        //    - info call response changes for each different overrideOrgId
+        // 2. disablePreauthCache is explicitly set to true
+        const isDisabled = (
+            this.viewConfig.overrideOrgId !== undefined
+            || this.embedConfig.disablePreauthCache === true
+        );
+        return !isDisabled;
     }
 
     /**
@@ -350,7 +376,8 @@ export class TsEmbed {
                 ? this.viewConfig?.hiddenHomeLeftNavItems
                 : [],
             customVariablesForThirdPartyTools:
-            this.embedConfig.customVariablesForThirdPartyTools || {},
+                this.embedConfig.customVariablesForThirdPartyTools || {},
+            hiddenListColumns: this.viewConfig.hiddenListColumns || [],
         };
     }
 
@@ -402,11 +429,36 @@ export class TsEmbed {
     };
 
     /**
+     * Auto Login and send updated authToken to the iFrame to avoid user session logout
+     * @param _
+     * @param responder
+     */
+    private idleSessionTimeout = (_: any, responder: any) => {
+        handleAuth().then(async () => {
+            let authToken = '';
+            try {
+                authToken = await getAuthenticationToken(this.embedConfig);
+                responder({
+                    type: EmbedEvent.IdleSessionTimeout,
+                    data: { authToken },
+                });
+            } catch (e) {
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
+        }).catch((e) => {
+            logger.error(`Auto Login failed, Error : ${e?.message}`);
+        });
+        notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
+    };
+
+    /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
+        this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
     };
 
     /**
@@ -414,7 +466,7 @@ export class TsEmbed {
      * @param query
      */
     protected getEmbedBasePath(query: string): string {
-        let queryString = (query.startsWith('?')) ? query : `?${query}`;
+        let queryString = query.startsWith('?') ? query : `?${query}`;
         if (this.shouldEncodeUrlQueryParams) {
             queryString = `?base64UrlEncodedFlags=${getEncodedQueryParamsString(
                 queryString.substr(1),
@@ -432,9 +484,7 @@ export class TsEmbed {
      * @param queryParams
      * @returns queryParams
      */
-    protected getBaseQueryParams(
-        queryParams: Record<any, any> = {},
-    ) {
+    protected getBaseQueryParams(queryParams: Record<any, any> = {}) {
         let hostAppUrl = window?.location?.host || '';
 
         // The below check is needed because TS Cloud firewall, blocks
@@ -442,14 +492,15 @@ export class TsEmbed {
         if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
+        const blockNonEmbedFullAppAccess = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.EmbedApp] = true;
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
         queryParams[Param.Version] = version;
         queryParams[Param.AuthType] = this.embedConfig.authType;
-        queryParams[Param.blockNonEmbedFullAppAccess] = this.embedConfig.blockNonEmbedFullAppAccess
-            ?? true;
+        queryParams[Param.blockNonEmbedFullAppAccess] = blockNonEmbedFullAppAccess;
+        queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;
         if (this.embedConfig.disableLoginRedirect === true || this.embedConfig.autoLogin === true) {
             queryParams[Param.DisableLoginRedirect] = true;
         }
@@ -536,10 +587,16 @@ export class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
 
-        const spriteUrl = customizations?.iconSpriteUrl
-            || this.embedConfig.customizations?.iconSpriteUrl;
+        const embedCustomizations = this.embedConfig.customizations;
+        const spriteUrl = customizations?.iconSpriteUrl || embedCustomizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
+        }
+
+        const stringIDsUrl = customizations?.content?.stringIDsUrl
+            || embedCustomizations?.content?.stringIDsUrl;
+        if (stringIDsUrl) {
+            queryParams[Param.StringIDsUrl] = stringIDsUrl;
         }
 
         if (showAlerts !== undefined) {
@@ -560,6 +617,10 @@ export class TsEmbed {
         }
         if (overrideOrgId !== undefined) {
             queryParams[Param.OverrideOrgId] = overrideOrgId;
+        }
+
+        if (this.isPreAuthCacheEnabled()) {
+            queryParams[Param.preAuthCache] = true;
         }
 
         queryParams[Param.OverrideNativeConsole] = true;
@@ -622,11 +683,8 @@ export class TsEmbed {
         // @ts-ignore
         iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
-        const {
-            height: frameHeight,
-            width: frameWidth,
-            ...restParams
-        } = this.viewConfig.frameParams || {};
+        const frameParams = this.viewConfig.frameParams;
+        const { height: frameHeight, width: frameWidth, ...restParams } = frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         setAttributes(iFrame, restParams);
@@ -679,6 +737,7 @@ export class TsEmbed {
             });
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
+
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
@@ -701,6 +760,14 @@ export class TsEmbed {
                             elHeight: this.iFrame.clientHeight,
                             timeTookToLoad: loadTimestamp - initTimestamp,
                         });
+                        // Send info event  if preauth cache is enabled
+                        if (this.isPreAuthCacheEnabled()) {
+                            getPreauthInfo().then((data) => {
+                                if (data?.info) {
+                                    this.trigger(HostEvent.InfoSuccess, data);
+                                }
+                            });
+                        }
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
@@ -748,8 +815,8 @@ export class TsEmbed {
 
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
-        this.preRenderWrapper = this.preRenderWrapper
-            || document.getElementById(preRenderIds.wrapper);
+        const preRenderWrapperElement = document.getElementById(preRenderIds.wrapper);
+        this.preRenderWrapper = this.preRenderWrapper || preRenderWrapperElement;
 
         this.preRenderChild = this.preRenderChild || document.getElementById(preRenderIds.child);
 
@@ -1028,7 +1095,7 @@ export class TsEmbed {
      */
     public async trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
@@ -1067,8 +1134,11 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
         this.isRendered = true;
-
         return this;
     }
 
@@ -1077,22 +1147,21 @@ export class TsEmbed {
     }
 
     protected handleRenderForPrerender() {
-        this.render();
+        return this.render();
     }
 
     /**
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public preRender(showPreRenderByDefault = false): TsEmbed {
+    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        this.handleRenderForPrerender();
-        return this;
+        return this.handleRenderForPrerender();
     }
 
     /**
@@ -1152,6 +1221,11 @@ export class TsEmbed {
      * @returns
      */
     public async prerenderGeneric(): Promise<any> {
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
+
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;
         return this.renderIFrame(prerenderFrameSrc);
@@ -1177,11 +1251,11 @@ export class TsEmbed {
                 ) {
                     logger.warn(
                         `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
+                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                            + 'was passed to the Embed component. '
+                            + 'The new value provided is ignored, the value provided during '
+                            + 'preRender is used.',
                     );
                 }
             });
@@ -1194,18 +1268,17 @@ export class TsEmbed {
      * Also, synchronizes the style of the PreRender component with the embedding
      * element.
      */
-    public showPreRender(): void {
+    public async showPreRender(): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
-            return;
+            return this;
         }
         if (!this.isPreRenderAvailable()) {
             const isAvailable = this.connectPreRendered();
 
             if (!isAvailable) {
                 // if the Embed component is not preRendered , Render it now and
-                this.preRender(true);
-                return;
+                return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
         }
@@ -1232,6 +1305,8 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
+
+        return this;
     }
 
     /**
@@ -1346,7 +1421,7 @@ export class V1Embed extends TsEmbed {
             const filterQuery = getFilterQuery(runtimeFilters || []);
             queryString = [filterQuery, queryString].filter(Boolean).join('&');
         }
-        return (this.viewConfig.enableV2Shell_experimental)
+        return this.viewConfig.enableV2Shell_experimental
             ? this.getEmbedBasePath(queryString)
             : this.getV1EmbedBasePath(queryString);
     }
