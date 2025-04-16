@@ -540,6 +540,7 @@ export class TsEmbed {
             disableRedirectionLinksInNewTab,
             overrideOrgId,
             exposeTranslationIDs,
+            primaryActions,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -561,6 +562,9 @@ export class TsEmbed {
 
         if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;
+        }
+        if (primaryActions?.length) {
+            queryParams[Param.PrimaryActions] = primaryActions;
         }
         if (disabledActionReason) {
             queryParams[Param.DisableActionReason] = disabledActionReason;
