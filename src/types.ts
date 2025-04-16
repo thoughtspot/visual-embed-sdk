@@ -713,6 +713,20 @@ export interface ViewConfig {
      */
     disabledActions?: Action[];
     /**
+     * The list of actions to display as primary actions,
+     *  These actions will be displayed upfront in the liveboard/app embed.
+     * Use this to display actions.
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   primaryActions: [Action.Download]
+     * });
+     * ```
+     */
+    primaryActions?: Action[];
+    /**
      * The tooltip to display for disabled actions.
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -3597,6 +3611,7 @@ export enum Param {
     preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    PrimaryActions = 'primaryActions',
 }
 
 /**
