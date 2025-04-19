@@ -3324,8 +3324,17 @@ export enum HostEvent {
     /**
      * Get the Answer session for a Search or
      * Liveboard visualization.
+     * 
+     * Note: This event is not typically used directly. Instead, use the 
+     * `getAnswerService()` method on the embed instance to get an AnswerService 
+     * object that provides a more convenient interface for working with answers.
+     * 
      * @example
      * ```js
+     * // Preferred way to get an AnswerService
+     * const service = await embed.getAnswerService();
+     * 
+     * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger(
      *  HostEvent.GetAnswerSession, {
      *      vizId: '123', // For Liveboard Visualization.
@@ -3333,6 +3342,10 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
+     * // Preferred way to get an AnswerService
+     * const service = await embed.getAnswerService();
+     * 
+     * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
      * @version SDK: 1.26.0 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
