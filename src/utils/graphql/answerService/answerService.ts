@@ -26,29 +26,54 @@ export interface UnderlyingDataPoint {
 }
 
 /**
- * Class representing the answer service provided with the
- * custom action payload. This service could be used to run
- * graphql queries in the context of the answer on which the
- * custom action was triggered.
+ * AnswerService provides a comprehensive interface for interacting with ThoughtSpot answers.
+ * This service allows you to manipulate, filter, and retrieve data from ThoughtSpot answers
+ * programmatically through the SDK.
+ * 
+ * Key capabilities include:
+ * - Adding and removing columns from answers (`addColumns`, `removeColumns`, `addColumnsByName`)
+ * - Applying filters to answers (`addFilter`)
+ * - Fetching data in various formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
+ * - Getting underlying data for specific points in visualizations (`getUnderlyingDataForPoint`)
+ * - Executing custom GraphQL queries in the context of an answer (`executeQuery`)
+ * - Adding visualizations to liveboards (`addDisplayedVizToLiveboard`)
+ * 
  * @example
  * ```js
- *  embed.on(EmbedEvent.CustomAction, e => {
- *     const underlying = await e.answerService.getUnderlyingDataForPoint([
- *       'col name 1'
- *     ]);
- *     const data = await underlying.fetchData(0, 100);
- *  })
- * ```
- * @example
- * ```js
+ * // Get the answer service from an embed event
  * embed.on(EmbedEvent.Data, async (e) => {
+ *     // This retrieves the AnswerService instance for the current answer
  *     const service = await embed.getAnswerService();
- *     await service.addColumns([
- *         "<column guid>"
- *     ]);
- *     console.log(await service.fetchData());
+ *     
+ *     // This makes an API call to add columns to the answer by their display names
+ *     // It first looks up the column GUIDs by name, then adds them to the answer
+ *     await service.addColumnsByName(["Sales", "Region"]);
+ *     
+ *     // This makes an API call to fetch the data from the answer
+ *     // Returns an object with columns and data properties
+ *     const data = await service.fetchData();
+ *     console.log(data);
  * });
  * ```
+ * 
+ * @example
+ * ```js
+ * // Get underlying data for a point in a visualization
+ * embed.on(EmbedEvent.CustomAction, async (e) => {
+ *     // This makes an API call to get the underlying data for the selected point
+ *     // It creates a new unaggregated answer with the specified columns
+ *     const underlying = await e.answerService.getUnderlyingDataForPoint([
+ *       'Product Name',
+ *       'Sales Amount'
+ *     ]);
+ *     
+ *     // This makes an API call to fetch the data from the unaggregated answer
+ *     // Returns the raw data for the selected point
+ *     const data = await underlying.fetchData(0, 100);
+ *     console.log(data);
+ * });
+ * ```
+ * 
  * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
  * @group Events
  */
