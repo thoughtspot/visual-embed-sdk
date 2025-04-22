@@ -41,7 +41,7 @@ export enum AuthFailureType {
     EXPIRY = 'EXPIRY',
     OTHER = 'OTHER',
     IDLE_SESSION_TIMEOUT = 'IDLE_SESSION_TIMEOUT',
-    SSO_ERROR = 'SSO_ERROR',
+    PREAUTH_FAILURE = 'PREAUTH_FAILURE',
 }
 
 /**

@@ -84,7 +84,7 @@ export function processAuthFailure(e: any, containerEl: Element) {
     const isEmbeddedSSO = authType === AuthType.EmbeddedSSO;
     const isTrustedAuth = authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless;
 
-    if (isEmbeddedSSO && e?.data?.type === AuthFailureType.SSO_ERROR) {
+    if (isEmbeddedSSO && e?.data?.type === AuthFailureType.PREAUTH_FAILURE) {
         resetCachedAuthToken();
         return e;
     }
