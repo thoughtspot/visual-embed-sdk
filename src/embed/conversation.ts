@@ -15,10 +15,10 @@ export interface SearchOptions {
 }
 
 /**
- * The configuration for the embedded conversationEmbed options.
+ * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
-export interface ConversationViewConfig extends ViewConfig {
+export interface SpotterViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
@@ -32,7 +32,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * but still display the selected data source.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    disableSourceSelection : true,
      * })
@@ -44,7 +44,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * hideSourceSelection : Hide data source selection
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    hideSourceSelection : true,
      * })
@@ -71,7 +71,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * default is false.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    showSpotterLimitations : true,
      * })
@@ -84,7 +84,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * the initial screen of the conversation.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    hideSampleQuestions : true,
      * })
@@ -95,11 +95,22 @@ export interface ConversationViewConfig extends ViewConfig {
 }
 
 /**
+ * @deprecated
+ * ConversationViewConfig is deprecated and will be removed in a future release. 
+ * Please migrate to SpotterViewConfig.
+ */
+export type ConversationViewConfig = SpotterViewConfig;
+
+/**
  * Embed ThoughtSpot AI Conversation.
  * @group Embed components
+ * @note
+ * **Renamed from ConversationEmbed → SpotterEmbed**  
+ * The old name will continue to work as an alias but is deprecated.  
+ * Please migrate to the new name to stay up-to-date with SDK changes.
  * @example
  * ```js
- * const conversation = new ConversationEmbed('#tsEmbed', {
+ * const conversation = new SpotterEmbed('#tsEmbed', {
  *   worksheetId: 'worksheetId',
  *   searchOptions: {
  *     searchQuery: 'searchQuery',
@@ -109,8 +120,8 @@ export interface ConversationViewConfig extends ViewConfig {
  * ```
  * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
  */
-export class ConversationEmbed extends TsEmbed {
-    constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
+export class SpotterEmbed extends TsEmbed {
+    constructor(container: HTMLElement, protected viewConfig: SpotterViewConfig) {
         viewConfig.embedComponentType = 'conversation';
         super(container, viewConfig);
     }
@@ -163,7 +174,7 @@ export class ConversationEmbed extends TsEmbed {
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
 
-    public async render(): Promise<ConversationEmbed> {
+    public async render(): Promise<SpotterEmbed> {
         await super.render();
 
         const src = this.getIframeSrc();
@@ -171,3 +182,10 @@ export class ConversationEmbed extends TsEmbed {
         return this;
     }
 }
+
+/**
+ * @deprecated
+ * ConversationEmbed has been renamed to SpotterEmbed.  
+ * This alias might be removed in a future release. Please update your code to use SpotterEmbed.
+ */
+export const ConversationEmbed = SpotterEmbed;

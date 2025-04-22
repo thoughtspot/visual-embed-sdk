@@ -11,7 +11,7 @@ import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
-import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
+import { SpotterEmbed as _SpotterEmbed, SpotterViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
@@ -332,14 +332,14 @@ export const PreRenderedSageEmbed = componentFactory<
     SageViewConfig
 >(_SageEmbed, true);
 
-interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
+interface SpotterEmbedProps extends EmbedProps, SpotterViewConfig { }
 
 /**
  * React component for LLM based conversation BI.
  * @example
  * ```tsx
  * function Sage() {
- *  return <ConversationEmbed
+ *  return <SpotterEmbed
  *      worksheetId="<worksheet-id-here>"
  *      searchOptions={{
  *          searchQuery: "<search query to start with>"
@@ -349,15 +349,21 @@ interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
  * }
  * ```
  */
-export const ConversationEmbed = componentFactory<
-    typeof _ConversationEmbed, ConversationEmbedProps, ConversationViewConfig>(
-        _ConversationEmbed,
-    );
+export const SpotterEmbed = componentFactory<
+    typeof _SpotterEmbed,
+    SpotterEmbedProps,
+    SpotterViewConfig
+>(_SpotterEmbed);
+
+/**
+ * @deprecated Use `SpotterEmbed` instead.
+ */
+export const ConversationEmbed = SpotterEmbed;
 
 /**
  * React component for PreRendered Conversation embed.
  *
- * PreRenderedConversationEmbed will preRender the ConversationEmbed and will be hidden by
+ * PreRenderedConversationEmbed will preRender the SpotterEmbed and will be hidden by
  * default.
  *
  * SageEmbed with preRenderId passed will call showPreRender on the embed.
@@ -368,22 +374,23 @@ export const ConversationEmbed = componentFactory<
  * }
  * ```
  * function MyComponent() {
- *  return <ConversationEmbed preRenderId="someId" worksheetId="id" />
+ *  return <SpotterEmbed preRenderId="someId" worksheetId="id" />
  * }
  * ```
  */
 export const PreRenderedConversationEmbed = componentFactory<
-    typeof _ConversationEmbed,
-    SageEmbedProps & PreRenderProps,
-    ConversationViewConfig
->(_ConversationEmbed, true);
+    typeof _SpotterEmbed,
+    SpotterEmbedProps & PreRenderProps,
+    SpotterViewConfig
+>(_SpotterEmbed, true);
 
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof ConversationEmbed;
+    | typeof ConversationEmbed
+    | typeof SpotterEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.

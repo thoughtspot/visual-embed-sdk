@@ -8,14 +8,14 @@ import { getQueryParamString } from '../utils';
  * Configuration for bodyless conversation options.
  * @group Embed components
  */
-export interface BodylessConversationViewConfig extends ViewConfig {
+export interface SpotterAgentEmbedViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
 }
 
-interface ConversationMessageViewConfig extends BodylessConversationViewConfig {
+interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
     acSessionId: string;
@@ -68,9 +68,9 @@ class ConversationMessage extends TsEmbed {
  * chatbots or other conversational interfaces.
  * @example
  * ```js
- * import { BodylessConversation } from '@thoughtspot/visual-embed-sdk';
+ * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
  *
- * const conversation = new BodylessConversation({
+ * const conversation = new SpotterAgentEmbed({
  *  worksheetId: 'worksheetId',
  * });
  *
@@ -82,10 +82,10 @@ class ConversationMessage extends TsEmbed {
  * @group Embed components
  * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
  */
-export class BodylessConversation {
+export class SpotterAgentEmbed {
     private conversationService: ConversationService;
 
-    constructor(private viewConfig: BodylessConversationViewConfig) {
+    constructor(private viewConfig: SpotterAgentEmbedViewConfig) {
         const embedConfig = getEmbedConfig();
 
         this.conversationService = new ConversationService(
@@ -112,3 +112,13 @@ export class BodylessConversation {
         return { container, viz: embed };
     }
 }
+
+/**
+ * @deprecated Use `SpotterAgentEmbed` instead.
+ */
+export const BodylessConversation = SpotterAgentEmbed;
+
+/**
+ * @deprecated Use `SpotterAgentEmbedViewConfig` instead.
+ */
+export type BodylessConversationViewConfig = SpotterAgentEmbedViewConfig;
