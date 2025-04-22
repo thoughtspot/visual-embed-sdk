@@ -540,6 +540,7 @@ export class TsEmbed {
             disableRedirectionLinksInNewTab,
             overrideOrgId,
             exposeTranslationIDs,
+            primaryAction,
         } = this.viewConfig;
 
         const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
@@ -557,6 +558,9 @@ export class TsEmbed {
         if (Array.isArray(visibleTabs) && Array.isArray(hiddenTabs)) {
             this.handleError('You cannot have both hidden Tabs and visible Tabs');
             return queryParams;
+        }
+        if (primaryAction) {
+            queryParams[Param.PrimaryAction] = primaryAction;
         }
 
         if (disabledActions?.length) {
