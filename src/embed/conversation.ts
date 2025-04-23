@@ -95,9 +95,7 @@ export interface SpotterViewConfig extends ViewConfig {
 }
 
 /**
- * @deprecated
- * ConversationViewConfig is deprecated and will be removed in a future release. 
- * Please migrate to SpotterViewConfig.
+ * @deprecated Use `SpotterViewConfig` instead.
  */
 export type ConversationViewConfig = SpotterViewConfig;
 
@@ -184,8 +182,10 @@ export class SpotterEmbed extends TsEmbed {
 }
 
 /**
- * @deprecated
- * ConversationEmbed has been renamed to SpotterEmbed.  
- * This alias might be removed in a future release. Please update your code to use SpotterEmbed.
+ * @deprecated Use `SpotterEmbed` instead.
  */
-export const ConversationEmbed = SpotterEmbed;
+export class ConversationEmbed extends SpotterEmbed {
+    constructor(container: HTMLElement, viewConfig: SpotterViewConfig) {
+        super(container, viewConfig);
+    }
+}

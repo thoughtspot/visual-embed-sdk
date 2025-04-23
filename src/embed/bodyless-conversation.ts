@@ -85,7 +85,7 @@ class ConversationMessage extends TsEmbed {
 export class SpotterAgentEmbed {
     private conversationService: ConversationService;
 
-    constructor(private viewConfig: SpotterAgentEmbedViewConfig) {
+    constructor(protected viewConfig: SpotterAgentEmbedViewConfig) {
         const embedConfig = getEmbedConfig();
 
         this.conversationService = new ConversationService(
@@ -116,7 +116,11 @@ export class SpotterAgentEmbed {
 /**
  * @deprecated Use `SpotterAgentEmbed` instead.
  */
-export const BodylessConversation = SpotterAgentEmbed;
+export class BodylessConversation extends SpotterAgentEmbed {
+    constructor(viewConfig: SpotterAgentEmbedViewConfig) {
+        super(viewConfig);
+    }
+}
 
 /**
  * @deprecated Use `SpotterAgentEmbedViewConfig` instead.
