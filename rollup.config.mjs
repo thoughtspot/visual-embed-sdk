@@ -26,7 +26,8 @@ const plugins = [
     }),
 ];
 
-const banner = `/* @thoughtspot/visual-embed-sdk version ${pkg.version} */`;
+const banner = `/* @thoughtspot/visual-embed-sdk version ${pkg.version} */
+'use client';`;
 
 export default [{
     input: 'src/index.ts',
