@@ -92,7 +92,7 @@ class ConversationMessage extends TsEmbed {
  * document.body.appendChild(container); // or to any other element
  * ```
  * @group Embed components
- * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterAgentEmbed {
     private conversationService: ConversationService;
@@ -127,7 +127,53 @@ export class SpotterAgentEmbed {
 
 
 /**
- * @deprecated Use {@link SpotterAgentEmbed} instead.
+ * Create a conversation embed, which can be integrated inside
+ * chatbots or other conversational interfaces.
+ * @deprecated This class is deprecated. Use {@link SpotterAgentEmbed} instead.
+ * @example
+ * ```js
+ * import { BodylessConversation } from '@thoughtspot/visual-embed-sdk';
+ *
+ * const conversation = new BodylessConversation({
+ *  worksheetId: 'worksheetId',
+ * });
+ *
+ * const { container, error } = await conversation.sendMessage('show me sales by region');
+ *
+ * // append the container to the DOM
+ * document.body.appendChild(container); // or to any other element
+ * ```
+ * @group Embed components
+ * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
  */
-export const BodylessConversation = SpotterAgentEmbed;
+export class BodylessConversation {
+    private conversationService: ConversationService;
+
+    constructor(private viewConfig: BodylessConversationViewConfig) {
+        const embedConfig = getEmbedConfig();
+
+        this.conversationService = new ConversationService(
+            embedConfig.thoughtSpotHost,
+            viewConfig.worksheetId,
+        );
+    }
+
+    public async sendMessage(userMessage: string) {
+        const { data, error } = await this.conversationService.sendMessage(userMessage);
+        if (error) {
+            return { error };
+        }
+
+        const container = document.createElement('div');
+        const embed = new ConversationMessage(container, {
+            ...this.viewConfig,
+            sessionId: data.sessionId,
+            genNo: data.genNo,
+            acSessionId: data.stateKey.transactionId,
+            acGenNo: data.stateKey.generationNumber,
+        });
+        await embed.render();
+        return { container, viz: embed };
+    }
+}
 
