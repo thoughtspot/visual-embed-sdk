@@ -95,11 +95,6 @@ export interface SpotterViewConfig extends ViewConfig {
 }
 
 /**
- * @deprecated Use `SpotterViewConfig` instead.
- */
-export type ConversationViewConfig = SpotterViewConfig;
-
-/**
  * Embed ThoughtSpot AI Conversation.
  * @group Embed components
  * @note
@@ -178,14 +173,5 @@ export class SpotterEmbed extends TsEmbed {
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
         return this;
-    }
-}
-
-/**
- * @deprecated Use `SpotterEmbed` instead.
- */
-export class ConversationEmbed extends SpotterEmbed {
-    constructor(container: HTMLElement, viewConfig: SpotterViewConfig) {
-        super(container, viewConfig);
     }
 }

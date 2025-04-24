@@ -112,17 +112,3 @@ export class SpotterAgentEmbed {
         return { container, viz: embed };
     }
 }
-
-/**
- * @deprecated Use `SpotterAgentEmbed` instead.
- */
-export class BodylessConversation extends SpotterAgentEmbed {
-    constructor(viewConfig: SpotterAgentEmbedViewConfig) {
-        super(viewConfig);
-    }
-}
-
-/**
- * @deprecated Use `SpotterAgentEmbedViewConfig` instead.
- */
-export type BodylessConversationViewConfig = SpotterAgentEmbedViewConfig;
