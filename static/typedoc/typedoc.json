@@ -16905,6 +16905,10 @@
 						"text": "Embed components"
 					},
 					{
+						"tag": "deprecated",
+						"text": "This component formerly known as BodylessConversation is now SpotterAgentEmbed. The previous name will continue to work as an alias for backward compatibility."
+					},
+					{
 						"tag": "version",
 						"text": "SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl\n"
 					}
@@ -16920,7 +16924,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 88,
+							"line": 90,
 							"character": 4
 						}
 					],
@@ -16964,7 +16968,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 97,
+							"line": 99,
 							"character": 17
 						}
 					],
@@ -17136,7 +17140,7 @@
 			"sources": [
 				{
 					"fileName": "embed/bodyless-conversation.ts",
-					"line": 85,
+					"line": 87,
 					"character": 13
 				}
 			]
@@ -17156,7 +17160,7 @@
 					},
 					{
 						"tag": "example",
-						"text": "\n```js\nconst conversation = new SpotterEmbed('#tsEmbed', {\n  worksheetId: 'worksheetId',\n  searchOptions: {\n    searchQuery: 'searchQuery',\n  },\n});\nconversation.render();\n```"
+						"text": "\n```js\nconst conversation = new SpotterEmbed('#tsEmbed', {\n  worksheetId: 'worksheetId',\n  searchOptions: {\n    searchQuery: 'searchQuery',\n  },\n});\nconversation.render();\n```\n**Note**: The component formerly known as ConversationEmbed is now SpotterEmbed. The previous name will continue to work as an alias for backward compatibility."
 					},
 					{
 						"tag": "version",
@@ -17174,7 +17178,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 113,
+							"line": 115,
 							"character": 4
 						}
 					],
@@ -17354,7 +17358,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 118,
+							"line": 120,
 							"character": 11
 						}
 					],
@@ -17964,7 +17968,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 166,
+							"line": 168,
 							"character": 17
 						}
 					],
@@ -18346,7 +18350,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 112,
+					"line": 114,
 					"character": 13
 				}
 			],
@@ -32487,6 +32491,10 @@
 				"shortText": "Configuration for bodyless conversation options.",
 				"tags": [
 					{
+						"tag": "deprecated",
+						"text": "This config formerly known as BodylessConversationViewConfig is now SpotterAgentEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility."
+					},
+					{
 						"tag": "group",
 						"text": "Embed components\n"
 					}
@@ -33770,7 +33778,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 15,
+							"line": 16,
 							"character": 4
 						}
 					],
@@ -33823,7 +33831,7 @@
 			"sources": [
 				{
 					"fileName": "embed/bodyless-conversation.ts",
-					"line": 11,
+					"line": 12,
 					"character": 17
 				}
 			],
@@ -33843,6 +33851,10 @@
 			"comment": {
 				"shortText": "The configuration for the embedded spotterEmbed options.",
 				"tags": [
+					{
+						"tag": "deprecated",
+						"text": "This config formerly known as ConversationViewConfig is now SpotterEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility."
+					},
 					{
 						"tag": "group",
 						"text": "Embed components\n"
@@ -34074,7 +34086,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 67,
+							"line": 68,
 							"character": 4
 						}
 					],
@@ -34148,7 +34160,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 42,
+							"line": 43,
 							"character": 4
 						}
 					],
@@ -34739,7 +34751,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 94,
+							"line": 95,
 							"character": 4
 						}
 					],
@@ -34772,7 +34784,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 54,
+							"line": 55,
 							"character": 4
 						}
 					],
@@ -35104,7 +35116,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 29,
+							"line": 30,
 							"character": 4
 						}
 					],
@@ -35174,7 +35186,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 81,
+							"line": 82,
 							"character": 4
 						}
 					],
@@ -35282,7 +35294,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 25,
+							"line": 26,
 							"character": 4
 						}
 					],
@@ -35340,7 +35352,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 21,
+					"line": 22,
 					"character": 17
 				}
 			],

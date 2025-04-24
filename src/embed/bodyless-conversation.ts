@@ -6,7 +6,7 @@ import { getQueryParamString } from '../utils';
 
 /**
  * Configuration for bodyless conversation options.
- * **Note**: This config formerly known as BodylessConversationViewConfig is now SpotterAgentEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility.
+ * @deprecated This config formerly known as BodylessConversationViewConfig is now SpotterAgentEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility.
  * @group Embed components
  */
 export interface SpotterAgentEmbedViewConfig extends ViewConfig {
@@ -81,7 +81,7 @@ class ConversationMessage extends TsEmbed {
  * document.body.appendChild(container); // or to any other element
  * ```
  * @group Embed components
- * **Note**: This component formerly known as BodylessConversation is now SpotterAgentEmbed. The previous name will continue to work as an alias for backward compatibility.
+ * @deprecated This component formerly known as BodylessConversation is now SpotterAgentEmbed. The previous name will continue to work as an alias for backward compatibility.
  * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterAgentEmbed {
