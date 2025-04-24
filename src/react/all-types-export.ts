@@ -10,6 +10,7 @@ export {
     SageEmbed,
     PreRenderedSageEmbed,
     SpotterEmbed,
+    ConversationEmbed,
     PreRenderedConversationEmbed,
     useEmbedRef,
     useInit,

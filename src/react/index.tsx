@@ -13,7 +13,7 @@ import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
-import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig } from '../embed/conversation';
+import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
@@ -357,6 +357,29 @@ export const SpotterEmbed = componentFactory<
     SpotterEmbedViewConfig
 >(_SpotterEmbed);
 
+
+/**
+ * React component for LLM based conversation BI.
+ * @deprecated Use {@link SpotterEmbed} instead.
+ * @example
+ * ```tsx
+ * function Sage() {
+ *  return <ConversationEmbed
+ *      worksheetId="<worksheet-id-here>"
+ *      searchOptions={{
+ *          searchQuery: "<search query to start with>"
+ *      }}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const ConversationEmbed = componentFactory<
+    typeof _ConversationEmbed,
+    ConversationViewConfig,
+    ConversationViewConfig
+>(_ConversationEmbed);
+
 /**
  * React component for PreRendered Conversation embed.
  *
@@ -386,7 +409,8 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof SpotterEmbed;
+    | typeof SpotterEmbed
+    | typeof ConversationEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.

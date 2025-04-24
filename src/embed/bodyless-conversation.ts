@@ -15,6 +15,18 @@ export interface SpotterAgentEmbedViewConfig extends ViewConfig {
     worksheetId: string;
 }
 
+/**
+ * Configuration for bodyless conversation options.
+ * @deprecated Use {@link SpotterAgentEmbedViewConfig} instead.
+ * @group Embed components
+ */
+export interface BodylessConversationViewConfig extends ViewConfig {
+    /**
+     * The ID of the worksheet to use for the conversation.
+     */
+    worksheetId: string;
+}
+
 interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
@@ -112,3 +124,10 @@ export class SpotterAgentEmbed {
         return { container, viz: embed };
     }
 }
+
+
+/**
+ * @deprecated Use {@link SpotterAgentEmbed} instead.
+ */
+export const BodylessConversation = SpotterAgentEmbed;
+
