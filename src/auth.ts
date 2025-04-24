@@ -76,6 +76,11 @@ export enum AuthStatus {
      * @version SDK: 1.19.0
      */
     WAITING_FOR_POPUP = 'WAITING_FOR_POPUP',
+
+    /**
+     * Emitted when the SAML popup is closed without authentication
+     */
+    SAML_POPUP_CLOSED_NO_AUTH = 'SAML_POPUP_CLOSED_NO_AUTH',
 }
 
 /**
@@ -95,13 +100,13 @@ export interface AuthEventEmitter {
      * @param listener
      */
     on(
-        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP,
+        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP | AuthStatus.SAML_POPUP_CLOSED_NO_AUTH,
         listener: () => void,
     ): this;
     on(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
     once(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
     once(
-        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP,
+        event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP | AuthStatus.SAML_POPUP_CLOSED_NO_AUTH,
         listener: () => void,
     ): this;
     once(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
@@ -370,10 +375,21 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
                 '_blank',
                 'location=no,height=570,width=520,scrollbars=yes,status=yes',
             );
+            if (samlAuthWindow) {
+                const popupClosedCheck = setInterval(() => {
+                    if (samlAuthWindow.closed) {
+                        clearInterval(popupClosedCheck);
+                        if (samlCompletionPromise && !samlCompletionResolved) {
+                            authEE?.emit(AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
+                        }
+                    }
+                }, 500);
+            }
         } else {
             samlAuthWindow.focus();
         }
     };
+    let samlCompletionResolved = false;
     authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
     if (containerEl) {
@@ -385,6 +401,7 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
     samlCompletionPromise = samlCompletionPromise || new Promise<void>((resolve, reject) => {
         window.addEventListener('message', (e) => {
             if (e.data.type === EmbedEvent.SAMLComplete) {
+                samlCompletionResolved = true;
                 (e.source as Window).close();
                 resolve();
             }
