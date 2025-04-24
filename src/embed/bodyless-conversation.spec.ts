@@ -121,8 +121,8 @@ describe('BodylessConversation', () => {
             worksheetId: 'worksheetId',
         };
 
-        const conversationEmbed = new BodylessConversation(viewConfig);
-        const result = await conversationEmbed.sendMessage('userMessage');
+        const spotterEmbed = new BodylessConversation(viewConfig);
+        const result = await spotterEmbed.sendMessage('userMessage');
         const iframeSrc = getIFrameSrc(result.container);
         expectUrlToHaveParamsWithValues(iframeSrc, {
             sessionId: 'sessionId',
@@ -134,7 +134,7 @@ describe('BodylessConversation', () => {
         fetchMock.mockRejectOnce(
             new Error('error'),
         );
-        const errorResult = await conversationEmbed.sendMessage('userMessage');
+        const errorResult = await spotterEmbed.sendMessage('userMessage');
         expect(errorResult.error instanceof Error).toBeTruthy();
     });
 });
