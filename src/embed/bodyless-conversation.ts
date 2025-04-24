@@ -6,7 +6,7 @@ import { getQueryParamString } from '../utils';
 
 /**
  * Configuration for bodyless conversation options.
- * @alias BodylessConversationViewConfig
+ * @deprecated Formally known as BodylessConversationViewConfig
  * @group Embed components
  */
 export interface SpotterAgentEmbedViewConfig extends ViewConfig {
@@ -67,6 +67,7 @@ class ConversationMessage extends TsEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
+ * @deprecated Formally known as BodylessConversation
  * @example
  * ```js
  * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
@@ -81,7 +82,6 @@ class ConversationMessage extends TsEmbed {
  * document.body.appendChild(container); // or to any other element
  * ```
  * @group Embed components
- * @alias BodylessConversation
  * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterAgentEmbed {

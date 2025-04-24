@@ -16,7 +16,7 @@ export interface SearchOptions {
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @alias ConversationViewConfig
+ * @deprecated Formally known as ConversationViewConfig
  * @group Embed components
  */
 export interface SpotterEmbedViewConfig extends ViewConfig {
@@ -97,7 +97,7 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
 
 /**
  * Embed ThoughtSpot AI Conversation.
- * @alias ConversationEmbed
+ * @deprecated Formally known as ConversationEmbed
  * @group Embed components
  * @example
  * ```js
