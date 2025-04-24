@@ -16,6 +16,7 @@ export interface SearchOptions {
 
 /**
  * The configuration for the embedded spotterEmbed options.
+ * **Note**: This config formerly known as ConversationViewConfig is now SpotterEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility.
  * @group Embed components
  */
 export interface SpotterEmbedViewConfig extends ViewConfig {
@@ -107,6 +108,7 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
  * });
  * conversation.render();
  * ```
+ * **Note**: The component formerly known as ConversationEmbed is now SpotterEmbed. The previous name will continue to work as an alias for backward compatibility.
  * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterEmbed extends TsEmbed {

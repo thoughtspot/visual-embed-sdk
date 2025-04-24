@@ -350,6 +350,7 @@ interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
  *  />
  * }
  * ```
+ * **Note**: This component formerly known as ConversationEmbed is now SpotterEmbed. The previous name will continue to work as an alias for backward compatibility.
  */
 export const SpotterEmbed = componentFactory<
     typeof _SpotterEmbed,
