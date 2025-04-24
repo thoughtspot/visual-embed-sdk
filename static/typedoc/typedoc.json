@@ -11836,260 +11836,6 @@
 			]
 		},
 		{
-			"id": 1051,
-			"name": "BodylessConversation",
-			"kind": 128,
-			"kindString": "Class",
-			"flags": {},
-			"comment": {
-				"shortText": "Create a conversation embed, which can be integrated inside\nchatbots or other conversational interfaces.",
-				"tags": [
-					{
-						"tag": "example",
-						"text": "\n```js\nimport { BodylessConversation } from '@thoughtspot/visual-embed-sdk';\n\nconst conversation = new BodylessConversation({\n worksheetId: 'worksheetId',\n});\n\nconst { container, error } = await conversation.sendMessage('show me sales by region');\n\n// append the container to the DOM\ndocument.body.appendChild(container); // or to any other element\n```"
-					},
-					{
-						"tag": "group",
-						"text": "Embed components"
-					},
-					{
-						"tag": "version",
-						"text": "SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl\n"
-					}
-				]
-			},
-			"children": [
-				{
-					"id": 1052,
-					"name": "constructor",
-					"kind": 512,
-					"kindString": "Constructor",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "embed/bodyless-conversation.ts",
-							"line": 88,
-							"character": 4
-						}
-					],
-					"signatures": [
-						{
-							"id": 1053,
-							"name": "new BodylessConversation",
-							"kind": 16384,
-							"kindString": "Constructor signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 1054,
-									"name": "viewConfig",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"id": 1067,
-										"name": "BodylessConversationViewConfig"
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"id": 1051,
-								"name": "BodylessConversation"
-							}
-						}
-					]
-				},
-				{
-					"id": 1056,
-					"name": "sendMessage",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {
-						"isPublic": true
-					},
-					"sources": [
-						{
-							"fileName": "embed/bodyless-conversation.ts",
-							"line": 97,
-							"character": 17
-						}
-					],
-					"signatures": [
-						{
-							"id": 1057,
-							"name": "sendMessage",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 1058,
-									"name": "userMessage",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "reference",
-								"typeArguments": [
-									{
-										"type": "union",
-										"types": [
-											{
-												"type": "reflection",
-												"declaration": {
-													"id": 1059,
-													"name": "__type",
-													"kind": 65536,
-													"kindString": "Type literal",
-													"flags": {},
-													"children": [
-														{
-															"id": 1061,
-															"name": "container",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "intrinsic",
-																"name": "undefined"
-															}
-														},
-														{
-															"id": 1060,
-															"name": "error",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "intrinsic",
-																"name": "any"
-															}
-														},
-														{
-															"id": 1062,
-															"name": "viz",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "intrinsic",
-																"name": "undefined"
-															},
-															"defaultValue": "..."
-														}
-													],
-													"groups": [
-														{
-															"title": "Properties",
-															"kind": 1024,
-															"children": [
-																1061,
-																1060,
-																1062
-															]
-														}
-													]
-												}
-											},
-											{
-												"type": "reflection",
-												"declaration": {
-													"id": 1063,
-													"name": "__type",
-													"kind": 65536,
-													"kindString": "Type literal",
-													"flags": {},
-													"children": [
-														{
-															"id": 1064,
-															"name": "container",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "reference",
-																"name": "HTMLDivElement"
-															}
-														},
-														{
-															"id": 1066,
-															"name": "error",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "intrinsic",
-																"name": "undefined"
-															}
-														},
-														{
-															"id": 1065,
-															"name": "viz",
-															"kind": 1024,
-															"kindString": "Property",
-															"flags": {},
-															"type": {
-																"type": "reference",
-																"name": "ConversationMessage"
-															},
-															"defaultValue": "..."
-														}
-													],
-													"groups": [
-														{
-															"title": "Properties",
-															"kind": 1024,
-															"children": [
-																1064,
-																1066,
-																1065
-															]
-														}
-													]
-												}
-											}
-										]
-									}
-								],
-								"name": "Promise"
-							}
-						}
-					]
-				}
-			],
-			"groups": [
-				{
-					"title": "Constructors",
-					"kind": 512,
-					"children": [
-						1052
-					]
-				},
-				{
-					"title": "Methods",
-					"kind": 2048,
-					"children": [
-						1056
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "embed/bodyless-conversation.ts",
-					"line": 85,
-					"character": 13
-				}
-			]
-		},
-		{
 			"id": 528,
 			"name": "LiveboardEmbed",
 			"kind": 128,
@@ -17082,6 +16828,260 @@
 			]
 		},
 		{
+			"id": 1051,
+			"name": "SpotterAgentEmbed",
+			"kind": 128,
+			"kindString": "Class",
+			"flags": {},
+			"comment": {
+				"shortText": "Create a conversation embed, which can be integrated inside\nchatbots or other conversational interfaces.",
+				"tags": [
+					{
+						"tag": "example",
+						"text": "\n```js\nimport { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';\n\nconst conversation = new SpotterAgentEmbed({\n worksheetId: 'worksheetId',\n});\n\nconst { container, error } = await conversation.sendMessage('show me sales by region');\n\n// append the container to the DOM\ndocument.body.appendChild(container); // or to any other element\n```"
+					},
+					{
+						"tag": "group",
+						"text": "Embed components"
+					},
+					{
+						"tag": "version",
+						"text": "SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 1052,
+					"name": "constructor",
+					"kind": 512,
+					"kindString": "Constructor",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "embed/bodyless-conversation.ts",
+							"line": 88,
+							"character": 4
+						}
+					],
+					"signatures": [
+						{
+							"id": 1053,
+							"name": "new SpotterAgentEmbed",
+							"kind": 16384,
+							"kindString": "Constructor signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 1054,
+									"name": "viewConfig",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 1067,
+										"name": "SpotterAgentEmbedViewConfig"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 1051,
+								"name": "SpotterAgentEmbed"
+							}
+						}
+					]
+				},
+				{
+					"id": 1056,
+					"name": "sendMessage",
+					"kind": 2048,
+					"kindString": "Method",
+					"flags": {
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "embed/bodyless-conversation.ts",
+							"line": 97,
+							"character": 17
+						}
+					],
+					"signatures": [
+						{
+							"id": 1057,
+							"name": "sendMessage",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 1058,
+									"name": "userMessage",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "union",
+										"types": [
+											{
+												"type": "reflection",
+												"declaration": {
+													"id": 1059,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"children": [
+														{
+															"id": 1061,
+															"name": "container",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "intrinsic",
+																"name": "undefined"
+															}
+														},
+														{
+															"id": 1060,
+															"name": "error",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "intrinsic",
+																"name": "any"
+															}
+														},
+														{
+															"id": 1062,
+															"name": "viz",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "intrinsic",
+																"name": "undefined"
+															},
+															"defaultValue": "..."
+														}
+													],
+													"groups": [
+														{
+															"title": "Properties",
+															"kind": 1024,
+															"children": [
+																1061,
+																1060,
+																1062
+															]
+														}
+													]
+												}
+											},
+											{
+												"type": "reflection",
+												"declaration": {
+													"id": 1063,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"children": [
+														{
+															"id": 1064,
+															"name": "container",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "reference",
+																"name": "HTMLDivElement"
+															}
+														},
+														{
+															"id": 1066,
+															"name": "error",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "intrinsic",
+																"name": "undefined"
+															}
+														},
+														{
+															"id": 1065,
+															"name": "viz",
+															"kind": 1024,
+															"kindString": "Property",
+															"flags": {},
+															"type": {
+																"type": "reference",
+																"name": "ConversationMessage"
+															},
+															"defaultValue": "..."
+														}
+													],
+													"groups": [
+														{
+															"title": "Properties",
+															"kind": 1024,
+															"children": [
+																1064,
+																1066,
+																1065
+															]
+														}
+													]
+												}
+											}
+										]
+									}
+								],
+								"name": "Promise"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"kind": 512,
+					"children": [
+						1052
+					]
+				},
+				{
+					"title": "Methods",
+					"kind": 2048,
+					"children": [
+						1056
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "embed/bodyless-conversation.ts",
+					"line": 85,
+					"character": 13
+				}
+			]
+		},
+		{
 			"id": 1109,
 			"name": "SpotterEmbed",
 			"kind": 128,
@@ -21325,1363 +21325,6 @@
 					"fileName": "auth.ts",
 					"line": 85,
 					"character": 17
-				}
-			]
-		},
-		{
-			"id": 1067,
-			"name": "BodylessConversationViewConfig",
-			"kind": 256,
-			"kindString": "Interface",
-			"flags": {},
-			"comment": {
-				"shortText": "Configuration for bodyless conversation options.",
-				"tags": [
-					{
-						"tag": "group",
-						"text": "Embed components\n"
-					}
-				]
-			},
-			"children": [
-				{
-					"id": 1081,
-					"name": "additionalFlags",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 843,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 1082,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {},
-							"indexSignature": {
-								"id": 1083,
-								"name": "__index",
-								"kind": 8192,
-								"kindString": "Index signature",
-								"flags": {},
-								"parameters": [
-									{
-										"id": 1084,
-										"name": "key",
-										"kind": 32768,
-										"flags": {},
-										"type": {
-											"type": "intrinsic",
-											"name": "string"
-										}
-									}
-								],
-								"type": {
-									"type": "union",
-									"types": [
-										{
-											"type": "intrinsic",
-											"name": "string"
-										},
-										{
-											"type": "intrinsic",
-											"name": "number"
-										},
-										{
-											"type": "intrinsic",
-											"name": "boolean"
-										}
-									]
-								}
-							}
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.additionalFlags"
-					}
-				},
-				{
-					"id": 1102,
-					"name": "collapseSearchBar",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "true"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  liveboardId: '123',\n  collapseSearchBar: true\n});\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1076,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.collapseSearchBar"
-					}
-				},
-				{
-					"id": 1087,
-					"name": "contextMenuTrigger",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... // other options\n   contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,\n})\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 875,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "reference",
-						"id": 1771,
-						"name": "ContextMenuTriggerOptions"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.contextMenuTrigger"
-					}
-				},
-				{
-					"id": 1085,
-					"name": "customizations",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Dynamic CSSUrl and customCSS to be injected in the loaded application.\nYou would also need to set `style-src` in the CSP settings.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.17.2 | ThoughtSpot: 8.4.1.sw, 8.4.0.cl"
-							},
-							{
-								"tag": "default",
-								"text": "''\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 850,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "reference",
-						"id": 2139,
-						"name": "CustomisationsInterface"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.customizations"
-					}
-				},
-				{
-					"id": 1105,
-					"name": "dataPanelV2",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Flag to control Data panel experience",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   dataPanelV2: true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1107,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.dataPanelV2"
-					}
-				},
-				{
-					"id": 1104,
-					"name": "disableRedirectionLinksInNewTab",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  disableRedirectionLinksInNewTab: true\n});\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1094,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.disableRedirectionLinksInNewTab"
-					}
-				},
-				{
-					"id": 1074,
-					"name": "disabledActionReason",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The tooltip to display for disabled actions.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  disabledActions: [Action.Download, Action.Save]\n  disabledActionReason: \"Reason for disabling\",\n});\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 727,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.disabledActionReason"
-					}
-				},
-				{
-					"id": 1073,
-					"name": "disabledActions",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  disabledActions: [Action.Download, Action.Save]\n});\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 714,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 1641,
-							"name": "Action"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.disabledActions"
-					}
-				},
-				{
-					"id": 1098,
-					"name": "doNotTrackPreRenderSize",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\n// Disable tracking PreRender size in the configuration\nconst config = {\n  doNotTrackPreRenderSize: true,\n};\n\n// Instantiate an object with the configuration\nconst myComponent = new MyComponent(config);\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1035,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.doNotTrackPreRenderSize"
-					}
-				},
-				{
-					"id": 1106,
-					"name": "enableCustomColumnGroups",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "To enable custom column groups in data panel v2",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw"
-							},
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n  ... // other options\n  enableCustomColumnGroups: true,\n});\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1120,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.enableCustomColumnGroups"
-					}
-				},
-				{
-					"id": 1101,
-					"name": "enableV2Shell_experimental",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  liveboardId: '123',\n  enableV2Shell_experimental: true\n});\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1064,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.enableV2Shell_experimental"
-					}
-				},
-				{
-					"id": 1091,
-					"name": "excludeRuntimeFiltersfromURL",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Boolean to exclude runtimeFilters in the URL\nBy default it is true, this flag removes runtime filters from the URL\nwhen set to false, runtime filters will be included in the URL.",
-						"text": "Irrespective of this flag, runtime filters ( if passed ) will be applied to the\nembedded view.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 913,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.excludeRuntimeFiltersfromURL"
-					}
-				},
-				{
-					"id": 1100,
-					"name": "excludeRuntimeParametersfromURL",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Boolean to exclude runtimeParameters from the URL\nwhen set to true, this flag removes runtime parameters from the URL.",
-						"text": "Irrespective of this flag, runtime filters ( if passed ) will be applied to the\nembedded view.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1050,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.excludeRuntimeParametersfromURL"
-					}
-				},
-				{
-					"id": 1103,
-					"name": "exposeTranslationIDs",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "This flag can be used to expose translation IDs on the embedded app.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1082,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.exposeTranslationIDs"
-					}
-				},
-				{
-					"id": 1070,
-					"name": "frameParams",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  frameParams: {\n    width: '500px' | '50%',\n     height: '400px' | '60%',\n  },\n});\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 690,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "reference",
-						"id": 2101,
-						"name": "FrameParams"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.frameParams"
-					}
-				},
-				{
-					"id": 1075,
-					"name": "hiddenActions",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  hiddenActions: [Action.Download, Action.Export]\n});\n```"
-							},
-							{
-								"tag": "important",
-								"text": "\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 742,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 1641,
-							"name": "Action"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.hiddenActions"
-					}
-				},
-				{
-					"id": 1096,
-					"name": "hiddenHomeLeftNavItems",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "homepageLeftNavItems : Show or hide the left navigation bar items.\nThere are 8 eight home navigation list items.\nTo hide these items, specify the string in the array.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 999,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 2107,
-							"name": "HomeLeftNavItem"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.hiddenHomeLeftNavItems"
-					}
-				},
-				{
-					"id": 1093,
-					"name": "hiddenHomepageModules",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Hide the home page modules\nFor example: hiddenHomepageModules = [HomepageModule.MyLibrary]",
-						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 946,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 2115,
-							"name": "HomepageModule"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.hiddenHomepageModules"
-					}
-				},
-				{
-					"id": 1108,
-					"name": "hiddenListColumns",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1151,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 2314,
-							"name": "ListPageColumns"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.hiddenListColumns"
-					}
-				},
-				{
-					"id": 1092,
-					"name": "hiddenTabs",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of tab IDs to hide from the embedded.\nThis Tabs will be hidden from their respective LBs.\nUse this to hide an tabID.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  hiddenTabs: [\n'430496d6-6903-4601-937e-2c691821af3c',\n 'f547ec54-2a37-4516-a222-2b06719af726']\n});\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 929,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "intrinsic",
-							"name": "string"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.hiddenTabs"
-					}
-				},
-				{
-					"id": 1086,
-					"name": "insertAsSibling",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   insertAsSibling:true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 863,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.insertAsSibling"
-					}
-				},
-				{
-					"id": 1088,
-					"name": "linkOverride",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   linkOverride:false,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 887,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.linkOverride"
-					}
-				},
-				{
-					"id": 1080,
-					"name": "locale",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The locale settings to apply to the embedded view.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   locale:'en',\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 822,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.locale"
-					}
-				},
-				{
-					"id": 1107,
-					"name": "overrideOrgId",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other options\n  overrideOrgId: 142536\n});\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1136,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "number"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.overrideOrgId"
-					}
-				},
-				{
-					"id": 1097,
-					"name": "preRenderId",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"tags": [
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 1014,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.preRenderId"
-					}
-				},
-				{
-					"id": 1094,
-					"name": "reorderedHomepageModules",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "reordering the home page modules\neg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]",
-						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 963,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 2115,
-							"name": "HomepageModule"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.reorderedHomepageModules"
-					}
-				},
-				{
-					"id": 1078,
-					"name": "runtimeFilters",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   runtimeFilters: [\n          {\n            columnName: 'value',\n             operator: RuntimeFilterOp.EQ,\n            values: ['string' | 123 | true],\n          },\n      ],\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 792,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 1475,
-							"name": "RuntimeFilter"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.runtimeFilters"
-					}
-				},
-				{
-					"id": 1079,
-					"name": "runtimeParameters",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 810,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 2254,
-							"name": "RuntimeParameter"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.runtimeParameters"
-					}
-				},
-				{
-					"id": 1077,
-					"name": "showAlerts",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Show alert messages and toast messages in the embedded\nview in full app embed.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   showAlerts:true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 773,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.showAlerts"
-					}
-				},
-				{
-					"id": 1076,
-					"name": "visibleActions",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
-							},
-							{
-								"tag": "important",
-								"text": ""
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  visibleActions: [Action.Download, Action.Export]\n});\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 760,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "reference",
-							"id": 1641,
-							"name": "Action"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.visibleActions"
-					}
-				},
-				{
-					"id": 1095,
-					"name": "visibleTabs",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "The list of tab IDs to show in the embedded Liveboard.\nOnly the tabs specified in the array will be shown in the Liveboard.",
-						"text": "Use either `visibleTabs` or `hiddenTabs`.",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   visibleTabs: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 981,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "array",
-						"elementType": {
-							"type": "intrinsic",
-							"name": "string"
-						}
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "ViewConfig.visibleTabs"
-					}
-				},
-				{
-					"id": 1068,
-					"name": "worksheetId",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {},
-					"comment": {
-						"shortText": "The ID of the worksheet to use for the conversation."
-					},
-					"sources": [
-						{
-							"fileName": "embed/bodyless-conversation.ts",
-							"line": 15,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				}
-			],
-			"groups": [
-				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						1081,
-						1102,
-						1087,
-						1085,
-						1105,
-						1104,
-						1074,
-						1073,
-						1098,
-						1106,
-						1101,
-						1091,
-						1100,
-						1103,
-						1070,
-						1075,
-						1096,
-						1093,
-						1108,
-						1092,
-						1086,
-						1088,
-						1080,
-						1107,
-						1097,
-						1094,
-						1078,
-						1079,
-						1077,
-						1076,
-						1095,
-						1068
-					]
-				}
-			],
-			"sources": [
-				{
-					"fileName": "embed/bodyless-conversation.ts",
-					"line": 11,
-					"character": 17
-				}
-			],
-			"extendedTypes": [
-				{
-					"type": "reference",
-					"name": "ViewConfig"
 				}
 			]
 		},
@@ -33775,6 +32418,1363 @@
 			]
 		},
 		{
+			"id": 1067,
+			"name": "SpotterAgentEmbedViewConfig",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "Configuration for bodyless conversation options.",
+				"tags": [
+					{
+						"tag": "group",
+						"text": "Embed components\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 1081,
+					"name": "additionalFlags",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 843,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 1082,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"indexSignature": {
+								"id": 1083,
+								"name": "__index",
+								"kind": 8192,
+								"kindString": "Index signature",
+								"flags": {},
+								"parameters": [
+									{
+										"id": 1084,
+										"name": "key",
+										"kind": 32768,
+										"flags": {},
+										"type": {
+											"type": "intrinsic",
+											"name": "string"
+										}
+									}
+								],
+								"type": {
+									"type": "union",
+									"types": [
+										{
+											"type": "intrinsic",
+											"name": "string"
+										},
+										{
+											"type": "intrinsic",
+											"name": "number"
+										},
+										{
+											"type": "intrinsic",
+											"name": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.additionalFlags"
+					}
+				},
+				{
+					"id": 1102,
+					"name": "collapseSearchBar",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "To set the initial state of the search bar in case of saved Answers.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "true"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  liveboardId: '123',\n  collapseSearchBar: true\n});\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1076,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.collapseSearchBar"
+					}
+				},
+				{
+					"id": 1087,
+					"name": "contextMenuTrigger",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... // other options\n   contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,\n})\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 875,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 1771,
+						"name": "ContextMenuTriggerOptions"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.contextMenuTrigger"
+					}
+				},
+				{
+					"id": 1085,
+					"name": "customizations",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Dynamic CSSUrl and customCSS to be injected in the loaded application.\nYou would also need to set `style-src` in the CSP settings.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.17.2 | ThoughtSpot: 8.4.1.sw, 8.4.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "''\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 850,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 2139,
+						"name": "CustomisationsInterface"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.customizations"
+					}
+				},
+				{
+					"id": 1105,
+					"name": "dataPanelV2",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag to control Data panel experience",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   dataPanelV2: true,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1107,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.dataPanelV2"
+					}
+				},
+				{
+					"id": 1104,
+					"name": "disableRedirectionLinksInNewTab",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  disableRedirectionLinksInNewTab: true\n});\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1094,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.disableRedirectionLinksInNewTab"
+					}
+				},
+				{
+					"id": 1074,
+					"name": "disabledActionReason",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The tooltip to display for disabled actions.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  disabledActions: [Action.Download, Action.Save]\n  disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 727,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.disabledActionReason"
+					}
+				},
+				{
+					"id": 1073,
+					"name": "disabledActions",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 714,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 1641,
+							"name": "Action"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.disabledActions"
+					}
+				},
+				{
+					"id": 1098,
+					"name": "doNotTrackPreRenderSize",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Determines if the PreRender component should dynamically track the size\nof its embedding element and adjust its own size accordingly.\nEnabling this option allows the PreRender component to automatically adapt\nits dimensions based on changes to the size of the embedding element.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n// Disable tracking PreRender size in the configuration\nconst config = {\n  doNotTrackPreRenderSize: true,\n};\n\n// Instantiate an object with the configuration\nconst myComponent = new MyComponent(config);\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1035,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.doNotTrackPreRenderSize"
+					}
+				},
+				{
+					"id": 1106,
+					"name": "enableCustomColumnGroups",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "To enable custom column groups in data panel v2",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw"
+							},
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n  ... // other options\n  enableCustomColumnGroups: true,\n});\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1120,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.enableCustomColumnGroups"
+					}
+				},
+				{
+					"id": 1101,
+					"name": "enableV2Shell_experimental",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  liveboardId: '123',\n  enableV2Shell_experimental: true\n});\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1064,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.enableV2Shell_experimental"
+					}
+				},
+				{
+					"id": 1091,
+					"name": "excludeRuntimeFiltersfromURL",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Boolean to exclude runtimeFilters in the URL\nBy default it is true, this flag removes runtime filters from the URL\nwhen set to false, runtime filters will be included in the URL.",
+						"text": "Irrespective of this flag, runtime filters ( if passed ) will be applied to the\nembedded view.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 913,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.excludeRuntimeFiltersfromURL"
+					}
+				},
+				{
+					"id": 1100,
+					"name": "excludeRuntimeParametersfromURL",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Boolean to exclude runtimeParameters from the URL\nwhen set to true, this flag removes runtime parameters from the URL.",
+						"text": "Irrespective of this flag, runtime filters ( if passed ) will be applied to the\nembedded view.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1050,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.excludeRuntimeParametersfromURL"
+					}
+				},
+				{
+					"id": 1103,
+					"name": "exposeTranslationIDs",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This flag can be used to expose translation IDs on the embedded app.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1082,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.exposeTranslationIDs"
+					}
+				},
+				{
+					"id": 1070,
+					"name": "frameParams",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  frameParams: {\n    width: '500px' | '50%',\n     height: '400px' | '60%',\n  },\n});\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 690,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 2101,
+						"name": "FrameParams"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.frameParams"
+					}
+				},
+				{
+					"id": 1075,
+					"name": "hiddenActions",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  hiddenActions: [Action.Download, Action.Export]\n});\n```"
+							},
+							{
+								"tag": "important",
+								"text": "\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 742,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 1641,
+							"name": "Action"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.hiddenActions"
+					}
+				},
+				{
+					"id": 1096,
+					"name": "hiddenHomeLeftNavItems",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "homepageLeftNavItems : Show or hide the left navigation bar items.\nThere are 8 eight home navigation list items.\nTo hide these items, specify the string in the array.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 999,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2107,
+							"name": "HomeLeftNavItem"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.hiddenHomeLeftNavItems"
+					}
+				},
+				{
+					"id": 1093,
+					"name": "hiddenHomepageModules",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Hide the home page modules\nFor example: hiddenHomepageModules = [HomepageModule.MyLibrary]",
+						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 946,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2115,
+							"name": "HomepageModule"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.hiddenHomepageModules"
+					}
+				},
+				{
+					"id": 1108,
+					"name": "hiddenListColumns",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
+						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1151,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2314,
+							"name": "ListPageColumns"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.hiddenListColumns"
+					}
+				},
+				{
+					"id": 1092,
+					"name": "hiddenTabs",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of tab IDs to hide from the embedded.\nThis Tabs will be hidden from their respective LBs.\nUse this to hide an tabID.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  hiddenTabs: [\n'430496d6-6903-4601-937e-2c691821af3c',\n 'f547ec54-2a37-4516-a222-2b06719af726']\n});\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 929,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.hiddenTabs"
+					}
+				},
+				{
+					"id": 1086,
+					"name": "insertAsSibling",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   insertAsSibling:true,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 863,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.insertAsSibling"
+					}
+				},
+				{
+					"id": 1088,
+					"name": "linkOverride",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   linkOverride:false,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 887,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.linkOverride"
+					}
+				},
+				{
+					"id": 1080,
+					"name": "locale",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The locale settings to apply to the embedded view.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   locale:'en',\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 822,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.locale"
+					}
+				},
+				{
+					"id": 1107,
+					"name": "overrideOrgId",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other options\n  overrideOrgId: 142536\n});\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1136,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.overrideOrgId"
+					}
+				},
+				{
+					"id": 1097,
+					"name": "preRenderId",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 1014,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.preRenderId"
+					}
+				},
+				{
+					"id": 1094,
+					"name": "reorderedHomepageModules",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "reordering the home page modules\neg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]",
+						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 963,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2115,
+							"name": "HomepageModule"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.reorderedHomepageModules"
+					}
+				},
+				{
+					"id": 1078,
+					"name": "runtimeFilters",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   runtimeFilters: [\n          {\n            columnName: 'value',\n             operator: RuntimeFilterOp.EQ,\n            values: ['string' | 123 | true],\n          },\n      ],\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 792,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 1475,
+							"name": "RuntimeFilter"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.runtimeFilters"
+					}
+				},
+				{
+					"id": 1079,
+					"name": "runtimeParameters",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 810,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2254,
+							"name": "RuntimeParameter"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.runtimeParameters"
+					}
+				},
+				{
+					"id": 1077,
+					"name": "showAlerts",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Show alert messages and toast messages in the embedded\nview in full app embed.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   showAlerts:true,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 773,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.showAlerts"
+					}
+				},
+				{
+					"id": 1076,
+					"name": "visibleActions",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
+						"text": "Use either this or hiddenActions.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw"
+							},
+							{
+								"tag": "important",
+								"text": ""
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ... // other liveboard view config\n  visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 760,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 1641,
+							"name": "Action"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.visibleActions"
+					}
+				},
+				{
+					"id": 1095,
+					"name": "visibleTabs",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The list of tab IDs to show in the embedded Liveboard.\nOnly the tabs specified in the array will be shown in the Liveboard.",
+						"text": "Use either `visibleTabs` or `hiddenTabs`.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   visibleTabs: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 981,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "ViewConfig.visibleTabs"
+					}
+				},
+				{
+					"id": 1068,
+					"name": "worksheetId",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "The ID of the worksheet to use for the conversation."
+					},
+					"sources": [
+						{
+							"fileName": "embed/bodyless-conversation.ts",
+							"line": 15,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						1081,
+						1102,
+						1087,
+						1085,
+						1105,
+						1104,
+						1074,
+						1073,
+						1098,
+						1106,
+						1101,
+						1091,
+						1100,
+						1103,
+						1070,
+						1075,
+						1096,
+						1093,
+						1108,
+						1092,
+						1086,
+						1088,
+						1080,
+						1107,
+						1097,
+						1094,
+						1078,
+						1079,
+						1077,
+						1076,
+						1095,
+						1068
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "embed/bodyless-conversation.ts",
+					"line": 11,
+					"character": 17
+				}
+			],
+			"extendedTypes": [
+				{
+					"type": "reference",
+					"name": "ViewConfig"
+				}
+			]
+		},
+		{
 			"id": 1256,
 			"name": "SpotterEmbedViewConfig",
 			"kind": 256,
@@ -37215,11 +37215,11 @@
 			"children": [
 				1371,
 				872,
-				1051,
 				528,
 				715,
 				212,
 				55,
+				1051,
 				1109
 			]
 		},
@@ -37229,7 +37229,6 @@
 			"children": [
 				2027,
 				1318,
-				1067,
 				2287,
 				2161,
 				2149,
@@ -37243,6 +37242,7 @@
 				1877,
 				1823,
 				1444,
+				1067,
 				1256,
 				1451,
 				2284,
