@@ -15,18 +15,6 @@ export interface SpotterAgentEmbedViewConfig extends ViewConfig {
     worksheetId: string;
 }
 
-/**
- * Configuration for bodyless conversation options.
- * @deprecated Use {@link SpotterAgentEmbedViewConfig} instead.
- * @group Embed components
- */
-export interface BodylessConversationViewConfig extends ViewConfig {
-    /**
-     * The ID of the worksheet to use for the conversation.
-     */
-    worksheetId: string;
-}
-
 interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
@@ -98,58 +86,6 @@ export class SpotterAgentEmbed {
     private conversationService: ConversationService;
 
     constructor(private viewConfig: SpotterAgentEmbedViewConfig) {
-        const embedConfig = getEmbedConfig();
-
-        this.conversationService = new ConversationService(
-            embedConfig.thoughtSpotHost,
-            viewConfig.worksheetId,
-        );
-    }
-
-    public async sendMessage(userMessage: string) {
-        const { data, error } = await this.conversationService.sendMessage(userMessage);
-        if (error) {
-            return { error };
-        }
-
-        const container = document.createElement('div');
-        const embed = new ConversationMessage(container, {
-            ...this.viewConfig,
-            sessionId: data.sessionId,
-            genNo: data.genNo,
-            acSessionId: data.stateKey.transactionId,
-            acGenNo: data.stateKey.generationNumber,
-        });
-        await embed.render();
-        return { container, viz: embed };
-    }
-}
-
-
-/**
- * Create a conversation embed, which can be integrated inside
- * chatbots or other conversational interfaces.
- * @deprecated This class is deprecated. Use {@link SpotterAgentEmbed} instead.
- * @example
- * ```js
- * import { BodylessConversation } from '@thoughtspot/visual-embed-sdk';
- *
- * const conversation = new BodylessConversation({
- *  worksheetId: 'worksheetId',
- * });
- *
- * const { container, error } = await conversation.sendMessage('show me sales by region');
- *
- * // append the container to the DOM
- * document.body.appendChild(container); // or to any other element
- * ```
- * @group Embed components
- * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
- */
-export class BodylessConversation {
-    private conversationService: ConversationService;
-
-    constructor(private viewConfig: BodylessConversationViewConfig) {
         const embedConfig = getEmbedConfig();
 
         this.conversationService = new ConversationService(

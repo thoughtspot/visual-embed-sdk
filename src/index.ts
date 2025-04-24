@@ -23,8 +23,8 @@ import {
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversationViewConfig, BodylessConversation } from './embed/bodyless-conversation';
-import { SpotterEmbed, SpotterEmbedViewConfig, ConversationViewConfig, ConversationEmbed } from './embed/conversation';
+import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig,  SpotterAgentEmbed as BodylessConversation, SpotterAgentEmbedViewConfig as BodylessConversationViewConfig} from './embed/bodyless-conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterEmbed as ConversationEmbed, SpotterEmbedViewConfig as ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
