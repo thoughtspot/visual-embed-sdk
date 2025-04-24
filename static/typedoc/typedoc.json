@@ -16905,8 +16905,8 @@
 						"text": "Embed components"
 					},
 					{
-						"tag": "deprecated",
-						"text": "This component formerly known as BodylessConversation is now SpotterAgentEmbed. The previous name will continue to work as an alias for backward compatibility."
+						"tag": "alias",
+						"text": "BodylessConversation"
 					},
 					{
 						"tag": "version",
@@ -17155,12 +17155,16 @@
 				"shortText": "Embed ThoughtSpot AI Conversation.",
 				"tags": [
 					{
+						"tag": "alias",
+						"text": "ConversationEmbed"
+					},
+					{
 						"tag": "group",
 						"text": "Embed components"
 					},
 					{
 						"tag": "example",
-						"text": "\n```js\nconst conversation = new SpotterEmbed('#tsEmbed', {\n  worksheetId: 'worksheetId',\n  searchOptions: {\n    searchQuery: 'searchQuery',\n  },\n});\nconversation.render();\n```\n**Note**: The component formerly known as ConversationEmbed is now SpotterEmbed. The previous name will continue to work as an alias for backward compatibility."
+						"text": "\n```js\nconst conversation = new SpotterEmbed('#tsEmbed', {\n  worksheetId: 'worksheetId',\n  searchOptions: {\n    searchQuery: 'searchQuery',\n  },\n});\nconversation.render();\n```"
 					},
 					{
 						"tag": "version",
@@ -32491,8 +32495,8 @@
 				"shortText": "Configuration for bodyless conversation options.",
 				"tags": [
 					{
-						"tag": "deprecated",
-						"text": "This config formerly known as BodylessConversationViewConfig is now SpotterAgentEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility."
+						"tag": "alias",
+						"text": "BodylessConversationViewConfig"
 					},
 					{
 						"tag": "group",
@@ -33852,8 +33856,8 @@
 				"shortText": "The configuration for the embedded spotterEmbed options.",
 				"tags": [
 					{
-						"tag": "deprecated",
-						"text": "This config formerly known as ConversationViewConfig is now SpotterEmbedViewConfig. The previous name will continue to work as an alias for backward compatibility."
+						"tag": "alias",
+						"text": "ConversationViewConfig"
 					},
 					{
 						"tag": "group",

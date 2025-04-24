@@ -338,6 +338,7 @@ interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 
 /**
  * React component for LLM based conversation BI.
+ * @alias ConversationEmbed
  * @example
  * ```tsx
  * function Sage() {
@@ -350,7 +351,6 @@ interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
  *  />
  * }
  * ```
- * @deprecated This component formerly known as ConversationEmbed is now SpotterEmbed. The previous name will continue to work as an alias for backward compatibility.
  */
 export const SpotterEmbed = componentFactory<
     typeof _SpotterEmbed,
