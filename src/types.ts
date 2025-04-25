@@ -1139,7 +1139,7 @@ export interface ViewConfig {
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
      * **Note**: This option is available only in full app embedding.
-     * @version SDK: 1.37.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1312,7 +1312,7 @@ export enum HomepageModule {
 /**
  * List page columns that can be hidden.
  * **Note**: This option is applicable to full app embedding only.
- * @version SDK: 1.37.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+ * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
  */
 // eslint-disable-next-line no-shadow
 export enum ListPageColumns {
