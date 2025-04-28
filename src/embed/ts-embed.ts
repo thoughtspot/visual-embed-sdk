@@ -176,7 +176,7 @@ export class TsEmbed {
      */
     private shouldEncodeUrlQueryParams = false;
 
-    private defaultHiddenActions = [Action.ReportError];
+    // private defaultHiddenActions = [Action.ReportError];
 
     private resizeObserver: ResizeObserver;
 
@@ -568,7 +568,7 @@ export class TsEmbed {
         if (exposeTranslationIDs) {
             queryParams[Param.ExposeTranslationIDs] = exposeTranslationIDs;
         }
-        queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
+        queryParams[Param.HideActions] = [...(hiddenActions ?? [])];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
