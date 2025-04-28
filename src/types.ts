@@ -1138,8 +1138,8 @@ export interface ViewConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is appplicable only in full app embedding.
-     * @version SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * **Note**: This option is available only in full app embedding.
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1311,8 +1311,8 @@ export enum HomepageModule {
 
 /**
  * List page columns that can be hidden.
- * **Note**: This option is applicable only in full app embedding.
- * @version SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+ * **Note**: This option is applicable to full app embedding only.
+ * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
  */
 // eslint-disable-next-line no-shadow
 export enum ListPageColumns {
@@ -2401,7 +2401,7 @@ export enum EmbedEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
      TableVizRendered = 'TableVizRendered',
      /**
@@ -2414,12 +2414,12 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
-     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
      CreateModel = 'createModel',
 }
@@ -2863,7 +2863,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Remove)
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
      */
     Remove = 'delete',
     /**
@@ -3458,7 +3458,7 @@ export enum HostEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
 }
@@ -4822,7 +4822,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.ColumnRename]
      * ```
-     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     ColumnRename = 'columnRename',
     /**
@@ -4832,7 +4832,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.CoverAndFilterOptionInPDF]
      * ```
-     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
 }
