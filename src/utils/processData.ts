@@ -80,15 +80,15 @@ export function processAuthFailure(e: any, containerEl: Element) {
     const {
         loginFailedMessage, authType, disableLoginFailurePage, autoLogin,
     } = getEmbedConfig();
-    if (
-        autoLogin
-        && (authType === AuthType.TrustedAuthToken
-            || authType === AuthType.TrustedAuthTokenCookieless)
-    ) {
+    
+    const isEmbeddedSSO = authType === AuthType.EmbeddedSSO;
+    const isTrustedAuth = authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless;
+    const isEmbeddedSSOInfoFailure = isEmbeddedSSO && e?.data?.type === AuthFailureType.UNAUTHENTICATED_FAILURE;
+    if (autoLogin && isTrustedAuth) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
-    } else if (authType !== AuthType.None && !disableLoginFailurePage) {
+    } else if (authType !== AuthType.None && !disableLoginFailurePage && !isEmbeddedSSOInfoFailure) {
         // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.OTHER);
