@@ -838,7 +838,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -953,7 +953,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -4181,7 +4181,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl\n"
+								"text": "SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl\n"
 							}
 						]
 					},
@@ -4205,7 +4205,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl\n"
+								"text": "SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl\n"
 							}
 						]
 					},
@@ -5649,7 +5649,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -7361,7 +7361,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw\n"
 							}
 						]
 					},
@@ -7931,7 +7931,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -8278,11 +8278,11 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "List page columns that can be hidden.\n**Note**: This option is applicable only in full app embedding.",
+				"shortText": "List page columns that can be hidden.\n**Note**: This option is applicable to full app embedding only.",
 				"tags": [
 					{
 						"tag": "version",
-						"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw\n"
+						"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl\n"
 					}
 				]
 			},
@@ -19361,11 +19361,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -22142,11 +22142,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -23570,11 +23570,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -28807,7 +28807,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is for show/hide checkboxes for include or exclude\ncover and filter pages in the Liveboard PDF",
+						"shortText": "This flag is for show/hide checkboxes for include or exclude\ncover page and filters in the Liveboard PDF.",
 						"tags": [
 							{
 								"tag": "default",
@@ -28815,7 +28815,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot:10.8.0.cl"
+								"text": "SDK: 1.37.0 | ThoughtSpot:10.8.0.cl"
 							},
 							{
 								"tag": "example",
@@ -29535,11 +29535,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -31606,11 +31606,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -33114,11 +33114,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -34688,11 +34688,11 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is appplicable only in full app embedding.",
+						"text": "**Note**: This option is available only in full app embedding.",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl"
 							},
 							{
 								"tag": "example",
@@ -37549,7 +37549,7 @@
 	"sources": [
 		{
 			"fileName": "index.ts",
-			"line": 9,
+			"line": 1,
 			"character": 0
 		}
 	]
