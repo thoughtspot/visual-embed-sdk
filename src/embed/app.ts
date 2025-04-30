@@ -152,6 +152,51 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     enablePendoHelp?: boolean
     /**
+     * Control the visibility of the hamburger icon on the top nav bar
+     * available when new navigation V3 is enabled.
+     *
+     * @default false
+     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideHamburger : true,
+     * })
+     * ```
+     */
+    hideHamburger?: boolean;
+    /**
+     * Control the visibility of the Eureka search on the top nav bar
+     * this will control for both new V2 and new navigation V3.
+     *
+     * @default true
+     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideObjectSearch: false,
+     * })
+     * ```
+     */
+    hideObjectSearch?: boolean;
+    /**
+     * Control the visibility of the notification on the top nav bar V3,
+     * available when new navigation V3 is enabled.
+     *
+     * @default true
+     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hideNotification: false,
+     * })
+     * ```
+     */
+    hideNotification?: boolean;
+    /**
      * Control the visibility of the application switcher button on the nav-bar.
      * By default, the application switcher is shown.
      *
@@ -345,6 +390,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     modularHomeExperience?: boolean;
     /**
+     * Flag to control new navigation v3 home experience.
+     *
+     * @default false
+     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    modularHomeExperienceV3 : true,
+     * })
+     * ```
+     */
+    modularHomeExperienceV3?: boolean;
+    /**
      * Boolean to control if Liveboard header is sticky or not.
      * @example
      * ```js
@@ -515,6 +574,9 @@ export class AppEmbed extends V1Embed {
             liveboardV2,
             showPrimaryNavbar,
             disableProfileAndHelp,
+            hideHamburger,
+            hideObjectSearch,
+            hideNotification,
             hideApplicationSwitcher,
             hideOrgSwitcher,
             enableSearchAssist,
@@ -525,6 +587,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardDescription = true,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
+            modularHomeExperienceV3 = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -560,6 +623,22 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
 
         params = this.getBaseQueryParams(params);
+
+        if (modularHomeExperienceV3) {
+            params[Param.NavigationVersion] = 'v3';
+        }
+
+        if (hideObjectSearch) {
+            params[Param.HideObjectSearch] = !!hideObjectSearch;
+        }
+
+        if (hideHamburger) {
+            params[Param.HideHamburger] = !!hideHamburger;
+        }
+
+        if (hideNotification) {
+            params[Param.HideNotification] = !!hideNotification;
+        }
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
@@ -620,6 +699,7 @@ export class AppEmbed extends V1Embed {
             /* eslint-disable-next-line max-len */
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
+
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

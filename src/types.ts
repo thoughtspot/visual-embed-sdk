@@ -204,7 +204,19 @@ export enum HomeLeftNavItem {
     /**
      * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
-    LiveboardSchedules = 'liveboard-schedules'
+    LiveboardSchedules = 'liveboard-schedules',
+    /**
+     * Create new options in the insights left navigation,
+     * available when new navigation V3 is enabled.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    Create = 'create',
+    /**
+     * Spotter option in the insights left navigation,
+     * available when new navigation V3 is enabled.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    Spotter = 'spotter',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -3554,6 +3566,10 @@ export enum Param {
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
+    NavigationVersion = 'navigationVersion',
+    HideHamburger = 'hideHamburger',
+    HideObjectSearch = 'hideObjectSearch',
+    HideNotification = 'hideNotification',
     HideApplicationSwitcher = 'applicationSwitcherHidden',
     HideOrgSwitcher = 'orgSwitcherHidden',
     IsSageEmbed = 'isSageEmbed',
