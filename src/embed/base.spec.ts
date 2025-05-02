@@ -506,4 +506,21 @@ describe('Init tests', () => {
         });
         expect(resetService.resetAllCachedServices).toBeCalled();
     });
+
+    test('returns empty object when not in browser environment', () => {
+        const originalWindow = global.window;
+        
+        // Delete window to simulate non-browser environment
+        // @ts-ignore
+        delete global.window;
+        
+        const result = base.init({
+            thoughtSpotHost,
+            authType: index.AuthType.None,
+        });
+        
+        expect(result).toEqual({});
+        
+        global.window = originalWindow;
+    });
 });

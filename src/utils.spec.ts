@@ -13,6 +13,7 @@ import {
     isUndefined,
     storeValueInWindow,
     getValueFromWindow,
+    isBrowser,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -292,5 +293,24 @@ describe('unit test for utils', () => {
         test('Return undefined if key is not found', () => {
             expect(getValueFromWindow('notFound')).toBe(undefined);
         });
+    });
+});
+
+describe('isBrowser', () => {
+    test('returns true when window is defined', () => {
+        // In Jest's JSDOM environment, window is defined
+        expect(isBrowser()).toBe(true);
+    });
+
+    test('returns false when window is undefined', () => {
+        const originalWindow = global.window;
+        
+        // Simulate non-browser environment by setting window to undefined
+        // @ts-ignore
+        delete global.window;
+        
+        expect(isBrowser()).toBe(false);
+        
+        global.window = originalWindow;
     });
 });
