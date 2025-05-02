@@ -354,7 +354,7 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    if (typeof window === 'undefined') {
+    if (!isBrowser()) {
         return value;
     }
 
@@ -376,7 +376,7 @@ export function storeValueInWindow<T>(
  * @returns The stored value or `undefined` if the key is not found.
  */
 export const getValueFromWindow = <T = any>(key: string): T | undefined => {
-    if (typeof window === 'undefined') {
+    if (!isBrowser()) {
         return undefined;
     }
     return (window as any)?.[sdkWindowKey]?.[key];
@@ -388,8 +388,8 @@ export const getValueFromWindow = <T = any>(key: string): T | undefined => {
  * @param key - Key to reset
  * @returns - boolean indicating if the key was reset
  */
-export function resetValueFromWindow(key: string): boolean {    
-    if (typeof window === 'undefined') {
+export function resetValueFromWindow(key: string): boolean {
+    if (!isBrowser()) {
         return false;
     }
     if (key in window[sdkWindowKey]) {
@@ -398,3 +398,5 @@ export function resetValueFromWindow(key: string): boolean {
     }
     return false;
 }
+
+export const isBrowser = () => typeof window !== 'undefined';
