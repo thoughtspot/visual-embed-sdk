@@ -26,9 +26,9 @@ export interface UnderlyingDataPoint {
 }
 
 /**
- * AnswerService provides a simple way to work with ThoughtSpot answers.
+ * AnswerService provides a simple way to work with ThoughtSpot Answers.
  * 
- * This service allows you to interact with ThoughtSpot answers programmatically,
+ * This service allows you to interact with ThoughtSpot Answers programmatically,
  * making it easy to customize visualizations, filter data, and extract insights
  * directly from your application.
  * 
