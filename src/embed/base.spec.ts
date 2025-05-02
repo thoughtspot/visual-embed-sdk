@@ -511,7 +511,6 @@ describe('Init tests', () => {
         const originalWindow = global.window;
         
         // Delete window to simulate non-browser environment
-        // @ts-ignore
         delete global.window;
         
         const result = base.init({

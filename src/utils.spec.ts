@@ -306,7 +306,6 @@ describe('isBrowser', () => {
         const originalWindow = global.window;
         
         // Simulate non-browser environment by setting window to undefined
-        // @ts-ignore
         delete global.window;
         
         expect(isBrowser()).toBe(false);
