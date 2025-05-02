@@ -229,6 +229,10 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(
