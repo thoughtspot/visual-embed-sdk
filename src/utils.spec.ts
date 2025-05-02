@@ -14,6 +14,7 @@ import {
     storeValueInWindow,
     getValueFromWindow,
     isBrowser,
+    resetValueFromWindow,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 
@@ -292,6 +293,57 @@ describe('unit test for utils', () => {
 
         test('Return undefined if key is not found', () => {
             expect(getValueFromWindow('notFound')).toBe(undefined);
+        });
+
+        test('storeValueInWindow returns value when not in browser environment', () => {
+            const originalWindow = global.window;
+            delete global.window;
+            
+            const testValue = 'test-non-browser';
+            const result = storeValueInWindow('testKey', testValue);
+            
+            expect(result).toBe(testValue);
+            
+            global.window = originalWindow;
+        });
+
+        test('getValueFromWindow returns undefined when not in browser environment', () => {
+            const originalWindow = global.window;
+            delete global.window;
+            
+            const result = getValueFromWindow('anyKey');
+            
+            expect(result).toBeUndefined();
+            
+            global.window = originalWindow;
+        });
+    });
+
+    describe('resetValueFromWindow', () => {
+        test('returns true when key exists and is reset', () => {
+            storeValueInWindow('testResetKey', 'value-to-reset');
+            
+            const result = resetValueFromWindow('testResetKey');
+            
+            expect(result).toBe(true);
+            expect(getValueFromWindow('testResetKey')).toBeUndefined();
+        });
+        
+        test('returns false when key does not exist', () => {
+            const result = resetValueFromWindow('nonExistentKey');
+            
+            expect(result).toBe(false);
+        });
+        
+        test('returns false when not in browser environment', () => {
+            const originalWindow = global.window;
+            delete global.window;
+            
+            const result = resetValueFromWindow('anyKey');
+            
+            expect(result).toBe(false);
+            
+            global.window = originalWindow;
         });
     });
 });
