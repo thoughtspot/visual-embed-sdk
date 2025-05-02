@@ -197,7 +197,9 @@ export const createAndSetInitPromise = (): void => {
     });
 };
 
-createAndSetInitPromise();
+if (typeof window !== 'undefined') {
+    createAndSetInitPromise();
+}
 
 export const getInitPromise = ():
     Promise<
