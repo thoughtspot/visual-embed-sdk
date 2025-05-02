@@ -33,9 +33,9 @@ export interface UnderlyingDataPoint {
  * directly from your application.
  * 
  * You can use this service to:
- * - Add or remove columns from answers (`addColumns`, `removeColumns`, `addColumnsByName`)
- * - Apply filters to answers (`addFilter`)
- * - Get data from answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
+ * - Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)
+ * - Apply filters to Answers (`addFilter`)
+ * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
  * - Get data for specific points in visualizations (`getUnderlyingDataForPoint`)
  * - Run custom queries (`executeQuery`)
  * - Add visualizations to liveboards (`addDisplayedVizToLiveboard`)
