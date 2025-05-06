@@ -368,6 +368,7 @@ export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
  * @param triggerText
  */
 async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, triggerText: string) {
+    let popupClosedCheck: NodeJS.Timeout;
     const openPopup = () => {
         if (samlAuthWindow === null || samlAuthWindow.closed) {
             samlAuthWindow = window.open(
@@ -376,7 +377,7 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
                 'location=no,height=570,width=520,scrollbars=yes,status=yes',
             );
             if (samlAuthWindow) {
-                const popupClosedCheck = setInterval(() => {
+                popupClosedCheck = setInterval(() => {
                     if (samlAuthWindow.closed) {
                         clearInterval(popupClosedCheck);
                         if (samlCompletionPromise && !samlCompletionResolved) {
@@ -402,6 +403,9 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
         window.addEventListener('message', (e) => {
             if (e.data.type === EmbedEvent.SAMLComplete) {
                 samlCompletionResolved = true;
+                if (popupClosedCheck) {
+                    clearInterval(popupClosedCheck);
+                }
                 (e.source as Window).close();
                 resolve();
             }
