@@ -4,6 +4,8 @@ import {
     DataPanelCustomColumnGroupsAccordionState,
     Page,
     HomePageSearchBarMode,
+    PrimaryNavbarVersion,
+    HomePage,
 } from './app';
 import { init } from '../index';
 import {
@@ -528,10 +530,47 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add navigationVersion=v3 when modularHomeExperienceV3 is true to the iframe src', async () => {
+    test('Should add navigationVersion=v3 when primaryNavbarVersion is Sliding to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            modularHomeExperienceV3: true,
+            discoveryExperience: {
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.Modular,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should not add navigationVersion=v3 when primaryNavbarVersion is not added to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                homePage: HomePage.Modular,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add navigationVersion=v3 & modularHomeExperience=false when primaryNavbarVersion is Sliding to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+            },
         } as AppViewConfig);
 
         appEmbed.render();
@@ -539,21 +578,6 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
-    test('Should not add navigationVersion when modularHomeExperienceV3 is false to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            modularHomeExperienceV3: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
