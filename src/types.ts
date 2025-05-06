@@ -3499,6 +3499,156 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
+
+    /**
+     * Triggers the search query event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SearchQuery, {
+     *      query: 'sales by region'
+     * })
+     * ```
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
+     */
+    SearchQuery = 'SearchQuery',
+    /**
+     * Triggers the edit spotter query event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditSpotterQuery, {
+     *      query: 'sales by region'
+     * })
+     * */
+    UpdateSpotterQuery = 'UpdateSpotterQuery',
+
+    /**
+     * Triggers the preview spotter data event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PreviewSpotterData, {
+     *      query: 'sales by region'
+     * })
+     * ```
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
+     */
+    PreviewSpotterData = 'PreviewSpotterData',
+
+    /**
+     * Triggers the reset spotter conversation event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ResetSpotterConversation)
+     * ```
+     */
+    ResetSpotterConversation = 'ResetSpotterConversation',
+
+    /**
+     * Triggers the delete last spotter prompt event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DeleteLastSpotterPrompt)
+     * ```
+     */
+    DeleteLastSpotterPrompt = 'DeleteLastSpotterPrompt',
+
+    /**
+     * Triggers the edit last spotter prompt event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditLastSpotterPrompt)
+     * ```
+     */
+    EditLastSpotterPrompt = 'EditLastSpotterPrompt',
+
+    /**
+     * Triggers the delete spotter prompt event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DeleteSpotterPrompt)
+     * ```
+     */
+    DeleteSpotterPrompt = 'DeleteSpotterPrompt',
+
+    /**
+     * Triggers the edit spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditSpotterAnswer)
+     * ```
+     */
+    EditSpotterAnswer = 'EditSpotterAnswer',
+
+    /**
+     * Triggers the save spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SaveSpotterAnswer)
+     * ```
+     */
+    SaveSpotterAnswer = 'SaveSpotterAnswer',
+
+    /**
+     * Triggers the pin spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PinSpotterAnswer)
+     * ```
+     */
+    PinSpotterAnswer = 'PinSpotterAnswer',
+
+    /**
+     * Triggers the make a copy spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.MakeACopySpotterAnswer)
+     * ```
+     */
+    MakeACopySpotterAnswer = 'MakeACopySpotterAnswer',
+
+    /**
+     * Triggers the download spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadSpotterAnswer)
+     * ```
+     */
+    DownloadSpotterAnswer = 'DownloadSpotterAnswer',
+
+    /**
+     * Triggers the download xlsx spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadXlsxSpotterAnswer)
+     * ```
+     */
+    DownloadXlsxSpotterAnswer = 'DownloadXlsxSpotterAnswer',
+
+    /**
+     * Triggers the download pdf spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadPdfSpotterAnswer)
+     * ```
+     */
+    DownloadPdfSpotterAnswer = 'DownloadPdfSpotterAnswer',
+
+    /**
+     * Triggers the download png spotter answer event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadPngSpotterAnswer)
+     * ```
+     */
+    DownloadPngSpotterAnswer = 'DownloadPngSpotterAnswer',
+
+    /**
+     * Triggers the spotter answer chart switcher event for the Spotter experience.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SpotterAnswerChartSwitcher)
+     * ```
+     */
+    SpotterAnswerChartSwitcher = 'SpotterAnswerChartSwitcher',
 }
 
 /**
