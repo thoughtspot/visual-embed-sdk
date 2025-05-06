@@ -3640,6 +3640,7 @@ export enum Param {
     ShowSpotterLimitations = 'showSpotterLimitations',
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     PrimaryAction = 'primaryAction',
+    isSpotterAgentEmbed = 'isSpotterAgentEmbed',
 }
 
 /**
