@@ -410,7 +410,7 @@ export class TsEmbed {
      */
     private updateAuthToken = async (_: any, responder: any) => {
         const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
-        if (authType === AuthType.TrustedAuthTokenCookieless) {
+        if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
             let authToken = '';
             try {
                 authToken = await getAuthenticationToken(this.embedConfig);
