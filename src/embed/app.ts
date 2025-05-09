@@ -83,6 +83,44 @@ export enum HomePageSearchBarMode {
     AI_ANSWER = 'aiAnswer',
     NONE = 'none'
 }
+
+/**
+ * Define the version of the primary navbar
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export enum PrimaryNavbarVersion {
+    /**
+     * v3 is the base version of the top and left navigation for the discovery experience.
+     */
+    V3 = 'v3',
+}
+
+/**
+ * Define the version of the home page
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export enum HomePage {
+    /**
+     * v2 is the base version of home page for the discovery experience.
+     */
+    V2 = 'v2',
+}
+
+/**
+ * Define the discovery experience
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export interface DiscoveryExperience {
+    /**
+     * primaryNavbarVersion determines the version of the primary navbar for the discovery experience.
+     */
+    primaryNavbarVersion?: PrimaryNavbarVersion;
+    /**
+     * homePage determines the version of the home page for the discovery experience.
+     */
+    homePage?: HomePage;
+}
+
 /**
  * The view configuration for full app embedding.
  * @group Embed components
@@ -398,11 +436,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
-     *    modularHomeExperienceV3 : true,
+     *    discoveryExperience : {
+     *      primaryNavbarVersion: PrimaryNavbarVersion.V3,
+     *      homePage: HompePage.V2,
+     *    },
      * })
      * ```
      */
-    modularHomeExperienceV3?: boolean;
+    discoveryExperience?: DiscoveryExperience;
     /**
      * Boolean to control if Liveboard header is sticky or not.
      * @example
@@ -587,7 +628,6 @@ export class AppEmbed extends V1Embed {
             showLiveboardDescription = true,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
-            modularHomeExperienceV3 = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -604,6 +644,7 @@ export class AppEmbed extends V1Embed {
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
+            discoveryExperience,
         } = this.viewConfig;
 
         let params = {};
@@ -623,10 +664,6 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
 
         params = this.getBaseQueryParams(params);
-
-        if (modularHomeExperienceV3) {
-            params[Param.NavigationVersion] = 'v3';
-        }
 
         if (hideObjectSearch) {
             params[Param.HideObjectSearch] = !!hideObjectSearch;
@@ -698,6 +735,19 @@ export class AppEmbed extends V1Embed {
         } else {
             /* eslint-disable-next-line max-len */
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
+
+        if (discoveryExperience) {
+            // primaryNavbarVersion v3 will enabled the new left navigation
+            if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.V3) {
+                params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
+            }
+
+            // homePage v2 will enable the modular home page
+            // and it will override the modularHomeExperience value
+            if (discoveryExperience.homePage === HomePage.V2) {
+                params[Param.ModularHomeExperienceEnabled] = true;
+            }
         }
 
         const queryParams = getQueryParamString(params, true);
