@@ -409,11 +409,13 @@ export class TsEmbed {
      * @param responder
      */
     private updateAuthToken = async (_: any, responder: any) => {
-        const { autoLogin = false, authType } = this.embedConfig; // Set autoLogin default to false
+        const { authType } = this.embedConfig;
+        let { autoLogin } = this.embedConfig;
+        // Default autoLogin: true for cookieless if undefined/null, otherwise false
+        autoLogin = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
-            let authToken = '';
             try {
-                authToken = await getAuthenticationToken(this.embedConfig);
+                const authToken = await getAuthenticationToken(this.embedConfig);
                 responder({
                     type: EmbedEvent.AuthExpire,
                     data: { authToken },
