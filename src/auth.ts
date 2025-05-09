@@ -5,6 +5,7 @@ import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
+
 import { getDOMNode, getRedirectUrl, getSSOMarker } from './utils';
 import {
     EndPoints,
