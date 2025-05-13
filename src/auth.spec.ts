@@ -385,6 +385,45 @@ describe('Unit test for auth', () => {
             expect(global.window.location.href).toBe(samalLoginUrl);
         });
 
+        it('should emit SAML_POPUP_CLOSED_NO_AUTH when popup window is closed', async () => {
+            jest.useFakeTimers();
+            const mockPopupWindow = { 
+                closed: false, 
+                focus: jest.fn(),
+                close: jest.fn()
+            };
+            global.window.open = jest.fn().mockReturnValue(mockPopupWindow);
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: '',
+                    hash: '',
+                },
+            });
+            spyOn(authInstance, 'samlCompletionPromise').and.returnValue(Promise.resolve(false));
+             const emitSpy = jest.fn();
+            const mockEventEmitter = { 
+                emit: emitSpy,
+                once: jest.fn(),
+                on: jest.fn()
+            };
+            authInstance.setAuthEE(mockEventEmitter as any);
+            jest.spyOn(tokenAuthService, 'isActiveService')
+                .mockReturnValueOnce(false)
+                .mockReturnValueOnce(true);
+            expect(
+                await authInstance.doSamlAuth({
+                    ...embedConfig.doSamlAuthNoRedirect,
+                }),
+            ).toBe(true);
+            document.getElementById('ts-auth-btn').click();
+            mockPopupWindow.closed = true;
+            jest.advanceTimersByTime(1000);
+            window.postMessage({ type: EmbedEvent.SAMLComplete }, '*');
+            await authInstance.samlCompletionPromise;
+            expect(emitSpy).toHaveBeenCalledWith(authInstance.AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
+            jest.useRealTimers();
+            authInstance.setAuthEE(null);
+        });
         it('when user is not loggedIn, in config noRedirect is true and isAtSSORedirectUrl is false', async () => {
             Object.defineProperty(window, 'location', {
                 value: {
@@ -408,6 +447,19 @@ describe('Unit test for auth', () => {
             await authInstance.samlCompletionPromise;
             expect(authInstance.loggedInStatus).toBe(true);
         });
+
+        it('should support emitting SAML_POPUP_CLOSED_NO_AUTH event', () => {
+            const emitSpy = jest.fn();
+            const mockEventEmitter = { 
+                emit: emitSpy,
+                once: jest.fn()
+            };
+            authInstance.setAuthEE(mockEventEmitter as any);
+            authInstance.getAuthEE().emit(authInstance.AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
+            expect(emitSpy).toHaveBeenCalledWith(authInstance.AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
+            authInstance.setAuthEE(null);
+        });
+
     });
 
     describe('doOIDCAuth', () => {
