@@ -141,7 +141,7 @@
         "typescript-eslint": "^8.29.1",
         "url-search-params-polyfill": "^8.1.0",
         "util": "^0.12.4",
-        "vite": "^5.3.4"
+        "vite": "^6.3.5"
     },
     "author": "ThoughtSpot",
     "email": "support@thoughtspot.com",
