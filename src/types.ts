@@ -204,7 +204,19 @@ export enum HomeLeftNavItem {
     /**
      * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
-    LiveboardSchedules = 'liveboard-schedules'
+    LiveboardSchedules = 'liveboard-schedules',
+    /**
+     * Create new options in the insights left navigation,
+     * available when new navigation V3 is enabled.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    Create = 'create',
+    /**
+     * Spotter option in the insights left navigation,
+     * available when new navigation V3 is enabled.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    Spotter = 'spotter',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -713,6 +725,19 @@ export interface ViewConfig {
      */
     disabledActions?: Action[];
     /**
+     * The primary action to display on top of the viz for Liveboard and App Embed.
+     * Use this to set the primary action.
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   primaryAction: Action.Download
+     * });
+     * ```
+     */
+    primaryAction?: Action | string;
+    /**
      * The tooltip to display for disabled actions.
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -1138,8 +1163,8 @@ export interface ViewConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is appplicable only in full app embedding.
-     * @version SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * **Note**: This option is available only in full app embedding.
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1311,8 +1336,8 @@ export enum HomepageModule {
 
 /**
  * List page columns that can be hidden.
- * **Note**: This option is applicable only in full app embedding.
- * @version SDK: 1.38.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+ * **Note**: This option is applicable to full app embedding only.
+ * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
  */
 // eslint-disable-next-line no-shadow
 export enum ListPageColumns {
@@ -2401,7 +2426,7 @@ export enum EmbedEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
      TableVizRendered = 'TableVizRendered',
      /**
@@ -2414,12 +2439,12 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
-     * @version SDK : 1.38.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
      CreateModel = 'createModel',
 }
@@ -2863,7 +2888,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Remove)
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl, 10.10.0.sw
      */
     Remove = 'delete',
     /**
@@ -3324,8 +3349,17 @@ export enum HostEvent {
     /**
      * Get the Answer session for a Search or
      * Liveboard visualization.
+     * 
+     * Note: This event is not typically used directly. Instead, use the 
+     * `getAnswerService()` method on the embed instance to get an AnswerService 
+     * object that provides a more convenient interface for working with answers.
+     * 
      * @example
      * ```js
+     * // Preferred way to get an AnswerService
+     * const service = await embed.getAnswerService();
+     * 
+     * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger(
      *  HostEvent.GetAnswerSession, {
      *      vizId: '123', // For Liveboard Visualization.
@@ -3333,6 +3367,10 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
+     * // Preferred way to get an AnswerService
+     * const service = await embed.getAnswerService();
+     * 
+     * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
      * @version SDK: 1.26.0 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
@@ -3458,7 +3496,7 @@ export enum HostEvent {
      *      searchEmbed.trigger(HostEvent.TransformTableVizData, columnDataLite);
      * })
      * ```
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
 }
@@ -3541,6 +3579,10 @@ export enum Param {
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
+    NavigationVersion = 'navigationVersion',
+    HideHamburger = 'hideHamburger',
+    HideObjectSearch = 'hideObjectSearch',
+    HideNotification = 'hideNotification',
     HideApplicationSwitcher = 'applicationSwitcherHidden',
     HideOrgSwitcher = 'orgSwitcherHidden',
     IsSageEmbed = 'isSageEmbed',
@@ -3597,6 +3639,7 @@ export enum Param {
     preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    PrimaryAction = 'primaryAction',
 }
 
 /**
@@ -4822,7 +4865,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.ColumnRename]
      * ```
-     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     ColumnRename = 'columnRename',
     /**
@@ -4832,7 +4875,7 @@ export enum Action {
      * ```js
      * hiddenAction: [Action.CoverAndFilterOptionInPDF]
      * ```
-     *  @version SDK: 1.38.0 | ThoughtSpot Cloud: 10.8.0.cl
+     *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
 }

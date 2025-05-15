@@ -394,10 +394,10 @@ export interface LiveboardViewConfig
 
     /**
      * This flag is for show/hide checkboxes for include or exclude
-     * cover and filter pages in the Liveboard PDF
+     * cover page and filters in the Liveboard PDF.
      * @type {boolean}
      * @default true
-     * @version SDK: 1.38.0 | ThoughtSpot:10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {

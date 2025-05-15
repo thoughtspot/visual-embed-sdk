@@ -26,29 +26,49 @@ export interface UnderlyingDataPoint {
 }
 
 /**
- * Class representing the answer service provided with the
- * custom action payload. This service could be used to run
- * graphql queries in the context of the answer on which the
- * custom action was triggered.
+ * AnswerService provides a simple way to work with ThoughtSpot Answers.
+ * 
+ * This service allows you to interact with ThoughtSpot Answers programmatically,
+ * making it easy to customize visualizations, filter data, and extract insights
+ * directly from your application.
+ * 
+ * You can use this service to:
+ * - Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)
+ * - Apply filters to Answers (`addFilter`)
+ * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
+ * - Get data for specific points in visualizations (`getUnderlyingDataForPoint`)
+ * - Run custom queries (`executeQuery`)
+ * - Add visualizations to liveboards (`addDisplayedVizToLiveboard`)
+ * 
  * @example
  * ```js
- *  embed.on(EmbedEvent.CustomAction, e => {
- *     const underlying = await e.answerService.getUnderlyingDataForPoint([
- *       'col name 1'
- *     ]);
- *     const data = await underlying.fetchData(0, 100);
- *  })
- * ```
- * @example
- * ```js
+ * // Get the answer service
  * embed.on(EmbedEvent.Data, async (e) => {
  *     const service = await embed.getAnswerService();
- *     await service.addColumns([
- *         "<column guid>"
- *     ]);
- *     console.log(await service.fetchData());
+ *     
+ *     // Add columns to the answer
+ *     await service.addColumnsByName(["Sales", "Region"]);
+ *     
+ *     // Get the data
+ *     const data = await service.fetchData();
+ *     console.log(data);
  * });
  * ```
+ * 
+ * @example
+ * ```js
+ * // Get data for a point in a visualization
+ * embed.on(EmbedEvent.CustomAction, async (e) => {
+ *     const underlying = await e.answerService.getUnderlyingDataForPoint([
+ *       'Product Name',
+ *       'Sales Amount'
+ *     ]);
+ *     
+ *     const data = await underlying.fetchData(0, 100);
+ *     console.log(data);
+ * });
+ * ```
+ * 
  * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
  * @group Events
  */
