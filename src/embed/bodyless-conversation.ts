@@ -16,21 +16,13 @@ export interface SpotterAgentEmbedViewConfig extends ViewConfig {
 }
 
 /**
- * Configuration for bodyless conversation options.
+ * Configuration for conversation options.
  * @deprecated Renamed to SpotterAgentEmbedViewConfig
  * @group Embed components
  */
-export interface BodylessConversationViewConfig extends ViewConfig {
-    /**
-     * The ID of the worksheet to use for the conversation.
-     */
-    worksheetId: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface BodylessConversationViewConfig extends SpotterAgentEmbedViewConfig {}
 
-/**
- * Configuration for bodyless conversation options.
- * @group Embed components
- */
 interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
@@ -130,7 +122,6 @@ export class SpotterAgentEmbed {
     }
 }
 
-
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
@@ -152,7 +143,7 @@ export class SpotterAgentEmbed {
  * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class BodylessConversation extends SpotterAgentEmbed {
-    constructor(container: HTMLElement, viewConfig: SpotterAgentEmbedViewConfig) {
+    constructor(viewConfig: BodylessConversationViewConfig) {
         super(viewConfig);
     }
 }

@@ -186,7 +186,7 @@ export class SpotterEmbed extends TsEmbed {
  * @group Embed components
  * @example
  * ```js
- * const conversation = new ConversationEmbed('#tsEmbed', {
+ * const conversation = new SpotterEmbed('#tsEmbed', {
  *   worksheetId: 'worksheetId',
  *   searchOptions: {
  *     searchQuery: 'searchQuery',
@@ -194,11 +194,11 @@ export class SpotterEmbed extends TsEmbed {
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class ConversationEmbed extends SpotterEmbed {
-    constructor(container: HTMLElement, viewConfig: ConversationViewConfig) {
+    constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
+        viewConfig.embedComponentType = 'conversation';
         super(container, viewConfig);
     }
 }
-

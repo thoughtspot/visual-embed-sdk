@@ -13,7 +13,7 @@ import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
-import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, SpotterEmbed as _ConversationEmbed, SpotterEmbedViewConfig as ConversationViewConfig } from '../embed/conversation';
+import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig as ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
@@ -335,6 +335,7 @@ export const PreRenderedSageEmbed = componentFactory<
 >(_SageEmbed, true);
 
 interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
+interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
 
 /**
  * React component for LLM based conversation BI.
@@ -360,7 +361,7 @@ export const SpotterEmbed = componentFactory<
 
 /**
  * React component for LLM based conversation BI.
- * @deprecated This component is deprecated. Use {@link SpotterEmbed} instead.
+ * @deprecated This component is renamed to SpotterEmbed. Use {@link SpotterEmbed} instead.
  * @example
  * ```tsx
  * function Sage() {
@@ -376,7 +377,7 @@ export const SpotterEmbed = componentFactory<
  */
 export const ConversationEmbed = componentFactory<
     typeof _ConversationEmbed,
-    ConversationViewConfig,
+    ConversationEmbedProps,
     ConversationViewConfig
 >(_ConversationEmbed);
 
