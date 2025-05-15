@@ -9590,7 +9590,7 @@
 			"flags": {},
 			"comment": {
 				"shortText": "AnswerService provides a simple way to work with ThoughtSpot Answers.",
-				"text": "This service allows you to interact with ThoughtSpot Answers programmatically,\nmaking it easy to customize visualizations, filter data, and extract insights\ndirectly from your application.\n\nYou can use this service to:\n- Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)\n- Apply filters to Answers (`addFilter`)\n- Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)\n- Get data for specific points in visualizations (`getUnderlyingDataForPoint`)\n- Run custom queries (`executeQuery`)\n- Add visualizations to liveboards (`addDisplayedVizToLiveboard`)\n",
+				"text": "This service allows you to interact with ThoughtSpot Answers programmatically,\nmaking it easy to customize visualizations, filter data, and extract insights\ndirectly from your application.\n\nYou can use this service to:\n- Add or remove columns from Answers (`addColumns`, `removeColumns`,\n`addColumnsByName`) - Apply filters to Answers (`addFilter`)\n- Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`,\n`fetchCSVBlob`, `fetchPNGBlob`) - Get data for specific points in visualizations\n(`getUnderlyingDataForPoint`)\n- Run custom queries (`executeQuery`)\n- Add visualizations to liveboards (`addDisplayedVizToLiveboard`)\n",
 				"tags": [
 					{
 						"tag": "example",
@@ -9623,7 +9623,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 87,
+							"line": 88,
 							"character": 4
 						}
 					],
@@ -9715,7 +9715,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 128,
+							"line": 129,
 							"character": 17
 						}
 					],
@@ -9771,7 +9771,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 152,
+							"line": 153,
 							"character": 17
 						}
 					],
@@ -9832,7 +9832,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 405,
+							"line": 406,
 							"character": 17
 						}
 					],
@@ -9880,7 +9880,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 165,
+							"line": 166,
 							"character": 17
 						}
 					],
@@ -9978,7 +9978,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 355,
+							"line": 356,
 							"character": 17
 						}
 					],
@@ -10047,7 +10047,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 234,
+							"line": 235,
 							"character": 17
 						}
 					],
@@ -10116,7 +10116,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 206,
+							"line": 207,
 							"character": 17
 						}
 					],
@@ -10223,7 +10223,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 250,
+							"line": 251,
 							"character": 17
 						}
 					],
@@ -10307,7 +10307,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 378,
+							"line": 379,
 							"character": 17
 						}
 					],
@@ -10342,7 +10342,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 268,
+							"line": 269,
 							"character": 11
 						}
 					],
@@ -10403,7 +10403,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 279,
+							"line": 280,
 							"character": 11
 						}
 					],
@@ -10478,7 +10478,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 192,
+							"line": 193,
 							"character": 17
 						}
 					],
@@ -10513,7 +10513,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 374,
+							"line": 375,
 							"character": 11
 						}
 					],
@@ -10547,7 +10547,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 101,
+							"line": 102,
 							"character": 17
 						}
 					],
@@ -10585,7 +10585,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 389,
+							"line": 390,
 							"character": 17
 						}
 					],
@@ -10620,7 +10620,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 300,
+							"line": 301,
 							"character": 17
 						}
 					],
@@ -10704,7 +10704,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 114,
+							"line": 115,
 							"character": 17
 						}
 					],
@@ -10760,7 +10760,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 417,
+							"line": 418,
 							"character": 11
 						}
 					],
@@ -10828,7 +10828,7 @@
 			"sources": [
 				{
 					"fileName": "utils/graphql/answerService/answerService.ts",
-					"line": 75,
+					"line": 76,
 					"character": 13
 				}
 			]
@@ -17140,10 +17140,6 @@
 				"shortText": "Create a conversation embed, which can be integrated inside\nchatbots or other conversational interfaces.",
 				"tags": [
 					{
-						"tag": "deprecated",
-						"text": "Formally known as BodylessConversation"
-					},
-					{
 						"tag": "example",
 						"text": "\n```js\nimport { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';\n\nconst conversation = new SpotterAgentEmbed({\n worksheetId: 'worksheetId',\n});\n\nconst { container, error } = await conversation.sendMessage('show me sales by region');\n\n// append the container to the DOM\ndocument.body.appendChild(container); // or to any other element\n```"
 					},
@@ -17167,7 +17163,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 91,
+							"line": 105,
 							"character": 4
 						}
 					],
@@ -17211,7 +17207,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 100,
+							"line": 114,
 							"character": 17
 						}
 					],
@@ -17383,7 +17379,7 @@
 			"sources": [
 				{
 					"fileName": "embed/bodyless-conversation.ts",
-					"line": 88,
+					"line": 102,
 					"character": 13
 				}
 			]
@@ -17398,10 +17394,6 @@
 				"shortText": "Embed ThoughtSpot AI Conversation.",
 				"tags": [
 					{
-						"tag": "deprecated",
-						"text": "Formally known as ConversationEmbed"
-					},
-					{
 						"tag": "group",
 						"text": "Embed components"
 					},
@@ -17411,7 +17403,7 @@
 					},
 					{
 						"tag": "version",
-						"text": "SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl\n"
+						"text": "SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl\n"
 					}
 				]
 			},
@@ -17425,7 +17417,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 115,
+							"line": 121,
 							"character": 4
 						}
 					],
@@ -17605,7 +17597,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 120,
+							"line": 126,
 							"character": 11
 						}
 					],
@@ -18215,7 +18207,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 168,
+							"line": 174,
 							"character": 17
 						}
 					],
@@ -18597,7 +18589,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 114,
+					"line": 120,
 					"character": 13
 				}
 			],
@@ -33090,10 +33082,6 @@
 				"shortText": "Configuration for bodyless conversation options.",
 				"tags": [
 					{
-						"tag": "deprecated",
-						"text": "Formally known as BodylessConversationViewConfig"
-					},
-					{
 						"tag": "group",
 						"text": "Embed components\n"
 					}
@@ -34414,7 +34402,7 @@
 					"sources": [
 						{
 							"fileName": "embed/bodyless-conversation.ts",
-							"line": 16,
+							"line": 15,
 							"character": 4
 						}
 					],
@@ -34468,7 +34456,7 @@
 			"sources": [
 				{
 					"fileName": "embed/bodyless-conversation.ts",
-					"line": 12,
+					"line": 11,
 					"character": 17
 				}
 			],
@@ -34488,10 +34476,6 @@
 			"comment": {
 				"shortText": "The configuration for the embedded spotterEmbed options.",
 				"tags": [
-					{
-						"tag": "deprecated",
-						"text": "Formally known as ConversationViewConfig"
-					},
 					{
 						"tag": "group",
 						"text": "Embed components\n"
@@ -34723,7 +34707,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 68,
+							"line": 67,
 							"character": 4
 						}
 					],
@@ -34797,7 +34781,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 43,
+							"line": 42,
 							"character": 4
 						}
 					],
@@ -35388,7 +35372,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 95,
+							"line": 94,
 							"character": 4
 						}
 					],
@@ -35421,7 +35405,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 55,
+							"line": 54,
 							"character": 4
 						}
 					],
@@ -35790,7 +35774,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 30,
+							"line": 29,
 							"character": 4
 						}
 					],
@@ -35860,7 +35844,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 82,
+							"line": 81,
 							"character": 4
 						}
 					],
@@ -35968,7 +35952,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 26,
+							"line": 25,
 							"character": 4
 						}
 					],
@@ -36027,7 +36011,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 22,
+					"line": 21,
 					"character": 17
 				}
 			],
