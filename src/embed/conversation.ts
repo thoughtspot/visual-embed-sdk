@@ -16,7 +16,6 @@ export interface SearchOptions {
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @deprecated Formally known as ConversationViewConfig
  * @group Embed components
  */
 export interface SpotterEmbedViewConfig extends ViewConfig {
@@ -96,8 +95,14 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
 }
 
 /**
+ * The configuration for the embedded spotterEmbed options.
+ * @deprecated Renamed to SpotterEmbedViewConfig
+ * @group Embed components
+ */
+export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
+
+/**
  * Embed ThoughtSpot AI Conversation.
- * @deprecated Formally known as ConversationEmbed
  * @group Embed components
  * @example
  * ```js
@@ -109,7 +114,7 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+ * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
  */
 export class SpotterEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
@@ -174,4 +179,25 @@ export class SpotterEmbed extends TsEmbed {
     }
 }
 
+/**
+ * Embed ThoughtSpot AI Conversation.
+ * @deprecated Renamed to SpotterEmbed
+ * @group Embed components
+ * @example
+ * ```js
+ * const conversation = new ConversationEmbed('#tsEmbed', {
+ *   worksheetId: 'worksheetId',
+ *   searchOptions: {
+ *     searchQuery: 'searchQuery',
+ *   },
+ * });
+ * conversation.render();
+ * ```
+ * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ */
+export class ConversationEmbed extends SpotterEmbed {
+    constructor(container: HTMLElement, viewConfig: SpotterEmbedViewConfig) {
+        super(container, viewConfig);
+    }
+}
 
