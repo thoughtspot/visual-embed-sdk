@@ -99,6 +99,7 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
  * @deprecated Renamed to SpotterEmbedViewConfig
  * @group Embed components
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 
 /**
@@ -196,7 +197,7 @@ export class SpotterEmbed extends TsEmbed {
  * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
  */
 export class ConversationEmbed extends SpotterEmbed {
-    constructor(container: HTMLElement, viewConfig: SpotterEmbedViewConfig) {
+    constructor(container: HTMLElement, viewConfig: ConversationViewConfig) {
         super(container, viewConfig);
     }
 }

@@ -17,10 +17,21 @@ export interface SpotterAgentEmbedViewConfig extends ViewConfig {
 
 /**
  * Configuration for bodyless conversation options.
- * @deprecated Formally known as BodylessConversationViewConfig
+ * @deprecated Renamed to SpotterAgentEmbedViewConfig
  * @group Embed components
  */
-interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
+export interface BodylessConversationViewConfig extends ViewConfig {
+    /**
+     * The ID of the worksheet to use for the conversation.
+     */
+    worksheetId: string;
+}
+
+/**
+ * Configuration for bodyless conversation options.
+ * @group Embed components
+ */
+interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
     acSessionId: string;
@@ -28,7 +39,7 @@ interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
 }
 
 class ConversationMessage extends TsEmbed {
-    constructor(container: HTMLElement, protected viewConfig: ConversationMessageViewConfig) {
+    constructor(container: HTMLElement, protected viewConfig: SpotterAgentMessageViewConfig) {
         viewConfig.embedComponentType = 'bodyless-conversation';
         super(container, viewConfig);
     }
@@ -72,7 +83,6 @@ class ConversationMessage extends TsEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
- * @deprecated Formally known as BodylessConversation
  * @example
  * ```js
  * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
