@@ -23,8 +23,8 @@ import {
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { BodylessConversation, BodylessConversationViewConfig } from './embed/bodyless-conversation';
-import { ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig,  SpotterAgentEmbed as BodylessConversation, SpotterAgentEmbedViewConfig as BodylessConversationViewConfig} from './embed/bodyless-conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterEmbed as ConversationEmbed, SpotterEmbedViewConfig as ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -85,10 +85,14 @@ export {
     LiveboardEmbed,
     SageEmbed,
     AppEmbed,
-    BodylessConversation,
+    SpotterAgentEmbed,
+    SpotterAgentEmbedViewConfig,
     BodylessConversationViewConfig,
-    ConversationEmbed,
+    BodylessConversation,
+    SpotterEmbed,
+    SpotterEmbedViewConfig,
     ConversationViewConfig,
+    ConversationEmbed,
     AuthFailureType,
     AuthStatus,
     AuthEvent,

@@ -14,8 +14,6 @@ import {
     AppViewConfig,
     SageEmbed,
     SageViewConfig,
-    ConversationViewConfig,
-    ConversationEmbed,
     SearchViewConfig,
     AnswerService,
 } from '../index';

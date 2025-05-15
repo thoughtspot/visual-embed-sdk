@@ -6,16 +6,17 @@ import { getQueryParamString } from '../utils';
 
 /**
  * Configuration for bodyless conversation options.
+ * @deprecated Formally known as BodylessConversationViewConfig
  * @group Embed components
  */
-export interface BodylessConversationViewConfig extends ViewConfig {
+export interface SpotterAgentEmbedViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
 }
 
-interface ConversationMessageViewConfig extends BodylessConversationViewConfig {
+interface ConversationMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
     acSessionId: string;
@@ -66,11 +67,12 @@ class ConversationMessage extends TsEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
+ * @deprecated Formally known as BodylessConversation
  * @example
  * ```js
- * import { BodylessConversation } from '@thoughtspot/visual-embed-sdk';
+ * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
  *
- * const conversation = new BodylessConversation({
+ * const conversation = new SpotterAgentEmbed({
  *  worksheetId: 'worksheetId',
  * });
  *
@@ -80,12 +82,12 @@ class ConversationMessage extends TsEmbed {
  * document.body.appendChild(container); // or to any other element
  * ```
  * @group Embed components
- * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
-export class BodylessConversation {
+export class SpotterAgentEmbed {
     private conversationService: ConversationService;
 
-    constructor(private viewConfig: BodylessConversationViewConfig) {
+    constructor(private viewConfig: SpotterAgentEmbedViewConfig) {
         const embedConfig = getEmbedConfig();
 
         this.conversationService = new ConversationService(
@@ -112,3 +114,4 @@ export class BodylessConversation {
         return { container, viz: embed };
     }
 }
+

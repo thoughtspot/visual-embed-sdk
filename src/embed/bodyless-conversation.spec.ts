@@ -1,5 +1,5 @@
 import 'jest-fetch-mock';
-import { BodylessConversation, BodylessConversationViewConfig } from './bodyless-conversation';
+import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig } from './bodyless-conversation';
 import * as authInstance from '../auth';
 import { init } from '../index';
 import { Action, AuthType, RuntimeFilterOp } from '../types';
@@ -14,7 +14,7 @@ import {
     expectUrlToHaveParamsWithValues,
 } from '../test/test-utils';
 
-describe('BodylessConversation', () => {
+describe('SpotterAgentEmbed', () => {
     const thoughtSpotHost = 'tshost';
 
     beforeAll(() => {
@@ -117,12 +117,12 @@ describe('BodylessConversation', () => {
                 },
             }),
         );
-        const viewConfig: BodylessConversationViewConfig = {
+        const viewConfig: SpotterAgentEmbedViewConfig = {
             worksheetId: 'worksheetId',
         };
 
-        const conversationEmbed = new BodylessConversation(viewConfig);
-        const result = await conversationEmbed.sendMessage('userMessage');
+        const spotterEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterEmbed.sendMessage('userMessage');
         const iframeSrc = getIFrameSrc(result.container);
         expectUrlToHaveParamsWithValues(iframeSrc, {
             sessionId: 'sessionId',
@@ -134,7 +134,7 @@ describe('BodylessConversation', () => {
         fetchMock.mockRejectOnce(
             new Error('error'),
         );
-        const errorResult = await conversationEmbed.sendMessage('userMessage');
+        const errorResult = await spotterEmbed.sendMessage('userMessage');
         expect(errorResult.error instanceof Error).toBeTruthy();
     });
 });

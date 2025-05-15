@@ -1,6 +1,6 @@
 import {
-    ConversationEmbed,
-    ConversationViewConfig,
+    SpotterEmbed,
+    SpotterEmbedViewConfig,
 } from './conversation';
 import * as authInstance from '../auth';
 import { init } from '../index';
@@ -28,14 +28,14 @@ beforeAll(() => {
 
 describe('ConversationEmbed', () => {
     it('should render the conversation embed', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -44,7 +44,7 @@ describe('ConversationEmbed', () => {
     });
 
     it('should render the conversation embed with worksheets disabled', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
@@ -52,7 +52,7 @@ describe('ConversationEmbed', () => {
             disableSourceSelection: true,
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -61,7 +61,7 @@ describe('ConversationEmbed', () => {
     });
 
     it('should render the conversation embed with spotter limitations text if flag is set', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
@@ -69,7 +69,7 @@ describe('ConversationEmbed', () => {
             showSpotterLimitations: true,
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -78,7 +78,7 @@ describe('ConversationEmbed', () => {
     });
 
     it('should render the conversation embed with sample questions hidden', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
@@ -86,7 +86,7 @@ describe('ConversationEmbed', () => {
             hideSampleQuestions: true,
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -95,7 +95,7 @@ describe('ConversationEmbed', () => {
     });
 
     it('should render the conversation embed with worksheets hidden', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
@@ -103,7 +103,7 @@ describe('ConversationEmbed', () => {
             hideSourceSelection: true,
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -112,13 +112,13 @@ describe('ConversationEmbed', () => {
     });
 
     it('should handle error when worksheetId is not provided', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: '',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
         };
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
@@ -127,7 +127,7 @@ describe('ConversationEmbed', () => {
     });
 
     it('should render the conversation embed if data panel v2 flag is true', async () => {
-        const viewConfig: ConversationViewConfig = {
+        const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
@@ -135,7 +135,7 @@ describe('ConversationEmbed', () => {
             dataPanelV2: true,
         };
 
-        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
