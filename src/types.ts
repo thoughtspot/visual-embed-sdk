@@ -3499,6 +3499,60 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    SpotterSearch = 'SpotterSearch',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    EditLastPrompt = 'EditLastPrompt',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    PreviewSpotterData = 'PreviewSpotterData',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    ResetSpotterConversation = 'ResetSpotterConversation',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    DeleteLastPrompt = 'DeleteLastPrompt',
+
+    /**
+     * Triggers the table visualization re-render with the updated data.
+     * Includes the following properties:
+     * @param - `columnDataLite` - an array of object containing the
+     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
+     * payload.For example, { columnDataLite: []}`.
+     */
+    AnswerChartSwitcher = 'AnswerChartSwitcher',
 }
 
 /**
