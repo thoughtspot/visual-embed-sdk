@@ -10650,7 +10650,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 597,
+							"line": 600,
 							"character": 4
 						}
 					],
@@ -10831,7 +10831,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 762,
+							"line": 765,
 							"character": 11
 						}
 					],
@@ -11168,7 +11168,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 866,
+							"line": 869,
 							"character": 11
 						}
 					],
@@ -11532,7 +11532,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 893,
+							"line": 896,
 							"character": 17
 						}
 					],
@@ -11919,7 +11919,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 591,
+					"line": 594,
 					"character": 13
 				}
 			],
@@ -18556,7 +18556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 471,
+							"line": 474,
 							"character": 4
 						}
 					],
@@ -18669,7 +18669,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 490,
+							"line": 493,
 							"character": 4
 						}
 					],
@@ -18747,7 +18747,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 177,
+							"line": 180,
 							"character": 4
 						}
 					],
@@ -18872,6 +18872,43 @@
 					}
 				},
 				{
+					"id": 2056,
+					"name": "discoveryExperience",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "To configure the top-left navigation and home page experience",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   discoveryExperience : {\n     primaryNavbarVersion: PrimaryNavbarVersion.Sliding,\n     homePage: HompePage.Modular,\n   },\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 449,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "DiscoveryExperience"
+					}
+				},
+				{
 					"id": 2102,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
@@ -18940,7 +18977,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 504,
+							"line": 507,
 							"character": 4
 						}
 					],
@@ -18973,7 +19010,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 464,
+							"line": 467,
 							"character": 4
 						}
 					],
@@ -19050,7 +19087,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 191,
+							"line": 194,
 							"character": 4
 						}
 					],
@@ -19087,7 +19124,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 355,
+							"line": 358,
 							"character": 4
 						}
 					],
@@ -19309,7 +19346,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 377,
+							"line": 380,
 							"character": 4
 						}
 					],
@@ -19557,7 +19594,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 254,
+							"line": 257,
 							"character": 4
 						}
 					],
@@ -19594,7 +19631,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 206,
+							"line": 209,
 							"character": 4
 						}
 					],
@@ -19632,7 +19669,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 163,
+							"line": 166,
 							"character": 4
 						}
 					],
@@ -19669,7 +19706,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 556,
+							"line": 559,
 							"character": 4
 						}
 					],
@@ -19706,7 +19743,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 390,
+							"line": 393,
 							"character": 4
 						}
 					],
@@ -19743,7 +19780,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 236,
+							"line": 239,
 							"character": 4
 						}
 					],
@@ -19780,7 +19817,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 221,
+							"line": 224,
 							"character": 4
 						}
 					],
@@ -19813,7 +19850,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 335,
+							"line": 338,
 							"character": 4
 						}
 					],
@@ -19854,7 +19891,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 272,
+							"line": 275,
 							"character": 4
 						}
 					],
@@ -19883,7 +19920,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 514,
+							"line": 517,
 							"character": 4
 						}
 					],
@@ -19958,7 +19995,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 528,
+							"line": 531,
 							"character": 4
 						}
 					],
@@ -19991,7 +20028,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 458,
+							"line": 461,
 							"character": 4
 						}
 					],
@@ -20020,7 +20057,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 509,
+							"line": 512,
 							"character": 4
 						}
 					],
@@ -20057,7 +20094,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 584,
+							"line": 587,
 							"character": 4
 						}
 					],
@@ -20168,44 +20205,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 391,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					}
-				},
-				{
-					"id": 2056,
-					"name": "modularHomeExperienceV3",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Flag to control new navigation v3 home experience.",
-						"tags": [
-							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
-								"tag": "version",
-								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   modularHomeExperienceV3 : true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "embed/app.ts",
-							"line": 405,
+							"line": 432,
 							"character": 4
 						}
 					],
@@ -20276,7 +20276,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 306,
+							"line": 309,
 							"character": 4
 						}
 					],
@@ -20311,7 +20311,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 290,
+							"line": 293,
 							"character": 4
 						}
 					],
@@ -20583,7 +20583,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 416,
+							"line": 419,
 							"character": 4
 						}
 					],
@@ -20620,7 +20620,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 570,
+							"line": 573,
 							"character": 4
 						}
 					],
@@ -20657,7 +20657,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 403,
+							"line": 406,
 							"character": 4
 						}
 					],
@@ -20694,7 +20694,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 542,
+							"line": 545,
 							"character": 4
 						}
 					],
@@ -20731,7 +20731,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 143,
+							"line": 146,
 							"character": 4
 						}
 					],
@@ -20764,7 +20764,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 320,
+							"line": 323,
 							"character": 4
 						}
 					],
@@ -20836,6 +20836,7 @@
 						2088,
 						2079,
 						2078,
+						2056,
 						2102,
 						2061,
 						2058,
@@ -20871,7 +20872,6 @@
 						2086,
 						2084,
 						2055,
-						2056,
 						2089,
 						2046,
 						2045,
@@ -20894,7 +20894,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 128,
+					"line": 131,
 					"character": 17
 				}
 			],
