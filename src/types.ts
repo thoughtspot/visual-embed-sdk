@@ -3552,7 +3552,7 @@ export enum HostEvent {
      * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
      * payload.For example, { columnDataLite: []}`.
      */
-    AnswerChartSwitcher = 'AnswerChartSwitcher',
+    AnswerChartSwitcher = 'answerChartSwitcher',
 }
 
 /**
