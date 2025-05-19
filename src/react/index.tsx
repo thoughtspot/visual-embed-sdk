@@ -13,7 +13,7 @@ import { TsEmbed } from '../embed/ts-embed';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
-import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig as ConversationViewConfig } from '../embed/conversation';
+import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(

@@ -17,7 +17,8 @@ export interface SpotterAgentEmbedViewConfig extends ViewConfig {
 
 /**
  * Configuration for conversation options.
- * @deprecated Renamed to SpotterAgentEmbedViewConfig
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterAgentEmbedViewConfig} instead
  * @group Embed components
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
