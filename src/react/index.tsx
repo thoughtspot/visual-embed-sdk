@@ -385,25 +385,54 @@ interface BodylessConversationProps extends BodylessConversationViewConfig {}
 
 /**
  * React component for BodylessConversation embed.
+ * 
+ * This is a "headless" component that manages a BodylessConversation instance
+ * without rendering any visible UI. Use the forwarded ref to access the instance
+ * and call sendMessage().
+ * 
  * @example
  * ```tsx
- * function BodylessConversationComponent() {
- *  const [container, setContainer] = useState<HTMLDivElement | null>(null);
- *  
- *  useEffect(() => {
- *    const conversation = new BodylessConversationEmbed({
- *      worksheetId: '<worksheet-id>',
- *    });
- *    
- *    async function sendMessage() {
- *      const { container } = await conversation.sendMessage('show me sales by region');
- *      setContainer(container);
- *    }
- *    
- *    sendMessage();
- *  }, []);
- *  
- *  return <div ref={node => node && container && node.appendChild(container)} />;
+ * function ChatComponent() {
+ *   const conversationRef = useRef<BodylessConversation>(null);
+ *   const [messages, setMessages] = useState([]);
+ *   
+ *   const handleSendMessage = async (text) => {
+ *     // Access the instance through the ref
+ *     const { container, error } = await conversationRef.current.sendMessage(text);
+ *     
+ *     if (error) {
+ *       console.error("Error:", error);
+ *       return;
+ *     }
+ *     
+ *     // Add the message and response to your UI
+ *     setMessages(prev => [...prev, { 
+ *       text, 
+ *       responseContainer: container 
+ *     }]);
+ *   };
+ *   
+ *   return (
+ *     <div>
+ *       <BodylessConversationEmbed 
+ *         ref={conversationRef}
+ *         worksheetId="your-worksheet-id" 
+ *       />
+ *       
+ *       <div>
+ *         {messages.map((msg, i) => (
+ *           <div key={i}>
+ *             <div>{msg.text}</div>
+ *             <div ref={el => el && msg.responseContainer && el.appendChild(msg.responseContainer)} />
+ *           </div>
+ *         ))}
+ *       </div>
+ *       
+ *       <button onClick={() => handleSendMessage("show me sales by region")}>
+ *         Ask Question
+ *       </button>
+ *     </div>
+ *   );
  * }
  * ```
  */
