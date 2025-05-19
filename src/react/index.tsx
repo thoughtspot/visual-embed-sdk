@@ -10,6 +10,7 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
+import { BodylessConversation as _BodylessConversation, BodylessConversationViewConfig } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -380,12 +381,66 @@ export const PreRenderedConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed, true);
 
+interface BodylessConversationProps extends BodylessConversationViewConfig {}
+
+/**
+ * React component for BodylessConversation embed.
+ * @example
+ * ```tsx
+ * function BodylessConversationComponent() {
+ *  const [container, setContainer] = useState<HTMLDivElement | null>(null);
+ *  
+ *  useEffect(() => {
+ *    const conversation = new BodylessConversationEmbed({
+ *      worksheetId: '<worksheet-id>',
+ *    });
+ *    
+ *    async function sendMessage() {
+ *      const { container } = await conversation.sendMessage('show me sales by region');
+ *      setContainer(container);
+ *    }
+ *    
+ *    sendMessage();
+ *  }, []);
+ *  
+ *  return <div ref={node => node && container && node.appendChild(container)} />;
+ * }
+ * ```
+ */
+export const BodylessConversationEmbed = React.forwardRef<
+  _BodylessConversation,
+  BodylessConversationProps
+>((props, ref) => {
+  const instanceRef = useRef<_BodylessConversation | null>(null);
+  
+  useDeepCompareEffect(() => {
+    const instance = new _BodylessConversation(props);
+    
+    instanceRef.current = instance;
+    
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(instance);
+      } else {
+        ref.current = instance;
+      }
+    }
+    
+    return () => {
+      instanceRef.current = null;
+    };
+  }, [props]);
+  
+  return null;
+});
+
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof ConversationEmbed;
+    | typeof ConversationEmbed
+    | typeof BodylessConversationEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.
