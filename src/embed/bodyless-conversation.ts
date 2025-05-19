@@ -124,7 +124,8 @@ export class SpotterAgentEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
- * @deprecated Renamed to SpotterAgentEmbed
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterAgentEmbed} instead
  * @example
  * ```js
  * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
@@ -139,7 +140,6 @@ export class SpotterAgentEmbed {
  * document.body.appendChild(container); // or to any other element
  * ```
  * @group Embed components
- * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class BodylessConversation extends SpotterAgentEmbed {
     constructor(viewConfig: BodylessConversationViewConfig) {
