@@ -381,7 +381,7 @@ export const PreRenderedConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed, true);
 
-interface BodylessConversationProps extends BodylessConversationViewConfig {}
+interface BodylessConversationProps extends EmbedProps, BodylessConversationViewConfig {}
 
 /**
  * React component for BodylessConversation embed.
@@ -441,6 +441,7 @@ export const BodylessConversationEmbed = React.forwardRef<
   BodylessConversationProps
 >((props, ref) => {
   const instanceRef = useRef<_BodylessConversation | null>(null);
+  const { className, style } = props;
   
   useDeepCompareEffect(() => {
     const instance = new _BodylessConversation(props);
@@ -460,7 +461,13 @@ export const BodylessConversationEmbed = React.forwardRef<
     };
   }, [props]);
   
-  return null;
+  return (
+    <div 
+      data-testid="tsBodylessConversation" 
+      style={{ display: 'none', ...style }} 
+      className={`ts-embed-container ${className || ''}`}
+    ></div>
+  );
 });
 
 type EmbedComponent = typeof SearchEmbed
