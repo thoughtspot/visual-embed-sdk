@@ -9,7 +9,12 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 import {
-    AppEmbed, Page, AppViewConfig, HomePageSearchBarMode,
+    AppEmbed,
+    Page,
+    AppViewConfig,
+    HomePageSearchBarMode,
+    PrimaryNavbarVersion,
+    HomePage,
 } from './embed/app';
 import {
     init,
@@ -129,6 +134,8 @@ export {
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
     HomePageSearchBarMode,
+    PrimaryNavbarVersion,
+    HomePage,
     VizPoint,
     CustomActionPayload,
     UIPassthroughEvent,
