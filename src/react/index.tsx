@@ -361,7 +361,8 @@ export const SpotterEmbed = componentFactory<
 
 /**
  * React component for LLM based conversation BI.
- * @deprecated This component is renamed to SpotterEmbed. Use {@link SpotterEmbed} instead.
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbed} instead
  * @example
  * ```tsx
  * function Sage() {
