@@ -11,6 +11,7 @@ export {
     PreRenderedSageEmbed,
     ConversationEmbed,
     PreRenderedConversationEmbed,
+    BodylessConversationEmbed,
     useEmbedRef,
     useInit,
 } from './index';
