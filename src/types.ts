@@ -2851,6 +2851,13 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsPdf)
      * ```
+     * @param - an object with `vizId` as a key
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsPdf, {
+     *     vizId: "123",
+     *  });
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
@@ -2873,6 +2880,13 @@ export enum HostEvent {
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.MakeACopy)
+     * ```
+     * @param - an object with `vizId` as a key
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.MakeACopy, {
+     *     vizId: "123",
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -2953,6 +2967,12 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.Edit, {
+     *     vizId: "123",
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3089,6 +3109,12 @@ export enum HostEvent {
      *
      * searchEmbed.trigger(HostEvent.DownloadAsPng)
      * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsPng, {
+     *     vizId: "123",
+     *  });
+     * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
      */
     DownloadAsPng = 'downloadAsPng',
@@ -3106,6 +3132,11 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
      * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsCsv, {
+     *     vizId: "123",
+     *  });
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     DownloadAsCsv = 'downloadAsCSV',
@@ -3122,6 +3153,11 @@ export enum HostEvent {
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsXlsx, {
+     *     vizId: "123",
+     *  });
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3461,6 +3497,7 @@ export enum HostEvent {
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
      * @param - optional attributes to set Answer properties.
+     *  `vizId` - ID of the visualization to save. (Spotter use case)
      *  `name` - Name string for the Answer.
      *  `description` - Description text for the Answer.
      *
@@ -3501,56 +3538,68 @@ export enum HostEvent {
     TransformTableVizData = 'TransformTableVizData',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers a search for the given query in spotter Embed.
+     * @param - `query` - the query to search for.
+     * @param - `executeSearch` - should be set to true if the query should be executed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SpotterSearch, {
+     *     query: "sales",
+     *     executeSearch: true
+     * })
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterSearch = 'SpotterSearch',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers the last prompt to be edited.
+     * @param - `query` - the query to edit.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditLastPrompt, "sales")
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     EditLastPrompt = 'EditLastPrompt',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers the preview data action for the spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PreviewSpotterData)
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers the reset conversation action for the spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ResetSpotterConversation)
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers the delete last prompt action for the spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DeleteLastPrompt)
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     DeleteLastPrompt = 'DeleteLastPrompt',
 
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers the answer chart switcher action for the spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher)
+     * ```
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
      */
     AnswerChartSwitcher = 'AnswerChartSwitcher',
 }
