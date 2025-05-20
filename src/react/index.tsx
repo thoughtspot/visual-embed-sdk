@@ -24,6 +24,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     // Embed.preRender() method instead of the usual render method, and it will
     // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
+    isBodyless = false,
 ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
@@ -68,8 +69,10 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
         };
 
         useDeepCompareEffect(() => {
+            const container: HTMLElement = isBodyless ? document.createElement('div') : (ref!.current as HTMLElement);
+
             const tsEmbed = new EmbedConstructor(
-                ref!.current,
+                container,
                 deepMerge(
                     {
                         insertAsSibling: viewConfig.insertAsSibling,
@@ -92,6 +95,10 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
                 handleDestroy(tsEmbed);
             };
         }, [viewConfig, listeners]);
+
+        if(isBodyless) {
+            return null;
+        }
 
         return viewConfig.insertAsSibling ? (
             <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
@@ -383,92 +390,50 @@ export const PreRenderedConversationEmbed = componentFactory<
 
 interface BodylessConversationProps extends EmbedProps, BodylessConversationViewConfig {}
 
-/**
- * React component for BodylessConversation embed.
- * 
- * This is a "headless" component that manages a BodylessConversation instance
- * without rendering any visible UI. Use the forwarded ref to access the instance
- * and call sendMessage().
- * 
- * @example
- * ```tsx
- * function ChatComponent() {
- *   const conversationRef = useRef<BodylessConversation>(null);
- *   const [messages, setMessages] = useState([]);
- *   
- *   const handleSendMessage = async (text) => {
- *     // Access the instance through the ref
- *     const { container, error } = await conversationRef.current.sendMessage(text);
- *     
- *     if (error) {
- *       console.error("Error:", error);
- *       return;
- *     }
- *     
- *     // Add the message and response to your UI
- *     setMessages(prev => [...prev, { 
- *       text, 
- *       responseContainer: container 
- *     }]);
- *   };
- *   
- *   return (
- *     <div>
- *       <BodylessConversationEmbed 
- *         ref={conversationRef}
- *         worksheetId="your-worksheet-id" 
- *       />
- *       
- *       <div>
- *         {messages.map((msg, i) => (
- *           <div key={i}>
- *             <div>{msg.text}</div>
- *             <div ref={el => el && msg.responseContainer && el.appendChild(msg.responseContainer)} />
- *           </div>
- *         ))}
- *       </div>
- *       
- *       <button onClick={() => handleSendMessage("show me sales by region")}>
- *         Ask Question
- *       </button>
- *     </div>
- *   );
- * }
- * ```
- */
-export const BodylessConversationEmbed = React.forwardRef<
-  _BodylessConversation,
-  BodylessConversationProps
->((props, ref) => {
-  const instanceRef = useRef<_BodylessConversation | null>(null);
-  const { className, style } = props;
+export const BodylessConversationEmbed = componentFactory<
+  typeof _ConversationEmbed,
+  BodylessConversationProps,
+  ConversationViewConfig
+>(
+  _ConversationEmbed,
+    /* isPreRenderedComponent */ false,
+    /* isBodyless */ true
+);
+
+
+// export const BodylessConversationEmbed = React.forwardRef<
+//   _BodylessConversation,
+//   BodylessConversationProps
+// >((props, ref) => {
+//   const instanceRef = useRef<_BodylessConversation | null>(null);
+//   const { className, style } = props;
   
-  useDeepCompareEffect(() => {
-    const instance = new _BodylessConversation(props);
+//   useDeepCompareEffect(() => {
+//     const instance = new _BodylessConversation(props);
     
-    instanceRef.current = instance;
+//     instanceRef.current = instance;
     
-    if (ref) {
-      if (typeof ref === 'function') {
-        ref(instance);
-      } else {
-        ref.current = instance;
-      }
-    }
+//     if (ref) {
+//       if (typeof ref === 'function') {
+//         ref(instance);
+//       } else {
+//         ref.current = instance;
+//       }
+//     }
     
-    return () => {
-      instanceRef.current = null;
-    };
-  }, [props]);
+//     return () => {
+//       instanceRef.current = null;
+//     };
+//   }, [props]);
   
-  return (
-    <div 
-      data-testid="tsBodylessConversation" 
-      style={{ display: 'none', ...style }} 
-      className={`ts-embed-container ${className || ''}`}
-    ></div>
-  );
-});
+//   return (
+//     <div 
+//       data-testid="tsBodylessConversation" 
+//       style={{ display: 'none', ...style }} 
+//       className={`ts-embed-container ${className || ''}`}
+//     ></div>
+//   );
+// });
 
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
