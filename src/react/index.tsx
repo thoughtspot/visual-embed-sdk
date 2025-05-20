@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
@@ -10,7 +10,7 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
-import { BodylessConversation as _BodylessConversation, BodylessConversationViewConfig } from '../embed/bodyless-conversation';
+import { BodylessConversationViewConfig, BodylessConversation } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -364,6 +364,21 @@ export const ConversationEmbed = componentFactory<
         _ConversationEmbed,
     );
 
+interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
+
+export const BodylessConversationEmbed = React.forwardRef((props: BodylessConversationEmbedProps, ref) => {
+    const serviceRef = useRef(new BodylessConversation(props));
+  
+    useDeepCompareEffect(() => {
+      serviceRef.current = new BodylessConversation(props);
+    }, [props]);
+  
+    useImperativeHandle(ref, () => serviceRef.current);
+  
+    return null;
+  });
+  
+
 /**
  * React component for PreRendered Conversation embed.
  *
@@ -388,17 +403,6 @@ export const PreRenderedConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed, true);
 
-interface BodylessConversationProps extends EmbedProps, BodylessConversationViewConfig {}
-
-export const BodylessConversationEmbed = componentFactory<
-  typeof _ConversationEmbed,
-  BodylessConversationProps,
-  ConversationViewConfig
->(
-  _ConversationEmbed,
-    /* isPreRenderedComponent */ false,
-    /* isBodyless */ true
-);
 
 
 // export const BodylessConversationEmbed = React.forwardRef<
