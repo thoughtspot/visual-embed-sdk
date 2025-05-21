@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useImperativeHandle, useRef } from 'react';
+import React, { useRef } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
@@ -367,17 +367,22 @@ export const ConversationEmbed = componentFactory<
 interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
 
 export const BodylessConversationEmbed = React.forwardRef((props: BodylessConversationEmbedProps, ref) => {
-    const serviceRef = useRef(new BodylessConversation(props));
+  const serviceRef = useRef<BodylessConversation | null>(null);
   
-    useDeepCompareEffect(() => {
-      serviceRef.current = new BodylessConversation(props);
-    }, [props]);
+  if (serviceRef.current === null) {
+    serviceRef.current = new BodylessConversation(props);
+    
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(serviceRef.current);
+      } else {
+        ref.current = serviceRef.current;
+      }
+    }
+  }
   
-    useImperativeHandle(ref, () => serviceRef.current);
-  
-    return null;
-  });
-  
+  return null;
+});
 
 /**
  * React component for PreRendered Conversation embed.
@@ -402,42 +407,6 @@ export const PreRenderedConversationEmbed = componentFactory<
     SageEmbedProps & PreRenderProps,
     ConversationViewConfig
 >(_ConversationEmbed, true);
-
-
-
-// export const BodylessConversationEmbed = React.forwardRef<
-//   _BodylessConversation,
-//   BodylessConversationProps
-// >((props, ref) => {
-//   const instanceRef = useRef<_BodylessConversation | null>(null);
-//   const { className, style } = props;
-  
-//   useDeepCompareEffect(() => {
-//     const instance = new _BodylessConversation(props);
-    
-//     instanceRef.current = instance;
-    
-//     if (ref) {
-//       if (typeof ref === 'function') {
-//         ref(instance);
-//       } else {
-//         ref.current = instance;
-//       }
-//     }
-    
-//     return () => {
-//       instanceRef.current = null;
-//     };
-//   }, [props]);
-  
-//   return (
-//     <div 
-//       data-testid="tsBodylessConversation" 
-//       style={{ display: 'none', ...style }} 
-//       className={`ts-embed-container ${className || ''}`}
-//     ></div>
-//   );
-// });
 
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
