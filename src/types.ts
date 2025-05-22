@@ -3371,16 +3371,16 @@ export enum HostEvent {
     /**
      * Get the Answer session for a Search or
      * Liveboard visualization.
-     * 
-     * Note: This event is not typically used directly. Instead, use the 
-     * `getAnswerService()` method on the embed instance to get an AnswerService 
+     *
+     * Note: This event is not typically used directly. Instead, use the
+     * `getAnswerService()` method on the embed instance to get an AnswerService
      * object that provides a more convenient interface for working with answers.
-     * 
+     *
      * @example
      * ```js
      * // Preferred way to get an AnswerService
      * const service = await embed.getAnswerService();
-     * 
+     *
      * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger(
      *  HostEvent.GetAnswerSession, {
@@ -3391,7 +3391,7 @@ export enum HostEvent {
      * ```js
      * // Preferred way to get an AnswerService
      * const service = await embed.getAnswerService();
-     * 
+     *
      * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
@@ -3663,6 +3663,7 @@ export enum Param {
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
+    InConversationTraining = 'InConversationTraining'
 }
 
 /**
@@ -4901,6 +4902,19 @@ export enum Action {
      *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    /**
+     * Action ID for hide or disable the
+     * Spotter in conversation training widget.
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.InConversationTraining]
+     * disabledActions: [Action.InConversationTraining]
+     *
+     * ```
+     *  @version SDK: 1.37.2 | ThoughtSpot Cloud: 10.9.0.cl
+     */
+    InConversationTraining = 'InConversationTraining',
 }
 
 export interface AnswerServiceType {
