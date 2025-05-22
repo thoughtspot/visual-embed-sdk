@@ -10,6 +10,7 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
+import { BodylessConversationViewConfig, BodylessConversation } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -23,6 +24,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     // Embed.preRender() method instead of the usual render method, and it will
     // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
+    isBodyless = false,
 ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
@@ -67,8 +69,10 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
         };
 
         useDeepCompareEffect(() => {
+            const container: HTMLElement = isBodyless ? document.createElement('div') : (ref!.current as HTMLElement);
+
             const tsEmbed = new EmbedConstructor(
-                ref!.current,
+                container,
                 deepMerge(
                     {
                         insertAsSibling: viewConfig.insertAsSibling,
@@ -91,6 +95,10 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
                 handleDestroy(tsEmbed);
             };
         }, [viewConfig, listeners]);
+
+        if(isBodyless) {
+            return null;
+        }
 
         return viewConfig.insertAsSibling ? (
             <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
@@ -356,6 +364,32 @@ export const ConversationEmbed = componentFactory<
         _ConversationEmbed,
     );
 
+interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
+
+export const BodylessConversationEmbed = React.forwardRef((props: BodylessConversationEmbedProps, ref) => {
+  const { className, ...restProps } = props;
+  const serviceRef = useRef<BodylessConversation | null>(null);
+  
+  if (serviceRef.current === null) {
+    const configProps = {
+      ...restProps,
+      ...(className ? { containerClassName: className } : {})
+    };
+    
+    serviceRef.current = new BodylessConversation(configProps);
+    
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(serviceRef.current);
+      } else {
+        ref.current = serviceRef.current;
+      }
+    }
+  }
+  
+  return null;
+});
+
 /**
  * React component for PreRendered Conversation embed.
  *
@@ -385,7 +419,8 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof ConversationEmbed;
+    | typeof ConversationEmbed
+    | typeof BodylessConversationEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.

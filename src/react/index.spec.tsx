@@ -16,6 +16,7 @@ import {
 } from '../test/test-utils';
 import {
     SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed,
+    BodylessConversationEmbed
 } from './index';
 import * as allExports from './index';
 import {
@@ -232,6 +233,124 @@ describe('React Components', () => {
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22]&preAuthCache=true&overrideConsoleLogs=true&clientLogLevel=ERROR&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,
             );
+        });
+    });
+
+    describe('BodylessConversationEmbed', () => {
+        it('Should work as a React component integrating BodylessConversation', async () => {
+            const mockDiv = document.createElement('div');
+            
+            interface ConversationService {
+                sendMessage: (message: string) => Promise<{
+                    container: HTMLDivElement;
+                    viz?: any;
+                    error?: Error;
+                }>;
+            }
+            
+            let conversationService: ConversationService | null = null;
+            
+            render(
+                <BodylessConversationEmbed
+                    ref={(instance: ConversationService) => {
+                        conversationService = instance;
+                        
+                        if (instance) {
+                            instance.sendMessage = jest.fn().mockResolvedValue({
+                                container: mockDiv
+                            });
+                        }
+                    }}
+                    worksheetId="test-worksheet-id"
+                />
+            );
+
+            expect(conversationService).not.toBeNull();
+            
+            if (conversationService) {
+                expect(typeof conversationService.sendMessage).toBe('function');
+                
+                const response = await conversationService.sendMessage("What are my sales this month?");
+                expect(response.container).toBe(mockDiv);
+            }
+        });
+
+        it('Should work as a React component with ref support', () => {
+            const mockSendMessage = jest.fn().mockResolvedValue({
+                container: document.createElement('div'),
+                viz: {}
+            });
+            
+            const TestComponent = () => {
+                const conversationRef = React.useRef(null);
+                
+                const handleClick = () => {
+                    if (conversationRef.current) {
+                        conversationRef.current.sendMessage = mockSendMessage;
+                        
+                        conversationRef.current.sendMessage("Test message");
+                    }
+                };
+                
+                return (
+                    <>
+                        <BodylessConversationEmbed
+                            ref={conversationRef}
+                            worksheetId="test-worksheet-id"
+                        />
+                        <button data-testid="test-button" onClick={handleClick}>
+                            Send Message
+                        </button>
+                    </>
+                );
+            };
+            
+            const { getByTestId } = render(<TestComponent />);
+            
+            fireEvent.click(getByTestId('test-button'));
+            
+            expect(mockSendMessage).toHaveBeenCalledWith("Test message");
+        });
+
+        it('Should work with the useEmbedRef hook', () => {
+            const mockSendMessage = jest.fn().mockResolvedValue({
+                container: document.createElement('div'),
+                viz: {}
+            });
+            
+            const TestComponent = () => {
+                const embedRef = useEmbedRef<typeof BodylessConversationEmbed>();
+                
+                const handleClick = () => {
+                    if (embedRef.current) {
+                        const service = embedRef.current as unknown as { 
+                            sendMessage: typeof mockSendMessage 
+                        };
+                        
+                        service.sendMessage = mockSendMessage;
+                        
+                        service.sendMessage("Test with useEmbedRef");
+                    }
+                };
+                
+                return (
+                    <>
+                        <BodylessConversationEmbed
+                            ref={embedRef}
+                            worksheetId="test-worksheet-id"
+                        />
+                        <button data-testid="use-embed-ref-button" onClick={handleClick}>
+                            Send with useEmbedRef
+                        </button>
+                    </>
+                );
+            };
+            
+            const { getByTestId } = render(<TestComponent />);
+            
+            fireEvent.click(getByTestId('use-embed-ref-button'));
+            
+            expect(mockSendMessage).toHaveBeenCalledWith("Test with useEmbedRef");
         });
     });
 
