@@ -13,6 +13,11 @@ export interface BodylessConversationViewConfig extends ViewConfig {
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
+    
+    /**
+     * Optional CSS class name to add to the container div.
+     */
+    containerClassName?: string;
 }
 
 interface ConversationMessageViewConfig extends BodylessConversationViewConfig {
@@ -101,6 +106,10 @@ export class BodylessConversation {
         }
 
         const container = document.createElement('div');
+        if (this.viewConfig.containerClassName) {
+            container.className = this.viewConfig.containerClassName;
+        }
+
         const embed = new ConversationMessage(container, {
             ...this.viewConfig,
             sessionId: data.sessionId,

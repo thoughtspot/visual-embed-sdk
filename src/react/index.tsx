@@ -367,10 +367,16 @@ export const ConversationEmbed = componentFactory<
 interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
 
 export const BodylessConversationEmbed = React.forwardRef((props: BodylessConversationEmbedProps, ref) => {
+  const { className, ...restProps } = props;
   const serviceRef = useRef<BodylessConversation | null>(null);
   
   if (serviceRef.current === null) {
-    serviceRef.current = new BodylessConversation(props);
+    const configProps = {
+      ...restProps,
+      ...(className ? { containerClassName: className } : {})
+    };
+    
+    serviceRef.current = new BodylessConversation(configProps);
     
     if (ref) {
       if (typeof ref === 'function') {
