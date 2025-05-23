@@ -83,6 +83,47 @@ export enum HomePageSearchBarMode {
     AI_ANSWER = 'aiAnswer',
     NONE = 'none'
 }
+
+/**
+ * Define the version of the primary navbar
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export enum PrimaryNavbarVersion {
+    /**
+     * Sliding (v3) introduces a new left-side navigation hub featuring a tab switcher,
+     * along with updates to the top navigation bar.
+     * It serves as the foundational version of the PrimaryNavBar.
+     */
+    Sliding = 'v3',
+}
+
+/**
+ * Define the version of the home page
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export enum HomePage {
+    /**
+     * Modular (v2) introduces the updated Modular Home Experience.
+     * It serves as the foundational version of the home page.
+     */
+    Modular = 'v2',
+}
+
+/**
+ * Define the discovery experience
+ * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ */
+export interface DiscoveryExperience {
+    /**
+     * primaryNavbarVersion determines the version of the navigation version.
+     */
+    primaryNavbarVersion?: PrimaryNavbarVersion;
+    /**
+     * homePage determines the version of the home page.
+     */
+    homePage?: HomePage;
+}
+
 /**
  * The view configuration for full app embedding.
  * @group Embed components
@@ -390,7 +431,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      */
     modularHomeExperience?: boolean;
     /**
-     * Flag to control new navigation v3 home experience.
+     * To configure the top-left navigation and home page experience
      *
      * @default false
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
@@ -398,11 +439,14 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
-     *    modularHomeExperienceV3 : true,
+     *    discoveryExperience : {
+     *      primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+     *      homePage: HompePage.Modular,
+     *    },
      * })
      * ```
      */
-    modularHomeExperienceV3?: boolean;
+    discoveryExperience?: DiscoveryExperience;
     /**
      * Boolean to control if Liveboard header is sticky or not.
      * @example
@@ -587,7 +631,6 @@ export class AppEmbed extends V1Embed {
             showLiveboardDescription = true,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
-            modularHomeExperienceV3 = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -604,6 +647,7 @@ export class AppEmbed extends V1Embed {
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
+            discoveryExperience,
         } = this.viewConfig;
 
         let params = {};
@@ -623,10 +667,6 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
 
         params = this.getBaseQueryParams(params);
-
-        if (modularHomeExperienceV3) {
-            params[Param.NavigationVersion] = 'v3';
-        }
 
         if (hideObjectSearch) {
             params[Param.HideObjectSearch] = !!hideObjectSearch;
@@ -698,6 +738,19 @@ export class AppEmbed extends V1Embed {
         } else {
             /* eslint-disable-next-line max-len */
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
+
+        if (discoveryExperience) {
+            // primaryNavbarVersion v3 will enabled the new left navigation
+            if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
+                params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
+            }
+
+            // homePage v2 will enable the modular home page
+            // and it will override the modularHomeExperience value
+            if (discoveryExperience.homePage === HomePage.Modular) {
+                params[Param.ModularHomeExperienceEnabled] = true;
+            }
         }
 
         const queryParams = getQueryParamString(params, true);

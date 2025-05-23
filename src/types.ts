@@ -2679,9 +2679,12 @@ export enum HostEvent {
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.OpenFilter,
-     * { columnId: '<column-GUID>', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE'})
+     *  {column: { columnId: '<column-GUID>', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE'}})
+     * ```
+     * @example
+     * ```js
      * LiveboardEmbed.trigger(HostEvent.OpenFilter,
-     *  { columnId: '<column-GUID>'})
+     *   { column: {columnId: '<column-GUID>'}})
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
@@ -3290,6 +3293,25 @@ export enum HostEvent {
      *    }]
      * });
      * ```
+     * If there are multiple columns with the same name, consider
+     * using `WORKSHEET_NAME::COLUMN_NAME` format.
+     *
+     * @example
+     *
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *  filters: [{
+     *      column: "(Sample) Retail - Apparel::city",
+     *      oper: 'IN',
+     *      values: ["atlanta"]
+     *  },
+     *  {
+     *      column: "(Sample) Retail - Apparel::Region",
+     *      oper: 'IN',
+     *      values: ["West","Midwest"]
+     *  }]
+     * });
+     * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
@@ -3640,6 +3662,7 @@ export enum Param {
     ShowSpotterLimitations = 'showSpotterLimitations',
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     PrimaryAction = 'primaryAction',
+    isSpotterAgentEmbed = 'isSpotterAgentEmbed',
 }
 
 /**
