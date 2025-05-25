@@ -370,7 +370,11 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
   const { className, ...restProps } = props;
   const serviceRef = useRef<BodylessConversation | null>(null);
   
-  if (serviceRef.current === null) {
+  useDeepCompareEffect(() => {
+    if (serviceRef.current) {
+      serviceRef.current = null;
+    }
+    
     const configProps = {
       ...restProps,
       ...(className ? { containerClassName: className } : {})
@@ -385,7 +389,11 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
         ref.current = serviceRef.current;
       }
     }
-  }
+    
+    return () => {
+      serviceRef.current = null;
+    };
+  }, [props, ref]);
   
   return null;
 });
