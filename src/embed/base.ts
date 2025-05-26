@@ -137,6 +137,15 @@ export const prefetch = (
                     iFrame.style.width = '0';
                     iFrame.style.height = '0';
                     iFrame.style.border = '0';
+
+                    // Make it 'fixed' to keep it in a different stacking context.
+                    //   This should solve the focus behaviours inside the iframe from
+                    //   interfering with main body.
+                    iFrame.style.position = 'fixed';
+                    // Push it out of viewport.
+                    iFrame.style.top = '100vh';
+                    iFrame.style.left = '100vw';
+
                     iFrame.classList.add('prefetchIframe');
                     iFrame.classList.add(`prefetchIframeNum-${index}`);
                     document.body.appendChild(iFrame);

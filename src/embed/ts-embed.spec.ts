@@ -58,6 +58,7 @@ import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 import { processTrigger } from '../utils/processTrigger';
 import { UIPassthroughEvent } from './hostEventClient/contracts';
 import * as sessionInfoService from '../utils/sessionInfoService';
+import * as authToken from '../authToken';
 
 jest.mock('../utils/processTrigger');
 
@@ -2575,5 +2576,134 @@ describe('Unit test case for ts embed', () => {
             const iframeAfterInit = getIFrameEl();
             expect(iframeAfterInit).not.toBe(null);
         });
+    });
+
+    describe('AutoLogin behavior in updateAuthToken', () => {
+      const mockPort = { postMessage: jest.fn() };
+      const mockEmbedEventPayload = { type: EmbedEvent.AuthExpire, data: {} };
+      
+      beforeEach(() => {
+        jest.clearAllMocks();
+        document.body.innerHTML = getDocumentBody();
+        mockPort.postMessage.mockClear();
+        jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('test-token');
+        
+        jest.spyOn(baseInstance, 'handleAuth').mockImplementation(() => Promise.resolve(true));
+        jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => {});
+      });
+
+      const renderAndTriggerAuthExpire = async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        await executeAfterWait(() => {
+          const iframe = getIFrameEl();
+          postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+      };
+
+      test('Cookieless with autoLogin undefined should default to true', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.TrustedAuthTokenCookieless,
+          // autoLogin undefined
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+          expect(mockPort.postMessage).toHaveBeenCalledWith({
+            type: EmbedEvent.AuthExpire,
+            data: { authToken: 'test-token' },
+          });
+        });
+      });
+
+      test('Cookieless with autoLogin false should not get auth token', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.TrustedAuthTokenCookieless,
+          autoLogin: false,
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+          expect(mockPort.postMessage).not.toHaveBeenCalled();
+        });
+      });
+
+      test('Cookieless with autoLogin true should get auth token', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.TrustedAuthTokenCookieless,
+          autoLogin: true,
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+          expect(mockPort.postMessage).toHaveBeenCalledWith({
+            type: EmbedEvent.AuthExpire,
+            data: { authToken: 'test-token' },
+          });
+        });
+      });
+
+      test('Other authType with autoLogin undefined should default to false', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.None,
+          // autoLogin undefined
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      test('Other authType with autoLogin true should call handleAuth', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.None,
+          autoLogin: true,
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(2);
+        });
+      });
+
+      test('Other authType with autoLogin false should not call handleAuth', async () => {
+        init({
+          thoughtSpotHost: 'tshost',
+          authType: AuthType.None,
+          autoLogin: false,
+        });
+
+        await renderAndTriggerAuthExpire();
+
+        await executeAfterWait(() => {
+          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      afterEach(() => {
+        expect(baseInstance.notifyAuthFailure).toHaveBeenCalledWith(
+          authInstance.AuthFailureType.EXPIRY
+        );
+      });
     });
 });
