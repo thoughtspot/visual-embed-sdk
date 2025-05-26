@@ -33,7 +33,7 @@ import {
 import '../utils/with-resolvers-polyfill';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
+import { getQueryParamString, getValueFromWindow, isBrowser, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
@@ -206,7 +206,9 @@ export const createAndSetInitPromise = (): void => {
     });
 };
 
-createAndSetInitPromise();
+if (isBrowser()) {
+    createAndSetInitPromise();
+}
 
 export const getInitPromise = ():
     Promise<
@@ -236,6 +238,10 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+    if (!isBrowser()) {
+        return {} as AuthEventEmitter;
+    }
+
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(
