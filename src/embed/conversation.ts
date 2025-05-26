@@ -15,10 +15,10 @@ export interface SearchOptions {
 }
 
 /**
- * The configuration for the embedded conversationEmbed options.
+ * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
-export interface ConversationViewConfig extends ViewConfig {
+export interface SpotterEmbedViewConfig extends ViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
@@ -32,7 +32,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * but still display the selected data source.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    disableSourceSelection : true,
      * })
@@ -44,7 +44,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * hideSourceSelection : Hide data source selection
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    hideSourceSelection : true,
      * })
@@ -71,7 +71,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * default is false.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    showSpotterLimitations : true,
      * })
@@ -84,7 +84,7 @@ export interface ConversationViewConfig extends ViewConfig {
      * the initial screen of the conversation.
      * @example
      * ```js
-     * const embed = new ConversationEmbed('#tsEmbed', {
+     * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
      *    hideSampleQuestions : true,
      * })
@@ -95,11 +95,20 @@ export interface ConversationViewConfig extends ViewConfig {
 }
 
 /**
+ * The configuration for the embedded spotterEmbed options.
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbedViewConfig} instead
+ * @group Embed components
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
+
+/**
  * Embed ThoughtSpot AI Conversation.
  * @group Embed components
  * @example
  * ```js
- * const conversation = new ConversationEmbed('#tsEmbed', {
+ * const conversation = new SpotterEmbed('#tsEmbed', {
  *   worksheetId: 'worksheetId',
  *   searchOptions: {
  *     searchQuery: 'searchQuery',
@@ -107,10 +116,10 @@ export interface ConversationViewConfig extends ViewConfig {
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.33.1 | ThoughtSpot: 10.5.0.cl
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
-export class ConversationEmbed extends TsEmbed {
-    constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
+export class SpotterEmbed extends TsEmbed {
+    constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
         viewConfig.embedComponentType = 'conversation';
         super(container, viewConfig);
     }
@@ -163,11 +172,35 @@ export class ConversationEmbed extends TsEmbed {
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
 
-    public async render(): Promise<ConversationEmbed> {
+    public async render(): Promise<SpotterEmbed> {
         await super.render();
 
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
         return this;
+    }
+}
+
+/**
+ * Embed ThoughtSpot AI Conversation.
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbed} instead
+ * @group Embed components
+ * @example
+ * ```js
+ * const conversation = new SpotterEmbed('#tsEmbed', {
+ *   worksheetId: 'worksheetId',
+ *   searchOptions: {
+ *     searchQuery: 'searchQuery',
+ *   },
+ * });
+ * conversation.render();
+ * ```
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+ */
+export class ConversationEmbed extends SpotterEmbed {
+    constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
+        viewConfig.embedComponentType = 'conversation';
+        super(container, viewConfig);
     }
 }
