@@ -393,7 +393,7 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
     return () => {
       serviceRef.current = null;
     };
-  }, [props, ref]);
+  }, [props]);
   
   return null;
 });
