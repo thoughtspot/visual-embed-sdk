@@ -453,7 +453,7 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof BodylessConversationEmbed;
+    | typeof BodylessConversationEmbed
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
 
