@@ -9,6 +9,7 @@ export {
     PreRenderedAppEmbed,
     SageEmbed,
     PreRenderedSageEmbed,
+    SpotterEmbed,
     ConversationEmbed,
     PreRenderedConversationEmbed,
     BodylessConversationEmbed,

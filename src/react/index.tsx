@@ -14,7 +14,7 @@ import { BodylessConversationViewConfig, BodylessConversation } from '../embed/b
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
-import { ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
+import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
@@ -342,10 +342,35 @@ export const PreRenderedSageEmbed = componentFactory<
     SageViewConfig
 >(_SageEmbed, true);
 
+interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
 
 /**
  * React component for LLM based conversation BI.
+ * @example
+ * ```tsx
+ * function Sage() {
+ *  return <SpotterEmbed
+ *      worksheetId="<worksheet-id-here>"
+ *      searchOptions={{
+ *          searchQuery: "<search query to start with>"
+ *      }}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const SpotterEmbed = componentFactory<
+    typeof _SpotterEmbed,
+    SpotterEmbedProps,
+    SpotterEmbedViewConfig
+>(_SpotterEmbed);
+
+
+/**
+ * React component for LLM based conversation BI.
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbed} instead
  * @example
  * ```tsx
  * function Sage() {
@@ -360,9 +385,10 @@ interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
  * ```
  */
 export const ConversationEmbed = componentFactory<
-    typeof _ConversationEmbed, ConversationEmbedProps, ConversationViewConfig>(
-        _ConversationEmbed,
-    );
+    typeof _ConversationEmbed,
+    ConversationEmbedProps,
+    ConversationViewConfig
+>(_ConversationEmbed);
 
 interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
 
@@ -401,7 +427,7 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
 /**
  * React component for PreRendered Conversation embed.
  *
- * PreRenderedConversationEmbed will preRender the ConversationEmbed and will be hidden by
+ * PreRenderedConversationEmbed will preRender the SpotterEmbed and will be hidden by
  * default.
  *
  * SageEmbed with preRenderId passed will call showPreRender on the embed.
@@ -412,23 +438,24 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
  * }
  * ```
  * function MyComponent() {
- *  return <ConversationEmbed preRenderId="someId" worksheetId="id" />
+ *  return <SpotterEmbed preRenderId="someId" worksheetId="id" />
  * }
  * ```
  */
 export const PreRenderedConversationEmbed = componentFactory<
-    typeof _ConversationEmbed,
-    SageEmbedProps & PreRenderProps,
-    ConversationViewConfig
->(_ConversationEmbed, true);
+    typeof _SpotterEmbed,
+    SpotterEmbedProps & PreRenderProps,
+    SpotterEmbedViewConfig
+>(_SpotterEmbed, true);
 
 type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof ConversationEmbed
     | typeof BodylessConversationEmbed;
+    | typeof SpotterEmbed
+    | typeof ConversationEmbed;
 
 /**
  * Get a reference to the embed component to trigger events on the component.
