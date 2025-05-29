@@ -344,6 +344,51 @@ describe('React Components', () => {
             
             expect(mockSendMessage).toHaveBeenCalledWith("Test with useEmbedRef");
         });
+
+        it('Should work with the className prop', async () => {
+            let capturedInstance: any = null;
+            
+            const TestComponent = () => {
+                const embedRef = useEmbedRef<typeof SpotterAgentEmbed>();
+                
+                React.useEffect(() => {
+                    capturedInstance = embedRef.current;
+                    
+                    if (capturedInstance) {
+                        const mockConversationService = {
+                            sendMessage: jest.fn().mockResolvedValue({
+                                data: {
+                                    sessionId: 'test-session',
+                                    genNo: 1,
+                                    stateKey: {
+                                        transactionId: 'test-transaction',
+                                        generationNumber: 1
+                                    }
+                                }
+                            })
+                        };
+                        (capturedInstance as any).conversationService = mockConversationService;
+                    }
+                }, []);
+                
+                return (
+                    <SpotterAgentEmbed
+                        ref={embedRef}
+                        worksheetId="test-worksheet-id"
+                        className="embedClass"
+                    />
+                );
+            };
+            
+            render(<TestComponent />);
+            
+            expect(capturedInstance).not.toBeNull();
+            
+            if (capturedInstance) {
+                const result = await capturedInstance.sendMessage("test");
+                expect(result.container.className).toBe("embedClass");
+            }
+        });
     });
 
     describe('PreRenderedLiveboardEmbed', () => {
