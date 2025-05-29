@@ -2,6 +2,31 @@ import { ERROR_MESSAGE } from '../errors';
 import { HostEvent } from '../types';
 
 /**
+ * Handle the Present event locally before forwarding
+ * @param data - The event data
+ */
+function handlePresentEvent(iFrame: HTMLIFrameElement) {
+    const iframe = iFrame;
+    
+    if (!iframe) {
+      console.warn('No iframe found on the page');
+      return;
+    }
+  
+    if (iframe.requestFullscreen) {
+      iframe.requestFullscreen();
+    } else if ((iframe as any).webkitRequestFullscreen) {
+      (iframe as any).webkitRequestFullscreen();
+    } else if ((iframe as any).mozRequestFullScreen) {
+      (iframe as any).mozRequestFullScreen();
+    } else if ((iframe as any).msRequestFullscreen) {
+      (iframe as any).msRequestFullscreen();
+    } else {
+      console.error('Fullscreen API is not supported by this browser.');
+    }
+}
+
+/**
  * Reloads the ThoughtSpot iframe.
  * @param iFrame
  */
@@ -51,6 +76,11 @@ export function processTrigger(
             reload(iFrame);
             return res(null);
         }
+        
+        if (messageType === HostEvent.Present) {
+            handlePresentEvent(iFrame);
+        }
+        
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
             channel.port1.close();
