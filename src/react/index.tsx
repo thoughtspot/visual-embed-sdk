@@ -10,6 +10,7 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
+import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -23,7 +24,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     // Embed.preRender() method instead of the usual render method, and it will
     // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
-) => React.forwardRef<InstanceType<T>, U>(
+ ) => React.forwardRef<InstanceType<T>, U>(
     (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
         const ref = React.useRef<HTMLDivElement>(null);
         const { className, style, ...embedProps } = props;
@@ -382,6 +383,64 @@ export const ConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed);
 
+interface SpotterAgentEmbedProps extends EmbedProps, SpotterAgentEmbedViewConfig {}
+
+/**
+ * React component for SpotterAgent embed, which can be integrated inside
+ * chatbots or other conversational interfaces.
+ * @example
+ * ```tsx
+ * function SpotterAgent() {
+ *  const ref = useRef();
+ *  
+ *  const handleSendMessage = async () => {
+ *    const { container, error } = await ref.current.sendMessage('show me sales by region');
+ *    if (container) {
+ *      document.body.appendChild(container);
+ *    }
+ *  };
+ *  
+ *  return (
+ *    <div>
+ *      <SpotterAgentEmbed ref={ref} worksheetId="worksheetId" />
+ *      <button onClick={handleSendMessage}>Send Message</button>
+ *    </div>
+ *  );
+ * }
+ * ```
+ */
+export const SpotterAgentEmbed = React.forwardRef<_SpotterAgentEmbed, SpotterAgentEmbedProps>((props, ref) => {
+  const { className, ...restProps } = props;
+  const serviceRef = useRef<_SpotterAgentEmbed | null>(null);
+  
+  useDeepCompareEffect(() => {
+    if (serviceRef.current) {
+      serviceRef.current = null;
+    }
+    
+    const configProps = {
+      ...restProps,
+      ...(className ? { containerClassName: className } : {})
+    };
+    
+    serviceRef.current = new _SpotterAgentEmbed(configProps);
+    
+    if (ref) {
+      if (typeof ref === 'function') {
+        ref(serviceRef.current);
+      } else {
+        ref.current = serviceRef.current;
+      }
+    }
+    
+    return () => {
+      serviceRef.current = null;
+    };
+  }, [props]);
+  
+  return null;
+});
+
 /**
  * React component for PreRendered Conversation embed.
  *
@@ -411,6 +470,7 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
+    | typeof SpotterAgentEmbed
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
 
