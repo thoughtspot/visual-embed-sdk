@@ -35,6 +35,11 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
+import { isBrowser } from '../utils';
+import { 
+    markServerInitInDOM, 
+    wasInitializedOnServer,
+} from '../utils';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -71,6 +76,11 @@ export {
  * Perform authentication on the ThoughtSpot app as applicable.
  */
 export const handleAuth = (): Promise<boolean> => {
+    // If we already have an auth promise, return it
+    if (authPromise) {
+        return authPromise;
+    }
+    
     authPromise = authenticate(getEmbedConfig());
     authPromise.then(
         (isLoggedIn) => {
@@ -213,7 +223,7 @@ export const getInitPromise = ():
       ReturnType<typeof init>
     > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
 
-export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
+const SERVER_INIT_KEY = 'ts_server_initialized';
 
 /**
  * Initializes the Visual Embed SDK globally and perform
@@ -236,8 +246,11 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+    const isServerInit = !isBrowser();
+    
     sanity(embedConfig);
     resetAllCachedServices();
+    
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
@@ -247,30 +260,57 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
     );
 
     setGlobalLogLevelOverride(embedConfig.logLevel);
-    registerReportingObserver();
+    
+    if (isBrowser()) {
+        registerReportingObserver();
+    }
 
     const authEE = new EventEmitter<AuthStatus | AuthEvent>();
     setAuthEE(authEE);
-    handleAuth();
-
-    const { password, ...configToTrack } = getEmbedConfig();
-    uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
-        ...configToTrack,
-        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
-        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
-        usedCustomizationRules:
-            embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
-        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
-        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
-    });
-
-    if (getEmbedConfig().callPrefetch) {
-        prefetch(getEmbedConfig().thoughtSpotHost);
+    
+    if (embedConfig.authType === AuthType.TrustedAuthTokenCookieless) {
+        handleAuth();
+    } else if (isBrowser()) {
+        handleAuth();
     }
 
-    // Resolves the promise created in the initPromiseKey
-    getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
-    getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
+    if(isServerInit) {
+        storeValueInWindow(SERVER_INIT_KEY, true);
+    }
+
+    if (isBrowser()) {
+        const { password, ...configToTrack } = getEmbedConfig();
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
+            ...configToTrack,
+                usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+                usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+                usedCustomizationRules:
+                    embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+                usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+            usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
+        });
+
+        if (getEmbedConfig().callPrefetch) {
+            prefetch(getEmbedConfig().thoughtSpotHost);
+        }
+    }
+
+    const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
+    if (initFlagStore) {
+        initFlagStore.initPromiseResolve(authEE);
+        initFlagStore.isInitCalled = true;
+    }
+    
+    if (isServerInit) {
+        storeValueInWindow(SERVER_INIT_KEY, true);
+    } else if (isBrowser()) {
+        try {
+            localStorage.setItem(SERVER_INIT_KEY, 'true');
+        } catch {
+            // Ignore if localStorage isn't available
+        }
+        markServerInitInDOM();
+    }
 
     return authEE as AuthEventEmitter;
 };
@@ -456,4 +496,15 @@ export function reset(): void {
     setEmbedConfig({} as any);
     setAuthEE(null);
     authPromise = null;
+}
+
+// Check if init was called on client
+export function getIsInitCalled(): boolean {
+    const initFlagStore = getValueFromWindow<InitFlagStore>(initFlagKey);
+    return initFlagStore?.isInitCalled === true;
+}
+
+// New separate function to check any initialization
+export function hasAnyInitialization(): boolean {
+    return getIsInitCalled() || wasInitializedOnServer();
 }

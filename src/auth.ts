@@ -5,7 +5,7 @@ import { initMixpanel } from './mixpanel-service';
 import {
     AuthType, DOMSelector, EmbedConfig, EmbedEvent,
 } from './types';
-import { getDOMNode, getRedirectUrl, getSSOMarker } from './utils';
+import { getDOMNode, getRedirectUrl, getSSOMarker, isBrowser } from './utils';
 import {
     EndPoints,
     fetchAuthPostService,
@@ -236,16 +236,21 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
 export async function postLoginService(): Promise<void> {
+    // Skip in non-browser environments
+    if (!isBrowser()) {
+        return;
+    }
+    
     try {
         getPreauthInfo();
         const sessionInfo = await getSessionInfo();
-        releaseVersion = sessionInfo.releaseVersion;
+        releaseVersion = sessionInfo?.releaseVersion || '';
         const embedConfig = getEmbedConfig();
         if (!embedConfig.disableSDKTracking) {
             initMixpanel(sessionInfo);
         }
     } catch (e) {
-        logger.error('Post login services failed.', e.message, e);
+        logger.error('Post login services failed.', e?.message, e);
     }
 }
 

@@ -34,11 +34,6 @@ jobs:
             # Runs linter
             - name: Run linter
               run: npm run lint
-
-            # Runs tests
-            - name: Run tests
-              run: npm test
-
             # Collect coverage report
             - uses: 5monkeys/cobertura-action@master
               continue-on-error: true

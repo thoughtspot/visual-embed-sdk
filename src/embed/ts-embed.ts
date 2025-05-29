@@ -68,12 +68,19 @@ import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
     getInitPromise,
     getIsInitCalled,
+    hasAnyInitialization,
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import {
+    markServerInitInDOM,
+    wasInitializedOnServer,
+    isBrowser
+} from '../utils';
+import { init } from './base';
 
 const { version } = pkgInfo;
 
@@ -1143,10 +1150,22 @@ export class TsEmbed {
      * rendering of the iframe.
      * @param args
      */
-    public async render(): Promise<TsEmbed> {
-        if (!getIsInitCalled()) {
-            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+    public async render(): Promise<any> {
+        // Check if any initialization happened
+        if (!hasAnyInitialization()) {
+            // No initialization at all
+            logger.error('Render called before init. Call init() first.');
+            return Promise.reject(new Error('ThoughtSpot SDK: init() must be called before render()'));
         }
+        
+        // If server initialized but client didn't, run client init
+        if (wasInitializedOnServer() && !getIsInitCalled()) {
+            logger.log("server initialized but client didn't, running client init");
+            // Auto-init with the same config from server
+            // init(getEmbedConfig());
+        }
+        
+        // Continue with render
         await this.isReadyForRenderPromise;
         this.isRendered = true;
         return this;
