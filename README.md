@@ -7,7 +7,7 @@
 # ThoughtSpot Visual Embed SDK <br/> [![Coverage Status](https://coveralls.io/repos/github/thoughtspot/visual-embed-sdk/badge.svg?branch=main)](https://coveralls.io/github/thoughtspot/visual-embed-sdk?branch=main) ![npm (scoped with tag)](https://img.shields.io/npm/v/@thoughtspot/visual-embed-sdk) [![](https://data.jsdelivr.com/v1/package/npm/@thoughtspot/visual-embed-sdk/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@thoughtspot/visual-embed-sdk) ![npm](https://img.shields.io/npm/dm/@thoughtspot/visual-embed-sdk?label=npm%20downloads&style=flat-square) ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@thoughtspot/visual-embed-sdk?style=flat-square)
 
 
-SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to use the SDK, [click here](https://www.thoughtspot.com/trial?tsref=trialtse) to start a trial. 
+SDK to embed ThoughtSpot into your web apps.Testing You need a ThoughtSpot account to use the SDK, [click here](https://www.thoughtspot.com/trial?tsref=trialtse) to start a trial. 
 
    * [Installation](#installation)
    * [Live Playground](#live-playground)
