@@ -31,7 +31,7 @@ describe('SpotterAgentEmbed', () => {
         fetchMock.resetMocks();
     });
 
-    test('should render the bodyless conversation embed', async () => {
+    test('should render the SpotterAgent embed', async () => {
         fetchMock.mockResponses(
             JSON.stringify({
                 data: {
@@ -225,13 +225,13 @@ describe('SpotterAgentEmbed', () => {
             }),
         );
 
-        const viewConfig: BodylessConversationViewConfig = {
+        const viewConfig: SpotterAgentEmbedViewConfig = {
             worksheetId: 'worksheetId',
             containerClassName: 'custom-conversation-container',
         };
 
-        const conversationEmbed = new BodylessConversation(viewConfig);
-        const result = await conversationEmbed.sendMessage('userMessage');
+        const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterAgentEmbed.sendMessage('userMessage');
         
         // Verify that the container has the custom class name
         expect(result.container.className).toBe('custom-conversation-container');
@@ -333,13 +333,13 @@ describe('SpotterAgentEmbed', () => {
             }),
         );
 
-        const viewConfig: BodylessConversationViewConfig = {
+        const viewConfig: SpotterAgentEmbedViewConfig = {
             worksheetId: 'worksheetId',
             // No containerClassName provided
         };
 
-        const conversationEmbed = new BodylessConversation(viewConfig);
-        const result = await conversationEmbed.sendMessage('userMessage');
+        const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterAgentEmbed.sendMessage('userMessage');
         
         // Verify that the container has no class name (empty string)
         expect(result.container.className).toBe('');
@@ -432,13 +432,13 @@ describe('SpotterAgentEmbed', () => {
             }),
         );
 
-        const viewConfig: BodylessConversationViewConfig = {
+        const viewConfig: SpotterAgentEmbedViewConfig = {
             worksheetId: 'worksheetId',
             hiddenActions: [Action.Download, Action.Save], // This should trigger the HideActions branch
         };
 
-        const conversationEmbed = new BodylessConversation(viewConfig);
-        const result = await conversationEmbed.sendMessage('userMessage');
+        const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterAgentEmbed.sendMessage('userMessage');
         
         // Verify the iframe src contains the hideActions parameter
         const iframeSrc = getIFrameSrc(result.container);

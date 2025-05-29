@@ -10,7 +10,8 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
-import { BodylessConversationViewConfig, BodylessConversation } from '../embed/bodyless-conversation';
+import { BodylessConversationViewConfig } from '../embed/bodyless-conversation';
+import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
@@ -390,11 +391,35 @@ export const ConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed);
 
-interface BodylessConversationEmbedProps extends EmbedProps, BodylessConversationViewConfig {}
+interface SpotterAgentEmbedProps extends EmbedProps, SpotterAgentEmbedViewConfig {}
 
-export const BodylessConversationEmbed = React.forwardRef((props: BodylessConversationEmbedProps, ref) => {
+/**
+ * React component for SpotterAgent embed, which can be integrated inside
+ * chatbots or other conversational interfaces.
+ * @example
+ * ```tsx
+ * function SpotterAgent() {
+ *  const ref = useRef();
+ *  
+ *  const handleSendMessage = async () => {
+ *    const { container, error } = await ref.current.sendMessage('show me sales by region');
+ *    if (container) {
+ *      document.body.appendChild(container);
+ *    }
+ *  };
+ *  
+ *  return (
+ *    <div>
+ *      <SpotterAgentEmbed ref={ref} worksheetId="worksheetId" />
+ *      <button onClick={handleSendMessage}>Send Message</button>
+ *    </div>
+ *  );
+ * }
+ * ```
+ */
+export const SpotterAgentEmbed = React.forwardRef<_SpotterAgentEmbed, SpotterAgentEmbedProps>((props, ref) => {
   const { className, ...restProps } = props;
-  const serviceRef = useRef<BodylessConversation | null>(null);
+  const serviceRef = useRef<_SpotterAgentEmbed | null>(null);
   
   useDeepCompareEffect(() => {
     if (serviceRef.current) {
@@ -406,7 +431,7 @@ export const BodylessConversationEmbed = React.forwardRef((props: BodylessConver
       ...(className ? { containerClassName: className } : {})
     };
     
-    serviceRef.current = new BodylessConversation(configProps);
+    serviceRef.current = new _SpotterAgentEmbed(configProps);
     
     if (ref) {
       if (typeof ref === 'function') {
@@ -453,7 +478,7 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof BodylessConversationEmbed
+    | typeof SpotterAgentEmbed
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
 

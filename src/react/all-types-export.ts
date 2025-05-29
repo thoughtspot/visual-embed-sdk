@@ -12,7 +12,7 @@ export {
     SpotterEmbed,
     ConversationEmbed,
     PreRenderedConversationEmbed,
-    BodylessConversationEmbed,
+    SpotterAgentEmbed,
     useEmbedRef,
     useInit,
 } from './index';

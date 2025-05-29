@@ -16,7 +16,7 @@ import {
 } from '../test/test-utils';
 import {
     SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed,
-    BodylessConversationEmbed
+    SpotterAgentEmbed
 } from './index';
 import * as allExports from './index';
 import {
@@ -236,23 +236,15 @@ describe('React Components', () => {
         });
     });
 
-    describe('BodylessConversationEmbed', () => {
+    describe('SpotterAgentEmbed', () => {
         it('Should work as a React component integrating BodylessConversation', async () => {
             const mockDiv = document.createElement('div');
             
-            interface ConversationService {
-                sendMessage: (message: string) => Promise<{
-                    container: HTMLDivElement;
-                    viz?: any;
-                    error?: Error;
-                }>;
-            }
-            
-            let conversationService: ConversationService | null = null;
+            let conversationService: any = null;
             
             render(
-                <BodylessConversationEmbed
-                    ref={(instance: ConversationService) => {
+                <SpotterAgentEmbed
+                    ref={(instance: any) => {
                         conversationService = instance;
                         
                         if (instance) {
@@ -294,7 +286,7 @@ describe('React Components', () => {
                 
                 return (
                     <>
-                        <BodylessConversationEmbed
+                        <SpotterAgentEmbed
                             ref={conversationRef}
                             worksheetId="test-worksheet-id"
                         />
@@ -319,7 +311,7 @@ describe('React Components', () => {
             });
             
             const TestComponent = () => {
-                const embedRef = useEmbedRef<typeof BodylessConversationEmbed>();
+                const embedRef = useEmbedRef<typeof SpotterAgentEmbed>();
                 
                 const handleClick = () => {
                     if (embedRef.current) {
@@ -335,7 +327,7 @@ describe('React Components', () => {
                 
                 return (
                     <>
-                        <BodylessConversationEmbed
+                        <SpotterAgentEmbed
                             ref={embedRef}
                             worksheetId="test-worksheet-id"
                         />
@@ -404,7 +396,7 @@ describe('allExports', () => {
     it('should not have undefined exports', () => {
         Object.keys(allExports).forEach(
             (exportKey) => expect(
-                Boolean(allExports[exportKey]),
+                Boolean(allExports[exportKey as keyof typeof allExports]),
             )
                 .toBe(true),
         );
