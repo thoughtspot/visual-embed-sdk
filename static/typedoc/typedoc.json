@@ -12045,7 +12045,7 @@
 				"tags": [
 					{
 						"tag": "deprecated",
-						"text": "from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterAgentEmbed} instead"
+						"text": "from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterAgentEmbed} instead"
 					},
 					{
 						"tag": "example",
@@ -12326,7 +12326,7 @@
 				"tags": [
 					{
 						"tag": "deprecated",
-						"text": "from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterEmbed} instead"
+						"text": "from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterEmbed} instead"
 					},
 					{
 						"tag": "group",
@@ -23288,7 +23288,7 @@
 				"tags": [
 					{
 						"tag": "deprecated",
-						"text": "from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterAgentEmbedViewConfig} instead"
+						"text": "from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterAgentEmbedViewConfig} instead"
 					},
 					{
 						"tag": "group",
@@ -24725,7 +24725,7 @@
 				"tags": [
 					{
 						"tag": "deprecated",
-						"text": "from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterEmbedViewConfig} instead"
+						"text": "from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\nUse {@link SpotterEmbedViewConfig} instead"
 					},
 					{
 						"tag": "group",
