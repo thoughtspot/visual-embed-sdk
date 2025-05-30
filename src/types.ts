@@ -677,9 +677,9 @@ export interface FrameParams {
 }
 
 /**
- * The configuration object for an embedded view.
+ * The common configuration object for an embedded view.
  */
-export interface ViewConfig {
+export interface CommonViewConfig {
     /**
      * @hidden
      */
@@ -724,19 +724,6 @@ export interface ViewConfig {
      * ```
      */
     disabledActions?: Action[];
-    /**
-     * The primary action to display on top of the viz for Liveboard and App Embed.
-     * Use this to set the primary action.
-     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   primaryAction: Action.Download
-     * });
-     * ```
-     */
-    primaryAction?: Action | string;
     /**
      * The tooltip to display for disabled actions.
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -783,56 +770,6 @@ export interface ViewConfig {
      * ```
      */
     visibleActions?: Action[];
-    /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-    showAlerts?: boolean;
-    /**
-     * The list of runtime filters to apply to a search Answer,
-     * visualization, or Liveboard.
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
-     *    runtimeFilters: [
-     *           {
-     *             columnName: 'value',
-     *              operator: RuntimeFilterOp.EQ,
-     *             values: ['string' | 123 | true],
-     *           },
-     *       ],
-     * })
-     * ```
-     */
-    runtimeFilters?: RuntimeFilter[];
-    /**
-     * The list of parameter override to apply to a search Answer,
-     * visualization, or Liveboard.
-     * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
-     *    runtimeParameters: [
-     *     {
-     *       name: 'value',
-     *       value: 'string' | 123 | true,
-     *     },
-     *   ],
-     * })
-     * ```
-     */
-    runtimeParameters?: RuntimeParameter[];
     /**
      * The locale settings to apply to the embedded view.
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
@@ -887,6 +824,173 @@ export interface ViewConfig {
      */
     insertAsSibling?: boolean;
     /**
+     * Use a pre-rendered iframe from a pool of pre-rendered iframes
+     * if available and matches the configuration.
+     * @version SDK: 1.22.0
+     * @hidden
+     *
+     * See [docs]() on how to create a prerender pool.
+     */
+    usePrerenderedIfAvailable?: boolean;
+    /**
+     * PreRender id to be used for PreRendering the embed.
+     * Use PreRender to render the embed in the background and then
+     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   preRenderId: "preRenderId-123"
+     * });
+     * embed.showPreRender();
+     * ```
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
+     */
+    preRenderId?: string;
+
+    /**
+     * Determines if the PreRender component should dynamically track the size
+     * of its embedding element and adjust its own size accordingly.
+     * Enabling this option allows the PreRender component to automatically adapt
+     * its dimensions based on changes to the size of the embedding element.
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw
+     * @example
+     * ```js
+     * // Disable tracking PreRender size in the configuration
+     * const config = {
+     *   doNotTrackPreRenderSize: true,
+     * };
+     *
+     * // Instantiate an object with the configuration
+     * const myComponent = new MyComponent(config);
+     * ```
+     */
+    doNotTrackPreRenderSize?: boolean;
+    /**
+     * Enable the V2 shell. This can provide performance benefits
+     * due to a lighterweight shell.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   liveboardId: '123',
+     *   enableV2Shell_experimental: true
+     * });
+     * ```
+     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
+     */
+    // eslint-disable-next-line camelcase
+    enableV2Shell_experimental?: boolean;
+    /**
+     * For internal tracking of the embed component type.
+     * @hidden
+     */
+    embedComponentType?: string;
+    /**
+     * This flag can be used to expose translation IDs on the embedded app.
+     * @default false
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+     */
+    exposeTranslationIDs?: boolean;
+    /**
+     * This flag can be used to disable links inside the embedded app,
+     * and disable redirection of links in a new tab.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   disableRedirectionLinksInNewTab: true
+     * });
+     * ```
+     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
+     */
+    disableRedirectionLinksInNewTab?: boolean;
+    /**
+     * Overrides an Org context for embedding application users.
+     * This parameter allows a user authenticated to one Org to view the
+     * objects from another Org.
+     * The `overrideOrgId` setting is honoured only if the
+     * Per Org URL feature is enabled on your ThoughtSpot instance.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other options
+     *   overrideOrgId: 142536
+     * });
+     * ```
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
+     */
+    overrideOrgId?: number;
+}
+
+/**
+ * The configuration object for an embedded view.
+ */
+export interface ViewConfig extends CommonViewConfig {
+    /**
+     * The primary action to display on top of the viz for Liveboard and App Embed.
+     * Use this to set the primary action.
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   primaryAction: Action.Download
+     * });
+     * ```
+     */
+    primaryAction?: Action | string;
+    /**
+     * Show alert messages and toast messages in the embedded
+     * view in full app embed.
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    showAlerts:true,
+     * })
+     * ```
+     */
+    showAlerts?: boolean;
+    /**
+     * The list of runtime filters to apply to a search Answer,
+     * visualization, or Liveboard.
+     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    runtimeFilters: [
+     *           {
+     *             columnName: 'value',
+     *              operator: RuntimeFilterOp.EQ,
+     *             values: ['string' | 123 | true],
+     *           },
+     *       ],
+     * })
+     * ```
+     */
+    runtimeFilters?: RuntimeFilter[];
+    /**
+     * The list of parameter override to apply to a search Answer,
+     * visualization, or Liveboard.
+     * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    runtimeParameters: [
+     *     {
+     *       name: 'value',
+     *       value: 'string' | 123 | true,
+     *     },
+     *   ],
+     * })
+     * ```
+     */
+    runtimeParameters?: RuntimeParameter[];
+    /**
      * flag to set ContextMenu Trigger to either left or right click.
      * @example
      * ```js
@@ -916,15 +1020,6 @@ export interface ViewConfig {
      * @private
      */
     insertInToSlide?: boolean;
-    /**
-     * Use a pre-rendered iframe from a pool of pre-rendered iframes
-     * if available and matches the configuration.
-     * @version SDK: 1.22.0
-     * @hidden
-     *
-     * See [docs]() on how to create a prerender pool.
-     */
-    usePrerenderedIfAvailable?: boolean;
     /**
      * Boolean to exclude runtimeFilters in the URL
      * By default it is true, this flag removes runtime filters from the URL
@@ -1023,47 +1118,6 @@ export interface ViewConfig {
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
-     * PreRender id to be used for PreRendering the embed.
-     * Use PreRender to render the embed in the background and then
-     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   preRenderId: "preRenderId-123"
-     * });
-     * embed.showPreRender();
-     * ```
-     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
-     */
-    preRenderId?: string;
-
-    /**
-     * Determines if the PreRender component should dynamically track the size
-     * of its embedding element and adjust its own size accordingly.
-     * Enabling this option allows the PreRender component to automatically adapt
-     * its dimensions based on changes to the size of the embedding element.
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw
-     * @example
-     * ```js
-     * // Disable tracking PreRender size in the configuration
-     * const config = {
-     *   doNotTrackPreRenderSize: true,
-     * };
-     *
-     * // Instantiate an object with the configuration
-     * const myComponent = new MyComponent(config);
-     * ```
-     */
-    doNotTrackPreRenderSize?: boolean;
-    /**
-     * For internal tracking of the embed component type.
-     * @hidden
-     */
-    embedComponentType?: string;
-    /**
      * Boolean to exclude runtimeParameters from the URL
      * when set to true, this flag removes runtime parameters from the URL.
      *
@@ -1073,20 +1127,6 @@ export interface ViewConfig {
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
-    /**
-     * Enable the V2 shell. This can provide performance benefits
-     * due to a lighterweight shell.
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   liveboardId: '123',
-     *   enableV2Shell_experimental: true
-     * });
-     * ```
-     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
-     */
-    // eslint-disable-next-line camelcase
-    enableV2Shell_experimental?: boolean;
     /**
      * To set the initial state of the search bar in case of saved Answers.
      * @default true
@@ -1099,24 +1139,6 @@ export interface ViewConfig {
      * });
      */
     collapseSearchBar?: boolean;
-    /**
-     * This flag can be used to expose translation IDs on the embedded app.
-     * @default false
-     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
-     */
-    exposeTranslationIDs?: boolean;
-    /**
-     * This flag can be used to disable links inside the embedded app,
-     * and disable redirection of links in a new tab.
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   disableRedirectionLinksInNewTab: true
-     * });
-     * ```
-     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
-     */
-    disableRedirectionLinksInNewTab?: boolean;
     /**
      * Flag to control Data panel experience
      * @default false
@@ -1143,22 +1165,6 @@ export interface ViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
-    /**
-     * Overrides an Org context for embedding application users.
-     * This parameter allows a user authenticated to one Org to view the
-     * objects from another Org.
-     * The `overrideOrgId` setting is honoured only if the
-     * Per Org URL feature is enabled on your ThoughtSpot instance.
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other options
-     *   overrideOrgId: 142536
-     * });
-     * ```
-     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
-     */
-    overrideOrgId?: number;
     /**
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
