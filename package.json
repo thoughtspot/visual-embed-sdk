@@ -85,7 +85,7 @@
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^11.2.1",
         "@rollup/plugin-replace": "^5.0.2",
-        "@size-limit/preset-big-lib": "^8.2.6",
+        "@size-limit/preset-big-lib": "^11.2.0",
         "@testing-library/dom": "^7.31.0",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^11.2.7",
