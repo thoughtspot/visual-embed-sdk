@@ -1,4 +1,4 @@
-import { ViewConfig, Param } from '../types';
+import { Param, BaseViewConfig } from '../types';
 import { TsEmbed } from './ts-embed';
 import { Conversation as ConversationService } from '../utils/graphql/nlsService/conversation-service';
 import { getEmbedConfig } from './embedConfig';
@@ -8,7 +8,7 @@ import { getQueryParamString } from '../utils';
  * Configuration for bodyless conversation options.
  * @group Embed components
  */
-export interface SpotterAgentEmbedViewConfig extends ViewConfig {
+export interface SpotterAgentEmbedViewConfig extends BaseViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
