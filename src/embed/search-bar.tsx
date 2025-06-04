@@ -12,11 +12,10 @@ export interface SearchBarViewConfig
         | 'runtimeFilters'
         | 'showAlerts'
         | 'dataPanelV2'
-        | 'hiddenHomepageModules'
-        | 'hiddenHomeLeftNavItems'
         | 'hiddenTabs'
         | 'visibleTabs'
-        | 'reorderedHomepageModules'
+        | 'primaryAction'
+        | 'runtimeParameters'
     > {
     /**
      * The array of data source GUIDs to set on load.

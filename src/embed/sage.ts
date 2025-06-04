@@ -36,7 +36,7 @@ export interface SearchOptions {
 export interface SageViewConfig
     extends Omit<
         ViewConfig,
-        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'hiddenTabs' | 'visibleTabs' | 'reorderedHomepageModules'
+        'hiddenTabs' | 'visibleTabs' | 'primaryAction' | 'showAlerts'
     > {
     /**
      * If set to true, a list of Liveboard and Answers related

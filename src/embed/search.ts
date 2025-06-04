@@ -70,11 +70,9 @@ export enum DataPanelCustomColumnGroupsAccordionState {
 export interface SearchViewConfig
     extends Omit<
         ViewConfig,
-        | 'hiddenHomepageModules'
-        | 'hiddenHomeLeftNavItems'
         | 'hiddenTabs'
         | 'visibleTabs'
-        | 'reorderedHomepageModules'
+        | 'primaryAction'
     > {
     /**
      * If set to true, the data sources panel is collapsed on load,

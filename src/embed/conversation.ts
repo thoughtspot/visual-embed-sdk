@@ -20,7 +20,7 @@ export interface SearchOptions {
  */
 export interface SpotterEmbedViewConfig extends BaseViewConfig {
     /**
-     * The ID of the worksheet to use for the conversation.
+     * The ID of the data source object. For example, Model, View, or Table. Spotter uses this object to query data and generate Answers.
      */
     worksheetId: string;
     /**
