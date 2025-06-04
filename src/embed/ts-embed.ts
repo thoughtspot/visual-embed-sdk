@@ -454,6 +454,29 @@ export class TsEmbed {
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
+    private exitPresentMode = (_: any, responder: any) => {
+        console.log('exitPresentMode');
+
+        const iframe = this.iFrame;
+    
+        if (!iframe) {
+          console.warn('No iframe found on the page');
+          return;
+        }
+      
+        if ((iframe as any).exitFullScreen) {
+          (iframe as any).exitFullScreen();
+        } else if ((iframe as any).webkitExitFullscreen) {
+          (iframe as any).webkitExitFullscreen();
+        } else if ((iframe as any).mozCancelFullScreen) {
+          (iframe as any).mozCancelFullScreen();
+        } else if ((iframe as any).msExitFullscreen) {
+          (iframe as any).msExitFullscreen();
+        } else {
+          console.error('Fullscreen API is not supported by this browser.');
+        }
+    };
+
     /**
      * Register APP_INIT event and sendback init payload
      */
@@ -461,6 +484,7 @@ export class TsEmbed {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
+        this.on(EmbedEvent.ExitPresentMode, this.exitPresentMode, { start: false }, true);
     };
 
     /**

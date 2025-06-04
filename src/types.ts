@@ -2447,6 +2447,11 @@ export enum EmbedEvent {
      * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
      CreateModel = 'createModel',
+    /**
+     * Emitted when a user exits present mode.
+     * @version SDK : 1.39.0 | ThoughtSpot : 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**
