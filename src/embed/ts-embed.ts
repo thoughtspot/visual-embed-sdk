@@ -457,21 +457,19 @@ export class TsEmbed {
     private exitPresentMode = (_: any, responder: any) => {
         console.log('exitPresentMode');
 
-        const iframe = this.iFrame;
-    
-        if (!iframe) {
-          console.warn('No iframe found on the page');
+        if (!window.document) {
+          console.warn('No document found on the page');
           return;
         }
       
-        if ((iframe as any).exitFullScreen) {
-          (iframe as any).exitFullScreen();
-        } else if ((iframe as any).webkitExitFullscreen) {
-          (iframe as any).webkitExitFullscreen();
-        } else if ((iframe as any).mozCancelFullScreen) {
-          (iframe as any).mozCancelFullScreen();
-        } else if ((iframe as any).msExitFullscreen) {
-          (iframe as any).msExitFullscreen();
+        if ((window.document as any).exitFullScreen) {
+          (window.document as any).exitFullScreen();
+        } else if ((window.document as any).webkitExitFullscreen) {
+          (window.document as any).webkitExitFullscreen();
+        } else if ((window.document as any).mozCancelFullScreen) {
+          (window.document as any).mozCancelFullScreen();
+        } else if ((window.document as any).msExitFullscreen) {
+          (window.document as any).msExitFullscreen();
         } else {
           console.error('Fullscreen API is not supported by this browser.');
         }
