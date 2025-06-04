@@ -679,7 +679,7 @@ export interface FrameParams {
 /**
  * The common configuration object for an embedded view.
  */
-export interface CommonViewConfig {
+export interface BaseViewConfig {
     /**
      * @hidden
      */
@@ -921,12 +921,18 @@ export interface CommonViewConfig {
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
-}
-
-/**
- * The configuration object for an embedded view.
- */
-export interface ViewConfig extends CommonViewConfig {
+    /**
+     * Flag to override the *Open Link in New Tab* context menu option.
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    linkOverride:false,
+     * })
+     * ```
+     */
+    linkOverride?: boolean;
     /**
      * The primary action to display on top of the viz for Liveboard and App Embed.
      * Use this to set the primary action.
@@ -941,6 +947,88 @@ export interface ViewConfig extends CommonViewConfig {
      */
     primaryAction?: Action | string;
     /**
+     * flag to enable insert into slides action
+     * @hidden
+     * @private
+     */
+    insertInToSlide?: boolean;
+}
+
+export interface HomePageConfig {
+    /**
+     * Hide list page columns
+     * For example: hiddenListColumns = [ListPageColumns.Author]
+     *
+     * **Note**: This option is available only in full app embedding.
+     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
+     * })
+     * ```
+     */
+    hiddenListColumns?: ListPageColumns[];
+    /**
+     * Hide the home page modules
+     * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
+     * })
+     * ```
+     */
+    hiddenHomepageModules?: HomepageModule[];
+    /**
+     * reordering the home page modules
+     * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]
+     * })
+     * ```
+     */
+    reorderedHomepageModules?: HomepageModule[];
+    /**
+     * homepageLeftNavItems : Show or hide the left navigation bar items.
+     * There are 8 eight home navigation list items.
+     * To hide these items, specify the string in the array.
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
+     * })
+     * ```
+     *
+     * **Note**: This option does not apply to the classic homepage.
+     * To access the updated modular homepage, set
+     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     */
+    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
+}
+
+/**
+ * The configuration object for an embedded view.
+ */
+export interface ViewConfig extends BaseViewConfig {
+     /**
      * Show alert messages and toast messages in the embedded
      * view in full app embed.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -952,7 +1040,7 @@ export interface ViewConfig extends CommonViewConfig {
      * })
      * ```
      */
-    showAlerts?: boolean;
+     showAlerts?: boolean;
     /**
      * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
@@ -1003,24 +1091,6 @@ export interface ViewConfig extends CommonViewConfig {
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
     /**
-     * Flag to override the *Open Link in New Tab* context menu option.
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
-     *    linkOverride:false,
-     * })
-     * ```
-     */
-    linkOverride?: boolean;
-    /**
-     * flag to enable insert into slides action
-     * @hidden
-     * @private
-     */
-    insertInToSlide?: boolean;
-    /**
      * Boolean to exclude runtimeFilters in the URL
      * By default it is true, this flag removes runtime filters from the URL
      * when set to false, runtime filters will be included in the URL.
@@ -1048,40 +1118,6 @@ export interface ViewConfig extends CommonViewConfig {
      */
     hiddenTabs?: string[];
     /**
-     * Hide the home page modules
-     * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
-     * })
-     * ```
-     */
-    hiddenHomepageModules?: HomepageModule[];
-    /**
-     * reordering the home page modules
-     * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]
-     * })
-     * ```
-     */
-    reorderedHomepageModules?: HomepageModule[];
-    /**
      * The list of tab IDs to show in the embedded Liveboard.
      * Only the tabs specified in the array will be shown in the Liveboard.
      *
@@ -1099,24 +1135,6 @@ export interface ViewConfig extends CommonViewConfig {
      * ```
      */
     visibleTabs?: string[];
-    /**
-     * homepageLeftNavItems : Show or hide the left navigation bar items.
-     * There are 8 eight home navigation list items.
-     * To hide these items, specify the string in the array.
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
-     * })
-     * ```
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
-     */
-    hiddenHomeLeftNavItems?: HomeLeftNavItem[];
     /**
      * Boolean to exclude runtimeParameters from the URL
      * when set to true, this flag removes runtime parameters from the URL.
@@ -1165,21 +1183,6 @@ export interface ViewConfig extends CommonViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
-    /**
-     * Hide list page columns
-     * For example: hiddenListColumns = [ListPageColumns.Author]
-     *
-     * **Note**: This option is available only in full app embedding.
-     * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
-     * })
-     * ```
-     */
-    hiddenListColumns?: ListPageColumns[];
 }
 
 /**

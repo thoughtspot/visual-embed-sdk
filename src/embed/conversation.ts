@@ -1,10 +1,10 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, CommonViewConfig } from '../types';
+import { Param, BaseViewConfig } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString } from '../utils';
 
-/**
+/** 
  * Configuration for search options
  */
 export interface SearchOptions {
@@ -18,7 +18,7 @@ export interface SearchOptions {
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
-export interface SpotterEmbedViewConfig extends CommonViewConfig {
+export interface SpotterEmbedViewConfig extends BaseViewConfig {
     /**
      * The ID of the worksheet to use for the conversation.
      */
