@@ -242,12 +242,14 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
+     * Supported embed types: LiveboardEmbed, AppEmbed
      * @default false
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @example
      * ```js
-     * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SpotterEmbed, or LiveboardEmbed
+     * const embed = new <EmbedType>('#tsEmbed', {
+     *    ... // other embed view config
      *    enableAskSage:true,
      * })
      * ```
