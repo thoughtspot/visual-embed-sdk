@@ -12352,7 +12352,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 202,
+							"line": 205,
 							"character": 4
 						}
 					],
@@ -12538,7 +12538,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 127,
+							"line": 130,
 							"character": 11
 						}
 					],
@@ -13166,7 +13166,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 175,
+							"line": 178,
 							"character": 17
 						}
 					],
@@ -13558,7 +13558,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 201,
+					"line": 204,
 					"character": 13
 				}
 			],
@@ -18856,7 +18856,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 122,
+							"line": 125,
 							"character": 4
 						}
 					],
@@ -19036,7 +19036,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 127,
+							"line": 130,
 							"character": 11
 						}
 					],
@@ -19646,7 +19646,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 175,
+							"line": 178,
 							"character": 17
 						}
 					],
@@ -20028,7 +20028,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 121,
+					"line": 124,
 					"character": 13
 				}
 			],
@@ -24195,6 +24195,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
+						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
 						"tags": [
 							{
 								"tag": "default",
@@ -24202,18 +24203,18 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl"
+								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl"
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   dataPanelV2: true,\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   dataPanelV2: true,\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 67,
+							"line": 70,
 							"character": 4
 						}
 					],
@@ -24616,7 +24617,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 94,
+							"line": 97,
 							"character": 4
 						}
 					],
@@ -24915,7 +24916,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 81,
+							"line": 84,
 							"character": 4
 						}
 					],
@@ -25037,7 +25038,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 104,
+					"line": 107,
 					"character": 17
 				}
 			],
@@ -36805,6 +36806,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
+						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
 						"tags": [
 							{
 								"tag": "default",
@@ -36812,18 +36814,18 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl"
+								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl"
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   dataPanelV2: true,\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   dataPanelV2: true,\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 67,
+							"line": 70,
 							"character": 4
 						}
 					],
@@ -37208,7 +37210,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 94,
+							"line": 97,
 							"character": 4
 						}
 					],
@@ -37487,7 +37489,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 81,
+							"line": 84,
 							"character": 4
 						}
 					],
@@ -37611,17 +37613,8 @@
 							"name": "BaseViewConfig"
 						},
 						{
-							"type": "union",
-							"types": [
-								{
-									"type": "literal",
-									"value": "primaryAction"
-								},
-								{
-									"type": "literal",
-									"value": "dataPanelV2"
-								}
-							]
+							"type": "literal",
+							"value": "primaryAction"
 						}
 					],
 					"name": "Omit"
