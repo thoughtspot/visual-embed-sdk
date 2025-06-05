@@ -931,7 +931,7 @@ export interface BaseViewConfig {
      * @example
      * ```js
      * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new EmbedType('#embed', {
+     * const embed = new <EmbedType>('#tsEmbed', {
      *   ... // other embed view config
      *   disableRedirectionLinksInNewTab: true
      * });
@@ -950,7 +950,7 @@ export interface BaseViewConfig {
      * @example
      * ```js
      * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new EmbedType('#embed', {
+     * const embed = new <EmbedType>('#tsEmbed', {
      *   ... // other embed view config
      *   overrideOrgId: 142536
      * });

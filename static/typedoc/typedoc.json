@@ -20428,7 +20428,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -21857,7 +21857,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23423,7 +23423,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23867,7 +23867,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24241,7 +24241,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24799,7 +24799,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -29702,7 +29702,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -30681,7 +30681,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -31814,7 +31814,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -32543,7 +32543,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33212,7 +33212,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33796,7 +33796,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -34572,7 +34572,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -35387,7 +35387,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36042,7 +36042,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36475,7 +36475,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36846,7 +36846,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -37378,7 +37378,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new EmbedType('#embed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
 							},
 							{
 								"tag": "version",
