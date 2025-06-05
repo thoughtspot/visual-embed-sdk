@@ -18,7 +18,7 @@ export interface SearchOptions {
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
-export interface SpotterEmbedViewConfig extends BaseViewConfig {
+export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction' | 'dataPanelV2'> {
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses this object to query data and generate Answers.
      */
