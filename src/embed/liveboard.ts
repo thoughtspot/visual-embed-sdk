@@ -36,7 +36,7 @@ const liveboardHeightWhitelistedRoutes = [
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
  */
-export interface LiveboardViewConfig extends ViewConfig{
+export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.

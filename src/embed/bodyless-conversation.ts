@@ -8,7 +8,7 @@ import { getQueryParamString } from '../utils';
  * Configuration for bodyless conversation options.
  * @group Embed components
  */
-export interface SpotterAgentEmbedViewConfig extends BaseViewConfig {
+export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
      * The ID of the worksheet to use for the conversation.
      */

@@ -690,8 +690,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   frameParams: {
      *     width: '500px' | '50%',
      *      height: '400px' | '60%',
@@ -717,8 +718,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed    
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   disabledActions: [Action.Download, Action.Save]
      * });
      * ```
@@ -729,8 +731,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   disabledActions: [Action.Download, Action.Save]
      *   disabledActionReason: "Reason for disabling",
      * });
@@ -744,8 +747,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   hiddenActions: [Action.Download, Action.Export]
      * });
      * ```
@@ -763,8 +767,9 @@ export interface BaseViewConfig {
      * @important
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   visibleActions: [Action.Download, Action.Export]
      * });
      * ```
@@ -775,8 +780,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    locale:'en',
      * })
      * ```
@@ -792,8 +798,9 @@ export interface BaseViewConfig {
      * list of supported keys and values associated with each.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   additionalFlags: {
      *        flag1: 'value1',
      *        flag2: 'value2'
@@ -816,8 +823,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    insertAsSibling:true,
      * })
      * ```
@@ -838,8 +846,9 @@ export interface BaseViewConfig {
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   preRenderId: "preRenderId-123"
      * });
      * embed.showPreRender();
@@ -873,8 +882,9 @@ export interface BaseViewConfig {
      * due to a lighterweight shell.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   liveboardId: '123',
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   enableV2Shell_experimental: true
      * });
      * ```
@@ -898,7 +908,9 @@ export interface BaseViewConfig {
      * and disable redirection of links in a new tab.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   disableRedirectionLinksInNewTab: true
      * });
      * ```
@@ -913,8 +925,9 @@ export interface BaseViewConfig {
      * Per Org URL feature is enabled on your ThoughtSpot instance.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   overrideOrgId: 142536
      * });
      * ```
@@ -926,8 +939,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    linkOverride:false,
      * })
      * ```
@@ -939,8 +953,9 @@ export interface BaseViewConfig {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   primaryAction: Action.Download
      * });
      * ```
@@ -1047,8 +1062,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    runtimeFilters: [
      *           {
      *             columnName: 'value',
@@ -1066,8 +1082,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed, SageEmbed, SearchEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    runtimeParameters: [
      *     {
      *       name: 'value',
@@ -1082,8 +1099,9 @@ export interface ViewConfig extends BaseViewConfig {
      * flag to set ContextMenu Trigger to either left or right click.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or SageEmbed, SearchEmbed
+     * const embed = new EmbedType('#tsEmbed', {
+     *    ... // other embed view config
      *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
      * })
      * ```
@@ -1107,8 +1125,9 @@ export interface ViewConfig extends BaseViewConfig {
      * Use this to hide an tabID.
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
+     * const EmbedType = AppEmbed; // or LiveboardEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   hiddenTabs: [
      * '430496d6-6903-4601-937e-2c691821af3c',
      *  'f547ec54-2a37-4516-a222-2b06719af726']
@@ -1125,8 +1144,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     * const EmbedType = AppEmbed; // or LiveboardEmbed
+     * const embed = new EmbedType('#embed-container', {
+     *    ... // other embed view config
      *    visibleTabs: [
      *       '430496d6-6903-4601-937e-2c691821af3c',
      *       'f547ec54-2a37-4516-a222-2b06719af726'
@@ -1151,8 +1171,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   liveboardId: '123',
+     * const EmbedType = SageEmbed; // or AppEmbed, SearchBarEmbed
+     * const embed = new EmbedType('#embed', {
+     *   ... // other embed view config
      *   collapseSearchBar: true
      * });
      */
@@ -1163,8 +1184,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      * @example
      * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     * const EmbedType = SageEmbed; // or AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed
+     * const embed = new EmbedType('#tsEmbed', {
+     *    ... // other embed view config
      *    dataPanelV2: true,
      * })
      * ```
@@ -1176,8 +1198,9 @@ export interface ViewConfig extends BaseViewConfig {
      * @default false
      * @example
      * ```js
-     * const embed = new SearchEmbed('#tsEmbed', {
-     *   ... // other options
+     * const EmbedType = SageEmbed; // or SearchBarEmbed, LiveboardEmbed, SearchEmbed
+     * const embed = new EmbedType('#tsEmbed', {
+     *   ... // other embed view config
      *   enableCustomColumnGroups: true,
      * });
      * ```
