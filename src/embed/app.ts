@@ -129,7 +129,7 @@ export interface DiscoveryExperience {
  * The view configuration for full app embedding.
  * @group Embed components
  */
-export interface AppViewConfig extends HomePageConfig, Omit<ViewConfig, 'visibleTabs'|'hiddenTabs'|'collapseSearchBar'|'enableCustomColumnGroups'> {
+export interface AppViewConfig extends HomePageConfig, Omit<ViewConfig, 'visibleTabs'|'hiddenTabs'> {
     /**
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.

@@ -74,7 +74,6 @@ export interface SearchViewConfig
         | 'visibleTabs'
         | 'primaryAction'
         | 'showAlerts'
-        | 'collapseSearchBar'
     > {
     /**
      * If set to true, the data sources panel is collapsed on load,
