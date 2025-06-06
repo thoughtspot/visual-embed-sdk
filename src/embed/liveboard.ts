@@ -24,7 +24,7 @@ import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
-import { logger } from 'src/utils/logger';
+import { logger } from '../utils/logger';
 
 const liveboardHeightWhitelistedRoutes = [
     '/embed/viz/',
