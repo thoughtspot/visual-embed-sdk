@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from '../errors';
 import { HostEvent } from '../types';
+import { logger } from '../utils/logger';
 
 /**
  * Handle the Present event locally before forwarding
@@ -9,7 +10,7 @@ function handlePresentEvent(iFrame: HTMLIFrameElement) {
     const iframe = iFrame;
     
     if (!iframe) {
-        console.warn('No iframe found on the page');
+        logger.warn('No iframe found on the page');
         return;
     }
 
@@ -42,19 +43,19 @@ function handlePresentEvent(iFrame: HTMLIFrameElement) {
                 const result = (iframe as any)[method]();
                 if (result && typeof result.catch === 'function') {
                     result.catch((error: any) => {
-                        console.warn(`Failed to enter fullscreen using ${method}:`, error);
+                        logger.warn(`Failed to enter fullscreen using ${method}:`, error);
                     });
                 }
                 fullscreenRequested = true;
                 break;
             } catch (error) {
-                console.warn(`Failed to enter fullscreen using ${method}:`, error);
+                logger.warn(`Failed to enter fullscreen using ${method}:`, error);
             }
         }
     }
 
     if (!fullscreenRequested) {
-        console.error('Fullscreen API is not supported by this browser.');
+        logger.error('Fullscreen API is not supported by this browser.');
     }
 }
 

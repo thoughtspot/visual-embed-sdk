@@ -10,6 +10,7 @@ import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
+import { logger } from '../utils/logger';
 
 /**
  * Default handler for exitPresentMode event - exits fullscreen
@@ -42,21 +43,22 @@ function handleExitPresentMode(): void {
         if (typeof (document as any)[method] === 'function') {
             try {
                 const result = (document as any)[method]();
+                // Handle promise-based methods
                 if (result && typeof result.catch === 'function') {
                     result.catch((error: any) => {
-                        console.warn(`Failed to exit fullscreen using ${method}:`, error);
+                        logger.warn(`Failed to exit fullscreen using ${method}:`, error);
                     });
                 }
                 fullscreenExited = true;
                 break;
             } catch (error) {
-                console.warn(`Failed to exit fullscreen using ${method}:`, error);
+                logger.warn(`Failed to exit fullscreen using ${method}:`, error);
             }
         }
     }
 
     if (!fullscreenExited) {
-        console.warn('Exit fullscreen API is not supported by this browser.');
+        logger.warn('Exit fullscreen API is not supported by this browser.');
     }
 }
 
