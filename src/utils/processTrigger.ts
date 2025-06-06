@@ -3,26 +3,58 @@ import { HostEvent } from '../types';
 
 /**
  * Handle the Present event locally before forwarding
- * @param data - The event data
+ * @param iFrame - The iframe element to make fullscreen
  */
 function handlePresentEvent(iFrame: HTMLIFrameElement) {
     const iframe = iFrame;
     
     if (!iframe) {
-      console.warn('No iframe found on the page');
-      return;
+        console.warn('No iframe found on the page');
+        return;
     }
-  
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen();
-    } else if ((iframe as any).webkitRequestFullscreen) {
-      (iframe as any).webkitRequestFullscreen();
-    } else if ((iframe as any).mozRequestFullScreen) {
-      (iframe as any).mozRequestFullScreen();
-    } else if ((iframe as any).msRequestFullscreen) {
-      (iframe as any).msRequestFullscreen();
-    } else {
-      console.error('Fullscreen API is not supported by this browser.');
+
+    // Check if already in fullscreen mode
+    const isInFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+    );
+
+    if (isInFullscreen) {
+        // Already in fullscreen, nothing to do
+        return;
+    }
+
+    // Try to request fullscreen with vendor prefixes and error handling
+    const fullscreenMethods = [
+        'requestFullscreen',
+        'webkitRequestFullscreen', 
+        'mozRequestFullScreen',
+        'msRequestFullscreen'
+    ];
+
+    let fullscreenRequested = false;
+    
+    for (const method of fullscreenMethods) {
+        if (typeof (iframe as any)[method] === 'function') {
+            try {
+                const result = (iframe as any)[method]();
+                if (result && typeof result.catch === 'function') {
+                    result.catch((error: any) => {
+                        console.warn(`Failed to enter fullscreen using ${method}:`, error);
+                    });
+                }
+                fullscreenRequested = true;
+                break;
+            } catch (error) {
+                console.warn(`Failed to enter fullscreen using ${method}:`, error);
+            }
+        }
+    }
+
+    if (!fullscreenRequested) {
+        console.error('Fullscreen API is not supported by this browser.');
     }
 }
 

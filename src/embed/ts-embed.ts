@@ -1048,23 +1048,9 @@ export class TsEmbed {
             logger.warn('Please register event handlers before calling render');
         }
         
-        if (messageType === EmbedEvent.ExitPresentMode) {
-            const defaultCallback: MessageCallback = () => {
-                handleExitPresentMode();
-            };
-            
-            const callbacks = this.eventHandlerMap.get(messageType) || [];
-            const hasDefaultHandler = callbacks.some(cb => cb.callback === defaultCallback);
-            if (!hasDefaultHandler) {
-                callbacks.push({ options: { start: false }, callback: defaultCallback });
-            }
-            callbacks.push({ options, callback });
-            this.eventHandlerMap.set(messageType, callbacks);
-        } else {
-            const callbacks = this.eventHandlerMap.get(messageType) || [];
-            callbacks.push({ options, callback });
-            this.eventHandlerMap.set(messageType, callbacks);
-        }
+        const callbacks = this.eventHandlerMap.get(messageType) || [];
+        callbacks.push({ options, callback });
+        this.eventHandlerMap.set(messageType, callbacks);
         
         return this;
     }
@@ -1485,21 +1471,3 @@ export class V1Embed extends TsEmbed {
     // eslint-disable-next-line camelcase
     public test__executeCallbacks = this.executeCallbacks;
 }
-
-/**
- * Default handler for exitPresentMode event - exits fullscreen
- */
-function handleExitPresentMode(): void {
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if ((document as any).webkitExitFullscreen) {
-        (document as any).webkitExitFullscreen();
-    } else if ((document as any).mozCancelFullScreen) {
-        (document as any).mozCancelFullScreen();
-    } else if ((document as any).msExitFullscreen) {
-        (document as any).msExitFullscreen();
-    } else {
-        console.warn('Exit fullscreen API is not supported by this browser.');
-    }
-}
-

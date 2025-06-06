@@ -12,6 +12,64 @@ import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
 
 /**
+ * Default handler for exitPresentMode event - exits fullscreen
+ */
+function handleExitPresentMode(): void {
+    // Check if document is currently in fullscreen mode
+    const isInFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+    );
+
+    if (!isInFullscreen) {
+        // Document is not in fullscreen, nothing to do
+        return;
+    }
+
+    // Trying to exit fullscreen with vendor prefixes
+    const exitFullscreenMethods = [
+        'exitFullscreen',
+        'webkitExitFullscreen',
+        'mozCancelFullScreen', 
+        'msExitFullscreen'
+    ];
+
+    let fullscreenExited = false;
+    
+    for (const method of exitFullscreenMethods) {
+        if (typeof (document as any)[method] === 'function') {
+            try {
+                const result = (document as any)[method]();
+                if (result && typeof result.catch === 'function') {
+                    result.catch((error: any) => {
+                        console.warn(`Failed to exit fullscreen using ${method}:`, error);
+                    });
+                }
+                fullscreenExited = true;
+                break;
+            } catch (error) {
+                console.warn(`Failed to exit fullscreen using ${method}:`, error);
+            }
+        }
+    }
+
+    if (!fullscreenExited) {
+        console.warn('Exit fullscreen API is not supported by this browser.');
+    }
+}
+
+/**
+ * Process the ExitPresentMode event and handle default fullscreen exit
+ * @param e - The event data
+ */
+function processExitPresentMode(e: any) {
+    handleExitPresentMode();
+    return e;
+}
+
+/**
  *
  * @param e
  * @param thoughtSpotHost
@@ -136,6 +194,8 @@ export function processEventData(
             return processAuthFailure(e, containerEl);
         case EmbedEvent.AuthLogout:
             return processAuthLogout(e, containerEl);
+        case EmbedEvent.ExitPresentMode:
+            return processExitPresentMode(e);
         default:
     }
     return e;
