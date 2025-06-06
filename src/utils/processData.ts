@@ -11,55 +11,7 @@ import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
 import { logger } from '../utils/logger';
-
-/**
- * Default handler for exitPresentMode event - exits fullscreen
- */
-function handleExitPresentMode(): void {
-    const isInFullscreen = !!(
-        document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).mozFullScreenElement ||
-        (document as any).msFullscreenElement
-    );
-
-    if (!isInFullscreen) {
-        // Document is not in fullscreen, nothing to do
-        return;
-    }
-
-    // Trying to exit fullscreen with vendor prefixes
-    const exitFullscreenMethods = [
-        'exitFullscreen',
-        'webkitExitFullscreen',
-        'mozCancelFullScreen', 
-        'msExitFullscreen'
-    ];
-
-    let fullscreenExited = false;
-    
-    for (const method of exitFullscreenMethods) {
-        if (typeof (document as any)[method] === 'function') {
-            try {
-                const result = (document as any)[method]();
-                // Handle promise-based methods
-                if (result && typeof result.catch === 'function') {
-                    result.catch((error: any) => {
-                        logger.warn(`Failed to exit fullscreen using ${method}:`, error);
-                    });
-                }
-                fullscreenExited = true;
-                break;
-            } catch (error) {
-                logger.warn(`Failed to exit fullscreen using ${method}:`, error);
-            }
-        }
-    }
-
-    if (!fullscreenExited) {
-        logger.warn('Exit fullscreen API is not supported by this browser.');
-    }
-}
+import { handleExitPresentMode } from '../utils';
 
 /**
  * Process the ExitPresentMode event and handle default fullscreen exit

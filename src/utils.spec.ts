@@ -13,8 +13,19 @@ import {
     isUndefined,
     storeValueInWindow,
     getValueFromWindow,
+    handlePresentEvent,
+    handleExitPresentMode,
 } from './utils';
 import { RuntimeFilterOp } from './types';
+import { logger } from './utils/logger';
+
+// Mock logger
+jest.mock('./utils/logger', () => ({
+    logger: {
+        warn: jest.fn(),
+        error: jest.fn(),
+    },
+}));
 
 describe('unit test for utils', () => {
     test('getQueryParamString', () => {
@@ -291,6 +302,115 @@ describe('unit test for utils', () => {
 
         test('Return undefined if key is not found', () => {
             expect(getValueFromWindow('notFound')).toBe(undefined);
+        });
+    });
+});
+
+describe('Fullscreen Utility Functions', () => {
+    let originalExitFullscreen: any;
+    let mockIframe: HTMLIFrameElement;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        
+        // Store and mock exitFullscreen
+        originalExitFullscreen = document.exitFullscreen;
+        document.exitFullscreen = jest.fn();
+
+        // Mock iframe
+        mockIframe = {
+            requestFullscreen: jest.fn(),
+        } as any;
+
+        // Mock not in fullscreen initially
+        Object.defineProperty(document, 'fullscreenElement', {
+            writable: true,
+            value: null,
+        });
+    });
+
+    afterEach(() => {
+        // Restore original method
+        document.exitFullscreen = originalExitFullscreen;
+    });
+
+    describe('handlePresentEvent', () => {
+        it('should enter fullscreen when iframe is provided', () => {
+            const mockPromise = Promise.resolve();
+            (mockIframe.requestFullscreen as jest.Mock).mockReturnValue(mockPromise);
+
+            handlePresentEvent(mockIframe);
+
+            expect(mockIframe.requestFullscreen).toHaveBeenCalled();
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should log error when fullscreen API is not supported', () => {
+            delete (mockIframe as any).requestFullscreen;
+
+            handlePresentEvent(mockIframe);
+
+            expect(logger.error).toHaveBeenCalledWith('Fullscreen API is not supported by this browser.');
+        });
+
+        it('should not attempt fullscreen when already in fullscreen mode', () => {
+            Object.defineProperty(document, 'fullscreenElement', {
+                writable: true,
+                value: mockIframe,
+            });
+
+            handlePresentEvent(mockIframe);
+
+            expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should warn when iframe is null', () => {
+            handlePresentEvent(null as any);
+
+            expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith('No iframe found on the page');
+        });
+    });
+
+    describe('handleExitPresentMode', () => {
+        beforeEach(() => {
+            // Mock being in fullscreen
+            Object.defineProperty(document, 'fullscreenElement', {
+                writable: true,
+                value: document.createElement('iframe'),
+            });
+        });
+
+        it('should exit fullscreen when in fullscreen mode', () => {
+            const mockPromise = Promise.resolve();
+            (document.exitFullscreen as jest.Mock).mockReturnValue(mockPromise);
+
+            handleExitPresentMode();
+
+            expect(document.exitFullscreen).toHaveBeenCalled();
+            expect(logger.warn).not.toHaveBeenCalled();
+        });
+
+        it('should not attempt to exit when not in fullscreen mode', () => {
+            Object.defineProperty(document, 'fullscreenElement', {
+                writable: true,
+                value: null,
+            });
+
+            handleExitPresentMode();
+
+            expect(document.exitFullscreen).not.toHaveBeenCalled();
+            expect(logger.warn).not.toHaveBeenCalled();
+        });
+
+        it('should log warning when exit fullscreen API is not supported', () => {
+            // Mock being in fullscreen but no exit methods available
+            document.exitFullscreen = undefined as any;
+
+            handleExitPresentMode();
+
+            expect(logger.warn).toHaveBeenCalledWith('Exit fullscreen API is not supported by this browser.');
         });
     });
 });

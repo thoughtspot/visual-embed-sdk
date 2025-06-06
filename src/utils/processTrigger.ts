@@ -1,63 +1,7 @@
 import { ERROR_MESSAGE } from '../errors';
-import { HostEvent } from '../types';
+import { HostEvent, MessagePayload } from '../types';
 import { logger } from '../utils/logger';
-
-/**
- * Handle the Present event locally before forwarding
- * @param iFrame - The iframe element to make fullscreen
- */
-function handlePresentEvent(iFrame: HTMLIFrameElement) {
-    const iframe = iFrame;
-    
-    if (!iframe) {
-        logger.warn('No iframe found on the page');
-        return;
-    }
-
-    // Check if already in fullscreen mode
-    const isInFullscreen = !!(
-        document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).mozFullScreenElement ||
-        (document as any).msFullscreenElement
-    );
-
-    if (isInFullscreen) {
-        // Already in fullscreen, nothing to do
-        return;
-    }
-
-    // Try to request fullscreen with vendor prefixes and error handling
-    const fullscreenMethods = [
-        'requestFullscreen',
-        'webkitRequestFullscreen', 
-        'mozRequestFullScreen',
-        'msRequestFullscreen'
-    ];
-
-    let fullscreenRequested = false;
-    
-    for (const method of fullscreenMethods) {
-        if (typeof (iframe as any)[method] === 'function') {
-            try {
-                const result = (iframe as any)[method]();
-                if (result && typeof result.catch === 'function') {
-                    result.catch((error: any) => {
-                        logger.warn(`Failed to enter fullscreen using ${method}:`, error);
-                    });
-                }
-                fullscreenRequested = true;
-                break;
-            } catch (error) {
-                logger.warn(`Failed to enter fullscreen using ${method}:`, error);
-            }
-        }
-    }
-
-    if (!fullscreenRequested) {
-        logger.error('Fullscreen API is not supported by this browser.');
-    }
-}
+import { handlePresentEvent } from '../utils';
 
 /**
  * Reloads the ThoughtSpot iframe.
