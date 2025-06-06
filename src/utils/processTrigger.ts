@@ -1,5 +1,7 @@
 import { ERROR_MESSAGE } from '../errors';
-import { HostEvent } from '../types';
+import { HostEvent, MessagePayload } from '../types';
+import { logger } from '../utils/logger';
+import { handlePresentEvent } from '../utils';
 
 /**
  * Reloads the ThoughtSpot iframe.
@@ -51,6 +53,11 @@ export function processTrigger(
             reload(iFrame);
             return res(null);
         }
+        
+        if (messageType === HostEvent.Present) {
+            handlePresentEvent(iFrame);
+        }
+        
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
             channel.port1.close();

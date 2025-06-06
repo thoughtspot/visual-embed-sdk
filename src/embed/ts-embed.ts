@@ -1047,9 +1047,11 @@ export class TsEmbed {
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
+        
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
         this.eventHandlerMap.set(messageType, callbacks);
+        
         return this;
     }
 
