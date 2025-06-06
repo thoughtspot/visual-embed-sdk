@@ -16,7 +16,6 @@ import { logger } from '../utils/logger';
  * Default handler for exitPresentMode event - exits fullscreen
  */
 function handleExitPresentMode(): void {
-    // Check if document is currently in fullscreen mode
     const isInFullscreen = !!(
         document.fullscreenElement ||
         (document as any).webkitFullscreenElement ||
