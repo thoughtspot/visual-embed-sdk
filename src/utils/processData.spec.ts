@@ -6,6 +6,8 @@ import * as base from '../embed/base';
 import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
 import * as sessionInfoService from './sessionInfoService';
+import * as utilsModule from '../utils';
+import { logger } from './logger';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
@@ -250,5 +252,87 @@ describe('Unit test for process data', () => {
         });
         expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
         expect(el.innerHTML).toBe('Hello');
+    });
+
+    test('should handle ExitPresentMode when enableFullscreenPresentation is true', () => {
+        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
+        
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            enableFullscreenPresentation: true,
+        });
+
+        const processedData = {
+            type: EmbedEvent.ExitPresentMode,
+            data: {},
+        };
+
+        processDataInstance.processEventData(
+            EmbedEvent.ExitPresentMode,
+            processedData,
+            thoughtSpotHost,
+            null,
+        );
+
+        expect(mockHandleExitPresentMode).toHaveBeenCalled();
+        
+        mockHandleExitPresentMode.mockReset();
+    });
+
+    test('should warn and not handle ExitPresentMode when enableFullscreenPresentation is false', () => {
+        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
+        
+        const mockLoggerInfo = jest.spyOn(logger, 'info').mockImplementation(() => {});
+        
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            enableFullscreenPresentation: false,
+        });
+
+        const processedData = {
+            type: EmbedEvent.ExitPresentMode,
+            data: {},
+        };
+
+        processDataInstance.processEventData(
+            EmbedEvent.ExitPresentMode,
+            processedData,
+            thoughtSpotHost,
+            null,
+        );
+
+        expect(mockHandleExitPresentMode).not.toHaveBeenCalled();
+        expect(mockLoggerInfo).toHaveBeenCalledWith(
+            'Fullscreen presentation without iframe context mode is not handled. Set enableFullscreenPresentation: true to enable this feature.',
+        );
+        
+        mockHandleExitPresentMode.mockReset();
+        mockLoggerInfo.mockReset();
+    });
+
+    test('should default to disabled when enableFullscreenPresentation is not provided', () => {
+        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
+        
+        const mockLoggerInfo = jest.spyOn(logger, 'info').mockImplementation(() => {});
+        
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({});
+
+        const processedData = {
+            type: EmbedEvent.ExitPresentMode,
+            data: {},
+        };
+
+        processDataInstance.processEventData(
+            EmbedEvent.ExitPresentMode,
+            processedData,
+            thoughtSpotHost,
+            null,
+        );
+
+        expect(mockHandleExitPresentMode).not.toHaveBeenCalled();
+        expect(mockLoggerInfo).toHaveBeenCalledWith(
+            'Fullscreen presentation without iframe context mode is not handled. Set enableFullscreenPresentation: true to enable this feature.',
+        );
+        
+        mockHandleExitPresentMode.mockReset();
+        mockLoggerInfo.mockReset();
     });
 });

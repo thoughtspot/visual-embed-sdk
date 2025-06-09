@@ -645,6 +645,21 @@ export interface EmbedConfig {
     customVariablesForThirdPartyTools?: Record< string, any >;
 
     disablePreauthCache?: boolean;
+    
+    /**
+     * Enable fullscreen presentation mode functionality. When enabled, allows entering 
+     * and exiting fullscreen mode for embedded visualizations during presentations without going into iframe context.
+     * @default false
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   enableFullscreenPresentation: true,
+     * })
+     * ```
+     */
+    enableFullscreenPresentation?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

@@ -18,8 +18,14 @@ import { handleExitPresentMode } from '../utils';
  * @param e - The event data
  */
 function processExitPresentMode(e: any) {
-    handleExitPresentMode();
-    return e;
+    const embedConfig = getEmbedConfig();
+    const enableFullscreenPresentation = embedConfig?.enableFullscreenPresentation ?? false;
+    
+    if (enableFullscreenPresentation) {
+        handleExitPresentMode();
+    } else {
+        logger.info('Fullscreen presentation without iframe context mode is not handled. Set enableFullscreenPresentation: true to enable this feature.');
+    }
 }
 
 /**
