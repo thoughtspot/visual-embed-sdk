@@ -1669,7 +1669,7 @@ export enum EmbedEvent {
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @example
      * ```js
-     * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+     * liveboardEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
      *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
