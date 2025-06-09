@@ -242,7 +242,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
-     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * __Supported embed types__: `LiveboardEmbed`, `AppEmbed`
      * @default false
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @example

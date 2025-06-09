@@ -135,7 +135,7 @@ export interface SageViewConfig
  * Embed ThoughtSpot LLM and GPT-based Natural Language Search component.
  * @version: SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw
  * 
- * `Note: This embed is deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl`
+ * __Note__: This embed is deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl
  * @group Embed components
  */
 export class SageEmbed extends V1Embed {
