@@ -57,7 +57,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * 
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
-     * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
      * @example
      * ```js
      * // Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
