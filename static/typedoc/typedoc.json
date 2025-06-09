@@ -9486,7 +9486,7 @@
 			"flags": {},
 			"comment": {
 				"shortText": "AnswerService provides a simple way to work with ThoughtSpot Answers.",
-				"text": "This service allows you to interact with ThoughtSpot Answers programmatically,\nmaking it easy to customize visualizations, filter data, and extract insights\ndirectly from your application.\n\nYou can use this service to:\n- Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)\n- Apply filters to Answers (`addFilter`)\n- Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)\n- Get data for specific points in visualizations (`getUnderlyingDataForPoint`)\n- Run custom queries (`executeQuery`)\n- Add visualizations to liveboards (`addDisplayedVizToLiveboard`)\n",
+				"text": "This service allows you to interact with ThoughtSpot Answers programmatically,\nmaking it easy to customize visualizations, filter data, and extract insights\ndirectly from your application.\n\nYou can use this service to:\n\n- Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)\n- Apply filters to Answers (`addFilter`)\n- Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)\n- Get data for specific points in visualizations (`getUnderlyingDataForPoint`)\n- Run custom queries (`executeQuery`)\n- Add visualizations to Liveboards (`addDisplayedVizToLiveboard`)\n",
 				"tags": [
 					{
 						"tag": "example",
@@ -9519,7 +9519,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 87,
+							"line": 88,
 							"character": 4
 						}
 					],
@@ -9611,7 +9611,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 128,
+							"line": 129,
 							"character": 17
 						}
 					],
@@ -9667,7 +9667,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 152,
+							"line": 153,
 							"character": 17
 						}
 					],
@@ -9728,7 +9728,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 405,
+							"line": 406,
 							"character": 17
 						}
 					],
@@ -9776,7 +9776,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 165,
+							"line": 166,
 							"character": 17
 						}
 					],
@@ -9874,7 +9874,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 355,
+							"line": 356,
 							"character": 17
 						}
 					],
@@ -9943,7 +9943,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 234,
+							"line": 235,
 							"character": 17
 						}
 					],
@@ -10012,7 +10012,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 206,
+							"line": 207,
 							"character": 17
 						}
 					],
@@ -10119,7 +10119,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 250,
+							"line": 251,
 							"character": 17
 						}
 					],
@@ -10203,7 +10203,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 378,
+							"line": 379,
 							"character": 17
 						}
 					],
@@ -10238,7 +10238,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 268,
+							"line": 269,
 							"character": 11
 						}
 					],
@@ -10299,7 +10299,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 279,
+							"line": 280,
 							"character": 11
 						}
 					],
@@ -10374,7 +10374,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 192,
+							"line": 193,
 							"character": 17
 						}
 					],
@@ -10409,7 +10409,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 374,
+							"line": 375,
 							"character": 11
 						}
 					],
@@ -10443,7 +10443,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 101,
+							"line": 102,
 							"character": 17
 						}
 					],
@@ -10481,7 +10481,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 389,
+							"line": 390,
 							"character": 17
 						}
 					],
@@ -10516,7 +10516,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 300,
+							"line": 301,
 							"character": 17
 						}
 					],
@@ -10600,7 +10600,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 114,
+							"line": 115,
 							"character": 17
 						}
 					],
@@ -10656,7 +10656,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 417,
+							"line": 418,
 							"character": 11
 						}
 					],
@@ -10724,7 +10724,7 @@
 			"sources": [
 				{
 					"fileName": "utils/graphql/answerService/answerService.ts",
-					"line": 75,
+					"line": 76,
 					"character": 13
 				}
 			]
@@ -32853,8 +32853,29 @@
 							"name": "BaseViewConfig"
 						},
 						{
-							"type": "literal",
-							"value": "primaryAction"
+							"type": "union",
+							"types": [
+								{
+									"type": "literal",
+									"value": "primaryAction"
+								},
+								{
+									"type": "literal",
+									"value": "runtimeFilters"
+								},
+								{
+									"type": "literal",
+									"value": "runtimeParameters"
+								},
+								{
+									"type": "literal",
+									"value": "excludeRuntimeFiltersfromURL"
+								},
+								{
+									"type": "literal",
+									"value": "excludeRuntimeParametersfromURL"
+								}
+							]
 						}
 					],
 					"name": "Omit"

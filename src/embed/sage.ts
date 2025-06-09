@@ -36,7 +36,7 @@ export interface SearchOptions {
  * @group Embed components
  */
 export interface SageViewConfig
-    extends SearchSpecificViewConfig, Omit<BaseViewConfig, 'primaryAction'> {
+    extends SearchSpecificViewConfig, Omit<BaseViewConfig, 'primaryAction' | 'runtimeFilters' | 'runtimeParameters' | 'excludeRuntimeFiltersfromURL' | 'excludeRuntimeParametersfromURL'> {
     /**
      * If set to true, a list of Liveboard and Answers related
      * to the natural language search will be shown below the
