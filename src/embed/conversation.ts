@@ -33,7 +33,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    disableSourceSelection : true,
      * })
      * ```
@@ -45,7 +45,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideSourceSelection : true,
      * })
      * ```
@@ -55,7 +55,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Flag to control Data panel experience
      * 
-     * Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed
+     * **Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
      * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      * @example
@@ -75,7 +75,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showSpotterLimitations : true,
      * })
      * ```
@@ -88,7 +88,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideSampleQuestions : true,
      * })
      * ```

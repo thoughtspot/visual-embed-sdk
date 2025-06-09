@@ -79,7 +79,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    enableVizTransformations:true,
      * })
      * ```
@@ -93,7 +93,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    liveboardId:id of liveboard,
      * })
      */
@@ -109,7 +109,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    vizId:'430496d6-6903-4601-937e-2c691821af3c',
      * })
      * ```
@@ -122,7 +122,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    preventLiveboardFilterRemoval:true,
      * })
      * ```
@@ -136,7 +136,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    visibleVizs: [
      *       '430496d6-6903-4601-937e-2c691821af3c',
      *       'f547ec54-2a37-4516-a222-2b06719af726'
@@ -156,7 +156,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    liveboardV2:true,
      * })
      * ```
@@ -168,7 +168,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    activeTabId:'id-1234',
      * })
      * ```
@@ -181,7 +181,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideTabPanel:true,
      * })
      * ```
@@ -207,7 +207,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardTitle:true,
      * })
      * ```
@@ -220,7 +220,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardDescription:true,
      * })
      * ```
@@ -242,7 +242,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
-     * Supported embed types: LiveboardEmbed, AppEmbed
+     * **Supported embed types**: `LiveboardEmbed`, `AppEmbed`
      * @default false
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @example
@@ -263,7 +263,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    enable2ColumnLayout: true,
      * })
      * ```
@@ -301,7 +301,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
@@ -315,7 +315,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardVerifiedBadge: true,
      * })
      * ```
@@ -330,7 +330,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardReverifyBanner: true,
      * })
      * ```
@@ -344,7 +344,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideIrrelevantChipsInLiveboardTabs: true,
      * })
      * ```
@@ -358,7 +358,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    oAuthPollingInterval: value in milliseconds,
      * })
      */
@@ -371,7 +371,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    isForceRedirect: false,
      * })
      */
@@ -384,7 +384,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSourceId: '',
      * })
      */
@@ -399,7 +399,7 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    coverAndFilterOptionInPDF: false,
      * })
      * ```

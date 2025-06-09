@@ -25,7 +25,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSources:['id-2345','id-2345'],
      * })
      * ```
@@ -37,7 +37,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSource:'id-2345',
      * })
      * ```
@@ -49,7 +49,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    useLastSelectedSources:false,
      * })
      * ```
@@ -69,7 +69,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    searchOptions: {
      *        searchTokenString: '[quantity purchased] [region]',
      *        executeSearch: true,

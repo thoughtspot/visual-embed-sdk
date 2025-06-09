@@ -17,11 +17,11 @@
 				"tags": [
 					{
 						"tag": "example",
-						"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],\n   disabledActions: [Action.Download],\n   //hiddenActions: [], // Set either this or visibleActions\n})\n```"
+						"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],\n   disabledActions: [Action.Download],\n   //hiddenActions: [], // Set either this or visibleActions\n})\n```"
 					},
 					{
 						"tag": "example",
-						"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, ActionAction.Explore],\n})\n```\n"
+						"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, ActionAction.Explore],\n})\n```\n"
 					}
 				]
 			},
@@ -8566,7 +8566,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.DEBUG,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.DEBUG,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -8594,7 +8594,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.ERROR,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.ERROR,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -8622,7 +8622,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.INFO,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.INFO,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -8650,7 +8650,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.SILENT,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.SILENT,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -8678,7 +8678,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.TRACE,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.TRACE,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -8706,7 +8706,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\ninit({\n  ... // other options,\n logLevel: LogLevel.WARN,\n})\n```"
+								"text": "\n```js\ninit({\n  ... //other embed view config,\n logLevel: LogLevel.WARN,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -14881,7 +14881,7 @@
 				"tags": [
 					{
 						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw"
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw\n**Note**: This embed is deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
 						"tag": "group",
@@ -14899,7 +14899,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 139,
+							"line": 148,
 							"character": 4
 						}
 					],
@@ -15080,7 +15080,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 183,
+							"line": 192,
 							"character": 11
 						}
 					],
@@ -15704,7 +15704,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 208,
+							"line": 217,
 							"character": 17
 						}
 					],
@@ -16091,7 +16091,7 @@
 			"sources": [
 				{
 					"fileName": "embed/sage.ts",
-					"line": 131,
+					"line": 140,
 					"character": 13
 				}
 			],
@@ -20072,11 +20072,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -20152,7 +20152,7 @@
 					},
 					"comment": {
 						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -20164,7 +20164,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true\n});\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true,\n});\n"
 							}
 						]
 					},
@@ -20231,7 +20231,7 @@
 					},
 					"comment": {
 						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"text": "Supported embed types: AppEmbed, SageEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `SageEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -20345,7 +20345,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -20398,7 +20398,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   disableProfileAndHelp: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   disableProfileAndHelp: true,\n})\n```\n"
 							}
 						]
 					},
@@ -20424,11 +20424,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -20462,7 +20462,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -20470,7 +20470,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -20500,7 +20500,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -20508,7 +20508,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -20553,7 +20553,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   discoveryExperience : {\n     primaryNavbarVersion: PrimaryNavbarVersion.Sliding,\n     homePage: HompePage.Modular,\n   },\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   discoveryExperience : {\n     primaryNavbarVersion: PrimaryNavbarVersion.Sliding,\n     homePage: HompePage.Modular,\n   },\n})\n```\n"
 							}
 						]
 					},
@@ -20631,7 +20631,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   enable2ColumnLayout: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other embed view config\n   enable2ColumnLayout: true,\n})\n```\n"
 							}
 						]
 					},
@@ -20690,7 +20690,7 @@
 					},
 					"comment": {
 						"shortText": "To enable custom column groups in data panel v2",
-						"text": "Supported embed types: SageEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -20742,7 +20742,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n  ... // other options\n enablePendoHelp: false,\n});\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n  ... // other embed view config\n enablePendoHelp: false,\n});\n```\n"
 							}
 						]
 					},
@@ -20779,7 +20779,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   enableSearchAssist: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   enableSearchAssist: true,\n})\n```\n"
 							}
 						]
 					},
@@ -20805,11 +20805,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -20956,7 +20956,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -21003,7 +21003,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   fullHeight: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   fullHeight: true,\n})\n```\n"
 							}
 						]
 					},
@@ -21029,7 +21029,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -21037,7 +21037,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -21075,11 +21075,11 @@
 					},
 					"comment": {
 						"shortText": "homepageLeftNavItems : Show or hide the left navigation bar items.\nThere are 8 eight home navigation list items.\nTo hide these items, specify the string in the array.",
-						"text": "Supported embed types: AppEmbed",
+						"text": "**Supported embed types**: `AppEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl)."
 							},
 							{
 								"tag": "version",
@@ -21117,7 +21117,7 @@
 					},
 					"comment": {
 						"shortText": "Hide the home page modules\nFor example: hiddenHomepageModules = [HomepageModule.MyLibrary]",
-						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\n\nSupported embed types: AppEmbed",
+						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\n\n**Supported embed types**: AppEmbed",
 						"tags": [
 							{
 								"tag": "version",
@@ -21125,7 +21125,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],\n})\n```\n"
 							}
 						]
 					},
@@ -21159,7 +21159,7 @@
 					},
 					"comment": {
 						"shortText": "Hide list page columns\nFor example: hiddenListColumns = [ListPageColumns.Author]",
-						"text": "**Note**: This option is available only in full app embedding.\n\nSupported embed types: AppEmbed",
+						"text": "**Note**: This option is available only in full app embedding.\n\n**Supported embed types**: AppEmbed",
 						"tags": [
 							{
 								"tag": "version",
@@ -21167,7 +21167,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],\n})\n```\n"
 							}
 						]
 					},
@@ -21213,7 +21213,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideApplicationSwitcher : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideApplicationSwitcher : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21250,7 +21250,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideHamburger : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideHamburger : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21288,7 +21288,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideHomepageLeftNav : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideHomepageLeftNav : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21325,7 +21325,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   hideIrrelevantChipsInLiveboardTabs: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other embed view config\n   hideIrrelevantChipsInLiveboardTabs: true,\n})\n```\n"
 							}
 						]
 					},
@@ -21362,7 +21362,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideLiveboardHeader : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideLiveboardHeader : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21399,7 +21399,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideNotification: false,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideNotification: false,\n})\n```\n"
 							}
 						]
 					},
@@ -21436,7 +21436,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideObjectSearch: false,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideObjectSearch: false,\n})\n```\n"
 							}
 						]
 					},
@@ -21469,7 +21469,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideObjects: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideObjects: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n```\n"
 							}
 						]
 					},
@@ -21510,7 +21510,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   hideOrgSwitcher : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideOrgSwitcher : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21566,7 +21566,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -21615,7 +21615,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   isLiveboardCompactHeaderEnabled: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other embed view config\n   isLiveboardCompactHeaderEnabled: true,\n})\n```\n"
 							}
 						]
 					},
@@ -21714,7 +21714,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   isUnifiedSearchExperienceEnabled: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other embed view config\n   isUnifiedSearchExperienceEnabled: true,\n})\n```\n"
 							}
 						]
 					},
@@ -21740,7 +21740,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -21778,7 +21778,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -21827,7 +21827,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   modularHomeExperience : true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   modularHomeExperience : true,\n})\n```\n"
 							}
 						]
 					},
@@ -21853,11 +21853,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -21899,7 +21899,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   pageId : Page.Answers | Page.Data\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   pageId : Page.Answers | Page.Data,\n})\n```\n"
 							}
 						]
 					},
@@ -21934,7 +21934,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   path:\"pinboard/1234/tab/7464\"\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   path:\"pinboard/1234/tab/7464\",\n})\n```\n"
 							}
 						]
 					},
@@ -21960,11 +21960,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -21998,7 +21998,7 @@
 					},
 					"comment": {
 						"shortText": "The primary action to display on top of the viz for Liveboard and App Embed.\nUse this to set the primary action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -22036,7 +22036,7 @@
 					},
 					"comment": {
 						"shortText": "reordering the home page modules\neg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]",
-						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\n\nSupported embed types: AppEmbed",
+						"text": "**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\n\n**Supported embed types**: AppEmbed",
 						"tags": [
 							{
 								"tag": "version",
@@ -22044,7 +22044,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary]\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],\n})\n```\n"
 							}
 						]
 					},
@@ -22078,7 +22078,7 @@
 					},
 					"comment": {
 						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -22120,7 +22120,7 @@
 					},
 					"comment": {
 						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -22128,7 +22128,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ]\n})\n```\n"
 							}
 						]
 					},
@@ -22169,7 +22169,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   showAlerts:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... //other embed view config\n   showAlerts:true,\n})\n```\n"
 							}
 						]
 					},
@@ -22210,7 +22210,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   showLiveboardDescription:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   showLiveboardDescription:true,\n})\n```\n"
 							}
 						]
 					},
@@ -22247,7 +22247,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   showLiveboardReverifyBanner: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other embed view config\n   showLiveboardReverifyBanner: true,\n})\n```\n"
 							}
 						]
 					},
@@ -22284,7 +22284,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   showLiveboardTitle:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   showLiveboardTitle:true,\n})\n```\n"
 							}
 						]
 					},
@@ -22321,7 +22321,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   showLiveboardVerifiedBadge: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other embed view config\n   showLiveboardVerifiedBadge: true,\n})\n```\n"
 							}
 						]
 					},
@@ -22358,7 +22358,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   showPrimaryNavbar:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   showPrimaryNavbar:true,\n})\n```\n"
 							}
 						]
 					},
@@ -22391,7 +22391,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other options\n   tag:'value',\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   tag:'value',\n})\n```\n"
 							}
 						]
 					},
@@ -22417,7 +22417,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -22429,7 +22429,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -23299,11 +23299,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23419,11 +23419,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23458,7 +23458,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23466,7 +23466,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -23497,7 +23497,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23505,7 +23505,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -23582,11 +23582,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23659,7 +23659,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23699,7 +23699,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23707,7 +23707,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -23746,7 +23746,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23785,7 +23785,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23824,7 +23824,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23863,11 +23863,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -23902,11 +23902,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -23941,7 +23941,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -23953,7 +23953,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -24075,11 +24075,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24195,7 +24195,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -24238,11 +24238,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24280,7 +24280,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   disableSourceSelection : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   disableSourceSelection : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -24315,7 +24315,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24323,7 +24323,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -24354,7 +24354,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24362,7 +24362,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -24439,11 +24439,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24516,7 +24516,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24556,7 +24556,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24564,7 +24564,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -24606,7 +24606,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   hideSampleQuestions : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   hideSampleQuestions : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -24644,7 +24644,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   hideSourceSelection : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   hideSourceSelection : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -24679,7 +24679,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24718,7 +24718,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24757,7 +24757,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24796,11 +24796,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -24835,11 +24835,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -24905,7 +24905,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   showSpotterLimitations : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   showSpotterLimitations : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -24940,7 +24940,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -24952,7 +24952,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -29354,7 +29354,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... // other options\n   activeTabId:'id-1234',\n})\n```"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   activeTabId:'id-1234',\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -29384,11 +29384,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -29464,7 +29464,7 @@
 					},
 					"comment": {
 						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -29476,7 +29476,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true\n});\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true,\n});\n"
 							}
 						]
 					},
@@ -29506,7 +29506,7 @@
 					},
 					"comment": {
 						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"text": "Supported embed types: AppEmbed, SageEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `SageEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -29556,7 +29556,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   coverAndFilterOptionInPDF: false,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   coverAndFilterOptionInPDF: false,\n})\n```\n"
 							}
 						]
 					},
@@ -29620,7 +29620,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -29699,11 +29699,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -29737,7 +29737,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -29745,7 +29745,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -29775,7 +29775,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -29783,7 +29783,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -29869,7 +29869,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   enable2ColumnLayout: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   enable2ColumnLayout: true,\n})\n```\n"
 							}
 						]
 					},
@@ -29894,7 +29894,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "enable or disable ask sage\nSupported embed types: LiveboardEmbed, AppEmbed",
+						"shortText": "enable or disable ask sage\n**Supported embed types**: `LiveboardEmbed`, `AppEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -29932,7 +29932,7 @@
 					},
 					"comment": {
 						"shortText": "To enable custom column groups in data panel v2",
-						"text": "Supported embed types: SageEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -29974,11 +29974,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -30018,7 +30018,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... // other options\n   enableVizTransformations:true,\n})\n```"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   enableVizTransformations:true,\n})\n```"
 							},
 							{
 								"tag": "version:",
@@ -30161,7 +30161,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30234,7 +30234,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30242,7 +30242,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -30280,7 +30280,7 @@
 					},
 					"comment": {
 						"shortText": "The list of tab IDs to hide from the embedded.\nThis Tabs will be hidden from their respective LBs.\nUse this to hide an tabID.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -30332,7 +30332,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   hideIrrelevantChipsInLiveboardTabs: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   hideIrrelevantChipsInLiveboardTabs: true,\n})\n```\n"
 							}
 						]
 					},
@@ -30402,7 +30402,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   hideTabPanel:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   hideTabPanel:true,\n})\n```\n"
 							}
 						]
 					},
@@ -30428,7 +30428,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30477,7 +30477,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   isLiveboardCompactHeaderEnabled: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   isLiveboardCompactHeaderEnabled: true,\n})\n```\n"
 							}
 						]
 					},
@@ -30536,7 +30536,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30581,7 +30581,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   liveboardId:id of liveboard,\n})\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   liveboardId:id of liveboard,\n})\n"
 							}
 						]
 					},
@@ -30614,7 +30614,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   liveboardV2:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   liveboardV2:true,\n})\n```\n"
 							}
 						]
 					},
@@ -30640,7 +30640,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30678,11 +30678,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -30716,11 +30716,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -30761,7 +30761,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   preventLiveboardFilterRemoval:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   preventLiveboardFilterRemoval:true,\n})\n```\n"
 							}
 						]
 					},
@@ -30787,7 +30787,7 @@
 					},
 					"comment": {
 						"shortText": "The primary action to display on top of the viz for Liveboard and App Embed.\nUse this to set the primary action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30825,7 +30825,7 @@
 					},
 					"comment": {
 						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30867,7 +30867,7 @@
 					},
 					"comment": {
 						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30875,7 +30875,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ]\n})\n```\n"
 							}
 						]
 					},
@@ -30920,7 +30920,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   showLiveboardDescription:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   showLiveboardDescription:true,\n})\n```\n"
 							}
 						]
 					},
@@ -30957,7 +30957,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   showLiveboardReverifyBanner: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   showLiveboardReverifyBanner: true,\n})\n```\n"
 							}
 						]
 					},
@@ -30994,7 +30994,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   showLiveboardTitle:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   showLiveboardTitle:true,\n})\n```\n"
 							}
 						]
 					},
@@ -31031,7 +31031,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   showLiveboardVerifiedBadge: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   showLiveboardVerifiedBadge: true,\n})\n```\n"
 							}
 						]
 					},
@@ -31091,7 +31091,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -31103,7 +31103,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -31137,7 +31137,7 @@
 					},
 					"comment": {
 						"shortText": "The list of tab IDs to show in the embedded Liveboard.\nOnly the tabs specified in the array will be shown in the Liveboard.",
-						"text": "Use either `visibleTabs` or `hiddenTabs`.\n\nSupported embed types: AppEmbed, LiveboardEmbed",
+						"text": "Use either `visibleTabs` or `hiddenTabs`.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -31185,7 +31185,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   visibleVizs: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   visibleVizs: [\n      '430496d6-6903-4601-937e-2c691821af3c',\n      'f547ec54-2a37-4516-a222-2b06719af726'\n    ]\n})\n"
 							}
 						]
 					},
@@ -31221,7 +31221,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   vizId:'430496d6-6903-4601-937e-2c691821af3c',\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... //other embed view config\n   vizId:'430496d6-6903-4601-937e-2c691821af3c',\n})\n```\n"
 							}
 						]
 					},
@@ -31528,7 +31528,7 @@
 				"tags": [
 					{
 						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw"
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n**Note**: This embed is deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
 						"tag": "group",
@@ -31547,11 +31547,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -31627,7 +31627,7 @@
 					},
 					"comment": {
 						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -31639,7 +31639,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true\n});\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true,\n});\n"
 							}
 						]
 					},
@@ -31669,7 +31669,7 @@
 					},
 					"comment": {
 						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"text": "Supported embed types: AppEmbed, SageEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `SageEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -31746,7 +31746,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -31792,7 +31792,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 104,
+							"line": 112,
 							"character": 4
 						}
 					],
@@ -31811,11 +31811,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -31859,7 +31859,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 76,
+							"line": 77,
 							"character": 4
 						}
 					],
@@ -31878,7 +31878,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -31886,7 +31886,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -31916,7 +31916,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -31924,7 +31924,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -31999,7 +31999,7 @@
 					},
 					"comment": {
 						"shortText": "To enable custom column groups in data panel v2",
-						"text": "Supported embed types: SageEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32041,11 +32041,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -32192,7 +32192,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32231,7 +32231,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32239,7 +32239,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -32287,7 +32287,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 86,
+							"line": 87,
 							"character": 4
 						}
 					],
@@ -32316,7 +32316,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 71,
+							"line": 72,
 							"character": 4
 						}
 					],
@@ -32338,14 +32338,18 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new SageEmbed('#tsEmbed', {\n   ... //other embed view config\n   hideSampleQuestions : true,\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 100,
+							"line": 108,
 							"character": 4
 						}
 					],
@@ -32378,7 +32382,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 65,
+							"line": 66,
 							"character": 4
 						}
 					],
@@ -32407,7 +32411,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 81,
+							"line": 82,
 							"character": 4
 						}
 					],
@@ -32426,7 +32430,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32464,7 +32468,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32502,7 +32506,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32540,11 +32544,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -32578,11 +32582,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -32616,7 +32620,7 @@
 					},
 					"comment": {
 						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32658,7 +32662,7 @@
 					},
 					"comment": {
 						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32666,7 +32670,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ]\n})\n```\n"
 							}
 						]
 					},
@@ -32715,7 +32719,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 124,
+							"line": 132,
 							"character": 4
 						}
 					],
@@ -32744,7 +32748,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 49,
+							"line": 50,
 							"character": 4
 						}
 					],
@@ -32773,7 +32777,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 93,
+							"line": 94,
 							"character": 4
 						}
 					],
@@ -32792,7 +32796,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -32804,7 +32808,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -32874,7 +32878,7 @@
 			"sources": [
 				{
 					"fileName": "embed/sage.ts",
-					"line": 36,
+					"line": 37,
 					"character": 17
 				}
 			],
@@ -32937,11 +32941,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33017,7 +33021,7 @@
 					},
 					"comment": {
 						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -33029,7 +33033,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true\n});\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true,\n});\n"
 							}
 						]
 					},
@@ -33059,7 +33063,7 @@
 					},
 					"comment": {
 						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"text": "Supported embed types: AppEmbed, SageEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `SageEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -33143,7 +33147,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... // other options\n   dataSource:'id-2345',\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... //other embed view config\n   dataSource:'id-2345',\n})\n```\n"
 							}
 						]
 					},
@@ -33180,7 +33184,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... // other options\n   dataSources:['id-2345','id-2345'],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... //other embed view config\n   dataSources:['id-2345','id-2345'],\n})\n```\n"
 							}
 						]
 					},
@@ -33209,11 +33213,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33247,7 +33251,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33255,7 +33259,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -33285,7 +33289,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33293,7 +33297,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -33368,7 +33372,7 @@
 					},
 					"comment": {
 						"shortText": "To enable custom column groups in data panel v2",
-						"text": "Supported embed types: SageEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33410,11 +33414,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33594,7 +33598,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33633,7 +33637,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33641,7 +33645,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -33679,7 +33683,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33717,7 +33721,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33755,7 +33759,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33793,11 +33797,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -33831,11 +33835,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -33877,7 +33881,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... // other options\n   searchOptions: {\n       searchTokenString: '[quantity purchased] [region]',\n       executeSearch: true,\n   }\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... //other embed view config\n   searchOptions: {\n       searchTokenString: '[quantity purchased] [region]',\n       executeSearch: true,\n   }\n})\n```\n"
 							}
 						]
 					},
@@ -33910,7 +33914,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... // other options\n   useLastSelectedSources:false,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchBarEmbed('#tsEmbed', {\n   ... //other embed view config\n   useLastSelectedSources:false,\n})\n```\n"
 							}
 						]
 					},
@@ -33936,7 +33940,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33948,7 +33952,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -34086,11 +34090,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -34173,7 +34177,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   answerId:'sed-1234',\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   answerId:'sed-1234',\n})\n```\n"
 							}
 						]
 					},
@@ -34206,7 +34210,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   collapseDataPanel:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   collapseDataPanel:true,\n})\n```\n"
 							}
 						]
 					},
@@ -34239,7 +34243,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   collapseDataSources:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   collapseDataSources:true,\n})\n```\n"
 							}
 						]
 					},
@@ -34265,7 +34269,7 @@
 					},
 					"comment": {
 						"shortText": "To set the initial state of the search bar in case of saved Answers.",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -34277,7 +34281,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true\n});\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  collapseSearchBar: true,\n});\n"
 							}
 						]
 					},
@@ -34344,7 +34348,7 @@
 					},
 					"comment": {
 						"shortText": "flag to set ContextMenu Trigger to either left or right click.",
-						"text": "Supported embed types: AppEmbed, SageEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `SageEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "example",
@@ -34432,7 +34436,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n  ... // other options\n  dataPanelCustomGroupsAccordionInitialState:\n     DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,\n});\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n  ... // other embed view config\n  dataPanelCustomGroupsAccordionInitialState:\n     DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,\n});\n```\n"
 							}
 						]
 					},
@@ -34458,7 +34462,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -34507,7 +34511,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   dataSource:'id-234',\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   dataSource:'id-234',\n})\n```\n"
 							}
 						]
 					},
@@ -34540,7 +34544,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   dataSources:['id-234','id-456'],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   dataSources:['id-234','id-456'],\n})\n```\n"
 							}
 						]
 					},
@@ -34569,11 +34573,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -34607,7 +34611,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -34615,7 +34619,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -34645,7 +34649,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -34653,7 +34657,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -34728,7 +34732,7 @@
 					},
 					"comment": {
 						"shortText": "To enable custom column groups in data panel v2",
-						"text": "Supported embed types: SageEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -34777,7 +34781,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   enableSearchAssist:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   enableSearchAssist:true,\n})\n```\n"
 							}
 						]
 					},
@@ -34803,11 +34807,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -34998,7 +35002,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n ... // other options\nfocusSearchBarOnRender: false,\n});\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n ... // other embed view config\nfocusSearchBarOnRender: false,\n});\n```\n"
 							}
 						]
 					},
@@ -35031,7 +35035,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   forceTable:true,\n})\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   forceTable:true,\n})\n"
 							}
 						]
 					},
@@ -35057,7 +35061,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35096,7 +35100,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35104,7 +35108,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -35149,7 +35153,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   hideDataSources:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideDataSources:true,\n})\n```\n"
 							}
 						]
 					},
@@ -35182,7 +35186,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   hideResults:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideResults:true,\n})\n```\n"
 							}
 						]
 					},
@@ -35215,7 +35219,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other options\n   hideSearchBar:true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   hideSearchBar:true,\n})\n```\n"
 							}
 						]
 					},
@@ -35241,7 +35245,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35308,7 +35312,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35346,7 +35350,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35384,11 +35388,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -35422,11 +35426,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -35460,7 +35464,7 @@
 					},
 					"comment": {
 						"shortText": "The list of runtime filters to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35502,7 +35506,7 @@
 					},
 					"comment": {
 						"shortText": "The list of parameter override to apply to a search Answer,\nvisualization, or Liveboard.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35510,7 +35514,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ],\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   runtimeParameters: [\n    {\n      name: 'value',\n      value: 'string' | 123 | true,\n    },\n  ]\n})\n```\n"
 							}
 						]
 					},
@@ -35632,7 +35636,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -35644,7 +35648,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -35921,11 +35925,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36039,11 +36043,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36077,7 +36081,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36085,7 +36089,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -36115,7 +36119,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36123,7 +36127,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -36198,11 +36202,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36273,7 +36277,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36312,7 +36316,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36320,7 +36324,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -36358,7 +36362,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36396,7 +36400,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36434,7 +36438,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36472,11 +36476,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36510,11 +36514,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -36548,7 +36552,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36560,7 +36564,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},
@@ -36688,11 +36692,11 @@
 					},
 					"comment": {
 						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    }\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  additionalFlags: {\n       flag1: 'value1',\n       flag2: 'value2'\n    },\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36806,7 +36810,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to control Data panel experience",
-						"text": "Supported embed types: SageEmbed, AppEmbed, SearchBarEmbed, LiveboardEmbed, SearchEmbed",
+						"text": "**Supported embed types**: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`",
 						"tags": [
 							{
 								"tag": "default",
@@ -36844,11 +36848,11 @@
 					},
 					"comment": {
 						"shortText": "This flag can be used to disable links inside the embedded app,\nand disable redirection of links in a new tab.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  disableRedirectionLinksInNewTab: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -36885,7 +36889,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   disableSourceSelection : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   disableSourceSelection : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -36915,7 +36919,7 @@
 					},
 					"comment": {
 						"shortText": "The tooltip to display for disabled actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36923,7 +36927,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n   disabledActionReason: \"Reason for disabling\",\n});\n```\n"
 							}
 						]
 					},
@@ -36953,7 +36957,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -36961,7 +36965,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   disabledActions: [Action.Download, Action.Save],\n});\n```\n"
 							}
 						]
 					},
@@ -37036,11 +37040,11 @@
 					},
 					"comment": {
 						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  enableV2Shell_experimental: true,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -37111,7 +37115,7 @@
 					},
 					"comment": {
 						"shortText": "The width and height dimensions to render an embedded\nobject inside your app.  Specify the values in pixels or percentage.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37150,7 +37154,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37158,7 +37162,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export]\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   hiddenActions: [Action.Download, Action.Export],\n});\n```"
 							},
 							{
 								"tag": "important",
@@ -37199,7 +37203,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   hideSampleQuestions : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   hideSampleQuestions : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -37232,7 +37236,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   hideSourceSelection : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   hideSourceSelection : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -37262,7 +37266,7 @@
 					},
 					"comment": {
 						"shortText": "Insert as a sibling of the target container, instead of appending to a\nchild inside it.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37300,7 +37304,7 @@
 					},
 					"comment": {
 						"shortText": "Flag to override the *Open Link in New Tab* context menu option.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37338,7 +37342,7 @@
 					},
 					"comment": {
 						"shortText": "The locale settings to apply to the embedded view.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37376,11 +37380,11 @@
 					},
 					"comment": {
 						"shortText": "Overrides an Org context for embedding application users.\nThis parameter allows a user authenticated to one Org to view the\nobjects from another Org.\nThe `overrideOrgId` setting is honoured only if the\nPer Org URL feature is enabled on your ThoughtSpot instance.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536\n});\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n  ... // other embed view config\n  overrideOrgId: 142536,\n});\n```"
 							},
 							{
 								"tag": "version",
@@ -37414,11 +37418,11 @@
 					},
 					"comment": {
 						"shortText": "PreRender id to be used for PreRendering the embed.\nUse PreRender to render the embed in the background and then\nshow or hide the rendered embed using showPreRender or hidePreRender respectively.",
-						"text": "Supported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\"\n});\nembed.showPreRender();\n```"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n  preRenderId: \"preRenderId-123\",\n});\nembed.showPreRender();\n```"
 							},
 							{
 								"tag": "version",
@@ -37478,7 +37482,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... // other options\n   showSpotterLimitations : true,\n})\n```"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   ... //other embed view config\n   showSpotterLimitations : true,\n})\n```"
 							},
 							{
 								"tag": "version",
@@ -37508,7 +37512,7 @@
 					},
 					"comment": {
 						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: AppEmbed, LiveboardEmbed, SageEmbed, SearchEmbed, SpotterAgentEmbed, SpotterEmbed, SearchBarEmbed",
+						"text": "Use either this or hiddenActions.\n\n**Supported embed types**: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -37520,7 +37524,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export]\n});\n```\n"
+								"text": "\n```js\n// Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed\nconst embed = new <EmbedType>('#tsEmbed', {\n   ... // other embed view config\n   visibleActions: [Action.Download, Action.Export],\n});\n```\n"
 							}
 						]
 					},

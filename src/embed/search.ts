@@ -82,7 +82,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    collapseDataSources:true,
      * })
      * ```
@@ -95,7 +95,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    collapseDataPanel:true,
      * })
      * ```
@@ -107,7 +107,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideDataSources:true,
      * })
      * ```
@@ -121,7 +121,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideResults:true,
      * })
      * ```
@@ -133,7 +133,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    enableSearchAssist:true,
      * })
      * ```
@@ -146,7 +146,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    forceTable:true,
      * })
      */
@@ -158,7 +158,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    dataSources:['id-234','id-456'],
      * })
      * ```
@@ -170,7 +170,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    dataSource:'id-234',
      * })
      * ```
@@ -224,7 +224,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    answerId:'sed-1234',
      * })
      * ```
@@ -237,7 +237,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideSearchBar:true,
      * })
      * ```
@@ -272,7 +272,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *   ... // other options
+     *   ... // other embed view config
      *   dataPanelCustomGroupsAccordionInitialState:
      *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
      * });
@@ -287,7 +287,7 @@ export interface SearchViewConfig
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *  ... // other options
+     *  ... // other embed view config
      * focusSearchBarOnRender: false,
      * });
      * ```
