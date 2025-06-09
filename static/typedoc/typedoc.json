@@ -14881,11 +14881,7 @@
 				"tags": [
 					{
 						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw\n"
-					},
-					{
-						"tag": "deprecated",
-						"text": "from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw\n\nNote: This embed will be deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
 						"tag": "group",
@@ -14903,7 +14899,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 149,
+							"line": 150,
 							"character": 4
 						}
 					],
@@ -15084,7 +15080,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 193,
+							"line": 194,
 							"character": 11
 						}
 					],
@@ -15708,7 +15704,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 218,
+							"line": 219,
 							"character": 17
 						}
 					],
@@ -16095,7 +16091,7 @@
 			"sources": [
 				{
 					"fileName": "embed/sage.ts",
-					"line": 141,
+					"line": 142,
 					"character": 13
 				}
 			],
@@ -31532,11 +31528,7 @@
 				"tags": [
 					{
 						"tag": "version:",
-						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw"
-					},
-					{
-						"tag": "deprecated",
-						"text": "from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
+						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n\nNote: This embed will be deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
 						"tag": "group",
@@ -31800,7 +31792,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 112,
+							"line": 113,
 							"character": 4
 						}
 					],
@@ -31867,7 +31859,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 77,
+							"line": 78,
 							"character": 4
 						}
 					],
@@ -32295,7 +32287,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 87,
+							"line": 88,
 							"character": 4
 						}
 					],
@@ -32324,7 +32316,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 72,
+							"line": 73,
 							"character": 4
 						}
 					],
@@ -32357,7 +32349,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 108,
+							"line": 109,
 							"character": 4
 						}
 					],
@@ -32390,7 +32382,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 66,
+							"line": 67,
 							"character": 4
 						}
 					],
@@ -32419,7 +32411,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 82,
+							"line": 83,
 							"character": 4
 						}
 					],
@@ -32727,7 +32719,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 132,
+							"line": 133,
 							"character": 4
 						}
 					],
@@ -32756,7 +32748,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 50,
+							"line": 51,
 							"character": 4
 						}
 					],
@@ -32785,7 +32777,7 @@
 					"sources": [
 						{
 							"fileName": "embed/sage.ts",
-							"line": 94,
+							"line": 95,
 							"character": 4
 						}
 					],
@@ -32886,7 +32878,7 @@
 			"sources": [
 				{
 					"fileName": "embed/sage.ts",
-					"line": 37,
+					"line": 38,
 					"character": 17
 				}
 			],
