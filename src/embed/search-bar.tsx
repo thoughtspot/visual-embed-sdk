@@ -1,4 +1,4 @@
-import { DefaultAppInitData, Param, ViewConfig } from '../types';
+import { SearchSpecificViewConfig, BaseViewConfig, DefaultAppInitData, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -6,17 +6,7 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'runtimeFilters'
-        | 'showAlerts'
-        | 'dataPanelV2'
-        | 'hiddenTabs'
-        | 'visibleTabs'
-        | 'primaryAction'
-        | 'runtimeParameters'
-    > {
+export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewConfig {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.

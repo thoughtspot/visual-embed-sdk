@@ -6,7 +6,7 @@
  * @author Mourya Balabhadra <mourya.balabhadra@thoughtspot.com>
  */
 
-import { DOMSelector, Param, ViewConfig } from '../types';
+import { DOMSelector, Param, BaseViewConfig, SearchSpecificViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
 
@@ -36,10 +36,7 @@ export interface SearchOptions {
  * @group Embed components
  */
 export interface SageViewConfig
-    extends Omit<
-        ViewConfig,
-        'hiddenTabs' | 'visibleTabs' | 'primaryAction' | 'showAlerts'
-    > {
+    extends SearchSpecificViewConfig, Omit<BaseViewConfig, 'primaryAction'> {
     /**
      * If set to true, a list of Liveboard and Answers related
      * to the natural language search will be shown below the

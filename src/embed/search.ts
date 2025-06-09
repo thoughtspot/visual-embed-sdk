@@ -11,8 +11,9 @@ import {
     DOMSelector,
     Param,
     Action,
-    ViewConfig,
+    SearchSpecificViewConfig,
     DefaultAppInitData,
+    BaseViewConfig,
 } from '../types';
 import {
     getQueryParamString,
@@ -68,13 +69,7 @@ export enum DataPanelCustomColumnGroupsAccordionState {
  * @group Embed components
  */
 export interface SearchViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'hiddenTabs'
-        | 'visibleTabs'
-        | 'primaryAction'
-        | 'showAlerts'
-    > {
+    extends SearchSpecificViewConfig, Omit<BaseViewConfig, 'primaryAction'> {
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.

@@ -17,7 +17,8 @@ import {
     RuntimeFilter,
     DOMSelector,
     HostEvent,
-    ViewConfig,
+    SearchSpecificViewConfig as LiveboardOtherViewConfig,
+    BaseViewConfig,
 } from '../types';
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -36,7 +37,7 @@ const liveboardHeightWhitelistedRoutes = [
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
  */
-export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
+export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -405,6 +406,41 @@ export interface LiveboardViewConfig extends Omit<ViewConfig, 'showAlerts'> {
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
+    /**
+     * The list of tab IDs to hide from the embedded.
+     * This Tabs will be hidden from their respective LBs.
+     * Use this to hide an tabID.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *   hiddenTabs: [
+     *    '430496d6-6903-4601-937e-2c691821af3c',
+     *    'f547ec54-2a37-4516-a222-2b06719af726'
+     *   ]
+     * });
+     * ```
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     */
+    hiddenTabs?: string[];
+    /**
+     * The list of tab IDs to show in the embedded Liveboard.
+     * Only the tabs specified in the array will be shown in the Liveboard.
+     *
+     * Use either `visibleTabs` or `hiddenTabs`.
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    visibleTabs: [
+     *       '430496d6-6903-4601-937e-2c691821af3c',
+     *       'f547ec54-2a37-4516-a222-2b06719af726'
+     *     ]
+     * })
+     * ```
+     */
+    visibleTabs?: string[];
 }
 
 /**

@@ -53,10 +53,9 @@ import {
     EmbedConfig,
     MessageOptions,
     MessageCallbackObj,
-    ViewConfig,
     ContextMenuTriggerOptions,
     DefaultAppInitData,
-    HomePageConfig,
+    AllEmbedViewConfig as ViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -129,7 +128,7 @@ export class TsEmbed {
         this.hostEventClient.setIframeElement(iFrame);
     }
 
-    protected viewConfig: ViewConfig & HomePageConfig;
+    protected viewConfig: ViewConfig & { visibleTabs?: string[], hiddenTabs?: string[], showAlerts?: boolean };
 
     protected embedConfig: EmbedConfig;
 
@@ -181,7 +180,7 @@ export class TsEmbed {
 
     protected isReadyForRenderPromise;
 
-    constructor(domSelector: DOMSelector, viewConfig?: ViewConfig & HomePageConfig) {
+    constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;

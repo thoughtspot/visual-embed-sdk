@@ -14,10 +14,9 @@ import {
     Param,
     DOMSelector,
     HostEvent,
-    ViewConfig,
     EmbedEvent,
     MessagePayload,
-    HomePageConfig,
+    AllEmbedViewConfig,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -129,7 +128,7 @@ export interface DiscoveryExperience {
  * The view configuration for full app embedding.
  * @group Embed components
  */
-export interface AppViewConfig extends HomePageConfig, Omit<ViewConfig, 'visibleTabs'|'hiddenTabs'> {
+export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
@@ -586,6 +585,19 @@ export interface AppViewConfig extends HomePageConfig, Omit<ViewConfig, 'visible
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
+     /**
+     * Show alert messages and toast messages in the embedded
+     * view in full app embed.
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... //other embed view config
+     *    showAlerts:true,
+     * })
+     * ```
+     */
+     showAlerts?: boolean;
 }
 
 /**

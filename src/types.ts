@@ -1078,20 +1078,7 @@ export interface HomePageConfig {
 /**
  * The configuration object for an embedded view.
  */
-export interface ViewConfig extends BaseViewConfig {
-     /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... //other embed view config
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-     showAlerts?: boolean;
+export interface SearchSpecificViewConfig {
     /**
      * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
@@ -1162,46 +1149,6 @@ export interface ViewConfig extends BaseViewConfig {
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
-     * The list of tab IDs to hide from the embedded.
-     * This Tabs will be hidden from their respective LBs.
-     * Use this to hide an tabID.
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @example
-     * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
-     *    ... // other embed view config
-     *   hiddenTabs: [
-     * '430496d6-6903-4601-937e-2c691821af3c',
-     *  'f547ec54-2a37-4516-a222-2b06719af726']
-     * });
-     * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
-     */
-    hiddenTabs?: string[];
-    /**
-     * The list of tab IDs to show in the embedded Liveboard.
-     * Only the tabs specified in the array will be shown in the Liveboard.
-     *
-     * Use either `visibleTabs` or `hiddenTabs`.
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
-     * @example
-     * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
-     *    ... // other embed view config
-     *    visibleTabs: [
-     *       '430496d6-6903-4601-937e-2c691821af3c',
-     *       'f547ec54-2a37-4516-a222-2b06719af726'
-     *     ]
-     * })
-     * ```
-     */
-    visibleTabs?: string[];
-    /**
      * Boolean to exclude runtimeParameters from the URL
      * when set to true, this flag removes runtime parameters from the URL.
      *
@@ -1259,6 +1206,8 @@ export interface ViewConfig extends BaseViewConfig {
      */
     enableCustomColumnGroups?: boolean;
 }
+
+export interface AllEmbedViewConfig extends BaseViewConfig, SearchSpecificViewConfig, HomePageConfig {}
 
 /**
  * MessagePayload: Embed event payload: message type, data and status (start/end)
@@ -1669,7 +1618,7 @@ export enum EmbedEvent {
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @example
      * ```js
-     * livebaordEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
+     * LiveboardEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
      *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
