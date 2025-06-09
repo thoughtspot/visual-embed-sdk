@@ -14,9 +14,9 @@ import {
     Param,
     DOMSelector,
     HostEvent,
-    ViewConfig,
     EmbedEvent,
     MessagePayload,
+    AllEmbedViewConfig,
 } from '../types';
 import { V1Embed } from './ts-embed';
 
@@ -128,7 +128,7 @@ export interface DiscoveryExperience {
  * The view configuration for full app embedding.
  * @group Embed components
  */
-export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
+export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
@@ -138,7 +138,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    showPrimaryNavbar:true,
      * })
      * ```
@@ -158,7 +158,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideHomepageLeftNav : true,
      * })
      * ```
@@ -172,7 +172,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    disableProfileAndHelp: true,
      * })
      * ```
@@ -186,7 +186,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *   ... // other options
+     *   ... // other embed view config
      *  enablePendoHelp: false,
      * });
      * ```
@@ -201,7 +201,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideHamburger : true,
      * })
      * ```
@@ -216,7 +216,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideObjectSearch: false,
      * })
      * ```
@@ -231,7 +231,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideNotification: false,
      * })
      * ```
@@ -249,7 +249,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideApplicationSwitcher : true,
      * })
      * ```
@@ -267,7 +267,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideOrgSwitcher : true,
      * })
      * ```
@@ -285,8 +285,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    path:"pinboard/1234/tab/7464"
+     *    ... // other embed view config
+     *    path:"pinboard/1234/tab/7464",
      * })
      * ```
      */
@@ -301,8 +301,8 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    pageId : Page.Answers | Page.Data
+     *    ... // other embed view config
+     *    pageId : Page.Answers | Page.Data,
      * })
      * ```
      */
@@ -315,7 +315,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    tag:'value',
      * })
      * ```
@@ -327,7 +327,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideObjects: [
      *       '430496d6-6903-4601-937e-2c691821af3c',
      *       'f547ec54-2a37-4516-a222-2b06719af726'
@@ -350,7 +350,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    enableSearchAssist: true,
      * })
      * ```
@@ -372,7 +372,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    fullHeight: true,
      * })
      * ```
@@ -385,7 +385,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideLiveboardHeader : true,
      * })
      * ```
@@ -398,7 +398,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    showLiveboardTitle:true,
      * })
      * ```
@@ -411,7 +411,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    showLiveboardDescription:true,
      * })
      * ```
@@ -424,7 +424,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    modularHomeExperience : true,
      * })
      * ```
@@ -438,7 +438,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    discoveryExperience : {
      *      primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
      *      homePage: HompePage.Modular,
@@ -499,7 +499,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    enable2ColumnLayout: true,
      * })
      * ```
@@ -523,7 +523,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
@@ -537,7 +537,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    showLiveboardVerifiedBadge: true,
      * })
      * ```
@@ -551,7 +551,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideIrrelevantChipsInLiveboardTabs: true,
      * })
      * ```
@@ -565,7 +565,7 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    showLiveboardReverifyBanner: true,
      * })
      * ```
@@ -579,12 +579,25 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
-     *    ... // other options
+     *    ... // other embed view config
      *    isUnifiedSearchExperienceEnabled: true,
      * })
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
+     /**
+     * Show alert messages and toast messages in the embedded
+     * view in full app embed.
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... //other embed view config
+     *    showAlerts:true,
+     * })
+     * ```
+     */
+     showAlerts?: boolean;
 }
 
 /**

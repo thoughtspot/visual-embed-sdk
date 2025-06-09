@@ -12,12 +12,12 @@ import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed
 import { TsEmbed } from '../embed/ts-embed';
 import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig } from '../embed/bodyless-conversation';
 
-import { EmbedConfig, EmbedEvent, ViewConfig } from '../types';
+import { EmbedConfig, EmbedEvent, AllEmbedViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 
-const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends ViewConfig>(
+const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends AllEmbedViewConfig>(
     EmbedConstructor: T,
     // isPreRenderedComponent: Specifies whether the component being returned is
     // intended for preRendering. If set to true, the component will call the

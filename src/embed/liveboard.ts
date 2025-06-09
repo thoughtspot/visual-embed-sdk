@@ -17,7 +17,8 @@ import {
     RuntimeFilter,
     DOMSelector,
     HostEvent,
-    ViewConfig,
+    SearchSpecificViewConfig as LiveboardOtherViewConfig,
+    BaseViewConfig,
 } from '../types';
 import { getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -37,11 +38,7 @@ const liveboardHeightWhitelistedRoutes = [
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
  */
-export interface LiveboardViewConfig
-    extends Omit<
-        ViewConfig,
-        'hiddenHomepageModules' | 'hiddenHomeLeftNavItems' | 'reorderedHomepageModules'
-    > {
+export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -84,7 +81,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    enableVizTransformations:true,
      * })
      * ```
@@ -98,7 +95,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    liveboardId:id of liveboard,
      * })
      */
@@ -114,7 +111,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    vizId:'430496d6-6903-4601-937e-2c691821af3c',
      * })
      * ```
@@ -127,7 +124,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    preventLiveboardFilterRemoval:true,
      * })
      * ```
@@ -141,7 +138,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    visibleVizs: [
      *       '430496d6-6903-4601-937e-2c691821af3c',
      *       'f547ec54-2a37-4516-a222-2b06719af726'
@@ -161,7 +158,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    liveboardV2:true,
      * })
      * ```
@@ -173,7 +170,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    activeTabId:'id-1234',
      * })
      * ```
@@ -186,7 +183,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideTabPanel:true,
      * })
      * ```
@@ -212,7 +209,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardTitle:true,
      * })
      * ```
@@ -225,7 +222,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardDescription:true,
      * })
      * ```
@@ -247,12 +244,14 @@ export interface LiveboardViewConfig
     isLiveboardHeaderSticky?: boolean;
     /**
      * enable or disable ask sage
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
      * @default false
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @example
      * ```js
-     * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SpotterEmbed, or LiveboardEmbed
+     * const embed = new <EmbedType>('#tsEmbed', {
+     *    ... // other embed view config
      *    enableAskSage:true,
      * })
      * ```
@@ -266,7 +265,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    enable2ColumnLayout: true,
      * })
      * ```
@@ -304,7 +303,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
@@ -318,7 +317,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardVerifiedBadge: true,
      * })
      * ```
@@ -333,7 +332,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showLiveboardReverifyBanner: true,
      * })
      * ```
@@ -347,7 +346,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideIrrelevantChipsInLiveboardTabs: true,
      * })
      * ```
@@ -361,7 +360,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    oAuthPollingInterval: value in milliseconds,
      * })
      */
@@ -374,7 +373,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    isForceRedirect: false,
      * })
      */
@@ -387,7 +386,7 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSourceId: '',
      * })
      */
@@ -402,12 +401,47 @@ export interface LiveboardViewConfig
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other options
+     *    ... //other embed view config
      *    coverAndFilterOptionInPDF: false,
      * })
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
+    /**
+     * The list of tab IDs to hide from the embedded.
+     * This Tabs will be hidden from their respective LBs.
+     * Use this to hide an tabID.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *   hiddenTabs: [
+     *    '430496d6-6903-4601-937e-2c691821af3c',
+     *    'f547ec54-2a37-4516-a222-2b06719af726'
+     *   ]
+     * });
+     * ```
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     */
+    hiddenTabs?: string[];
+    /**
+     * The list of tab IDs to show in the embedded Liveboard.
+     * Only the tabs specified in the array will be shown in the Liveboard.
+     *
+     * Use either `visibleTabs` or `hiddenTabs`.
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    visibleTabs: [
+     *       '430496d6-6903-4601-937e-2c691821af3c',
+     *       'f547ec54-2a37-4516-a222-2b06719af726'
+     *     ]
+     * })
+     * ```
+     */
+    visibleTabs?: string[];
 }
 
 /**

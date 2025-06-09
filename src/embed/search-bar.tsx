@@ -1,4 +1,4 @@
-import { DefaultAppInitData, Param, ViewConfig } from '../types';
+import { SearchSpecificViewConfig, BaseViewConfig, DefaultAppInitData, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -6,18 +6,7 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'runtimeFilters'
-        | 'showAlerts'
-        | 'dataPanelV2'
-        | 'hiddenHomepageModules'
-        | 'hiddenHomeLeftNavItems'
-        | 'hiddenTabs'
-        | 'visibleTabs'
-        | 'reorderedHomepageModules'
-    > {
+export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewConfig {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
@@ -26,7 +15,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSources:['id-2345','id-2345'],
      * })
      * ```
@@ -38,7 +27,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSource:'id-2345',
      * })
      * ```
@@ -50,7 +39,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    useLastSelectedSources:false,
      * })
      * ```
@@ -70,7 +59,7 @@ export interface SearchBarViewConfig
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    searchOptions: {
      *        searchTokenString: '[quantity purchased] [region]',
      *        executeSearch: true,

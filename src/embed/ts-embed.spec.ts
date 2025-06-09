@@ -1993,13 +1993,13 @@ describe('Unit test case for ts embed', () => {
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with right value', async () => {
-            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
                 contextMenuTrigger: ContextMenuTriggerOptions.RIGHT_CLICK,
             } as LiveboardViewConfig);
 
-            livebaordEmbed.render();
+            liveboardEmbed.render();
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
@@ -2031,13 +2031,13 @@ describe('Unit test case for ts embed', () => {
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with both value', async () => {
-            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
                 contextMenuTrigger: ContextMenuTriggerOptions.BOTH_CLICKS,
             } as LiveboardViewConfig);
 
-            livebaordEmbed.render();
+            liveboardEmbed.render();
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),

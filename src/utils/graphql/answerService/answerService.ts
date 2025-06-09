@@ -27,19 +27,20 @@ export interface UnderlyingDataPoint {
 
 /**
  * AnswerService provides a simple way to work with ThoughtSpot Answers.
- * 
+ *
  * This service allows you to interact with ThoughtSpot Answers programmatically,
  * making it easy to customize visualizations, filter data, and extract insights
  * directly from your application.
- * 
+ *
  * You can use this service to:
+ *
  * - Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)
  * - Apply filters to Answers (`addFilter`)
  * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
  * - Get data for specific points in visualizations (`getUnderlyingDataForPoint`)
  * - Run custom queries (`executeQuery`)
- * - Add visualizations to liveboards (`addDisplayedVizToLiveboard`)
- * 
+ * - Add visualizations to Liveboards (`addDisplayedVizToLiveboard`)
+ *
  * @example
  * ```js
  * // Get the answer service
