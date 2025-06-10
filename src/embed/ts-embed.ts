@@ -1414,6 +1414,13 @@ export class TsEmbed {
      * when user exits fullscreen mode
      */
     private setupFullscreenChangeHandler() {
+        const embedConfig = getEmbedConfig();
+        const enableFullscreenPresentation = embedConfig?.enableFullscreenPresentation ?? false;
+        
+        if (!enableFullscreenPresentation) {
+            return;
+        }
+
         if (this.fullscreenChangeHandler) {
             document.removeEventListener('fullscreenchange', this.fullscreenChangeHandler);
         }
