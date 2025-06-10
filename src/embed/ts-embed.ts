@@ -184,6 +184,11 @@ export class TsEmbed {
 
     protected isReadyForRenderPromise;
 
+    /**
+     * Handler for fullscreen change events
+     */
+    private fullscreenChangeHandler: (() => void) | null = null;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
@@ -1151,6 +1156,10 @@ export class TsEmbed {
         }
         await this.isReadyForRenderPromise;
         this.isRendered = true;
+        
+        // Setup fullscreen change handler after rendering
+        this.setupFullscreenChangeHandler();
+        
         return this;
     }
 
@@ -1214,6 +1223,7 @@ export class TsEmbed {
      */
     public destroy(): void {
         try {
+            this.removeFullscreenChangeHandler();
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
         } catch (e) {
@@ -1392,6 +1402,36 @@ export class TsEmbed {
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
+    }
+
+    /**
+     * Set up fullscreen change detection to automatically trigger ExitPresentMode
+     * when user exits fullscreen mode
+     */
+    private setupFullscreenChangeHandler() {
+        if (this.fullscreenChangeHandler) {
+            document.removeEventListener('fullscreenchange', this.fullscreenChangeHandler);
+        }
+
+        this.fullscreenChangeHandler = () => {
+            const isFullscreen = !!document.fullscreenElement;
+            if (!isFullscreen) {
+                logger.info('Exited fullscreen mode - triggering ExitPresentMode');
+                this.trigger(HostEvent.ExitPresentMode);
+            }
+        };
+
+        document.addEventListener('fullscreenchange', this.fullscreenChangeHandler);
+    }
+
+    /**
+     * Remove fullscreen change handler
+     */
+    private removeFullscreenChangeHandler() {
+        if (this.fullscreenChangeHandler) {
+            document.removeEventListener('fullscreenchange', this.fullscreenChangeHandler);
+            this.fullscreenChangeHandler = null;
+        }
     }
 }
 

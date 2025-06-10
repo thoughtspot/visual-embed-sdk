@@ -2464,7 +2464,7 @@ export enum EmbedEvent {
      CreateModel = 'createModel',
     /**
      * Emitted when a user exits present mode.
-     * @version SDK : 1.39.0 | ThoughtSpot : 10.11.0.cl
+     * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
 }
@@ -3541,6 +3541,15 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
+    /**
+     * Trigger exit from presentation mode when user exits fullscreen.
+     * This is automatically triggered by the SDK when fullscreen mode is exited.
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ExitPresentMode);
+     *```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**
