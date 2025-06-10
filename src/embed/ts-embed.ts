@@ -783,6 +783,9 @@ export class TsEmbed {
                                 }
                             });
                         }
+                        
+                        // Setup fullscreen change handler after iframe is loaded and ready
+                        this.setupFullscreenChangeHandler();
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
@@ -1157,9 +1160,6 @@ export class TsEmbed {
         await this.isReadyForRenderPromise;
         this.isRendered = true;
         
-        // Setup fullscreen change handler after rendering
-        this.setupFullscreenChangeHandler();
-        
         return this;
     }
 
@@ -1327,6 +1327,11 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
+        
+        // Setup fullscreen change handler for prerendered components
+        if (this.iFrame) {
+            this.setupFullscreenChangeHandler();
+        }
 
         return this;
     }
@@ -1417,7 +1422,10 @@ export class TsEmbed {
             const isFullscreen = !!document.fullscreenElement;
             if (!isFullscreen) {
                 logger.info('Exited fullscreen mode - triggering ExitPresentMode');
-                this.trigger(HostEvent.ExitPresentMode);
+                // Only trigger if iframe is available
+                if (this.iFrame) {
+                    this.trigger(HostEvent.ExitPresentMode);
+                }
             }
         };
 
