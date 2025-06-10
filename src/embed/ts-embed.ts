@@ -1422,9 +1422,11 @@ export class TsEmbed {
             const isFullscreen = !!document.fullscreenElement;
             if (!isFullscreen) {
                 logger.info('Exited fullscreen mode - triggering ExitPresentMode');
-                // Only trigger if iframe is available
-                if (this.iFrame) {
+                // Only trigger if iframe is available and contentWindow is accessible
+                if (this.iFrame && this.iFrame.contentWindow) {
                     this.trigger(HostEvent.ExitPresentMode);
+                } else {
+                    logger.debug('Skipping ExitPresentMode - iframe contentWindow not available');
                 }
             }
         };
