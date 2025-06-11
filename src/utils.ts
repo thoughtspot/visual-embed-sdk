@@ -405,32 +405,24 @@ const isInFullscreen = (): boolean => {
  * Handle Present HostEvent by entering fullscreen mode
  * @param iframe The iframe element to make fullscreen
  */
-export const handlePresentEvent = (iframe: HTMLIFrameElement): void => {
-    if (!iframe) {
-        logger.warn('No iframe found on the page');
-        return;
-    }
-
+export const handlePresentEvent = async (iframe: HTMLIFrameElement): Promise<void> => {
     if (isInFullscreen()) {
         return; // Already in fullscreen
     }
 
+    // Browser-specific methods to enter fullscreen mode
     const fullscreenMethods = [
-        'requestFullscreen',
-        'webkitRequestFullscreen', 
-        'mozRequestFullScreen',
-        'msRequestFullscreen'
+        'requestFullscreen',      // Standard API
+        'webkitRequestFullscreen', // WebKit browsers
+        'mozRequestFullScreen',   // Firefox
+        'msRequestFullscreen'     // IE/Edge
     ];
 
     for (const method of fullscreenMethods) {
         if (typeof (iframe as any)[method] === 'function') {
             try {
                 const result = (iframe as any)[method]();
-                if (result && typeof result.catch === 'function') {
-                    result.catch((error: Error) => {
-                        logger.warn(`Failed to enter fullscreen using ${method}:`, error);
-                    });
-                }
+                await Promise.resolve(result);
                 return;
             } catch (error) {
                 logger.warn(`Failed to enter fullscreen using ${method}:`, error);
@@ -444,27 +436,24 @@ export const handlePresentEvent = (iframe: HTMLIFrameElement): void => {
 /**
  * Handle ExitPresentMode EmbedEvent by exiting fullscreen mode
  */
-export const handleExitPresentMode = (): void => {
+export const handleExitPresentMode = async (): Promise<void> => {
     if (!isInFullscreen()) {
         return; // Not in fullscreen
     }
 
     const exitFullscreenMethods = [
-        'exitFullscreen',
-        'webkitExitFullscreen',
-        'mozCancelFullScreen', 
-        'msExitFullscreen'
+        'exitFullscreen',        // Standard API
+        'webkitExitFullscreen',  // WebKit browsers
+        'mozCancelFullScreen',   // Firefox
+        'msExitFullscreen'       // IE/Edge
     ];
 
+    // Try each method until one works
     for (const method of exitFullscreenMethods) {
         if (typeof (document as any)[method] === 'function') {
             try {
                 const result = (document as any)[method]();
-                if (result && typeof result.catch === 'function') {
-                    result.catch((error: Error) => {
-                        logger.warn(`Failed to exit fullscreen using ${method}:`, error);
-                    });
-                }
+                await Promise.resolve(result);
                 return;
             } catch (error) {
                 logger.warn(`Failed to exit fullscreen using ${method}:`, error);

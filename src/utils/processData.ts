@@ -23,8 +23,6 @@ function processExitPresentMode(e: any) {
     
     if (enableFullscreenPresentation) {
         handleExitPresentMode();
-    } else {
-        logger.info('Fullscreen presentation without iframe context mode is not handled. Set enableFullscreenPresentation: true to enable this feature.');
     }
 }
 
