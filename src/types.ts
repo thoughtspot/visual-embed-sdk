@@ -2463,6 +2463,7 @@ export enum EmbedEvent {
      */
      CreateModel = 'createModel',
     /**
+     * @hidden
      * Emitted when a user exits present mode.
      * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
      */
@@ -3542,6 +3543,7 @@ export enum HostEvent {
      */
     TransformTableVizData = 'TransformTableVizData',
     /**
+     * @hidden
      * Trigger exit from presentation mode when user exits fullscreen.
      * This is automatically triggered by the SDK when fullscreen mode is exited.
      * ```js
