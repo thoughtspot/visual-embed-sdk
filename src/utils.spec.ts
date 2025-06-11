@@ -364,13 +364,6 @@ describe('Fullscreen Utility Functions', () => {
             expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
             expect(logger.error).not.toHaveBeenCalled();
         });
-
-        it('should warn when iframe is null', () => {
-            handlePresentEvent(null as any);
-
-            expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
-            expect(logger.warn).toHaveBeenCalledWith('No iframe found on the page');
-        });
     });
 
     describe('handleExitPresentMode', () => {

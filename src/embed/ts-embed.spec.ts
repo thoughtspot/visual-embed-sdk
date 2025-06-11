@@ -2706,4 +2706,52 @@ describe('Unit test case for ts embed', () => {
         );
       });
     });
+
+    describe('Fullscreen Change Handler', () => {
+        beforeEach(() => {
+            document.body.innerHTML = getDocumentBody();
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                enableFullscreenPresentation: true,
+            });
+        });
+
+        test('should have setupFullscreenChangeHandler method', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(typeof searchEmbed['setupFullscreenChangeHandler']).toBe('function');
+        });
+
+        test('should have removeFullscreenChangeHandler method', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(typeof searchEmbed['removeFullscreenChangeHandler']).toBe('function');
+        });
+
+        test('should call setupFullscreenChangeHandler without errors', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(() => {
+                searchEmbed['setupFullscreenChangeHandler']();
+            }).not.toThrow();
+        });
+
+        test('should call removeFullscreenChangeHandler without errors', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(() => {
+                searchEmbed['removeFullscreenChangeHandler']();
+            }).not.toThrow();
+        });
+
+        test('should handle fullscreen change when feature flag is disabled', () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                enableFullscreenPresentation: false,
+            });
+            
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(() => {
+                searchEmbed['setupFullscreenChangeHandler']();
+            }).not.toThrow();
+        });
+    });
 });
