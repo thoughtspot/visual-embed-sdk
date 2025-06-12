@@ -649,13 +649,13 @@ export interface EmbedConfig {
     /**
      * Disable fullscreen presentation mode functionality. When enabled, prevents entering 
      * and exiting fullscreen mode for embedded visualizations during presentations.
-     * @default false (feature is enabled by default)
+     * @default true (feature is disabled by default)
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * init({
      *   ... // other embed config options
-     *   disableFullscreenPresentation: true, // disables the feature
+     *   disableFullscreenPresentation: false, // enables the feature
      * })
      * ```
      */

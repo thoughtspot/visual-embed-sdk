@@ -155,7 +155,7 @@ describe('Unit test for processTrigger', () => {
             );
         });
 
-        test('should default to enabled when disableFullscreenPresentation is not provided', () => {
+        test('should default to disabled when disableFullscreenPresentation is not provided', () => {
             const mockConfig = {};
             mockGetEmbedConfig.mockReturnValue(mockConfig);
 
@@ -170,8 +170,8 @@ describe('Unit test for processTrigger', () => {
                 data,
             );
 
-            expect(mockHandlePresentEvent).toHaveBeenCalledWith(iFrame);
-            expect(mockLoggerWarn).not.toHaveBeenCalledWith(
+            expect(mockHandlePresentEvent).not.toHaveBeenCalled();
+            expect(mockLoggerWarn).toHaveBeenCalledWith(
                 'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
             );
         });

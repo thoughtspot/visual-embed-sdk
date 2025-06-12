@@ -1415,7 +1415,7 @@ export class TsEmbed {
      */
     private setupFullscreenChangeHandler() {
         const embedConfig = getEmbedConfig();
-        const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? false;
+        const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
         
         if (disableFullscreenPresentation) {
             return;
