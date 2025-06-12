@@ -2468,6 +2468,36 @@ export enum EmbedEvent {
      * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
+    /**
+     * Emitted when spotter response is the text data
+     * 
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     */
+    SpotterData = 'SpotterData',
+    /**
+     * Emitted when user opens up the worksheet preview modal in spotter embed.
+     */
+    PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Emitted when the spotter query is triggered in spotter embed.
+     */
+    SpotterQueryTriggered = 'SpotterQueryTriggered',
+    /**
+     * Emitted when the last spotter query is edited in spotter embed.
+     */
+    LastPromptEdited = 'LastPromptEdited',
+    /**
+     * Emitted when the last spotter query is deleted in spotter embed.
+     */
+    LastPromptDeleted = 'LastPromptDeleted',
+    /**
+     * Emitted when the coversation is reset in spotter embed.
+     */
+    ResetSpotterConversation = 'ResetSpotterConversation'
 }
 
 /**
@@ -2758,6 +2788,7 @@ export enum HostEvent {
      * @param
      * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
      *  Optional when pinning a new chart or table generated from a Search query.
+     *  Required in Spotter Embed.
      * @param
      * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
      *  specify the `newLiveboardName` parameter to create a new Liveboard.
@@ -2804,6 +2835,12 @@ export enum HostEvent {
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Pin)
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.Pin, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -2898,6 +2935,12 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.MakeACopy)
      * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.MakeACopy, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     MakeACopy = 'makeACopy',
@@ -2970,6 +3013,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
+     * In Spotter embed, vizId is required.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -2977,6 +3021,12 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.Edit, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3112,7 +3162,12 @@ export enum HostEvent {
      * vizEmbed.trigger(HostEvent.DownloadAsPng)
      *
      * searchEmbed.trigger(HostEvent.DownloadAsPng)
+     * 
+     * spotterEmbed.trigger(HostEvent.DownloadAsPng, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
+     * 
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
      */
     DownloadAsPng = 'downloadAsPng',
@@ -3130,6 +3185,11 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
      * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsCsv, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     DownloadAsCsv = 'downloadAsCSV',
@@ -3146,6 +3206,11 @@ export enum HostEvent {
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.downloadAsXLSX, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3166,12 +3231,18 @@ export enum HostEvent {
     /**
      * Trigger the **Save**  action on a Liveboard or Answer.
      * Saves the changes.
+     * @param - `vizId` is required in Spotter Embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.Save)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.Save, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3542,58 +3613,62 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
-    
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Triggers a search operation with the search tokens specified in
+     * the search query string in spotter embed.
+     * @param - `queryString`: Text string in Natural Language format
+     * @param - `executeSearch`: Boolean to execute search and update search query
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SpotterSearch, {
+     *  query: 'revenue per year',
+     *  executeSearch: true,
+     * })
+     * ```
      */
     SpotterSearch = 'SpotterSearch',
-
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Edits the last prompt in spotter embed.
+     * @param - `query`: Text string
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditLastPrompt, "revenue per year");
+     * ```
      */
     EditLastPrompt = 'EditLastPrompt',
-
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Opens the Worksheet preview modal in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
+     * ```
      */
     PreviewSpotterData = 'PreviewSpotterData',
-
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Resets the Spotter Embed Conversation.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ResetSpotterConversation);
+     * ```
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
-
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Deletes the last prompt in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DeleteLastPrompt);
+     * ```
      */
     DeleteLastPrompt = 'DeleteLastPrompt',
-
     /**
-     * Triggers the table visualization re-render with the updated data.
-     * Includes the following properties:
-     * @param - `columnDataLite` - an array of object containing the
-     * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
-     * payload.For example, { columnDataLite: []}`.
+     * Toggle the visualization to chart or table view.
+     * @param - `vizId ` In Spotter Embed, vizId is required.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, {
+     *          vizId:"'b535c760-8bbe-4e6f-bb26-af56b4129a1e'"
+     * });
+     *```
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
