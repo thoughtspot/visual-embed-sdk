@@ -16,6 +16,7 @@ import {
     ViewConfig,
     RuntimeParameter,
 } from './types';
+import { logger } from './utils/logger';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -387,3 +388,78 @@ export function resetValueFromWindow(key: string): boolean {
     }
     return false;
 }
+
+/**
+ * Check if the document is currently in fullscreen mode
+ */
+const isInFullscreen = (): boolean => {
+    return !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+    );
+};
+
+/**
+ * Handle Present HostEvent by entering fullscreen mode
+ * @param iframe The iframe element to make fullscreen
+ */
+export const handlePresentEvent = async (iframe: HTMLIFrameElement): Promise<void> => {
+    if (isInFullscreen()) {
+        return; // Already in fullscreen
+    }
+
+    // Browser-specific methods to enter fullscreen mode
+    const fullscreenMethods = [
+        'requestFullscreen',      // Standard API
+        'webkitRequestFullscreen', // WebKit browsers
+        'mozRequestFullScreen',   // Firefox
+        'msRequestFullscreen'     // IE/Edge
+    ];
+
+    for (const method of fullscreenMethods) {
+        if (typeof (iframe as any)[method] === 'function') {
+            try {
+                const result = (iframe as any)[method]();
+                await Promise.resolve(result);
+                return;
+            } catch (error) {
+                logger.warn(`Failed to enter fullscreen using ${method}:`, error);
+            }
+        }
+    }
+
+    logger.error('Fullscreen API is not supported by this browser.');
+};
+
+/**
+ * Handle ExitPresentMode EmbedEvent by exiting fullscreen mode
+ */
+export const handleExitPresentMode = async (): Promise<void> => {
+    if (!isInFullscreen()) {
+        return; // Not in fullscreen
+    }
+
+    const exitFullscreenMethods = [
+        'exitFullscreen',        // Standard API
+        'webkitExitFullscreen',  // WebKit browsers
+        'mozCancelFullScreen',   // Firefox
+        'msExitFullscreen'       // IE/Edge
+    ];
+
+    // Try each method until one works
+    for (const method of exitFullscreenMethods) {
+        if (typeof (document as any)[method] === 'function') {
+            try {
+                const result = (document as any)[method]();
+                await Promise.resolve(result);
+                return;
+            } catch (error) {
+                logger.warn(`Failed to exit fullscreen using ${method}:`, error);
+            }
+        }
+    }
+
+    logger.warn('Exit fullscreen API is not supported by this browser.');
+};
