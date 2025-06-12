@@ -6,6 +6,8 @@ import * as base from '../embed/base';
 import * as embedConfigInstance from '../embed/embedConfig';
 import { EmbedEvent, AuthType } from '../types';
 import * as sessionInfoService from './sessionInfoService';
+import * as utilsModule from '../utils';
+import { logger } from './logger';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
@@ -250,5 +252,31 @@ describe('Unit test for process data', () => {
         });
         expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
         expect(el.innerHTML).toBe('Hello');
+    });
+
+    test('should handle ExitPresentMode when disableFullscreenPresentation is false (enabled)', () => {
+        const mockConfig = {
+            disableFullscreenPresentation: false,
+        };
+        
+        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
+        
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue(mockConfig);
+
+        const processedData = {
+            type: EmbedEvent.ExitPresentMode,
+            data: {},
+        };
+
+        processDataInstance.processEventData(
+            EmbedEvent.ExitPresentMode,
+            processedData,
+            thoughtSpotHost,
+            null,
+        );
+
+        expect(mockHandleExitPresentMode).toHaveBeenCalled();
+        
+        mockHandleExitPresentMode.mockReset();
     });
 });

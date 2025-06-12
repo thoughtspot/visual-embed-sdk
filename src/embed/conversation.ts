@@ -96,7 +96,8 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @deprecated Renamed to SpotterEmbedViewConfig
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbedViewConfig} instead
  * @group Embed components
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -115,7 +116,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
@@ -182,7 +183,8 @@ export class SpotterEmbed extends TsEmbed {
 
 /**
  * Embed ThoughtSpot AI Conversation.
- * @deprecated Renamed to SpotterEmbed
+ * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * Use {@link SpotterEmbed} instead
  * @group Embed components
  * @example
  * ```js

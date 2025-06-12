@@ -645,6 +645,21 @@ export interface EmbedConfig {
     customVariablesForThirdPartyTools?: Record< string, any >;
 
     disablePreauthCache?: boolean;
+    
+    /**
+     * Disable fullscreen presentation mode functionality. When enabled, prevents entering 
+     * and exiting fullscreen mode for embedded visualizations during presentations.
+     * @default true (feature is disabled by default)
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   disableFullscreenPresentation: false, // enables the feature
+     * })
+     * ```
+     */
+    disableFullscreenPresentation?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -2447,6 +2462,12 @@ export enum EmbedEvent {
      * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
      CreateModel = 'createModel',
+    /**
+     * @hidden
+     * Emitted when a user exits present mode.
+     * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**
@@ -2679,9 +2700,12 @@ export enum HostEvent {
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.OpenFilter,
-     * { columnId: '<column-GUID>', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE'})
+     *  {column: { columnId: '<column-GUID>', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE'}})
+     * ```
+     * @example
+     * ```js
      * LiveboardEmbed.trigger(HostEvent.OpenFilter,
-     *  { columnId: '<column-GUID>'})
+     *   { column: {columnId: '<column-GUID>'}})
      * ```
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
@@ -3290,6 +3314,25 @@ export enum HostEvent {
      *    }]
      * });
      * ```
+     * If there are multiple columns with the same name, consider
+     * using `WORKSHEET_NAME::COLUMN_NAME` format.
+     *
+     * @example
+     *
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *  filters: [{
+     *      column: "(Sample) Retail - Apparel::city",
+     *      oper: 'IN',
+     *      values: ["atlanta"]
+     *  },
+     *  {
+     *      column: "(Sample) Retail - Apparel::Region",
+     *      oper: 'IN',
+     *      values: ["West","Midwest"]
+     *  }]
+     * });
+     * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
@@ -3499,7 +3542,7 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
-
+    
     /**
      * Triggers the table visualization re-render with the updated data.
      * Includes the following properties:
@@ -3553,6 +3596,16 @@ export enum HostEvent {
      * payload.For example, { columnDataLite: []}`.
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
+    /**
+     * @hidden
+     * Trigger exit from presentation mode when user exits fullscreen.
+     * This is automatically triggered by the SDK when fullscreen mode is exited.
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ExitPresentMode);
+     *```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**

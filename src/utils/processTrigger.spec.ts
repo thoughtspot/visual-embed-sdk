@@ -1,6 +1,9 @@
 import * as _processTriggerInstance from './processTrigger';
 import { HostEvent } from '../types';
 import { messageChannelMock, mockMessageChannel } from '../test/test-utils';
+import { logger } from './logger';
+import * as utilsModule from '../utils';
+import * as embedConfigModule from '../embed/embedConfig';
 
 describe('Unit test for processTrigger', () => {
     const iFrame: any = {
@@ -8,6 +11,11 @@ describe('Unit test for processTrigger', () => {
             postMessage: jest.fn(),
         },
     };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     test('when hostevent is reload, reload function should be called with iFrame', async () => {
         jest.useFakeTimers();
         const iFrameElement = document.createElement('iframe');
@@ -85,5 +93,87 @@ describe('Unit test for processTrigger', () => {
 
         expect(messageChannelMock.port1.close).toBeCalled();
         await expect(triggerPromise).resolves.toBeInstanceOf(Error);
+    });
+
+    describe('Present event with fullscreen presentation flag', () => {
+        let mockHandlePresentEvent: any;
+        let mockLoggerWarn: any;
+        let mockGetEmbedConfig: any;
+
+        beforeEach(() => {
+            mockHandlePresentEvent = jest.spyOn(utilsModule, 'handlePresentEvent').mockImplementation(() => {});
+            mockLoggerWarn = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+            mockGetEmbedConfig = jest.spyOn(embedConfigModule, 'getEmbedConfig').mockImplementation(() => ({}));
+        });
+
+        afterEach(() => {
+            mockHandlePresentEvent.mockReset();
+            mockLoggerWarn.mockReset();
+            mockGetEmbedConfig.mockReset();
+        });
+
+        test('should handle Present event when disableFullscreenPresentation is false (enabled)', () => {
+            const mockConfig = {
+                disableFullscreenPresentation: false,
+            };
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
+
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
+
+            _processTriggerInstance.processTrigger(
+                iFrame,
+                messageType,
+                thoughtSpotHost,
+                data,
+            );
+
+            expect(mockHandlePresentEvent).toHaveBeenCalledWith(iFrame);
+        });
+
+        test('should warn and not handle Present event when disableFullscreenPresentation is true (disabled)', () => {
+            const mockConfig = {
+                disableFullscreenPresentation: true,
+            };
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
+
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
+
+            _processTriggerInstance.processTrigger(
+                iFrame,
+                messageType,
+                thoughtSpotHost,
+                data,
+            );
+
+            expect(mockHandlePresentEvent).not.toHaveBeenCalled();
+            expect(mockLoggerWarn).toHaveBeenCalledWith(
+                'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
+            );
+        });
+
+        test('should default to disabled when disableFullscreenPresentation is not provided', () => {
+            const mockConfig = {};
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
+
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
+
+            _processTriggerInstance.processTrigger(
+                iFrame,
+                messageType,
+                thoughtSpotHost,
+                data,
+            );
+
+            expect(mockHandlePresentEvent).not.toHaveBeenCalled();
+            expect(mockLoggerWarn).toHaveBeenCalledWith(
+                'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
+            );
+        });
     });
 });

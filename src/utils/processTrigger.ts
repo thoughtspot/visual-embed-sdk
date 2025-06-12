@@ -1,5 +1,8 @@
 import { ERROR_MESSAGE } from '../errors';
-import { HostEvent } from '../types';
+import { HostEvent, MessagePayload } from '../types';
+import { logger } from '../utils/logger';
+import { handlePresentEvent } from '../utils';
+import { getEmbedConfig } from '../embed/embedConfig';
 
 /**
  * Reloads the ThoughtSpot iframe.
@@ -51,6 +54,18 @@ export function processTrigger(
             reload(iFrame);
             return res(null);
         }
+        
+        if (messageType === HostEvent.Present) {
+            const embedConfig = getEmbedConfig();
+            const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
+            
+            if (!disableFullscreenPresentation) {
+                handlePresentEvent(iFrame);
+            } else {
+                logger.warn('Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.');
+            }
+        }
+        
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
             channel.port1.close();
