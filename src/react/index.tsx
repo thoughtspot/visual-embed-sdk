@@ -362,7 +362,7 @@ export const SpotterEmbed = componentFactory<
 
 /**
  * React component for LLM based conversation BI.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbed} instead
  * @example
  * ```tsx
