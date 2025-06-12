@@ -275,7 +275,7 @@ export interface CustomStyles {
  * Configuration to define the customization on the Embedded
  * ThoughtSpot components.
  * You can customize styles, text strings, and icons.
- * For more information, see https://developers.thoughtspot.com/docs/custom-css.
+ * For more information, see link:https://developers.thoughtspot.com/docs/custom-css[CSS customization framework].
  * @example
  * ```js
  *  init({
@@ -3721,6 +3721,7 @@ export enum Param {
  *    hiddenActions: [Action.Edit, ActionAction.Explore],
  * })
  * ```
+ * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
  */
 // eslint-disable-next-line no-shadow
 export enum Action {
