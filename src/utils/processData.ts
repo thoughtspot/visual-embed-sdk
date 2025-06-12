@@ -19,9 +19,9 @@ import { handleExitPresentMode } from '../utils';
  */
 function processExitPresentMode(e: any) {
     const embedConfig = getEmbedConfig();
-    const enableFullscreenPresentation = embedConfig?.enableFullscreenPresentation ?? false;
+    const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? false;
     
-    if (enableFullscreenPresentation) {
+    if (!disableFullscreenPresentation) {
         handleExitPresentMode();
     }
 }

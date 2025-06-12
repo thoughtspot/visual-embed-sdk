@@ -2713,7 +2713,7 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                enableFullscreenPresentation: true,
+                disableFullscreenPresentation: false,
             });
         });
 
@@ -2745,7 +2745,7 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                enableFullscreenPresentation: false,
+                disableFullscreenPresentation: true,
             });
             
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);

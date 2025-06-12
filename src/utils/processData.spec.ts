@@ -254,12 +254,14 @@ describe('Unit test for process data', () => {
         expect(el.innerHTML).toBe('Hello');
     });
 
-    test('should handle ExitPresentMode when enableFullscreenPresentation is true', () => {
+    test('should handle ExitPresentMode when disableFullscreenPresentation is false (enabled)', () => {
+        const mockConfig = {
+            disableFullscreenPresentation: false,
+        };
+        
         const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
         
-        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
-            enableFullscreenPresentation: true,
-        });
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue(mockConfig);
 
         const processedData = {
             type: EmbedEvent.ExitPresentMode,

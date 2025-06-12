@@ -57,12 +57,12 @@ export function processTrigger(
         
         if (messageType === HostEvent.Present) {
             const embedConfig = getEmbedConfig();
-            const enableFullscreenPresentation = embedConfig?.enableFullscreenPresentation ?? false;
+            const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? false;
             
-            if (enableFullscreenPresentation) {
+            if (!disableFullscreenPresentation) {
                 handlePresentEvent(iFrame);
             } else {
-                logger.warn('Fullscreen presentation mode is disabled. Set enableFullscreenPresentation: true to enable this feature.');
+                logger.warn('Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.');
             }
         }
         

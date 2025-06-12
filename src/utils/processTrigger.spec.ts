@@ -112,58 +112,67 @@ describe('Unit test for processTrigger', () => {
             mockGetEmbedConfig.mockReset();
         });
 
-        test('should handle Present event when enableFullscreenPresentation is true', () => {
-            mockGetEmbedConfig.mockReturnValue({
-                enableFullscreenPresentation: true,
-            });
+        test('should handle Present event when disableFullscreenPresentation is false (enabled)', () => {
+            const mockConfig = {
+                disableFullscreenPresentation: false,
+            };
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
 
-            mockMessageChannel();
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
 
             _processTriggerInstance.processTrigger(
                 iFrame,
-                HostEvent.Present,
-                'https://test.thoughtspot.com',
-                {},
+                messageType,
+                thoughtSpotHost,
+                data,
             );
 
             expect(mockHandlePresentEvent).toHaveBeenCalledWith(iFrame);
         });
 
-        test('should warn and not handle Present event when enableFullscreenPresentation is false', () => {
-            mockGetEmbedConfig.mockReturnValue({
-                enableFullscreenPresentation: false,
-            });
+        test('should warn and not handle Present event when disableFullscreenPresentation is true (disabled)', () => {
+            const mockConfig = {
+                disableFullscreenPresentation: true,
+            };
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
 
-            mockMessageChannel();
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
 
             _processTriggerInstance.processTrigger(
                 iFrame,
-                HostEvent.Present,
-                'https://test.thoughtspot.com',
-                {},
+                messageType,
+                thoughtSpotHost,
+                data,
             );
 
             expect(mockHandlePresentEvent).not.toHaveBeenCalled();
             expect(mockLoggerWarn).toHaveBeenCalledWith(
-                'Fullscreen presentation mode is disabled. Set enableFullscreenPresentation: true to enable this feature.',
+                'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
             );
         });
 
-        test('should default to disabled when enableFullscreenPresentation is not provided', () => {
-            mockGetEmbedConfig.mockReturnValue({});
+        test('should default to enabled when disableFullscreenPresentation is not provided', () => {
+            const mockConfig = {};
+            mockGetEmbedConfig.mockReturnValue(mockConfig);
 
-            mockMessageChannel();
+            const messageType = HostEvent.Present;
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            const data = {};
 
             _processTriggerInstance.processTrigger(
                 iFrame,
-                HostEvent.Present,
-                'https://test.thoughtspot.com',
-                {},
+                messageType,
+                thoughtSpotHost,
+                data,
             );
 
-            expect(mockHandlePresentEvent).not.toHaveBeenCalled();
-            expect(mockLoggerWarn).toHaveBeenCalledWith(
-                'Fullscreen presentation mode is disabled. Set enableFullscreenPresentation: true to enable this feature.',
+            expect(mockHandlePresentEvent).toHaveBeenCalledWith(iFrame);
+            expect(mockLoggerWarn).not.toHaveBeenCalledWith(
+                'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
             );
         });
     });
