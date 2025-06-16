@@ -3694,6 +3694,7 @@ export enum Param {
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
+    IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
 }
 
 /**

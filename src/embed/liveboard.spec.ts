@@ -142,6 +142,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLiveboardStylingAndGroupingEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardStylingAndGroupingEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardStylingAndGroupingEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set visible actions as empty array', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [],

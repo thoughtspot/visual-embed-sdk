@@ -402,6 +402,21 @@ export interface LiveboardViewConfig
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
+
+    /**
+     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    isLiveboardStylingAndGroupingEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardStylingAndGroupingEnabled?: boolean;
 }
 
 /**
@@ -472,6 +487,7 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF,
+            isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -532,6 +548,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (coverAndFilterOptionInPDF !== undefined) {
             params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        }
+
+        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
