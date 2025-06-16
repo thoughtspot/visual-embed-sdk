@@ -30,6 +30,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * disableSourceSelection : Disables data source selection
      * but still display the selected data source.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -42,6 +44,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     disableSourceSelection?: boolean;
     /**
      * hideSourceSelection : Hide data source selection
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -60,8 +64,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    dataPanelV2: true,
      * })
@@ -72,6 +76,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -85,6 +91,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {

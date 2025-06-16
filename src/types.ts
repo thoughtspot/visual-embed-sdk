@@ -82,7 +82,7 @@ export enum AuthType {
      *   // ...
      *   authType: AuthType.SAMLRedirect,
      *   authTriggerText: 'Login with SAML',
-     *   authTriggerContainer: '#embed-container',
+     *   authTriggerContainer: '#tsEmbed',
      *   inPopup: true,
      * });
      * ```
@@ -692,8 +692,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    frameParams: {
      *        width: '500px' | '50%',
@@ -722,8 +722,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    disabledActions: [Action.Download, Action.Save],
      * });
@@ -737,8 +737,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    disabledActions: [Action.Download, Action.Save],
      *    disabledActionReason: "Reason for disabling",
@@ -755,8 +755,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    hiddenActions: [Action.Download, Action.Export],
      * });
@@ -777,8 +777,8 @@ export interface BaseViewConfig {
      * @important
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    visibleActions: [Action.Download, Action.Export],
      * });
@@ -792,8 +792,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    locale:'en',
      * })
@@ -812,8 +812,8 @@ export interface BaseViewConfig {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   additionalFlags: {
      *        flag1: 'value1',
@@ -839,8 +839,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    insertAsSibling:true,
      * })
@@ -864,8 +864,8 @@ export interface BaseViewConfig {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   preRenderId: "preRenderId-123",
      * });
@@ -902,8 +902,8 @@ export interface BaseViewConfig {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   enableV2Shell_experimental: true,
      * });
@@ -930,8 +930,8 @@ export interface BaseViewConfig {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *   ... // other embed view config
      *   disableRedirectionLinksInNewTab: true,
      * });
@@ -949,8 +949,8 @@ export interface BaseViewConfig {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *   ... // other embed view config
      *   overrideOrgId: 142536,
      * });
@@ -965,8 +965,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    linkOverride:false,
      * })
@@ -981,8 +981,8 @@ export interface BaseViewConfig {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   primaryAction: Action.Download
      * });
@@ -997,6 +997,9 @@ export interface BaseViewConfig {
     insertInToSlide?: boolean;
 }
 
+/**
+ * The configuration object for Home page embeds configs.
+ */
 export interface HomePageConfig {
     /**
      * Hide list page columns
@@ -1004,7 +1007,7 @@ export interface HomePageConfig {
      *
      * **Note**: This option is available only in full app embedding.
      * 
-     * Supported embed types: AppEmbed
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
@@ -1023,7 +1026,7 @@ export interface HomePageConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      * 
-     * Supported embed types: AppEmbed
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
@@ -1042,7 +1045,7 @@ export interface HomePageConfig {
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      * 
-     * Supported embed types: AppEmbed
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
@@ -1076,9 +1079,9 @@ export interface HomePageConfig {
 }
 
 /**
- * The configuration object for an embedded view.
+ * The configuration object for common Search and Liveboard embeds configs.
  */
-export interface SearchSpecificViewConfig {
+export interface SearchLiveboardCommonViewConfig {
     /**
      * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
@@ -1087,8 +1090,8 @@ export interface SearchSpecificViewConfig {
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    runtimeFilters: [
      *           {
@@ -1109,8 +1112,8 @@ export interface SearchSpecificViewConfig {
      * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    runtimeParameters: [
      *     {
@@ -1128,8 +1131,8 @@ export interface SearchSpecificViewConfig {
      * Supported embed types: `AppEmbed`, `SageEmbed`, `SearchEmbed`
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, AppEmbed, SageEmbed, or SearchEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SageEmbed, or SearchEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
      * })
@@ -1166,8 +1169,8 @@ export interface SearchSpecificViewConfig {
      * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   collapseSearchBar: true,
      * });
@@ -1181,8 +1184,8 @@ export interface SearchSpecificViewConfig {
      * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    dataPanelV2: true,
      * })
@@ -1197,8 +1200,8 @@ export interface SearchSpecificViewConfig {
      * @default false
      * @example
      * ```js
-     * // Replace <EmbedType> with embed component name. For example, SageEmbed, SearchBarEmbed, or LiveboardEmbed
-     * const embed = new <EmbedType>('#tsEmbed', {
+     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, SearchBarEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
      *   ... // other embed view config
      *   enableCustomColumnGroups: true,
      * });
@@ -1207,7 +1210,177 @@ export interface SearchSpecificViewConfig {
     enableCustomColumnGroups?: boolean;
 }
 
-export interface AllEmbedViewConfig extends BaseViewConfig, SearchSpecificViewConfig, HomePageConfig {}
+/**
+ * The configuration object for common Liveboard and App embeds configs.
+ */
+export interface LiveboardAppEmbedViewConfig {
+    /**
+     * Show or hide Liveboard header
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    hideLiveboardHeader : true,
+     * })
+     * ```
+     */
+    hideLiveboardHeader?: boolean;
+    /**
+     * Show or hide Liveboard title
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showLiveboardTitle:true,
+     * })
+     * ```
+     */
+    showLiveboardTitle?: boolean;
+    /**
+     * Show or hide Liveboard description
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showLiveboardDescription:true,
+     * })
+     * ```
+     */
+    showLiveboardDescription?: boolean;
+    /**
+     * Boolean to control if Liveboard header is sticky or not.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed', {
+     *   ... // other app view config
+     *   isLiveboardHeaderSticky: true,
+     * });
+     * ```
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     */
+    isLiveboardHeaderSticky?: boolean;
+    /**
+     * This attribute can be used to enable the two-column layout on an embedded Liveboard
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    enable2ColumnLayout: true,
+     * })
+     * ```
+     */
+    enable2ColumnLayout?: boolean;
+    /**
+     * This flag can be used to enable the compact header in Liveboard
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardCompactHeaderEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardCompactHeaderEnabled?: boolean;
+    /**
+     * This flag can be used to show or hide the Liveboard verified icon in the compact header.
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showLiveboardVerifiedBadge: true,
+     * })
+     * ```
+     */
+    showLiveboardVerifiedBadge?: boolean;
+    /**
+     * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    hideIrrelevantChipsInLiveboardTabs: true,
+     * })
+     * ```
+     */
+    hideIrrelevantChipsInLiveboardTabs?: boolean;
+    /**
+     * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
+     * @type {boolean}
+     * @default true
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showLiveboardReverifyBanner: true,
+     * })
+     * ```
+     */
+    showLiveboardReverifyBanner?: boolean;
+    /**
+     * enable or disable ask sage
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @default false
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SpotterEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableAskSage:true,
+     * })
+     * ```
+     */
+    enableAskSage?: boolean;
+}
+
+export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
 
 /**
  * MessagePayload: Embed event payload: message type, data and status (start/end)
@@ -3707,7 +3880,7 @@ export enum Param {
  * or `hiddenActions` array.
  * @example
  * ```js
- * const embed = new LiveboardEmbed('#embed-container', {
+ * const embed = new LiveboardEmbed('#tsEmbed', {
  *    ... //other embed view config
  *    visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],
  *    disabledActions: [Action.Download],
@@ -3716,7 +3889,7 @@ export enum Param {
  * ```
  * @example
  * ```js
- * const embed = new LiveboardEmbed('#embed-container', {
+ * const embed = new LiveboardEmbed('#tsEmbed', {
  *    ... //other embed view config
  *    //visibleActions: [],
  *    disabledActions: [Action.Download],

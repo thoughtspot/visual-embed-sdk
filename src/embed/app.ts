@@ -135,6 +135,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This flag also controls the homepage left navigation bar.
      * @default true
      * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -155,6 +157,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      * @default false
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -169,6 +173,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Global nav-bar. By default, these buttons are visible on the nav-bar.
      * @default false
      * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -183,6 +189,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @default true
      * Whether the help menu in the top nav bar should be served
      * from Pendo or ThoughtSpot's internal help items.
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -198,6 +206,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * @default false
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -213,6 +223,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * @default true
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -228,6 +240,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * @default true
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -246,6 +260,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default false
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -264,6 +280,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default true
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -282,6 +300,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * For eg, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -312,6 +332,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * application, such as Liveboards and answers, would be filtered by this
      * tag.
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -324,6 +346,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * The array of GUIDs to be hidden
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -347,6 +371,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * If set to true, the Search Assist feature is enabled.
      * @default true
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -369,6 +395,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * users scroll the page to view the charts and tables.
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -379,48 +407,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     fullHeight?: boolean;
     /**
-     * Show or hide Liveboard header
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    hideLiveboardHeader : true,
-     * })
-     * ```
-     */
-    hideLiveboardHeader?: boolean;
-    /**
-     * Show or hide Liveboard title
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showLiveboardTitle:true,
-     * })
-     * ```
-     */
-    showLiveboardTitle?: boolean;
-    /**
-     * Show or hide Liveboard description
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showLiveboardDescription:true,
-     * })
-     * ```
-     */
-    showLiveboardDescription?: boolean;
-    /**
      * Flag to control new Modular Home experience.
      * @default false
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -435,6 +426,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * @default false
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -447,24 +440,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     discoveryExperience?: DiscoveryExperience;
-    /**
-     * Boolean to control if Liveboard header is sticky or not.
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed', {
-     *   ... // other app view config
-     *   isLiveboardHeaderSticky: true,
-     * });
-     * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     */
-    isLiveboardHeaderSticky?: boolean;
-    /**
-     * enable or disable ask sage
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
-     * @default false
-     */
-    enableAskSage?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
@@ -481,6 +456,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
      * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -492,20 +469,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
-     * This attribute can be used to enable the two-column layout on an embedded Liveboard
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    ... // other embed view config
-     *    enable2ColumnLayout: true,
-     * })
-     * ```
-     */
-    enable2ColumnLayout?: boolean;
-    /**
      * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
      * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
      */
@@ -513,72 +476,20 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Flag to use home page search bar mode
      * @version SDK : 1.33.0 | Thoughtspot : 10.3.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
-    /**
-     * This flag can be used to enable the compact header in Liveboard
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... // other embed view config
-     *    isLiveboardCompactHeaderEnabled: true,
-     * })
-     * ```
-     */
-    isLiveboardCompactHeaderEnabled?: boolean;
-    /**
-     * This flag can be used to show or hide the Liveboard verified icon in the compact header.
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... // other embed view config
-     *    showLiveboardVerifiedBadge: true,
-     * })
-     * ```
-     */
-    showLiveboardVerifiedBadge?: boolean;
-    /**
-     * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... // other embed view config
-     *    hideIrrelevantChipsInLiveboardTabs: true,
-     * })
-     * ```
-     */
-    hideIrrelevantChipsInLiveboardTabs?: boolean;
-    /**
-     * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    ... // other embed view config
-     *    showLiveboardReverifyBanner: true,
-     * })
-     * ```
-     */
-    showLiveboardReverifyBanner?: boolean;
     /**
      * This flag is used to enable unified search experience for full app embed.
      * @type {boolean}
      * @default true
      * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
-     * const embed = new AppEmbed('#embed-container', {
+     * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
      *    isUnifiedSearchExperienceEnabled: true,
      * })
@@ -589,9 +500,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Show alert messages and toast messages in the embedded
      * view in full app embed.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * 
+     * Supported embed types: `AppEmbed`
      * @example
      * ```js
-     * const embed = new AppEmbed('#embed-container', {
+     * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    showAlerts:true,
      * })

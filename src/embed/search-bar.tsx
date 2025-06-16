@@ -1,4 +1,4 @@
-import { SearchSpecificViewConfig, BaseViewConfig, DefaultAppInitData, Param } from '../types';
+import { SearchLiveboardCommonViewConfig, BaseViewConfig, DefaultAppInitData, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -6,12 +6,14 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewConfig {
+export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
      * @deprecated Use `dataSource` instead
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -24,6 +26,8 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewC
     /**
      * Pass the ID of the source to be selected.
      * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -36,6 +40,8 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewC
     /**
      * Boolean to define if the last selected data source should be used
      * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -56,6 +62,8 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewC
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -72,6 +80,8 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchSpecificViewC
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
      * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
