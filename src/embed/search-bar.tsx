@@ -10,10 +10,10 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
-     * @deprecated Use `dataSource` instead
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
      * 
      * Supported embed types: `SearchBarEmbed`
+     * @deprecated Use `dataSource` instead
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -25,9 +25,9 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
     dataSources?: string[];
     /**
      * Pass the ID of the source to be selected.
-     * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
      * 
      * Supported embed types: `SearchBarEmbed`
+     * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -39,9 +39,9 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
     dataSource?: string;
     /**
      * Boolean to define if the last selected data source should be used
-     * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
      * 
      * Supported embed types: `SearchBarEmbed`
+     * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -61,9 +61,9 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
-     * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
      * 
      * Supported embed types: `SearchBarEmbed`
+     * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
@@ -79,9 +79,9 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
     /**
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
-     * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * 
      * Supported embed types: `SearchBarEmbed`
+     * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {

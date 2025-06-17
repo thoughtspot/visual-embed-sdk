@@ -66,10 +66,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * This is the minimum height(in pixels) for a full-height Liveboard.
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
-     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
-     * @default 500
      * 
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
+     * @default 500
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -95,9 +95,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * The Liveboard to display in the embedded view.
      * Use either liveboardId or pinboardId to reference the Liveboard to embed.
-     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      * 
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -113,6 +113,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     pinboardId?: string;
     /**
      * The visualization within the Liveboard to display.
+     * 
+     * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @example
      * ```js
@@ -126,9 +128,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
-     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
      * 
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -142,10 +144,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Array of visualization IDs which should be visible when the Liveboard
      * renders. This can be changed by triggering the `SetVisibleVizs`
      * event.
-     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * 
      * Supported embed types: `LiveboardEmbed`
-     * 
+     * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -194,6 +195,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     activeTabId?: string;
     /**
      * Show or hide the tab panel of the embedded Liveboard.
+     * 
+     * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
      * @example
      * ```js
@@ -229,10 +232,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     showPreviewLoader?: boolean;
     /**
      * The Liveboard to run on regular intervals to fetch the cdw token.
+     * 
+     * Supported embed types: `LiveboardEmbed`  
      * @hidden
      * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
-     * 
-     * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -244,10 +247,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
 
     /**
      * The Liveboard is set to force a token fetch during the initial load.
-     * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      * 
      * Supported embed types: `LiveboardEmbed`
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -275,10 +278,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * This flag is for show/hide checkboxes for include or exclude
      * cover page and filters in the Liveboard PDF.
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
      * 
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
+     * @default true
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -313,9 +316,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Only the tabs specified in the array will be shown in the Liveboard.
      *
      * Use either `visibleTabs` or `hiddenTabs`.
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * 
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {

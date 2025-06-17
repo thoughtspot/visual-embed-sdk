@@ -133,10 +133,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
      * This flag also controls the homepage left navigation bar.
-     * @default true
-     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @default true
+     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -155,10 +155,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * @default false
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @default false
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -171,10 +171,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Control the visibility of the help (?) and profile buttons on the
      * Global nav-bar. By default, these buttons are visible on the nav-bar.
-     * @default false
-     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @default false
+     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -204,10 +204,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the hamburger icon on the top nav bar
      * available when new navigation V3 is enabled.
      *
+     * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -221,10 +220,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the Eureka search on the top nav bar
      * this will control for both new V2 and new navigation V3.
      *
+     * Supported embed types: `AppEmbed`
      * @default true
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -238,10 +236,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the notification on the top nav bar V3,
      * available when new navigation V3 is enabled.
      *
+     * Supported embed types: `AppEmbed`
      * @default true
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -258,10 +255,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default false
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -278,10 +275,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     *
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @default true
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -299,9 +296,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * For eg, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
-     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
-     * 
+     *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -317,6 +314,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * Use this to open to particular page in the app. To open to a specific
      * path within the app, use the `path` attribute which is more flexible.
+     *
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
      * @example
      * ```js
@@ -331,9 +330,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This puts a filter tag on the application. All metadata lists in the
      * application, such as Liveboards and answers, would be filtered by this
      * tag.
-     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
-     * 
+     *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -345,9 +344,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     tag?: string;
     /**
      * The array of GUIDs to be hidden
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * 
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -363,16 +362,18 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Render liveboards using the new v2 rendering mode
      * This is a transient flag which is primarily meant for internal use
+     * 
+     * Supported embed types: `AppEmbed`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @hidden
      */
     liveboardV2?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
-     * @default true
-     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      * 
      * Supported embed types: `AppEmbed`
+     * @default true
+     * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -394,9 +395,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `false` fetches visualizations incrementally as
      * users scroll the page to view the charts and tables.
      *
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
-     * 
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -408,10 +408,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     fullHeight?: boolean;
     /**
      * Flag to control new Modular Home experience.
-     * @default false
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @default false
+     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -424,10 +424,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * To configure the top-left navigation and home page experience
      *
+     * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
-     * 
-     * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -454,10 +453,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
      * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
-     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
      * 
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL    
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -475,18 +474,17 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * Flag to use home page search bar mode
-     * @version SDK : 1.33.0 | Thoughtspot : 10.3.0.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @version SDK : 1.33.0 | Thoughtspot : 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
      * This flag is used to enable unified search experience for full app embed.
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
      * 
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -499,9 +497,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      /**
      * Show alert messages and toast messages in the embedded
      * view in full app embed.
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * 
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {

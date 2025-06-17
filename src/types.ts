@@ -1216,10 +1216,10 @@ export interface SearchLiveboardCommonViewConfig {
 export interface LiveboardAppEmbedViewConfig {
     /**
      * Show or hide Liveboard header
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1232,10 +1232,10 @@ export interface LiveboardAppEmbedViewConfig {
     hideLiveboardHeader?: boolean;
     /**
      * Show or hide Liveboard title
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1248,10 +1248,10 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardTitle?: boolean;
     /**
      * Show or hide Liveboard description
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
-     * @default false
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1279,11 +1279,11 @@ export interface LiveboardAppEmbedViewConfig {
     isLiveboardHeaderSticky?: boolean;
     /**
      * This attribute can be used to enable the two-column layout on an embedded Liveboard
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1296,11 +1296,11 @@ export interface LiveboardAppEmbedViewConfig {
     enable2ColumnLayout?: boolean;
     /**
      * This flag can be used to enable the compact header in Liveboard
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1313,11 +1313,10 @@ export interface LiveboardAppEmbedViewConfig {
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
      * This flag can be used to show or hide the Liveboard verified icon in the compact header.
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1330,11 +1329,10 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardVerifiedBadge?: boolean;
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1347,11 +1345,10 @@ export interface LiveboardAppEmbedViewConfig {
     hideIrrelevantChipsInLiveboardTabs?: boolean;
     /**
      * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
-     * @type {boolean}
-     * @default true
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1364,10 +1361,10 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardReverifyBanner?: boolean;
     /**
      * enable or disable ask sage
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
-     * @default false
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SpotterEmbed, or LiveboardEmbed
