@@ -585,6 +585,20 @@ export interface AppViewConfig extends Omit<ViewConfig, 'visibleTabs'> {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
+
+    /**
+     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    isLiveboardStylingAndGroupingEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardStylingAndGroupingEnabled?: boolean;
 }
 
 /**
@@ -648,6 +662,7 @@ export class AppEmbed extends V1Embed {
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
+            isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
         let params = {};
@@ -719,6 +734,10 @@ export class AppEmbed extends V1Embed {
 
         if (enablePendoHelp !== undefined) {
             params[Param.EnablePendoHelp] = enablePendoHelp;
+        }
+
+        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
