@@ -6,7 +6,7 @@ const configKey = 'embedConfig';
 /**
  * Gets the `EmbedConfig` object that was used to
  * initialize the SDK. You can use this method to access the
- * embed configuration configuration settings such as the ThoughtSpot host,
+ * embed configuration settings such as the ThoughtSpot host,
  * authentication type, and other such parameters used when
  * initializing the SDK.
  *

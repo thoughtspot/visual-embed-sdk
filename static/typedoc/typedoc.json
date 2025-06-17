@@ -41916,7 +41916,7 @@
 					"kindString": "Call signature",
 					"flags": {},
 					"comment": {
-						"shortText": "Gets the `EmbedConfig` object that was used to\ninitialize the SDK. You can use this method to access the\nembed configuration configuration settings such as the ThoughtSpot host,\nauthentication type, and other such parameters used when\ninitializing the SDK.",
+						"shortText": "Gets the `EmbedConfig` object that was used to\ninitialize the SDK. You can use this method to access the\nembed configuration settings such as the ThoughtSpot host,\nauthentication type, and other such parameters used when\ninitializing the SDK.",
 						"returns": "{@link EmbedConfig} The embed configuration settings that the SDK\nwas initialized with. This includes:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example, `AuthServerCookieless` for\n `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization\n",
 						"tags": [
 							{
