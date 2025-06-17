@@ -10754,7 +10754,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 615,
+							"line": 614,
 							"character": 4
 						}
 					],
@@ -10935,7 +10935,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 785,
+							"line": 784,
 							"character": 11
 						}
 					],
@@ -11272,7 +11272,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 889,
+							"line": 888,
 							"character": 11
 						}
 					],
@@ -11636,7 +11636,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 916,
+							"line": 915,
 							"character": 17
 						}
 					],
@@ -12023,7 +12023,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 609,
+					"line": 608,
 					"character": 13
 				}
 			],
@@ -13599,7 +13599,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 443,
+							"line": 442,
 							"character": 4
 						}
 					],
@@ -13817,7 +13817,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 755,
+							"line": 754,
 							"character": 11
 						}
 					],
@@ -14118,7 +14118,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 736,
+							"line": 735,
 							"character": 11
 						}
 					],
@@ -14472,7 +14472,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 726,
+							"line": 725,
 							"character": 17
 						}
 					],
@@ -14611,7 +14611,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 706,
+							"line": 705,
 							"character": 11
 						}
 					],
@@ -14859,7 +14859,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 437,
+					"line": 436,
 					"character": 13
 				}
 			],
@@ -21703,10 +21703,6 @@
 						"shortText": "This flag is used to enable/disable the styling and grouping in a Liveboard",
 						"tags": [
 							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
 								"tag": "version",
 								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
@@ -21719,7 +21715,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 602,
+							"line": 601,
 							"character": 4
 						}
 					],
@@ -31958,10 +31954,6 @@
 						"shortText": "This flag is used to enable/disable the styling and grouping in a Liveboard",
 						"tags": [
 							{
-								"tag": "default",
-								"text": "false"
-							},
-							{
 								"tag": "version",
 								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
@@ -31974,7 +31966,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 419,
+							"line": 418,
 							"character": 4
 						}
 					],

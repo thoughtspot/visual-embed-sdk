@@ -406,7 +406,6 @@ export interface LiveboardViewConfig
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * @type {boolean}
-     * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
