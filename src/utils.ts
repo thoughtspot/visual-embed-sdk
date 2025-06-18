@@ -15,6 +15,7 @@ import {
     DOMSelector,
     RuntimeParameter,
     AllEmbedViewConfig,
+    CustomAction,
 } from './types';
 import { logger } from './utils/logger';
 
@@ -241,6 +242,10 @@ export const getCustomisations = (
         },
     };
     return customizations;
+};
+
+export const getCustomActions = (customActions: CustomAction[]): CustomAction[] => {
+    return customActions;
 };
 
 export const getRuntimeFilters = (runtimefilters: any) => getFilterQuery(runtimefilters || []);
