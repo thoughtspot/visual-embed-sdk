@@ -180,6 +180,11 @@ export class TsEmbed {
 
     protected isReadyForRenderPromise;
 
+    /**
+     * Handler for fullscreen change events
+     */
+    private fullscreenChangeHandler: (() => void) | null = null;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
@@ -774,6 +779,9 @@ export class TsEmbed {
                                 }
                             });
                         }
+                        
+                        // Setup fullscreen change handler after iframe is loaded and ready
+                        this.setupFullscreenChangeHandler();
                     });
                     this.iFrame.addEventListener('error', () => {
                         nextInQueue();
@@ -1043,9 +1051,11 @@ export class TsEmbed {
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
+        
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
         this.eventHandlerMap.set(messageType, callbacks);
+        
         return this;
     }
 
@@ -1145,6 +1155,7 @@ export class TsEmbed {
         }
         await this.isReadyForRenderPromise;
         this.isRendered = true;
+        
         return this;
     }
 
@@ -1208,6 +1219,7 @@ export class TsEmbed {
      */
     public destroy(): void {
         try {
+            this.removeFullscreenChangeHandler();
             this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
         } catch (e) {
@@ -1311,6 +1323,11 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
+        
+        // Setup fullscreen change handler for prerendered components
+        if (this.iFrame) {
+            this.setupFullscreenChangeHandler();
+        }
 
         return this;
     }
@@ -1386,6 +1403,48 @@ export class TsEmbed {
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});
         return new AnswerService(session, null, this.embedConfig.thoughtSpotHost);
+    }
+
+    /**
+     * Set up fullscreen change detection to automatically trigger ExitPresentMode
+     * when user exits fullscreen mode
+     */
+    private setupFullscreenChangeHandler() {
+        const embedConfig = getEmbedConfig();
+        const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
+        
+        if (disableFullscreenPresentation) {
+            return;
+        }
+
+        if (this.fullscreenChangeHandler) {
+            document.removeEventListener('fullscreenchange', this.fullscreenChangeHandler);
+        }
+
+        this.fullscreenChangeHandler = () => {
+            const isFullscreen = !!document.fullscreenElement;
+            if (!isFullscreen) {
+                logger.info('Exited fullscreen mode - triggering ExitPresentMode');
+                // Only trigger if iframe is available and contentWindow is accessible
+                if (this.iFrame && this.iFrame.contentWindow) {
+                    this.trigger(HostEvent.ExitPresentMode);
+                } else {
+                    logger.debug('Skipping ExitPresentMode - iframe contentWindow not available');
+                }
+            }
+        };
+
+        document.addEventListener('fullscreenchange', this.fullscreenChangeHandler);
+    }
+
+    /**
+     * Remove fullscreen change handler
+     */
+    private removeFullscreenChangeHandler() {
+        if (this.fullscreenChangeHandler) {
+            document.removeEventListener('fullscreenchange', this.fullscreenChangeHandler);
+            this.fullscreenChangeHandler = null;
+        }
     }
 }
 

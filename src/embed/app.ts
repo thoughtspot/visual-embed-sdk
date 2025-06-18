@@ -503,12 +503,28 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    ... // other embed view config
      *    showAlerts:true,
      * })
      * ```
      */
      showAlerts?: boolean;
+    /**
+     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardStylingAndGroupingEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardStylingAndGroupingEnabled?: boolean;
 }
 
 /**
@@ -572,6 +588,7 @@ export class AppEmbed extends V1Embed {
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
+            isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
         let params = {};
@@ -645,6 +662,10 @@ export class AppEmbed extends V1Embed {
             params[Param.EnablePendoHelp] = enablePendoHelp;
         }
 
+        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
@@ -712,7 +733,7 @@ export class AppEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const { height: frameHeight, ...restParams } = this.viewConfig.frameParams || {};
+        const { height: frameHeight } = this.viewConfig.frameParams || {};
 
         const liveboardRelatedRoutes = [
             '/pinboard/',

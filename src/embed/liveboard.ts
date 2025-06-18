@@ -26,13 +26,8 @@ import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { logger } from '../utils/logger';
 
-const liveboardHeightWhitelistedRoutes = [
-    '/embed/viz/',
-    '/embed/insights/viz/',
-    '/tsl-editor/PINBOARD_ANSWER_BOOK/',
-    '/import-tsl/PINBOARD_ANSWER_BOOK/',
-];
 
 /**
  * The configuration for the embedded Liveboard or visualization page view.
@@ -331,6 +326,22 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     visibleTabs?: string[];
+    /**
+     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * 
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardStylingAndGroupingEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardStylingAndGroupingEnabled?: boolean;
 }
 
 /**
@@ -353,11 +364,16 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-    // eslint-disable-next-line no-useless-constructor
+     
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
+            if (this.viewConfig.vizId) {
+                logger.warn('Full height is currently only supported for Liveboard embeds.' +
+                  'Using full height with vizId might lead to unexpected behavior.');
+            }
+
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
@@ -396,6 +412,7 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF,
+            isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -458,6 +475,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         }
 
+        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
@@ -516,11 +537,26 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const routePath = data.data.currentPath;
-        if (liveboardHeightWhitelistedRoutes.some((path) => routePath.startsWith(path))) {
+        const { height: frameHeight } = this.viewConfig.frameParams || {};
+
+        const liveboardRelatedRoutes = [
+            '/pinboard/',
+            '/insights/pinboard/',
+            '/schedules/',
+            '/embed/viz/',
+            '/embed/insights/viz/',
+            '/liveboard/',
+            '/insights/liveboard/',
+            '/tsl-editor/PINBOARD_ANSWER_BOOK/',
+            '/import-tsl/PINBOARD_ANSWER_BOOK/',
+        ];
+
+        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
+            // Ignore the height reset of the frame, if the navigation is
+            // only within the liveboard page.
             return;
         }
-        this.setIFrameHeight(this.defaultHeight);
+        this.setIFrameHeight(frameHeight || this.defaultHeight);
     };
 
     private setActiveTab(data: { tabId: string }) {

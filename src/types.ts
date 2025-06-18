@@ -645,6 +645,21 @@ export interface EmbedConfig {
     customVariablesForThirdPartyTools?: Record< string, any >;
 
     disablePreauthCache?: boolean;
+    
+    /**
+     * Disable fullscreen presentation mode functionality. When enabled, prevents entering 
+     * and exiting fullscreen mode for embedded visualizations during presentations.
+     * @default true (feature is disabled by default)
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   disableFullscreenPresentation: false, // enables the feature
+     * })
+     * ```
+     */
+    disableFullscreenPresentation?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -2650,6 +2665,12 @@ export enum EmbedEvent {
      * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
      */
      CreateModel = 'createModel',
+    /**
+     * @hidden
+     * Emitted when a user exits present mode.
+     * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**
@@ -3724,6 +3745,16 @@ export enum HostEvent {
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     TransformTableVizData = 'TransformTableVizData',
+    /**
+     * @hidden
+     * Trigger exit from presentation mode when user exits fullscreen.
+     * This is automatically triggered by the SDK when fullscreen mode is exited.
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ExitPresentMode);
+     *```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     */
+    ExitPresentMode = 'exitPresentMode',
 }
 
 /**
@@ -3866,6 +3897,7 @@ export enum Param {
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
+    IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
 }
 
 /**

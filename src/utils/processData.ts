@@ -10,6 +10,21 @@ import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
+import { logger } from '../utils/logger';
+import { handleExitPresentMode } from '../utils';
+
+/**
+ * Process the ExitPresentMode event and handle default fullscreen exit
+ * @param e - The event data
+ */
+function processExitPresentMode(e: any) {
+    const embedConfig = getEmbedConfig();
+    const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
+    
+    if (!disableFullscreenPresentation) {
+        handleExitPresentMode();
+    }
+}
 
 /**
  *
@@ -136,6 +151,8 @@ export function processEventData(
             return processAuthFailure(e, containerEl);
         case EmbedEvent.AuthLogout:
             return processAuthLogout(e, containerEl);
+        case EmbedEvent.ExitPresentMode:
+            return processExitPresentMode(e);
         default:
     }
     return e;
