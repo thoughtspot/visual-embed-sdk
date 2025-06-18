@@ -13,8 +13,8 @@ import {
     RuntimeFilter,
     CustomisationsInterface,
     DOMSelector,
-    ViewConfig,
     RuntimeParameter,
+    AllEmbedViewConfig,
 } from './types';
 import { logger } from './utils/logger';
 
@@ -217,7 +217,7 @@ export const checkReleaseVersionInBeta = (
 
 export const getCustomisations = (
     embedConfig: EmbedConfig,
-    viewConfig: ViewConfig,
+    viewConfig: AllEmbedViewConfig,
 ): CustomisationsInterface => {
     const customizationsFromViewConfig = viewConfig.customizations;
     const customizationsFromEmbedConfig = embedConfig.customizations
