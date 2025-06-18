@@ -1010,6 +1010,11 @@ export interface BaseViewConfig {
      * @private
      */
     insertInToSlide?: boolean;
+    /**
+     * Custom actions are a way to add custom actions to the embedded view which
+     * can be used to trigger custom logic when the action is clicked.
+     */
+    customActions?: CustomAction[];
 }
 
 /**
@@ -5207,6 +5212,33 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+export interface CustomAction {
+    name: string;
+    id: string;
+    position: CustomActionsPosition;
+    callback: (payload: any) => void; // give a proper type for the payload
+    metadataIds?: {
+        answerIds?: string[];
+        liveboardIds?: string[];
+        vizIds?: string[];
+    };
+    dataModelIds?: {
+        modelIds?: string[];
+        modelColumnNames?: string[];
+    }
+    orgIds?: string[];
+    groupIds?: string[];
+    // we might have spotter parameters as well
+}
+
+export enum CustomActionsPosition {
+    ANSWERMENU = 'ANSWERMENU',
+    ANSWERPRIMARY = 'ANSWERPRIMARY',
+    ANSWERCONTEXTMENU='ANSWERCONTEXTMENU',
+    LIVEBOARDPRIMARY = 'LIVEBOARDPRIMARY',
+    LIVEBOARDMENU = 'LIVEBOARDMENU',
+}
+
 /**
  * Enum options to show or suppress Visual Embed SDK and
  * ThoughtSpot application logs in the console output.
@@ -5304,4 +5336,5 @@ export interface DefaultAppInitData {
     hiddenHomeLeftNavItems: string[];
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
+    customActions: CustomAction[];
 }

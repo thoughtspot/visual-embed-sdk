@@ -60,6 +60,7 @@ import {
     VizPoint,
     CustomActionPayload,
     ListPageColumns,
+    CustomActionsPosition,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -144,6 +145,7 @@ export {
     CustomActionPayload,
     UIPassthroughEvent,
     ListPageColumns,
+    CustomActionsPosition,
 };
 
 export { resetCachedAuthToken } from './authToken';
