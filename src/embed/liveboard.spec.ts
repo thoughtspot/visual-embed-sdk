@@ -634,7 +634,7 @@ describe('Liveboard/viz embed tests', () => {
         });
         executeAfterWait(() => {
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
-            expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
+            expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, { path: 'embed/viz/lb1/viz1', replace: false });
             done();
         });
     });
