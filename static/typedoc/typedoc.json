@@ -6017,7 +6017,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl\n"
 							}
 						]
 					},
@@ -6179,7 +6179,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl\n"
 							}
 						]
 					},
@@ -6229,7 +6229,7 @@
 				"tags": [
 					{
 						"tag": "version",
-						"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl\n"
+						"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl\n"
 					}
 				]
 			},
@@ -9005,7 +9005,7 @@
 				"tags": [
 					{
 						"tag": "version",
-						"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl\n"
+						"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl\n"
 					}
 				]
 			},
@@ -20552,11 +20552,11 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   discoveryExperience : {\n     primaryNavbarVersion: PrimaryNavbarVersion.Sliding,\n     homePage: HompePage.Modular,\n   },\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   discoveryExperience : {\n     primaryNavbarVersion: PrimaryNavbarVersion.Sliding,\n     homePage: HomePage.Modular,\n   },\n})\n```\n"
 							}
 						]
 					},
@@ -21265,7 +21265,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
 							{
 								"tag": "example",
@@ -21425,7 +21425,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
 							{
 								"tag": "example",
@@ -21463,7 +21463,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.39.0 | Thoughtspot: 10.10.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
 							},
 							{
 								"tag": "example",
