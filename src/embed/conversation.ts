@@ -107,7 +107,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbedViewConfig} instead
  * @group Embed components
  */
@@ -194,7 +194,7 @@ export class SpotterEmbed extends TsEmbed {
 
 /**
  * Embed ThoughtSpot AI Conversation.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbed} instead
  * @group Embed components
  * @example

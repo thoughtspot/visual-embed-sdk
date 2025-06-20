@@ -22,7 +22,7 @@ export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'prima
 
 /**
  * Configuration for conversation options.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbedViewConfig} instead
  * @group Embed components
  */
@@ -135,7 +135,7 @@ export class SpotterAgentEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbed} instead
  * @example
  * ```js
