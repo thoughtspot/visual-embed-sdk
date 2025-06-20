@@ -208,13 +208,13 @@ export enum HomeLeftNavItem {
     /**
      * Create new options in the insights left navigation,
      * available when new navigation V3 is enabled.
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     Create = 'create',
     /**
      * Spotter option in the insights left navigation,
      * available when new navigation V3 is enabled.
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     Spotter = 'spotter',
 }

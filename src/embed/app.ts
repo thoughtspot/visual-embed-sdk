@@ -86,7 +86,7 @@ export enum HomePageSearchBarMode {
 
 /**
  * Define the version of the primary navbar
- * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
 export enum PrimaryNavbarVersion {
     /**
@@ -99,7 +99,7 @@ export enum PrimaryNavbarVersion {
 
 /**
  * Define the version of the home page
- * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
 export enum HomePage {
     /**
@@ -111,7 +111,7 @@ export enum HomePage {
 
 /**
  * Define the discovery experience
- * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
 export interface DiscoveryExperience {
     /**
@@ -206,7 +206,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`
      * @default false
-     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -222,7 +222,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`
      * @default true
-     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -238,7 +238,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`
      * @default true
-     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -426,14 +426,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`
      * @default false
-     * @version SDK: 1.39.0 | Thoughtspot: 10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
      *    discoveryExperience : {
      *      primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-     *      homePage: HompePage.Modular,
+     *      homePage: HomePage.Modular,
      *    },
      * })
      * ```
