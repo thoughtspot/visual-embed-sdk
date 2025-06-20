@@ -57,4 +57,5 @@ export {
     RuntimeParameter,
     resetCachedAuthToken,
     UIPassthroughEvent,
+    DataPanelCustomColumnGroupsAccordionState,
 } from '../index';

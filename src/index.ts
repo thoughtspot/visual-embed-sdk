@@ -15,6 +15,7 @@ import {
     HomePageSearchBarMode,
     PrimaryNavbarVersion,
     HomePage,
+    DataPanelCustomColumnGroupsAccordionState,
 } from './embed/app';
 import {
     init,
@@ -144,6 +145,7 @@ export {
     CustomActionPayload,
     UIPassthroughEvent,
     ListPageColumns,
+    DataPanelCustomColumnGroupsAccordionState,
 };
 
 export { resetCachedAuthToken } from './authToken';
