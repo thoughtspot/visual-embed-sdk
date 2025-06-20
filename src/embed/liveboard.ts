@@ -21,7 +21,7 @@ import {
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
 } from '../types';
-import { getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -342,6 +342,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
 }
 
 /**
@@ -377,6 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData);
         }
     }
 
@@ -420,6 +438,9 @@ export class LiveboardEmbed extends V1Embed {
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
+            if (this.viewConfig.lazyLoadingForFullHeight) {
+                params[Param.LazyLoadingForEmbed] = true;
+            }
         }
         if (defaultHeight) {
             this.defaultHeight = defaultHeight;
@@ -502,6 +523,11 @@ export class LiveboardEmbed extends V1Embed {
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         suffix = `${suffix}${tsPostHashParams}`;
         return suffix;
+    }
+
+    private sendFullHeightLazyLoadData() {
+      const data = calculateVisibleElementData(this.el);
+      this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
     /**
