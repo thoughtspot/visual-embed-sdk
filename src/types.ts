@@ -993,7 +993,7 @@ export interface BaseViewConfig {
      * Use this to set the primary action.
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
