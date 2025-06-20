@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { getQueryParamString } from '../utils';
+import { calculateVisibleElementData, getQueryParamString } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -525,6 +525,24 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
+    
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
 }
 
 /**
@@ -544,6 +562,7 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData);
         }
     }
 
@@ -623,6 +642,9 @@ export class AppEmbed extends V1Embed {
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
+            if (this.viewConfig.lazyLoadingForFullHeight) {
+                params[Param.LazyLoadingForEmbed] = true;
+            }
         }
 
         if (tag) {
@@ -701,6 +723,11 @@ export class AppEmbed extends V1Embed {
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
+    }
+
+    private sendFullHeightLazyLoadData() {
+      const data = calculateVisibleElementData(this.el);
+      this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
     /**
