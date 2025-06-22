@@ -668,6 +668,24 @@ export class LiveboardEmbed extends V1Embed {
         }
         return super.trigger(messageType, dataWithVizId);
     }
+ /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    public destroy() {
+        super.destroy();
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
+
+    private postRender() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
 
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
@@ -681,6 +699,7 @@ export class LiveboardEmbed extends V1Embed {
         await this.renderV1Embed(src);
         this.showPreviewLoader();
 
+        this.postRender();
         return this;
     }
 
