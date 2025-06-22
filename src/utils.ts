@@ -300,7 +300,11 @@ export const setStyleProperties = (
 ): void => {
     if (!element?.style) return;
     Object.keys(styleProperties).forEach((styleProperty) => {
-        element.style[styleProperty] = styleProperties[styleProperty].toString();
+        const styleKey = styleProperty as keyof CSSStyleDeclaration;
+        const value = styleProperties[styleKey];
+        if (value !== undefined) {
+            (element.style as any)[styleKey] = value.toString();
+        }
     });
 };
 /**
@@ -478,9 +482,9 @@ export const calculateVisibleElementData = (element: HTMLElement) => {
 
     const data = {
         top: Math.max(0, rect.top * -1),
-        height: frameRelativeBottom - frameRelativeTop,
+        height: Math.max(0, frameRelativeBottom - frameRelativeTop),
         left: Math.max(0, rect.left * -1),
-        width: frameRelativeRight - frameRelativeLeft,
+        width: Math.max(0, frameRelativeRight - frameRelativeLeft),
     };
 
     return data;

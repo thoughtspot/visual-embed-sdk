@@ -294,7 +294,7 @@ describe('unit test for utils', () => {
         });
 
         test('Object should be set if not', () => {
-            // eslint-disable-next-line no-underscore-dangle
+
             (window as any)._tsEmbedSDK = null;
 
             storeValueInWindow('test', 'testValue');
@@ -313,7 +313,7 @@ describe('Fullscreen Utility Functions', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        
+
         // Store and mock exitFullscreen
         originalExitFullscreen = document.exitFullscreen;
         document.exitFullscreen = jest.fn();
@@ -586,7 +586,7 @@ describe('calculateVisibleElementData', () => {
 
         expect(result).toEqual({
             top: 300, // Clipped 300px from top
-            height: -100, // Negative height (min(800, -100) - max(-300, 0) = -100 - 0 = -100)
+            height: 0, // No visible height (clamped from negative)
             left: 0, // Not clipped from left
             width: 300, // Full width would be visible if in viewport
         });
