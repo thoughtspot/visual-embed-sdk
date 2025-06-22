@@ -23,7 +23,7 @@ import { V1Embed } from './ts-embed';
 /**
  * Pages within the ThoughtSpot app that can be embedded.
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum Page {
     /**
      * Home page
@@ -554,7 +554,7 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-    // eslint-disable-next-line no-useless-constructor
+     
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -596,7 +596,7 @@ export class AppEmbed extends V1Embed {
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
-            /* eslint-disable-next-line max-len */
+             
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
@@ -670,7 +670,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
-            /* eslint-disable-next-line max-len */
+             
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled
             ] = isOnBeforeGetVizDataInterceptEnabled;
@@ -698,12 +698,12 @@ export class AppEmbed extends V1Embed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            /* eslint-disable-next-line max-len */
+             
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            /* eslint-disable-next-line max-len */
+             
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
@@ -861,6 +861,25 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    public destroy() {
+        super.destroy();
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
+
+    private postRender() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
+
+    /**
      * Renders the embedded application pages in the ThoughtSpot app.
      * @param renderOptions An object containing the page ID
      * to be embedded.
@@ -871,6 +890,7 @@ export class AppEmbed extends V1Embed {
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
 
+        this.postRender(); 
         return this;
     }
 }
