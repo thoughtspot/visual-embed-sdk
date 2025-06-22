@@ -381,14 +381,14 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-     
+
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             if (this.viewConfig.vizId) {
                 logger.warn('Full height is currently only supported for Liveboard embeds.' +
-                  'Using full height with vizId might lead to unexpected behavior.');
+                    'Using full height with vizId might lead to unexpected behavior.');
             }
 
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
@@ -403,7 +403,7 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        let params = {};
+        let params: any = {};
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,
@@ -526,8 +526,8 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData() {
-      const data = calculateVisibleElementData(this.el);
-      this.trigger(HostEvent.FullHeightLazyLoadData, data);
+        const data = calculateVisibleElementData(this.el);
+        this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
     /**
@@ -628,7 +628,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     protected beforePrerenderVisible(): void {
-        const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
+        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as LiveboardEmbed;
 
         if (isUndefined(embedObj)) return;
 
