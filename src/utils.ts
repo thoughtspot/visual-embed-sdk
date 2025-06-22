@@ -269,7 +269,7 @@ export const getOperationNameFromQuery = (query: string) => {
 export function removeTypename(obj: any) {
     if (!obj || typeof obj !== 'object') return obj;
 
-     
+
     for (const key in obj) {
         if (key === '__typename') {
             delete obj[key];
@@ -465,23 +465,23 @@ export const handleExitPresentMode = async (): Promise<void> => {
 };
 
 export const calculateVisibleElementData = (element: HTMLElement) => {
-  const rect = element.getBoundingClientRect();
+    const rect = element.getBoundingClientRect();
 
-  const windowHeight = window.innerHeight;
-  const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
 
-  const frameRelativeTop = Math.max(rect.top, 0);
-  const frameRelativeLeft = Math.max(rect.left, 0);
+    const frameRelativeTop = Math.max(rect.top, 0);
+    const frameRelativeLeft = Math.max(rect.left, 0);
 
-  const frameRelativeBottom = Math.min(windowHeight, rect.bottom);
-  const frameRelativeRight = Math.min(windowWidth, rect.right);
+    const frameRelativeBottom = Math.min(windowHeight, rect.bottom);
+    const frameRelativeRight = Math.min(windowWidth, rect.right);
 
-  const data = {
-    top: Math.min(0, rect.top) * -1,
-    height: frameRelativeBottom - frameRelativeTop,
-    left: Math.min(0, rect.left) * -1,
-    width: frameRelativeRight - frameRelativeLeft,
-  };
+    const data = {
+        top: Math.max(0, rect.top * -1),
+        height: frameRelativeBottom - frameRelativeTop,
+        left: Math.max(0, rect.left * -1),
+        width: frameRelativeRight - frameRelativeLeft,
+    };
 
-  return data;
+    return data;
 }
