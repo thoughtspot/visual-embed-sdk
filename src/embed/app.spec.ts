@@ -46,11 +46,11 @@ beforeAll(() => {
     });
     jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
     (window as any).ResizeObserver = window.ResizeObserver
-            || jest.fn().mockImplementation(() => ({
-                disconnect: jest.fn(),
-                observe: jest.fn(),
-                unobserve: jest.fn(),
-            }));
+        || jest.fn().mockImplementation(() => ({
+            disconnect: jest.fn(),
+            observe: jest.fn(),
+            unobserve: jest.fn(),
+        }));
 });
 
 const cleanUp = () => {
@@ -131,8 +131,8 @@ describe('App embed tests', () => {
     });
 
     describe('should render the correct routes for pages', () => {
-        /* eslint-disable no-loop-func */
-        const pageRouteMap = {
+
+        const pageRouteMap: Record<Page, string> = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
             [Page.Pinboards]: 'pinboards',
@@ -143,7 +143,7 @@ describe('App embed tests', () => {
             [Page.Monitor]: 'insights/monitor-alerts',
         };
 
-        const pageIds = Object.keys(pageRouteMap);
+        const pageIds = Object.keys(pageRouteMap) as Page[];
         for (let i = 0; i < pageIds.length; i++) {
             const pageId = pageIds[i];
 
@@ -165,7 +165,7 @@ describe('App embed tests', () => {
             });
         }
 
-        const pageRouteMapForModularHome = {
+        const pageRouteMapForModularHome: Record<Page, string> = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'home/answers',
             [Page.Pinboards]: 'home/liveboards',
@@ -176,12 +176,12 @@ describe('App embed tests', () => {
             [Page.Monitor]: 'home/monitor-alerts',
         };
 
-        const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
+        const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome) as Page[];
         for (let i = 0; i < pageIdsForModularHomes.length; i++) {
             const pageIdsForModularHome = pageIdsForModularHomes[i];
 
             test(`${pageIdsForModularHome}`, async () => {
-                const route = pageRouteMap[pageIdsForModularHome];
+                const route = pageRouteMapForModularHome[pageIdsForModularHome];
                 const appEmbed = new AppEmbed(getRootEl(), {
                     ...defaultViewConfig,
                     modularHomeExperience: true,
@@ -686,7 +686,7 @@ describe('App embed tests', () => {
     test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            // eslint-disable-next-line max-len
+
             dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         } as AppViewConfig);
 
@@ -813,6 +813,167 @@ describe('App embed tests', () => {
             expect(logger.log).toHaveBeenCalledWith(
                 'Please call render before invoking this method',
             );
+        });
+    });
+
+    describe('LazyLoadingForFullHeight functionality', () => {
+        test('should set lazyLoadingForEmbed=true when both fullHeight and lazyLoadingForFullHeight are enabled', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).toContain('isFullHeightPinboard=true');
+            });
+        });
+
+        test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: false,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).not.toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).not.toContain('isFullHeightPinboard=true');
+            });
+        });
+
+        test('should not set lazyLoadingForEmbed when fullHeight is true but lazyLoadingForFullHeight is false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+            } as AppViewConfig);
+
+            appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).not.toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).toContain('isFullHeightPinboard=true');
+            });
+        });
+
+        test('should register RequestFullHeightLazyLoadData event handler when fullHeight is enabled', async () => {
+            const onSpy = jest.spyOn(AppEmbed.prototype, 'on');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestFullHeightLazyLoadData, expect.any(Function));
+
+            onSpy.mockRestore();
+        });
+
+        test('should send correct visible data when RequestFullHeightLazyLoadData is triggered', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            const mockTrigger = jest.spyOn(appEmbed, 'trigger');
+
+            // Mock element dimensions for testing
+            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+                top: 100,
+                left: 150,
+                bottom: 600,
+                right: 800,
+                width: 650,
+                height: 500,
+            } as DOMRect);
+
+            await appEmbed.render();
+
+            // Trigger the lazy load data calculation
+            (appEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+                top: 0,
+                height: 500,
+                left: 0,
+                width: 650,
+            });
+        });
+
+        test('should calculate correct visible data for partially visible full height element', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            const mockTrigger = jest.spyOn(appEmbed, 'trigger');
+
+            // Mock element partially clipped from top and left
+            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+                top: -50,
+                left: -30,
+                bottom: 700,
+                right: 1024,
+                width: 1054,
+                height: 750,
+            } as DOMRect);
+
+            await appEmbed.render();
+
+            // Trigger the lazy load data calculation
+            (appEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+                top: 50,   // 50px clipped from top
+                height: 700, // visible height (from 0 to 700)
+                left: 30,  // 30px clipped from left
+                width: 1024, // visible width (from 0 to 1024)
+            });
+        });
+
+        test('should add window event listeners for resize and scroll when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+            expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+
+            addEventListenerSpy.mockRestore();
+        });
+
+        test('should remove window event listeners on destroy when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
+            const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+            appEmbed.destroy();
+
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+
+            removeEventListenerSpy.mockRestore();
         });
     });
 });
