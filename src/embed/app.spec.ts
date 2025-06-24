@@ -886,8 +886,10 @@ describe('App embed tests', () => {
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
 
-            // Mock element dimensions for testing
-            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+            await appEmbed.render();
+
+            // Mock iframe dimensions for testing
+            jest.spyOn((appEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
                 top: 100,
                 left: 150,
                 bottom: 600,
@@ -895,8 +897,6 @@ describe('App embed tests', () => {
                 width: 650,
                 height: 500,
             } as DOMRect);
-
-            await appEmbed.render();
 
             // Trigger the lazy load data calculation
             (appEmbed as any).sendFullHeightLazyLoadData();
@@ -918,8 +918,10 @@ describe('App embed tests', () => {
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
 
-            // Mock element partially clipped from top and left
-            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+            await appEmbed.render();
+
+            // Mock iframe partially clipped from top and left
+            jest.spyOn((appEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
                 top: -50,
                 left: -30,
                 bottom: 700,
@@ -927,8 +929,6 @@ describe('App embed tests', () => {
                 width: 1054,
                 height: 750,
             } as DOMRect);
-
-            await appEmbed.render();
 
             // Trigger the lazy load data calculation
             (appEmbed as any).sendFullHeightLazyLoadData();
