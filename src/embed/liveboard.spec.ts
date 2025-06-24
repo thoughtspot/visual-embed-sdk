@@ -785,7 +785,7 @@ describe('Liveboard/viz embed tests', () => {
             await waitFor(() => !!getIFrameEl());
 
             const ts = '__tsEmbed';
-            expect(document.getElementById(libEmbed.getPreRenderIds().wrapper)[ts]).toEqual(
+            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
                 libEmbed,
             );
 
@@ -889,8 +889,10 @@ describe('Liveboard/viz embed tests', () => {
             // Mock the trigger method to spy on it
             const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
 
-            // Mock getBoundingClientRect for the element
-            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+            await liveboardEmbed.render();
+
+            // Mock getBoundingClientRect for the iframe element
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
                 top: 100,
                 left: 150,
                 bottom: 300,
@@ -898,8 +900,6 @@ describe('Liveboard/viz embed tests', () => {
                 width: 250,
                 height: 200,
             } as DOMRect);
-
-            await liveboardEmbed.render();
 
             // Simulate the RequestFullHeightLazyLoadData event
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
@@ -938,8 +938,10 @@ describe('Liveboard/viz embed tests', () => {
                 value: 800,
             });
 
-            // Mock element partially clipped from top and left
-            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+            await liveboardEmbed.render();
+
+            // Mock iframe partially clipped from top and left
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
                 top: -50,
                 left: -30,
                 bottom: 700,
@@ -947,8 +949,6 @@ describe('Liveboard/viz embed tests', () => {
                 width: 1130,
                 height: 750,
             } as DOMRect);
-
-            await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
@@ -979,8 +979,10 @@ describe('Liveboard/viz embed tests', () => {
 
             const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
 
-            // Mock element completely above viewport
-            jest.spyOn(getRootEl(), 'getBoundingClientRect').mockReturnValue({
+            await liveboardEmbed.render();
+
+            // Mock iframe completely above viewport
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
                 top: -300,
                 left: 100,
                 bottom: -100,
@@ -988,8 +990,6 @@ describe('Liveboard/viz embed tests', () => {
                 width: 300,
                 height: 200,
             } as DOMRect);
-
-            await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
