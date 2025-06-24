@@ -23,7 +23,7 @@ import { V1Embed } from './ts-embed';
 /**
  * Pages within the ThoughtSpot app that can be embedded.
  */
- 
+
 export enum Page {
     /**
      * Home page
@@ -93,7 +93,7 @@ export enum PrimaryNavbarVersion {
      * Sliding (v3) introduces a new left-side navigation hub featuring a tab switcher,
      * along with updates to the top navigation bar.
      * It serves as the foundational version of the PrimaryNavBar.
-     */
+     */
     Sliding = 'v3',
 }
 
@@ -103,9 +103,9 @@ export enum PrimaryNavbarVersion {
  */
 export enum HomePage {
     /**
-     * Modular (v2) introduces the updated Modular Home Experience.
-     * It serves as the foundational version of the home page.
-     */
+     * Modular (v2) introduces the updated Modular Home Experience.
+     * It serves as the foundational version of the home page.
+     */
     Modular = 'v2',
 }
 
@@ -494,21 +494,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
-     /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * 
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-     showAlerts?: boolean;
+    /**
+    * Show alert messages and toast messages in the embedded
+    * view in full app embed.
+    * 
+    * Supported embed types: `AppEmbed`
+    * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+    * @example
+    * ```js
+    * const embed = new AppEmbed('#tsEmbed', {
+    *    ... // other embed view config
+    *    showAlerts:true,
+    * })
+    * ```
+    */
+    showAlerts?: boolean;
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * 
@@ -525,7 +525,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
-    
+
     /**
      * This flag is used to enable the full height lazy load data.
      * 
@@ -554,7 +554,7 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-     
+
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -596,7 +596,7 @@ export class AppEmbed extends V1Embed {
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
-             
+
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
@@ -610,7 +610,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
-        let params = {};
+        let params: any = {};
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
@@ -670,7 +670,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
-             
+
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled
             ] = isOnBeforeGetVizDataInterceptEnabled;
@@ -698,12 +698,12 @@ export class AppEmbed extends V1Embed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-             
+
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-             
+
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
@@ -726,8 +726,8 @@ export class AppEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData() {
-      const data = calculateVisibleElementData(this.el);
-      this.trigger(HostEvent.FullHeightLazyLoadData, data);
+        const data = calculateVisibleElementData(this.iFrame);
+        this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
     /**
@@ -890,7 +890,7 @@ export class AppEmbed extends V1Embed {
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
 
-        this.postRender(); 
+        this.postRender();
         return this;
     }
 }

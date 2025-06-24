@@ -526,7 +526,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData() {
-        const data = calculateVisibleElementData(this.el);
+        const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
