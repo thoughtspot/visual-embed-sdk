@@ -394,7 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData);
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, () => this.sendFullHeightLazyLoadData());
         }
     }
 
