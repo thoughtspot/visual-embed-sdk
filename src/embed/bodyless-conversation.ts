@@ -13,11 +13,6 @@ export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'prima
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
-    
-    /**
-     * Optional CSS class name to add to the container div.
-     */
-    containerClassName?: string;
 }
 
 /**
@@ -116,10 +111,6 @@ export class SpotterAgentEmbed {
         }
 
         const container = document.createElement('div');
-        if (this.viewConfig.containerClassName) {
-            container.className = this.viewConfig.containerClassName;
-        }
-
         const embed = new ConversationMessage(container, {
             ...this.viewConfig,
             sessionId: data.sessionId,
