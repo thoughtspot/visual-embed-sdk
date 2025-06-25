@@ -394,7 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestFullHeightLazyLoadData, () => this.sendFullHeightLazyLoadData());
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData.bind(this));
         }
     }
 
@@ -527,6 +527,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private sendFullHeightLazyLoadData() {
         const data = calculateVisibleElementData(this.iFrame);
+        console.log('sendFullHeightLazyLoadData', data);
         this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
@@ -555,6 +556,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     private updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
+        this.sendFullHeightLazyLoadData();
     };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
@@ -668,22 +670,23 @@ export class LiveboardEmbed extends V1Embed {
         }
         return super.trigger(messageType, dataWithVizId);
     }
- /**
+    /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     public destroy() {
         super.destroy();
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.removeEventListener('resize', () => this.sendFullHeightLazyLoadData());
-            window.removeEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData.bind(this));
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData.bind(this));
         }
     }
 
     private postRender() {
+        console.log(this.iFrame.contentWindow)
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.addEventListener('resize', () => this.sendFullHeightLazyLoadData());
-            window.addEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData.bind(this));
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData.bind(this));
         }
     }
 
