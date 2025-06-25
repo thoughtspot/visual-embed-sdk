@@ -5147,7 +5147,7 @@ export enum Action {
      * disabledActions: [Action.InConversationTraining]
      *
      * ```
-     *  @version SDK: 1.37.2 | ThoughtSpot Cloud: 10.10.0.cl
+     *  @version SDK: 1.39.0 | ThoughtSpot Cloud: 10.10.0.cl
      */
     InConversationTraining = 'InConversationTraining',
 }
