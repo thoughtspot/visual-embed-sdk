@@ -5140,7 +5140,8 @@ export enum Action {
     /**
      * Action ID for hide or disable the
      * Spotter in conversation training widget.
-     *
+     * This feature is currently in EA and needs to be
+     * enabled using LaunchDarkly
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
