@@ -5140,8 +5140,10 @@ export enum Action {
     /**
      * Action ID for hide or disable the
      * Spotter in conversation training widget.
-     * This feature is currently in EA and needs to be
-     * enabled using LaunchDarkly
+     * The Add to Coaching feature is currently in beta
+     * and is disabled by default on embed deployments.
+     * To enable this feature on your instance,
+     * contact ThoughtSpot Support.
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
