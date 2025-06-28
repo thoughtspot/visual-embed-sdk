@@ -15,6 +15,9 @@ import {
     DOMSelector,
     RuntimeParameter,
     AllEmbedViewConfig,
+    CustomAction,
+    CustomActionsPosition,
+    CustomActionTarget,
 } from './types';
 import { logger } from './utils/logger';
 
@@ -241,6 +244,130 @@ export const getCustomisations = (
         },
     };
     return customizations;
+};
+
+const customActionValidationConfig: Record<string, {
+    positions: string[];
+    allowedMetadataIds: string[];
+    allowedDataModelIds: string[];
+    allowedFields: string[];
+}> = {
+    LIVEBOARD: {
+        positions: [CustomActionsPosition.PRIMARY, CustomActionsPosition.MENU],
+        allowedMetadataIds: ['liveboardIds'],
+        allowedDataModelIds: [],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds'],
+    },
+    VIZ: {
+        positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
+        allowedMetadataIds: ['liveboardIds', 'vizIds', 'answerIds'],
+        allowedDataModelIds: ['modelIds', 'modelColumnNames'],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
+    },
+    ANSWER: {
+        positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
+        allowedMetadataIds: ['answerIds'],
+        allowedDataModelIds: ['modelIds', 'modelColumnNames'],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
+    },
+    SPOTTER: {
+        positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
+        allowedMetadataIds: [],
+        allowedDataModelIds: ['modelIds'],
+        allowedFields: ['name', 'id', 'position', 'target', 'orgIds', 'groupIds', 'dataModelIds'],
+    },
+};
+
+export const getCustomActions = (customActions: CustomAction[]): CustomAction[] => {
+    if (!customActions || !Array.isArray(customActions)) {
+        return [];
+    }
+    return customActions.filter((action) => validateCustomAction(action));
+};
+
+function arrayIncludesString(arr: readonly unknown[], key: string): boolean {
+    return (arr as string[]).includes(key);
+}
+
+// Constants for custom action validation
+const REQUIRED_FIELDS = ['id', 'target', 'position'] as const;
+
+/**
+ * Validates a custom action based on its target type
+ * @param action - The custom action to validate
+ * @returns boolean - true if valid, false if invalid
+ */
+const validateCustomAction = (action: CustomAction): boolean => {
+    // Input validation
+    if (!action || typeof action !== 'object') {
+        logger.error('Custom Action Validation Error: Invalid action object provided');
+        return false;
+    }
+
+    const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
+
+    // Validate required fields
+    const missingFields = REQUIRED_FIELDS.filter(field => !action[field]);
+    if (missingFields.length > 0) {
+        const errorMessage = `Custom Action Validation Error for '${actionId}': Missing required fields: ${missingFields.join(', ')}`;
+        logger.error(errorMessage);
+        return false;
+    }
+
+    // Check if target type is supported
+    if (!customActionValidationConfig[targetType]) {
+        const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
+        logger.error(errorMessage);
+        return false;
+    }
+
+    const config = customActionValidationConfig[targetType];
+    const errors: string[] = [];
+
+    // Validate position
+    if (!arrayIncludesString(config.positions, position)) {
+        errors.push(`Position '${position}' is not supported for ${targetType.toLowerCase()}-level custom actions`);
+    }
+
+    // Validation for Liveboard level custom actions cannot have CONTEXTMENU
+    // position
+    if (targetType === CustomActionTarget.LIVEBOARD && position === CustomActionsPosition.CONTEXTMENU) {
+        errors.push(`Liveboard-level custom actions cannot have position '${CustomActionsPosition.CONTEXTMENU}'`);
+    }
+
+    // Validate allowed top-level fields
+    Object.keys(action).forEach(key => {
+        if (!arrayIncludesString(config.allowedFields, key)) {
+            errors.push(`Field '${key}' is not supported in ${targetType.toLowerCase()}-level custom actions`);
+        }
+    });
+
+    // Validate metadataIds
+    if (metadataIds && typeof metadataIds === 'object') {
+        Object.keys(metadataIds).forEach(key => {
+            if (!arrayIncludesString(config.allowedMetadataIds, key)) {
+                errors.push(`Field '${key}' in metadataIds is not supported in ${targetType.toLowerCase()}-level custom actions`);
+            }
+        });
+    }
+
+    // Validate dataModelIds
+    if (dataModelIds && typeof dataModelIds === 'object') {
+        Object.keys(dataModelIds).forEach(key => {
+            if (!arrayIncludesString(config.allowedDataModelIds, key)) {
+                errors.push(`Field '${key}' in dataModelIds is not supported in ${targetType.toLowerCase()}-level custom actions`);
+            }
+        });
+    }
+
+    // If there are errors, log them and return false
+    if (errors.length > 0) {
+        const errorMessage = `Custom Action Validation Error for '${actionId}': ${errors.join('; ')}`;
+        logger.error(errorMessage);
+        return false;
+    }
+
+    return true;
 };
 
 export const getRuntimeFilters = (runtimefilters: any) => getFilterQuery(runtimefilters || []);

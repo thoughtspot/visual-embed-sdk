@@ -34,6 +34,7 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
+    getCustomActions,
 } from '../utils';
 import {
     getThoughtSpotHost,
@@ -398,6 +399,7 @@ export class TsEmbed {
             customVariablesForThirdPartyTools:
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
+            customActions: getCustomActions(this.viewConfig.customActions || []),
         };
     }
 
