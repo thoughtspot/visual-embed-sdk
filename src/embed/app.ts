@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { getQueryParamString } from '../utils';
+import { calculateVisibleElementData, getQueryParamString } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -23,7 +23,7 @@ import { V1Embed } from './ts-embed';
 /**
  * Pages within the ThoughtSpot app that can be embedded.
  */
-// eslint-disable-next-line no-shadow
+
 export enum Page {
     /**
      * Home page
@@ -93,7 +93,7 @@ export enum PrimaryNavbarVersion {
      * Sliding (v3) introduces a new left-side navigation hub featuring a tab switcher,
      * along with updates to the top navigation bar.
      * It serves as the foundational version of the PrimaryNavBar.
-     */
+     */
     Sliding = 'v3',
 }
 
@@ -103,9 +103,9 @@ export enum PrimaryNavbarVersion {
  */
 export enum HomePage {
     /**
-     * Modular (v2) introduces the updated Modular Home Experience.
-     * It serves as the foundational version of the home page.
-     */
+     * Modular (v2) introduces the updated Modular Home Experience.
+     * It serves as the foundational version of the home page.
+     */
     Modular = 'v2',
 }
 
@@ -494,21 +494,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
-     /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * 
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-     showAlerts?: boolean;
+    /**
+    * Show alert messages and toast messages in the embedded
+    * view in full app embed.
+    * 
+    * Supported embed types: `AppEmbed`
+    * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+    * @example
+    * ```js
+    * const embed = new AppEmbed('#tsEmbed', {
+    *    ... // other embed view config
+    *    showAlerts:true,
+    * })
+    * ```
+    */
+    showAlerts?: boolean;
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * 
@@ -525,6 +525,24 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
+
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
 }
 
 /**
@@ -536,7 +554,7 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-    // eslint-disable-next-line no-useless-constructor
+
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -544,6 +562,7 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData);
         }
     }
 
@@ -577,7 +596,7 @@ export class AppEmbed extends V1Embed {
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
-            /* eslint-disable-next-line max-len */
+
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
@@ -591,7 +610,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
-        let params = {};
+        let params: any = {};
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
@@ -623,6 +642,9 @@ export class AppEmbed extends V1Embed {
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
+            if (this.viewConfig.lazyLoadingForFullHeight) {
+                params[Param.LazyLoadingForEmbed] = true;
+            }
         }
 
         if (tag) {
@@ -648,7 +670,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
-            /* eslint-disable-next-line max-len */
+
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled
             ] = isOnBeforeGetVizDataInterceptEnabled;
@@ -676,12 +698,12 @@ export class AppEmbed extends V1Embed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            /* eslint-disable-next-line max-len */
+
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            /* eslint-disable-next-line max-len */
+
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
@@ -701,6 +723,11 @@ export class AppEmbed extends V1Embed {
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
+    }
+
+    private sendFullHeightLazyLoadData() {
+        const data = calculateVisibleElementData(this.iFrame);
+        this.trigger(HostEvent.FullHeightLazyLoadData, data);
     }
 
     /**
@@ -834,6 +861,25 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    public destroy() {
+        super.destroy();
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', () => this.sendFullHeightLazyLoadData());
+            window.removeEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+        }
+    }
+
+    private postRender() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.addEventListener('resize', () => this.sendFullHeightLazyLoadData());
+            window.addEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+        }
+    }
+
+    /**
      * Renders the embedded application pages in the ThoughtSpot app.
      * @param renderOptions An object containing the page ID
      * to be embedded.
@@ -844,6 +890,7 @@ export class AppEmbed extends V1Embed {
         const src = this.getIFrameSrc();
         await this.renderV1Embed(src);
 
+        this.postRender();
         return this;
     }
 }

@@ -21,7 +21,7 @@ import {
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
 } from '../types';
-import { getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -342,6 +342,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
 }
 
 /**
@@ -364,19 +381,20 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-     
+
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             if (this.viewConfig.vizId) {
                 logger.warn('Full height is currently only supported for Liveboard embeds.' +
-                  'Using full height with vizId might lead to unexpected behavior.');
+                    'Using full height with vizId might lead to unexpected behavior.');
             }
 
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData.bind(this));
         }
     }
 
@@ -385,7 +403,7 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        let params = {};
+        let params: any = {};
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,
@@ -420,6 +438,9 @@ export class LiveboardEmbed extends V1Embed {
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
+            if (this.viewConfig.lazyLoadingForFullHeight) {
+                params[Param.LazyLoadingForEmbed] = true;
+            }
         }
         if (defaultHeight) {
             this.defaultHeight = defaultHeight;
@@ -504,6 +525,12 @@ export class LiveboardEmbed extends V1Embed {
         return suffix;
     }
 
+    private sendFullHeightLazyLoadData() {
+        const data = calculateVisibleElementData(this.iFrame);
+        console.log('sendFullHeightLazyLoadData', data);
+        this.trigger(HostEvent.FullHeightLazyLoadData, data);
+    }
+
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.
@@ -529,6 +556,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     private updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
+        this.sendFullHeightLazyLoadData();
     };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
@@ -602,7 +630,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     protected beforePrerenderVisible(): void {
-        const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
+        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as LiveboardEmbed;
 
         if (isUndefined(embedObj)) return;
 
@@ -642,6 +670,25 @@ export class LiveboardEmbed extends V1Embed {
         }
         return super.trigger(messageType, dataWithVizId);
     }
+    /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    public destroy() {
+        super.destroy();
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData.bind(this));
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData.bind(this));
+        }
+    }
+
+    private postRender() {
+        console.log(this.iFrame.contentWindow)
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData.bind(this));
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData.bind(this));
+        }
+    }
 
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
@@ -655,6 +702,7 @@ export class LiveboardEmbed extends V1Embed {
         await this.renderV1Embed(src);
         this.showPreviewLoader();
 
+        this.postRender();
         return this;
     }
 
