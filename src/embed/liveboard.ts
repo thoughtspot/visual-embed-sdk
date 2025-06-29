@@ -276,7 +276,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * 
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
-     * @default true
+     * @default false
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -411,7 +411,7 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
-            coverAndFilterOptionInPDF,
+            coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
