@@ -666,6 +666,28 @@ export interface EmbedConfig {
      * ```
      */
     disableFullscreenPresentation?: boolean;
+
+    /**
+     * Custom actions are a way to add custom actions to the embedded view which
+     * can be used to trigger custom logic when the action is clicked.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
+     */
+    customActions?: CustomAction[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -1033,6 +1055,23 @@ export interface BaseViewConfig {
     /**
      * Custom actions are a way to add custom actions to the embedded view which
      * can be used to trigger custom logic when the action is clicked.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
      */
     customActions?: CustomAction[];
 }
