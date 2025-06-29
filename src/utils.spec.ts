@@ -890,7 +890,8 @@ describe('Custom Action Validation', () => {
                 },
             };
             const result = getCustomActions([primaryAction, menuAction]);
-            expect(result).toEqual([primaryAction, menuAction]);
+            // After sorting by name: Menu Action comes before Primary Action
+            expect(result).toEqual([menuAction, primaryAction]);
             expect(logger.error).not.toHaveBeenCalled();
         });
 
@@ -939,8 +940,8 @@ describe('Custom Action Validation', () => {
                 answerAction,
             ]);
 
-            // Should keep first primary action for each target and all non-primary actions
-            expect(result).toEqual([liveboardPrimary1, vizPrimary1, answerAction]);
+            // Should keep first primary action for each target and all non-primary actions, then sort by name
+            expect(result).toEqual([answerAction, liveboardPrimary1, vizPrimary1]);
             
             // Should log errors for the duplicate primary actions
             expect(logger.error).toHaveBeenCalledTimes(2);
@@ -984,12 +985,39 @@ describe('Custom Action Validation', () => {
 
             const result = getCustomActions([action1, primary1, action2, primary2]);
             
-            // Should maintain order and keep first primary action
-            expect(result).toEqual([action1, primary1, action2]);
+            // Should maintain order and keep first primary action, then sort by name
+            expect(result).toEqual([action1, action2, primary1]);
             expect(logger.error).toHaveBeenCalledWith(
                 expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'primary-2' will be ignored")
             );
         });
+    });
+
+    it('should sort custom actions by name after validation', () => {
+        const actionC: CustomAction = {
+            name: 'Charlie Action',
+            id: 'action-c',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb1'] },
+        };
+        const actionA: CustomAction = {
+            name: 'Alpha Action',
+            id: 'action-a',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb2'] },
+        };
+        const actionB: CustomAction = {
+            name: 'Beta Action',
+            id: 'action-b',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb3'] },
+        };
+
+        const result = getCustomActions([actionC, actionA, actionB]);
+        expect(result).toEqual([actionA, actionB, actionC]);
     });
 });
 
