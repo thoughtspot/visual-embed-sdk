@@ -380,7 +380,10 @@ export class TsEmbed {
             customVariablesForThirdPartyTools:
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
-            customActions: getCustomActions(this.viewConfig.customActions || []),
+            customActions: getCustomActions([
+                ...(this.viewConfig.customActions || []),
+                ...(this.embedConfig.customActions || [])
+            ]),
         };
     }
 
