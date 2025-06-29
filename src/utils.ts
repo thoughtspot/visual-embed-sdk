@@ -292,6 +292,16 @@ function arrayIncludesString(arr: readonly unknown[], key: string): boolean {
 // Constants for custom action validation
 const REQUIRED_FIELDS = ['id', 'target', 'position'] as const;
 
+// Static Map to track primary actions per target across validation calls
+const primaryActionsPerTarget = new Map<string, CustomAction>();
+
+/**
+ * Resets the primary actions tracking Map (for testing purposes)
+ */
+export const resetPrimaryActionsTracking = (): void => {
+    primaryActionsPerTarget.clear();
+};
+
 /**
  * Validates a custom action based on its target type
  * @param action - The custom action to validate
@@ -333,6 +343,17 @@ const validateCustomAction = (action: CustomAction): boolean => {
     // position
     if (targetType === CustomActionTarget.LIVEBOARD && position === CustomActionsPosition.CONTEXTMENU) {
         errors.push(`Liveboard-level custom actions cannot have position '${CustomActionsPosition.CONTEXTMENU}'`);
+    }
+
+    // Check for primary action conflicts
+    if (position === CustomActionsPosition.PRIMARY) {
+        if (primaryActionsPerTarget.has(targetType)) {
+            const existingAction = primaryActionsPerTarget.get(targetType);
+            const errorMessage = `Custom Action Validation: Multiple primary custom actions found for target '${targetType}'. Action '${actionId}' will be ignored. Only the first primary action '${existingAction?.id}' will be shown.`;
+            logger.error(errorMessage);
+            return false;
+        }
+        primaryActionsPerTarget.set(targetType, action);
     }
 
     // Validate allowed top-level fields
