@@ -282,7 +282,17 @@ export const getCustomActions = (customActions: CustomAction[]): CustomAction[] 
     if (!customActions || !Array.isArray(customActions)) {
         return [];
     }
-    return customActions.filter((action) => validateCustomAction(action));
+
+    const filteredActions: CustomAction[] = [];
+
+    customActions.forEach((action) => {
+        if (validateCustomAction(action)) {
+            filteredActions.push(action);
+        }
+    });
+
+    // Sort the filtered actions by name
+    return filteredActions.sort((a, b) => a.name.localeCompare(b.name));
 };
 
 function arrayIncludesString(arr: readonly unknown[], key: string): boolean {
