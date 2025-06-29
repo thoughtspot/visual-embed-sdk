@@ -16,6 +16,7 @@ import {
     handlePresentEvent,
     handleExitPresentMode,
     getCustomActions,
+    resetPrimaryActionsTracking,
     getTypeFromValue,
     calculateVisibleElementData,
 } from './utils';
@@ -442,6 +443,8 @@ describe('Fullscreen Utility Functions', () => {
 describe('Custom Action Validation', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        // Reset the primary actions tracking Map between tests
+        resetPrimaryActionsTracking();
     });
 
     describe('validateCustomAction', () => {
@@ -798,6 +801,194 @@ describe('Custom Action Validation', () => {
                 expect(result).toEqual([action]);
                 expect(logger.error).not.toHaveBeenCalled();
             });
+        });
+    });
+
+    describe('Primary Action Validation', () => {
+        it('should allow first primary action for a target', () => {
+            const action: CustomAction = {
+                name: 'First Primary Action',
+                id: 'first-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const result = getCustomActions([action]);
+            expect(result).toEqual([action]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should reject second primary action for the same target', () => {
+            const firstAction: CustomAction = {
+                name: 'First Primary Action',
+                id: 'first-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const secondAction: CustomAction = {
+                name: 'Second Primary Action',
+                id: 'second-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb2'],
+                },
+            };
+            const result = getCustomActions([firstAction, secondAction]);
+            expect(result).toEqual([firstAction]);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored. Only the first primary action 'first-primary-id' will be shown.")
+            );
+        });
+
+        it('should allow primary actions for different targets', () => {
+            const liveboardAction: CustomAction = {
+                name: 'Liveboard Primary Action',
+                id: 'liveboard-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const vizAction: CustomAction = {
+                name: 'Viz Primary Action',
+                id: 'viz-primary-id',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    vizIds: ['viz1'],
+                },
+            };
+            const result = getCustomActions([liveboardAction, vizAction]);
+            expect(result).toEqual([liveboardAction, vizAction]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should allow non-primary actions for the same target', () => {
+            const primaryAction: CustomAction = {
+                name: 'Primary Action',
+                id: 'primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const menuAction: CustomAction = {
+                name: 'Menu Action',
+                id: 'menu-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: {
+                    liveboardIds: ['lb2'],
+                },
+            };
+            const result = getCustomActions([primaryAction, menuAction]);
+            expect(result).toEqual([primaryAction, menuAction]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should handle multiple primary actions for different targets with some duplicates', () => {
+            const liveboardPrimary1: CustomAction = {
+                name: 'Liveboard Primary 1',
+                id: 'lb-primary-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb1'] },
+            };
+            const liveboardPrimary2: CustomAction = {
+                name: 'Liveboard Primary 2',
+                id: 'lb-primary-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb2'] },
+            };
+            const vizPrimary1: CustomAction = {
+                name: 'Viz Primary 1',
+                id: 'viz-primary-1',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { vizIds: ['viz1'] },
+            };
+            const vizPrimary2: CustomAction = {
+                name: 'Viz Primary 2',
+                id: 'viz-primary-2',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { vizIds: ['viz2'] },
+            };
+            const answerAction: CustomAction = {
+                name: 'Answer Action',
+                id: 'answer-id',
+                target: CustomActionTarget.ANSWER,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { answerIds: ['answer1'] },
+            };
+
+            const result = getCustomActions([
+                liveboardPrimary1,
+                liveboardPrimary2,
+                vizPrimary1,
+                vizPrimary2,
+                answerAction,
+            ]);
+
+            // Should keep first primary action for each target and all non-primary actions
+            expect(result).toEqual([liveboardPrimary1, vizPrimary1, answerAction]);
+            
+            // Should log errors for the duplicate primary actions
+            expect(logger.error).toHaveBeenCalledTimes(2);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'lb-primary-2' will be ignored")
+            );
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'VIZ'. Action 'viz-primary-2' will be ignored")
+            );
+        });
+
+        it('should maintain order when filtering out duplicate primary actions', () => {
+            const action1: CustomAction = {
+                name: 'Action 1',
+                id: 'action-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { liveboardIds: ['lb1'] },
+            };
+            const primary1: CustomAction = {
+                name: 'Primary 1',
+                id: 'primary-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb2'] },
+            };
+            const action2: CustomAction = {
+                name: 'Action 2',
+                id: 'action-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { liveboardIds: ['lb3'] },
+            };
+            const primary2: CustomAction = {
+                name: 'Primary 2',
+                id: 'primary-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb4'] },
+            };
+
+            const result = getCustomActions([action1, primary1, action2, primary2]);
+            
+            // Should maintain order and keep first primary action
+            expect(result).toEqual([action1, primary1, action2]);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'primary-2' will be ignored")
+            );
         });
     });
 });
