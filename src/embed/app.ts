@@ -510,6 +510,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
      showAlerts?: boolean;
     /**
+     * This flag is for show/hide checkboxes for include or exclude
+     * cover page and filters in the Liveboard PDF.
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
+    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -588,6 +603,7 @@ export class AppEmbed extends V1Embed {
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
+            coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
@@ -660,6 +676,10 @@ export class AppEmbed extends V1Embed {
 
         if (enablePendoHelp !== undefined) {
             params[Param.EnablePendoHelp] = enablePendoHelp;
+        }
+
+        if (coverAndFilterOptionInPDF !== undefined) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
