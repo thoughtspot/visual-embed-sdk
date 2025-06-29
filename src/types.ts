@@ -660,6 +660,28 @@ export interface EmbedConfig {
      * ```
      */
     disableFullscreenPresentation?: boolean;
+
+    /**
+     * Custom actions are a way to add custom actions to the embedded view which
+     * can be used to trigger custom logic when the action is clicked.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
+     */
+    customActions?: CustomAction[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -1010,6 +1032,28 @@ export interface BaseViewConfig {
      * @private
      */
     insertInToSlide?: boolean;
+    /**
+     * Custom actions are a way to add custom actions to the embedded view which
+     * can be used to trigger custom logic when the action is clicked.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
+     */
+    customActions?: CustomAction[];
 }
 
 /**
@@ -4472,7 +4516,7 @@ export enum Action {
      * The Favorites icon (*) for Answers,
      * Liveboard, and data objects like Worksheet, Model,
      * Tables and Views.
-     * Allows adding an object to the user’s favorites list.
+     * Allows adding an object to the user's favorites list.
      * @example
      * ```js
      * disabledActions: [Action.AddToFavorites]
@@ -5208,6 +5252,42 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+export interface CustomAction {
+    name: string;
+    id: string;
+    position: CustomActionsPosition;
+    target: CustomActionTarget;
+    metadataIds?: {
+        answerIds?: string[];
+        liveboardIds?: string[];
+        vizIds?: string[];
+    };
+    dataModelIds?: {
+        modelIds?: string[];
+        modelColumnNames?: string[];
+    }
+    orgIds?: string[];
+    groupIds?: string[];
+    // we might have spotter parameters as well
+}
+
+/**
+ * Enum options to show custom actions at different
+ * positions in the application.
+ */
+export enum CustomActionsPosition {
+    PRIMARY = 'PRIMARY',
+    MENU = 'MENU',
+    CONTEXTMENU = 'CONTEXTMENU',
+}
+
+export enum CustomActionTarget {
+    LIVEBOARD = 'LIVEBOARD',
+    VIZ = 'VIZ',
+    ANSWER = 'ANSWER',
+    SPOTTER = 'SPOTTER',
+}
+
 /**
  * Enum options to show or suppress Visual Embed SDK and
  * ThoughtSpot application logs in the console output.
@@ -5305,4 +5385,5 @@ export interface DefaultAppInitData {
     hiddenHomeLeftNavItems: string[];
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
+    customActions: CustomAction[];
 }

@@ -15,8 +15,10 @@ import {
     getValueFromWindow,
     handlePresentEvent,
     handleExitPresentMode,
+    getCustomActions,
+    resetPrimaryActionsTracking,
 } from './utils';
-import { RuntimeFilterOp } from './types';
+import { RuntimeFilterOp, CustomAction, CustomActionsPosition, CustomActionTarget } from './types';
 import { logger } from './utils/logger';
 
 // Mock logger
@@ -405,5 +407,586 @@ describe('Fullscreen Utility Functions', () => {
 
             expect(logger.warn).toHaveBeenCalledWith('Exit fullscreen API is not supported by this browser.');
         });
+    });
+});
+
+describe('Custom Action Validation', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        // Reset the primary actions tracking Map between tests
+        resetPrimaryActionsTracking();
+    });
+
+    describe('validateCustomAction', () => {
+        describe('Input Validation', () => {
+            it('should return false for null action', () => {
+                const result = getCustomActions([null as any]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+            });
+
+            it('should return false for undefined action', () => {
+                const result = getCustomActions([undefined as any]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+            });
+
+            it('should return false for non-object action', () => {
+                const result = getCustomActions(['string' as any]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+            });
+        });
+
+        describe('Required Fields Validation', () => {
+            it('should return false when id is missing', () => {
+                const action: Partial<CustomAction> = {
+                    name: 'Test Action',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const result = getCustomActions([action as CustomAction]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Missing required fields: id")
+                );
+            });
+
+            it('should return false when target is missing', () => {
+                const action: Partial<CustomAction> = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const result = getCustomActions([action as CustomAction]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Missing required fields: target")
+                );
+            });
+
+            it('should return false when position is missing', () => {
+                const action: Partial<CustomAction> = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                };
+                const result = getCustomActions([action as CustomAction]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Missing required fields: position")
+                );
+            });
+
+            it('should return false when multiple required fields are missing', () => {
+                const action: Partial<CustomAction> = {
+                    name: 'Test Action',
+                };
+                const result = getCustomActions([action as CustomAction]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Missing required fields: id, target, position")
+                );
+            });
+        });
+
+        describe('Target Type Validation', () => {
+            it('should return false for unsupported target type', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: 'UNSUPPORTED' as CustomActionTarget,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Target type 'UNSUPPORTED' is not supported")
+                );
+            });
+        });
+
+        describe('Position Validation', () => {
+            it('should return false for invalid position for LIVEBOARD target', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.CONTEXTMENU,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions")
+                );
+            });
+
+            it('should return false for invalid position for VIZ target', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.VIZ,
+                    position: 'INVALID_POSITION' as CustomActionsPosition,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Position 'INVALID_POSITION' is not supported for viz-level custom actions")
+                );
+            });
+        });
+
+        describe('Liveboard CONTEXTMENU Validation', () => {
+            it('should return false when LIVEBOARD target has CONTEXTMENU position', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.CONTEXTMENU,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Liveboard-level custom actions cannot have position 'CONTEXTMENU'")
+                );
+            });
+        });
+
+        describe('Field Validation', () => {
+            it('should return false for unsupported top-level field for LIVEBOARD target', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                    dataModelIds: { modelIds: ['model1'] }, // Not allowed for LIVEBOARD
+                } as CustomAction;
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Field 'dataModelIds' is not supported in liveboard-level custom actions")
+                );
+            });
+
+            it('should return false for unsupported metadataIds field for ANSWER target', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.ANSWER,
+                    position: CustomActionsPosition.PRIMARY,
+                    metadataIds: {
+                        liveboardIds: ['lb1'], // Not allowed for ANSWER
+                    },
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Field 'liveboardIds' in metadataIds is not supported in answer-level custom actions")
+                );
+            });
+
+            it('should return false for unsupported dataModelIds field for SPOTTER target', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.SPOTTER,
+                    position: CustomActionsPosition.PRIMARY,
+                    dataModelIds: {
+                        modelColumnNames: ['col1'], // Not allowed for SPOTTER
+                    },
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Field 'modelColumnNames' in dataModelIds is not supported in spotter-level custom actions")
+                );
+            });
+        });
+
+        describe('Valid Custom Actions', () => {
+            it('should return true for valid LIVEBOARD custom action', () => {
+                const action: CustomAction = {
+                    name: 'Test Liveboard Action',
+                    id: 'test-liveboard-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                    metadataIds: {
+                        liveboardIds: ['lb1', 'lb2'],
+                    },
+                    orgIds: ['org1'],
+                    groupIds: ['group1'],
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should return true for valid VIZ custom action', () => {
+                const action: CustomAction = {
+                    name: 'Test Viz Action',
+                    id: 'test-viz-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.CONTEXTMENU,
+                    metadataIds: {
+                        liveboardIds: ['lb1'],
+                        vizIds: ['viz1'],
+                        answerIds: ['ans1'],
+                    },
+                    dataModelIds: {
+                        modelIds: ['model1'],
+                        modelColumnNames: ['col1'],
+                    },
+                    orgIds: ['org1'],
+                    groupIds: ['group1'],
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should return true for valid ANSWER custom action', () => {
+                const action: CustomAction = {
+                    name: 'Test Answer Action',
+                    id: 'test-answer-id',
+                    target: CustomActionTarget.ANSWER,
+                    position: CustomActionsPosition.MENU,
+                    metadataIds: {
+                        answerIds: ['ans1', 'ans2'],
+                    },
+                    dataModelIds: {
+                        modelIds: ['model1'],
+                        modelColumnNames: ['col1'],
+                    },
+                    orgIds: ['org1'],
+                    groupIds: ['group1'],
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should return true for valid SPOTTER custom action', () => {
+                const action: CustomAction = {
+                    name: 'Test Spotter Action',
+                    id: 'test-spotter-id',
+                    target: CustomActionTarget.SPOTTER,
+                    position: CustomActionsPosition.PRIMARY,
+                    dataModelIds: {
+                        modelIds: ['model1'],
+                    },
+                    orgIds: ['org1'],
+                    groupIds: ['group1'],
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('Mixed Valid and Invalid Actions', () => {
+            it('should filter out invalid actions and return only valid ones', () => {
+                const validAction: CustomAction = {
+                    name: 'Valid Action',
+                    id: 'valid-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+
+                const invalidAction: CustomAction = {
+                    name: 'Invalid Action',
+                    id: 'invalid-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.CONTEXTMENU, // Invalid for LIVEBOARD
+                };
+
+                const result = getCustomActions([validAction, invalidAction]);
+                expect(result).toEqual([validAction]);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining("Liveboard-level custom actions cannot have position 'CONTEXTMENU'")
+                );
+            });
+
+            it('should handle empty array', () => {
+                const result = getCustomActions([]);
+                expect(result).toEqual([]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should handle null/undefined array', () => {
+                const result = getCustomActions(null as any);
+                expect(result).toEqual([]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('Edge Cases', () => {
+            it('should handle action with empty metadataIds object', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                    metadataIds: {},
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should handle action with empty dataModelIds object', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.PRIMARY,
+                    dataModelIds: {},
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should handle action with null metadataIds', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                    metadataIds: null as any,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+
+            it('should handle action with null dataModelIds', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.PRIMARY,
+                    dataModelIds: null as any,
+                };
+                const result = getCustomActions([action]);
+                expect(result).toEqual([action]);
+                expect(logger.error).not.toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('Primary Action Validation', () => {
+        it('should allow first primary action for a target', () => {
+            const action: CustomAction = {
+                name: 'First Primary Action',
+                id: 'first-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const result = getCustomActions([action]);
+            expect(result).toEqual([action]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should reject second primary action for the same target', () => {
+            const firstAction: CustomAction = {
+                name: 'First Primary Action',
+                id: 'first-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const secondAction: CustomAction = {
+                name: 'Second Primary Action',
+                id: 'second-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb2'],
+                },
+            };
+            const result = getCustomActions([firstAction, secondAction]);
+            expect(result).toEqual([firstAction]);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored. Only the first primary action 'first-primary-id' will be shown.")
+            );
+        });
+
+        it('should allow primary actions for different targets', () => {
+            const liveboardAction: CustomAction = {
+                name: 'Liveboard Primary Action',
+                id: 'liveboard-primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const vizAction: CustomAction = {
+                name: 'Viz Primary Action',
+                id: 'viz-primary-id',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    vizIds: ['viz1'],
+                },
+            };
+            const result = getCustomActions([liveboardAction, vizAction]);
+            expect(result).toEqual([liveboardAction, vizAction]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should allow non-primary actions for the same target', () => {
+            const primaryAction: CustomAction = {
+                name: 'Primary Action',
+                id: 'primary-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: {
+                    liveboardIds: ['lb1'],
+                },
+            };
+            const menuAction: CustomAction = {
+                name: 'Menu Action',
+                id: 'menu-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: {
+                    liveboardIds: ['lb2'],
+                },
+            };
+            const result = getCustomActions([primaryAction, menuAction]);
+            // After sorting by name: Menu Action comes before Primary Action
+            expect(result).toEqual([menuAction, primaryAction]);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+
+        it('should handle multiple primary actions for different targets with some duplicates', () => {
+            const liveboardPrimary1: CustomAction = {
+                name: 'Liveboard Primary 1',
+                id: 'lb-primary-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb1'] },
+            };
+            const liveboardPrimary2: CustomAction = {
+                name: 'Liveboard Primary 2',
+                id: 'lb-primary-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb2'] },
+            };
+            const vizPrimary1: CustomAction = {
+                name: 'Viz Primary 1',
+                id: 'viz-primary-1',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { vizIds: ['viz1'] },
+            };
+            const vizPrimary2: CustomAction = {
+                name: 'Viz Primary 2',
+                id: 'viz-primary-2',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { vizIds: ['viz2'] },
+            };
+            const answerAction: CustomAction = {
+                name: 'Answer Action',
+                id: 'answer-id',
+                target: CustomActionTarget.ANSWER,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { answerIds: ['answer1'] },
+            };
+
+            const result = getCustomActions([
+                liveboardPrimary1,
+                liveboardPrimary2,
+                vizPrimary1,
+                vizPrimary2,
+                answerAction,
+            ]);
+
+            // Should keep first primary action for each target and all non-primary actions, then sort by name
+            expect(result).toEqual([answerAction, liveboardPrimary1, vizPrimary1]);
+            
+            // Should log errors for the duplicate primary actions
+            expect(logger.error).toHaveBeenCalledTimes(2);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'lb-primary-2' will be ignored")
+            );
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'VIZ'. Action 'viz-primary-2' will be ignored")
+            );
+        });
+
+        it('should maintain order when filtering out duplicate primary actions', () => {
+            const action1: CustomAction = {
+                name: 'Action 1',
+                id: 'action-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { liveboardIds: ['lb1'] },
+            };
+            const primary1: CustomAction = {
+                name: 'Primary 1',
+                id: 'primary-1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb2'] },
+            };
+            const action2: CustomAction = {
+                name: 'Action 2',
+                id: 'action-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { liveboardIds: ['lb3'] },
+            };
+            const primary2: CustomAction = {
+                name: 'Primary 2',
+                id: 'primary-2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                metadataIds: { liveboardIds: ['lb4'] },
+            };
+
+            const result = getCustomActions([action1, primary1, action2, primary2]);
+            
+            // Should maintain order and keep first primary action, then sort by name
+            expect(result).toEqual([action1, action2, primary1]);
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'primary-2' will be ignored")
+            );
+        });
+    });
+
+    it('should sort custom actions by name after validation', () => {
+        const actionC: CustomAction = {
+            name: 'Charlie Action',
+            id: 'action-c',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb1'] },
+        };
+        const actionA: CustomAction = {
+            name: 'Alpha Action',
+            id: 'action-a',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb2'] },
+        };
+        const actionB: CustomAction = {
+            name: 'Beta Action',
+            id: 'action-b',
+            target: CustomActionTarget.LIVEBOARD,
+            position: CustomActionsPosition.MENU,
+            metadataIds: { liveboardIds: ['lb3'] },
+        };
+
+        const result = getCustomActions([actionC, actionA, actionB]);
+        expect(result).toEqual([actionA, actionB, actionC]);
     });
 });
