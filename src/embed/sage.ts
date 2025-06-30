@@ -48,39 +48,39 @@ export interface SageViewConfig
     showObjectResults?: boolean;
     /**
      * flag used by the TS product tour page to show the blue search bar
-     * even after the search is completed. This is different from Thoughtspot Embedded
+     * even after the search is completed. This is different from ThoughtSpot Embedded
      * Sage Embed experience where it mimics closer to the non-embed case.
      * The Sample questions container is collapsed when this value is set after
      * does a search.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl
      * @hidden
      */
     isProductTour?: boolean;
     /**
      * Show or hide the search bar title.
-     * @version SDK: 1.29.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
-     * @deprecated Thoughtspot: 9.10.0.cl | search bar doesn't have the title from 9.10.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
+     * @deprecated ThoughtSpot: 9.10.0.cl | search bar doesn't have the title from 9.10.0.cl
      */
     hideSearchBarTitle?: boolean;
     /**
      * Show or hide the Answer header, that is, the `AI Answer` title
      * at the top of the Answer page.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.10.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.10.0.cl
      */
     hideSageAnswerHeader?: boolean;
     /**
      * Disable the worksheet selection option.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     disableWorksheetChange?: boolean;
     /**
      * Hide the worksheet selection panel.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     hideWorksheetSelector?: boolean;
     /**
      * Show or hide autocomplete suggestions for the search query string.
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     hideAutocompleteSuggestions?: boolean;
     /**
@@ -96,7 +96,7 @@ export interface SageViewConfig
      * selected for the search operation.
      * 
      * Supported embed types: `SageEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      * @example
      * ```js
      * const embed = new SageEmbed('#tsEmbed', {
@@ -129,7 +129,7 @@ export interface SageViewConfig
      *    executeSearch: true,
      * }
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     searchOptions?: SearchOptions;
 }

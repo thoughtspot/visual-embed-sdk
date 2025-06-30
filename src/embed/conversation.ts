@@ -39,7 +39,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    disableSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     disableSourceSelection?: boolean;
     /**
@@ -53,7 +53,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    hideSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSourceSelection?: boolean;
     /**
@@ -85,7 +85,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    showSpotterLimitations : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.5.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
     /**
@@ -100,7 +100,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    hideSampleQuestions : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSampleQuestions?: boolean;
 }

@@ -136,7 +136,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * 
      * Supported embed types: `AppEmbed`
      * @default true
-     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -158,7 +158,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * 
      * Supported embed types: `AppEmbed`
      * @default false
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -174,7 +174,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * 
      * Supported embed types: `AppEmbed`
      * @default false
-     * @version SDK: 1.2.0 | Thoughtspot: 8.4.0.cl
+     * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -257,7 +257,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
      * @example
      * ```js
@@ -277,7 +277,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default true
      * @example
      * ```js
@@ -298,7 +298,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * @version SDK: 1.1.0 | ThoughtSpot: 9.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -316,7 +316,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * path within the app, use the `path` attribute which is more flexible.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * @version SDK: 1.1.0 | ThoughtSpot: 9.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -332,7 +332,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * tag.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.1.0 | Thoughtspot: 9.4.0.cl
+     * @version SDK: 1.1.0 | ThoughtSpot: 9.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -411,7 +411,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * 
      * Supported embed types: `AppEmbed`
      * @default false
-     * @version SDK: 1.28.0 | Thoughtspot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -441,7 +441,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     discoveryExperience?: DiscoveryExperience;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @default false
      * @deprecated Use {@link collapseSearchBar} instead
      */
@@ -455,7 +455,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
      * 
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL    
      * @example
      * ```js
@@ -469,14 +469,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
      * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
-     * @version SDK : 1.29.0 | Thoughtspot : 10.1.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * Flag to use home page search bar mode
      * 
      * Supported embed types: `AppEmbed`
-     * @version SDK : 1.33.0 | Thoughtspot : 10.3.0.cl
+     * @version SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**

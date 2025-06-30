@@ -14,7 +14,7 @@ const configKey = 'embedConfig';
  * ```
  * const config = getInitConfig();
    console.log(config);
- * ````
+ * ```
  * @returns {@link EmbedConfig} The embed configuration settings that the SDK
  * was initialized with. This includes:
  *
@@ -25,7 +25,7 @@ const configKey = 'embedConfig';
  *  that were applied during the SDK initialization
  *
  * @example
- * ```
+ * ```js
  * {
  *   "thoughtSpotHost": "https://{ThoughtSpot-Host}",
  *   "authType": "AuthServerCookieless",
@@ -46,8 +46,9 @@ const configKey = 'embedConfig';
  *   "authTriggerContainer": "#your-own-div"
  *  }
  * ```
+ *
  * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
- * @version SDK: 1.19.0 | ThoughtSpot: *
+ * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || ({} as any);
@@ -56,7 +57,7 @@ export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) |
  * Sets the configuration embed was initialized with.
  * And returns the new configuration.
  * @param newConfig The configuration to set.
- * @version SDK: 1.27.0 | ThoughtSpot: *
+ * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.1.sw, and later
  * @group Global methods
  */
 export const setEmbedConfig = (newConfig: EmbedConfig) => {

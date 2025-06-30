@@ -192,7 +192,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Show or hide the tab panel of the embedded Liveboard.
      * 
      * Supported embed types: `LiveboardEmbed`
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl, 9.8.0.sw
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -674,7 +674,7 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Returns the full url of the Liveboard/visualization which can be used to open
-     * this Liveboard inside the full Thoughtspot application in a new tab.
+     * this Liveboard inside the full ThoughtSpot application in a new tab.
      * @returns url string
      */
     public getLiveboardUrl(): string {
