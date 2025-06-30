@@ -9,23 +9,21 @@ const configKey = 'embedConfig';
  * embed configuration settings such as the ThoughtSpot host,
  * authentication type, and other such parameters used when
  * initializing the SDK.
- *
- * @example
- * ```
- * const config = getInitConfig();
-   console.log(config);
- * ```
  * @returns {@link EmbedConfig}
- * The embed configuration settings that the SDK
- * was initialized with. This includes:
+ *  The embed configuration settings returned in the response
+ *  include:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
- *  - `authType`: The authentication method used. For example, `AuthServerCookieless` for
- *  `AuthType.TrustedAuthTokenCookieless`
+ *  - `authType`: The authentication method used. For example,
+ * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization
  * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
- *
+ * @example
+ * ```js
+ * const config = getInitConfig();
+ * console.log(config);
+ * ```
  * @example
  * ```json
  * {
