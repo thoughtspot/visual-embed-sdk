@@ -15,7 +15,8 @@ const configKey = 'embedConfig';
  * const config = getInitConfig();
    console.log(config);
  * ```
- * @returns {@link EmbedConfig} The embed configuration settings that the SDK
+ * @returns {@link EmbedConfig}
+ * The embed configuration settings that the SDK
  * was initialized with. This includes:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
@@ -23,9 +24,10 @@ const configKey = 'embedConfig';
  *  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization
+ * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
  *
  * @example
- * ```js
+ * ```json
  * {
  *   "thoughtSpotHost": "https://{ThoughtSpot-Host}",
  *   "authType": "AuthServerCookieless",
@@ -46,8 +48,6 @@ const configKey = 'embedConfig';
  *   "authTriggerContainer": "#your-own-div"
  *  }
  * ```
- *
- * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
  * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later
  * @group Global methods
  */
