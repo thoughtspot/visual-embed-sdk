@@ -4,21 +4,19 @@ import { EmbedConfig } from '../types';
 const configKey = 'embedConfig';
 
 /**
- * Gets the `EmbedConfig` object that was used to
- * initialize the SDK. You can use this method to access the
- * embed configuration settings such as the ThoughtSpot host,
- * authentication type, and other such parameters used when
- * initializing the SDK.
- * @returns {@link EmbedConfig}
- *  The embed configuration settings returned in the response
- *  include:
+ * Gets the embed configuration settings that were used to
+ * initialize the SDK.
+ * @returns {@link EmbedConfig} - Returns the `EmbedConfig` object,
+ * which contains the configuration settings used to
+ * initialize the SDK, including the following:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
  *  - `authType`: The authentication method used. For example,
  * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization
- * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
+ * For a comprehensive list of embed configuration settings,
+ * see link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].
  *
  * @example
  * ```js

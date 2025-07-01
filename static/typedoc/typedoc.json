@@ -39395,7 +39395,7 @@
 			"sources": [
 				{
 					"fileName": "embed/embedConfig.ts",
-					"line": 53,
+					"line": 51,
 					"character": 13
 				}
 			],
@@ -39407,8 +39407,8 @@
 					"kindString": "Call signature",
 					"flags": {},
 					"comment": {
-						"shortText": "Gets the `EmbedConfig` object that was used to\ninitialize the SDK. You can use this method to access the\nembed configuration settings such as the ThoughtSpot host,\nauthentication type, and other such parameters used when\ninitializing the SDK.",
-						"returns": "{@link EmbedConfig}\n The embed configuration settings returned in the response\n include:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization\nFor a comprehensive list of embed configuration settings, see {@link EmbedConfig}.\n",
+						"shortText": "Gets the embed configuration settings that were used to\ninitialize the SDK.",
+						"returns": "{@link EmbedConfig} - Returns the `EmbedConfig` object,\nwhich contains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization\nFor a comprehensive list of embed configuration settings,\nsee link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].\n",
 						"tags": [
 							{
 								"tag": "example",
