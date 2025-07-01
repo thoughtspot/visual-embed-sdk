@@ -23,7 +23,8 @@ const configKey = 'embedConfig';
  *  - `authType`: The authentication method used. For example,
  * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
- *  that were applied during the SDK initialization
+ *  that were applied during the SDK initialization.
+ * 
  * For a comprehensive list of embed configuration settings,
  * see link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].
  *
