@@ -39395,7 +39395,7 @@
 			"sources": [
 				{
 					"fileName": "embed/embedConfig.ts",
-					"line": 52,
+					"line": 53,
 					"character": 13
 				}
 			],
@@ -39407,8 +39407,8 @@
 					"kindString": "Call signature",
 					"flags": {},
 					"comment": {
-						"shortText": "Gets the `EmbedConfig` object that was used to\ninitialize the SDK. You can use this method to access the\nembed configuration settings such as the ThoughtSpot host,\nauthentication type, and other such parameters used when\ninitializing the SDK.\nFor a comprehensive list of embed configuration settings, see {@link EmbedConfig}.",
-						"returns": "{@link EmbedConfig}",
+						"shortText": "Gets the `EmbedConfig` object that was used to\ninitialize the SDK. You can use this method to access the\nembed configuration settings such as the ThoughtSpot host,\nauthentication type, and other such parameters used when\ninitializing the SDK.",
+						"returns": "{@link EmbedConfig}\n The embed configuration settings returned in the response\n include:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization\nFor a comprehensive list of embed configuration settings, see {@link EmbedConfig}.\n",
 						"tags": [
 							{
 								"tag": "example",
@@ -39416,7 +39416,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```\nThe embed configuration settings returned in the response\ninclude:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization"
+								"text": "\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```"
 							},
 							{
 								"tag": "version",

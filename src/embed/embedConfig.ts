@@ -19,6 +19,7 @@ const configKey = 'embedConfig';
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization
  * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
+ *
  * @example
  * ```js
  * const config = getInitConfig();
