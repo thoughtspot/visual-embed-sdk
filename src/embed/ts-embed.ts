@@ -264,11 +264,30 @@ export class TsEmbed {
         //    - cached auth info would be for wrong org
         //    - info call response changes for each different overrideOrgId
         // 2. disablePreauthCache is explicitly set to true
+        // 3. FullAppEmbed has primary navbar visible since:
+        //    - primary navbar requires fresh auth state for navigation
+        //    - cached auth may not reflect current user permissions
         const isDisabled = (
             this.viewConfig.overrideOrgId !== undefined
             || this.embedConfig.disablePreauthCache === true
+            || this.isFullAppEmbedWithVisiblePrimaryNavbar()
         );
         return !isDisabled;
+    }
+
+    /**
+     * Checks if current embed is FullAppEmbed with visible primary navbar
+     * @returns boolean
+     */
+    private isFullAppEmbedWithVisiblePrimaryNavbar(): boolean {
+        const appViewConfig = this.viewConfig as any;
+        
+        // Check if this is a FullAppEmbed (AppEmbed)
+        // showPrimaryNavbar defaults to true if not explicitly set to false
+        return (
+            appViewConfig.embedComponentType === 'AppEmbed' 
+            && appViewConfig.showPrimaryNavbar === true
+        );
     }
 
     /**
