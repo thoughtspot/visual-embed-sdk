@@ -3894,7 +3894,7 @@ export enum Param {
     DataSourceId = 'dataSourceId',
     preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
-    CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    CoverAndFilterOptionInPDF = 'arePdfCoverFilterPageCheckboxesEnabled',
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
