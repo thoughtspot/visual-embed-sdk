@@ -4,28 +4,31 @@ import { EmbedConfig } from '../types';
 const configKey = 'embedConfig';
 
 /**
- * Gets the `EmbedConfig` object that was used to
- * initialize the SDK. You can use this method to access the
- * embed configuration settings such as the ThoughtSpot host,
- * authentication type, and other such parameters used when
- * initializing the SDK.
+ * Gets the embed configuration settings that were used to
+ * initialize the SDK.
+ * @returns {@link EmbedConfig}
  *
  * @example
- * ```
+ * ```js
  * const config = getInitConfig();
-   console.log(config);
- * ````
- * @returns {@link EmbedConfig} The embed configuration settings that the SDK
- * was initialized with. This includes:
+ * console.log(config);
+ * ```
+ * @example
+ *
+ * Returns the `EmbedConfig` object, which
+ * contains the configuration settings used to
+ * initialize the SDK, including the following:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
- *  - `authType`: The authentication method used. For example, `AuthServerCookieless` for
- *  `AuthType.TrustedAuthTokenCookieless`
+ *  - `authType`: The authentication method used. For example,
+ * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
- *  that were applied during the SDK initialization
+ *  that were applied during the SDK initialization.
+ * 
+ * For a comprehensive list of embed configuration settings,
+ * see link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].
  *
- * @example
- * ```
+ * ```json
  * {
  *   "thoughtSpotHost": "https://{ThoughtSpot-Host}",
  *   "authType": "AuthServerCookieless",
@@ -46,8 +49,7 @@ const configKey = 'embedConfig';
  *   "authTriggerContainer": "#your-own-div"
  *  }
  * ```
- * For a comprehensive list of embed configuration settings, see {@link EmbedConfig}.
- * @version SDK: 1.19.0 | ThoughtSpot: *
+ * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || ({} as any);
@@ -56,7 +58,7 @@ export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) |
  * Sets the configuration embed was initialized with.
  * And returns the new configuration.
  * @param newConfig The configuration to set.
- * @version SDK: 1.27.0 | ThoughtSpot: *
+ * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.1.sw, and later
  * @group Global methods
  */
 export const setEmbedConfig = (newConfig: EmbedConfig) => {

@@ -2554,7 +2554,7 @@ export enum EmbedEvent {
      *
      * error: Developers can customize the error message text when `execute`
      * returns `false` using the error parameter in responder.
-     * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
      *```js
      * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
@@ -2601,7 +2601,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.29.0 | ThoughtSpot : 10.3.0.cl
+     * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
     /**
@@ -2657,18 +2657,18 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
-     * @version SDK : 1.37.0 | ThoughtSpot : 10.8.0.cl
+     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
      CreateModel = 'createModel',
     /**
      * @hidden
      * Emitted when a user exits present mode.
-     * @version SDK : 1.40.0 | ThoughtSpot : 10.11.0.cl
+     * @version SDK : 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
 }
