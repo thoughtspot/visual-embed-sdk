@@ -471,9 +471,6 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
-        if (coverAndFilterOptionInPDF !== undefined) {
-            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
@@ -486,6 +483,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
