@@ -814,7 +814,7 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
-        test('should set lazyLoadingForEmbed=true in URL when lazyLoadingForFullHeight is enabled with fullHeight', async () => {
+        test('should set isLazyLoadingForEmbedEnabled=true in URL when lazyLoadingForFullHeight is enabled with fullHeight', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
@@ -825,7 +825,7 @@ describe('Liveboard/viz embed tests', () => {
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isFullHeightPinboard=true&lazyLoadingForEmbed=true&isLiveboardEmbed=true${prefixParams}#/embed/viz/${liveboardId}`,
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isFullHeightPinboard=true&isLazyLoadingForEmbedEnabled=true&isLiveboardEmbed=true${prefixParams}#/embed/viz/${liveboardId}`,
                 );
             });
         });

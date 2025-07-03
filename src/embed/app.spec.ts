@@ -817,7 +817,7 @@ describe('App embed tests', () => {
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
-        test('should set lazyLoadingForEmbed=true when both fullHeight and lazyLoadingForFullHeight are enabled', async () => {
+        test('should set isLazyLoadingForEmbedEnabled=true when both fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 fullHeight: true,
@@ -827,7 +827,7 @@ describe('App embed tests', () => {
             appEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(getIFrameSrc()).toContain('isFullHeightPinboard=true');
             });
         });
@@ -842,12 +842,12 @@ describe('App embed tests', () => {
             appEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).not.toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).not.toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(getIFrameSrc()).not.toContain('isFullHeightPinboard=true');
             });
         });
 
-        test('should not set lazyLoadingForEmbed when fullHeight is true but lazyLoadingForFullHeight is false', async () => {
+        test('should not set isLazyLoadingForEmbedEnabled when fullHeight is true but lazyLoadingForFullHeight is false', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 fullHeight: true,
@@ -857,7 +857,7 @@ describe('App embed tests', () => {
             appEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).not.toContain('lazyLoadingForEmbed=true');
+                expect(getIFrameSrc()).not.toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(getIFrameSrc()).toContain('isFullHeightPinboard=true');
             });
         });
