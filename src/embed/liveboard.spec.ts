@@ -785,7 +785,7 @@ describe('Liveboard/viz embed tests', () => {
             await waitFor(() => !!getIFrameEl());
 
             const ts = '__tsEmbed';
-            expect(document.getElementById(libEmbed.getPreRenderIds().wrapper)[ts]).toEqual(
+            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
                 libEmbed,
             );
 
@@ -809,6 +809,196 @@ describe('Liveboard/viz embed tests', () => {
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
 
                 done();
+            });
+        });
+    });
+
+    describe('LazyLoadingForFullHeight functionality', () => {
+        test('should set isLazyLoadingForEmbedEnabled=true in URL when lazyLoadingForFullHeight is enabled with fullHeight', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isFullHeightPinboard=true&isLazyLoadingForEmbedEnabled=true&isLiveboardEmbed=true${prefixParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: false,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardEmbed=true${prefixParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        test('should not set lazyLoadingForEmbed when fullHeight is true but lazyLoadingForFullHeight is false', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isFullHeightPinboard=true&isLiveboardEmbed=true${prefixParams}#/embed/viz/${liveboardId}`,
+                );
+            });
+        });
+
+        test('should register RequestFullHeightLazyLoadData event handler when fullHeight is enabled', () => {
+            const mockOn = jest.spyOn(LiveboardEmbed.prototype, 'on');
+
+            new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            expect(mockOn).toHaveBeenCalledWith(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                expect.any(Function)
+            );
+        });
+
+        test('should call sendFullHeightLazyLoadData when RequestFullHeightLazyLoadData event is triggered', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            // Mock the trigger method to spy on it
+            const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
+
+            await liveboardEmbed.render();
+
+            // Mock getBoundingClientRect for the iframe element
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
+                top: 100,
+                left: 150,
+                bottom: 300,
+                right: 400,
+                width: 250,
+                height: 200,
+            } as DOMRect);
+
+            // Simulate the RequestFullHeightLazyLoadData event
+            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+                top: 0,
+                height: 200,
+                left: 0,
+                width: 250,
+            });
+        });
+
+        test('should calculate correct visible data for partially visible full height element', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
+
+            // Store original window dimensions
+            const originalInnerWidth = window.innerWidth;
+            const originalInnerHeight = window.innerHeight;
+
+            // Set predictable window dimensions
+            Object.defineProperty(window, 'innerWidth', {
+                writable: true,
+                configurable: true,
+                value: 1200,
+            });
+            Object.defineProperty(window, 'innerHeight', {
+                writable: true,
+                configurable: true,
+                value: 800,
+            });
+
+            await liveboardEmbed.render();
+
+            // Mock iframe partially clipped from top and left
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
+                top: -50,
+                left: -30,
+                bottom: 700,
+                right: 1100,
+                width: 1130,
+                height: 750,
+            } as DOMRect);
+
+            // Trigger the lazy load data calculation
+            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+                top: 50, // Clipped 50px from top
+                height: 700, // Visible height (0 to 700, window height is 800)
+                left: 30, // Clipped 30px from left
+                width: 1100, // Visible width (0 to 1100, window width is 1200)
+            });
+
+            // Restore original window dimensions
+            Object.defineProperty(window, 'innerWidth', {
+                value: originalInnerWidth,
+            });
+            Object.defineProperty(window, 'innerHeight', {
+                value: originalInnerHeight,
+            });
+        });
+
+        test('should handle element completely outside viewport for lazy loading', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
+
+            await liveboardEmbed.render();
+
+            // Mock iframe completely above viewport
+            jest.spyOn((liveboardEmbed as any).iFrame, 'getBoundingClientRect').mockReturnValue({
+                top: -300,
+                left: 100,
+                bottom: -100,
+                right: 400,
+                width: 300,
+                height: 200,
+            } as DOMRect);
+
+            // Trigger the lazy load data calculation
+            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+                top: 300, // Clipped 300px from top
+                height: 0, // No visible height (clamped from negative)
+                left: 0, // Not clipped from left
+                width: 300, // Full width would be visible if in viewport
             });
         });
     });
