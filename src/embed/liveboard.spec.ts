@@ -873,7 +873,7 @@ describe('Liveboard/viz embed tests', () => {
             } as LiveboardViewConfig);
 
             expect(mockOn).toHaveBeenCalledWith(
-                EmbedEvent.RequestFullHeightLazyLoadData,
+                EmbedEvent.RequestVisibleEmbedCoordinates,
                 expect.any(Function)
             );
         });
@@ -904,7 +904,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate the RequestFullHeightLazyLoadData event
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
                 height: 200,
                 left: 0,
@@ -953,7 +953,7 @@ describe('Liveboard/viz embed tests', () => {
             // Trigger the lazy load data calculation
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50, // Clipped 50px from top
                 height: 700, // Visible height (0 to 700, window height is 800)
                 left: 30, // Clipped 30px from left
@@ -994,7 +994,7 @@ describe('Liveboard/viz embed tests', () => {
             // Trigger the lazy load data calculation
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 300, // Clipped 300px from top
                 height: 0, // No visible height (clamped from negative)
                 left: 0, // Not clipped from left

@@ -562,7 +562,7 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData);
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.sendFullHeightLazyLoadData);
         }
     }
 
@@ -643,7 +643,7 @@ export class AppEmbed extends V1Embed {
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
-                params[Param.LazyLoadingForEmbed] = true;
+                params[Param.IsLazyLoadingForEmbedEnabled] = true;
             }
         }
 
@@ -727,7 +727,7 @@ export class AppEmbed extends V1Embed {
 
     private sendFullHeightLazyLoadData() {
         const data = calculateVisibleElementData(this.iFrame);
-        this.trigger(HostEvent.FullHeightLazyLoadData, data);
+        this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
 
     /**

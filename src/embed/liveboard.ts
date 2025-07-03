@@ -394,7 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestFullHeightLazyLoadData, this.sendFullHeightLazyLoadData.bind(this));
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.sendFullHeightLazyLoadData.bind(this));
         }
     }
 
@@ -439,7 +439,7 @@ export class LiveboardEmbed extends V1Embed {
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
-                params[Param.LazyLoadingForEmbed] = true;
+                params[Param.IsLazyLoadingForEmbedEnabled] = true;
             }
         }
         if (defaultHeight) {
@@ -528,7 +528,7 @@ export class LiveboardEmbed extends V1Embed {
     private sendFullHeightLazyLoadData() {
         const data = calculateVisibleElementData(this.iFrame);
         console.log('sendFullHeightLazyLoadData', data);
-        this.trigger(HostEvent.FullHeightLazyLoadData, data);
+        this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
 
     /**

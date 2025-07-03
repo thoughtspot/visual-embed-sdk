@@ -872,7 +872,7 @@ describe('App embed tests', () => {
 
             await appEmbed.render();
 
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestFullHeightLazyLoadData, expect.any(Function));
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.any(Function));
 
             onSpy.mockRestore();
         });
@@ -901,7 +901,7 @@ describe('App embed tests', () => {
             // Trigger the lazy load data calculation
             (appEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
                 height: 500,
                 left: 0,
@@ -933,7 +933,7 @@ describe('App embed tests', () => {
             // Trigger the lazy load data calculation
             (appEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.FullHeightLazyLoadData, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50,   // 50px clipped from top
                 height: 700, // visible height (from 0 to 700)
                 left: 30,  // 30px clipped from left

@@ -2678,7 +2678,7 @@ export enum EmbedEvent {
      * @version SDK : 1.39.0 | ThoughtSpot : 10.10.0.cl
      * @hidden
      */
-    RequestFullHeightLazyLoadData = 'requestFullHeightLazyLoadData',
+    RequestVisibleEmbedCoordinates = 'RequestVisibleEmbedCoordinates',
 }
 
 /**
@@ -3767,7 +3767,7 @@ export enum HostEvent {
      * Triggers the full height lazy load data.
      * @example
      * ```js
-     * liveboardEmbed.on(EmbedEvent.FullHeightLazyLoadData, (payload) => {
+     * liveboardEmbed.on(EmbedEvent.RequestVisibleEmbedCoordinates, (payload) => {
      *      console.log(payload);
      * });
      * ```
@@ -3775,7 +3775,7 @@ export enum HostEvent {
      *
      * @hidden
      */
-    FullHeightLazyLoadData = 'fullHeightLazyLoadData',
+    VisibleEmbedCoordinates = 'VisibleEmbedCoordinates',
 }
 
 /**
@@ -3919,7 +3919,7 @@ export enum Param {
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
-    LazyLoadingForEmbed = 'lazyLoadingForEmbed',
+    IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
 }
 
 /**
