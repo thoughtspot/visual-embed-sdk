@@ -527,7 +527,6 @@ export class LiveboardEmbed extends V1Embed {
 
     private sendFullHeightLazyLoadData() {
         const data = calculateVisibleElementData(this.iFrame);
-        console.log('sendFullHeightLazyLoadData', data);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
 
@@ -683,7 +682,6 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private postRender() {
-        console.log(this.iFrame.contentWindow)
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             window.addEventListener('resize', this.sendFullHeightLazyLoadData.bind(this));
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData.bind(this));
