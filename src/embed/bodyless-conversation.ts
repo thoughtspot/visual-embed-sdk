@@ -129,16 +129,20 @@ export class SpotterAgentEmbed {
      * @returns The data from the conversation service.
      */
     public async sendMessageData(userMessage: string) {
-        const { data, error } = await this.conversationService.sendMessage(userMessage);
-        if (error) {
-            return { error };
+        try {
+            const { data, error } = await this.conversationService.sendMessage(userMessage);
+            if (error) {
+                return { error };
+            }
+            return { data: {
+                sessionId: data.sessionId,
+                genNo: data.genNo,
+                acSessionId: data.stateKey.transactionId,
+                acGenNo: data.stateKey.generationNumber,
+            } };
+        } catch (error) {
+            return { error: error as Error };
         }
-        return { data: {
-            sessionId: data.sessionId,
-            genNo: data.genNo,
-            acSessionId: data.stateKey.transactionId,
-            acGenNo: data.stateKey.generationNumber,
-        } };
     }
 }
 
