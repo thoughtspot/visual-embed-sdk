@@ -13,11 +13,6 @@ export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'prima
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
-    
-    /**
-     * Optional CSS class name to add to the container div.
-     */
-    containerClassName?: string;
 }
 
 /**
@@ -29,14 +24,14 @@ export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'prima
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface BodylessConversationViewConfig extends SpotterAgentEmbedViewConfig {}
 
-interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
+export interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
     acSessionId: string;
     acGenNo: number;
 }
 
-class ConversationMessage extends TsEmbed {
+export class ConversationMessage extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterAgentMessageViewConfig) {
         viewConfig.embedComponentType = 'bodyless-conversation';
         super(container, viewConfig);
@@ -116,9 +111,6 @@ export class SpotterAgentEmbed {
         }
 
         const container = document.createElement('div');
-        if (this.viewConfig.containerClassName) {
-            container.className = this.viewConfig.containerClassName;
-        }
 
         const embed = new ConversationMessage(container, {
             ...this.viewConfig,
@@ -129,6 +121,28 @@ export class SpotterAgentEmbed {
         });
         await embed.render();
         return { container, viz: embed };
+    }
+
+    /**
+     * Send a message to the conversation service and return only the data.
+     * @param userMessage - The message to send to the conversation service.
+     * @returns The data from the conversation service.
+     */
+    public async sendMessageData(userMessage: string) {
+        try {
+            const { data, error } = await this.conversationService.sendMessage(userMessage);
+            if (error) {
+                return { error };
+            }
+            return { data: {
+                sessionId: data.sessionId,
+                genNo: data.genNo,
+                acSessionId: data.stateKey.transactionId,
+                acGenNo: data.stateKey.generationNumber,
+            } };
+        } catch (error) {
+            return { error: error as Error };
+        }
     }
 }
 
