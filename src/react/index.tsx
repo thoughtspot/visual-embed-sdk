@@ -503,7 +503,7 @@ export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
         };
     }, [config]);
 
-    const sendMessage = useCallback(async (query: string) => {
+    const sendMessage = async (query: string) => {
         if (!serviceRef.current) {
             return { error: new Error(ERROR_MESSAGE.SPOTTER_AGENT_NOT_INITIALIZED) };
         }
@@ -520,7 +520,7 @@ export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
             acSessionId: result.data.acSessionId,
             acGenNo: result.data.acGenNo,
         };
-    }, [config]);
+    };
 
     return {
         sendMessage,
