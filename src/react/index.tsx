@@ -426,6 +426,7 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
+    | typeof SpotterMessage
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
 
