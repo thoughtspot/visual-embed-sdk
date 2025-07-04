@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
@@ -10,12 +10,13 @@ import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
 import { TsEmbed } from '../embed/ts-embed';
-import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig } from '../embed/bodyless-conversation';
+import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig, ConversationMessage as _ConversationMessage, SpotterAgentMessageViewConfig } from '../embed/bodyless-conversation';
 
 import { EmbedConfig, EmbedEvent, AllEmbedViewConfig } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
+import { ERROR_MESSAGE } from '../errors';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends AllEmbedViewConfig>(
     EmbedConstructor: T,
@@ -383,63 +384,18 @@ export const ConversationEmbed = componentFactory<
     ConversationViewConfig
 >(_ConversationEmbed);
 
-interface SpotterAgentEmbedProps extends EmbedProps, SpotterAgentEmbedViewConfig {}
-
 /**
- * React component for SpotterAgent embed, which can be integrated inside
- * chatbots or other conversational interfaces.
- * @example
- * ```tsx
- * function SpotterAgent() {
- *  const ref = useRef();
- *  
- *  const handleSendMessage = async () => {
- *    const { container, error } = await ref.current.sendMessage('show me sales by region');
- *    if (container) {
- *      document.body.appendChild(container);
- *    }
- *  };
- *  
- *  return (
- *    <div>
- *      <SpotterAgentEmbed ref={ref} worksheetId="worksheetId" />
- *      <button onClick={handleSendMessage}>Send Message</button>
- *    </div>
- *  );
- * }
- * ```
+ * React component for individual conversation messages from SpotterAgent.
+ * This component is used internally by the useSpotterAgent hook.
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
-export const SpotterAgentEmbed = React.forwardRef<_SpotterAgentEmbed, SpotterAgentEmbedProps>((props, ref) => {
-  const { className, ...restProps } = props;
-  const serviceRef = useRef<_SpotterAgentEmbed | null>(null);
-  
-  useDeepCompareEffect(() => {
-    if (serviceRef.current) {
-      serviceRef.current = null;
-    }
-    
-    const configProps = {
-      ...restProps,
-      ...(className ? { containerClassName: className } : {})
-    };
-    
-    serviceRef.current = new _SpotterAgentEmbed(configProps);
-    
-    if (ref) {
-      if (typeof ref === 'function') {
-        ref(serviceRef.current);
-      } else {
-        ref.current = serviceRef.current;
-      }
-    }
-    
-    return () => {
-      serviceRef.current = null;
-    };
-  }, [props]);
-  
-  return null;
-});
+interface ConversationMessageProps extends EmbedProps, SpotterAgentMessageViewConfig {}
+
+export const SpotterMessage = componentFactory<
+    typeof _ConversationMessage,
+    ConversationMessageProps,
+    SpotterAgentMessageViewConfig
+>(_ConversationMessage);
 
 /**
  * React component for PreRendered Conversation embed.
@@ -470,7 +426,6 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
-    | typeof SpotterAgentEmbed
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
 
@@ -516,6 +471,59 @@ export function useInit(config: EmbedConfig) {
     }, [config]);
 
     return ref;
+}
+
+/**
+ * Get a method to get data for a conversation message.
+ * @param config - SpotterAgentEmbedViewConfig configuration
+ * @returns An object with sendMessage function that returns { sessionId, genNo, acSessionId, acGenNo } or { error }
+ * @example
+ * ```tsx
+ * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
+ * const result = await sendMessage('show me sales by region');
+ * if (!result.error) {
+ *   <SpotterMessage {...result} />
+ * }
+ * ```
+ * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
+ */
+export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
+    const serviceRef = useRef<_SpotterAgentEmbed | null>(null);
+    
+    useDeepCompareEffect(() => {
+        if (serviceRef.current) {
+            serviceRef.current = null;
+        }
+        
+        serviceRef.current = new _SpotterAgentEmbed(config);
+        
+        return () => {
+            serviceRef.current = null;
+        };
+    }, [config]);
+
+    const sendMessage = useCallback(async (query: string) => {
+        if (!serviceRef.current) {
+            return { error: new Error(ERROR_MESSAGE.SPOTTER_AGENT_NOT_INITIALIZED) };
+        }
+
+        const result = await serviceRef.current.sendMessageData(query);
+
+        if (result.error) {
+            return { error: result.error };
+        }
+
+        return {
+            sessionId: result.data.sessionId,
+            genNo: result.data.genNo,
+            acSessionId: result.data.acSessionId,
+            acGenNo: result.data.acGenNo,
+        };
+    }, [config]);
+
+    return {
+        sendMessage,
+    };
 }
 
 export {
