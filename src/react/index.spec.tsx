@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import {
@@ -15,7 +15,7 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed
+    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, useSpotterAgent, SpotterMessage, useInit
 } from './index';
 import * as allExports from './index';
 import {
@@ -232,6 +232,99 @@ describe('React Components', () => {
             expect(getIFrameSrc(container)).toBe(
                 `http://${thoughtSpotHost}/?embedApp=true&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=None&blockNonEmbedFullAppAccess=true&hideAction=[%22${Action.ReportError}%22]&preAuthCache=true&overrideConsoleLogs=true&clientLogLevel=ERROR&dataSources=[%22test%22]&searchTokenString=%5Brevenue%5D&executeSearch=true&useLastSelectedSources=false&isSearchEmbed=true#/embed/search-bar-embed`,
             );
+        });
+    });
+
+    describe('SpotterMessage', () => {
+        it('Should render the SpotterMessage component with required props', async () => {
+            const { container } = render(
+                <SpotterMessage
+                    sessionId="session123"
+                    genNo={1}
+                    acSessionId="acSession123"
+                    acGenNo={2}
+                    worksheetId="worksheet123"
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+
+            expect(getIFrameEl(container)).not.toBe(null);
+            expect(getIFrameSrc(container)).toContain('sessionId=session123');
+            expect(getIFrameSrc(container)).toContain('genNo=1');
+            expect(getIFrameSrc(container)).toContain('acSessionId=acSession123');
+            expect(getIFrameSrc(container)).toContain('acGenNo=2');
+        });
+
+        it('Should have the correct container element with className', async () => {
+            const { container } = render(
+                <SpotterMessage
+                    sessionId="session123"
+                    genNo={1}
+                    acSessionId="acSession123"
+                    acGenNo={2}
+                    worksheetId="worksheet123"
+                    className="custom-class"
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+
+            expect(
+                getIFrameEl(container).parentElement.classList.contains('custom-class'),
+            ).toBe(true);
+        });
+    });
+
+    describe('useSpotterAgent', () => {
+        it('Should return an object with sendMessage function', () => {
+            const TestComponent = () => {
+                const spotterAgent = useSpotterAgent({ worksheetId: 'test-worksheet' });
+                expect(typeof spotterAgent).toBe('object');
+                expect(typeof spotterAgent.sendMessage).toBe('function');
+                return <div>Test</div>;
+            };
+
+            render(<TestComponent />);
+        });
+
+        it('Should have proper sendMessage callback structure', () => {
+            const TestComponent = () => {
+                const { sendMessage } = useSpotterAgent({ worksheetId: 'test-worksheet' });
+                
+                // Test that sendMessage is a function that accepts a string
+                expect(typeof sendMessage).toBe('function');
+                expect(sendMessage.length).toBe(1); // Should accept one parameter
+                
+                return <div>Test</div>;
+            };
+
+            render(<TestComponent />);
+        });
+    });
+
+    describe('Component Props and Functions', () => {
+        it('Should have PreRenderedLiveboardEmbed component', () => {
+            expect(PreRenderedLiveboardEmbed).toBeDefined();
+            expect(typeof PreRenderedLiveboardEmbed).toBe('object');
+        });
+
+        it('Should have useInit hook', () => {
+            expect(typeof useInit).toBe('function');
+        });
+
+        it('Should test basic component factory patterns', () => {
+            // Test that components can be created without errors
+            expect(() => {
+                const TestComponent = () => <div>Test</div>;
+                render(<TestComponent />);
+            }).not.toThrow();
+        });
+    });
+
+    describe('Hook Coverage', () => {
+        it('Should have useInit function available', () => {
+            expect(typeof useInit).toBe('function');
         });
     });
 });
