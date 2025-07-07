@@ -867,16 +867,25 @@ export class AppEmbed extends V1Embed {
      */
     public destroy() {
         super.destroy();
-        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
-        }
+        this.unregisterLazyLoadEvents();
     }
 
     private postRender() {
+        this.registerLazyLoadEvents();
+    }
+
+    private registerLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
+
+    private unregisterLazyLoadEvents() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
         }
     }
 
