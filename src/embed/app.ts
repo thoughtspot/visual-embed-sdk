@@ -725,7 +725,7 @@ export class AppEmbed extends V1Embed {
         return queryParams;
     }
 
-    private sendFullHeightLazyLoadData() {
+    private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
@@ -752,6 +752,7 @@ export class AppEmbed extends V1Embed {
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.iFrame?.scrollHeight));
+        this.sendFullHeightLazyLoadData();
     };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
@@ -867,15 +868,15 @@ export class AppEmbed extends V1Embed {
     public destroy() {
         super.destroy();
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.removeEventListener('resize', () => this.sendFullHeightLazyLoadData());
-            window.removeEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
         }
     }
 
     private postRender() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.addEventListener('resize', () => this.sendFullHeightLazyLoadData());
-            window.addEventListener('scroll', () => this.sendFullHeightLazyLoadData());
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
         }
     }
 

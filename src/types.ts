@@ -2678,7 +2678,7 @@ export enum EmbedEvent {
      * @version SDK : 1.39.0 | ThoughtSpot : 10.10.0.cl
      * @hidden
      */
-    RequestVisibleEmbedCoordinates = 'RequestVisibleEmbedCoordinates',
+    RequestVisibleEmbedCoordinates = 'requestVisibleEmbedCoordinates',
 }
 
 /**
@@ -3775,7 +3775,7 @@ export enum HostEvent {
      *
      * @hidden
      */
-    VisibleEmbedCoordinates = 'VisibleEmbedCoordinates',
+    VisibleEmbedCoordinates = 'visibleEmbedCoordinates',
 }
 
 /**

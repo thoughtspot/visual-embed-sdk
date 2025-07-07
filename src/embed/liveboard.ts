@@ -394,7 +394,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.sendFullHeightLazyLoadData.bind(this));
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.sendFullHeightLazyLoadData);
         }
     }
 
@@ -525,7 +525,7 @@ export class LiveboardEmbed extends V1Embed {
         return suffix;
     }
 
-    private sendFullHeightLazyLoadData() {
+    private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
@@ -684,6 +684,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private registerLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
         }
