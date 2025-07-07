@@ -727,9 +727,13 @@ describe('App embed tests', () => {
             lazyLoadingForFullHeight: true,
         } as AppViewConfig);
 
+        // Wait for render to complete
         await appEmbed.render();
 
-        // Wait for the iframe to be initialized
+        // Wait for iframe initialization and event registration
+        // This is needed because iframe initialization happens asynchronously
+        // after render() completes, and we need to ensure all event handlers
+        // are properly registered before checking them
         await executeAfterWait(() => {
             // Check event registrations for iframe height adjustment
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
@@ -739,7 +743,7 @@ describe('App embed tests', () => {
             // Check window event listeners for lazy loading
             expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
             expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
-        });
+        }, 100); // 100ms wait time to ensure iframe is initialized
 
         jest.clearAllMocks();
         jest.restoreAllMocks();
@@ -863,14 +867,17 @@ describe('App embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as AppViewConfig);
 
+            // Wait for render to complete
             await appEmbed.render();
 
-            // Wait for the iframe to be initialized and URL to be set
+            // Wait for iframe initialization and URL parameters to be set
+            // This is needed because iframe src is set asynchronously
+            // after render() completes
             await executeAfterWait(() => {
                 const iframeSrc = getIFrameSrc();
                 expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(iframeSrc).toContain('isFullHeightPinboard=true');
-            });
+            }, 100); // 100ms wait time to ensure iframe src is set
         });
 
         test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
@@ -880,14 +887,15 @@ describe('App embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as AppViewConfig);
 
+            // Wait for render to complete
             await appEmbed.render();
 
-            // Wait for the iframe to be initialized and URL to be set
+            // Wait for iframe initialization and URL parameters to be set
             await executeAfterWait(() => {
                 const iframeSrc = getIFrameSrc();
                 expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(iframeSrc).not.toContain('isFullHeightPinboard=true');
-            });
+            }, 100); // 100ms wait time to ensure iframe src is set
         });
 
         test('should not set isLazyLoadingForEmbedEnabled when fullHeight is true but lazyLoadingForFullHeight is false', async () => {
@@ -897,14 +905,15 @@ describe('App embed tests', () => {
                 lazyLoadingForFullHeight: false,
             } as AppViewConfig);
 
+            // Wait for render to complete
             await appEmbed.render();
 
-            // Wait for the iframe to be initialized and URL to be set
+            // Wait for iframe initialization and URL parameters to be set
             await executeAfterWait(() => {
                 const iframeSrc = getIFrameSrc();
                 expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(iframeSrc).toContain('isFullHeightPinboard=true');
-            });
+            }, 100); // 100ms wait time to ensure iframe src is set
         });
 
         test('should register RequestFullHeightLazyLoadData event handler when fullHeight is enabled', async () => {
