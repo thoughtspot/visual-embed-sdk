@@ -679,9 +679,6 @@ export class AppEmbed extends V1Embed {
             params[Param.EnablePendoHelp] = enablePendoHelp;
         }
 
-        if (coverAndFilterOptionInPDF !== undefined) {
-            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
