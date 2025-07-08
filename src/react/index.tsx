@@ -398,29 +398,31 @@ export const ConversationMessage = componentFactory<
 >(_ConversationMessage);
 
 type SpotterMessageProps = {
-    data: {
-      query: string;
-      messageResult: SpotterAgentMessageViewConfig;
-    };
+    message: SpotterAgentMessageViewConfig;
+    query?: string;
   } & Omit<EmbedProps, keyof SpotterAgentMessageViewConfig>;
 
 /**
- * Enhanced React component for conversation messages that accepts the full result object.
- * This provides a more convenient API for storing and passing conversation results.
+ * React component for displaying individual conversation messages from SpotterAgent.
+ * 
+ * This component renders a single message response from your ThoughtSpot conversation,
+ * showing charts, visualizations, or text responses based on the user's query.
  * 
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
  * const result = await sendMessage('show me sales by region');
  * 
- * // Store results easily for debugging - query and messageResult are cleanly separated
- * const messages = [
- *   { data: result1 }, // result1.query = 'show me sales by region'
- *   { data: result2 }  // result2.query = 'filter by region'
- * ];
- * 
- * // Render without manual spreading - everything is included in the data object
- * <SpotterChatMessage data={result} />
+ * if (!result.error) {
+ *   // Simple usage - just pass the message data
+ *   <SpotterMessage message={result.messageResult} />
+ *   
+ *   // With optional query for context
+ *   <SpotterMessage 
+ *     message={result.messageResult} 
+ *     query={result.query} 
+ *   />
+ * }
  * ```
  * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  */
@@ -428,10 +430,10 @@ export const SpotterMessage = React.forwardRef<
     React.ComponentRef<typeof ConversationMessage>,
     SpotterMessageProps
 >((props, ref) => {
-    const {data, ...otherProps} = props;
+    const {message, query, ...otherProps} = props;
     return <ConversationMessage
         ref={ref}
-        {...data.messageResult}
+        {...message}
         {...otherProps}
     />
 });
@@ -515,29 +517,27 @@ export function useInit(config: EmbedConfig) {
 }
 
 /**
- * Get a method to get data for a conversation message.
- * @param config - SpotterAgentEmbedViewConfig configuration
- * @returns An object with sendMessage function that returns { query, messageResult: { sessionId, genNo, acSessionId, acGenNo, worksheetId } } or { error }
+ * React hook for interacting with SpotterAgent AI conversations.
+ * 
+ * This hook provides a sendMessage function that allows you to send natural language
+ * queries to your data and get back AI-generated responses with visualizations.
+ * 
+ * @param config - Configuration object containing worksheetId and other options
+ * @returns Object with sendMessage function that returns conversation results
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
- * const result = await sendMessage('show me sales by region');
  * 
- * // Option 1: Manual spreading (legacy)
- * if (!result.error) {
- *   <SpotterMessage {...result.messageResult} />
- * }
- * 
- * // Option 2: Convenient object passing (recommended)
- * if (!result.error) {
- *   <SpotterChatMessage data={result} />
- * }
- * 
- * // Easy storage for debugging with clean query-to-result mapping
- * const messages = [
- *   { data: result1 }, // result1.query = 'show me sales'
- *   { data: result2 }  // result2.query = 'filter by region'
- * ];
+ * const handleQuery = async () => {
+ *   const result = await sendMessage('show me sales by region');
+ *   
+ *   if (!result.error) {
+ *     // Display the message response
+ *     <SpotterMessage message={result.messageResult} />
+ *   } else {
+ *     console.error('Error:', result.error);
+ *   }
+ * };
  * ```
  * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  */
