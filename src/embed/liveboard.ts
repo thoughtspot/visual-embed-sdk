@@ -271,8 +271,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     dataSourceId?: string;
 
     /**
-     * This flag is for show/hide checkboxes for include or exclude
-     * cover page and filters in the Liveboard PDF.
+     * This flag is used to show or hide checkboxes for including or excluding
+     * the cover and filters pages in the Liveboard PDF.
      * 
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl

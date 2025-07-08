@@ -510,11 +510,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
      showAlerts?: boolean;
     /**
-     * This flag is for show/hide checkboxes for include or exclude
-     * cover page and filters in the Liveboard PDF.
+     * This flag is used to show or hide checkboxes for including or excluding
+     * the cover and filters pages in the Liveboard PDF.
      * @type {boolean}
      * @default false
-     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
