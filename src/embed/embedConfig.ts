@@ -16,8 +16,8 @@ const configKey = 'embedConfig';
  * // Log the configuration settings
  * console.log(config);
  * ```
- * Returns the {@link EmbedConfig} object, which
- * contains the configuration settings used to
+ * Returns the link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[EmbedConfig]
+ * object, which contains the configuration settings used to
  * initialize the SDK, including the following:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
