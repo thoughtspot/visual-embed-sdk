@@ -39412,7 +39412,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nimport { getInitConfig } from '@thoughtspot/visual-embed-sdk';\n// Call the getInitConfig method to retrieve the embed configuration\nconst config = getInitConfig();\n// Log the configuration settings\nconsole.log(config);\n```\nReturns the`EmbedConfig` object, which\ncontains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n\nThe following example shows the embed configuration\nsettings returned from the code in the above example:\n"
+								"text": "\n```js\nimport { getInitConfig } from '@thoughtspot/visual-embed-sdk';\n// Call the getInitConfig method to retrieve the embed configuration\nconst config = getInitConfig();\n// Log the configuration settings\nconsole.log(config);\n```\nReturns the {@link EmbedConfig} object, which\ncontains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n\nThe following example shows the embed configuration\nsettings returned from the code in the above example:\n"
 							},
 							{
 								"tag": "example",

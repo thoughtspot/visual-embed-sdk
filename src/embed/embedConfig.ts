@@ -16,7 +16,7 @@ const configKey = 'embedConfig';
  * // Log the configuration settings
  * console.log(config);
  * ```
- * Returns the`EmbedConfig` object, which
+ * Returns the {@link EmbedConfig} object, which
  * contains the configuration settings used to
  * initialize the SDK, including the following:
  *
