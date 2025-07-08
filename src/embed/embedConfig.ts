@@ -7,14 +7,6 @@ const configKey = 'embedConfig';
  * Gets the embed configuration settings that were used to
  * initialize the SDK.
  * @returns {@link EmbedConfig}
- *
- * @example
- * ```js
- * const config = getInitConfig();
- * console.log(config);
- * ```
- * @example
- *
  * Returns the `EmbedConfig` object, which
  * contains the configuration settings used to
  * initialize the SDK, including the following:
@@ -24,10 +16,20 @@ const configKey = 'embedConfig';
  * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization.
- * 
- * For a comprehensive list of embed configuration settings,
- * see link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].
  *
+ * @example
+ * ```js
+ * import { getInitConfig } from '@thoughtspot/visual-embed-sdk';
+ * // Call the getInitConfig method to retrieve the embed configuration
+ * const config = getInitConfig();
+ * // Log the configuration settings
+ * console.log(config);
+ * ```
+ *
+ * This code returns the embed configuration
+ * settings as shown in this example:
+ *
+ * @example
  * ```json
  * {
  *   "thoughtSpotHost": "https://{ThoughtSpot-Host}",
