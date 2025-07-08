@@ -391,11 +391,50 @@ export const ConversationEmbed = componentFactory<
  */
 interface ConversationMessageProps extends EmbedProps, SpotterAgentMessageViewConfig {}
 
-export const SpotterMessage = componentFactory<
+export const ConversationMessage = componentFactory<
     typeof _ConversationMessage,
     ConversationMessageProps,
     SpotterAgentMessageViewConfig
 >(_ConversationMessage);
+
+type SpotterMessageProps = {
+    data: {
+      query: string;
+      messageResult: SpotterAgentMessageViewConfig;
+    };
+  } & Omit<EmbedProps, keyof SpotterAgentMessageViewConfig>;
+
+/**
+ * Enhanced React component for conversation messages that accepts the full result object.
+ * This provides a more convenient API for storing and passing conversation results.
+ * 
+ * @example
+ * ```tsx
+ * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
+ * const result = await sendMessage('show me sales by region');
+ * 
+ * // Store results easily for debugging - query and messageResult are cleanly separated
+ * const messages = [
+ *   { data: result1 }, // result1.query = 'show me sales by region'
+ *   { data: result2 }  // result2.query = 'filter by region'
+ * ];
+ * 
+ * // Render without manual spreading - everything is included in the data object
+ * <SpotterChatMessage data={result} />
+ * ```
+ * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
+ */
+export const SpotterMessage = React.forwardRef<
+    React.ComponentRef<typeof ConversationMessage>,
+    SpotterMessageProps
+>((props, ref) => {
+    const {data, ...otherProps} = props;
+    return <ConversationMessage
+        ref={ref}
+        {...data.messageResult}
+        {...otherProps}
+    />
+});
 
 /**
  * React component for PreRendered Conversation embed.
@@ -426,6 +465,7 @@ type EmbedComponent = typeof SearchEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
     | typeof SageEmbed
+    | typeof ConversationMessage
     | typeof SpotterMessage
     | typeof SpotterEmbed
     | typeof ConversationEmbed;
@@ -477,14 +517,27 @@ export function useInit(config: EmbedConfig) {
 /**
  * Get a method to get data for a conversation message.
  * @param config - SpotterAgentEmbedViewConfig configuration
- * @returns An object with sendMessage function that returns { sessionId, genNo, acSessionId, acGenNo } or { error }
+ * @returns An object with sendMessage function that returns { query, messageResult: { sessionId, genNo, acSessionId, acGenNo, worksheetId } } or { error }
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
  * const result = await sendMessage('show me sales by region');
+ * 
+ * // Option 1: Manual spreading (legacy)
  * if (!result.error) {
- *   <SpotterMessage {...result} />
+ *   <SpotterMessage {...result.messageResult} />
  * }
+ * 
+ * // Option 2: Convenient object passing (recommended)
+ * if (!result.error) {
+ *   <SpotterChatMessage data={result} />
+ * }
+ * 
+ * // Easy storage for debugging with clean query-to-result mapping
+ * const messages = [
+ *   { data: result1 }, // result1.query = 'show me sales'
+ *   { data: result2 }  // result2.query = 'filter by region'
+ * ];
  * ```
  * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  */
@@ -515,10 +568,11 @@ export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
         }
 
         return {
-            sessionId: result.data.sessionId,
-            genNo: result.data.genNo,
-            acSessionId: result.data.acSessionId,
-            acGenNo: result.data.acGenNo,
+            query: query,
+            messageResult: {
+                ...result.data,
+                worksheetId: config.worksheetId,
+            },
         };
     };
 
