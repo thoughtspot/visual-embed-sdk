@@ -217,6 +217,12 @@ export enum HomeLeftNavItem {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     Spotter = 'spotter',
+    /**
+     * Favorites option in the insights left navigation,
+     * available when new navigation V3 is enabled.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    Favorites = 'favorites',
 }
 export type DOMSelector = string | HTMLElement;
 
