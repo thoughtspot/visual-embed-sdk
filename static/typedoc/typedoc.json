@@ -10902,7 +10902,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -10948,7 +10948,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -11051,7 +11051,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1162,
+							"line": 1181,
 							"character": 11
 						}
 					],
@@ -11088,7 +11088,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -11181,7 +11181,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -11279,7 +11279,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -11316,7 +11316,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -11434,7 +11434,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -11512,7 +11512,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1511,
+							"line": 1530,
 							"character": 11
 						}
 					],
@@ -11604,7 +11604,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -11667,7 +11667,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -11767,7 +11767,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -11813,7 +11813,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -11859,7 +11859,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -11978,7 +11978,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -12501,7 +12501,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -12549,7 +12549,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -12661,7 +12661,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -12756,7 +12756,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -12856,7 +12856,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -12895,7 +12895,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -12937,7 +12937,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -13017,7 +13017,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1042,
+							"line": 1061,
 							"character": 11
 						}
 					],
@@ -13130,7 +13130,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -13195,7 +13195,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -13296,7 +13296,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -13344,7 +13344,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -13392,7 +13392,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -13513,7 +13513,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -13747,7 +13747,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -13793,7 +13793,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -13864,7 +13864,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1162,
+							"line": 1181,
 							"character": 11
 						}
 					],
@@ -13934,7 +13934,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -14027,7 +14027,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -14125,7 +14125,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -14162,7 +14162,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -14270,7 +14270,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -14348,7 +14348,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1511,
+							"line": 1530,
 							"character": 11
 						}
 					],
@@ -14440,7 +14440,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -14503,7 +14503,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -14603,7 +14603,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -14649,7 +14649,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -14814,7 +14814,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -15047,7 +15047,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -15093,7 +15093,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -15197,7 +15197,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1162,
+							"line": 1181,
 							"character": 11
 						}
 					],
@@ -15234,7 +15234,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -15327,7 +15327,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -15425,7 +15425,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -15462,7 +15462,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -15502,7 +15502,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -15580,7 +15580,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1511,
+							"line": 1530,
 							"character": 11
 						}
 					],
@@ -15672,7 +15672,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -15735,7 +15735,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -15836,7 +15836,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -15882,7 +15882,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -15928,7 +15928,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -16047,7 +16047,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -16278,7 +16278,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -16324,7 +16324,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -16395,7 +16395,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1162,
+							"line": 1181,
 							"character": 11
 						}
 					],
@@ -16432,7 +16432,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -16525,7 +16525,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -16623,7 +16623,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -16660,7 +16660,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -16700,7 +16700,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -16778,7 +16778,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1042,
+							"line": 1061,
 							"character": 11
 						}
 					],
@@ -16889,7 +16889,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -16952,7 +16952,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -17052,7 +17052,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -17098,7 +17098,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -17144,7 +17144,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -17263,7 +17263,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -17490,7 +17490,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -17536,7 +17536,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -17639,7 +17639,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1162,
+							"line": 1181,
 							"character": 11
 						}
 					],
@@ -17676,7 +17676,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -17769,7 +17769,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -17867,7 +17867,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -17904,7 +17904,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -17944,7 +17944,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -18022,7 +18022,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1042,
+							"line": 1061,
 							"character": 11
 						}
 					],
@@ -18133,7 +18133,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -18196,7 +18196,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -18296,7 +18296,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -18342,7 +18342,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -18388,7 +18388,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -18507,7 +18507,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -19003,7 +19003,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1220,
+							"line": 1239,
 							"character": 11
 						}
 					],
@@ -19049,7 +19049,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1403,
+							"line": 1422,
 							"character": 17
 						}
 					],
@@ -19157,7 +19157,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1390,
+							"line": 1409,
 							"character": 11
 						}
 					],
@@ -19250,7 +19250,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1190,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -19348,7 +19348,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1230,
+							"line": 1249,
 							"character": 11
 						}
 					],
@@ -19385,7 +19385,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1362,
+							"line": 1381,
 							"character": 11
 						}
 					],
@@ -19425,7 +19425,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1073,
+							"line": 1092,
 							"character": 11
 						}
 					],
@@ -19503,7 +19503,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1042,
+							"line": 1061,
 							"character": 11
 						}
 					],
@@ -19614,7 +19614,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1174,
+							"line": 1193,
 							"character": 17
 						}
 					],
@@ -19677,7 +19677,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1241,
+							"line": 1260,
 							"character": 17
 						}
 					],
@@ -19774,7 +19774,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1289,
+							"line": 1308,
 							"character": 17
 						}
 					],
@@ -19820,7 +19820,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1343,
+							"line": 1362,
 							"character": 11
 						}
 					],
@@ -19866,7 +19866,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1112,
+							"line": 1131,
 							"character": 17
 						}
 					],
@@ -19985,7 +19985,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1138,
+							"line": 1157,
 							"character": 17
 						}
 					],
@@ -39395,7 +39395,7 @@
 			"sources": [
 				{
 					"fileName": "embed/embedConfig.ts",
-					"line": 55,
+					"line": 57,
 					"character": 13
 				}
 			],
@@ -39408,15 +39408,15 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Gets the embed configuration settings that were used to\ninitialize the SDK.",
-						"returns": "{@link EmbedConfig}\n",
+						"returns": "{@link EmbedConfig}\nReturns the `EmbedConfig` object, which\ncontains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n",
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst config = getInitConfig();\nconsole.log(config);\n```"
+								"text": "\n```js\nimport { getInitConfig } from '@thoughtspot/visual-embed-sdk';\n// Call the getInitConfig method to retrieve the embed configuration\nconst config = getInitConfig();\n// Log the configuration settings\nconsole.log(config);\n```\n\nThis code returns the embed configuration\nsettings as shown in this example:\n"
 							},
 							{
 								"tag": "example",
-								"text": "\n\nReturns the `EmbedConfig` object, which\ncontains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n\nFor a comprehensive list of embed configuration settings,\nsee link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].\n\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```"
+								"text": "\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```"
 							},
 							{
 								"tag": "version",
