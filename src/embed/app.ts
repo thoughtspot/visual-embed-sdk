@@ -588,6 +588,7 @@ export class AppEmbed extends V1Embed {
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
+            coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
@@ -606,6 +607,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
+        params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
         params = this.getBaseQueryParams(params);
 
