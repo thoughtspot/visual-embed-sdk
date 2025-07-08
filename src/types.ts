@@ -1005,6 +1005,22 @@ export interface BaseViewConfig {
      */
     primaryAction?: Action | string;
     /**
+     * This flag is used to show or hide checkboxes for including or excluding
+     * the cover and filters pages in the Liveboard PDF.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
+    /**
      * flag to enable insert into slides action
      * @hidden
      * @private

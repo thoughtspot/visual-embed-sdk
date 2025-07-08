@@ -269,24 +269,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * })
      */
     dataSourceId?: string;
-
-    /**
-     * This flag is used to show or hide checkboxes for including or excluding
-     * the cover and filters pages in the Liveboard PDF.
-     * 
-     * Supported embed types: `LiveboardEmbed`
-     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
-     * @default false
-     * Supported embed types: `LiveboardEmbed`
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    coverAndFilterOptionInPDF: false,
-     * })
-     * ```
-     */
-    coverAndFilterOptionInPDF?: boolean;
     /**
      * The list of tab IDs to hide from the embedded.
      * This Tabs will be hidden from their respective LBs.
