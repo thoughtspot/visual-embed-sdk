@@ -51,7 +51,7 @@ const configKey = 'embedConfig';
  *   "authTriggerContainer": "#your-own-div"
  *  }
  * ```
- * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later
+ * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw, and later
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || ({} as any);
