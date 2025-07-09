@@ -1,10 +1,10 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString } from '../utils';
 
-/** 
+/**
  * Configuration for search options
  */
 export interface SearchOptions {
@@ -20,7 +20,8 @@ export interface SearchOptions {
  */
 export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
-     * The ID of the data source object. For example, Model, View, or Table. Spotter uses this object to query data and generate Answers.
+     * The ID of the data source object. For example, Model, View, or Table. Spotter uses
+     * this object to query data and generate Answers.
      */
     worksheetId: string;
     /**
@@ -30,7 +31,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * disableSourceSelection : Disables data source selection
      * but still display the selected data source.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -44,7 +45,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     disableSourceSelection?: boolean;
     /**
      * hideSourceSelection : Hide data source selection
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -58,7 +59,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     hideSourceSelection?: boolean;
     /**
      * Flag to control Data panel experience
-     * 
+     *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
@@ -76,7 +77,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -91,7 +92,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -103,6 +104,26 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSampleQuestions?: boolean;
+    /**
+     * The list of runtime filters to apply to a search Answer,
+     * visualization, or Liveboard.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    runtimeFilters: [
+     *           {
+     *             columnName: 'value',
+     *             operator: RuntimeFilterOp.EQ,
+     *             values: ['string' | 123 | true],
+     *           },
+     *       ],
+     * })
+     * ```
+     */
+    runtimeFilters?: RuntimeFilter[];
 }
 
 /**
@@ -144,6 +165,7 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            runtimeFilters,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -168,6 +190,10 @@ export class SpotterEmbed extends TsEmbed {
 
         if (!isUndefined(hideSampleQuestions)) {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
+        }
+
+        if (!isUndefined(runtimeFilters)) {
+            queryParams[Param.RuntimeFilters] = runtimeFilters;
         }
 
         let query = '';
