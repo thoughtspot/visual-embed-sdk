@@ -4212,6 +4212,7 @@ export enum Param {
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad'
+    RuntimeFilters = 'runtimeFilters',
 }
 
 /**
