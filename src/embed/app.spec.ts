@@ -8,9 +8,7 @@ import {
     HomePage,
 } from './app';
 import { init } from '../index';
-import {
-    Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp,
-} from '../types';
+import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -45,8 +43,9 @@ beforeAll(() => {
         authType: AuthType.None,
     });
     jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
-    (window as any).ResizeObserver = window.ResizeObserver
-        || jest.fn().mockImplementation(() => ({
+    (window as any).ResizeObserver =
+        window.ResizeObserver ||
+        jest.fn().mockImplementation(() => ({
             disconnect: jest.fn(),
             observe: jest.fn(),
             unobserve: jest.fn(),
@@ -312,6 +311,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enable2ColumnLayout=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set coverAndFilterOptionInPDF to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            coverAndFilterOptionInPDF: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&arePdfCoverFilterPageCheckboxesEnabled=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -686,8 +699,9 @@ describe('App embed tests', () => {
     test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-
-            dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
+            // eslint-disable-next-line max-len
+            dataPanelCustomGroupsAccordionInitialState:
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         } as AppViewConfig);
 
         appEmbed.render();
@@ -700,27 +714,20 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
-        // Setup mock iframe
-        const mockIFrame = document.createElement('iframe');
-        mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
-            top: 100,
-            left: 150,
-            bottom: 600,
-            right: 800,
-            width: 650,
-            height: 500,
-        });
-        jest.spyOn(document, 'createElement').mockImplementation((tagName) => {
-            if (tagName === 'iframe') {
-                return mockIFrame;
+        const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
+            if (event === EmbedEvent.RouteChange) {
+                callback({ data: { currentPath: '/answers' } }, jest.fn());
             }
-            return document.createElement(tagName);
+            if (event === EmbedEvent.EmbedHeight) {
+                callback({ data: '100%' });
+            }
+            if (event === EmbedEvent.EmbedIframeCenter) {
+                callback({}, jest.fn());
+            }
+            return null;
         });
-
-        // Mock the event registration
-        const onSpy = jest.spyOn(AppEmbed.prototype, 'on');
-        const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
-
+        jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
+        jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,

@@ -10,13 +10,14 @@ const configKey = 'embedConfig';
  *
  * @example
  * ```js
+ * import { getInitConfig } from '@thoughtspot/visual-embed-sdk';
+ * // Call the getInitConfig method to retrieve the embed configuration
  * const config = getInitConfig();
+ * // Log the configuration settings
  * console.log(config);
  * ```
- * @example
- *
- * Returns the `EmbedConfig` object, which
- * contains the configuration settings used to
+ * Returns the link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[EmbedConfig]
+ * object, which contains the configuration settings used to
  * initialize the SDK, including the following:
  *
  *  - `thoughtSpotHost` - ThoughtSpot host URL
@@ -24,10 +25,11 @@ const configKey = 'embedConfig';
  * `AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`
  *  - `customizations` - Style, text, and icon customization settings
  *  that were applied during the SDK initialization.
- * 
- * For a comprehensive list of embed configuration settings,
- * see link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].
  *
+ * The following JSON output shows the embed configuration
+ * settings returned from the code in the previous example:
+ *
+ * @example
  * ```json
  * {
  *   "thoughtSpotHost": "https://{ThoughtSpot-Host}",
@@ -49,7 +51,7 @@ const configKey = 'embedConfig';
  *   "authTriggerContainer": "#your-own-div"
  *  }
  * ```
- * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later
+ * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw, and later
  * @group Global methods
  */
 export const getEmbedConfig = (): EmbedConfig => getValueFromWindow(configKey) || ({} as any);

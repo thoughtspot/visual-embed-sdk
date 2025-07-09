@@ -347,7 +347,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=true${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&arePdfCoverFilterPageCheckboxesEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -362,7 +362,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&coverAndFilterOptionInPDF=false&${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&arePdfCoverFilterPageCheckboxesEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -770,8 +770,9 @@ describe('Liveboard/viz embed tests', () => {
             });
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation((resizeObserverCbParam: any) => {
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam: any) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
