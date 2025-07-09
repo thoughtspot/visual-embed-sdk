@@ -415,11 +415,11 @@ type SpotterMessageProps = {
  * 
  * if (!result.error) {
  *   // Simple usage - just pass the message data
- *   <SpotterMessage message={result.messageResult} />
+ *   <SpotterMessage message={result.message} />
  *   
  *   // With optional query for context
  *   <SpotterMessage 
- *     message={result.messageResult} 
+ *     message={result.message} 
  *     query={result.query} 
  *   />
  * }
@@ -430,12 +430,15 @@ export const SpotterMessage = React.forwardRef<
     React.ComponentRef<typeof ConversationMessage>,
     SpotterMessageProps
 >((props, ref) => {
-    const {message, query, ...otherProps} = props;
-    return <ConversationMessage
-        ref={ref}
-        {...message}
-        {...otherProps}
-    />
+    const { message, query, ...otherProps } = props;
+    
+    return (
+        <ConversationMessage
+            ref={ref}
+            {...message}
+            {...otherProps}
+        />
+    );
 });
 
 /**
@@ -533,7 +536,7 @@ export function useInit(config: EmbedConfig) {
  *   
  *   if (!result.error) {
  *     // Display the message response
- *     <SpotterMessage message={result.messageResult} />
+ *     <SpotterMessage message={result.message} />
  *   } else {
  *     console.error('Error:', result.error);
  *   }
@@ -556,7 +559,7 @@ export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
         };
     }, [config]);
 
-    const sendMessage = async (query: string) => {
+    const sendMessage = useCallback(async (query: string) => {
         if (!serviceRef.current) {
             return { error: new Error(ERROR_MESSAGE.SPOTTER_AGENT_NOT_INITIALIZED) };
         }
@@ -569,12 +572,12 @@ export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
 
         return {
             query: query,
-            messageResult: {
+            message: {
                 ...result.data,
                 worksheetId: config.worksheetId,
             },
         };
-    };
+    }, [config.worksheetId]);
 
     return {
         sendMessage,
