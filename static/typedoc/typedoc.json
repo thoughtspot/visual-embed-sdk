@@ -39434,7 +39434,7 @@
 			"sources": [
 				{
 					"fileName": "embed/embedConfig.ts",
-					"line": 55,
+					"line": 57,
 					"character": 13
 				}
 			],
@@ -39451,15 +39451,15 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst config = getInitConfig();\nconsole.log(config);\n```"
+								"text": "\n```js\nimport { getInitConfig } from '@thoughtspot/visual-embed-sdk';\n// Call the getInitConfig method to retrieve the embed configuration\nconst config = getInitConfig();\n// Log the configuration settings\nconsole.log(config);\n```\nReturns the link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[EmbedConfig]\nobject, which contains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n\nThe following JSON output shows the embed configuration\nsettings returned from the code in the previous example:\n"
 							},
 							{
 								"tag": "example",
-								"text": "\n\nReturns the `EmbedConfig` object, which\ncontains the configuration settings used to\ninitialize the SDK, including the following:\n\n - `thoughtSpotHost` - ThoughtSpot host URL\n - `authType`: The authentication method used. For example,\n`AuthServerCookieless` for  `AuthType.TrustedAuthTokenCookieless`\n - `customizations` - Style, text, and icon customization settings\n that were applied during the SDK initialization.\n\nFor a comprehensive list of embed configuration settings,\nsee link:https://developers.thoughtspot.com/docs/Interface_EmbedConfig[Developer Documentation].\n\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```"
+								"text": "\n```json\n{\n  \"thoughtSpotHost\": \"https://{ThoughtSpot-Host}\",\n  \"authType\": \"AuthServerCookieless\",\n  \"customizations\": {\n   \"style\": {\n       \"customCSS\": {\n       \"variables\": {\n           \"--ts-var-button--secondary-background\": \"#7492d5\",\n           \"--ts-var-button--secondary--hovers-background\": \"#aac2f8\",\n           \"--ts-var-root-background\": \"#f1f4f8\"\n         }\n       }\n     }\n   },\n  \"loginFailedMessage\": \"Login failed, please try again\",\n  \"authTriggerText\": \"Authorize\",\n  \"disableTokenVerification\": true,\n  \"authTriggerContainer\": \"#your-own-div\"\n }\n```"
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.cl, and later"
+								"text": "SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw, and later"
 							},
 							{
 								"tag": "group",
