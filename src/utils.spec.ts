@@ -15,6 +15,7 @@ import {
     getValueFromWindow,
     handlePresentEvent,
     handleExitPresentMode,
+    getTypeFromValue,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -284,6 +285,27 @@ describe('unit test for utils', () => {
     test('isUndefined', () => {
         expect(isUndefined(undefined)).toBe(true);
         expect(isUndefined({})).toBe(false);
+        expect(isUndefined(null)).toBe(false);
+        expect(isUndefined('')).toBe(false);
+        expect(isUndefined(0)).toBe(false);
+    });
+
+    test('removeTypename should handle edge cases', () => {
+        expect(removeTypename(null)).toBe(null);
+        expect(removeTypename(undefined)).toBe(undefined);
+        expect(removeTypename('string')).toBe('string');
+        expect(removeTypename(123)).toBe(123);
+    });
+
+    test('getTypeFromValue should return correct types', () => {
+        expect(getTypeFromValue('test')).toEqual(['char', 'string']);
+        expect(getTypeFromValue(123)).toEqual(['double', 'double']);
+        expect(getTypeFromValue(true)).toEqual(['boolean', 'boolean']);
+        expect(getTypeFromValue(false)).toEqual(['boolean', 'boolean']);
+        expect(getTypeFromValue(null)).toEqual(['', '']);
+        expect(getTypeFromValue(undefined)).toEqual(['', '']);
+        expect(getTypeFromValue({})).toEqual(['', '']);
+        expect(getTypeFromValue([])).toEqual(['', '']);
     });
 
     describe('getValueFromWindow and storeValueInWindow', () => {
@@ -302,6 +324,13 @@ describe('unit test for utils', () => {
 
         test('Return undefined if key is not found', () => {
             expect(getValueFromWindow('notFound')).toBe(undefined);
+        });
+
+        test('Store with ignoreIfAlreadyExists option', () => {
+            storeValueInWindow('test2', 'firstValue');
+            const result = storeValueInWindow('test2', 'secondValue', { ignoreIfAlreadyExists: true });
+            expect(result).toBe('firstValue');
+            expect(getValueFromWindow('test2')).toBe('firstValue');
         });
     });
 });
