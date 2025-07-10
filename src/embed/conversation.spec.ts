@@ -177,6 +177,7 @@ describe('ConversationEmbed', () => {
             ],
         };
 
+        
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
