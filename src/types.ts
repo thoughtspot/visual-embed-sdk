@@ -3914,7 +3914,6 @@ export enum Param {
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
-    RuntimeFilters = 'runtimeFilters',
 }
 
 /**
