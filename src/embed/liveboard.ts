@@ -269,24 +269,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * })
      */
     dataSourceId?: string;
-
-    /**
-     * This flag is for show/hide checkboxes for include or exclude
-     * cover page and filters in the Liveboard PDF.
-     * 
-     * Supported embed types: `LiveboardEmbed`
-     * @version SDK: 1.37.0 | ThoughtSpot:10.8.0.cl
-     * @default true
-     * Supported embed types: `LiveboardEmbed`
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    coverAndFilterOptionInPDF: false,
-     * })
-     * ```
-     */
-    coverAndFilterOptionInPDF?: boolean;
     /**
      * The list of tab IDs to hide from the embedded.
      * This Tabs will be hidden from their respective LBs.
@@ -411,7 +393,7 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
-            coverAndFilterOptionInPDF,
+            coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
@@ -471,9 +453,6 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
-        if (coverAndFilterOptionInPDF !== undefined) {
-            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
@@ -486,6 +465,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;

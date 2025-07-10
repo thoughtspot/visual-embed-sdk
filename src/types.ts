@@ -1390,6 +1390,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     enableAskSage?: boolean;
+     /**
+     * This flag is used to show or hide checkboxes for including or excluding
+     * the cover and filters pages in the Liveboard PDF.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    coverAndFilterOptionInPDF: false,
+     * })
+     * ```
+     */
+    coverAndFilterOptionInPDF?: boolean;
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
@@ -3894,7 +3910,7 @@ export enum Param {
     DataSourceId = 'dataSourceId',
     preAuthCache = 'preAuthCache',
     ShowSpotterLimitations = 'showSpotterLimitations',
-    CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    CoverAndFilterOptionInPDF = 'arePdfCoverFilterPageCheckboxesEnabled',
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',

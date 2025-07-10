@@ -236,20 +236,17 @@ describe('React Components', () => {
     });
 
     describe('SpotterMessage', () => {
-        const mockData = {
-            query: 'show me sales',
-            messageResult: {
-                sessionId: "session123",
-                genNo: 1,
-                acSessionId: "acSession123",
-                acGenNo: 2,
-                worksheetId: "worksheet123"
-            }
+        const mockMessage = {
+            sessionId: "session123",
+            genNo: 1,
+            acSessionId: "acSession123",
+            acGenNo: 2,
+            worksheetId: "worksheet123"
         };
 
         it('Should render the SpotterMessage component with required props', async () => {
             const { container } = render(
-                <SpotterMessage data={mockData} />,
+                <SpotterMessage message={mockMessage} />,
             );
 
             await waitFor(() => getIFrameEl(container));
@@ -261,10 +258,24 @@ describe('React Components', () => {
             expect(getIFrameSrc(container)).toContain('acGenNo=2');
         });
 
+        it('Should render the SpotterMessage component with optional query', async () => {
+            const { container } = render(
+                <SpotterMessage 
+                    message={mockMessage} 
+                    query="show me sales"
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+
+            expect(getIFrameEl(container)).not.toBe(null);
+            expect(getIFrameSrc(container)).toContain('sessionId=session123');
+        });
+
         it('Should have the correct container element with className', async () => {
             const { container } = render(
                 <SpotterMessage 
-                    data={mockData}
+                    message={mockMessage}
                     className="custom-class"
                 />,
             );
