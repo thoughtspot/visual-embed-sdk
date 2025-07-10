@@ -1,8 +1,8 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter } from '../types';
 import { TsEmbed } from './ts-embed';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
 
 /**
  * Configuration for search options
@@ -124,6 +124,43 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     runtimeFilters?: RuntimeFilter[];
+    /**
+     * Flag to control whether runtime filters should be included in the URL.
+     * If true, filters will be passed via app initialization payload instead.
+     * If false/undefined, filters will be added to URL (default behavior).
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     */
+    excludeRuntimeFiltersfromURL?: boolean;
+    /**
+     * The list of runtime parameters to apply to the conversation.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    runtimeParameters: [
+     *           {
+     *             name: 'Parameter Name',
+     *             value: 'Parameter Value',
+     *           },
+     *       ],
+     * })
+     * ```
+     */
+    runtimeParameters?: RuntimeParameter[];
+    /**
+     * Flag to control whether runtime parameters should be included in the URL.
+     * If true, parameters will be passed via app initialization payload instead.
+     * If false/undefined, parameters will be added to URL (default behavior).
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * 
+     */
+    excludeRuntimeParametersfromURL?: boolean;
 }
 
 /**
@@ -166,6 +203,9 @@ export class SpotterEmbed extends TsEmbed {
             showSpotterLimitations,
             hideSampleQuestions,
             runtimeFilters,
+            excludeRuntimeFiltersfromURL,
+            runtimeParameters,
+            excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -192,15 +232,23 @@ export class SpotterEmbed extends TsEmbed {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
 
-        if (!isUndefined(runtimeFilters)) {
-            queryParams[Param.RuntimeFilters] = runtimeFilters;
+        let queryString = getQueryParamString(queryParams, true);
+
+        if (!excludeRuntimeFiltersfromURL && runtimeFilters?.length) {
+            const filterQuery = getFilterQuery(runtimeFilters);
+            if (filterQuery) {
+                queryString = queryString ? `${queryString}&${filterQuery}` : filterQuery;
+            }
         }
 
-        let query = '';
-        const queryParamsString = getQueryParamString(queryParams, true);
-        if (queryParamsString) {
-            query = `?${queryParamsString}`;
+        if (!excludeRuntimeParametersfromURL && runtimeParameters?.length) {
+            const parameterQuery = getRuntimeParameters(runtimeParameters);
+            if (parameterQuery) {
+                queryString = queryString ? `${queryString}&${parameterQuery}` : parameterQuery;
+            }
         }
+
+        const query = queryString ? `?${queryString}` : '';
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
             worksheet: worksheetId,
             query: searchOptions?.searchQuery || '',
