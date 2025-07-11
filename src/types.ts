@@ -645,9 +645,9 @@ export interface EmbedConfig {
     customVariablesForThirdPartyTools?: Record< string, any >;
 
     disablePreauthCache?: boolean;
-    
+
     /**
-     * Disable fullscreen presentation mode functionality. When enabled, prevents entering 
+     * Disable fullscreen presentation mode functionality. When enabled, prevents entering
      * and exiting fullscreen mode for embedded visualizations during presentations.
      * @default true (feature is disabled by default)
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -702,7 +702,7 @@ export interface BaseViewConfig {
     /**
      * The width and height dimensions to render an embedded
      * object inside your app.  Specify the values in pixels or percentage.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
@@ -732,7 +732,7 @@ export interface BaseViewConfig {
      * (...), and the contextual menu. These actions will be disabled
      * for the user.
      * Use this to disable actions.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -747,7 +747,7 @@ export interface BaseViewConfig {
     disabledActions?: Action[];
     /**
      * The tooltip to display for disabled actions.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -765,7 +765,7 @@ export interface BaseViewConfig {
      * The list of actions to hide from the embedded.
      * This actions will be hidden from the user.
      * Use this to hide an action.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -786,7 +786,7 @@ export interface BaseViewConfig {
      * Use this to hide all actions except the ones you want to show.
      *
      * Use either this or hiddenActions.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @important
@@ -802,7 +802,7 @@ export interface BaseViewConfig {
     visibleActions?: Action[];
     /**
      * The locale settings to apply to the embedded view.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
@@ -823,7 +823,7 @@ export interface BaseViewConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
@@ -849,7 +849,7 @@ export interface BaseViewConfig {
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw
      * @example
@@ -875,7 +875,7 @@ export interface BaseViewConfig {
      * PreRender id to be used for PreRendering the embed.
      * Use PreRender to render the embed in the background and then
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
@@ -913,7 +913,7 @@ export interface BaseViewConfig {
     /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighterweight shell.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
@@ -941,7 +941,7 @@ export interface BaseViewConfig {
     /**
      * This flag can be used to disable links inside the embedded app,
      * and disable redirection of links in a new tab.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
@@ -960,7 +960,7 @@ export interface BaseViewConfig {
      * objects from another Org.
      * The `overrideOrgId` setting is honoured only if the
      * Per Org URL feature is enabled on your ThoughtSpot instance.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      * ```js
@@ -975,7 +975,7 @@ export interface BaseViewConfig {
     overrideOrgId?: number;
     /**
      * Flag to override the *Open Link in New Tab* context menu option.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
@@ -991,7 +991,7 @@ export interface BaseViewConfig {
     /**
      * The primary action to display on top of the viz for Liveboard and App Embed.
      * Use this to set the primary action.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
      * @example
@@ -1021,7 +1021,7 @@ export interface HomePageConfig {
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
      * **Note**: This option is available only in full app embedding.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
@@ -1040,7 +1040,7 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
@@ -1059,7 +1059,7 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
@@ -1075,7 +1075,7 @@ export interface HomePageConfig {
      * homepageLeftNavItems : Show or hide the left navigation bar items.
      * There are 8 eight home navigation list items.
      * To hide these items, specify the string in the array.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
@@ -1100,7 +1100,7 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
      * @example
@@ -1122,7 +1122,7 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * The list of parameter override to apply to a search Answer,
      * visualization, or Liveboard.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
@@ -1142,7 +1142,7 @@ export interface SearchLiveboardCommonViewConfig {
     runtimeParameters?: RuntimeParameter[];
     /**
      * flag to set ContextMenu Trigger to either left or right click.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `SageEmbed`, `SearchEmbed`
      * @example
      * ```js
@@ -1178,7 +1178,7 @@ export interface SearchLiveboardCommonViewConfig {
     excludeRuntimeParametersfromURL?: boolean;
     /**
      * To set the initial state of the search bar in case of saved Answers.
-     * 
+     *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`
      * @default true
      * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
@@ -1193,7 +1193,7 @@ export interface SearchLiveboardCommonViewConfig {
     collapseSearchBar?: boolean;
     /**
      * Flag to control Data panel experience
-     * 
+     *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
      * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
@@ -1209,7 +1209,7 @@ export interface SearchLiveboardCommonViewConfig {
     dataPanelV2?: boolean;
     /**
      * To enable custom column groups in data panel v2
-     * 
+     *
      * Supported embed types: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      * @default false
@@ -1231,7 +1231,7 @@ export interface SearchLiveboardCommonViewConfig {
 export interface LiveboardAppEmbedViewConfig {
     /**
      * Show or hide Liveboard header
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
@@ -1247,7 +1247,7 @@ export interface LiveboardAppEmbedViewConfig {
     hideLiveboardHeader?: boolean;
     /**
      * Show or hide Liveboard title
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
@@ -1263,7 +1263,7 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardTitle?: boolean;
     /**
      * Show or hide Liveboard description
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
      * @default false
@@ -1279,7 +1279,7 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardDescription?: boolean;
     /**
      * Boolean to control if Liveboard header is sticky or not.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @example
      * ```js
@@ -1294,7 +1294,7 @@ export interface LiveboardAppEmbedViewConfig {
     isLiveboardHeaderSticky?: boolean;
     /**
      * This attribute can be used to enable the two-column layout on an embedded Liveboard
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @default false
@@ -1311,7 +1311,7 @@ export interface LiveboardAppEmbedViewConfig {
     enable2ColumnLayout?: boolean;
     /**
      * This flag can be used to enable the compact header in Liveboard
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @default false
@@ -1328,7 +1328,7 @@ export interface LiveboardAppEmbedViewConfig {
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
      * This flag can be used to show or hide the Liveboard verified icon in the compact header.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * @default true
@@ -1344,7 +1344,7 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardVerifiedBadge?: boolean;
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
      * @default false
@@ -1360,7 +1360,7 @@ export interface LiveboardAppEmbedViewConfig {
     hideIrrelevantChipsInLiveboardTabs?: boolean;
     /**
      * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
      * @default true
@@ -1376,7 +1376,7 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardReverifyBanner?: boolean;
     /**
      * enable or disable ask sage
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
      * @default false
@@ -1393,7 +1393,7 @@ export interface LiveboardAppEmbedViewConfig {
      /**
      * This flag is used to show or hide checkboxes for including or excluding
      * the cover and filters pages in the Liveboard PDF.
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
      * @example
@@ -3611,16 +3611,16 @@ export enum HostEvent {
     /**
      * Get the Answer session for a Search or
      * Liveboard visualization.
-     * 
-     * Note: This event is not typically used directly. Instead, use the 
-     * `getAnswerService()` method on the embed instance to get an AnswerService 
+     *
+     * Note: This event is not typically used directly. Instead, use the
+     * `getAnswerService()` method on the embed instance to get an AnswerService
      * object that provides a more convenient interface for working with answers.
-     * 
+     *
      * @example
      * ```js
      * // Preferred way to get an AnswerService
      * const service = await embed.getAnswerService();
-     * 
+     *
      * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger(
      *  HostEvent.GetAnswerSession, {
@@ -3631,7 +3631,7 @@ export enum HostEvent {
      * ```js
      * // Preferred way to get an AnswerService
      * const service = await embed.getAnswerService();
-     * 
+     *
      * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
@@ -5153,6 +5153,22 @@ export enum Action {
      *  @version SDK: 1.37.0 | ThoughtSpot Cloud: 10.8.0.cl
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
+    /**
+     * Action ID for hide or disable the
+     * Spotter in conversation training widget.
+     * The Add to Coaching feature is currently in beta
+     * and is disabled by default on embed deployments.
+     * To enable this feature on your instance,
+     * contact ThoughtSpot Support.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.InConversationTraining]
+     * disabledActions: [Action.InConversationTraining]
+     *
+     * ```
+     *  @version SDK: 1.39.0 | ThoughtSpot Cloud: 10.10.0.cl
+     */
+    InConversationTraining = 'InConversationTraining',
 }
 
 export interface AnswerServiceType {
