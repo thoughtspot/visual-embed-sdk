@@ -3836,6 +3836,7 @@ export enum Param {
     PrimaryNavHidden = 'primaryNavHidden',
     HideProfleAndHelp = 'profileAndHelpInNavBarHidden',
     NavigationVersion = 'navigationVersion',
+    ListPageVersion = 'listPageVersion',
     HideHamburger = 'hideHamburger',
     HideObjectSearch = 'hideObjectSearch',
     HideNotification = 'hideNotification',

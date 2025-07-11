@@ -110,6 +110,22 @@ export enum HomePage {
 }
 
 /**
+ * Define the version of the list page
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+ */
+export enum ListPage {
+    /**
+     * List (v2) introduces the updated List Experience.
+     * It serves as the foundational version of the list page.
+     */
+    List = 'v2',
+    /**
+     * ListWithUXChanges (v3) introduces UX changes to the list page.
+     */
+    ListWithUXChanges = 'v3',
+}
+
+/**
  * Define the discovery experience
  * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
@@ -122,6 +138,10 @@ export interface DiscoveryExperience {
      * homePage determines the version of the home page.
      */
     homePage?: HomePage;
+    /**
+     * listPageVersion determines the version of the list page.
+     */
+    listPageVersion?: ListPage;
 }
 
 /**
@@ -695,6 +715,11 @@ export class AppEmbed extends V1Embed {
             // and it will override the modularHomeExperience value
             if (discoveryExperience.homePage === HomePage.Modular) {
                 params[Param.ModularHomeExperienceEnabled] = true;
+            }
+
+            // listPageVersion will set the version of the list page experience
+            if (discoveryExperience.listPageVersion) {
+                params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
 
