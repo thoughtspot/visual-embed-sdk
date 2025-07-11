@@ -1,4 +1,5 @@
-import { SpotterEmbed, SpotterEmbedViewConfig } from './conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed } from './conversation';
+import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
 import { AuthType, Param, RuntimeFilterOp } from '../types';
@@ -269,7 +270,7 @@ describe('ConversationEmbed', () => {
                     values: [1000],
                 },
             ],
-            excludeRuntimeParametersfromURL: true,
+            excludeRuntimeParametersfromURL: false,
             excludeRuntimeFiltersfromURL: false,
         };
 
@@ -277,7 +278,32 @@ describe('ConversationEmbed', () => {
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&col1=revenue&op1=EQ&val1=1000#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&col1=revenue&op1=EQ&val1=1000&param1=Date%20Range&paramVal1=30#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            runtimeParameters: [
+                {
+                    name: 'Date Range',
+                    value: '30',
+                },
+            ],
+        };
+
+        // Test with deprecated class
+        const conversationEmbed = new ConversationEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+
+        // Verify it generates the same URL structure as SpotterEmbed
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&param1=Date%20Range&paramVal1=30#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
 });
