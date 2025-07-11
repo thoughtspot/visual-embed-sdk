@@ -341,6 +341,30 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
+
+    /**
+     * The margin to be used for lazy loading.
+     * 
+     * For example, if the margin is set to '10px',
+     * the visualization will be loaded 10px before the its top edge is visible in the
+     * viewport.
+     * 
+     * The format is similar to CSS margin.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *    lazyLoadingMargin: '0px',
+     * })
+     * ```
+     * @type {string}
+     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     */
+    lazyLoadingMargin?: string;
 }
 
 /**
@@ -376,7 +400,7 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.sendFullHeightLazyLoadData);
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
         }
     }
 
@@ -422,6 +446,7 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
+                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
             }
         }
         if (defaultHeight) {
@@ -508,6 +533,18 @@ export class LiveboardEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
+    }
+    
+    /**
+     * This is a handler for the RequestVisibleEmbedCoordinates event.
+     * It is used to send the visible coordinates data to the host application.
+     * @param data The event payload
+     * @param responder The responder function
+     */
+    private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
+        logger.info('Sending RequestVisibleEmbedCoordinates', data);
+        const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
+        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
     /**

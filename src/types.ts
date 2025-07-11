@@ -3936,6 +3936,7 @@ export enum Param {
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
+    RootMarginForLazyLoad = 'rootMarginForLazyLoad'
 }
 
 /**

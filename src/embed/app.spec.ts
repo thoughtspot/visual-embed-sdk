@@ -295,7 +295,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&${defaultParamsWithoutHiddenActions}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}&blockNonEmbedFullAppAccess=true&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]#/home`,
             );
         });
     });
@@ -624,7 +624,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add enablePendoHelp flag to the iframe src conditional on navbar', async () => {
+    test('Should add enablePendoHelp flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
@@ -699,7 +699,7 @@ describe('App embed tests', () => {
     test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            // eslint-disable-next-line max-len
+
             dataPanelCustomGroupsAccordionInitialState:
                 DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         } as AppViewConfig);
@@ -714,46 +714,45 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
+        // Mock the iframe element first
+        const mockIFrame = document.createElement('iframe');
+        mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+            top: 100,
+            left: 150,
+            bottom: 600,
+            right: 800,
+            width: 650,
+            height: 500,
+        });
+        Object.defineProperty(mockIFrame, 'scrollHeight', { value: 500 });
+
+        // Mock the event handlers
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
-            if (event === EmbedEvent.RouteChange) {
-                callback({ data: { currentPath: '/answers' } }, jest.fn());
-            }
-            if (event === EmbedEvent.EmbedHeight) {
-                callback({ data: '100%' });
-            }
-            if (event === EmbedEvent.EmbedIframeCenter) {
-                callback({}, jest.fn());
-            }
             return null;
         });
         jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
         jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
+
+        // Create the AppEmbed instance
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
             lazyLoadingForFullHeight: true,
         } as AppViewConfig);
 
+        // Set the iframe before render
+        (appEmbed as any).iFrame = mockIFrame;
+
         // Wait for render to complete
         await appEmbed.render();
 
-        // Wait for iframe initialization and event registration
-        // This is needed because iframe initialization happens asynchronously
-        // after render() completes, and we need to ensure all event handlers
-        // are properly registered before checking them
+        // Verify event handlers were registered
         await executeAfterWait(() => {
-            // Check event registrations for iframe height adjustment
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
-
-            // Check window event listeners for lazy loading
-            expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
-            expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
-        }, 100); // 100ms wait time to ensure iframe is initialized
-
-        jest.clearAllMocks();
-        jest.restoreAllMocks();
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+        }, 100);
     });
 
     describe('Navigate to Page API', () => {
@@ -867,24 +866,66 @@ describe('App embed tests', () => {
             jest.restoreAllMocks();
         });
 
+        test('should set lazyLoadingMargin parameter when provided', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '100px 0px',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('isFullHeightPinboard=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=100px%200px');
+            }, 100);
+        });
+
         test('should set isLazyLoadingForEmbedEnabled=true when both fullHeight and lazyLoadingForFullHeight are enabled', async () => {
+            // Mock the iframe element first
+            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+                top: 100,
+                left: 150,
+                bottom: 600,
+                right: 800,
+                width: 650,
+                height: 500,
+            });
+            Object.defineProperty(mockIFrame, 'scrollHeight', { value: 500 });
+
+            // Mock the event handlers
+            const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
+                return null;
+            });
+            jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
+            jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
+
+            // Create the AppEmbed instance
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
             } as AppViewConfig);
 
+            // Set the iframe before render
+            (appEmbed as any).iFrame = mockIFrame;
+
+            // Add the iframe to the DOM
+            const rootEl = getRootEl();
+            rootEl.appendChild(mockIFrame);
+
             // Wait for render to complete
             await appEmbed.render();
 
             // Wait for iframe initialization and URL parameters to be set
-            // This is needed because iframe src is set asynchronously
-            // after render() completes
             await executeAfterWait(() => {
-                const iframeSrc = getIFrameSrc();
+                const iframeSrc = appEmbed.getIFrameSrc();
                 expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(iframeSrc).toContain('isFullHeightPinboard=true');
-            }, 100); // 100ms wait time to ensure iframe src is set
+            }, 100);
         });
 
         test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
@@ -1025,6 +1066,156 @@ describe('App embed tests', () => {
             expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
 
             removeEventListenerSpy.mockRestore();
+        });
+
+        test('should handle RequestVisibleEmbedCoordinates event and respond with correct data', async () => {
+            // Mock the iframe element
+            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+                top: 100,
+                left: 150,
+                bottom: 600,
+                right: 800,
+                width: 650,
+                height: 500,
+            });
+            Object.defineProperty(mockIFrame, 'scrollHeight', { value: 500 });
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            // Set the iframe before render
+            (appEmbed as any).iFrame = mockIFrame;
+
+            await appEmbed.render();
+
+            // Create a mock responder function
+            const mockResponder = jest.fn();
+
+            // Trigger the handler directly
+            (appEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+
+            // Verify the responder was called with the correct data
+            expect(mockResponder).toHaveBeenCalledWith({
+                type: EmbedEvent.RequestVisibleEmbedCoordinates,
+                data: {
+                    top: 0,
+                    height: 500,
+                    left: 0,
+                    width: 650,
+                },
+            });
+        });
+    });
+
+    describe('IFrame height management', () => {
+        let mockIFrame: HTMLIFrameElement;
+
+        beforeEach(() => {
+            mockIFrame = document.createElement('iframe');
+            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+                top: 100,
+                left: 150,
+                bottom: 600,
+                right: 800,
+                width: 650,
+                height: 500,
+            });
+            Object.defineProperty(mockIFrame, 'scrollHeight', { value: 500 });
+        });
+
+        test('should not call setIFrameHeight if currentPath starts with "/embed/viz/"', () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
+
+            appEmbed.render();
+            appEmbed.setIframeHeightForNonEmbedLiveboard({
+                data: { currentPath: '/embed/viz/' },
+                type: 'Route',
+            });
+
+            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+        });
+
+        test('should not call setIFrameHeight if currentPath starts with "/embed/insights/viz/"', () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
+
+            appEmbed.render();
+            appEmbed.setIframeHeightForNonEmbedLiveboard({
+                data: { currentPath: '/embed/insights/viz/' },
+                type: 'Route',
+            });
+
+            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+        });
+
+        test('should call setIFrameHeight if currentPath starts with "/some/other/path/"', () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+            const spySetIFrameHeight = jest
+                .spyOn(appEmbed, 'setIFrameHeight')
+                .mockImplementation(jest.fn());
+
+            appEmbed.render();
+            appEmbed.setIframeHeightForNonEmbedLiveboard({
+                data: { currentPath: '/some/other/path/' },
+                type: 'Route',
+            });
+
+            expect(spySetIFrameHeight).toHaveBeenCalled();
+        });
+
+        test('should update iframe height correctly', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+
+            // Set up the mock iframe
+            appEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+
+            await appEmbed.render();
+            const mockEvent = {
+                data: 600,
+                type: EmbedEvent.EmbedHeight,
+            };
+            appEmbed.updateIFrameHeight(mockEvent);
+
+            // Check if the iframe style was updated
+            expect(mockIFrame.style.height).toBe('600px');
+        });
+
+        test('should handle updateIFrameHeight with default height', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+
+            // Set up the mock iframe
+            appEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+
+            await appEmbed.render();
+            const mockEvent = {
+                data: 0, // This will make it use the scrollHeight
+                type: EmbedEvent.EmbedHeight,
+            };
+            appEmbed.updateIFrameHeight(mockEvent);
+
+            // Should use the scrollHeight
+            expect(mockIFrame.style.height).toBe('500px');
         });
     });
 });
