@@ -222,4 +222,62 @@ describe('ConversationEmbed', () => {
             `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&param1=Date%20Range&paramVal1=30#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
+
+    it('should render the conversation embed with runtime parameters excluded from URL', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            runtimeParameters: [
+                {
+                    name: 'Date Range',
+                    value: '30',
+                },
+                {
+                    name: 'Region',
+                    value: 'North America',
+                },
+            ],
+            excludeRuntimeParametersfromURL: true,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with both runtime filters and parameters', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            runtimeParameters: [
+                {
+                    name: 'Date Range',
+                    value: '30',
+                },
+            ],
+            runtimeFilters: [
+                {
+                    columnName: 'revenue',
+                    operator: RuntimeFilterOp.EQ,
+                    values: [1000],
+                },
+            ],
+            excludeRuntimeParametersfromURL: true,
+            excludeRuntimeFiltersfromURL: false,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&col1=revenue&op1=EQ&val1=1000#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
 });
