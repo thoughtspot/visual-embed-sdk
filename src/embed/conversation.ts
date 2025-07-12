@@ -158,7 +158,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *
      * Supported embed types: `SpotterEmbed`
      * @default false
-     * 
+     *
      */
     excludeRuntimeParametersfromURL?: boolean;
 }
@@ -232,28 +232,26 @@ export class SpotterEmbed extends TsEmbed {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
 
-        let queryString = getQueryParamString(queryParams, true);
-
-        if (!excludeRuntimeFiltersfromURL && runtimeFilters?.length) {
-            const filterQuery = getFilterQuery(runtimeFilters);
-            if (filterQuery) {
-                queryString = queryString ? `${queryString}&${filterQuery}` : filterQuery;
-            }
+        let query = '';
+        const queryParamsString = getQueryParamString(queryParams, true);
+        if (queryParamsString) {
+            query = `?${queryParamsString}`;
         }
 
-        if (!excludeRuntimeParametersfromURL && runtimeParameters?.length) {
-            const parameterQuery = getRuntimeParameters(runtimeParameters);
-            if (parameterQuery) {
-                queryString = queryString ? `${queryString}&${parameterQuery}` : parameterQuery;
-            }
+        const filterQuery = getFilterQuery(runtimeFilters || []);
+        if (filterQuery && !excludeRuntimeFiltersfromURL) {
+            query += `&${filterQuery}`;
         }
 
-        const query = queryString ? `?${queryString}` : '';
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery && !excludeRuntimeParametersfromURL) {
+            query += `&${parameterQuery}`;
+        }
+
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
             worksheet: worksheetId,
             query: searchOptions?.searchQuery || '',
         });
-
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
 
