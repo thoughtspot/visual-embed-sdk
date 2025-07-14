@@ -5,7 +5,7 @@ export const addPreviewStylesIfNotPresent = () => {
     }
 
     const previewStyles = `
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/styles/ag-grid.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.0.2/styles/ag-grid.min.css" integrity="sha384-PvEsKa6emq5KYa9mf+Q7eYF5C2OCacYzZ+hBngp21NA4o1A9iU9smnytEmqUFbEZ" crossorigin="anonymous">
         <style id="ts-preview-style">
            .ts-viz-preview-loader {
                 position: absolute;
