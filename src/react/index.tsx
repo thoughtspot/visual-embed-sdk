@@ -430,7 +430,7 @@ export const SpotterMessage = React.forwardRef<
     React.ComponentRef<typeof ConversationMessage>,
     SpotterMessageProps
 >((props, ref) => {
-    const { message, query, ...otherProps } = props;
+    const { message, query: _, ...otherProps } = props;
     
     return (
         <ConversationMessage
