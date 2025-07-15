@@ -3713,7 +3713,7 @@
 			]
 		},
 		{
-			"id": 2557,
+			"id": 2560,
 			"name": "DataPanelCustomColumnGroupsAccordionState",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -3723,7 +3723,7 @@
 			},
 			"children": [
 				{
-					"id": 2559,
+					"id": 2562,
 					"name": "COLLAPSE_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3741,7 +3741,7 @@
 					"defaultValue": "\"COLLAPSE_ALL\""
 				},
 				{
-					"id": 2558,
+					"id": 2561,
 					"name": "EXPAND_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3759,7 +3759,7 @@
 					"defaultValue": "\"EXPAND_ALL\""
 				},
 				{
-					"id": 2560,
+					"id": 2563,
 					"name": "EXPAND_FIRST",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3782,9 +3782,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2559,
-						2558,
-						2560
+						2562,
+						2561,
+						2563
 					]
 				}
 			],
@@ -8531,7 +8531,78 @@
 			]
 		},
 		{
-			"id": 2551,
+			"id": 2521,
+			"name": "ListPage",
+			"kind": 4,
+			"kindString": "Enumeration",
+			"flags": {},
+			"comment": {
+				"shortText": "Define the version of the list page",
+				"tags": [
+					{
+						"tag": "version",
+						"text": "SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2522,
+					"name": "List",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "List (v2) is the traditional List Experience.\nIt serves as the foundational version of the list page."
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 121,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"v2\""
+				},
+				{
+					"id": 2523,
+					"name": "ListWithUXChanges",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "ListWithUXChanges (v3) introduces the new updated list page with UX changes."
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 125,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"v3\""
+				}
+			],
+			"groups": [
+				{
+					"title": "Enumeration members",
+					"kind": 16,
+					"children": [
+						2522,
+						2523
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "embed/app.ts",
+					"line": 116,
+					"character": 12
+				}
+			]
+		},
+		{
+			"id": 2554,
 			"name": "ListPageColumns",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -8547,7 +8618,7 @@
 			},
 			"children": [
 				{
-					"id": 2554,
+					"id": 2557,
 					"name": "Author",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -8565,7 +8636,7 @@
 					"defaultValue": "\"AUTHOR\""
 				},
 				{
-					"id": 2555,
+					"id": 2558,
 					"name": "DateSort",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -8583,7 +8654,7 @@
 					"defaultValue": "\"DATE_SORT\""
 				},
 				{
-					"id": 2552,
+					"id": 2555,
 					"name": "Favourite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -8601,7 +8672,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2556,
+					"id": 2559,
 					"name": "Share",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -8619,7 +8690,7 @@
 					"defaultValue": "\"SHARE\""
 				},
 				{
-					"id": 2553,
+					"id": 2556,
 					"name": "Tags",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -8642,11 +8713,11 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2554,
+						2557,
+						2558,
 						2555,
-						2552,
-						2556,
-						2553
+						2559,
+						2556
 					]
 				}
 			],
@@ -9472,14 +9543,14 @@
 			]
 		},
 		{
-			"id": 2544,
+			"id": 2547,
 			"name": "UIPassthroughEvent",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2549,
+					"id": 2552,
 					"name": "GetAnswerConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9494,7 +9565,7 @@
 					"defaultValue": "\"getAnswerPageConfig\""
 				},
 				{
-					"id": 2548,
+					"id": 2551,
 					"name": "GetAvailableUIPassthroughs",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9509,7 +9580,7 @@
 					"defaultValue": "\"getAvailableUiPassthroughs\""
 				},
 				{
-					"id": 2547,
+					"id": 2550,
 					"name": "GetDiscoverabilityStatus",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9524,7 +9595,7 @@
 					"defaultValue": "\"getDiscoverabilityStatus\""
 				},
 				{
-					"id": 2550,
+					"id": 2553,
 					"name": "GetLiveboardConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9539,7 +9610,7 @@
 					"defaultValue": "\"getPinboardPageConfig\""
 				},
 				{
-					"id": 2545,
+					"id": 2548,
 					"name": "PinAnswerToLiveboard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9554,7 +9625,7 @@
 					"defaultValue": "\"addVizToPinboard\""
 				},
 				{
-					"id": 2546,
+					"id": 2549,
 					"name": "SaveAnswer",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9574,12 +9645,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2549,
-						2548,
-						2547,
+						2552,
+						2551,
 						2550,
-						2545,
-						2546
+						2553,
+						2548,
+						2549
 					]
 				}
 			],
@@ -9699,7 +9770,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2521,
+											"id": 2524,
 											"name": "VizPoint"
 										}
 									}
@@ -10867,7 +10938,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 559,
+							"line": 560,
 							"character": 4
 						}
 					],
@@ -11048,7 +11119,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 731,
+							"line": 737,
 							"character": 11
 						}
 					],
@@ -11385,7 +11456,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 835,
+							"line": 841,
 							"character": 11
 						}
 					],
@@ -11749,7 +11820,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 862,
+							"line": 868,
 							"character": 17
 						}
 					],
@@ -12031,7 +12102,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -12136,7 +12207,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 553,
+					"line": 554,
 					"character": 13
 				}
 			],
@@ -13791,7 +13862,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -15092,7 +15163,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -16325,7 +16396,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -17541,7 +17612,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -18785,7 +18856,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -20478,7 +20549,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2544,
+										"id": 2547,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -20765,7 +20836,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 467,
+							"line": 468,
 							"character": 4
 						}
 					],
@@ -20918,13 +20989,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 488,
+							"line": 489,
 							"character": 4
 						}
 					],
 					"type": {
 						"type": "reference",
-						"id": 2557,
+						"id": 2560,
 						"name": "DataPanelCustomColumnGroupsAccordionState"
 					}
 				},
@@ -20999,7 +21070,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 205,
+							"line": 206,
 							"character": 4
 						}
 					],
@@ -21155,7 +21226,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 460,
+							"line": 461,
 							"character": 4
 						}
 					],
@@ -21358,7 +21429,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 221,
+							"line": 222,
 							"character": 4
 						}
 					],
@@ -21396,7 +21467,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 404,
+							"line": 405,
 							"character": 4
 						}
 					],
@@ -21620,7 +21691,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 427,
+							"line": 428,
 							"character": 4
 						}
 					],
@@ -21792,7 +21863,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2551,
+							"id": 2554,
 							"name": "ListPageColumns"
 						}
 					},
@@ -21830,7 +21901,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 289,
+							"line": 290,
 							"character": 4
 						}
 					],
@@ -21868,7 +21939,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 237,
+							"line": 238,
 							"character": 4
 						}
 					],
@@ -21906,7 +21977,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 189,
+							"line": 190,
 							"character": 4
 						}
 					],
@@ -22028,7 +22099,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 269,
+							"line": 270,
 							"character": 4
 						}
 					],
@@ -22066,7 +22137,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 253,
+							"line": 254,
 							"character": 4
 						}
 					],
@@ -22100,7 +22171,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 380,
+							"line": 381,
 							"character": 4
 						}
 					],
@@ -22141,7 +22212,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 309,
+							"line": 310,
 							"character": 4
 						}
 					],
@@ -22171,7 +22242,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 500,
+							"line": 501,
 							"character": 4
 						}
 					],
@@ -22324,7 +22395,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 546,
+							"line": 547,
 							"character": 4
 						}
 					],
@@ -22353,7 +22424,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 493,
+							"line": 494,
 							"character": 4
 						}
 					],
@@ -22391,7 +22462,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 515,
+							"line": 516,
 							"character": 4
 						}
 					],
@@ -22505,7 +22576,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 442,
+							"line": 443,
 							"character": 4
 						}
 					],
@@ -22577,7 +22648,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 347,
+							"line": 348,
 							"character": 4
 						}
 					],
@@ -22612,7 +22683,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 329,
+							"line": 330,
 							"character": 4
 						}
 					],
@@ -22848,7 +22919,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 530,
+							"line": 531,
 							"character": 5
 						}
 					],
@@ -23054,7 +23125,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 167,
+							"line": 168,
 							"character": 4
 						}
 					],
@@ -23088,7 +23159,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 363,
+							"line": 364,
 							"character": 4
 						}
 					],
@@ -23219,7 +23290,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 150,
+					"line": 151,
 					"character": 17
 				}
 			],
@@ -25724,7 +25795,7 @@
 			]
 		},
 		{
-			"id": 2524,
+			"id": 2527,
 			"name": "CustomActionPayload",
 			"kind": 256,
 			"kindString": "Interface",
@@ -25739,7 +25810,7 @@
 			},
 			"children": [
 				{
-					"id": 2525,
+					"id": 2528,
 					"name": "contextMenuPoints",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25756,14 +25827,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2526,
+							"id": 2529,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2527,
+									"id": 2530,
 									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25777,12 +25848,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 2521,
+										"id": 2524,
 										"name": "VizPoint"
 									}
 								},
 								{
-									"id": 2528,
+									"id": 2531,
 									"name": "selectedPoints",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25798,7 +25869,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2521,
+											"id": 2524,
 											"name": "VizPoint"
 										}
 									}
@@ -25809,8 +25880,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2527,
-										2528
+										2530,
+										2531
 									]
 								}
 							]
@@ -25818,7 +25889,7 @@
 					}
 				},
 				{
-					"id": 2529,
+					"id": 2532,
 					"name": "embedAnswerData",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25833,14 +25904,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2530,
+							"id": 2533,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2538,
+									"id": 2541,
 									"name": "columns",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25861,7 +25932,7 @@
 									}
 								},
 								{
-									"id": 2539,
+									"id": 2542,
 									"name": "data",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25882,7 +25953,7 @@
 									}
 								},
 								{
-									"id": 2532,
+									"id": 2535,
 									"name": "id",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25900,7 +25971,7 @@
 									}
 								},
 								{
-									"id": 2531,
+									"id": 2534,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25918,7 +25989,7 @@
 									}
 								},
 								{
-									"id": 2533,
+									"id": 2536,
 									"name": "sources",
 									"kind": 1024,
 									"kindString": "Property",
@@ -25933,14 +26004,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 2534,
+											"id": 2537,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 2535,
+													"id": 2538,
 													"name": "header",
 													"kind": 1024,
 													"kindString": "Property",
@@ -25955,14 +26026,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 2536,
+															"id": 2539,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 2537,
+																	"id": 2540,
 																	"name": "guid",
 																	"kind": 1024,
 																	"kindString": "Property",
@@ -25985,7 +26056,7 @@
 																	"title": "Properties",
 																	"kind": 1024,
 																	"children": [
-																		2537
+																		2540
 																	]
 																}
 															]
@@ -25998,7 +26069,7 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														2535
+														2538
 													]
 												}
 											]
@@ -26011,23 +26082,23 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2538,
-										2539,
-										2532,
-										2531,
-										2533
+										2541,
+										2542,
+										2535,
+										2534,
+										2536
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 2540,
+								"id": 2543,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2541,
+										"id": 2544,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -26046,7 +26117,7 @@
 					}
 				},
 				{
-					"id": 2542,
+					"id": 2545,
 					"name": "session",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26065,7 +26136,7 @@
 					}
 				},
 				{
-					"id": 2543,
+					"id": 2546,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26090,10 +26161,10 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2525,
-						2529,
-						2542,
-						2543
+						2528,
+						2532,
+						2545,
+						2546
 					]
 				}
 			],
@@ -38641,14 +38712,14 @@
 			]
 		},
 		{
-			"id": 2521,
+			"id": 2524,
 			"name": "VizPoint",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 2522,
+					"id": 2525,
 					"name": "selectedAttributes",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38669,7 +38740,7 @@
 					}
 				},
 				{
-					"id": 2523,
+					"id": 2526,
 					"name": "selectedMeasures",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38695,8 +38766,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2522,
-						2523
+						2525,
+						2526
 					]
 				}
 			],
@@ -40204,7 +40275,7 @@
 			]
 		},
 		{
-			"id": 2561,
+			"id": 2564,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -40220,7 +40291,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2562,
+					"id": 2565,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -40490,7 +40561,7 @@
 				1531,
 				1686,
 				1997,
-				2557,
+				2560,
 				1862,
 				1718,
 				2338,
@@ -40498,13 +40569,14 @@
 				2513,
 				2348,
 				1800,
-				2551,
+				2521,
+				2554,
 				2490,
 				1677,
 				2327,
 				2517,
 				1702,
-				2544
+				2547
 			]
 		},
 		{
@@ -40531,7 +40603,7 @@
 				1541,
 				1108,
 				1344,
-				2524,
+				2527,
 				2394,
 				2382,
 				2372,
@@ -40547,7 +40619,7 @@
 				1081,
 				1311,
 				1674,
-				2521,
+				2524,
 				2385,
 				21,
 				25
@@ -40576,7 +40648,7 @@
 				1,
 				4,
 				7,
-				2561,
+				2564,
 				37,
 				2497
 			]
