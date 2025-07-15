@@ -1025,7 +1025,6 @@ export interface BaseViewConfig {
      * ```
      */
     showAlerts?: boolean;
-
 }
 
 /**
