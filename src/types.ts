@@ -1016,6 +1016,20 @@ export interface BaseViewConfig {
      * @private
      */
     insertInToSlide?: boolean;
+    /**
+     * Show alert messages and toast messages in the embed.
+     * Supported embed in all embed types.
+     * 
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    showAlerts:true,
+     * })
+     * ```
+     */
+    showAlerts?: boolean;
 }
 
 /**

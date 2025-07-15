@@ -494,21 +494,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
-     /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * 
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-     showAlerts?: boolean;
+
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * 
