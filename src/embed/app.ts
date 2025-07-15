@@ -138,6 +138,10 @@ export interface DiscoveryExperience {
      * homePage determines the version of the home page.
      */
     homePage?: HomePage;
+    /**
+     * listPageVersion determines the version of the list page.
+     */
+    listPageVersion?: ListPage;
 }
 
 /**
@@ -713,6 +717,11 @@ export class AppEmbed extends V1Embed {
             // and it will override the modularHomeExperience value
             if (discoveryExperience.homePage === HomePage.Modular) {
                 params[Param.ModularHomeExperienceEnabled] = true;
+            }
+
+            // listPageVersion v3 will enable the new list page
+            if (discoveryExperience.listPageVersion === ListPage.ListWithUXChanges) {
+                params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
 
