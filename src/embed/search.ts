@@ -11,8 +11,9 @@ import {
     DOMSelector,
     Param,
     Action,
-    ViewConfig,
+    SearchLiveboardCommonViewConfig,
     DefaultAppInitData,
+    BaseViewConfig,
 } from '../types';
 import {
     getQueryParamString,
@@ -68,22 +69,17 @@ export enum DataPanelCustomColumnGroupsAccordionState {
  * @group Embed components
  */
 export interface SearchViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'hiddenHomepageModules'
-        | 'hiddenHomeLeftNavItems'
-        | 'hiddenTabs'
-        | 'visibleTabs'
-        | 'reorderedHomepageModules'
-    > {
+    extends SearchLiveboardCommonViewConfig, Omit<BaseViewConfig, 'primaryAction'> {
     /**
      * If set to true, the data sources panel is collapsed on load,
      * but can be expanded manually.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    collapseDataSources:true,
      * })
      * ```
@@ -92,11 +88,13 @@ export interface SearchViewConfig
     /**
      * If set to true, the data panel is collapsed on load,
      * but can be expanded manually.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    collapseDataPanel:true,
      * })
      * ```
@@ -104,11 +102,13 @@ export interface SearchViewConfig
     collapseDataPanel?: boolean;
     /**
      * Show or hide the data sources panel.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideDataSources:true,
      * })
      * ```
@@ -118,11 +118,13 @@ export interface SearchViewConfig
      * Show or hide the charts and tables in search answers.
      * This attribute can be used to create a custom visualization
      * using raw answer data.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideResults:true,
      * })
      * ```
@@ -130,11 +132,13 @@ export interface SearchViewConfig
     hideResults?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    enableSearchAssist:true,
      * })
      * ```
@@ -143,11 +147,13 @@ export interface SearchViewConfig
     /**
      * If set to true, the tabular view is set as the default
      * format for presenting search data.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    forceTable:true,
      * })
      */
@@ -156,10 +162,12 @@ export interface SearchViewConfig
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
      * @deprecated Use `dataSource` instead.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    dataSources:['id-234','id-456'],
      * })
      * ```
@@ -167,11 +175,13 @@ export interface SearchViewConfig
     dataSources?: string[];
     /**
      * The array of data source GUIDs to set on load.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.19.0
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    dataSource:'id-234',
      * })
      * ```
@@ -194,6 +204,8 @@ export interface SearchViewConfig
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @example
      * ```js
      * searchOptions: {
@@ -206,6 +218,8 @@ export interface SearchViewConfig
     /**
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
@@ -221,11 +235,13 @@ export interface SearchViewConfig
     excludeSearchTokenStringFromURL?: boolean;
     /**
      * The GUID of a saved answer to load initially.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    answerId:'sed-1234',
      * })
      * ```
@@ -234,11 +250,13 @@ export interface SearchViewConfig
     /**
      * If set to true, the search page will render without the Search Bar
      * The chart/table should still be visible.
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... // other embed view config
      *    hideSearchBar:true,
      * })
      * ```
@@ -246,19 +264,23 @@ export interface SearchViewConfig
     hideSearchBar?: boolean;
     /**
      * Flag to set if last selected dataSource should be used
+     * 
+     * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
      * @default false
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @deprecated Use {@link collapseSearchBar} instead
      */
     collapseSearchBarInitially?: boolean;
     /**
      * Flag to enable onBeforeSearchExecute Embed Event
-     * @version: SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * 
+     * Supported embed types: `SearchEmbed`
+     * @version: SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
@@ -268,12 +290,14 @@ export interface SearchViewConfig
      * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
      * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * 
+     * Supported embed types: `SearchEmbed`
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *   ... // other options
+     *   ... // other embed view config
      *   dataPanelCustomGroupsAccordionInitialState:
      *      DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
      * });
@@ -283,12 +307,14 @@ export interface SearchViewConfig
     /**
      * Flag to remove focus from search bar initially when user
      * lands on search embed page.
-     * @version SDK: 1.32.0 | Thoughtspot: 10.3.0.cl
+     * 
+     * Supported embed types: `SearchEmbed`
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.3.0.cl
      * @default true
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
-     *  ... // other options
+     *  ... // other embed view config
      * focusSearchBarOnRender: false,
      * });
      * ```

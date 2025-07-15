@@ -1,10 +1,10 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { ViewConfig, Param } from '../types';
+import { Param, BaseViewConfig } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString } from '../utils';
 
-/**
+/** 
  * Configuration for search options
  */
 export interface SearchOptions {
@@ -18,9 +18,9 @@ export interface SearchOptions {
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
-export interface SpotterEmbedViewConfig extends ViewConfig {
+export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
-     * The ID of the worksheet to use for the conversation.
+     * The ID of the data source object. For example, Model, View, or Table. Spotter uses this object to query data and generate Answers.
      */
     worksheetId: string;
     /**
@@ -30,36 +30,43 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
     /**
      * disableSourceSelection : Disables data source selection
      * but still display the selected data source.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    disableSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     disableSourceSelection?: boolean;
     /**
      * hideSourceSelection : Hide data source selection
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSourceSelection?: boolean;
     /**
      * Flag to control Data panel experience
+     * 
+     * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
      * @example
      * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other options
+     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
      *    dataPanelV2: true,
      * })
      * ```
@@ -69,34 +76,38 @@ export interface SpotterEmbedViewConfig extends ViewConfig {
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    showSpotterLimitations : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.5.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
     /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
+     * 
+     * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    hideSampleQuestions : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | Thoughtspot: 10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSampleQuestions?: boolean;
 }
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbedViewConfig} instead
  * @group Embed components
  */
@@ -183,7 +194,7 @@ export class SpotterEmbed extends TsEmbed {
 
 /**
  * Embed ThoughtSpot AI Conversation.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbed} instead
  * @group Embed components
  * @example

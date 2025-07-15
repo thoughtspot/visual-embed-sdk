@@ -1,4 +1,4 @@
-import { DefaultAppInitData, Param, ViewConfig } from '../types';
+import { SearchLiveboardCommonViewConfig, BaseViewConfig, DefaultAppInitData, Param } from '../types';
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
@@ -6,27 +6,18 @@ import { SearchOptions } from './search';
 /**
  * @group Embed components
  */
-export interface SearchBarViewConfig
-    extends Omit<
-        ViewConfig,
-        | 'runtimeFilters'
-        | 'showAlerts'
-        | 'dataPanelV2'
-        | 'hiddenHomepageModules'
-        | 'hiddenHomeLeftNavItems'
-        | 'hiddenTabs'
-        | 'visibleTabs'
-        | 'reorderedHomepageModules'
-    > {
+export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig {
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @deprecated Use `dataSource` instead
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSources:['id-2345','id-2345'],
      * })
      * ```
@@ -34,11 +25,13 @@ export interface SearchBarViewConfig
     dataSources?: string[];
     /**
      * Pass the ID of the source to be selected.
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @version: SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    dataSource:'id-2345',
      * })
      * ```
@@ -46,11 +39,13 @@ export interface SearchBarViewConfig
     dataSource?: string;
     /**
      * Boolean to define if the last selected data source should be used
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @version: SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    useLastSelectedSources:false,
      * })
      * ```
@@ -66,11 +61,13 @@ export interface SearchBarViewConfig
      * If it is executed, the focus is placed on the results.
      * If it’s not executed, the focus is placed at the end of
      * the token string in the search bar.
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @version: SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {
-     *    ... // other options
+     *    ... //other embed view config
      *    searchOptions: {
      *        searchTokenString: '[quantity purchased] [region]',
      *        executeSearch: true,
@@ -82,6 +79,8 @@ export interface SearchBarViewConfig
     /**
      * Exclude the search token string from the URL.
      * If set to true, the search token string is not appended to the URL.
+     * 
+     * Supported embed types: `SearchBarEmbed`
      * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js

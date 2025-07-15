@@ -1,4 +1,4 @@
-import { ViewConfig, Param } from '../types';
+import { Param, BaseViewConfig } from '../types';
 import { TsEmbed } from './ts-embed';
 import { Conversation as ConversationService } from '../utils/graphql/nlsService/conversation-service';
 import { getEmbedConfig } from './embedConfig';
@@ -8,35 +8,30 @@ import { getQueryParamString } from '../utils';
  * Configuration for bodyless conversation options.
  * @group Embed components
  */
-export interface SpotterAgentEmbedViewConfig extends ViewConfig {
+export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
      * The ID of the worksheet to use for the conversation.
      */
     worksheetId: string;
-    
-    /**
-     * Optional CSS class name to add to the container div.
-     */
-    containerClassName?: string;
 }
 
 /**
  * Configuration for conversation options.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbedViewConfig} instead
  * @group Embed components
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface BodylessConversationViewConfig extends SpotterAgentEmbedViewConfig {}
 
-interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
+export interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConfig {
     sessionId: string;
     genNo: number;
     acSessionId: string;
     acGenNo: number;
 }
 
-class ConversationMessage extends TsEmbed {
+export class ConversationMessage extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterAgentMessageViewConfig) {
         viewConfig.embedComponentType = 'bodyless-conversation';
         super(container, viewConfig);
@@ -116,9 +111,6 @@ export class SpotterAgentEmbed {
         }
 
         const container = document.createElement('div');
-        if (this.viewConfig.containerClassName) {
-            container.className = this.viewConfig.containerClassName;
-        }
 
         const embed = new ConversationMessage(container, {
             ...this.viewConfig,
@@ -130,12 +122,34 @@ export class SpotterAgentEmbed {
         await embed.render();
         return { container, viz: embed };
     }
+
+    /**
+     * Send a message to the conversation service and return only the data.
+     * @param userMessage - The message to send to the conversation service.
+     * @returns The data from the conversation service.
+     */
+    public async sendMessageData(userMessage: string) {
+        try {
+            const { data, error } = await this.conversationService.sendMessage(userMessage);
+            if (error) {
+                return { error };
+            }
+            return { data: {
+                sessionId: data.sessionId,
+                genNo: data.genNo,
+                acSessionId: data.stateKey.transactionId,
+                acGenNo: data.stateKey.generationNumber,
+            } };
+        } catch (error) {
+            return { error: error as Error };
+        }
+    }
 }
 
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
- * @deprecated from SDK: 1.38.0 | ThoughtSpot: 10.10.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbed} instead
  * @example
  * ```js

@@ -1360,6 +1360,231 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('Preauth Cache for FullAppEmbed with PrimaryNavBar', () => {
+        beforeAll(() => {
+            jest.clearAllMocks();
+            init({
+                thoughtSpotHost,
+                authType: AuthType.None,
+            });
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        
+        afterAll(() => {
+            jest.clearAllMocks();
+        });
+
+        const setupPreauthTest = async (
+            embedType: 'AppEmbed' | 'SearchEmbed',
+            showPrimaryNavbar?: boolean,
+            overrideOrgId?: number,
+            disablePreauthCache?: boolean
+        ) => {
+            jest.spyOn(window, 'addEventListener').mockImplementationOnce(
+                (event, handler, options) => {
+                    handler({
+                        data: { type: 'xyz' },
+                        ports: [3000],
+                        source: null,
+                    });
+                },
+            );
+            mockProcessTrigger.mockResolvedValueOnce({ session: 'test' });
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(true);
+
+            let mockGetPreauthInfo = null;
+            
+            // Determine if preauth cache should be enabled
+            const isAppEmbedWithPrimaryNavbar = embedType === 'AppEmbed' && showPrimaryNavbar === true;
+            const shouldDisableCache = overrideOrgId || disablePreauthCache || isAppEmbedWithPrimaryNavbar;
+            
+            if (shouldDisableCache) {
+                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo')
+                    .mockImplementation(jest.fn());
+            } else {
+                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo')
+                    .mockResolvedValue({ info: { test: 'data' } });
+            }
+
+            const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService')
+                .mockResolvedValueOnce({
+                    ok: true,
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    json: async () => ({
+                        info: { test: 'data' },
+                    }),
+                } as any);
+
+            const viewConfig: any = {
+                frameParams: { width: 1280, height: 720 },
+            };
+
+            if (showPrimaryNavbar !== undefined) {
+                viewConfig.showPrimaryNavbar = showPrimaryNavbar;
+            }
+            if (overrideOrgId !== undefined) {
+                viewConfig.overrideOrgId = overrideOrgId;
+            }
+
+            // Mock getEmbedConfig for disablePreauthCache
+            if (disablePreauthCache !== undefined) {
+                jest.spyOn(embedConfig, 'getEmbedConfig').mockReturnValueOnce({
+                    thoughtSpotHost,
+                    authType: AuthType.None,
+                    disablePreauthCache,
+                });
+            }
+
+            let embed;
+            if (embedType === 'AppEmbed') {
+                embed = new AppEmbed(getRootEl(), viewConfig);
+            } else {
+                embed = new SearchEmbed(getRootEl(), viewConfig);
+            }
+
+            const iFrame: any = document.createElement('div');
+            iFrame.contentWindow = {
+                postMessage: jest.fn(),
+            };
+            jest.spyOn(iFrame, 'addEventListener').mockImplementationOnce(
+                (event, handler, options) => {
+                    handler({});
+                },
+            );
+            jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
+
+            await embed.render();
+
+            return {
+                embed,
+                mockGetPreauthInfo,
+                mockPreauthInfoFetch,
+                iFrame,
+            };
+        };
+
+        test('should disable preauth cache for FullAppEmbed with showPrimaryNavbar = true (default)', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', true);
+            
+            // Wait for any async operations
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
+            });
+        });
+
+        test('should enable preauth cache for FullAppEmbed with showPrimaryNavbar = undefined (no longer defaults to true)', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', undefined);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    expect.any(Object),
+                    HostEvent.InfoSuccess,
+                    'http://tshost',
+                    expect.objectContaining({ info: expect.any(Object) }),
+                );
+            });
+        });
+
+        test('should enable preauth cache for FullAppEmbed with showPrimaryNavbar = false', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    expect.any(Object),
+                    HostEvent.InfoSuccess,
+                    'http://tshost',
+                    expect.objectContaining({ info: expect.any(Object) }),
+                );
+            });
+        });
+
+        test('should enable preauth cache for SearchEmbed regardless of showPrimaryNavbar', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('SearchEmbed', true);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    expect.any(Object),
+                    HostEvent.InfoSuccess,
+                    'http://tshost',
+                    expect.objectContaining({ info: expect.any(Object) }),
+                );
+            });
+        });
+
+        test('should enable preauth cache for SearchEmbed (verifies fix for embed type regression)', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('SearchEmbed', false);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    expect.any(Object),
+                    HostEvent.InfoSuccess,
+                    'http://tshost',
+                    expect.objectContaining({ info: expect.any(Object) }),
+                );
+            });
+        });
+
+        test('should disable preauth cache for FullAppEmbed with overrideOrgId (combined condition)', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false, 123);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
+            });
+        });
+
+        test('should disable preauth cache for FullAppEmbed with disablePreauthCache = true', async () => {
+            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false, undefined, true);
+            
+            await executeAfterWait(() => {
+                expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
+            });
+        });
+    });
+
+    describe('isFullAppEmbedWithVisiblePrimaryNavbar helper method', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost,
+                authType: AuthType.None,
+            });
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        test('should return true for AppEmbed with showPrimaryNavbar = true', () => {
+            const appEmbed = new AppEmbed(getRootEl(), { showPrimaryNavbar: true });
+            expect(appEmbed['isFullAppEmbedWithVisiblePrimaryNavbar']()).toBe(true);
+        });
+
+        test('should return false for AppEmbed with showPrimaryNavbar = undefined (no longer defaults to true)', () => {
+            const appEmbed = new AppEmbed(getRootEl(), {});
+            expect(appEmbed['isFullAppEmbedWithVisiblePrimaryNavbar']()).toBe(false);
+        });
+
+        test('should return false for AppEmbed with showPrimaryNavbar = false', () => {
+            const appEmbed = new AppEmbed(getRootEl(), { showPrimaryNavbar: false });
+            expect(appEmbed['isFullAppEmbedWithVisiblePrimaryNavbar']()).toBe(false);
+        });
+
+        test('should return false for SearchEmbed (not FullAppEmbed)', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), {});
+            expect(searchEmbed['isFullAppEmbedWithVisiblePrimaryNavbar']()).toBe(false);
+        });
+
+        test('should return false for LiveboardEmbed (not FullAppEmbed)', () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), { liveboardId: 'test-id' });
+            expect(liveboardEmbed['isFullAppEmbedWithVisiblePrimaryNavbar']()).toBe(false);
+        });
+    });
+
     describe('when thoughtSpotHost have value and authPromise return error', () => {
         beforeAll(() => {
             init({
@@ -1993,13 +2218,13 @@ describe('Unit test case for ts embed', () => {
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with right value', async () => {
-            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
                 contextMenuTrigger: ContextMenuTriggerOptions.RIGHT_CLICK,
             } as LiveboardViewConfig);
 
-            livebaordEmbed.render();
+            liveboardEmbed.render();
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
@@ -2031,13 +2256,13 @@ describe('Unit test case for ts embed', () => {
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with both value', async () => {
-            const livebaordEmbed = new LiveboardEmbed(getRootEl(), {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
                 contextMenuTrigger: ContextMenuTriggerOptions.BOTH_CLICKS,
             } as LiveboardViewConfig);
 
-            livebaordEmbed.render();
+            liveboardEmbed.render();
             await executeAfterWait(() => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
