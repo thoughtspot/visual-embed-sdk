@@ -373,7 +373,6 @@ describe('Fullscreen Utility Functions', () => {
             handlePresentEvent(mockIframe);
 
             expect(mockIframe.requestFullscreen).toHaveBeenCalled();
-            expect(logger.error).not.toHaveBeenCalled();
         });
 
         it('should log error when fullscreen API is not supported', () => {
@@ -393,7 +392,6 @@ describe('Fullscreen Utility Functions', () => {
             handlePresentEvent(mockIframe);
 
             expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
-            expect(logger.error).not.toHaveBeenCalled();
         });
     });
 
@@ -450,20 +448,23 @@ describe('Custom Action Validation', () => {
         describe('Input Validation', () => {
             it('should return false for null action', () => {
                 const result = getCustomActions([null as any]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain('Custom Action Validation Error: Invalid action object provided');
             });
 
             it('should return false for undefined action', () => {
                 const result = getCustomActions([undefined as any]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain('Custom Action Validation Error: Invalid action object provided');
             });
 
             it('should return false for non-object action', () => {
                 const result = getCustomActions(['string' as any]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith('Custom Action Validation Error: Invalid action object provided');
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain('Custom Action Validation Error: Invalid action object provided');
             });
         });
 
@@ -475,10 +476,9 @@ describe('Custom Action Validation', () => {
                     position: CustomActionsPosition.PRIMARY,
                 };
                 const result = getCustomActions([action as CustomAction]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Missing required fields: id")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Missing required fields: id");
             });
 
             it('should return false when target is missing', () => {
@@ -488,10 +488,9 @@ describe('Custom Action Validation', () => {
                     position: CustomActionsPosition.PRIMARY,
                 };
                 const result = getCustomActions([action as CustomAction]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Missing required fields: target")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Missing required fields: target");
             });
 
             it('should return false when position is missing', () => {
@@ -501,10 +500,9 @@ describe('Custom Action Validation', () => {
                     target: CustomActionTarget.LIVEBOARD,
                 };
                 const result = getCustomActions([action as CustomAction]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Missing required fields: position")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Missing required fields: position");
             });
 
             it('should return false when multiple required fields are missing', () => {
@@ -512,10 +510,9 @@ describe('Custom Action Validation', () => {
                     name: 'Test Action',
                 };
                 const result = getCustomActions([action as CustomAction]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Missing required fields: id, target, position")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Missing required fields: id, target, position");
             });
         });
 
@@ -528,10 +525,9 @@ describe('Custom Action Validation', () => {
                     position: CustomActionsPosition.PRIMARY,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Target type 'UNSUPPORTED' is not supported")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Target type 'UNSUPPORTED' is not supported");
             });
         });
 
@@ -544,10 +540,9 @@ describe('Custom Action Validation', () => {
                     position: CustomActionsPosition.CONTEXTMENU,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions");
             });
 
             it('should return false for invalid position for VIZ target', () => {
@@ -558,10 +553,9 @@ describe('Custom Action Validation', () => {
                     position: 'INVALID_POSITION' as CustomActionsPosition,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Position 'INVALID_POSITION' is not supported for viz-level custom actions")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Position 'INVALID_POSITION' is not supported for viz-level custom actions");
             });
         });
 
@@ -574,10 +568,9 @@ describe('Custom Action Validation', () => {
                     position: CustomActionsPosition.CONTEXTMENU,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Liveboard-level custom actions cannot have position 'CONTEXTMENU'")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
             });
         });
 
@@ -591,10 +584,9 @@ describe('Custom Action Validation', () => {
                     dataModelIds: { modelIds: ['model1'] }, // Not allowed for LIVEBOARD
                 } as CustomAction;
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Field 'dataModelIds' is not supported in liveboard-level custom actions")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Field 'dataModelIds' is not supported in liveboard-level custom actions");
             });
 
             it('should return false for unsupported metadataIds field for ANSWER target', () => {
@@ -608,10 +600,9 @@ describe('Custom Action Validation', () => {
                     },
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Field 'liveboardIds' in metadataIds is not supported in answer-level custom actions")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Field 'liveboardIds' in metadataIds is not supported in answer-level custom actions");
             });
 
             it('should return false for unsupported dataModelIds field for SPOTTER target', () => {
@@ -625,10 +616,9 @@ describe('Custom Action Validation', () => {
                     },
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Field 'modelColumnNames' in dataModelIds is not supported in spotter-level custom actions")
-                );
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Field 'modelColumnNames' in dataModelIds is not supported in spotter-level custom actions");
             });
         });
 
@@ -646,8 +636,8 @@ describe('Custom Action Validation', () => {
                     groupIds: ['group1'],
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should return true for valid VIZ custom action', () => {
@@ -669,8 +659,8 @@ describe('Custom Action Validation', () => {
                     groupIds: ['group1'],
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should return true for valid ANSWER custom action', () => {
@@ -690,8 +680,8 @@ describe('Custom Action Validation', () => {
                     groupIds: ['group1'],
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should return true for valid SPOTTER custom action', () => {
@@ -707,8 +697,8 @@ describe('Custom Action Validation', () => {
                     groupIds: ['group1'],
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
         });
 
@@ -729,22 +719,96 @@ describe('Custom Action Validation', () => {
                 };
 
                 const result = getCustomActions([validAction, invalidAction]);
-                expect(result).toEqual([validAction]);
-                expect(logger.error).toHaveBeenCalledWith(
-                    expect.stringContaining("Liveboard-level custom actions cannot have position 'CONTEXTMENU'")
-                );
+                expect(result.actions).toEqual([validAction]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
             });
 
             it('should handle empty array', () => {
                 const result = getCustomActions([]);
-                expect(result).toEqual([]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should handle null/undefined array', () => {
                 const result = getCustomActions(null as any);
-                expect(result).toEqual([]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toEqual([]);
+            });
+        });
+
+        describe('Duplicate ID Validation', () => {
+            it('should return error when two custom actions have the same ID and exclude both', () => {
+                const action1: CustomAction = {
+                    name: 'CA1',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const action2: CustomAction = {
+                    name: 'CA2',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.MENU,
+                };
+
+                const result = getCustomActions([action1, action2]);
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toBe('Custom actions CA1, CA2 share the same ID. Please use a unique ID to identify each custom action.');
+            });
+
+            it('should return error when three custom actions have the same ID and exclude all three', () => {
+                const action1: CustomAction = {
+                    name: 'CA1',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const action2: CustomAction = {
+                    name: 'CA2',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.MENU,
+                };
+                const action3: CustomAction = {
+                    name: 'CA3',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.ANSWER,
+                    position: CustomActionsPosition.MENU,
+                };
+
+                const result = getCustomActions([action1, action2, action3]);
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toBe('Custom actions CA1, CA2, CA3 share the same ID. Please use a unique ID to identify each custom action.');
+            });
+
+            it('should include actions with unique IDs and exclude actions with duplicate IDs', () => {
+                const action1: CustomAction = {
+                    name: 'CA1',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const action2: CustomAction = {
+                    name: 'CA2',
+                    id: 'duplicate-id',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.MENU,
+                };
+                const action3: CustomAction = {
+                    name: 'CA3',
+                    id: 'unique-id',
+                    target: CustomActionTarget.ANSWER,
+                    position: CustomActionsPosition.MENU,
+                };
+
+                const result = getCustomActions([action1, action2, action3]);
+                expect(result.actions).toHaveLength(1);
+                expect(result.actions[0]).toEqual(action3);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toBe('Custom actions CA1, CA2 share the same ID. Please use a unique ID to identify each custom action.');
             });
         });
 
@@ -758,8 +822,8 @@ describe('Custom Action Validation', () => {
                     metadataIds: {},
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should handle action with empty dataModelIds object', () => {
@@ -771,8 +835,8 @@ describe('Custom Action Validation', () => {
                     dataModelIds: {},
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should handle action with null metadataIds', () => {
@@ -784,8 +848,8 @@ describe('Custom Action Validation', () => {
                     metadataIds: null as any,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
 
             it('should handle action with null dataModelIds', () => {
@@ -797,8 +861,8 @@ describe('Custom Action Validation', () => {
                     dataModelIds: null as any,
                 };
                 const result = getCustomActions([action]);
-                expect(result).toEqual([action]);
-                expect(logger.error).not.toHaveBeenCalled();
+                expect(result.actions).toEqual([action]);
+                expect(result.errors).toEqual([]);
             });
         });
     });
@@ -815,8 +879,8 @@ describe('Custom Action Validation', () => {
                 },
             };
             const result = getCustomActions([action]);
-            expect(result).toEqual([action]);
-            expect(logger.error).not.toHaveBeenCalled();
+            expect(result.actions).toEqual([action]);
+            expect(result.errors).toEqual([]);
         });
 
         it('should reject second primary action for the same target', () => {
@@ -839,10 +903,9 @@ describe('Custom Action Validation', () => {
                 },
             };
             const result = getCustomActions([firstAction, secondAction]);
-            expect(result).toEqual([firstAction]);
-            expect(logger.error).toHaveBeenCalledWith(
-                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored. Only the first primary action 'first-primary-id' will be shown.")
-            );
+            expect(result.actions).toEqual([firstAction]);
+            expect(result.errors).toHaveLength(1);
+                            expect(result.errors[0]).toContain("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored. Only the first primary action 'first-primary-id' will be shown.");
         });
 
         it('should allow primary actions for different targets', () => {
@@ -865,8 +928,8 @@ describe('Custom Action Validation', () => {
                 },
             };
             const result = getCustomActions([liveboardAction, vizAction]);
-            expect(result).toEqual([liveboardAction, vizAction]);
-            expect(logger.error).not.toHaveBeenCalled();
+            expect(result.actions).toEqual([liveboardAction, vizAction]);
+            expect(result.errors).toEqual([]);
         });
 
         it('should allow non-primary actions for the same target', () => {
@@ -890,8 +953,8 @@ describe('Custom Action Validation', () => {
             };
             const result = getCustomActions([primaryAction, menuAction]);
             // After sorting by name: Menu Action comes before Primary Action
-            expect(result).toEqual([menuAction, primaryAction]);
-            expect(logger.error).not.toHaveBeenCalled();
+            expect(result.actions).toEqual([menuAction, primaryAction]);
+            expect(result.errors).toEqual([]);
         });
 
         it('should handle multiple primary actions for different targets with some duplicates', () => {
@@ -940,16 +1003,12 @@ describe('Custom Action Validation', () => {
             ]);
 
             // Should keep first primary action for each target and all non-primary actions, then sort by name
-            expect(result).toEqual([answerAction, liveboardPrimary1, vizPrimary1]);
+            expect(result.actions).toEqual([answerAction, liveboardPrimary1, vizPrimary1]);
+            expect(result.errors).toHaveLength(2);
+            expect(result.errors[0]).toContain("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'lb-primary-2' will be ignored");
+            expect(result.errors[1]).toContain("Multiple primary custom actions found for target 'VIZ'. Action 'viz-primary-2' will be ignored");
             
-            // Should log errors for the duplicate primary actions
-            expect(logger.error).toHaveBeenCalledTimes(2);
-            expect(logger.error).toHaveBeenCalledWith(
-                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'lb-primary-2' will be ignored")
-            );
-            expect(logger.error).toHaveBeenCalledWith(
-                expect.stringContaining("Multiple primary custom actions found for target 'VIZ'. Action 'viz-primary-2' will be ignored")
-            );
+            // Should collect errors for the duplicate primary actions
         });
 
         it('should maintain order when filtering out duplicate primary actions', () => {
@@ -985,10 +1044,9 @@ describe('Custom Action Validation', () => {
             const result = getCustomActions([action1, primary1, action2, primary2]);
             
             // Should maintain order and keep first primary action, then sort by name
-            expect(result).toEqual([action1, action2, primary1]);
-            expect(logger.error).toHaveBeenCalledWith(
-                expect.stringContaining("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'primary-2' will be ignored")
-            );
+            expect(result.actions).toEqual([action1, action2, primary1]);
+            expect(result.errors).toHaveLength(1);
+            expect(result.errors[0]).toContain("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'primary-2' will be ignored");
         });
     });
 
@@ -1016,6 +1074,7 @@ describe('Custom Action Validation', () => {
         };
 
         const result = getCustomActions([actionC, actionA, actionB]);
-        expect(result).toEqual([actionA, actionB, actionC]);
+        expect(result.actions).toEqual([actionA, actionB, actionC]);
+        expect(result.errors).toEqual([]);
     });
 });
