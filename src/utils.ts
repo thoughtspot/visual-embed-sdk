@@ -299,7 +299,7 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
             return false;
         }
         // Check for all missing required fields
-        const missingFields = ['id', 'target', 'position'].filter(field => !(action as any)[field]);
+        const missingFields = ['id', 'name', 'target', 'position'].filter(field => !(action as any)[field]);
         if (missingFields.length > 0) {
             const errorMessage = `Custom Action Validation Error for '${action.id}': Missing required fields: ${missingFields.join(', ')}`;
             errors.push(errorMessage);
@@ -366,18 +366,6 @@ export const resetPrimaryActionsTracking = (): void => {
  * @returns null if valid, or error string if invalid
  */
 const validateCustomAction = (action: CustomAction): string | null => {
-    // Input validation
-    if (!action || typeof action !== 'object') {
-        const errorMessage = 'Custom Action Validation Error: Invalid action object provided';
-        return errorMessage;
-    }
-
-    // Check for all missing required fields
-    const missingFields = ['id', 'name', 'target', 'position'].filter(field => !(action as any)[field]);
-    if (missingFields.length > 0) {
-        const errorMessage = `Custom Action Validation Error for '${action.id}': Missing required fields: ${missingFields.join(', ')}`;
-        return errorMessage;
-    }
 
     const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
