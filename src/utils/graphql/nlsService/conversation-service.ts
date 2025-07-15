@@ -64,6 +64,8 @@ export class Conversation {
             );
             const data = responses[0].data;
             return {
+                convId: this.conversationId,
+                messageId: responses[0].msgId,
                 data: data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
                 error: null,
             };

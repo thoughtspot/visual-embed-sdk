@@ -272,7 +272,7 @@ export interface SearchViewConfig
     /**
      * To set the initial state of the search bar in case of saved-answers.
      * @default false
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @deprecated Use {@link collapseSearchBar} instead
      */
     collapseSearchBarInitially?: boolean;
@@ -280,7 +280,7 @@ export interface SearchViewConfig
      * Flag to enable onBeforeSearchExecute Embed Event
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.29.0 | Thoughtspot: 10.1.0.cl
+     * @version: SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
@@ -292,7 +292,7 @@ export interface SearchViewConfig
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version SDK: 1.32.0 | Thoughtspot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
      * @example
      * ```js
@@ -309,7 +309,7 @@ export interface SearchViewConfig
      * lands on search embed page.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version SDK: 1.32.0 | Thoughtspot: 10.3.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.3.0.cl
      * @default true
      * @example
      * ```js

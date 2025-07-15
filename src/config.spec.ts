@@ -21,6 +21,17 @@ describe('getThoughtSpotHost', () => {
         expect(testFn).toThrow(Error);
     });
 
+    test('invalid URL format', () => {
+        const testFn = () => {
+            getThoughtSpotHost({
+                ...embedConfig,
+                thoughtSpotHost: '',
+            });
+        };
+
+        expect(testFn).toThrow('Error parsing ThoughtSpot host. Please provide a valid URL.');
+    });
+
     test('IP address/hostname only', () => {
         expect(
             getThoughtSpotHost({
