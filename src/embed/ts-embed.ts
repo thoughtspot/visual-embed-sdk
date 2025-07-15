@@ -362,6 +362,16 @@ export class TsEmbed {
 
     protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
         const authToken = await this.getAuthTokenForCookielessInit();
+        const customActionsResult = getCustomActions([
+            ...(this.viewConfig.customActions || []),
+            ...(this.embedConfig.customActions || [])
+        ]);
+        if (customActionsResult.errors.length > 0) {
+            this.handleError({
+                type: 'CUSTOM_ACTION_VALIDATION',
+                message: customActionsResult.errors.join('\n')
+            });
+        }
         return {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
@@ -380,10 +390,7 @@ export class TsEmbed {
             customVariablesForThirdPartyTools:
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
-            customActions: getCustomActions([
-                ...(this.viewConfig.customActions || []),
-                ...(this.embedConfig.customActions || [])
-            ]),
+            customActions: customActionsResult.actions,
         };
     }
 

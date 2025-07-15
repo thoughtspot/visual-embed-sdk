@@ -664,7 +664,7 @@ export interface EmbedConfig {
     /**
      * Custom actions are a way to add custom actions to the embedded view which
      * can be used to trigger custom logic when the action is clicked.
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
      * init({
@@ -1035,7 +1035,7 @@ export interface BaseViewConfig {
     /**
      * Custom actions are a way to add custom actions to the embedded view which
      * can be used to trigger custom logic when the action is clicked.
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
