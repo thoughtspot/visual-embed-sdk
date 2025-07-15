@@ -110,6 +110,25 @@ export enum HomePage {
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * Define the version of the list page
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+ */
+export enum ListPage {
+    /**
+     * List (v2) is the traditional List Experience.
+     * It serves as the foundational version of the list page.
+     */
+    List = 'v2',
+    /**
+     * ListWithUXChanges (v3) introduces the new updated list page with UX changes.
+     */
+    ListWithUXChanges = 'v3',
+}
+
+/**
+>>>>>>> 8c1327c1 (Updated comments to clarify v2 is traditional, v3 is new updated list page)
  * Define the discovery experience
  * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
