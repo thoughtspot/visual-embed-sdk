@@ -2716,7 +2716,11 @@ export enum EmbedEvent {
     /**
      * Emitted when the coversation is reset in spotter embed.
      */
-    ResetSpotterConversation = 'ResetSpotterConversation'
+    ResetSpotterConversation = 'ResetSpotterConversation',
+    /**
+     * Emitted when the *Spotter* is initialized.
+     */
+    SpotterInit = 'SpotterInit'
 }
 
 /**
@@ -3294,6 +3298,16 @@ export enum HostEvent {
      *   );
      * })
      * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.GetTML, {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((tml) => {
+     *   console.log(
+     *      tml.answer.search_query // TML representation of the search query
+     *   );
+     * })
+     * ```
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      * @important
      */
@@ -3746,7 +3760,7 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers and Liveboard.
+     * Answers, Liveboard and Spotter answer in Edit mode.
      *
      * @example
      * ```js
@@ -3762,6 +3776,13 @@ export enum HostEvent {
      * Triggers GetParameters to fetch the runtime Parameters.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
+     *  console.log('parameters', parameter);
+     * });
+     *```
+     *```js
+     * spotterEmbed.trigger(HostEvent.GetParameters, {
+     *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((parameter) => {
      *  console.log('parameters', parameter);
      * });
      *```
@@ -3900,6 +3921,17 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
+
+    /**
+     * Trigger the *Ask Sage* action for visualizations
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AskSpotter,
+     * {containerId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    AskSpotter = 'askSpotter',
 }
 
 /**
