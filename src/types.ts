@@ -2715,7 +2715,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterData = 'SpotterData',
     /**
@@ -2726,7 +2726,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
@@ -2737,7 +2737,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
     /**
@@ -2748,7 +2748,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     LastPromptEdited = 'LastPromptEdited',
     /**
@@ -2759,6 +2759,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
@@ -2769,7 +2770,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
@@ -2780,7 +2781,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterInit = 'SpotterInit'
 }
