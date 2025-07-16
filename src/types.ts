@@ -1016,6 +1016,20 @@ export interface BaseViewConfig {
      * @private
      */
     insertInToSlide?: boolean;
+    /**
+     * Show alert messages and toast messages in the embed.
+     * Supported embed in all embed types.
+     * 
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    showAlerts:true,
+     * })
+     * ```
+     */
+    showAlerts?: boolean;
 }
 
 /**
@@ -2694,35 +2708,81 @@ export enum EmbedEvent {
      */
     ExitPresentMode = 'exitPresentMode',
     /**
-     * Emitted when spotter response is the text data
-     * 
+     * Emitted when spotter response is text data
+     * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterData = 'SpotterData',
     /**
      * Emitted when user opens up the worksheet preview modal in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
      * Emitted when the spotter query is triggered in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
     /**
      * Emitted when the last spotter query is edited in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptEdited = 'LastPromptEdited',
     /**
      * Emitted when the last spotter query is deleted in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
      * Emitted when the coversation is reset in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.ResetSpotterConversation, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
-    ResetSpotterConversation = 'ResetSpotterConversation'
+    ResetSpotterConversation = 'ResetSpotterConversation',
+    /**
+     * Emitted when the *Spotter* is initialized.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterInit, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    SpotterInit = 'SpotterInit'
 }
 
 /**
@@ -3013,7 +3073,7 @@ export enum HostEvent {
      * @param
      * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
      *  Optional when pinning a new chart or table generated from a Search query.
-     *  Required in Spotter Embed.
+     *  **Required** in Spotter Embed.
      * @param
      * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
      *  specify the `newLiveboardName` parameter to create a new Liveboard.
@@ -3238,7 +3298,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
-     * In Spotter embed, vizId is required.
+     * **Required** in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -3295,6 +3355,16 @@ export enum HostEvent {
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
+     *   console.log(
+     *      tml.answer.search_query // TML representation of the search query
+     *   );
+     * })
+     * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.GetTML, {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((tml) => {
      *   console.log(
      *      tml.answer.search_query // TML representation of the search query
      *   );
@@ -3752,7 +3822,7 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers and Liveboard.
+     * Answers, Liveboard and Spotter answer in Edit mode.
      *
      * @example
      * ```js
@@ -3768,6 +3838,13 @@ export enum HostEvent {
      * Triggers GetParameters to fetch the runtime Parameters.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
+     *  console.log('parameters', parameter);
+     * });
+     *```
+     *```js
+     * spotterEmbed.trigger(HostEvent.GetParameters, {
+     *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((parameter) => {
      *  console.log('parameters', parameter);
      * });
      *```
@@ -3906,6 +3983,17 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
+
+    /**
+     * Trigger the *Ask Sage* action for visualizations
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AskSpotter,
+     * {containerId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    AskSpotter = 'askSpotter',
 }
 
 /**
@@ -4011,6 +4099,7 @@ export enum Param {
     Query = 'query',
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
+    ListPageVersion = 'listpageVersion',
     PendoTrackingKey = 'additionalPendoKey',
     LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
     IsProductTour = 'isProductTour',

@@ -15,6 +15,7 @@ import {
     HomePageSearchBarMode,
     PrimaryNavbarVersion,
     HomePage,
+    ListPage,
     DataPanelCustomColumnGroupsAccordionState,
 } from './embed/app';
 import {
@@ -141,6 +142,7 @@ export {
     HomePageSearchBarMode,
     PrimaryNavbarVersion,
     HomePage,
+    ListPage,
     VizPoint,
     CustomActionPayload,
     UIPassthroughEvent,

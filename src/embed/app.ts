@@ -110,6 +110,22 @@ export enum HomePage {
 }
 
 /**
+ * Define the version of the list page
+ * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+ */
+export enum ListPage {
+    /**
+     * List (v2) is the traditional List Experience.
+     * It serves as the foundational version of the list page.
+     */
+    List = 'v2',
+    /**
+     * ListWithUXChanges (v3) introduces the new updated list page with UX changes.
+     */
+    ListWithUXChanges = 'v3',
+}
+
+/**
  * Define the discovery experience
  * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
  */
@@ -122,6 +138,10 @@ export interface DiscoveryExperience {
      * homePage determines the version of the home page.
      */
     homePage?: HomePage;
+    /**
+     * listPageVersion determines the version of the list page.
+     */
+    listPageVersion?: ListPage;
 }
 
 /**
@@ -494,21 +514,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     isUnifiedSearchExperienceEnabled?: boolean;
-     /**
-     * Show alert messages and toast messages in the embedded
-     * view in full app embed.
-     * 
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    showAlerts:true,
-     * })
-     * ```
-     */
-     showAlerts?: boolean;
+
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      * 
@@ -697,6 +703,10 @@ export class AppEmbed extends V1Embed {
             // and it will override the modularHomeExperience value
             if (discoveryExperience.homePage === HomePage.Modular) {
                 params[Param.ModularHomeExperienceEnabled] = true;
+            }
+            // listPageVersion v3 will enable the new list page
+            if (discoveryExperience.listPageVersion === ListPage.ListWithUXChanges) {
+                params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
 
