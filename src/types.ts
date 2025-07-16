@@ -2707,6 +2707,82 @@ export enum EmbedEvent {
      * @version SDK : 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
+    /**
+     * Emitted when spotter response is text data
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    SpotterData = 'SpotterData',
+    /**
+     * Emitted when user opens up the worksheet preview modal in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Emitted when the spotter query is triggered in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    SpotterQueryTriggered = 'SpotterQueryTriggered',
+    /**
+     * Emitted when the last spotter query is edited in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    LastPromptEdited = 'LastPromptEdited',
+    /**
+     * Emitted when the last spotter query is deleted in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     */
+    LastPromptDeleted = 'LastPromptDeleted',
+    /**
+     * Emitted when the coversation is reset in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.ResetSpotterConversation, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    ResetSpotterConversation = 'ResetSpotterConversation',
+    /**
+     * Emitted when the *Spotter* is initialized.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterInit, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    SpotterInit = 'SpotterInit'
 }
 
 /**
@@ -2997,6 +3073,7 @@ export enum HostEvent {
      * @param
      * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
      *  Optional when pinning a new chart or table generated from a Search query.
+     *  **Required** in Spotter Embed.
      * @param
      * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
      *  specify the `newLiveboardName` parameter to create a new Liveboard.
@@ -3043,6 +3120,12 @@ export enum HostEvent {
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Pin)
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.Pin, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3137,6 +3220,12 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.MakeACopy)
      * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.MakeACopy, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     MakeACopy = 'makeACopy',
@@ -3209,6 +3298,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
+     * **Required** in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -3216,6 +3306,12 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @example
+     * ```js
+     * const pinResponse = await spotterEmbed.trigger(HostEvent.Edit, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3259,6 +3355,16 @@ export enum HostEvent {
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.GetTML).then((tml) => {
+     *   console.log(
+     *      tml.answer.search_query // TML representation of the search query
+     *   );
+     * })
+     * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.GetTML, {
+     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((tml) => {
      *   console.log(
      *      tml.answer.search_query // TML representation of the search query
      *   );
@@ -3351,7 +3457,12 @@ export enum HostEvent {
      * vizEmbed.trigger(HostEvent.DownloadAsPng)
      *
      * searchEmbed.trigger(HostEvent.DownloadAsPng)
+     * 
+     * spotterEmbed.trigger(HostEvent.DownloadAsPng, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
+     * 
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
      */
     DownloadAsPng = 'downloadAsPng',
@@ -3369,6 +3480,11 @@ export enum HostEvent {
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
      * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsCsv, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
+     * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     DownloadAsCsv = 'downloadAsCSV',
@@ -3385,6 +3501,11 @@ export enum HostEvent {
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.downloadAsXLSX, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3405,12 +3526,18 @@ export enum HostEvent {
     /**
      * Trigger the **Save**  action on a Liveboard or Answer.
      * Saves the changes.
+     * @param - `vizId` is required in Spotter Embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
      * ```
      * ```js
      * searchEmbed.trigger(HostEvent.Save)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.Save, {
+     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
+     * })
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3695,7 +3822,7 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers and Liveboard.
+     * Answers, Liveboard and Spotter answer in Edit mode.
      *
      * @example
      * ```js
@@ -3711,6 +3838,13 @@ export enum HostEvent {
      * Triggers GetParameters to fetch the runtime Parameters.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
+     *  console.log('parameters', parameter);
+     * });
+     *```
+     *```js
+     * spotterEmbed.trigger(HostEvent.GetParameters, {
+     *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }).then((parameter) => {
      *  console.log('parameters', parameter);
      * });
      *```
@@ -3782,6 +3916,64 @@ export enum HostEvent {
      */
     TransformTableVizData = 'TransformTableVizData',
     /**
+     * Triggers a search operation with the search tokens specified in
+     * the search query string in spotter embed.
+     * @param - `queryString`: Text string in Natural Language format
+     * @param - `executeSearch`: Boolean to execute search and update search query
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SpotterSearch, {
+     *  query: 'revenue per year',
+     *  executeSearch: true,
+     * })
+     * ```
+     */
+    SpotterSearch = 'SpotterSearch',
+    /**
+     * Edits the last prompt in spotter embed.
+     * @param - `query`: Text string
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.EditLastPrompt, "revenue per year");
+     * ```
+     */
+    EditLastPrompt = 'EditLastPrompt',
+    /**
+     * Opens the Worksheet preview modal in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
+     * ```
+     */
+    PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Resets the Spotter Embed Conversation.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ResetSpotterConversation);
+     * ```
+     */
+    ResetSpotterConversation = 'ResetSpotterConversation',
+    /**
+     * Deletes the last prompt in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DeleteLastPrompt);
+     * ```
+     */
+    DeleteLastPrompt = 'DeleteLastPrompt',
+    /**
+     * Toggle the visualization to chart or table view.
+     * @param - `vizId ` In Spotter Embed, vizId is required.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, {
+     *          vizId:"'b535c760-8bbe-4e6f-bb26-af56b4129a1e'"
+     * });
+     *```
+     */
+    AnswerChartSwitcher = 'answerChartSwitcher',
+    /**
      * @hidden
      * Trigger exit from presentation mode when user exits fullscreen.
      * This is automatically triggered by the SDK when fullscreen mode is exited.
@@ -3791,6 +3983,17 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
+
+    /**
+     * Trigger the *Ask Sage* action for visualizations
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AskSpotter,
+     * {containerId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    AskSpotter = 'askSpotter',
 }
 
 /**

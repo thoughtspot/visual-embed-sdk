@@ -66,7 +66,11 @@ export class Conversation {
             return {
                 convId: this.conversationId,
                 messageId: responses[0].msgId,
-                data: data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
+                data: {
+                    ...data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
+                    convId: this.conversationId,
+                    messageId: responses[0].msgId,
+                },
                 error: null,
             };
         } catch (error) {

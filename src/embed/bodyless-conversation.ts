@@ -29,6 +29,8 @@ export interface SpotterAgentMessageViewConfig extends SpotterAgentEmbedViewConf
     genNo: number;
     acSessionId: string;
     acGenNo: number;
+    convId: string;
+    messageId: string;
 }
 
 export class ConversationMessage extends TsEmbed {
@@ -43,6 +45,8 @@ export class ConversationMessage extends TsEmbed {
             genNo,
             acSessionId,
             acGenNo,
+            convId,
+            messageId,
         } = this.viewConfig;
         const path = 'conv-assist-answer';
         const queryParams = this.getBaseQueryParams();
@@ -59,6 +63,8 @@ export class ConversationMessage extends TsEmbed {
             genNo,
             acSessionId,
             acGenNo,
+            convId,
+            messageId,
         });
 
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
@@ -114,6 +120,8 @@ export class SpotterAgentEmbed {
 
         const embed = new ConversationMessage(container, {
             ...this.viewConfig,
+            convId: data.convId,
+            messageId: data.messageId,
             sessionId: data.sessionId,
             genNo: data.genNo,
             acSessionId: data.stateKey.transactionId,
@@ -135,6 +143,8 @@ export class SpotterAgentEmbed {
                 return { error };
             }
             return { data: {
+                convId: data.convId,
+                messageId: data.messageId,
                 sessionId: data.sessionId,
                 genNo: data.genNo,
                 acSessionId: data.stateKey.transactionId,

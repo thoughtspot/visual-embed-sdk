@@ -241,7 +241,9 @@ describe('React Components', () => {
             genNo: 1,
             acSessionId: "acSession123",
             acGenNo: 2,
-            worksheetId: "worksheet123"
+            worksheetId: "worksheet123",
+            convId: "conv123",
+            messageId: "message123"
         };
 
         it('Should render the SpotterMessage component with required props', async () => {
