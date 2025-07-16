@@ -338,10 +338,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * 
      * @type {boolean}
      * @default false
-     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
-
     /**
      * The margin to be used for lazy loading.
      * 
@@ -362,7 +361,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * })
      * ```
      * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
 }
@@ -387,7 +386,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-     
+
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
@@ -534,7 +533,7 @@ export class LiveboardEmbed extends V1Embed {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
-    
+
     /**
      * This is a handler for the RequestVisibleEmbedCoordinates event.
      * It is used to send the visible coordinates data to the host application.
@@ -703,7 +702,7 @@ export class LiveboardEmbed extends V1Embed {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
         }
     }
 
