@@ -2688,37 +2688,79 @@ export enum EmbedEvent {
      */
     ExitPresentMode = 'exitPresentMode',
     /**
-     * Emitted when spotter response is the text data
-     * 
+     * Emitted when spotter response is text data
+     * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterData = 'SpotterData',
     /**
      * Emitted when user opens up the worksheet preview modal in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
      * Emitted when the spotter query is triggered in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
     /**
      * Emitted when the last spotter query is edited in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptEdited = 'LastPromptEdited',
     /**
      * Emitted when the last spotter query is deleted in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
      * Emitted when the coversation is reset in spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.ResetSpotterConversation, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
      * Emitted when the *Spotter* is initialized.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterInit, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterInit = 'SpotterInit'
 }
@@ -3011,7 +3053,7 @@ export enum HostEvent {
      * @param
      * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
      *  Optional when pinning a new chart or table generated from a Search query.
-     *  Required in Spotter Embed.
+     *  **Required** in Spotter Embed.
      * @param
      * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
      *  specify the `newLiveboardName` parameter to create a new Liveboard.
@@ -3236,7 +3278,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
-     * In Spotter embed, vizId is required.
+     * **Required** in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
