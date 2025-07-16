@@ -6,6 +6,7 @@ import {
     HomePageSearchBarMode,
     PrimaryNavbarVersion,
     HomePage,
+    ListPage,
 } from './app';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
@@ -620,6 +621,59 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add listpageVersion=v3 when listPageVersion is ListWithUXChanges to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                listPageVersion: ListPage.ListWithUXChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should not add listpageVersion when listPageVersion is List (v2) to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                listPageVersion: ListPage.List,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.Modular,
+                listPageVersion: ListPage.ListWithUXChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
