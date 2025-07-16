@@ -338,7 +338,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * 
      * @type {boolean}
      * @default false
-     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
 
@@ -362,7 +362,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * })
      * ```
      * @type {string}
-     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
      */
     lazyLoadingMargin?: string;
 }
@@ -387,7 +387,7 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-
+     
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);

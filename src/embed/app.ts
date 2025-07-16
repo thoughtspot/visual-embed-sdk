@@ -23,7 +23,7 @@ import { V1Embed } from './ts-embed';
 /**
  * Pages within the ThoughtSpot app that can be embedded.
  */
-
+// eslint-disable-next-line no-shadow
 export enum Page {
     /**
      * Home page
@@ -93,7 +93,7 @@ export enum PrimaryNavbarVersion {
      * Sliding (v3) introduces a new left-side navigation hub featuring a tab switcher,
      * along with updates to the top navigation bar.
      * It serves as the foundational version of the PrimaryNavBar.
-     */
+     */
     Sliding = 'v3',
 }
 
@@ -103,9 +103,9 @@ export enum PrimaryNavbarVersion {
  */
 export enum HomePage {
     /**
-     * Modular (v2) introduces the updated Modular Home Experience.
-     * It serves as the foundational version of the home page.
-     */
+     * Modular (v2) introduces the updated Modular Home Experience.
+     * It serves as the foundational version of the home page.
+     */
     Modular = 'v2',
 }
 
@@ -546,7 +546,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * 
      * @type {boolean}
      * @default false
-     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
 
@@ -570,7 +570,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * })
      * ```
      * @type {string}
-     * @version SDK: 1.39.0 | ThoughtSpot:10.10.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot:10.11.0.cl
      */
     lazyLoadingMargin?: string;
 }
@@ -584,7 +584,7 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-
+    // eslint-disable-next-line no-useless-constructor
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -626,7 +626,7 @@ export class AppEmbed extends V1Embed {
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
-
+            /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
@@ -703,7 +703,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
-
+            /* eslint-disable-next-line max-len */
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled
             ] = isOnBeforeGetVizDataInterceptEnabled;
@@ -731,12 +731,12 @@ export class AppEmbed extends V1Embed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-
+            /* eslint-disable-next-line max-len */
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-
+            /* eslint-disable-next-line max-len */
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
