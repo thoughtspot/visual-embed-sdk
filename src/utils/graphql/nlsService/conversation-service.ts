@@ -62,14 +62,15 @@ export class Conversation {
                     },
                 },
             );
-            const data = {
-                ...responses[0].data,
+            const data = responses[0].data;
+            return {
                 convId: this.conversationId,
                 messageId: responses[0].msgId,
-            };
-
-            return {
-                data: data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
+                data: {
+                    ...data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
+                    convId: this.conversationId,
+                    messageId: responses[0].msgId,
+                },
                 error: null,
             };
         } catch (error) {
