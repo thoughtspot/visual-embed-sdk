@@ -62,10 +62,13 @@ export class Conversation {
                     },
                 },
             );
-            const data = responses[0].data;
-            return {
+            const data = {
+                ...responses[0].data,
                 convId: this.conversationId,
                 messageId: responses[0].msgId,
+            };
+
+            return {
                 data: data.asstRespData.nlsAnsData.sageQuerySuggestions[0],
                 error: null,
             };
