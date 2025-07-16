@@ -14,7 +14,7 @@ import type { SessionInterface } from './utils/graphql/answerService/answerServi
  * the embedded app
  * @group Authentication / Init
  */
-// eslint-disable-next-line no-shadow
+
 export enum AuthType {
     /**
      * No authentication on the SDK. Pass-through to the embedded App. Alias for
@@ -231,12 +231,12 @@ export type DOMSelector = string | HTMLElement;
  * Use {@link CustomCssVariables} or css rules.
  */
 export interface customCssInterface {
-  /**
-   * The custom css variables, which can be set.
-   * The variables are available in the {@link CustomCssVariables}
-   * interface. For more information, see
-   * link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference].
-   */
+    /**
+     * The custom css variables, which can be set.
+     * The variables are available in the {@link CustomCssVariables}
+     * interface. For more information, see
+     * link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference].
+     */
     variables?: CustomCssVariables;
     /**
      * Can be used to define a custom font face
@@ -262,7 +262,7 @@ export interface customCssInterface {
      *   };
      * ```
      */
-    // eslint-disable-next-line camelcase
+
     rules_UNSTABLE?: {
         [selector: string]: {
             [declaration: string]: string;
@@ -648,7 +648,7 @@ export interface EmbedConfig {
      * ```
      *  @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-    customVariablesForThirdPartyTools?: Record< string, any >;
+    customVariablesForThirdPartyTools?: Record<string, any>;
 
     disablePreauthCache?: boolean;
 
@@ -669,7 +669,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iframe configuration
@@ -731,7 +731,7 @@ export interface BaseViewConfig {
     /**
      * @hidden
      */
-    // eslint-disable-next-line camelcase
+
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
@@ -931,7 +931,7 @@ export interface BaseViewConfig {
      * ```
      * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      */
-    // eslint-disable-next-line camelcase
+
     enableV2Shell_experimental?: boolean;
     /**
      * For internal tracking of the embed component type.
@@ -1347,7 +1347,8 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
-     * This flag can be used to show or hide the Liveboard verified icon in the compact header.
+     * This flag can be used to show or hide the Liveboard verified icon in the compact
+     * header.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -1379,7 +1380,8 @@ export interface LiveboardAppEmbedViewConfig {
      */
     hideIrrelevantChipsInLiveboardTabs?: boolean;
     /**
-     * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
+     * This flag can be used to show or hide the re-verify banner on the Liveboard
+     * compact header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -1410,25 +1412,25 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     enableAskSage?: boolean;
-     /**
-     * This flag is used to show or hide checkboxes for including or excluding
-     * the cover and filters pages in the Liveboard PDF.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
-     * @example
-     * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
-     *    coverAndFilterOptionInPDF: false,
-     * })
-     * ```
-     */
+    /**
+    * This flag is used to show or hide checkboxes for including or excluding
+    * the cover and filters pages in the Liveboard PDF.
+    *
+    * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+    * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
+    * @example
+    * ```js
+    * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+    * const embed = new <EmbedComponent>('#tsEmbed', {
+    *    ... // other embed view config
+    *    coverAndFilterOptionInPDF: false,
+    * })
+    * ```
+    */
     coverAndFilterOptionInPDF?: boolean;
 }
 
-export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
+export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig { }
 
 /**
  * MessagePayload: Embed event payload: message type, data and status (start/end)
@@ -1489,7 +1491,7 @@ export type QueryParams = {
 /**
  * A map of the supported runtime filter operations
  */
-// eslint-disable-next-line no-shadow
+
 export enum RuntimeFilterOp {
     /**
      * Equals
@@ -1560,7 +1562,7 @@ export enum RuntimeFilterOp {
  * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
-// eslint-disable-next-line no-shadow
+
 export enum HomepageModule {
     /**
      * Search bar
@@ -1593,7 +1595,7 @@ export enum HomepageModule {
  * **Note**: This option is applicable to full app embedding only.
  * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
  */
-// eslint-disable-next-line no-shadow
+
 export enum ListPageColumns {
     /**
      * Favourite
@@ -1691,7 +1693,7 @@ export interface RuntimeParameter {
  * ```
  * @group Events
  */
-// eslint-disable-next-line no-shadow
+
 export enum EmbedEvent {
     /**
      * Rendering has initialized.
@@ -2682,25 +2684,25 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-     TableVizRendered = 'TableVizRendered',
-     /**
-     * Emitted when the liveboard is created from pin modal or Liveboard list page.
-     * You can use this event as a hook to trigger
-     * other events on liveboard creation.
-     *
-     * ```js
-     * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
-     *     console.log('payload', payload);
-     * })
-     *```
-     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
-     */
+    TableVizRendered = 'TableVizRendered',
+    /**
+    * Emitted when the liveboard is created from pin modal or Liveboard list page.
+    * You can use this event as a hook to trigger
+    * other events on liveboard creation.
+    *
+    * ```js
+    * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
+    *     console.log('payload', payload);
+    * })
+    *```
+    * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
+    */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
      * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-     CreateModel = 'createModel',
+    CreateModel = 'createModel',
     /**
      * @hidden
      * Emitted when a user exits present mode.
@@ -2845,7 +2847,7 @@ export enum EmbedEvent {
  * ```
  * @group Events
  */
-// eslint-disable-next-line no-shadow
+
 export enum HostEvent {
     /**
      * Triggers a search operation with the search tokens specified in
@@ -3874,7 +3876,7 @@ export enum HostEvent {
      *```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
-     InfoSuccess = 'InfoSuccess',
+    InfoSuccess = 'InfoSuccess',
     /**
      * Trigger the save action for an Answer.
      * To programmatically save an answer without opening the
@@ -4019,7 +4021,7 @@ export enum HostEvent {
  * The different visual modes that the data sources panel within
  * search could appear in, such as hidden, collapsed, or expanded.
  */
-// eslint-disable-next-line no-shadow
+
 export enum DataSourceVisualMode {
     /**
      * The data source panel is hidden.
@@ -4039,7 +4041,7 @@ export enum DataSourceVisualMode {
  * The query params passed down to the embedded ThoughtSpot app
  * containing configuration and/or visual information.
  */
-// eslint-disable-next-line no-shadow
+
 export enum Param {
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
@@ -4188,7 +4190,7 @@ export enum Param {
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
  */
-// eslint-disable-next-line no-shadow
+
 export enum Action {
     /**
      * The **Save** action on an Answer or Liveboard.
@@ -5445,15 +5447,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {
