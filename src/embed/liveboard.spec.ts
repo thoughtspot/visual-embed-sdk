@@ -996,8 +996,11 @@ describe('Liveboard/viz embed tests', () => {
 
             await liveboardEmbed.render();
 
-            expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
-            expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
+            // Wait for the post-render events to be registered
+            await executeAfterWait(() => {
+                expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
+                expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+            }, 100);
 
             addEventListenerSpy.mockRestore();
         });

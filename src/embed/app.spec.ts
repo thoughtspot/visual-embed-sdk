@@ -131,7 +131,7 @@ describe('App embed tests', () => {
     });
 
     describe('should render the correct routes for pages', () => {
-        /* eslint-disable no-loop-func */
+
         const pageRouteMap = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
@@ -148,7 +148,7 @@ describe('App embed tests', () => {
             const pageId = pageIds[i];
 
             test(`${pageId}`, async () => {
-                const route = pageRouteMap[pageId];
+                const route = pageRouteMap[pageId as keyof typeof pageRouteMap];
                 const appEmbed = new AppEmbed(getRootEl(), {
                     ...defaultViewConfig,
                     pageId: pageId as Page,
@@ -181,7 +181,7 @@ describe('App embed tests', () => {
             const pageIdsForModularHome = pageIdsForModularHomes[i];
 
             test(`${pageIdsForModularHome}`, async () => {
-                const route = pageRouteMap[pageIdsForModularHome];
+                const route = pageRouteMapForModularHome[pageIdsForModularHome as keyof typeof pageRouteMapForModularHome];
                 const appEmbed = new AppEmbed(getRootEl(), {
                     ...defaultViewConfig,
                     modularHomeExperience: true,
@@ -753,7 +753,7 @@ describe('App embed tests', () => {
     test('Should add dataPanelCustomGroupsAccordionInitialState flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            // eslint-disable-next-line max-len
+
             dataPanelCustomGroupsAccordionInitialState:
                 DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         } as AppViewConfig);
@@ -768,7 +768,7 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
-        let embedHeightCallback: any = () => {};
+        let embedHeightCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
                 callback({ data: { currentPath: '/answers' } }, jest.fn());
@@ -1094,8 +1094,11 @@ describe('App embed tests', () => {
 
             await appEmbed.render();
 
-            expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-            expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+            // Wait for the post-render events to be registered
+            await executeAfterWait(() => {
+                expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+                expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+            }, 100);
 
             addEventListenerSpy.mockRestore();
         });
