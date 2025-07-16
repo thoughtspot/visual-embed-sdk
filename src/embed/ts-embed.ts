@@ -774,7 +774,6 @@ export class TsEmbed {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                         return;
                     }
-                    console.log('url', url);
 
                     this.setIframeElement(this.iFrame || this.createIframeEl(url));
                     this.iFrame.addEventListener('load', () => {
