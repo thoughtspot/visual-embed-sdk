@@ -3011,12 +3011,12 @@ export enum HostEvent {
      * Works with Search and Liveboard embed.
      * @param - { columnId: string,
      *  name: string,
-     *  type: INT64/CHAR/DATE,
-     *  dataType: ATTRIBUTE/MEASURE }
+     *  type: ATTRIBUTE/MEASURE,
+     *  dataType: INT64/CHAR/DATE }
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.OpenFilter,
-     *  {column: { columnId: '<column-GUID>', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE'}})
+     *  {column: { columnId: '<column-GUID>', name: 'column name', type: 'ATTRIBUTE', dataType: 'INT64'}})
      * ```
      * @example
      * ```js
