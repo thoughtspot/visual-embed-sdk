@@ -3919,7 +3919,7 @@ export enum HostEvent {
     /**
      * Triggers a search operation with the search tokens specified in
      * the search query string in spotter embed.
-     * @param - `queryString`: Text string in Natural Language format
+     * @param - `query`: Text string in Natural Language format
      * @param - `executeSearch`: Boolean to execute search and update search query
      * @example
      * ```js
@@ -3928,6 +3928,7 @@ export enum HostEvent {
      *  executeSearch: true,
      * })
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterSearch = 'SpotterSearch',
     /**
@@ -3937,6 +3938,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.EditLastPrompt, "revenue per year");
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     EditLastPrompt = 'EditLastPrompt',
     /**
@@ -3945,6 +3947,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
@@ -3953,6 +3956,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.ResetSpotterConversation);
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
@@ -3961,6 +3965,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.DeleteLastPrompt);
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     DeleteLastPrompt = 'DeleteLastPrompt',
     /**
@@ -3972,6 +3977,7 @@ export enum HostEvent {
      *          vizId:"'b535c760-8bbe-4e6f-bb26-af56b4129a1e'"
      * });
      *```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
