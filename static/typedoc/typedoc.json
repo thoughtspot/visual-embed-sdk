@@ -6842,7 +6842,7 @@
 				"tags": [
 					{
 						"tag": "example",
-						"text": "\n```js\nimport { HostEvent } from '@thoughtspot/visual-embed-sdk';\n// Or\n// const { HostEvent } = window.tsembed;\n\n// create the liveboard embed.\n\nliveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [\n  { columnName: 'state, operator: RuntimeFilterOp.EQ, values: ['california']}\n]);\n```"
+						"text": "\n```js\nimport { HostEvent } from '@thoughtspot/visual-embed-sdk';\n// Or\n// const { HostEvent } = window.tsembed;\n\n// create the liveboard embed.\n\nliveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [\n  { columnName: 'state', operator: RuntimeFilterOp.EQ, values: [\"california\"]}\n]);\n```"
 					},
 					{
 						"tag": "example",
