@@ -269,7 +269,7 @@ export const getOperationNameFromQuery = (query: string) => {
 export function removeTypename(obj: any) {
     if (!obj || typeof obj !== 'object') return obj;
 
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const key in obj) {
         if (key === '__typename') {
             delete obj[key];
@@ -300,7 +300,11 @@ export const setStyleProperties = (
 ): void => {
     if (!element?.style) return;
     Object.keys(styleProperties).forEach((styleProperty) => {
-        element.style[styleProperty] = styleProperties[styleProperty].toString();
+        const styleKey = styleProperty as keyof CSSStyleDeclaration;
+        const value = styleProperties[styleKey];
+        if (value !== undefined) {
+            (element.style as any)[styleKey] = value.toString();
+        }
     });
 };
 /**
@@ -463,3 +467,25 @@ export const handleExitPresentMode = async (): Promise<void> => {
 
     logger.warn('Exit fullscreen API is not supported by this browser.');
 };
+
+export const calculateVisibleElementData = (element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    const frameRelativeTop = Math.max(rect.top, 0);
+    const frameRelativeLeft = Math.max(rect.left, 0);
+
+    const frameRelativeBottom = Math.min(windowHeight, rect.bottom);
+    const frameRelativeRight = Math.min(windowWidth, rect.right);
+
+    const data = {
+        top: Math.max(0, rect.top * -1),
+        height: Math.max(0, frameRelativeBottom - frameRelativeTop),
+        left: Math.max(0, rect.left * -1),
+        width: Math.max(0, frameRelativeRight - frameRelativeLeft),
+    };
+
+    return data;
+}

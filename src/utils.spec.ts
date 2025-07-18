@@ -16,6 +16,7 @@ import {
     handlePresentEvent,
     handleExitPresentMode,
     getTypeFromValue,
+    calculateVisibleElementData,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -315,7 +316,7 @@ describe('unit test for utils', () => {
         });
 
         test('Object should be set if not', () => {
-            // eslint-disable-next-line no-underscore-dangle
+
             (window as any)._tsEmbedSDK = null;
 
             storeValueInWindow('test', 'testValue');
@@ -341,7 +342,7 @@ describe('Fullscreen Utility Functions', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        
+
         // Store and mock exitFullscreen
         originalExitFullscreen = document.exitFullscreen;
         document.exitFullscreen = jest.fn();
@@ -433,6 +434,253 @@ describe('Fullscreen Utility Functions', () => {
             handleExitPresentMode();
 
             expect(logger.warn).toHaveBeenCalledWith('Exit fullscreen API is not supported by this browser.');
+        });
+    });
+});
+
+describe('calculateVisibleElementData', () => {
+    let mockElement: HTMLElement;
+    let originalInnerHeight: number;
+    let originalInnerWidth: number;
+
+    beforeEach(() => {
+        // Store original window dimensions
+        originalInnerHeight = window.innerHeight;
+        originalInnerWidth = window.innerWidth;
+
+        // Mock window dimensions
+        Object.defineProperty(window, 'innerHeight', {
+            writable: true,
+            configurable: true,
+            value: 800,
+        });
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 1200,
+        });
+
+        // Create mock element
+        mockElement = document.createElement('div');
+    });
+
+    afterEach(() => {
+        // Restore original window dimensions
+        Object.defineProperty(window, 'innerHeight', {
+            value: originalInnerHeight,
+        });
+        Object.defineProperty(window, 'innerWidth', {
+            value: originalInnerWidth,
+        });
+    });
+
+    it('should calculate data for fully visible element', () => {
+        // Mock getBoundingClientRect for element fully within viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 150,
+            bottom: 300,
+            right: 400,
+            width: 250,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 200, // Full height visible
+            left: 0, // Not clipped from left
+            width: 250, // Full width visible
+        });
+    });
+
+    it('should calculate data for element clipped from top', () => {
+        // Mock getBoundingClientRect for element partially above viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: -50,
+            left: 100,
+            bottom: 150,
+            right: 400,
+            width: 300,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 50, // Clipped 50px from top
+            height: 150, // 150px visible height (0 to 150)
+            left: 0, // Not clipped from left
+            width: 300, // Full width visible
+        });
+    });
+
+    it('should calculate data for element clipped from left', () => {
+        // Mock getBoundingClientRect for element partially left of viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: -80,
+            bottom: 300,
+            right: 200,
+            width: 280,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 200, // Full height visible
+            left: 80, // Clipped 80px from left
+            width: 200, // 200px visible width (0 to 200)
+        });
+    });
+
+    it('should calculate data for element clipped from bottom', () => {
+        // Mock getBoundingClientRect for element extending below viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 600,
+            left: 100,
+            bottom: 950, // Extends beyond window height of 800
+            right: 400,
+            width: 300,
+            height: 350,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 200, // Only 200px visible (600 to 800)
+            left: 0, // Not clipped from left
+            width: 300, // Full width visible
+        });
+    });
+
+    it('should calculate data for element clipped from right', () => {
+        // Mock getBoundingClientRect for element extending beyond right edge
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 1000,
+            bottom: 300,
+            right: 1400, // Extends beyond window width of 1200
+            width: 400,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 200, // Full height visible
+            left: 0, // Not clipped from left
+            width: 200, // Only 200px visible width (1000 to 1200)
+        });
+    });
+
+    it('should calculate data for element clipped from multiple sides', () => {
+        // Mock getBoundingClientRect for element clipped from top and left
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: -100,
+            left: -50,
+            bottom: 200,
+            right: 300,
+            width: 350,
+            height: 300,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 100, // Clipped 100px from top
+            height: 200, // 200px visible height (0 to 200)
+            left: 50, // Clipped 50px from left
+            width: 300, // 300px visible width (0 to 300)
+        });
+    });
+
+    it('should handle element completely outside viewport (above)', () => {
+        // Mock getBoundingClientRect for element completely above viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: -300,
+            left: 100,
+            bottom: -100,
+            right: 400,
+            width: 300,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 300, // Clipped 300px from top
+            height: 0, // No visible height (clamped from negative)
+            left: 0, // Not clipped from left
+            width: 300, // Full width would be visible if in viewport
+        });
+    });
+
+    it('should handle element completely outside viewport (left)', () => {
+        // Mock getBoundingClientRect for element completely left of viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: -400,
+            bottom: 300,
+            right: -100,
+            width: 300,
+            height: 200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 200, // Full height would be visible if in viewport
+            left: 400, // Clipped 400px from left
+            width: 0, // No visible width (min(1200, -100) - max(-400, 0) = -100 - 0 = -100, but clamped)
+        });
+    });
+
+    it('should handle element larger than viewport', () => {
+        // Mock getBoundingClientRect for element larger than viewport
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: -200,
+            left: -300,
+            bottom: 1000,
+            right: 1500,
+            width: 1800,
+            height: 1200,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 200, // Clipped 200px from top
+            height: 800, // Visible height equals window height
+            left: 300, // Clipped 300px from left
+            width: 1200, // Visible width equals window width
+        });
+    });
+
+    it('should handle element exactly at viewport boundaries', () => {
+        // Mock getBoundingClientRect for element at exact viewport boundaries
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 0,
+            left: 0,
+            bottom: 800,
+            right: 1200,
+            width: 1200,
+            height: 800,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 0, // Not clipped from top
+            height: 800, // Full viewport height
+            left: 0, // Not clipped from left
+            width: 1200, // Full viewport width
         });
     });
 });
