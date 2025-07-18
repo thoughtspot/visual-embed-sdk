@@ -2802,7 +2802,7 @@ export enum EmbedEvent {
  * // create the liveboard embed.
  *
  * liveboardEmbed.trigger(HostEvent.UpdateRuntimeFilters, [
- *   { columnName: 'state, operator: RuntimeFilterOp.EQ, values: ['california']}
+ *   { columnName: 'state', operator: RuntimeFilterOp.EQ, values: ["california"]}
  * ]);
  * ```
  * @example
