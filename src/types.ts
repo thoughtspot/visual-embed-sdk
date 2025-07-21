@@ -5585,3 +5585,87 @@ export interface DefaultAppInitData {
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
 }
+
+export interface FullHeightViewConfig extends BaseViewConfig {
+    /**
+      * This is the minimum height(in pixels) for a full-height Liveboard.
+      * Setting this height helps resolve issues with empty Liveboards and
+      * other screens navigable from a Liveboard.
+      * 
+      * Supported embed types: `LiveboardEmbed`
+      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
+      * @default 500
+      * @example
+      * ```js
+      * const embed = new LiveboardEmbed('#embed', {
+      *   ... // other liveboard view config
+      *   fullHeight: true,
+      *   defaultHeight: 600,
+      * });
+      * ```
+      */
+    defaultHeight?: number;
+    /**
+     * If set to true, the embedded object container dynamically resizes
+     * according to the height of the Liveboard.
+     *
+     * **Note**:  Using fullHeight loads all visualizations on the
+     * Liveboard simultaneously, which results in multiple warehouse
+     * queries and potentially a longer wait for the topmost
+     * visualizations to display on the screen.
+     * Setting `fullHeight` to `false` fetches visualizations
+     * incrementally as users scroll the page to view the charts and tables.
+     *
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
+     * 
+     * Supported embed types: `LiveboardEmbed`
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *  fullHeight: true,
+     * });
+     * ```
+     */
+    fullHeight?: boolean;
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
+    /**
+     * The margin to be used for lazy loading.
+     * 
+     * For example, if the margin is set to '10px',
+     * the visualization will be loaded 10px before the its top edge is visible in the
+     * viewport.
+     * 
+     * The format is similar to CSS margin.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *    lazyLoadingMargin: '0px',
+     * })
+     * ```
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     */
+    lazyLoadingMargin?: string;
+}

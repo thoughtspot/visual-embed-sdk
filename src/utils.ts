@@ -489,3 +489,38 @@ export const calculateVisibleElementData = (element: HTMLElement) => {
 
     return data;
 }
+
+/**
+     * Calculates the element center for the current visible viewPort
+     * of element using Scroll position of Host App, offsetTop for element
+     * in Host app. ViewPort height of the tab.
+     * @returns element Center in visible viewport,
+     *  Iframe height,
+     *  View port height.
+     */
+export const calculateElementCenter = (element: HTMLElement) => {
+    const offsetTopClient = getOffsetTop(element);
+    const scrollTopClient = window.scrollY;
+    const viewPortHeight = window.innerHeight;
+    const iframeHeight = element.offsetHeight;
+    const iframeScrolled = scrollTopClient - offsetTopClient;
+    let iframeVisibleViewPort;
+    let iframeOffset;
+
+    if (iframeScrolled < 0) {
+        iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
+        iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
+        iframeOffset = 0;
+    } else {
+        iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
+        iframeOffset = iframeScrolled;
+    }
+    const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
+    return {
+        iframeCenter,
+        iframeScrolled,
+        iframeHeight,
+        viewPortHeight,
+        iframeVisibleViewPort,
+    };
+}
