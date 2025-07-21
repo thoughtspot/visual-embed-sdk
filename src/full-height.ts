@@ -125,7 +125,7 @@ export class FullHeight {
 
     if (lazyLoadingForFullHeight) {
       params[Param.IsLazyLoadingForEmbedEnabled] = true;
-      params[Param.RootMarginForLazyLoad] = viewConfig.lazyLoadingMargin;
+      params[Param.RootMarginForLazyLoad] = lazyLoadingMargin;
     }
   }
 
