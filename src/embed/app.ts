@@ -529,7 +529,7 @@ export class AppEmbed extends V1Embed {
                 getIframe: () => this.iFrame,
                 onEmbedEvent: (event, callback) => this.on(event, callback),
                 getViewConfig: () => this.viewConfig,
-                triggerEmbedEvent: (event, data) => this.trigger(event, data),
+                triggerHostEvent: (event, data) => this.trigger(event, data),
             });
         }
     }

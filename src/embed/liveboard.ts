@@ -22,8 +22,7 @@ import {
     LiveboardAppEmbedViewConfig,
     FullHeightViewConfig,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
-import { getAuthPromise } from './base';
+import { getQueryParamString, isUndefined } from '../utils';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
@@ -318,7 +317,7 @@ export class LiveboardEmbed extends V1Embed {
                 getIframe: () => this.iFrame,
                 onEmbedEvent: (event, callback) => this.on(event, callback),
                 getViewConfig: () => this.viewConfig,
-                triggerEmbedEvent: (event, data) => this.trigger(event, data),
+                triggerHostEvent: (event, data) => this.trigger(event, data),
             });
         }
     }

@@ -9,7 +9,7 @@ interface FullHeightConfig {
   getIframe: () => HTMLIFrameElement;
   onEmbedEvent: (event: EmbedEvent, callback: MessageCallback) => void;
   getViewConfig: () => FullHeightViewConfig & BaseViewConfig;
-  triggerEmbedEvent: (event: HostEvent, data: any) => Promise<any>;
+  triggerHostEvent: (event: HostEvent, data: any) => Promise<any>;
 }
 
 
@@ -17,7 +17,7 @@ export class FullHeight {
 
   private onEmbedMessage: FullHeightConfig['onEmbedEvent'];
   private getViewConfig: FullHeightConfig['getViewConfig'];
-  private triggerEmbedEvent: FullHeightConfig['triggerEmbedEvent'];
+  private triggerHostEvent: FullHeightConfig['triggerHostEvent'];
   private getIframe: FullHeightConfig['getIframe'];
   private defaultHeight: string | number = '100%';
 
@@ -25,7 +25,7 @@ export class FullHeight {
     this.getIframe = fullHeightConfig.getIframe;
     this.onEmbedMessage = fullHeightConfig.onEmbedEvent;
     this.getViewConfig = fullHeightConfig.getViewConfig;
-    this.triggerEmbedEvent = fullHeightConfig.triggerEmbedEvent;
+    this.triggerHostEvent = fullHeightConfig.triggerHostEvent;
     this.defaultHeight = this.getViewConfig().defaultHeight || this.defaultHeight;
   }
   /**
@@ -48,7 +48,7 @@ export class FullHeight {
 
   private sendFullHeightLazyLoadData = () => {
     const data = calculateVisibleElementData(this.getIframe());
-    this.triggerEmbedEvent(HostEvent.VisibleEmbedCoordinates, data);
+    this.triggerHostEvent(HostEvent.VisibleEmbedCoordinates, data);
   }
   private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
     const viewConfig = this.getViewConfig();
