@@ -1,4 +1,4 @@
-/* eslint-disable dot-notation */
+ 
 import { resetValueFromWindow } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
@@ -27,6 +27,8 @@ import {
     RuntimeParameter,
     Param,
     ContextMenuTriggerOptions,
+    CustomActionTarget,
+    CustomActionsPosition,
 } from '../types';
 import {
     executeAfterWait,
@@ -1019,6 +1021,127 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 expect(iframe.src).toContain('exposeTranslationIDs=true');
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+        });
+    });
+
+    describe('getDefaultAppInitData with CustomActionsValidationResult', () => {
+        beforeEach(() => {
+            jest.spyOn(authInstance, 'doCookielessTokenAuth').mockResolvedValueOnce(true);
+            jest.spyOn(authService, 'verifyTokenService').mockResolvedValue(true);
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                getAuthToken: () => Promise.resolve('test_auth_token1'),
+            });
+        });
+
+        afterEach(() => {
+            baseInstance.reset();
+            jest.clearAllMocks();
+        });
+
+        test('should handle CustomActionsValidationResult with validation errors in getDefaultAppInitData', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            
+            // Create a SearchEmbed with valid custom actions to test
+            // CustomActionsValidationResult
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                customActions: [
+                    {
+                        id: 'action1',
+                        name: 'Valid Action',
+                        target: CustomActionTarget.LIVEBOARD,
+                        position: CustomActionsPosition.PRIMARY,
+                        metadataIds: { liveboardIds: ['lb123'] }
+                    },
+                    {
+                        id: 'action2',
+                        name: 'Another Valid Action',
+                        target: CustomActionTarget.VIZ,
+                        position: CustomActionsPosition.MENU,
+                        metadataIds: { vizIds: ['viz456'] }
+                    }
+                ]
+            });
+            
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.APP_INIT,
+                    data: {
+                        customisations: {
+                            content: {},
+                            style: {
+                                customCSS: {},
+                                customCSSUrl: undefined,
+                            },
+                        },
+                        authToken: 'test_auth_token1',
+                        runtimeFilterParams: null,
+                        runtimeParameterParams: null,
+                        hiddenHomeLeftNavItems: [],
+                        hiddenHomepageModules: [],
+                        hiddenListColumns: [],
+                        customActions: [
+                            {
+                                id: 'action2',
+                                name: 'Another Valid Action',
+                                target: CustomActionTarget.VIZ,
+                                position: CustomActionsPosition.MENU,
+                                metadataIds: { vizIds: ['viz456'] }
+                            },
+                            {
+                                id: 'action1',
+                                name: 'Valid Action',
+                                target: CustomActionTarget.LIVEBOARD,
+                                position: CustomActionsPosition.PRIMARY,
+                                metadataIds: { liveboardIds: ['lb123'] }
+                            }
+                        ], // Actions should be sorted by name
+                        hostConfig: undefined,
+                        reorderedHomepageModules: [],
+                        customVariablesForThirdPartyTools: {},
+                    },
+                });
+                
+                // Verify that CustomActionsValidationResult structure is
+                // correct
+                const appInitData = mockPort.postMessage.mock.calls[0][0].data;
+                expect(appInitData.customActions).toHaveLength(2);
+                expect(appInitData.customActions).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            id: 'action1',
+                            name: 'Valid Action',
+                            target: CustomActionTarget.LIVEBOARD,
+                            position: CustomActionsPosition.PRIMARY
+                        }),
+                        expect.objectContaining({
+                            id: 'action2',
+                            name: 'Another Valid Action',
+                            target: CustomActionTarget.VIZ,
+                            position: CustomActionsPosition.MENU
+                        })
+                    ])
+                );
+                
+                // Verify actions are sorted by name (alphabetically)
+                expect(appInitData.customActions[0].name).toBe('Another Valid Action');
+                expect(appInitData.customActions[1].name).toBe('Valid Action');
             });
         });
     });
