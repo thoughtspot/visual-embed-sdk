@@ -5123,7 +5123,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -5151,7 +5151,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -5448,7 +5448,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -5568,7 +5568,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -5908,7 +5908,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -5947,7 +5947,7 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"SpotterInit\""
+					"defaultValue": "\"spotterInit\""
 				},
 				{
 					"id": 1810,
@@ -5964,7 +5964,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.10.0.cl\n"
+								"text": "SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl\n"
 							}
 						]
 					},
@@ -6973,7 +6973,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl\n"
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl\n"
 							}
 						]
 					},
@@ -6984,7 +6984,7 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"askSpotter\""
+					"defaultValue": "\"AskSpotter\""
 				},
 				{
 					"id": 1843,
