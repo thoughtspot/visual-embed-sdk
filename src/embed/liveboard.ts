@@ -21,7 +21,7 @@ import {
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
 } from '../types';
-import { getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -324,6 +324,46 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
+    /**
+     * This flag is used to enable the full height lazy load data.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     * 
+     * @type {boolean}
+     * @default false
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     */
+    lazyLoadingForFullHeight?: boolean;
+    /**
+     * The margin to be used for lazy loading.
+     * 
+     * For example, if the margin is set to '10px',
+     * the visualization will be loaded 10px before the its top edge is visible in the
+     * viewport.
+     * 
+     * The format is similar to CSS margin.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *    lazyLoadingMargin: '0px',
+     * })
+     * ```
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     */
+    lazyLoadingMargin?: string;
 }
 
 /**
@@ -346,19 +386,20 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-     
+
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             if (this.viewConfig.vizId) {
                 logger.warn('Full height is currently only supported for Liveboard embeds.' +
-                  'Using full height with vizId might lead to unexpected behavior.');
+                    'Using full height with vizId might lead to unexpected behavior.');
             }
 
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
         }
     }
 
@@ -367,7 +408,7 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        let params = {};
+        let params: any = {};
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,
@@ -402,6 +443,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
+            if (this.viewConfig.lazyLoadingForFullHeight) {
+                params[Param.IsLazyLoadingForEmbedEnabled] = true;
+                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+            }
         }
         if (defaultHeight) {
             this.defaultHeight = defaultHeight;
@@ -484,6 +529,23 @@ export class LiveboardEmbed extends V1Embed {
         return suffix;
     }
 
+    private sendFullHeightLazyLoadData = () => {
+        const data = calculateVisibleElementData(this.iFrame);
+        this.trigger(HostEvent.VisibleEmbedCoordinates, data);
+    }
+
+    /**
+     * This is a handler for the RequestVisibleEmbedCoordinates event.
+     * It is used to send the visible coordinates data to the host application.
+     * @param data The event payload
+     * @param responder The responder function
+     */
+    private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
+        logger.info('Sending RequestVisibleEmbedCoordinates', data);
+        const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
+        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
+    }
+
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.
@@ -509,6 +571,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     private updateIFrameHeight = (data: MessagePayload) => {
         this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
+        this.sendFullHeightLazyLoadData();
     };
 
     private embedIframeCenter = (data: MessagePayload, responder: any) => {
@@ -582,7 +645,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     protected beforePrerenderVisible(): void {
-        const embedObj = this.insertedDomEl?.[this.embedNodeKey] as LiveboardEmbed;
+        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as LiveboardEmbed;
 
         if (isUndefined(embedObj)) return;
 
@@ -622,6 +685,33 @@ export class LiveboardEmbed extends V1Embed {
         }
         return super.trigger(messageType, dataWithVizId);
     }
+    /**
+     * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+     */
+    public destroy() {
+        super.destroy();
+        this.unregisterLazyLoadEvents();
+    }
+
+    private postRender() {
+        this.registerLazyLoadEvents();
+    }
+
+    private registerLazyLoadEvents() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            // TODO: Use passive: true, install modernizr to check for passive
+            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+        }
+    }
+
+    private unregisterLazyLoadEvents() {
+        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+        }
+    }
 
     /**
      * Render an embedded ThoughtSpot Liveboard or visualization
@@ -635,6 +725,7 @@ export class LiveboardEmbed extends V1Embed {
         await this.renderV1Embed(src);
         this.showPreviewLoader();
 
+        this.postRender();
         return this;
     }
 
