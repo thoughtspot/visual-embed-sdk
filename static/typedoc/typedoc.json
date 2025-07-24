@@ -5115,7 +5115,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the last spotter query is deleted in spotter embed.",
+						"shortText": "Emitted when the last Spotter query is deleted in Spotter embed.",
 						"tags": [
 							{
 								"tag": "example",
@@ -5143,7 +5143,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the last spotter query is edited in spotter embed.",
+						"shortText": "Emitted when the last Spotter query is edited in Spotter embed.",
 						"tags": [
 							{
 								"tag": "example",
@@ -5440,7 +5440,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when user opens up the worksheet preview modal in spotter embed.",
+						"shortText": "Emitted when user opens up the worksheet preview modal in Spotter embed.",
 						"tags": [
 							{
 								"tag": "example",
@@ -5900,7 +5900,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when spotter response is text data",
+						"shortText": "Emitted when Spotter response is text data",
 						"tags": [
 							{
 								"tag": "example",
@@ -5956,7 +5956,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the spotter query is triggered in spotter embed.",
+						"shortText": "Emitted when the Spotter query is triggered in Spotter embed.",
 						"tags": [
 							{
 								"tag": "example",

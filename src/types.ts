@@ -2708,7 +2708,7 @@ export enum EmbedEvent {
      */
     ExitPresentMode = 'exitPresentMode',
     /**
-     * Emitted when spotter response is text data
+     * Emitted when Spotter response is text data
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
@@ -2719,7 +2719,7 @@ export enum EmbedEvent {
      */
     SpotterData = 'SpotterData',
     /**
-     * Emitted when user opens up the worksheet preview modal in spotter embed.
+     * Emitted when user opens up the worksheet preview modal in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
@@ -2730,7 +2730,7 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
-     * Emitted when the spotter query is triggered in spotter embed.
+     * Emitted when the Spotter query is triggered in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
@@ -2741,7 +2741,7 @@ export enum EmbedEvent {
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
     /**
-     * Emitted when the last spotter query is edited in spotter embed.
+     * Emitted when the last Spotter query is edited in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
@@ -2752,7 +2752,7 @@ export enum EmbedEvent {
      */
     LastPromptEdited = 'LastPromptEdited',
     /**
-     * Emitted when the last spotter query is deleted in spotter embed.
+     * Emitted when the last Spotter query is deleted in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
