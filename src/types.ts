@@ -2873,7 +2873,7 @@ export enum HostEvent {
      * done automatically on the most popular column.
      * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
      * in case of a Liveboard.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3193,7 +3193,7 @@ export enum HostEvent {
      * Trigger the **Download PDF** action on an embedded Liveboard,
      * visualization or Answer.
      *
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * 
      * **NOTE**: The **Download** > **PDF** action is available on
      * visualizations and Answers if the data is in tabular format.
@@ -3309,7 +3309,7 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * 
      * @example
      * ```js
@@ -3451,7 +3451,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** action on charts in
      * the embedded view.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Download, {vizId:
@@ -3493,7 +3493,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **CSV**  action on tables in
      * the embedded view.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
@@ -3516,7 +3516,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **XLSX**  action on tables
      * in the embedded view.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
@@ -3552,7 +3552,7 @@ export enum HostEvent {
     /**
      * Trigger the **Save**  action on a Liveboard or Answer.
      * Saves the changes.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
@@ -3862,7 +3862,7 @@ export enum HostEvent {
     UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
      *  console.log('parameters', parameter);
@@ -3906,7 +3906,7 @@ export enum HostEvent {
      * @param - optional attributes to set Answer properties.
      *  `name` - Name string for the Answer.
      *  `description` - Description text for the Answer.
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
@@ -4027,7 +4027,7 @@ export enum HostEvent {
 
     /**
      * Trigger the *Ask Spotter* action for visualizations
-     * @param - `vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.AskSpotter,

@@ -6964,7 +6964,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -7128,7 +7128,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -7165,7 +7165,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -7198,7 +7198,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.\n\n**NOTE**: The **Download** > **PDF** action is available on\nvisualizations and Answers if the data is in tabular format.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.\n\n**NOTE**: The **Download** > **PDF** action is available on\nvisualizations and Answers if the data is in tabular format.",
 								"param": "-"
 							},
 							{
@@ -7263,7 +7263,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -7316,7 +7316,7 @@
 							},
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -7359,7 +7359,7 @@
 							},
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.\n",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.\n",
 								"param": "-"
 							},
 							{
@@ -7611,7 +7611,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.\n```js\nliveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {\n console.log('parameters', parameter);\n});\n```\n```js\nspotterEmbed.trigger(HostEvent.GetParameters, {\n vizId: '730496d6-6903-4601-937e-2c691821af3c'\n}).then((parameter) => {\n console.log('parameters', parameter);\n});\n```",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.\n```js\nliveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {\n console.log('parameters', parameter);\n});\n```\n```js\nspotterEmbed.trigger(HostEvent.GetParameters, {\n vizId: '730496d6-6903-4601-937e-2c691821af3c'\n}).then((parameter) => {\n console.log('parameters', parameter);\n});\n```",
 								"param": "-"
 							},
 							{
@@ -8198,7 +8198,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
@@ -8236,7 +8236,7 @@
 							},
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the answer id in spotter Embed, it is required in spotter Embed.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
 								"param": "-"
 							},
 							{
