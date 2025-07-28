@@ -4014,7 +4014,7 @@ export enum HostEvent {
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, {
-     *          vizId:"'b535c760-8bbe-4e6f-bb26-af56b4129a1e'"
+     *          vizId:'b535c760-8bbe-4e6f-bb26-af56b4129a1e'
      * });
      *```
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
