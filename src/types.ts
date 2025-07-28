@@ -2339,7 +2339,7 @@ export enum EmbedEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      *```js
-     * liveboardEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
+     * liveboardEmbed.on(EmbedEvent.LiveboardInfo, payload => {
      *    console.log('Liveboard details', payload);
      * })
      *```
@@ -2714,58 +2714,58 @@ export enum EmbedEvent {
      */
     RequestVisibleEmbedCoordinates = 'requestVisibleEmbedCoordinates',
     /**
-     * Emitted when spotter response is text data
+     * Emitted when Spotter response is text data
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterData = 'SpotterData',
     /**
-     * Emitted when user opens up the worksheet preview modal in spotter embed.
+     * Emitted when user opens up the worksheet preview modal in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
-     * Emitted when the spotter query is triggered in spotter embed.
+     * Emitted when the Spotter query is triggered in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
     /**
-     * Emitted when the last spotter query is edited in spotter embed.
+     * Emitted when the last Spotter query is edited in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptEdited = 'LastPromptEdited',
     /**
-     * Emitted when the last spotter query is deleted in spotter embed.
+     * Emitted when the last Spotter query is deleted in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
@@ -2776,7 +2776,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
@@ -2789,7 +2789,7 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    SpotterInit = 'SpotterInit'
+    SpotterInit = 'spotterInit'
 }
 
 /**
@@ -2879,6 +2879,7 @@ export enum HostEvent {
      * done automatically on the most popular column.
      * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
      * in case of a Liveboard.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3198,12 +3199,21 @@ export enum HostEvent {
      * Trigger the **Download PDF** action on an embedded Liveboard,
      * visualization or Answer.
      *
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * 
      * **NOTE**: The **Download** > **PDF** action is available on
      * visualizations and Answers if the data is in tabular format.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsPdf)
      * ```
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DownloadAsPdf, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
+     * ```
+     * 
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
@@ -3305,7 +3315,8 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - object - To trigger the action for a specific visualization
      * in Liveboard embed, pass in `vizId` as a key.
-     * **Required** in Spotter embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * 
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Edit)
@@ -3317,6 +3328,12 @@ export enum HostEvent {
      * @example
      * ```js
      * const pinResponse = await spotterEmbed.trigger(HostEvent.Edit, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
+     * ```
+     * @example
+     * ```js
+     * const editResponse = await spotterEmbed.trigger(HostEvent.Edit, {
      *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
      *  });
      * ```
@@ -3440,6 +3457,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** action on charts in
      * the embedded view.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Download, {vizId:
@@ -3447,6 +3465,11 @@ export enum HostEvent {
      * ```
      * ```js
      * embed.trigger(HostEvent.Download)
+     * ```
+     * ```js
+     * spotterEmbed.trigger(HostEvent.Download, {
+     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
+     *  });
      * ```
      * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
      * Use {@link DownloadAsPng}
@@ -3476,6 +3499,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **CSV**  action on tables in
      * the embedded view.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
@@ -3498,6 +3522,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **XLSX**  action on tables
      * in the embedded view.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
@@ -3533,7 +3558,7 @@ export enum HostEvent {
     /**
      * Trigger the **Save**  action on a Liveboard or Answer.
      * Saves the changes.
-     * @param - `vizId` is required in Spotter Embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Save)
@@ -3843,6 +3868,7 @@ export enum HostEvent {
     UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
      *  console.log('parameters', parameter);
@@ -3886,13 +3912,21 @@ export enum HostEvent {
      * @param - optional attributes to set Answer properties.
      *  `name` - Name string for the Answer.
      *  `description` - Description text for the Answer.
-     *
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
      *      name: "Sales by states",
      *      description: "Total sales by states in MidWest"
      *   });
+     * ```
+     * @example
+     * ```js
+     * const saveAnswerResponse = await spotterEmbed.trigger(HostEvent.SaveAnswer, {
+     *      vizId: '730496d6-6903-4601-937e-2c691821af3c',
+     *      name: "Sales by states",
+     *      description: "Total sales by states in MidWest"
+     * });
      * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
@@ -3925,7 +3959,7 @@ export enum HostEvent {
     /**
      * Triggers a search operation with the search tokens specified in
      * the search query string in spotter embed.
-     * @param - `queryString`: Text string in Natural Language format
+     * @param - `query`: Text string in Natural Language format
      * @param - `executeSearch`: Boolean to execute search and update search query
      * @example
      * ```js
@@ -3934,6 +3968,7 @@ export enum HostEvent {
      *  executeSearch: true,
      * })
      * ```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     SpotterSearch = 'SpotterSearch',
     /**
@@ -3943,6 +3978,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.EditLastPrompt, "revenue per year");
      * ```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     EditLastPrompt = 'EditLastPrompt',
     /**
@@ -3951,6 +3987,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
      * ```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
@@ -3959,6 +3996,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.ResetSpotterConversation);
      * ```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
@@ -3967,17 +4005,19 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.DeleteLastPrompt);
      * ```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     DeleteLastPrompt = 'DeleteLastPrompt',
     /**
      * Toggle the visualization to chart or table view.
-     * @param - `vizId ` In Spotter Embed, vizId is required.
+     * @param - `vizId ` refers to the answer id in spotter Embed, it is required in spotter Embed.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, {
-     *          vizId:"'b535c760-8bbe-4e6f-bb26-af56b4129a1e'"
+     *          vizId:'b535c760-8bbe-4e6f-bb26-af56b4129a1e'
      * });
      *```
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -4004,15 +4044,16 @@ export enum HostEvent {
      */
     VisibleEmbedCoordinates = 'visibleEmbedCoordinates',
     /**
-     * Trigger the *Ask Sage* action for visualizations
+     * Trigger the *Ask Spotter* action for visualizations
+     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.AskSpotter,
-     * {containerId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * spotterEmbed.trigger(HostEvent.AskSpotter,
+     * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    AskSpotter = 'askSpotter',
+    AskSpotter = 'AskSpotter',
 }
 
 /**
