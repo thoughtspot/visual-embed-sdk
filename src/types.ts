@@ -5592,12 +5592,12 @@ export interface FullHeightViewConfig extends BaseViewConfig {
       * Setting this height helps resolve issues with empty Liveboards and
       * other screens navigable from a Liveboard.
       * 
-      * Supported embed types: `LiveboardEmbed`
+      * Supported embed types: `LiveboardEmbed` , `AppEmbed`
       * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
       * @default 500
       * @example
       * ```js
-      * const embed = new LiveboardEmbed('#embed', {
+      * const embed = new <EmbedComponent>('#embed', {
       *   ... // other liveboard view config
       *   fullHeight: true,
       *   defaultHeight: 600,
@@ -5618,10 +5618,10 @@ export interface FullHeightViewConfig extends BaseViewConfig {
      *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * 
-     * Supported embed types: `LiveboardEmbed`
+     * Supported embed types: `LiveboardEmbed` , `AppEmbed`
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed', {
+     * const embed = new <EmbedComponent>('#embed', {
      *   ... // other liveboard view config
      *  fullHeight: true,
      * });
@@ -5631,9 +5631,10 @@ export interface FullHeightViewConfig extends BaseViewConfig {
     /**
      * This flag is used to enable the full height lazy load data.
      * 
+     * Supported embed types: `LiveboardEmbed` , `AppEmbed`
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
+     * const embed = new <EmbedComponent>('#embed-container', {
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
@@ -5648,19 +5649,20 @@ export interface FullHeightViewConfig extends BaseViewConfig {
     /**
      * The margin to be used for lazy loading.
      * 
-     * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before the its top edge is visible in the
-     * viewport.
+     * The default for this is 25%, which means we start loading when the visualization
+     * is within 25% of the viewport boundary. For example, if the viewport has 1000px
+     * height, we start loading when the visualization is within 250px of becoming
+     * visible.
      * 
      * The format is similar to CSS margin.
      * 
      * @example
      * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
+     * const embed = new <EmbedComponent>('#embed-container', {
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *   // Using 0px, the visualization will be only started loading when its visible in the viewport.
      *    lazyLoadingMargin: '0px',
      * })
      * ```

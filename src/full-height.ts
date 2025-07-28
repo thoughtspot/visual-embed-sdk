@@ -71,7 +71,7 @@ export class FullHeight {
       // only within the liveboard page.
       return;
     }
-    this.setIFrameHeight(frameHeight || viewConfig.defaultHeight);
+    this.setIFrameHeight(frameHeight || this.defaultHeight);
   };
 
 
