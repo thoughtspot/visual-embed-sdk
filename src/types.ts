@@ -4013,6 +4013,17 @@ export enum HostEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     AskSpotter = 'askSpotter',
+
+    /**
+     * @hidden
+     * Triggers the update of the embed params.
+     * 
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateEmbedParams, viewConfig);
+     * ```
+     */
+    UpdateEmbedParams = 'updateEmbedParams',
 }
 
 /**
