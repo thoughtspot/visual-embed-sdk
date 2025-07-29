@@ -231,12 +231,12 @@ export type DOMSelector = string | HTMLElement;
  * Use {@link CustomCssVariables} or css rules.
  */
 export interface customCssInterface {
-  /**
-   * The custom css variables, which can be set.
-   * The variables are available in the {@link CustomCssVariables}
-   * interface. For more information, see
-   * link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference].
-   */
+    /**
+     * The custom css variables, which can be set.
+     * The variables are available in the {@link CustomCssVariables}
+     * interface. For more information, see
+     * link:https://developers.thoughtspot.com/docs/css-variables-reference[CSS variable reference].
+     */
     variables?: CustomCssVariables;
     /**
      * Can be used to define a custom font face
@@ -648,7 +648,7 @@ export interface EmbedConfig {
      * ```
      *  @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-    customVariablesForThirdPartyTools?: Record< string, any >;
+    customVariablesForThirdPartyTools?: Record<string, any>;
 
     disablePreauthCache?: boolean;
 
@@ -669,7 +669,7 @@ export interface EmbedConfig {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface LayoutConfig {}
+export interface LayoutConfig { }
 
 /**
  * Embedded iframe configuration
@@ -1421,25 +1421,25 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     enableAskSage?: boolean;
-     /**
-     * This flag is used to show or hide checkboxes for including or excluding
-     * the cover and filters pages in the Liveboard PDF.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
-     * @example
-     * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
-     *    coverAndFilterOptionInPDF: false,
-     * })
-     * ```
-     */
+    /**
+    * This flag is used to show or hide checkboxes for including or excluding
+    * the cover and filters pages in the Liveboard PDF.
+    *
+    * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+    * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
+    * @example
+    * ```js
+    * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+    * const embed = new <EmbedComponent>('#tsEmbed', {
+    *    ... // other embed view config
+    *    coverAndFilterOptionInPDF: false,
+    * })
+    * ```
+    */
     coverAndFilterOptionInPDF?: boolean;
 }
 
-export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
+export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig { }
 
 /**
  * MessagePayload: Embed event payload: message type, data and status (start/end)
@@ -2693,25 +2693,25 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-     TableVizRendered = 'TableVizRendered',
-     /**
-     * Emitted when the liveboard is created from pin modal or Liveboard list page.
-     * You can use this event as a hook to trigger
-     * other events on liveboard creation.
-     *
-     * ```js
-     * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
-     *     console.log('payload', payload);
-     * })
-     *```
-     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
-     */
+    TableVizRendered = 'TableVizRendered',
+    /**
+    * Emitted when the liveboard is created from pin modal or Liveboard list page.
+    * You can use this event as a hook to trigger
+    * other events on liveboard creation.
+    *
+    * ```js
+    * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
+    *     console.log('payload', payload);
+    * })
+    *```
+    * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
+    */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
      * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
-     CreateModel = 'createModel',
+    CreateModel = 'createModel',
     /**
      * @hidden
      * Emitted when a user exits present mode.
@@ -3923,7 +3923,7 @@ export enum HostEvent {
      *```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
-     InfoSuccess = 'InfoSuccess',
+    InfoSuccess = 'InfoSuccess',
     /**
      * Trigger the save action for an Answer.
      * To programmatically save an answer without opening the
@@ -4076,7 +4076,18 @@ export enum HostEvent {
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    AskSpotter = 'AskSpotter',
+    AskSpotter = 'askSpotter',
+
+    /**
+     * @hidden
+     * Triggers the update of the embed params.
+     * 
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdateEmbedParams, viewConfig);
+     * ```
+     */
+    UpdateEmbedParams = 'updateEmbedParams',
 }
 
 /**
@@ -5553,15 +5564,15 @@ export interface ColumnValue {
         [key: string]: any;
     };
     value:
-        | string
-        | number
-        | boolean
-        | {
-              v: {
-                  s: number;
-                  e: number;
-              };
-          };
+    | string
+    | number
+    | boolean
+    | {
+        v: {
+            s: number;
+            e: number;
+        };
+    };
 }
 
 export interface VizPoint {

@@ -1395,7 +1395,7 @@ export class TsEmbed {
                 return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
-            this.trigger('updateEmbedParams' as any, this.viewConfig);
+            this.trigger(HostEvent.UpdateEmbedParams, this.viewConfig);
         }
 
         if (this.el) {
