@@ -610,13 +610,7 @@ export class AppEmbed extends V1Embed {
             params[Param.HideNotification] = !!hideNotification;
         }
 
-        if (fullHeight === true) {
-            params[Param.fullHeight] = true;
-            if (this.viewConfig.lazyLoadingForFullHeight) {
-                params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
-            }
-        }
+        params = this.fullHeightClient?.getParamsForFullHeight(params) || params;
 
         if (tag) {
             params[Param.Tag] = tag;

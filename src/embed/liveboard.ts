@@ -359,7 +359,7 @@ export class LiveboardEmbed extends V1Embed {
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
             || this.viewConfig.preventPinboardFilterRemoval;
 
-        this.fullHeightClient?.setParams(params);
+        params = this.fullHeightClient?.getParamsForFullHeight(params) || params;
 
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();

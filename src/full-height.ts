@@ -127,15 +127,15 @@ export class FullHeight {
    * Sets the parameters for the full-height embed.
    * @param params The parameters to set
    */
-  setParams(params: any) {
+  getParamsForFullHeight(params: any) {
     const viewConfig = this.getViewConfig();
     const { lazyLoadingForFullHeight, lazyLoadingMargin } = viewConfig;
-    params[Param.fullHeight] = true;
-
+    const paramsForFullHeight = { ...params, [Param.fullHeight]: true };
     if (lazyLoadingForFullHeight) {
-      params[Param.IsLazyLoadingForEmbedEnabled] = true;
-      params[Param.RootMarginForLazyLoad] = lazyLoadingMargin;
+      paramsForFullHeight[Param.IsLazyLoadingForEmbedEnabled] = true;
+      paramsForFullHeight[Param.RootMarginForLazyLoad] = lazyLoadingMargin;
     }
+    return paramsForFullHeight;
   }
 
   /**
