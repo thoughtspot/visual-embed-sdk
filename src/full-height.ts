@@ -1,6 +1,3 @@
-// Communicate with the embed 
-// 
-
 import { BaseViewConfig, EmbedEvent, FullHeightViewConfig, HostEvent, MessageCallback, MessagePayload, Param } from "./types";
 import { calculateElementCenter, calculateVisibleElementData, getCssDimension } from "./utils";
 import { logger } from "./utils/logger";
@@ -13,13 +10,20 @@ interface FullHeightConfig {
 }
 
 
+/**
+ * This class encapsulates the logic for handling full-height embeds.
+ * It is designed to be reused by different embed components like AppEmbed
+ * and LiveboardEmbed.
+ * 
+ * @hidden
+ */
 export class FullHeight {
 
   private onEmbedMessage: FullHeightConfig['onEmbedEvent'];
   private getViewConfig: FullHeightConfig['getViewConfig'];
   private triggerHostEvent: FullHeightConfig['triggerHostEvent'];
   private getIframe: FullHeightConfig['getIframe'];
-  private defaultHeight: string | number = '100%';
+  private defaultHeight: number = 500;
 
   constructor(fullHeightConfig: FullHeightConfig) {
     this.getIframe = fullHeightConfig.getIframe;
@@ -32,7 +36,7 @@ export class FullHeight {
   * Sets the height of the iframe
   * @param height The height in pixels
   */
-  protected setIFrameHeight(height: number | string): void {
+  private setIFrameHeight(height: number | string): void {
     this.getIframe().style.height = getCssDimension(height);
   }
   /**
@@ -41,8 +45,7 @@ export class FullHeight {
  * @param data The event payload
  */
   private updateIFrameHeight = (data: MessagePayload) => {
-    const viewConfig = this.getViewConfig();
-    this.setIFrameHeight(Math.max(data.data, viewConfig.defaultHeight));
+    this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
     this.sendFullHeightLazyLoadData();
   };
 
@@ -109,7 +112,9 @@ export class FullHeight {
     }
   }
 
-
+  /**
+   * Initializes the full-height events.
+   */
   init() {
     this.registerLazyLoadEvents();
     this.onEmbedMessage(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
@@ -118,6 +123,10 @@ export class FullHeight {
     this.onEmbedMessage(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
   }
 
+  /**
+   * Sets the parameters for the full-height embed.
+   * @param params The parameters to set
+   */
   setParams(params: any) {
     const viewConfig = this.getViewConfig();
     const { lazyLoadingForFullHeight, lazyLoadingMargin } = viewConfig;
@@ -129,6 +138,9 @@ export class FullHeight {
     }
   }
 
+  /**
+   * Cleans up the full-height events.
+   */
   cleanup() {
     this.unregisterLazyLoadEvents();
   }
