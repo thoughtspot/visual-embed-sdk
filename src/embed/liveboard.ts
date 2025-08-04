@@ -645,16 +645,20 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     protected beforePrerenderVisible(): void {
-        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as LiveboardEmbed;
+        const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         if (isUndefined(embedObj)) return;
 
-        const showDifferentLib = this.viewConfig.liveboardId
-            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
+        const showDifferentLib = this.currentLiveboardId
+            && embedObj.currentLiveboardId !== this.currentLiveboardId;
 
         if (showDifferentLib) {
-            const libId = this.viewConfig.liveboardId;
-            this.navigateToLiveboard(libId);
+            console.log('showDifferentLib', this.currentLiveboardId);
+            const libId = this.currentLiveboardId;
+            this.navigateToLiveboard(libId, null, null, () => {
+                console.log('onNavigateCalled', libId);
+                embedObj.currentLiveboardId = libId;
+            });
         }
     }
 
@@ -729,13 +733,16 @@ export class LiveboardEmbed extends V1Embed {
         return this;
     }
 
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
+    public currentLiveboardId: string = this.viewConfig.liveboardId;
+
+    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string, onNavigateCalled?: () => void) {
         const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
         if (this.isRendered) {
-            this.trigger(HostEvent.Navigate, path.substring(1));
+            console.log('navigating to liveboard', path.substring(1));
+            this.triggerAfterLoad(HostEvent.Navigate, path.substring(1), onNavigateCalled);
         } else if (this.viewConfig.preRenderId) {
             this.preRender(true);
         } else {

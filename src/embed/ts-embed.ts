@@ -185,7 +185,10 @@ export class TsEmbed {
      */
     private fullscreenChangeHandler: (() => void) | null = null;
 
+    public id: string;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
+        this.id = Date.now().toString();
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
@@ -237,7 +240,7 @@ export class TsEmbed {
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
-        // eslint-disable-next-line no-underscore-dangle
+
         return event.data?.type || event.data?.__type;
     }
 
@@ -281,11 +284,11 @@ export class TsEmbed {
      */
     private isFullAppEmbedWithVisiblePrimaryNavbar(): boolean {
         const appViewConfig = this.viewConfig as any;
-        
+
         // Check if this is a FullAppEmbed (AppEmbed)
         // showPrimaryNavbar defaults to true if not explicitly set to false
         return (
-            appViewConfig.embedComponentType === 'AppEmbed' 
+            appViewConfig.embedComponentType === 'AppEmbed'
             && appViewConfig.showPrimaryNavbar === true
         );
     }
@@ -309,6 +312,8 @@ export class TsEmbed {
     }
 
     private subscribedListeners: Record<string, any> = {};
+
+    public isEmbedContainerLoaded = false;
 
     /**
      * Adds a global event listener to window for "message" events.
@@ -431,7 +436,8 @@ export class TsEmbed {
     private updateAuthToken = async (_: any, responder: any) => {
         const { authType } = this.embedConfig;
         let { autoLogin } = this.embedConfig;
-        // Default autoLogin: true for cookieless if undefined/null, otherwise false
+        // Default autoLogin: true for cookieless if undefined/null, otherwise
+        // false
         autoLogin = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
             try {
@@ -474,11 +480,65 @@ export class TsEmbed {
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
+    private pendingEvents: Array<{ eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void }> = [];
+
+    protected getPreRenderObj<T extends TsEmbed>() {
+        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
+        if (embedObj === (this as any)) {
+            console.log('embedObj is same as this');
+            return null;
+        }
+        return (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
+    }
+
+    private checkEmbedContainerLoaded() {
+        if (this.isEmbedContainerLoaded) return true;
+
+        const preRenderObj = this.getPreRenderObj<TsEmbed>();
+        if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
+            this.isEmbedContainerLoaded = true;
+        }
+
+        console.log('checkEmbedContainerLoaded', this.isEmbedContainerLoaded);
+
+        return this.isEmbedContainerLoaded;
+    }
+
+    private executePendingEvents() {
+        console.log('executePendingEvents', this.pendingEvents);
+        setTimeout(() => {
+            this.pendingEvents.forEach((event) => {
+                console.log('executing event', event.eventType, event.data);        
+                this.trigger(event.eventType, event.data);
+                event.onEventTriggered?.();
+            });
+            this.pendingEvents = [];
+        }, 1000);
+    }
+    protected triggerAfterLoad(eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void) {
+        if (this.checkEmbedContainerLoaded()) {
+            console.log('triggerAfterLoad', eventType, data);
+            this.trigger(eventType, data);
+            onEventTriggered?.();
+        } else {
+            console.log('pushing to pendingEvents', eventType, data, this.getPreRenderObj());
+            this.pendingEvents.push({ eventType, data, onEventTriggered });
+            console.log('pendingEvents', this.pendingEvents);
+        }
+    }
+
     /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
+        this.on(EmbedEvent.AuthInit, () => {
+            console.log('AuthInit', this.getPreRenderObj());
+            this.isEmbedContainerLoaded = true;
+            console.log('isEmbedContainerLoaded', this.isEmbedContainerLoaded);
+            console.log('executePendingEvents', this.pendingEvents);
+            this.executePendingEvents();
+        }, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
     };
@@ -798,8 +858,9 @@ export class TsEmbed {
                                 }
                             });
                         }
-                        
-                        // Setup fullscreen change handler after iframe is loaded and ready
+
+                        // Setup fullscreen change handler after iframe is
+                        // loaded and ready
                         this.setupFullscreenChangeHandler();
                     });
                     this.iFrame.addEventListener('error', () => {
@@ -926,7 +987,7 @@ export class TsEmbed {
                 const div = document.createElement('div');
                 div.innerHTML = child;
                 div.id = TS_EMBED_ID;
-                // eslint-disable-next-line no-param-reassign
+
                 child = div;
             }
             if (this.el.nextElementSibling?.id === TS_EMBED_ID) {
@@ -1070,11 +1131,11 @@ export class TsEmbed {
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
-        
+
         const callbacks = this.eventHandlerMap.get(messageType) || [];
         callbacks.push({ options, callback });
         this.eventHandlerMap.set(messageType, callbacks);
-        
+
         return this;
     }
 
@@ -1174,7 +1235,7 @@ export class TsEmbed {
         }
         await this.isReadyForRenderPromise;
         this.isRendered = true;
-        
+
         return this;
     }
 
@@ -1288,11 +1349,11 @@ export class TsEmbed {
                 ) {
                     logger.warn(
                         `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                            + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                            + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                            + 'was passed to the Embed component. '
-                            + 'The new value provided is ignored, the value provided during '
-                            + 'preRender is used.',
+                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
+                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
+                        + 'was passed to the Embed component. '
+                        + 'The new value provided is ignored, the value provided during '
+                        + 'preRender is used.',
                     );
                 }
             });
@@ -1321,6 +1382,8 @@ export class TsEmbed {
             this.trigger(HostEvent.UpdateEmbedParams, this.viewConfig);
         }
 
+        this.beforePrerenderVisible();
+
         if (this.el) {
             this.syncPreRenderStyle();
             if (!this.viewConfig.doNotTrackPreRenderSize) {
@@ -1338,12 +1401,10 @@ export class TsEmbed {
             }
         }
 
-        this.beforePrerenderVisible();
-
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
         this.subscribeToEvents();
-        
+
         // Setup fullscreen change handler for prerendered components
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
@@ -1432,7 +1493,7 @@ export class TsEmbed {
     private setupFullscreenChangeHandler() {
         const embedConfig = getEmbedConfig();
         const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
-        
+
         if (disableFullscreenPresentation) {
             return;
         }
@@ -1445,7 +1506,8 @@ export class TsEmbed {
             const isFullscreen = !!document.fullscreenElement;
             if (!isFullscreen) {
                 logger.info('Exited fullscreen mode - triggering ExitPresentMode');
-                // Only trigger if iframe is available and contentWindow is accessible
+                // Only trigger if iframe is available and contentWindow is
+                // accessible
                 if (this.iFrame && this.iFrame.contentWindow) {
                     this.trigger(HostEvent.ExitPresentMode);
                 } else {
@@ -1541,6 +1603,6 @@ export class V1Embed extends TsEmbed {
      * Only for testing purposes.
      * @hidden
      */
-    // eslint-disable-next-line camelcase
+
     public test__executeCallbacks = this.executeCallbacks;
 }
