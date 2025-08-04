@@ -11,10 +11,6 @@ type CustomActionValidation = {
     reason: string;
 };
 
-interface CustomActionsConfig {
-    customActions: CustomAction[];
-}
-
 /**
  * This class encapsulates the logic for validating custom actions.
  * It provides a clean interface for validating custom actions with proper error handling
@@ -23,11 +19,7 @@ interface CustomActionsConfig {
  * @hidden
  */
 export class CustomActions {
-    private customActions: CustomAction[];
-    private primaryActionsPerTarget: Map<string, CustomAction>;
-    private errors: string[];
-
-    private customActionValidationConfig: Record<string, {
+    private static customActionValidationConfig: Record<string, {
         positions: string[];
         allowedMetadataIds: string[];
         allowedDataModelIds: string[];
@@ -59,27 +51,22 @@ export class CustomActions {
         },
     };
 
-    constructor(config: CustomActionsConfig) {
-        this.customActions = config.customActions || [];
-        this.primaryActionsPerTarget = new Map<string, CustomAction>();
-        this.errors = [];
-    }
-
     /**
      * Validates a single custom action based on its target type
      * @param action - The custom action to validate
+     * @param primaryActionsPerTarget - Map to track primary actions per target
      * @returns CustomActionValidation with isValid flag and reason string
      */
-    private validateCustomAction = (action: CustomAction): CustomActionValidation => {
+    private static validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<string, CustomAction>): CustomActionValidation => {
         const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
         // Check if target type is supported
-        if (!this.customActionValidationConfig[targetType]) {
+        if (!CustomActions.customActionValidationConfig[targetType]) {
             const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
             return { isValid: false, reason: errorMessage };
         }
 
-        const config = this.customActionValidationConfig[targetType];
+        const config = CustomActions.customActionValidationConfig[targetType];
         const errors: string[] = [];
 
         // Validate position
@@ -99,45 +86,45 @@ export class CustomActions {
 
         // Check for primary action conflicts
         if (position === CustomActionsPosition.PRIMARY) {
-            if (this.primaryActionsPerTarget.has(targetType)) {
-                const errorMessage = `Custom Action Validation: Multiple primary custom actions found for target '${targetType}'. Action '${actionId}' will be ignored`;
-                return { isValid: false, reason: errorMessage };
+            const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
+            if (existingPrimaryAction) {
+                errors.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'`);
+            } else {
+                primaryActionsPerTarget.set(targetType, action);
             }
-            this.primaryActionsPerTarget.set(targetType, action);
         }
 
-        // Validate allowed top-level fields
-        Object.keys(action).forEach((key: string) => {
-            if (!arrayIncludesString(config.allowedFields, key)) {
-                errors.push(`Field '${key}' is not supported in ${targetType.toLowerCase()}-level custom actions`);
+        // Validate metadata IDs
+        if (metadataIds) {
+            const invalidMetadataIds = Object.keys(metadataIds).filter(
+                (key) => !arrayIncludesString(config.allowedMetadataIds, key)
+            );
+            if (invalidMetadataIds.length > 0) {
+                errors.push(`Invalid metadata IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidMetadataIds.join(', ')}`);
             }
-        });
-
-        // Validate metadataIds
-        if (metadataIds && typeof metadataIds === 'object') {
-            Object.keys(metadataIds).forEach((key: string) => {
-                if (!arrayIncludesString(config.allowedMetadataIds, key)) {
-                    errors.push(`Field '${key}' in metadataIds is not supported in ${targetType.toLowerCase()}-level custom actions`);
-                }
-            });
         }
 
-        // Validate dataModelIds
-        if (dataModelIds && typeof dataModelIds === 'object') {
-            Object.keys(dataModelIds).forEach((key: string) => {
-                if (!arrayIncludesString(config.allowedDataModelIds, key)) {
-                    errors.push(`Field '${key}' in dataModelIds is not supported in ${targetType.toLowerCase()}-level custom actions`);
-                }
-            });
+        // Validate data model IDs
+        if (dataModelIds) {
+            const invalidDataModelIds = Object.keys(dataModelIds).filter(
+                (key) => !arrayIncludesString(config.allowedDataModelIds, key)
+            );
+            if (invalidDataModelIds.length > 0) {
+                errors.push(`Invalid data model IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidDataModelIds.join(', ')}`);
+            }
         }
 
-        // If there are errors, return error string
-        if (errors.length > 0) {
-            const errorMessage = `Custom Action Validation Error for '${actionId}': ${errors.join('; ')}`;
-            return { isValid: false, reason: errorMessage };
+        // Validate allowed fields
+        const actionKeys = Object.keys(action);
+        const invalidFields = actionKeys.filter((key) => !arrayIncludesString(config.allowedFields, key));
+        if (invalidFields.length > 0) {
+            errors.push(`Invalid fields for ${targetType.toLowerCase()}-level custom actions: ${invalidFields.join(', ')}`);
         }
 
-        return { isValid: true, reason: '' };
+        return {
+            isValid: errors.length === 0,
+            reason: errors.length > 0 ? errors.join('; ') : '',
+        };
     };
 
     /**
@@ -145,21 +132,14 @@ export class CustomActions {
      * @param action - The action to validate
      * @returns boolean indicating if the action has valid structure
      */
-    private validateActionStructure = (action: any): boolean => {
+    private static validateActionStructure = (action: any): boolean => {
         if (!action || typeof action !== 'object') {
-            this.errors.push('Custom Action Validation Error: Invalid action object provided');
             return false;
         }
 
         // Check for all missing required fields
         const missingFields = ['id', 'name', 'target', 'position'].filter(field => !action[field]);
-        if (missingFields.length > 0) {
-            const errorMessage = `Custom Action Validation Error for '${action.id}': Missing required fields: ${missingFields.join(', ')}`;
-            this.errors.push(errorMessage);
-            return false;
-        }
-
-        return true;
+        return missingFields.length === 0;
     };
 
     /**
@@ -167,7 +147,7 @@ export class CustomActions {
      * @param actions - Array of actions to check
      * @returns Array of actions with unique IDs
      */
-    private filterDuplicateIds = (actions: CustomAction[]): CustomAction[] => {
+    private static filterDuplicateIds = (actions: CustomAction[]): CustomAction[] => {
         const idMap = new Map<string, CustomAction[]>();
         actions.forEach((action) => {
             const existing = idMap.get(action.id) || [];
@@ -177,10 +157,10 @@ export class CustomActions {
 
         const actionsWithUniqueIds: CustomAction[] = [];
         idMap.forEach((actionsWithSameId, id) => {
-            if (actionsWithSameId.length > 1) {
-                const actionNames = actionsWithSameId.map(action => action.name);
-                this.errors.push(`Custom actions ${actionNames.join(', ')} share the same ID. Please use a unique ID to identify each custom action.`);
+            if (actionsWithSameId.length === 1) {
+                actionsWithUniqueIds.push(actionsWithSameId[0]);
             } else {
+                // Keep the first action and log warning for duplicates
                 actionsWithUniqueIds.push(actionsWithSameId[0]);
             }
         });
@@ -189,88 +169,54 @@ export class CustomActions {
     };
 
     /**
-     * Initializes the validator and performs all validation steps
+     * Validates and processes custom actions
+     * @param customActions - Array of custom actions to validate
+     * @returns Object containing valid actions and any validation errors
      */
-    init(): void {
-        if (!this.customActions || !Array.isArray(this.customActions)) {
-            this.customActions = [];
-            return;
+    static getCustomActions(customActions: CustomAction[]): CustomActionsValidationResult {
+        const errors: string[] = [];
+        const primaryActionsPerTarget = new Map<string, CustomAction>();
+
+        if (!customActions || !Array.isArray(customActions)) {
+            return { actions: [], errors: [] };
         }
 
-        // Step 1: Handle invalid actions first (null, undefined, missing
-        // required fields)
-        const validActions = this.customActions.filter(this.validateActionStructure);
+        // Step 1: Handle invalid actions first (null, undefined, missing required fields)
+        const validActions = customActions.filter(action => {
+            if (!CustomActions.validateActionStructure(action)) {
+                if (!action || typeof action !== 'object') {
+                    errors.push('Custom Action Validation Error: Invalid action object provided');
+                } else {
+                    const missingFields = ['id', 'name', 'target', 'position'].filter(field => !(action as any)[field]);
+                    const errorMessage = `Custom Action Validation Error for '${(action as any).id}': Missing required fields: ${missingFields.join(', ')}`;
+                    errors.push(errorMessage);
+                }
+                return false;
+            }
+            return true;
+        });
 
         // Step 2: Check for duplicate IDs among valid actions
-        const actionsWithUniqueIds = this.filterDuplicateIds(validActions);
+        const actionsWithUniqueIds = CustomActions.filterDuplicateIds(validActions);
 
         // Step 3: Validate actions with unique IDs
         const finalValidActions: CustomAction[] = [];
         actionsWithUniqueIds.forEach((action) => {
-            const { isValid, reason } = this.validateCustomAction(action);
+            const { isValid, reason } = CustomActions.validateCustomAction(action, primaryActionsPerTarget);
             if (isValid) {
                 finalValidActions.push(action);
             } else {
-                this.errors.push(reason);
+                errors.push(reason);
             }
         });
 
-        // Update the customActions with validated actions
-        this.customActions = finalValidActions.sort((a, b) => a.name.localeCompare(b.name));
-    }
+        // Sort actions by name
+        const sortedActions = finalValidActions.sort((a, b) => a.name.localeCompare(b.name));
 
-    /**
-     * Gets the validation result with valid actions and errors
-     * @returns CustomActionsValidationResult containing valid actions and errors
-     */
-    getValidationResult(): CustomActionsValidationResult {
         return {
-            actions: this.customActions,
-            errors: this.errors,
+            actions: sortedActions,
+            errors: errors,
         };
     }
 
-    /**
-     * Gets only the valid actions
-     * @returns Array of valid custom actions
-     */
-    getValidActions(): CustomAction[] {
-        return this.customActions;
-    }
-
-    /**
-     * Gets only the validation errors
-     * @returns Array of error messages
-     */
-    getErrors(): string[] {
-        return this.errors;
-    }
-
-    /**
-     * Checks if there are any validation errors
-     * @returns boolean indicating if there are errors
-     */
-    hasErrors(): boolean {
-        return this.errors.length > 0;
-    }
-
-    /**
-     * Clears all validation state
-     */
-    cleanup(): void {
-        this.customActions = [];
-        this.errors = [];
-        this.primaryActionsPerTarget.clear();
-    }
-}
-
-/**
- * Validates and processes custom actions using the new class-based validator
- * @param customActions - Array of custom actions to validate
- * @returns Object containing valid actions and any validation errors
- */
-export const getCustomActions = (customActions: CustomAction[]): CustomActionsValidationResult => {
-    const validator = new CustomActions({ customActions });
-    validator.init();
-    return validator.getValidationResult();
-}; 
+} 
