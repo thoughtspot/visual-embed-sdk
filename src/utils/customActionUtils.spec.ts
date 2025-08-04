@@ -143,6 +143,19 @@ describe('Custom Action Validation', () => {
                 expect(result.errors).toHaveLength(1);
                 expect(result.errors[0]).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
             });
+
+            it('should return false when SPOTTER target has PRIMARY position', () => {
+                const action: CustomAction = {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.SPOTTER,
+                    position: CustomActionsPosition.PRIMARY,
+                };
+                const result = getCustomActions([action]);
+                expect(result.actions).toEqual([]);
+                expect(result.errors).toHaveLength(1);
+                expect(result.errors[0]).toContain("Spotter-level custom actions cannot have position 'PRIMARY'");
+            });
         });
 
         describe('Field Validation', () => {
@@ -260,7 +273,7 @@ describe('Custom Action Validation', () => {
                     name: 'Test Spotter Action',
                     id: 'test-spotter-id',
                     target: CustomActionTarget.SPOTTER,
-                    position: CustomActionsPosition.PRIMARY,
+                    position: CustomActionsPosition.MENU,
                     dataModelIds: {
                         modelIds: ['model1'],
                     },
@@ -476,7 +489,7 @@ describe('Custom Action Validation', () => {
             const result = getCustomActions([firstAction, secondAction]);
             expect(result.actions).toEqual([firstAction]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored. Only the first primary action 'first-primary-id' will be shown.");
+            expect(result.errors[0]).toContain("Custom Action Validation: Multiple primary custom actions found for target 'LIVEBOARD'. Action 'second-primary-id' will be ignored");
         });
 
         it('should allow primary actions for different targets', () => {

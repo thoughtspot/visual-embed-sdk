@@ -69,11 +69,15 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
         errors.push(`Liveboard-level custom actions cannot have position '${CustomActionsPosition.CONTEXTMENU}'`);
     }
 
+    // Validation for Spotter level custom actions cannot have PRIMARY
+    if (targetType === CustomActionTarget.SPOTTER && position === CustomActionsPosition.PRIMARY) {
+        errors.push(`Spotter-level custom actions cannot have position '${CustomActionsPosition.PRIMARY}'`);
+    }
+
     // Check for primary action conflicts
     if (position === CustomActionsPosition.PRIMARY) {
         if (primaryActionsPerTarget.has(targetType)) {
-            const existingAction = primaryActionsPerTarget.get(targetType);
-            const errorMessage = `Custom Action Validation: Multiple primary custom actions found for target '${targetType}'. Action '${actionId}' will be ignored. Only the first primary action '${existingAction?.id}' will be shown.`;
+            const errorMessage = `Custom Action Validation: Multiple primary custom actions found for target '${targetType}'. Action '${actionId}' will be ignored`;
             return errorMessage;
         }
         primaryActionsPerTarget.set(targetType, action);
