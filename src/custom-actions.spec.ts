@@ -1,14 +1,136 @@
-import { getCustomActions } from './customActionUtils';
-import { CustomAction, CustomActionsPosition, CustomActionTarget } from '../types';
-import { logger } from './logger';
+import { getCustomActions, CustomActions } from './custom-actions';
+import { CustomAction, CustomActionsPosition, CustomActionTarget } from './types';
+import { logger } from './utils/logger';
 
 // Mock logger
-jest.mock('./logger', () => ({
+jest.mock('./utils/logger', () => ({
     logger: {
         warn: jest.fn(),
         error: jest.fn(),
     },
 }));
+
+describe('CustomActions class', () => {
+    let customActions: CustomActions;
+
+    beforeEach(() => {
+        customActions = new CustomActions({ customActions: [] });
+    });
+
+    afterEach(() => {
+        customActions.cleanup();
+    });
+
+    describe('Class instantiation and initialization', () => {
+        test('should create instance with empty custom actions', () => {
+            expect(customActions).toBeInstanceOf(CustomActions);
+            expect(customActions.getValidActions()).toEqual([]);
+            expect(customActions.getErrors()).toEqual([]);
+        });
+
+        test('should initialize with custom actions', () => {
+            const actions: CustomAction[] = [
+                {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                },
+            ];
+            customActions = new CustomActions({ customActions: actions });
+            customActions.init();
+            
+            expect(customActions.getValidActions()).toEqual(actions);
+            expect(customActions.getErrors()).toEqual([]);
+        });
+
+        test('should return validation result after initialization', () => {
+            const actions: CustomAction[] = [
+                {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                },
+            ];
+            customActions = new CustomActions({ customActions: actions });
+            customActions.init();
+            
+            const result = customActions.getValidationResult();
+            expect(result.actions).toEqual(actions);
+            expect(result.errors).toEqual([]);
+        });
+    });
+
+    describe('Error handling and state management', () => {
+        test('should track errors during validation', () => {
+            const invalidAction: CustomAction = {
+                name: 'Invalid Action',
+                id: 'invalid-id',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.CONTEXTMENU, // Invalid for LIVEBOARD
+            };
+            customActions = new CustomActions({ customActions: [invalidAction] });
+            customActions.init();
+            
+            expect(customActions.hasErrors()).toBe(true);
+            expect(customActions.getErrors()).toHaveLength(1);
+            expect(customActions.getValidActions()).toEqual([]);
+        });
+
+        test('should clean up state when cleanup is called', () => {
+            const actions: CustomAction[] = [
+                {
+                    name: 'Test Action',
+                    id: 'test-id',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                },
+            ];
+            customActions = new CustomActions({ customActions: actions });
+            customActions.init();
+            
+            expect(customActions.getValidActions()).toHaveLength(1);
+            
+            customActions.cleanup();
+            expect(customActions.getValidActions()).toEqual([]);
+            expect(customActions.getErrors()).toEqual([]);
+        });
+    });
+
+    describe('SPOTTER with PRIMARY position validation', () => {
+        test('should reject SPOTTER target with PRIMARY position', () => {
+            const action: CustomAction = {
+                name: 'Test Spotter Action',
+                id: 'test-spotter-id',
+                target: CustomActionTarget.SPOTTER,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            customActions = new CustomActions({ customActions: [action] });
+            customActions.init();
+            
+            expect(customActions.hasErrors()).toBe(true);
+            expect(customActions.getErrors()).toHaveLength(1);
+            expect(customActions.getErrors()[0]).toContain("Spotter-level custom actions cannot have position 'PRIMARY'");
+            expect(customActions.getValidActions()).toEqual([]);
+        });
+
+        test('should accept SPOTTER target with MENU position', () => {
+            const action: CustomAction = {
+                name: 'Test Spotter Action',
+                id: 'test-spotter-id',
+                target: CustomActionTarget.SPOTTER,
+                position: CustomActionsPosition.MENU,
+            };
+            customActions = new CustomActions({ customActions: [action] });
+            customActions.init();
+            
+            expect(customActions.hasErrors()).toBe(false);
+            expect(customActions.getErrors()).toEqual([]);
+            expect(customActions.getValidActions()).toEqual([action]);
+        });
+    });
+});
 
 describe('Custom Action Validation', () => {
     beforeEach(() => {

@@ -35,7 +35,7 @@ import {
     removeStyleProperties,
     isUndefined,
 } from '../utils';
-import { getCustomActions } from '../utils/customActionUtils';
+import { getCustomActions } from '../custom-actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
