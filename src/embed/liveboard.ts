@@ -741,13 +741,16 @@ export class LiveboardEmbed extends V1Embed {
         return this;
     }
 
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
+    public currentLiveboardId: string = this.viewConfig.liveboardId;
+
+    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string, onNavigateCalled?: () => void) {
         const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
         if (this.isRendered) {
-            this.trigger(HostEvent.Navigate, path.substring(1));
+            console.log('navigating to liveboard', path.substring(1));
+            this.triggerAfterLoad(HostEvent.Navigate, path.substring(1), onNavigateCalled);
         } else if (this.viewConfig.preRenderId) {
             this.preRender(true);
         } else {

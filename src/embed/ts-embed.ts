@@ -185,7 +185,10 @@ export class TsEmbed {
      */
     private fullscreenChangeHandler: (() => void) | null = null;
 
+    public id: string;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
+        this.id = Date.now().toString();
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
@@ -309,6 +312,8 @@ export class TsEmbed {
     }
 
     private subscribedListeners: Record<string, any> = {};
+
+    public isEmbedContainerLoaded = false;
 
     /**
      * Adds a global event listener to window for "message" events.
@@ -475,17 +480,71 @@ export class TsEmbed {
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
+    private pendingEvents: Array<{ eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void }> = [];
+
+    protected getPreRenderObj<T extends TsEmbed>() {
+        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
+        if (embedObj === (this as any)) {
+            console.log('embedObj is same as this');
+            return null;
+        }
+        return (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
+    }
+
+    private checkEmbedContainerLoaded() {
+        if (this.isEmbedContainerLoaded) return true;
+
+        const preRenderObj = this.getPreRenderObj<TsEmbed>();
+        if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
+            this.isEmbedContainerLoaded = true;
+        }
+
+        console.log('checkEmbedContainerLoaded', this.isEmbedContainerLoaded);
+
+        return this.isEmbedContainerLoaded;
+    }
+
+    private executePendingEvents() {
+        console.log('executePendingEvents', this.pendingEvents);
+        setTimeout(() => {
+            this.pendingEvents.forEach((event) => {
+                console.log('executing event', event.eventType, event.data);
+                this.trigger(event.eventType, event.data);
+                event.onEventTriggered?.();
+            });
+            this.pendingEvents = [];
+        }, 1000);
+    }
+    protected triggerAfterLoad(eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void) {
+        if (this.checkEmbedContainerLoaded()) {
+            console.log('triggerAfterLoad', eventType, data);
+            this.trigger(eventType, data);
+            onEventTriggered?.();
+        } else {
+            console.log('pushing to pendingEvents', eventType, data, this.getPreRenderObj());
+            this.pendingEvents.push({ eventType, data, onEventTriggered });
+            console.log('pendingEvents', this.pendingEvents);
+        }
+    }
+
     /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
+        this.on(EmbedEvent.AuthInit, () => {
+            console.log('AuthInit', this.getPreRenderObj());
+            this.isEmbedContainerLoaded = true;
+            console.log('isEmbedContainerLoaded', this.isEmbedContainerLoaded);
+            console.log('executePendingEvents', this.pendingEvents);
+            this.executePendingEvents();
+        }, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
-        
-        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);  
+
+        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
-        
+
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
     };
@@ -1179,7 +1238,7 @@ export class TsEmbed {
         } else {
             logger.debug('pushing callback to embedContainerReadyCallbacks', callback);
             this.embedContainerReadyCallbacks.push(callback);
-          }
+        }
     }
 
     protected createEmbedContainerHandler = (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
@@ -1398,6 +1457,8 @@ export class TsEmbed {
             this.trigger(HostEvent.UpdateEmbedParams, this.viewConfig);
         }
 
+        this.beforePrerenderVisible();
+
         if (this.el) {
             this.syncPreRenderStyle();
             if (!this.viewConfig.doNotTrackPreRenderSize) {
@@ -1414,8 +1475,6 @@ export class TsEmbed {
                 this.resizeObserver.observe(this.el);
             }
         }
-
-        this.beforePrerenderVisible();
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
