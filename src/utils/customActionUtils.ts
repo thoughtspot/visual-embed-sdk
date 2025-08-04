@@ -1,9 +1,15 @@
 import { CustomAction, CustomActionsPosition, CustomActionTarget } from '../types';
+import { arrayIncludesString } from '../utils';
 
 export interface CustomActionsValidationResult {
     actions: CustomAction[];
     errors: string[];
 }
+
+type CustomActionValidation = {
+    isValid: boolean;
+    reason: string;
+};
 
 const customActionValidationConfig: Record<string, {
     positions: string[];
@@ -37,23 +43,21 @@ const customActionValidationConfig: Record<string, {
     },
 };
 
-function arrayIncludesString(arr: readonly unknown[], key: string): boolean {
-    return (arr as string[]).includes(key);
-}
+
 
 /**
  * Validates a custom action based on its target type
  * @param action - The custom action to validate
  * @param primaryActionsPerTarget - Map to track primary actions per target
- * @returns null if valid, or error string if invalid
+ * @returns CustomActionValidation with isValid flag and reason string
  */
-const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<string, CustomAction>): string | null => {
+const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<string, CustomAction>): CustomActionValidation => {
     const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
     // Check if target type is supported
     if (!customActionValidationConfig[targetType]) {
         const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
-        return errorMessage;
+        return { isValid: false, reason: errorMessage };
     }
 
     const config = customActionValidationConfig[targetType];
@@ -78,7 +82,7 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     if (position === CustomActionsPosition.PRIMARY) {
         if (primaryActionsPerTarget.has(targetType)) {
             const errorMessage = `Custom Action Validation: Multiple primary custom actions found for target '${targetType}'. Action '${actionId}' will be ignored`;
-            return errorMessage;
+            return { isValid: false, reason: errorMessage };
         }
         primaryActionsPerTarget.set(targetType, action);
     }
@@ -111,10 +115,10 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     // If there are errors, return error string
     if (errors.length > 0) {
         const errorMessage = `Custom Action Validation Error for '${actionId}': ${errors.join('; ')}`;
-        return errorMessage;
+        return { isValid: false, reason: errorMessage };
     }
 
-    return null;
+    return { isValid: true, reason: '' };
 };
 
 /**
@@ -170,11 +174,11 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
     // Step 3: Validate actions with unique IDs
     const finalValidActions: CustomAction[] = [];
     actionsWithUniqueIds.forEach((action) => {
-        const error = validateCustomAction(action, primaryActionsPerTarget);
-        if (!error) {
+        const { isValid, reason } = validateCustomAction(action, primaryActionsPerTarget);
+        if (isValid) {
             finalValidActions.push(action);
         } else {
-            errors.push(error);
+            errors.push(reason);
         }
     });
 
