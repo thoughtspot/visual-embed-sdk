@@ -610,6 +610,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add enableAskSage flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
