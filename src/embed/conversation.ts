@@ -135,7 +135,7 @@ export class SpotterEmbed extends TsEmbed {
         super(container, viewConfig);
     }
 
-    public getIframeSrc(): string {
+    protected getEmbedParamsObject() {
         const {
             worksheetId,
             searchOptions,
@@ -145,7 +145,7 @@ export class SpotterEmbed extends TsEmbed {
             showSpotterLimitations,
             hideSampleQuestions,
         } = this.viewConfig;
-        const path = 'insights/conv-assist';
+
         if (!worksheetId) {
             this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
         }
@@ -169,6 +169,17 @@ export class SpotterEmbed extends TsEmbed {
         if (!isUndefined(hideSampleQuestions)) {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
+
+        return queryParams;
+    }
+
+    public getIframeSrc(): string {
+        const {
+            worksheetId,
+            searchOptions,
+        } = this.viewConfig;
+        const path = 'insights/conv-assist';
+        const queryParams = this.getEmbedParamsObject();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
