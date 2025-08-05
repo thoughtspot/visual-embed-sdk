@@ -408,6 +408,12 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
+        const params = this.getEmbedParamsObject();
+        const queryParams = getQueryParamString(params, true);
+        return queryParams;
+    }
+
+    protected getEmbedParamsObject() {
         let params: any = {};
         params = this.getBaseQueryParams(params);
         const {
@@ -511,9 +517,33 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        const queryParams = getQueryParamString(params, true);
 
-        return queryParams;
+        if (oAuthPollingInterval !== undefined) {
+            params[Param.OauthPollingInterval] = oAuthPollingInterval;
+        }
+
+        if (isForceRedirect) {
+            params[Param.IsForceRedirect] = isForceRedirect;
+        }
+
+        if (dataSourceId !== undefined) {
+            params[Param.DataSourceId] = dataSourceId;
+        }
+
+
+        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
+        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
+        params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
+        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        params[Param.DataPanelV2Enabled] = dataPanelV2;
+        params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        return params;
     }
 
     private getIframeSuffixSrc(liveboardId: string, vizId: string, activeTabId: string) {
@@ -749,7 +779,6 @@ export class LiveboardEmbed extends V1Embed {
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
         if (this.isRendered) {
-            console.log('navigating to liveboard', path.substring(1));
             this.triggerAfterLoad(HostEvent.Navigate, path.substring(1), onNavigateCalled);
         } else if (this.viewConfig.preRenderId) {
             this.preRender(true);

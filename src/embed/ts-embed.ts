@@ -203,9 +203,10 @@ export class TsEmbed {
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
 
+        const embedConfig = getEmbedConfig();
+        this.embedConfig = embedConfig;
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
-            const embedConfig = getEmbedConfig();
-            this.embedConfig = embedConfig;
+
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
@@ -482,13 +483,12 @@ export class TsEmbed {
 
     private pendingEvents: Array<{ eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void }> = [];
 
-    protected getPreRenderObj<T extends TsEmbed>() {
+    protected getPreRenderObj<T extends TsEmbed>(): T {
         const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
         if (embedObj === (this as any)) {
-            console.log('embedObj is same as this');
-            return null;
+            logger.info('embedObj is same as this');
         }
-        return (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
+        return embedObj;
     }
 
     private checkEmbedContainerLoaded() {
@@ -499,16 +499,13 @@ export class TsEmbed {
             this.isEmbedContainerLoaded = true;
         }
 
-        console.log('checkEmbedContainerLoaded', this.isEmbedContainerLoaded);
-
         return this.isEmbedContainerLoaded;
     }
 
     private executePendingEvents() {
-        console.log('executePendingEvents', this.pendingEvents);
+        logger.debug('executePendingEvents', this.pendingEvents);
         setTimeout(() => {
             this.pendingEvents.forEach((event) => {
-                console.log('executing event', event.eventType, event.data);
                 this.trigger(event.eventType, event.data);
                 event.onEventTriggered?.();
             });
@@ -517,13 +514,10 @@ export class TsEmbed {
     }
     protected triggerAfterLoad(eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void) {
         if (this.checkEmbedContainerLoaded()) {
-            console.log('triggerAfterLoad', eventType, data);
             this.trigger(eventType, data);
             onEventTriggered?.();
         } else {
-            console.log('pushing to pendingEvents', eventType, data, this.getPreRenderObj());
             this.pendingEvents.push({ eventType, data, onEventTriggered });
-            console.log('pendingEvents', this.pendingEvents);
         }
     }
 
@@ -533,10 +527,7 @@ export class TsEmbed {
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthInit, () => {
-            console.log('AuthInit', this.getPreRenderObj());
             this.isEmbedContainerLoaded = true;
-            console.log('isEmbedContainerLoaded', this.isEmbedContainerLoaded);
-            console.log('executePendingEvents', this.pendingEvents);
             this.executePendingEvents();
         }, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
@@ -565,6 +556,12 @@ export class TsEmbed {
             .join('/');
 
         return `${basePath}#`;
+    }
+
+    protected getUpdateEmbedParamsObject() {
+        let queryParams = this.getEmbedParamsObject();
+        queryParams = { ...this.viewConfig, ...queryParams };
+        return queryParams;
     }
 
     /**
@@ -749,8 +746,13 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getBaseQueryParams();
+        const queryParams = this.getEmbedParamsObject();
         return getQueryParamString(queryParams);
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        return params;
     }
 
     protected getRootIframeSrc() {
@@ -1454,7 +1456,8 @@ export class TsEmbed {
                 return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
-            this.trigger(HostEvent.UpdateEmbedParams, this.viewConfig);
+            logger.debug('triggering UpdateEmbedParams', this.viewConfig);
+            this.triggerAfterLoad(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
         }
 
         this.beforePrerenderVisible();

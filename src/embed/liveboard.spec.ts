@@ -601,6 +601,14 @@ describe('Liveboard/viz embed tests', () => {
 
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
+        // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
@@ -611,16 +619,30 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
-        });
-        executeAfterWait(() => {
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
+        });
+
+        executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
 
     test('navigateToLiveboard with preRender', async (done) => {
         mockMessageChannel();
+
+        // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
+
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             preRenderId: 'test',
@@ -632,12 +654,15 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
         });
         executeAfterWait(() => {
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -822,7 +847,7 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             });
         });
-       
+
         test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async (done) => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
