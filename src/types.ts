@@ -2789,7 +2789,19 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    SpotterInit = 'SpotterInit'
+    SpotterInit = 'SpotterInit',
+    /**
+     * @hidden
+     * Triggers when the embed listener is ready to receive events.
+     * This is used to trigger events after the embed container is loaded.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EmbedListenerReady, () => {
+     *     console.log('EmbedListenerReady');
+     * })
+     * ```
+     */
+    EmbedListenerReady = 'EmbedListenerReady',
 }
 
 /**
