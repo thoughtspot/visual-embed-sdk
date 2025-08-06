@@ -2789,7 +2789,7 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    SpotterInit = 'SpotterInit',
+    SpotterInit = 'spotterInit',
     /**
      * @hidden
      * Triggers when the embed listener is ready to receive events.
