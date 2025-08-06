@@ -644,18 +644,30 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
+    /**
+     * @hidden
+     * Internal state to track the current liveboard id.
+     * This is used to navigate to the correct liveboard when the prerender is visible.
+     */
+    public currentLiveboardState = {
+        liveboardId: this.viewConfig.liveboardId,
+        vizId: this.viewConfig.vizId,
+        activeTabId: this.viewConfig.activeTabId,
+    };
+
     protected beforePrerenderVisible(): void {
-        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as LiveboardEmbed;
+        const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
-        if (isUndefined(embedObj)) return;
-
-        const showDifferentLib = this.viewConfig.liveboardId
-            && embedObj.viewConfig.liveboardId !== this.viewConfig.liveboardId;
-
-        if (showDifferentLib) {
-            const libId = this.viewConfig.liveboardId;
-            this.navigateToLiveboard(libId);
-        }
+        this.executeAfterEmbedContainerLoaded(() => {
+            this.navigateToLiveboard(this.viewConfig.liveboardId, this.viewConfig.vizId, this.viewConfig.activeTabId);
+            if (embedObj) {
+                embedObj.currentLiveboardState = {
+                    liveboardId: this.viewConfig.liveboardId,
+                    vizId: this.viewConfig.vizId,
+                    activeTabId: this.viewConfig.activeTabId,
+                };
+            }
+        });
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
