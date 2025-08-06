@@ -1189,10 +1189,11 @@ export class TsEmbed {
             this.executeEmbedContainerReadyCallbacks();
         }
         if (source === EmbedEvent.AuthInit) {
+            const AUTH_INIT_FALLBACK_DELAY = 1000;
             // Wait for 1 second to ensure the embed container is loaded
             // This is a workaround to ensure the embed container is loaded
             // this is needed until all clusters have EmbedListenerReady event
-            setTimeout(processEmbedContainerReady, 1000);
+            setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
         } else if (source === EmbedEvent.EmbedListenerReady) {
             processEmbedContainerReady();
         }
