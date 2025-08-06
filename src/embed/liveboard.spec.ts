@@ -822,6 +822,72 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             });
         });
+       
+        test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async (done) => {
+            mockMessageChannel();
+            const consoleSpy = jest.spyOn(console, 'error');
+            const testPreRenderId = 'testPreRender';
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+                releaseVersion: '1.0.0',
+                userGUID: '1234567890',
+                currentOrgId: 1,
+                privileges: [],
+                mixpanelToken: '1234567890',
+            });
+            let resizeObserverCb: any;
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam: any) => {
+                    resizeObserverCb = resizeObserverCbParam;
+                    return {
+                        disconnect: jest.fn(),
+                        observe: jest.fn(),
+                        unobserve: jest.fn(),
+                    };
+                });
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            const ts = '__tsEmbed';
+            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
+                libEmbed,
+            );
+            const testLiveboardId = 'testLiveboardId';
+            const newLibEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+                liveboardId: testLiveboardId,
+                vizId: 'testVizId',
+                activeTabId: 'testActiveTabId',
+            });
+            const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
+
+            await newLibEmbed.showPreRender();
+
+            await executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    newLibEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+                postMessageToParent(iFrame.contentWindow, {
+                    type: EmbedEvent.AuthInit,
+                });
+            });
+
+
+            await executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    libEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+                // should render the generic link
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+                expect(consoleSpy).toHaveBeenCalledTimes(0);
+                done();
+            }, 1005);
+        });
+
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
