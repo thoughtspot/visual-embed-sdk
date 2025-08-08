@@ -5071,8 +5071,8 @@ export enum Action {
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
-     * Action ID to hide or disable Iterative Change Analysis option 
-     * on contextual change analysis  Inisght charts context menu
+     * Action ID to hide or disable the Iterative Change Analysis option
+     * on the context menu for Insight charts from contextual change analysis.
      * 
      * @example
      * ```js
