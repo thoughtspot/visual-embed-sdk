@@ -740,6 +740,12 @@ export class AppEmbed extends V1Embed {
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
+        // Set navigation to v2 by default to avoid problems like the app
+        // switcher (9-dot menu) not showing when v3 navigation is turned on
+        // at the cluster level.
+        // To use v3 navigation, we must manually set the discoveryExperience
+        // settings.
+        params[Param.NavigationVersion] = 'v2';
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
