@@ -88,7 +88,7 @@ export class CustomActions {
         if (position === CustomActionsPosition.PRIMARY) {
             const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
             if (existingPrimaryAction) {
-                errors.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'`);
+                errors.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'. Only the first action will be shown.`);
             } else {
                 primaryActionsPerTarget.set(targetType, action);
             }

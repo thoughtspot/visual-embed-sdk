@@ -399,7 +399,7 @@ describe('CustomActions class', () => {
             const result = CustomActions.getCustomActions([firstAction, secondAction]);
             expect(result.actions).toEqual([firstAction]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Multiple primary actions found for liveboard-level custom actions");
+            expect(result.errors[0]).toBe("Multiple primary actions found for liveboard-level custom actions: 'First Primary Action' and 'Second Primary Action'. Only the first action will be shown.");
         });
 
         test('should allow primary actions for different targets', () => {
