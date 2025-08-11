@@ -40603,7 +40603,7 @@
 			"sources": [
 				{
 					"fileName": "utils/liveboardService/liveboardService.ts",
-					"line": 19,
+					"line": 34,
 					"character": 13
 				}
 			],
@@ -40615,7 +40615,8 @@
 					"kindString": "Call signature",
 					"flags": {},
 					"comment": {
-						"shortText": "Create a liveboard with the given answers",
+						"shortText": "Creates a new Liveboard in ThoughtSpot using the provided AnswerService instances.",
+						"text": "Each answer will be added as a visualization to the newly created Liveboard.\n",
 						"returns": "result Promise",
 						"tags": [
 							{
@@ -40624,7 +40625,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n  const lb = createLiveboardWithAnswers([\n     new AnswerService(session, null, 'tshost'),\n  ], \"my-liveboard\");\n```\n"
+								"text": "\n```js\nimport { EmbedEvent, AnswerService } from \"@thoughtspot/visual-embed-sdk\";\n\nembed.on(EmbedEvent.Data, async () => {\n  try {\n    const answerService = await embed.getAnswerService();\n    const lb = await createLiveboardWithAnswers(\n      [answerService],\n      \"My Liveboard\"\n    );\n    console.log(\"Liveboard created:\", lb);\n  } catch (err) {\n    console.error(\"Failed to create liveboard:\", err);\n  }\n});\n```\n"
 							}
 						]
 					},
@@ -40636,7 +40637,7 @@
 							"kindString": "Parameter",
 							"flags": {},
 							"comment": {
-								"text": "AnswerService[]"
+								"text": "An array of initialized `AnswerService` instances\nrepresenting the answers to be added to the Liveboard."
 							},
 							"type": {
 								"type": "array",
@@ -40654,7 +40655,7 @@
 							"kindString": "Parameter",
 							"flags": {},
 							"comment": {
-								"text": "string"
+								"text": "The name of the Liveboard to create."
 							},
 							"type": {
 								"type": "intrinsic",
