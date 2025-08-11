@@ -12,7 +12,7 @@ const logFunctions: {
     [LogLevel.TRACE]: console.trace,
 };
 
-let globalLogLevelOverride: LogLevel = LogLevel.TRACE;
+let globalLogLevelOverride: LogLevel | undefined;
 const setGlobalLogLevelOverride = (logLevel: LogLevel): void => {
     globalLogLevelOverride = logLevel;
 };
@@ -58,7 +58,7 @@ class Logger {
     }
 
     public log(...args: any[]): void {
-        this.info(args);
+        this.info(...args);
     }
 
     public info(...args: any[]): void {
