@@ -680,7 +680,7 @@ export class LiveboardEmbed extends V1Embed {
             this.setActiveTab(data as { tabId: string });
             return Promise.resolve(null);
         }
-        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
+        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId && messageType !== HostEvent.Navigate) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
         return super.trigger(messageType, dataWithVizId);
@@ -729,13 +729,18 @@ export class LiveboardEmbed extends V1Embed {
         return this;
     }
 
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
+    public navigateToLiveboard(
+        liveboardId: string,
+        vizId?: string,
+        activeTabId?: string,
+        replacePath = false,
+    ): void {
         const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
         if (this.isRendered) {
-            this.trigger(HostEvent.Navigate, path.substring(1));
+            this.trigger(HostEvent.Navigate, { path: path.substring(1), replace: replacePath });
         } else if (this.viewConfig.preRenderId) {
             this.preRender(true);
         } else {
