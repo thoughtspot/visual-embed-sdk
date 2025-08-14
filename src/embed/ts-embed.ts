@@ -952,13 +952,6 @@ export class TsEmbed {
         }
     }
 
-    /**
-     * Sets the height of the iframe
-     * @param height The height in pixels
-     */
-    protected setIFrameHeight(height: number | string): void {
-        this.iFrame.style.height = getCssDimension(height);
-    }
 
     /**
      * Executes all registered event handlers for a particular event type
@@ -1008,40 +1001,7 @@ export class TsEmbed {
         return V1EventMap[eventType] || eventType;
     }
 
-    /**
-     * Calculates the iframe center for the current visible viewPort
-     * of iframe using Scroll position of Host App, offsetTop for iframe
-     * in Host app. ViewPort height of the tab.
-     * @returns iframe Center in visible viewport,
-     *  Iframe height,
-     *  View port height.
-     */
-    protected getIframeCenter() {
-        const offsetTopClient = getOffsetTop(this.iFrame);
-        const scrollTopClient = window.scrollY;
-        const viewPortHeight = window.innerHeight;
-        const iframeHeight = this.iFrame.offsetHeight;
-        const iframeScrolled = scrollTopClient - offsetTopClient;
-        let iframeVisibleViewPort;
-        let iframeOffset;
 
-        if (iframeScrolled < 0) {
-            iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
-            iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
-            iframeOffset = 0;
-        } else {
-            iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
-            iframeOffset = iframeScrolled;
-        }
-        const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
-        return {
-            iframeCenter,
-            iframeScrolled,
-            iframeHeight,
-            viewPortHeight,
-            iframeVisibleViewPort,
-        };
-    }
 
     /**
      * Registers an event listener to trigger an alert when the ThoughtSpot app
