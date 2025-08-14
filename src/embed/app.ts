@@ -750,6 +750,8 @@ export class AppEmbed extends V1Embed {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
                 params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
+                // Enable the modularHomeExperience when Sliding is enabled.
+                params[Param.ModularHomeExperienceEnabled] = true;
             }
 
             // homePage v2 will enable the modular home page
