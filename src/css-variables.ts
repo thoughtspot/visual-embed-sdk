@@ -827,4 +827,44 @@ export interface CustomCssVariables {
      * Font color of the legend label in the treemap chart.
      */
     '--ts-var-chart-treemap-legend-label-color'?: string;
+
+    /**
+     * Color of the positive change in the KPI.
+     */
+    '--ts-var-kpi-positive-change-color'?: string;
+
+    /**
+     * Color of the negative change in the KPI.
+     */
+    '--ts-var-kpi-negative-change-color'?: string;
+ 
+    /**
+     * Background color of the change analysis insights.
+     */
+    '--ts-var-change-analysis-insights-background'?: string;
+
+    /**
+     * Background color of the forecasting card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-forecasting-card-background'?: string;
+
+    /**
+     * Background color of the outlier card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-outlier-card-background'?: string;
+
+    /**
+     * Background color of the trend card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-trend-card-background'?: string;
+    
+    /**
+     * Background color of the crosscorrelation card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-crosscorrelation-card-background'?: string;
+    
+    /**
+     * Background color of the summary header in the CCA modal.
+     */
+    '--ts-var-cca-modal-summary-header-background'?: string;
   }
