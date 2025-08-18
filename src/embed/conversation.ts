@@ -104,9 +104,10 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     hideSampleQuestions?: boolean;
     /**
-     * enablePastConversationsSidebar : Enable past conversations sidebar
+     * enablePastConversationsSidebar : Controls the visibility of the past conversations sidebar.
      * 
      * Supported embed types: `SpotterEmbed`
+     * @default false
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
