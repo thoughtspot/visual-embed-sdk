@@ -22369,7 +22369,7 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nimport { HomepageModule } from '@thoughtspot/visual-embed-sdk';\n\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\nTo use it, you need to import `HomeLeftNavItem` enum."
+								"text": "\n```js\nimport { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';\n\nconst embed = new AppEmbed('#tsEmbed', {\n   ... //other embed view config\n   hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],\n})\n```\n\n**Note**: This option does not apply to the classic homepage.\nTo access the updated modular homepage, set\n`modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).\nTo use it, you need to import `HomeLeftNavItem` enum."
 							},
 							{
 								"tag": "version",

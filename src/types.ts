@@ -1107,7 +1107,7 @@ export interface HomePageConfig {
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
-     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
      * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
