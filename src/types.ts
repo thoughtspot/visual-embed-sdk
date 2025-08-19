@@ -1040,12 +1040,14 @@ export interface HomePageConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is available only in full app embedding.
+     * **Note**: This option is available only in full app embedding. To use it, you need to import `ListPageColumns` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
+     * import { ListPageColumns } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
@@ -1060,11 +1062,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
@@ -1079,11 +1084,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
@@ -1099,6 +1107,8 @@ export interface HomePageConfig {
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
+     * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
@@ -1108,6 +1118,7 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomeLeftNavItem` enum.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
