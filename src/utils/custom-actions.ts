@@ -84,7 +84,8 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
         errors.push(`Spotter-level custom actions cannot have position '${CustomActionsPosition.PRIMARY}'`);
     }
 
-    // Check for primary action conflicts (this is a warning, not a validation failure)
+    // Check for primary action conflicts (this is a warning, not a validation
+    // failure)
     if (position === CustomActionsPosition.PRIMARY) {
         const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
         if (existingPrimaryAction) {
@@ -220,7 +221,8 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
                 !reason.includes('Invalid fields');
             
             if (hasOnlyPrimaryActionConflict) {
-                // Primary action conflicts are warnings, not validation failures
+                // Primary action conflicts are warnings, not validation
+                // failures
                 finalValidActions.push(action);
                 errors.push(reason);
             } else {
