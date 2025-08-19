@@ -673,7 +673,7 @@ export interface EmbedConfig {
      * actions enable users to trigger custom workflows — such as navigating to an
      * external app, calling an API, or opening a modal — based on the data context of
      * what they clicked can be used to trigger custom logic when the action is clicked.
-     * @version SDK: 1.42.0 | ThoughtSpot: 10.13.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
      * init({
@@ -1063,7 +1063,7 @@ export interface BaseViewConfig {
      * what they clicked can be used to trigger custom logic when the action is clicked.
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterEmbed`
-     * @version SDK: 1.42.0 | ThoughtSpot: 10.13.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
