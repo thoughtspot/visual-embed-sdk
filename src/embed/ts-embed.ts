@@ -35,7 +35,7 @@ import {
     removeStyleProperties,
     isUndefined,
 } from '../utils';
-import { CustomActions } from '../custom-actions';
+import { getCustomActions } from '../utils/custom-actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -381,7 +381,7 @@ export class TsEmbed {
 
     protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
         const authToken = await this.getAuthTokenForCookielessInit();
-        const customActionsResult = CustomActions.getCustomActions([
+        const customActionsResult = getCustomActions([
             ...(this.viewConfig.customActions || []),
             ...(this.embedConfig.customActions || [])
         ]);
