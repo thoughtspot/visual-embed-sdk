@@ -115,9 +115,9 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    ... // other embed view config
      *    runtimeFilters: [
      *           {
-     *             columnName: 'value',
+     *             columnName: 'color',
      *             operator: RuntimeFilterOp.EQ,
-     *             values: ['string' | 123 | true],
+     *             values: ['red'],
      *           },
      *       ],
      * })
@@ -143,8 +143,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    ... // other embed view config
      *    runtimeParameters: [
      *           {
-     *             name: 'Parameter Name',
-     *             value: 'Parameter Value',
+     *             name: 'Integer Param',
+     *             value: 10,
      *           },
      *       ],
      * })
