@@ -112,7 +112,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other embed view config
+     *    // other embed view config
      *    runtimeFilters: [
      *           {
      *             columnName: 'color',
@@ -140,7 +140,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... // other embed view config
+     *    // other embed view config
      *    runtimeParameters: [
      *           {
      *             name: 'Integer Param',
