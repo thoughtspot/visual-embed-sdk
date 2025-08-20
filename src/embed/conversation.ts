@@ -122,6 +122,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *       ],
      * })
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     runtimeFilters?: RuntimeFilter[];
     /**
@@ -131,6 +132,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *
      * Supported embed types: `SpotterEmbed`
      * @default false
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
@@ -149,6 +151,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *       ],
      * })
      * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     runtimeParameters?: RuntimeParameter[];
     /**
@@ -158,7 +161,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *
      * Supported embed types: `SpotterEmbed`
      * @default false
-     *
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
 }
