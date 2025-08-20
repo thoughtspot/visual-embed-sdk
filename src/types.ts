@@ -4377,27 +4377,27 @@ export enum Action {
      */
     ConfigureFilter = 'configureFilter',
     /**
-    * The **Collapse data sources** icon on the Search page.
-    * Collapses the panel showing data sources.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.CollapseDataPanel]
-    * ```
-    * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
-    */
+     * The **Collapse data sources** icon on the Search page.
+     * Collapses the panel showing data sources.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CollapseDataPanel]
+     * ```
+     * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
+     */
     CollapseDataSources = 'collapseDataSources',
     /**
-    * The **Collapse data panel** icon on the Search page.
-    * Collapses the data panel view.
-    *
-    * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.CollapseDataPanel]
-    * ```
-    */
+     * The **Collapse data panel** icon on the Search page.
+     * Collapses the data panel view.
+     *
+     * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CollapseDataPanel]
+     * ```
+     */
     CollapseDataPanel = 'collapseDataPanel',
     /**
      * The **Choose sources** button on Search page.
@@ -5095,9 +5095,9 @@ export enum Action {
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
-     * Action ID to hide or disable Iterative Change Analysis option 
+     * Action ID to hide or disable Iterative Change Analysis option
      * on contextual change analysis  Inisght charts context menu
-     * 
+     *
      * @example
      * ```js
      * disabledActions: [Action.EnableIterativeChangeAnalysis]
@@ -5490,6 +5490,39 @@ export enum Action {
      *  @version SDK: 1.39.0 | ThoughtSpot Cloud: 10.10.0.cl
      */
     InConversationTraining = 'InConversationTraining',
+    /**
+     * Action ID to hide the warnings banner in
+     * Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterWarningsBanner]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterWarningsBanner = 'SpotterWarningsBanner',
+    /**
+     * Action ID to hide the warnings border on the knowledge
+     * card in Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterWarningsOnTokens]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterWarningsOnTokens = 'SpotterWarningsOnTokens',
+    /**
+     * Action ID to disable the click event handler on knowledge
+     * card in Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterTokenQuickEdit]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterTokenQuickEdit = 'SpotterTokenQuickEdit',
 }
 
 export interface AnswerServiceType {
