@@ -1,4 +1,3 @@
- 
 import { resetValueFromWindow } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
@@ -733,7 +732,7 @@ describe('Unit test case for ts embed', () => {
                         runtimeFilterParams: null,
                         runtimeParameterParams: null,
                         hiddenHomeLeftNavItems:
-                      [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
+                            [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
                         hiddenHomepageModules: [],
                         hiddenListColumns: [],
                         customActions: [],
@@ -1506,7 +1505,7 @@ describe('Unit test case for ts embed', () => {
         afterEach(() => {
             jest.clearAllMocks();
         });
-        
+
         afterAll(() => {
             jest.clearAllMocks();
         });
@@ -1530,11 +1529,11 @@ describe('Unit test case for ts embed', () => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(true);
 
             let mockGetPreauthInfo = null;
-            
+
             // Determine if preauth cache should be enabled
             const isAppEmbedWithPrimaryNavbar = embedType === 'AppEmbed' && showPrimaryNavbar === true;
             const shouldDisableCache = overrideOrgId || disablePreauthCache || isAppEmbedWithPrimaryNavbar;
-            
+
             if (shouldDisableCache) {
                 mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo')
                     .mockImplementation(jest.fn());
@@ -1602,7 +1601,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should disable preauth cache for FullAppEmbed with showPrimaryNavbar = true (default)', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', true);
-            
+
             // Wait for any async operations
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
@@ -1611,7 +1610,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should enable preauth cache for FullAppEmbed with showPrimaryNavbar = undefined (no longer defaults to true)', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', undefined);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
@@ -1625,7 +1624,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should enable preauth cache for FullAppEmbed with showPrimaryNavbar = false', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
@@ -1639,7 +1638,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should enable preauth cache for SearchEmbed regardless of showPrimaryNavbar', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('SearchEmbed', true);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
@@ -1653,7 +1652,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should enable preauth cache for SearchEmbed (verifies fix for embed type regression)', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('SearchEmbed', false);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(1);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
@@ -1667,7 +1666,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should disable preauth cache for FullAppEmbed with overrideOrgId (combined condition)', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false, 123);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
             });
@@ -1675,7 +1674,7 @@ describe('Unit test case for ts embed', () => {
 
         test('should disable preauth cache for FullAppEmbed with disablePreauthCache = true', async () => {
             const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false, undefined, true);
-            
+
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
             });
@@ -2939,132 +2938,132 @@ describe('Unit test case for ts embed', () => {
     });
 
     describe('AutoLogin behavior in updateAuthToken', () => {
-      const mockPort = { postMessage: jest.fn() };
-      const mockEmbedEventPayload = { type: EmbedEvent.AuthExpire, data: {} };
-      
-      beforeEach(() => {
-        jest.clearAllMocks();
-        document.body.innerHTML = getDocumentBody();
-        mockPort.postMessage.mockClear();
-        jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('test-token');
-        
-        jest.spyOn(baseInstance, 'handleAuth').mockImplementation(() => Promise.resolve(true));
-        jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => {});
-      });
+        const mockPort = { postMessage: jest.fn() };
+        const mockEmbedEventPayload = { type: EmbedEvent.AuthExpire, data: {} };
 
-      const renderAndTriggerAuthExpire = async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-        await searchEmbed.render();
-        await executeAfterWait(() => {
-          const iframe = getIFrameEl();
-          postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-      };
+        beforeEach(() => {
+            jest.clearAllMocks();
+            document.body.innerHTML = getDocumentBody();
+            mockPort.postMessage.mockClear();
+            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('test-token');
 
-      test('Cookieless with autoLogin undefined should default to true', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.TrustedAuthTokenCookieless,
-          // autoLogin undefined
+            jest.spyOn(baseInstance, 'handleAuth').mockImplementation(() => Promise.resolve(true));
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => { });
         });
 
-        await renderAndTriggerAuthExpire();
+        const renderAndTriggerAuthExpire = async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+        };
 
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
-          expect(mockPort.postMessage).toHaveBeenCalledWith({
-            type: EmbedEvent.AuthExpire,
-            data: { authToken: 'test-token' },
-          });
-        });
-      });
+        test('Cookieless with autoLogin undefined should default to true', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                // autoLogin undefined
+            });
 
-      test('Cookieless with autoLogin false should not get auth token', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.TrustedAuthTokenCookieless,
-          autoLogin: false,
-        });
+            await renderAndTriggerAuthExpire();
 
-        await renderAndTriggerAuthExpire();
-
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
-          expect(mockPort.postMessage).not.toHaveBeenCalled();
-        });
-      });
-
-      test('Cookieless with autoLogin true should get auth token', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.TrustedAuthTokenCookieless,
-          autoLogin: true,
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test-token' },
+                });
+            });
         });
 
-        await renderAndTriggerAuthExpire();
+        test('Cookieless with autoLogin false should not get auth token', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                autoLogin: false,
+            });
 
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
-          expect(mockPort.postMessage).toHaveBeenCalledWith({
-            type: EmbedEvent.AuthExpire,
-            data: { authToken: 'test-token' },
-          });
-        });
-      });
+            await renderAndTriggerAuthExpire();
 
-      test('Other authType with autoLogin undefined should default to false', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.None,
-          // autoLogin undefined
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(mockPort.postMessage).not.toHaveBeenCalled();
+            });
         });
 
-        await renderAndTriggerAuthExpire();
+        test('Cookieless with autoLogin true should get auth token', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.TrustedAuthTokenCookieless,
+                autoLogin: true,
+            });
 
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
-        });
-      });
+            await renderAndTriggerAuthExpire();
 
-      test('Other authType with autoLogin true should call handleAuth', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.None,
-          autoLogin: true,
-        });
-
-        await renderAndTriggerAuthExpire();
-
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(2);
-        });
-      });
-
-      test('Other authType with autoLogin false should not call handleAuth', async () => {
-        init({
-          thoughtSpotHost: 'tshost',
-          authType: AuthType.None,
-          autoLogin: false,
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.AuthExpire,
+                    data: { authToken: 'test-token' },
+                });
+            });
         });
 
-        await renderAndTriggerAuthExpire();
+        test('Other authType with autoLogin undefined should default to false', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                // autoLogin undefined
+            });
 
-        await executeAfterWait(() => {
-          expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-          expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+            await renderAndTriggerAuthExpire();
+
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+            });
         });
-      });
 
-      afterEach(() => {
-        expect(baseInstance.notifyAuthFailure).toHaveBeenCalledWith(
-          authInstance.AuthFailureType.EXPIRY
-        );
-      });
+        test('Other authType with autoLogin true should call handleAuth', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                autoLogin: true,
+            });
+
+            await renderAndTriggerAuthExpire();
+
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(2);
+            });
+        });
+
+        test('Other authType with autoLogin false should not call handleAuth', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                autoLogin: false,
+            });
+
+            await renderAndTriggerAuthExpire();
+
+            await executeAfterWait(() => {
+                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
+                expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        afterEach(() => {
+            expect(baseInstance.notifyAuthFailure).toHaveBeenCalledWith(
+                authInstance.AuthFailureType.EXPIRY
+            );
+        });
     });
 
     describe('Fullscreen Change Handler', () => {
@@ -3107,11 +3106,243 @@ describe('Unit test case for ts embed', () => {
                 authType: AuthType.None,
                 disableFullscreenPresentation: true,
             });
-            
+
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             expect(() => {
                 searchEmbed['setupFullscreenChangeHandler']();
             }).not.toThrow();
+        });
+    });
+
+    describe('Embed Container Loading', () => {
+        beforeEach(() => {
+            document.body.innerHTML = getDocumentBody();
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+            jest.spyOn(sessionInfoService, 'getSessionInfo').mockResolvedValue({
+                releaseVersion: '1.0.0',
+                userGUID: '1234567890',
+                currentOrgId: 1,
+                privileges: [],
+                mixpanelToken: '1234567890',
+                isPublicUser: false,
+                clusterId: 'cluster1',
+                clusterName: 'Test Cluster',
+            });
+        });
+
+        test('should initialize with isEmbedContainerLoaded as false', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
+        });
+
+        test('should have empty embedContainerReadyCallbacks array initially', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect(searchEmbed['embedContainerReadyCallbacks']).toEqual([]);
+        });
+
+        test('should execute callback immediately if embed container is already loaded', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.isEmbedContainerLoaded = true;
+
+            const callback = jest.fn();
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback);
+
+            expect(callback).toHaveBeenCalledTimes(1);
+        });
+
+        test('should queue callback if embed container is not loaded', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.isEmbedContainerLoaded = false;
+
+            const callback = jest.fn();
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback);
+
+            expect(callback).not.toHaveBeenCalled();
+            expect(searchEmbed['embedContainerReadyCallbacks']).toContain(callback);
+        });
+
+        test('should execute all queued callbacks when embed container becomes ready', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.isEmbedContainerLoaded = false;
+
+            const callback1 = jest.fn();
+            const callback2 = jest.fn();
+            const callback3 = jest.fn();
+
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback1);
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback2);
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback3);
+
+            expect(callback1).not.toHaveBeenCalled();
+            expect(callback2).not.toHaveBeenCalled();
+            expect(callback3).not.toHaveBeenCalled();
+
+            // Simulate embed container becoming ready
+            searchEmbed['executeEmbedContainerReadyCallbacks']();
+
+            expect(callback1).toHaveBeenCalledTimes(1);
+            expect(callback2).toHaveBeenCalledTimes(1);
+            expect(callback3).toHaveBeenCalledTimes(1);
+        });
+
+        test('should handle AuthInit event and set embed container as loaded after timeout', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                expect(iframe).toBeTruthy();
+            });
+
+            const iframe = getIFrameEl();
+            const callback = jest.fn();
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback);
+
+            // Simulate AuthInit event
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
+
+            expect(callback).not.toHaveBeenCalled();
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
+
+            // Wait for the 1-second timeout
+            await executeAfterWait(() => {
+                expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
+                expect(callback).toHaveBeenCalledTimes(1);
+            }, 1100);
+        });
+
+        test('should handle EmbedListenerReady event and set embed container as loaded immediately', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            searchEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                expect(iframe).toBeTruthy();
+            });
+
+            const iframe = getIFrameEl();
+            const callback = jest.fn();
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback);
+
+            // Simulate EmbedListenerReady event
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.EmbedListenerReady,
+            });
+
+            await executeAfterWait(() => {
+                expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
+                expect(callback).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        test('should check prerendered object for embed container loaded state', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            // Mock a prerendered object with loaded state
+            const mockPreRenderObj = {
+                isEmbedContainerLoaded: true,
+            };
+
+            jest.spyOn(searchEmbed as any, 'getPreRenderObj').mockReturnValue(mockPreRenderObj as any);
+
+            const result = searchEmbed['checkEmbedContainerLoaded']();
+
+            expect(result).toBe(true);
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
+        });
+
+        test('should return getPreRenderObj and log if same object', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const loggerSpy = jest.spyOn(logger, 'info');
+
+            // Mock insertedDomEl to have the embed object
+            (searchEmbed as any).insertedDomEl = {
+                [searchEmbed['embedNodeKey']]: searchEmbed,
+            };
+
+            const result = searchEmbed['getPreRenderObj']();
+
+            expect(result).toBe(searchEmbed);
+            expect(loggerSpy).toHaveBeenCalledWith('embedObj is same as this');
+        });
+
+        test('should handle null/undefined callbacks gracefully', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            expect(() => {
+                searchEmbed['executeAfterEmbedContainerLoaded'](null);
+                searchEmbed['executeAfterEmbedContainerLoaded'](undefined);
+            }).not.toThrow();
+        });
+
+        test('should handle multiple callback executions correctly', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            const callback1 = jest.fn();
+            const callback2 = jest.fn();
+
+            // Add callbacks when container is not loaded
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback1);
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback2);
+
+            // Execute callbacks
+            searchEmbed['executeEmbedContainerReadyCallbacks']();
+
+            expect(callback1).toHaveBeenCalledTimes(1);
+            expect(callback2).toHaveBeenCalledTimes(1);
+
+            // Add another callback after container is loaded
+            searchEmbed.isEmbedContainerLoaded = true;
+            const callback3 = jest.fn();
+            searchEmbed['executeAfterEmbedContainerLoaded'](callback3);
+
+            expect(callback3).toHaveBeenCalledTimes(1);
+        });
+
+        test('should register embed container event handlers during construction', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            // Check that the event handlers are registered
+            const eventHandlerMap = searchEmbed['eventHandlerMap'];
+            expect(eventHandlerMap.has(EmbedEvent.AuthInit)).toBe(true);
+            expect(eventHandlerMap.has(EmbedEvent.EmbedListenerReady)).toBe(true);
+        });
+
+        test('should handle handleEmbedContainerLoaded with AuthInit source', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            jest.useFakeTimers();
+
+            const handler = searchEmbed['createEmbedContainerHandler'](EmbedEvent.AuthInit);
+
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
+
+            handler();
+
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
+
+            // Fast-forward time
+            jest.advanceTimersByTime(1000);
+
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
+
+            jest.useRealTimers();
+        });
+
+        test('should handle handleEmbedContainerLoaded with EmbedListenerReady source', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            const handler = searchEmbed['createEmbedContainerHandler'](EmbedEvent.EmbedListenerReady);
+
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
+
+            handler();
+
+            expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
         });
     });
 });

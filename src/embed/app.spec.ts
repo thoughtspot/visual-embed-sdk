@@ -593,9 +593,10 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add navigationVersion=v3 & modularHomeExperience=false when primaryNavbarVersion is Sliding to the iframe src', async () => {
+    test('Should add navigationVersion=v3 & modularHomeExperience=true when primaryNavbarVersion is Sliding to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
+            // Not included the homePage v2 config under discoveryExperience.
             discoveryExperience: {
                 primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
             },
@@ -605,7 +606,21 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });

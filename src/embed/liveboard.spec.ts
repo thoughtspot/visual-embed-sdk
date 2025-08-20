@@ -25,6 +25,7 @@ import * as tsEmbed from './ts-embed';
 import * as processTriggerInstance from '../utils/processTrigger';
 import * as auth from '../auth';
 import * as previewService from '../utils/graphql/preview-service';
+import * as SessionInfoService from '../utils/sessionInfoService';
 
 const defaultViewConfig = {
     frameParams: {
@@ -761,7 +762,7 @@ describe('Liveboard/viz embed tests', () => {
             });
         });
 
-        test('it should navigateToLiveboard with liveboard id is not passed', async (done) => {
+        test('it should navigateToLiveboard with liveboard id is not passed with EmbedListenerReady event', async (done) => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
             const testPreRenderId = 'testPreRender';
@@ -790,10 +791,19 @@ describe('Liveboard/viz embed tests', () => {
                 libEmbed,
             );
 
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, {
+                    type: EmbedEvent.EmbedListenerReady,
+                });
+            });
+
             const testLiveboardId = 'testLiveboardId';
             const newLibEmbed = new LiveboardEmbed(getRootEl(), {
                 preRenderId: testPreRenderId,
                 liveboardId: testLiveboardId,
+                vizId: 'testVizId',
+                activeTabId: 'testActiveTabId',
             });
             const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
             await newLibEmbed.showPreRender();
@@ -804,7 +814,7 @@ describe('Liveboard/viz embed tests', () => {
                 ) as HTMLIFrameElement;
 
                 // should render the generic link
-                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId);
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
@@ -812,6 +822,72 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             });
         });
+       
+        test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async (done) => {
+            mockMessageChannel();
+            const consoleSpy = jest.spyOn(console, 'error');
+            const testPreRenderId = 'testPreRender';
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+                releaseVersion: '1.0.0',
+                userGUID: '1234567890',
+                currentOrgId: 1,
+                privileges: [],
+                mixpanelToken: '1234567890',
+            });
+            let resizeObserverCb: any;
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam: any) => {
+                    resizeObserverCb = resizeObserverCbParam;
+                    return {
+                        disconnect: jest.fn(),
+                        observe: jest.fn(),
+                        unobserve: jest.fn(),
+                    };
+                });
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            const ts = '__tsEmbed';
+            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
+                libEmbed,
+            );
+            const testLiveboardId = 'testLiveboardId';
+            const newLibEmbed = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+                liveboardId: testLiveboardId,
+                vizId: 'testVizId',
+                activeTabId: 'testActiveTabId',
+            });
+            const navigateToLiveboardSpy = jest.spyOn(newLibEmbed, 'navigateToLiveboard');
+
+            await newLibEmbed.showPreRender();
+
+            await executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    newLibEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+                postMessageToParent(iFrame.contentWindow, {
+                    type: EmbedEvent.AuthInit,
+                });
+            });
+
+
+            await executeAfterWait(() => {
+                const iFrame = document.getElementById(
+                    libEmbed.getPreRenderIds().child,
+                ) as HTMLIFrameElement;
+                // should render the generic link
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+                expect(consoleSpy).toHaveBeenCalledTimes(0);
+                done();
+            }, 1005);
+        });
+
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
@@ -1083,6 +1159,159 @@ describe('Liveboard/viz embed tests', () => {
                     vizId: 'testViz',
                 });
             });
+        });
+    });
+
+    describe('Liveboard Embed Container Loading and PreRender', () => {
+        beforeEach(() => {
+            document.body.innerHTML = getDocumentBody();
+        });
+
+        test('should call navigateToLiveboard after embed container is loaded in beforePrerenderVisible', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as not loaded initially
+            liveboardEmbed.isEmbedContainerLoaded = false;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // navigateToLiveboard should not be called immediately
+            expect(navigateToLiveboardSpy).not.toHaveBeenCalled();
+
+            // Simulate embed container becoming ready
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+
+            // Now navigateToLiveboard should be called
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+        });
+
+        test('should update currentLiveboardState for prerender object when embed container loads', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            const mockPreRenderObj = {
+                currentLiveboardState: {},
+            };
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(mockPreRenderObj as any);
+            jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as not loaded initially
+            liveboardEmbed.isEmbedContainerLoaded = false;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // Simulate embed container becoming ready
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+
+            // Check that currentLiveboardState was updated
+            expect(mockPreRenderObj.currentLiveboardState).toEqual({
+                liveboardId,
+                vizId,
+                activeTabId,
+            });
+        });
+
+        test('should handle beforePrerenderVisible when embed container is already loaded', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as already loaded
+            liveboardEmbed.isEmbedContainerLoaded = true;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // navigateToLiveboard should be called immediately
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+        });
+
+        test('should handle beforePrerenderVisible without prerender object', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(null);
+            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as not loaded initially
+            liveboardEmbed.isEmbedContainerLoaded = false;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // Simulate embed container becoming ready
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+
+            // navigateToLiveboard should still be called
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+        });
+
+        test('should work with all liveboard parameters', async () => {
+            const customLiveboardId = 'custom-liveboard-id';
+            const customVizId = 'custom-viz-id';
+            const customActiveTabId = 'custom-active-tab-id';
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: customLiveboardId,
+                vizId: customVizId,
+                activeTabId: customActiveTabId,
+                ...defaultViewConfig,
+            });
+
+            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as already loaded
+            liveboardEmbed.isEmbedContainerLoaded = true;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // Check that all parameters are passed correctly
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(customLiveboardId, customVizId, customActiveTabId);
+        });
+
+        test('should work with minimal liveboard parameters', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+            });
+
+            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+
+            // Mock embed container as already loaded
+            liveboardEmbed.isEmbedContainerLoaded = true;
+
+            // Call beforePrerenderVisible
+            liveboardEmbed['beforePrerenderVisible']();
+
+            // Check that undefined parameters are passed correctly
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, undefined, undefined);
         });
     });
 });

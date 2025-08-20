@@ -1092,12 +1092,14 @@ export interface HomePageConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is available only in full app embedding.
+     * **Note**: This option is available only in full app embedding. To use it, you need to import `ListPageColumns` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
+     * import { ListPageColumns } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
@@ -1112,11 +1114,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
@@ -1131,11 +1136,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
@@ -1151,6 +1159,8 @@ export interface HomePageConfig {
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
+     * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
@@ -1160,6 +1170,7 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomeLeftNavItem` enum.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -2843,7 +2854,19 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    SpotterInit = 'spotterInit'
+    SpotterInit = 'spotterInit',
+    /**
+     * @hidden
+     * Triggers when the embed listener is ready to receive events.
+     * This is used to trigger events after the embed container is loaded.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EmbedListenerReady, () => {
+     *     console.log('EmbedListenerReady');
+     * })
+     * ```
+     */
+    EmbedListenerReady = 'EmbedListenerReady',
 }
 
 /**
@@ -5124,6 +5147,17 @@ export enum Action {
      * @version SDK: 1.25.0 | ThoughtSpot Cloud: 9.6.0.cl
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
+    /**
+     * Action ID to hide or disable Iterative Change Analysis option 
+     * on contextual change analysis  Inisght charts context menu
+     * 
+     * @example
+     * ```js
+     * disabledActions: [Action.EnableIterativeChangeAnalysis]
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot Cloud: 9.12.0.cl
+     */
+    EnableIterativeChangeAnalysis = 'enableIterativeChangeAnalysis',
     /**
      * Action ID to hide or disable Natural Language Search query.
      *
