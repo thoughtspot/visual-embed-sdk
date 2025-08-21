@@ -198,10 +198,11 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
+        const embedConfig = getEmbedConfig();
+        this.embedConfig = embedConfig;
+    
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
-            const embedConfig = getEmbedConfig();
-            this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
@@ -1277,12 +1278,7 @@ export class TsEmbed {
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
-        if (!getIsInitCalled()) {
-            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
-        }
-        await this.isReadyForRenderPromise;
-        
+    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {        
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;

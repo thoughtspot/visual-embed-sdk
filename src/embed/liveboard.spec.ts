@@ -721,6 +721,12 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('PreRender flow for liveboard embed', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: "http://tshost",
+                authType: AuthType.None,
+            });
+        });
         test('it should preRender generic with liveboard id is not passed', async (done) => {
             const consoleSpy = jest.spyOn(console, 'error');
             const libEmbed = new LiveboardEmbed(getRootEl(), {
