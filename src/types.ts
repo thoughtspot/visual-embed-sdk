@@ -14,7 +14,7 @@ import type { SessionInterface } from './utils/graphql/answerService/answerServi
  * the embedded app
  * @group Authentication / Init
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum AuthType {
     /**
      * No authentication on the SDK. Pass-through to the embedded App. Alias for
@@ -262,7 +262,7 @@ export interface customCssInterface {
      *   };
      * ```
      */
-    // eslint-disable-next-line camelcase
+     
     rules_UNSTABLE?: {
         [selector: string]: {
             [declaration: string]: string;
@@ -666,6 +666,31 @@ export interface EmbedConfig {
      * ```
      */
     disableFullscreenPresentation?: boolean;
+
+    /**
+     * Custom Actions allows users to define interactive UI actions (like buttons or menu
+     * items) that appear in ThoughtSpot's visualizations, answers, and Liveboards. These
+     * actions enable users to trigger custom workflows — such as navigating to an
+     * external app, calling an API, or opening a modal — based on the data context of
+     * what they clicked can be used to trigger custom logic when the action is clicked.
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
+     */
+    customActions?: CustomAction[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -731,7 +756,7 @@ export interface BaseViewConfig {
     /**
      * @hidden
      */
-    // eslint-disable-next-line camelcase
+     
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
@@ -931,7 +956,7 @@ export interface BaseViewConfig {
      * ```
      * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      */
-    // eslint-disable-next-line camelcase
+     
     enableV2Shell_experimental?: boolean;
     /**
      * For internal tracking of the embed component type.
@@ -1030,6 +1055,33 @@ export interface BaseViewConfig {
      * ```
      */
     showAlerts?: boolean;
+    /**
+     * Custom Actions allows users to define interactive UI actions (like buttons or menu
+     * items) that appear in ThoughtSpot's visualizations, answers, and Liveboards. These
+     * actions enable users to trigger custom workflows — such as navigating to an
+     * external app, calling an API, or opening a modal — based on the data context of
+     * what they clicked can be used to trigger custom logic when the action is clicked.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterEmbed`
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Use supported embed types such as AppEmbed or LiveboardEmbed
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       name: 'customAction', 
+     *       id: 'customAction',
+     *       target: CustomActionTarget.VISUALIZATION,
+     *       position: CustomActionPosition.PRIMARY,
+     *       }
+     *     }    
+     *   ]
+     * })
+     * ```
+     */
+    customActions?: CustomAction[];
 }
 
 /**
@@ -1358,7 +1410,8 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isLiveboardCompactHeaderEnabled?: boolean;
     /**
-     * This flag can be used to show or hide the Liveboard verified icon in the compact header.
+     * This flag can be used to show or hide the Liveboard verified icon in the compact
+     * header.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -1390,7 +1443,8 @@ export interface LiveboardAppEmbedViewConfig {
      */
     hideIrrelevantChipsInLiveboardTabs?: boolean;
     /**
-     * This flag can be used to show or hide the re-verify banner on the Liveboard compact header
+     * This flag can be used to show or hide the re-verify banner on the Liveboard
+     * compact header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
@@ -1500,7 +1554,7 @@ export type QueryParams = {
 /**
  * A map of the supported runtime filter operations
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum RuntimeFilterOp {
     /**
      * Equals
@@ -1571,7 +1625,7 @@ export enum RuntimeFilterOp {
  * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum HomepageModule {
     /**
      * Search bar
@@ -1604,7 +1658,7 @@ export enum HomepageModule {
  * **Note**: This option is applicable to full app embedding only.
  * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum ListPageColumns {
     /**
      * Favourite
@@ -1702,7 +1756,7 @@ export interface RuntimeParameter {
  * ```
  * @group Events
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum EmbedEvent {
     /**
      * Rendering has initialized.
@@ -2868,7 +2922,7 @@ export enum EmbedEvent {
  * ```
  * @group Events
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum HostEvent {
     /**
      * Triggers a search operation with the search tokens specified in
@@ -4083,7 +4137,7 @@ export enum HostEvent {
  * The different visual modes that the data sources panel within
  * search could appear in, such as hidden, collapsed, or expanded.
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum DataSourceVisualMode {
     /**
      * The data source panel is hidden.
@@ -4103,7 +4157,7 @@ export enum DataSourceVisualMode {
  * The query params passed down to the embedded ThoughtSpot app
  * containing configuration and/or visual information.
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum Param {
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
@@ -4252,7 +4306,7 @@ export enum Param {
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
  */
-// eslint-disable-next-line no-shadow
+ 
 export enum Action {
     /**
      * The **Save** action on an Answer or Liveboard.
@@ -4797,7 +4851,7 @@ export enum Action {
      * The Favorites icon (*) for Answers,
      * Liveboard, and data objects like Worksheet, Model,
      * Tables and Views.
-     * Allows adding an object to the user’s favorites list.
+     * Allows adding an object to the user's favorites list.
      * @example
      * ```js
      * disabledActions: [Action.AddToFavorites]
@@ -5593,6 +5647,45 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+export interface CustomAction {
+    name: string;
+    id: string;
+    position: CustomActionsPosition;
+    target: CustomActionTarget;
+    metadataIds?: {
+        answerIds?: string[];
+        liveboardIds?: string[];
+        vizIds?: string[];
+    };
+    dataModelIds?: {
+        modelIds?: string[];
+        modelColumnNames?: string[];
+    }
+    orgIds?: string[];
+    groupIds?: string[];
+    // we might have spotter parameters as well
+}
+
+/**
+ * Enum options to show custom actions at different
+ * positions in the application.
+ */
+export enum CustomActionsPosition {
+    PRIMARY = 'PRIMARY',
+    MENU = 'MENU',
+    CONTEXTMENU = 'CONTEXTMENU',
+}
+
+/**
+ * Enum options to mention the target of the custom action.
+ */
+export enum CustomActionTarget {
+    LIVEBOARD = 'LIVEBOARD',
+    VIZ = 'VIZ',
+    ANSWER = 'ANSWER',
+    SPOTTER = 'SPOTTER',
+}
+
 /**
  * Enum options to show or suppress Visual Embed SDK and
  * ThoughtSpot application logs in the console output.
@@ -5690,4 +5783,5 @@ export interface DefaultAppInitData {
     hiddenHomeLeftNavItems: string[];
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
+    customActions: CustomAction[];
 }
