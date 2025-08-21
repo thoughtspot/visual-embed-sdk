@@ -483,25 +483,6 @@ export class TsEmbed {
 
     private pendingEvents: Array<{ eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void }> = [];
 
-    protected getPreRenderObj<T extends TsEmbed>(): T {
-        const embedObj = (this.insertedDomEl as any)?.[this.embedNodeKey] as T;
-        if (embedObj === (this as any)) {
-            logger.info('embedObj is same as this');
-        }
-        return embedObj;
-    }
-
-    private checkEmbedContainerLoaded() {
-        if (this.isEmbedContainerLoaded) return true;
-
-        const preRenderObj = this.getPreRenderObj<TsEmbed>();
-        if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
-            this.isEmbedContainerLoaded = true;
-        }
-
-        return this.isEmbedContainerLoaded;
-    }
-
     private executePendingEvents() {
         logger.debug('executePendingEvents', this.pendingEvents);
         setTimeout(() => {
@@ -1188,13 +1169,6 @@ export class TsEmbed {
             logger.log('Event Port is not defined');
         }
     }
-
-    /**
-     * @hidden
-     * Internal state to track if the embed container is loaded.
-     * This is used to trigger events after the embed container is loaded.
-     */
-    public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
