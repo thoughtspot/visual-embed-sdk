@@ -1278,6 +1278,11 @@ export class TsEmbed {
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
     public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
+        if (!getIsInitCalled()) {
+            logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
+        }
+        await this.isReadyForRenderPromise;
+        
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;

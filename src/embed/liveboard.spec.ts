@@ -912,7 +912,6 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             }, 1005);
         });
-
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
