@@ -199,7 +199,7 @@ export class SageEmbed extends V1Embed {
      */
     public getIFrameSrc(): string {
         const path = 'eureka';
-        const postHashObj = {};
+        const postHashObj: Record<string, any> = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         const {
             dataSource, searchOptions,

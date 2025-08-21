@@ -242,6 +242,10 @@ export class SpotterEmbed extends TsEmbed {
         const {
             worksheetId,
             searchOptions,
+            runtimeFilters,
+            excludeRuntimeFiltersfromURL,
+            runtimeParameters,
+            excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
