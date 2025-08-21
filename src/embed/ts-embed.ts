@@ -481,36 +481,11 @@ export class TsEmbed {
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
-    private pendingEvents: Array<{ eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void }> = [];
-
-    private executePendingEvents() {
-        logger.debug('executePendingEvents', this.pendingEvents);
-        setTimeout(() => {
-            this.pendingEvents.forEach((event) => {
-                this.trigger(event.eventType, event.data);
-                event.onEventTriggered?.();
-            });
-            this.pendingEvents = [];
-        }, 1000);
-    }
-    protected triggerAfterLoad(eventType: HostEvent, data: TriggerPayload<any, HostEvent>, onEventTriggered?: () => void) {
-        if (this.checkEmbedContainerLoaded()) {
-            this.trigger(eventType, data);
-            onEventTriggered?.();
-        } else {
-            this.pendingEvents.push({ eventType, data, onEventTriggered });
-        }
-    }
-
     /**
      * Register APP_INIT event and sendback init payload
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
-        this.on(EmbedEvent.AuthInit, () => {
-            this.isEmbedContainerLoaded = true;
-            this.executePendingEvents();
-        }, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
 
@@ -1431,7 +1406,9 @@ export class TsEmbed {
             }
             this.validatePreRenderViewConfig(this.viewConfig);
             logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-            this.triggerAfterLoad(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            this.executeAfterEmbedContainerLoaded(() => {
+                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            });
         }
 
         this.beforePrerenderVisible();
