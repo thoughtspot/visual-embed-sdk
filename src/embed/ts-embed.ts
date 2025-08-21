@@ -185,10 +185,7 @@ export class TsEmbed {
      */
     private fullscreenChangeHandler: (() => void) | null = null;
 
-    public id: string;
-
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
-        this.id = Date.now().toString();
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
@@ -202,11 +199,10 @@ export class TsEmbed {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
-
-        const embedConfig = getEmbedConfig();
-        this.embedConfig = embedConfig;
+        
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
-
+            const embedConfig = getEmbedConfig();
+            this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
