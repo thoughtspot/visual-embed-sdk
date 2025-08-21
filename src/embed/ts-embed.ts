@@ -199,7 +199,6 @@ export class TsEmbed {
             ...viewConfig,
         });
         this.hostEventClient = new HostEventClient(this.iFrame);
-        
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
             const embedConfig = getEmbedConfig();
             this.embedConfig = embedConfig;
@@ -309,8 +308,6 @@ export class TsEmbed {
     }
 
     private subscribedListeners: Record<string, any> = {};
-
-    public isEmbedContainerLoaded = false;
 
     /**
      * Adds a global event listener to window for "message" events.
@@ -1140,6 +1137,13 @@ export class TsEmbed {
             logger.log('Event Port is not defined');
         }
     }
+
+     /**
+     * @hidden
+     * Internal state to track if the embed container is loaded.
+     * This is used to trigger events after the embed container is loaded.
+     */
+     public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
