@@ -1040,7 +1040,8 @@ export interface HomePageConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is available only in full app embedding. To use it, you need to import `ListPageColumns` enum.
+     * **Note**: This option is currently available only in full app embedding and requires importing the ListPageColumns enum. 
+     * At present, it can be used with Liveboard and Answer list pages, and starting with version 10.14.0.cl, it will also be supported for the Home page.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
