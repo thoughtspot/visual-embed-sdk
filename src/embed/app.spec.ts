@@ -611,6 +611,43 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when Sliding and ModularWithStylingChanges configured in the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.ModularWithStylingChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when homePage is ModularWithStylingChanges to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            // primaryNavbarVersion is not included under discoveryExperience,
+            // then it set navigationVersion=v2 and modularHomeExperience=false.
+            discoveryExperience: {
+                homePage: HomePage.ModularWithStylingChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

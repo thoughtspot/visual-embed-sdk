@@ -4183,6 +4183,7 @@ export enum Param {
     Query = 'query',
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
+    HomepageVersion = 'homepageVersion',
     ListPageVersion = 'listpageVersion',
     PendoTrackingKey = 'additionalPendoKey',
     LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
