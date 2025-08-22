@@ -13431,7 +13431,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 285,
+							"line": 288,
 							"character": 4
 						}
 					],
@@ -13617,7 +13617,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 196,
+							"line": 199,
 							"character": 11
 						}
 					],
@@ -14245,7 +14245,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 258,
+							"line": 261,
 							"character": 17
 						}
 					],
@@ -14637,7 +14637,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 284,
+					"line": 287,
 					"character": 13
 				}
 			],
@@ -20176,7 +20176,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 191,
+							"line": 194,
 							"character": 4
 						}
 					],
@@ -20356,7 +20356,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 196,
+							"line": 199,
 							"character": 11
 						}
 					],
@@ -20966,7 +20966,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 258,
+							"line": 261,
 							"character": 17
 						}
 					],
@@ -21348,7 +21348,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 190,
+					"line": 193,
 					"character": 13
 				}
 			],
@@ -26034,14 +26034,18 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "false\n"
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 135,
+							"line": 137,
 							"character": 4
 						}
 					],
@@ -26069,14 +26073,18 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "false\n\n"
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 163,
+							"line": 166,
 							"character": 4
 						}
 					],
@@ -26502,14 +26510,18 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeFilters: [\n          {\n            columnName: 'color',\n            operator: RuntimeFilterOp.EQ,\n            values: ['red'],\n          },\n      ],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeFilters: [\n          {\n            columnName: 'color',\n            operator: RuntimeFilterOp.EQ,\n            values: ['red'],\n          },\n      ],\n})\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 126,
+							"line": 127,
 							"character": 4
 						}
 					],
@@ -26541,14 +26553,18 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeParameters: [\n          {\n            name: 'Integer Param',\n            value: 10,\n          },\n      ],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeParameters: [\n          {\n            name: 'Integer Param',\n            value: 10,\n          },\n      ],\n})\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 153,
+							"line": 156,
 							"character": 4
 						}
 					],
@@ -26784,7 +26800,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 173,
+					"line": 176,
 					"character": 17
 				}
 			],
@@ -41257,14 +41273,18 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "false\n"
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 135,
+							"line": 137,
 							"character": 4
 						}
 					],
@@ -41287,14 +41307,18 @@
 						"tags": [
 							{
 								"tag": "default",
-								"text": "false\n\n"
+								"text": "false"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 163,
+							"line": 166,
 							"character": 4
 						}
 					],
@@ -41697,14 +41721,18 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeFilters: [\n          {\n            columnName: 'color',\n            operator: RuntimeFilterOp.EQ,\n            values: ['red'],\n          },\n      ],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeFilters: [\n          {\n            columnName: 'color',\n            operator: RuntimeFilterOp.EQ,\n            values: ['red'],\n          },\n      ],\n})\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 126,
+							"line": 127,
 							"character": 4
 						}
 					],
@@ -41731,14 +41759,18 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeParameters: [\n          {\n            name: 'Integer Param',\n            value: 10,\n          },\n      ],\n})\n```\n"
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   // other embed view config\n   runtimeParameters: [\n          {\n            name: 'Integer Param',\n            value: 10,\n          },\n      ],\n})\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 153,
+							"line": 156,
 							"character": 4
 						}
 					],
