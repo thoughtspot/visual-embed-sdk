@@ -715,7 +715,6 @@ describe('App embed tests', () => {
             discoveryExperience: {
                 primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
                 homePage: HomePage.Modular,
-                // No listPageVersion specified - should default to v2
             },
         } as AppViewConfig);
 
