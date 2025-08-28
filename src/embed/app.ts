@@ -754,6 +754,9 @@ export class AppEmbed extends V1Embed {
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';
+        // Set listpageVersion to v2 by default to reset the LD flag value
+        // for the listpageVersion.
+        params[Param.ListPageVersion] = ListPage.List;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
