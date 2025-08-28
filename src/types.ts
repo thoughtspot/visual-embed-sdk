@@ -1376,6 +1376,8 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardVerifiedBadge?: boolean;
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
+     * 
+     * **Note**: This feature is supported only if compact header is enabled on your Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled` attribute.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
@@ -1386,6 +1388,7 @@ export interface LiveboardAppEmbedViewConfig {
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    hideIrrelevantChipsInLiveboardTabs: true,
+     *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
      */
