@@ -694,11 +694,27 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should not add listpageVersion when listPageVersion is List (v2) to the iframe src', async () => {
+
+    test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add listpageVersion=v2 by default when discoveryExperience is provided but listPageVersion is not specified', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             discoveryExperience: {
-                listPageVersion: ListPage.List,
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.Modular,
             },
         } as AppViewConfig);
 
@@ -706,10 +722,11 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
+
 
     test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
