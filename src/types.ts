@@ -2817,6 +2817,17 @@ export enum EmbedEvent {
      * ```
      */
     EmbedListenerReady = 'EmbedListenerReady',
+    /**
+     * Emitted when the organization is switched.
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.OrgSwitched, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    OrgSwitched = 'orgSwitched',
 }
 
 /**
