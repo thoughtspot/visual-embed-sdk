@@ -601,6 +601,14 @@ describe('Liveboard/viz embed tests', () => {
 
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
+        // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
@@ -611,16 +619,30 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
-        });
-        executeAfterWait(() => {
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
+        });
+
+        executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
 
     test('navigateToLiveboard with preRender', async (done) => {
         mockMessageChannel();
+
+        // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
+
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             preRenderId: 'test',
@@ -632,12 +654,15 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
         });
         executeAfterWait(() => {
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -822,7 +847,7 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             });
         });
-       
+
         test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async (done) => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
@@ -888,6 +913,58 @@ describe('Liveboard/viz embed tests', () => {
             }, 1005);
         });
 
+        test('should replace existing preRender when replaceExistingPreRender is true', async () => {
+            const testPreRenderId = 'testReplacePreRender';
+
+            // Stub ResizeObserver for JSDOM
+            (window as any).ResizeObserver = (window as any).ResizeObserver
+                || jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            // Create initial embed and show preRender (this will create the
+            // preRender wrapper/child)
+            const embedA = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            await embedA.showPreRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const ids = embedA.getPreRenderIds();
+            const oldWrapper = document.getElementById(ids.wrapper);
+            const oldChild = document.getElementById(ids.child);
+
+            const tsKey = '__tsEmbed';
+            expect((oldWrapper as any)[tsKey]).toBe(embedA);
+
+            // Create a new embed instance and preRender with
+            // replaceExistingPreRender = true
+            const embedB = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+            const prerenderGenericSpy = jest.spyOn(embedB, 'prerenderGeneric');
+
+            await embedB.preRender(false, true);
+
+            await waitFor(() => (document.getElementById(ids.wrapper) as any)?.[tsKey] === embedB);
+
+            const newWrapper = document.getElementById(ids.wrapper);
+            const newChild = document.getElementById(ids.child);
+
+            // Should have called prerenderGeneric for the new embed instance
+            expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
+
+            // Wrapper should be replaced (new wrapper element), child iframe
+            // may be reused
+            expect(newWrapper).not.toBe(oldWrapper);
+
+            // __tsEmbed on wrapper should now point to the new embed instance
+            expect((newWrapper as any)[tsKey]).toBe(embedB);
+        });
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
