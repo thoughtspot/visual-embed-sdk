@@ -1267,13 +1267,19 @@ export class TsEmbed {
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
+    public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
+        
+        const isAlreadyRendered = this.connectPreRendered();
+        if (isAlreadyRendered && !replaceExistingPreRender) {
+            return this;
+        }
+
         return this.handleRenderForPrerender();
     }
 
