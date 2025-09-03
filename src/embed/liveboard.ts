@@ -518,31 +518,6 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
 
-        if (oAuthPollingInterval !== undefined) {
-            params[Param.OauthPollingInterval] = oAuthPollingInterval;
-        }
-
-        if (isForceRedirect) {
-            params[Param.IsForceRedirect] = isForceRedirect;
-        }
-
-        if (dataSourceId !== undefined) {
-            params[Param.DataSourceId] = dataSourceId;
-        }
-
-
-        if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
-        }
-
-        params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
-        params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
-        params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-        params[Param.DataPanelV2Enabled] = dataPanelV2;
-        params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
         return params;
     }
 
