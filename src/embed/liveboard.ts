@@ -408,6 +408,12 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
+        const params = this.getEmbedParamsObject();
+        const queryParams = getQueryParamString(params, true);
+        return queryParams;
+    }
+
+    protected getEmbedParamsObject() {
         let params: any = {};
         params = this.getBaseQueryParams(params);
         const {
@@ -511,9 +517,8 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        const queryParams = getQueryParamString(params, true);
 
-        return queryParams;
+        return params;
     }
 
     private getIframeSuffixSrc(liveboardId: string, vizId: string, activeTabId: string) {

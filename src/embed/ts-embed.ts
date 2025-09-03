@@ -198,11 +198,11 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
+        const embedConfig = getEmbedConfig();
+        this.embedConfig = embedConfig;
+    
         this.hostEventClient = new HostEventClient(this.iFrame);
-
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
-            const embedConfig = getEmbedConfig();
-            this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
@@ -482,10 +482,10 @@ export class TsEmbed {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
-        
-        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);  
+
+        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
-        
+
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
     };
@@ -506,6 +506,12 @@ export class TsEmbed {
             .join('/');
 
         return `${basePath}#`;
+    }
+
+    protected getUpdateEmbedParamsObject() {
+        let queryParams = this.getEmbedParamsObject();
+        queryParams = { ...this.viewConfig, ...queryParams };
+        return queryParams;
     }
 
     /**
@@ -690,8 +696,13 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getBaseQueryParams();
+        const queryParams = this.getEmbedParamsObject();
         return getQueryParamString(queryParams);
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        return params;
     }
 
     protected getRootIframeSrc() {
@@ -1128,12 +1139,12 @@ export class TsEmbed {
         }
     }
 
-    /**
+     /**
      * @hidden
      * Internal state to track if the embed container is loaded.
      * This is used to trigger events after the embed container is loaded.
      */
-    public isEmbedContainerLoaded = false;
+     public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
@@ -1179,7 +1190,7 @@ export class TsEmbed {
         } else {
             logger.debug('pushing callback to embedContainerReadyCallbacks', callback);
             this.embedContainerReadyCallbacks.push(callback);
-          }
+        }
     }
 
     protected createEmbedContainerHandler = (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
@@ -1267,7 +1278,7 @@ export class TsEmbed {
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
+    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {        
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
@@ -1395,7 +1406,13 @@ export class TsEmbed {
                 return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
+            logger.debug('triggering UpdateEmbedParams', this.viewConfig);
+            this.executeAfterEmbedContainerLoaded(() => {
+                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            });
         }
+
+        this.beforePrerenderVisible();
 
         if (this.el) {
             this.syncPreRenderStyle();
@@ -1413,8 +1430,6 @@ export class TsEmbed {
                 this.resizeObserver.observe(this.el);
             }
         }
-
-        this.beforePrerenderVisible();
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 
