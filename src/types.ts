@@ -5614,7 +5614,7 @@ export interface FullHeightViewConfig extends BaseViewConfig {
      * queries and potentially a longer wait for the topmost
      * visualizations to display on the screen.
      * Setting `fullHeight` to `false` fetches visualizations
-     * incrementally as users scroll the page to view the charts and tables.
+     * incrementally as users scroll the page to view the charts and tables
      *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * 
