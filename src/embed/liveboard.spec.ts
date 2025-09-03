@@ -41,6 +41,16 @@ const thoughtSpotHost = 'tshost';
 const prefixParams = '&isLiveboardEmbed=true';
 const prefixParamsVizEmbed = '&isLiveboardEmbed=true&isVizEmbed=true';
 
+const mockGetSessionInfo = (mockSessionInfo?: any) => {
+    jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue(mockSessionInfo || {
+        releaseVersion: '1.0.0',
+        userGUID: '1234567890',
+        currentOrgId: 1,
+        privileges: [],
+        mixpanelToken: '1234567890',
+    })
+};
+
 beforeAll(() => {
     init({
         thoughtSpotHost,
@@ -602,13 +612,7 @@ describe('Liveboard/viz embed tests', () => {
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
         // mock getSessionInfo
-        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-            releaseVersion: '1.0.0',
-            userGUID: '1234567890',
-            currentOrgId: 1,
-            privileges: [],
-            mixpanelToken: '1234567890',
-        });
+        mockGetSessionInfo();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
@@ -635,13 +639,7 @@ describe('Liveboard/viz embed tests', () => {
         mockMessageChannel();
 
         // mock getSessionInfo
-        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-            releaseVersion: '1.0.0',
-            userGUID: '1234567890',
-            currentOrgId: 1,
-            privileges: [],
-            mixpanelToken: '1234567890',
-        });
+        mockGetSessionInfo();
 
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -856,13 +854,7 @@ describe('Liveboard/viz embed tests', () => {
                 preRenderId: testPreRenderId,
             });
 
-            jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-                releaseVersion: '1.0.0',
-                userGUID: '1234567890',
-                currentOrgId: 1,
-                privileges: [],
-                mixpanelToken: '1234567890',
-            });
+            mockGetSessionInfo();
             let resizeObserverCb: any;
             (window as any).ResizeObserver =
                 window.ResizeObserver ||
