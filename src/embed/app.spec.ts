@@ -344,6 +344,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set liveboardXLSXCSVDownload to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardXLSXCSVDownload: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set liveboardXLSXCSVDownload to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardXLSXCSVDownload: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

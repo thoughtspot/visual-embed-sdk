@@ -1441,6 +1441,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
+    /**
+     * This flag is used to enable or disable the XLSX/CSV download option for Liveboards.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardXLSXCSVDownload: true,
+     * })
+     * ```
+     */
+    liveboardXLSXCSVDownload?: boolean;
+
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
@@ -4238,7 +4254,8 @@ export enum Param {
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
-    RootMarginForLazyLoad = 'rootMarginForLazyLoad'
+    RootMarginForLazyLoad = 'rootMarginForLazyLoad',
+    LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
 }
 
 /**

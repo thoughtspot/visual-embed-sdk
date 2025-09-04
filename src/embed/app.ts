@@ -643,6 +643,7 @@ export class AppEmbed extends V1Embed {
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
+            liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
@@ -662,6 +663,7 @@ export class AppEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
 
         params = this.getBaseQueryParams(params);
 
