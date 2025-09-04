@@ -28,10 +28,9 @@ function processExitPresentMode(e: any) {
 }
 
 /**
- *
- * @param e
+ * Clears the cached preauth and session info.
  */
-function processClearInfoCache(e: any) {
+function processClearInfoCache() {
     resetCachedPreauthInfo();
     resetCachedSessionInfo();
 }
@@ -163,7 +162,7 @@ export function processEventData(
         case EmbedEvent.ExitPresentMode:
             return processExitPresentMode(e);
         case EmbedEvent.CLEAR_INFO_CACHE:
-            return processClearInfoCache(e);
+            return processClearInfoCache();
         default:
     }
     return e;
