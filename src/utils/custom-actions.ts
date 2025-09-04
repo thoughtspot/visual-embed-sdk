@@ -1,5 +1,7 @@
 import { CustomAction, CustomActionsPosition, CustomActionTarget } from '../types';
 import { arrayIncludesString } from '../utils';
+import sortBy from 'lodash/sortBy';
+import { CUSTOM_ACTIONS_ERROR_MESSAGE } from '../errors';
 
 export interface CustomActionsValidationResult {
     actions: CustomAction[];
@@ -9,7 +11,6 @@ export interface CustomActionsValidationResult {
 type CustomActionValidation = {
     isValid: boolean;
     errors: string[];
-    warnings: string[];
 };
 
 /**
@@ -18,32 +19,32 @@ type CustomActionValidation = {
  * type.
  * 
  */
-const customActionValidationConfig: Record<string, {
+const customActionValidationConfig: Record<CustomActionTarget, {
     positions: string[];
     allowedMetadataIds: string[];
     allowedDataModelIds: string[];
     allowedFields: string[];
 }> = {
-    LIVEBOARD: {
+    [CustomActionTarget.LIVEBOARD]: {
         positions: [CustomActionsPosition.PRIMARY, CustomActionsPosition.MENU],
         allowedMetadataIds: ['liveboardIds'],
         allowedDataModelIds: [],
         allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds'],
     },
-    VIZ: {
+    [CustomActionTarget.VIZ]: {
         positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: ['liveboardIds', 'vizIds', 'answerIds'],
         allowedDataModelIds: ['modelIds', 'modelColumnNames'],
         allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
     },
-    ANSWER: {
+    [CustomActionTarget.ANSWER]: {
         positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: ['answerIds'],
         allowedDataModelIds: ['modelIds', 'modelColumnNames'],
         allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
     },
-    SPOTTER: {
-        positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
+    [CustomActionTarget.SPOTTER]: {
+        positions: [CustomActionsPosition.MENU, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: [],
         allowedDataModelIds: ['modelIds'],
         allowedFields: ['name', 'id', 'position', 'target', 'orgIds', 'groupIds', 'dataModelIds'],
@@ -58,32 +59,22 @@ const customActionValidationConfig: Record<string, {
  * 
  * @hidden
  */
-const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<string, CustomAction>): CustomActionValidation => {
+const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<CustomActionTarget, CustomAction>): CustomActionValidation => {
     const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
     // Check if target type is supported
-            if (!customActionValidationConfig[targetType]) {
-            const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
-            return { isValid: false, errors: [errorMessage], warnings: [] };
-        }
+    if (!customActionValidationConfig[targetType]) {
+        const errorMessage = CUSTOM_ACTIONS_ERROR_MESSAGE.UNSUPPORTED_TARGET(actionId, targetType);
+        return { isValid: false, errors: [errorMessage] };
+    }
 
     const config = customActionValidationConfig[targetType];
     const errors: string[] = [];
-    const warnings: string[] = [];
 
     // Validate position
     if (!arrayIncludesString(config.positions, position)) {
-        errors.push(`Position '${position}' is not supported for ${targetType.toLowerCase()}-level custom actions`);
-    }
-
-    // Validation for Liveboard level custom actions cannot have CONTEXTMENU
-    if (targetType === CustomActionTarget.LIVEBOARD && position === CustomActionsPosition.CONTEXTMENU) {
-        errors.push(`Liveboard-level custom actions cannot have position '${CustomActionsPosition.CONTEXTMENU}'`);
-    }
-
-    // Validation for Spotter level custom actions cannot have PRIMARY
-    if (targetType === CustomActionTarget.SPOTTER && position === CustomActionsPosition.PRIMARY) {
-        errors.push(`Spotter-level custom actions cannot have position '${CustomActionsPosition.PRIMARY}'`);
+        const supportedPositions = config.positions.join(', ');
+        errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_POSITION(position, targetType, supportedPositions));
     }
 
     // Check for primary action conflicts (this is a warning, not a validation
@@ -91,7 +82,7 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     if (position === CustomActionsPosition.PRIMARY) {
         const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
         if (existingPrimaryAction) {
-            warnings.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'. Only the first action will be shown.`);
+            errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.MULTIPLE_PRIMARY_ACTIONS(targetType, existingPrimaryAction.name, action.name));
         } else {
             primaryActionsPerTarget.set(targetType, action);
         }
@@ -103,7 +94,8 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
             (key) => !arrayIncludesString(config.allowedMetadataIds, key)
         );
         if (invalidMetadataIds.length > 0) {
-            errors.push(`Invalid metadata IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidMetadataIds.join(', ')}`);
+            const supportedMetadataIds = config.allowedMetadataIds.length > 0 ? config.allowedMetadataIds.join(', ') : 'none';
+            errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_METADATA_IDS(targetType, invalidMetadataIds, supportedMetadataIds));
         }
     }
 
@@ -113,7 +105,8 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
             (key) => !arrayIncludesString(config.allowedDataModelIds, key)
         );
         if (invalidDataModelIds.length > 0) {
-            errors.push(`Invalid data model IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidDataModelIds.join(', ')}`);
+            const supportedDataModelIds = config.allowedDataModelIds.length > 0 ? config.allowedDataModelIds.join(', ') : 'none';
+            errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_DATA_MODEL_IDS(targetType, invalidDataModelIds, supportedDataModelIds));
         }
     }
 
@@ -121,13 +114,13 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     const actionKeys = Object.keys(action);
     const invalidFields = actionKeys.filter((key) => !arrayIncludesString(config.allowedFields, key));
     if (invalidFields.length > 0) {
-        errors.push(`Invalid fields for ${targetType.toLowerCase()}-level custom actions: ${invalidFields.join(', ')}`);
+        const supportedFields = config.allowedFields.join(', ');
+        errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_FIELDS(targetType, invalidFields, supportedFields));
     }
 
     return {
         isValid: errors.length === 0,
         errors,
-        warnings,
     };
 };
 
@@ -156,26 +149,27 @@ const validateActionStructure = (action: any): { isValid: boolean; missingFields
  * @hidden
  */
 const filterDuplicateIds = (actions: CustomAction[]): { actions: CustomAction[]; errors: string[] } => {
-    const idMap = new Map<string, CustomAction[]>();
-    actions.forEach((action) => {
-        const existing = idMap.get(action.id) || [];
-        existing.push(action);
-        idMap.set(action.id, existing);
-    });
+    const idMap = actions.reduce((map, action) => {
+        const list = map.get(action.id) || [];
+        list.push(action);
+        map.set(action.id, list);
+        return map;
+    }, new Map<string, CustomAction[]>());
 
-    const actionsWithUniqueIds: CustomAction[] = [];
-    const errors: string[] = [];
-    
-    idMap.forEach((actionsWithSameId, id) => {
-        if (actionsWithSameId.length === 1) {
-            actionsWithUniqueIds.push(actionsWithSameId[0]);
-        } else {
-            // Keep the first action and add error for duplicates
-            actionsWithUniqueIds.push(actionsWithSameId[0]);
-            const duplicateNames = actionsWithSameId.slice(1).map(action => action.name);
-            errors.push(`Duplicate custom action ID '${id}' found. Actions with names '${duplicateNames.join("', '")}' will be ignored. Keeping '${actionsWithSameId[0].name}'.`);
-        }
-    });
+    const { actions: actionsWithUniqueIds, errors } = Array.from(idMap.entries()).reduce(
+        (acc, [id, actionsWithSameId]) => {
+            if (actionsWithSameId.length === 1) {
+                acc.actions.push(actionsWithSameId[0]);
+            } else {
+                // Keep the first action and add error for duplicates
+                acc.actions.push(actionsWithSameId[0]);
+                const duplicateNames = actionsWithSameId.slice(1).map(action => action.name);
+                acc.errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.DUPLICATE_IDS(id, duplicateNames, actionsWithSameId[0].name));
+            }
+            return acc;
+        },
+        { actions: [] as CustomAction[], errors: [] as string[] }
+    );
 
     return { actions: actionsWithUniqueIds, errors };
 };
@@ -187,7 +181,7 @@ const filterDuplicateIds = (actions: CustomAction[]): { actions: CustomAction[];
  */
 export const getCustomActions = (customActions: CustomAction[]): CustomActionsValidationResult => {
     const errors: string[] = [];
-    const primaryActionsPerTarget = new Map<string, CustomAction>();
+    const primaryActionsPerTarget = new Map<CustomActionTarget, CustomAction>();
 
     if (!customActions || !Array.isArray(customActions)) {
         return { actions: [], errors: [] };
@@ -199,10 +193,9 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
         const validation = validateActionStructure(action);
         if (!validation.isValid) {
             if (!action || typeof action !== 'object') {
-                errors.push('Custom Action Validation Error: Invalid action object provided');
+                errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_ACTION_OBJECT);
             } else {
-                const errorMessage = `Custom Action Validation Error for '${(action as any).id}': Missing required fields: ${validation.missingFields.join(', ')}`;
-                errors.push(errorMessage);
+                errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.MISSING_REQUIRED_FIELDS((action as any).id, validation.missingFields));
             }
             return false;
         }
@@ -218,21 +211,15 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
     // Step 3: Validate actions with unique IDs
     const finalValidActions: CustomAction[] = [];
     actionsWithUniqueIds.forEach((action) => {
-        const { isValid, errors: validationErrors, warnings } = validateCustomAction(action, primaryActionsPerTarget);
-        
-        // Add warnings to the errors array (they're informational)
-        warnings.forEach(warning => errors.push(warning));
-        
+        const { isValid, errors: validationErrors } = validateCustomAction(action, primaryActionsPerTarget);
+        validationErrors.forEach(error => errors.push(error));
+
         if (isValid) {
             finalValidActions.push(action);
-        } else {
-            // Add validation errors to the errors array
-            validationErrors.forEach(error => errors.push(error));
         }
     });
 
-    // Sort actions by name
-    const sortedActions = finalValidActions.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedActions = sortBy(finalValidActions, (a) => a.name.toLocaleLowerCase());
 
     return {
         actions: sortedActions,

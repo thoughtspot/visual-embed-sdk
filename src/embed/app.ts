@@ -107,6 +107,11 @@ export enum HomePage {
      * It serves as the foundational version of the home page.
      */
     Modular = 'v2',
+    /**
+     * ModularWithStylingChanges (v3) introduces Modular Home Experience
+     * with styling changes.
+     */
+    ModularWithStylingChanges = 'v3',
 }
 
 /**
@@ -638,6 +643,7 @@ export class AppEmbed extends V1Embed {
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
+            liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
         } = this.viewConfig;
 
@@ -657,6 +663,7 @@ export class AppEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
 
         params = this.getBaseQueryParams(params);
 
@@ -740,10 +747,24 @@ export class AppEmbed extends V1Embed {
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
+        // Set navigation to v2 by default to avoid problems like the app
+        // switcher (9-dot menu) not showing when v3 navigation is turned on
+        // at the cluster level.
+        // To use v3 navigation, we must manually set the discoveryExperience
+        // settings.
+        params[Param.NavigationVersion] = 'v2';
+        // Set homePageVersion to v2 by default to reset the LD flag value
+        // for the homepageVersion.
+        params[Param.HomepageVersion] = 'v2';
+        // Set listpageVersion to v2 by default to reset the LD flag value
+        // for the listpageVersion.
+        params[Param.ListPageVersion] = ListPage.List;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
                 params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
+                // Enable the modularHomeExperience when Sliding is enabled.
+                params[Param.ModularHomeExperienceEnabled] = true;
             }
 
             // homePage v2 will enable the modular home page
@@ -751,6 +772,14 @@ export class AppEmbed extends V1Embed {
             if (discoveryExperience.homePage === HomePage.Modular) {
                 params[Param.ModularHomeExperienceEnabled] = true;
             }
+
+            // ModularWithStylingChanges (v3) introduces the styling changes
+            // to the Modular Homepage.
+            // v3 will be the base version of homePageVersion.
+            if (discoveryExperience.homePage === HomePage.ModularWithStylingChanges) {
+                params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
+            }
+
             // listPageVersion v3 will enable the new list page
             if (discoveryExperience.listPageVersion === ListPage.ListWithUXChanges) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;

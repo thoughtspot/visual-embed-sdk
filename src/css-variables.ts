@@ -472,4 +472,399 @@ export interface CustomCssVariables {
      * Background color of checkbox.
      */
     '--ts-var-checkbox-background-color'?: string;
+
+    /**
+     * Height of the tiles in the Liveboard.
+     */
+    '--ts-var-viz-tile-height'?: string;
+
+    /**
+     * Background color of the layout in the Liveboard.
+     */
+    '--ts-var-liveboard-layout-background'?: string;
+
+    /**
+     * Font color of the title of the layout in the Liveboard.
+     */
+    '--ts-var-liveboard-layout-title-color'?: string;
+
+    /**
+     * Font size of the title of the layout in the Liveboard.
+     */
+    '--ts-var-liveboard-layout-title-fontsize'?: string;
+
+    /**
+     * Background color of the header in the Liveboard.
+     */
+    '--ts-var-liveboard-header-background'?: string;
+
+    /**
+     * Font size of the header in the Liveboard.
+     */
+    '--ts-var-liveboard-header-fontsize'?: string;
+
+    /**
+     * Font color of the header in the Liveboard.
+     */
+    '--ts-var-liveboard-header-font-color'?: string;
+
+    /**
+     * Border color of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-border-color'?: string;
+
+    /**
+     * Background color of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-background'?: string;
+
+    /**
+     * Border radius of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-border-radius'?: string;
+
+    /**
+     * Padding of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-padding'?: string;
+
+    /**
+     * Background color of the table header in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-table-header-background'?: string;
+
+    /**
+     * Padding of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-padding'?: string;
+
+    /**
+     * Padding of the title of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-title-padding'?: string;
+
+    /**
+     * Font size of the title of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-title-font-size'?: string;
+
+    /**
+     * Font weight of the title of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-title-font-weight'?: string;
+
+    /**
+     * Font size of the title of the tiles inside the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-title-font-size'?: string;
+
+    /**
+     * Font weight of the title of the tiles inside the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-title-font-weight'?: string;
+
+    /**
+     * Font size of the description of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-description-font-size'?: string;
+
+    /**
+     * Font weight of the description of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-description-font-weight'?: string;
+
+    /**
+     * Border of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-border'?: string;
+
+    /**
+     * Padding of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-padding'?: string;
+
+    /**
+     * Padding of the answer viz in the Liveboard.
+     */
+    '--ts-var-liveboard-answer-viz-padding'?: string;
+
+    /**
+     * Background color of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-background'?: string;
+
+    /**
+     * Border color of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-border-color'?: string;
+
+    /**
+     * Font color of the heading of the note title in the Liveboard.
+     */
+    '--ts-var-liveboard-notetitle-heading-font-color'?: string;
+
+    /**
+     * Font color of the body of the note title in the Liveboard.
+     */
+    '--ts-var-liveboard-notetitle-body-font-color'?: string;
+
+    /**
+     * Font color of the title of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-title-font-color'?: string;
+
+    /**
+     * Font color of the description of the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-description-font-color'?: string;
+
+    /**
+     * Font color of the title of the tiles inside the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-title-font-color'?: string;
+
+    /**
+     * Background color of the tiles inside the groups in the Liveboard.
+     */
+    '--ts-var-liveboard-group-tile-background'?: string;
+
+    /**
+     * Background color of the chips in the Liveboard.
+     */
+    '--ts-var-liveboard-chip-background'?: string;
+
+    /**
+     * Font color of the chips in the Liveboard.
+     */
+    '--ts-var-liveboard-chip-color'?: string;
+
+    /**
+     * Background color of the chips in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-chip--hover-background'?: string;
+
+    /**
+     * Font color of the chips in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-chip--hover-color'?: string;
+
+    /**
+     * Background color of the chips in the Liveboard on active.
+     */
+    '--ts-var-liveboard-chip--active-background'?: string;
+
+    /**
+     * Font color of the chips in the Liveboard on active.
+     */
+    '--ts-var-liveboard-chip--active-color'?: string;
+
+    /**
+     * Width of the side panel in the Liveboard.
+     */
+    '--ts-var-side-panel-width'?: string;
+
+    /**
+     * Background color of the edit bar in the Liveboard.
+     */
+    '--ts-var-liveboard-edit-bar-background'?: string;
+
+    /**
+     * Breakpoint for the dual column layout in the Liveboard.
+     */
+    '--ts-var-liveboard-dual-column-breakpoint'?: string;
+
+    /**
+     * Breakpoint for the single column layout in the Liveboard.
+     */
+    '--ts-var-liveboard-single-column-breakpoint'?: string;
+
+    /**
+     * Background color of the cross filter layout in the Liveboard.
+     */
+    '--ts-var-liveboard-cross-filter-layout-background'?: string;
+
+    /**
+     * Border color of the active tab in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-active-border-color'?: string;
+
+    /**
+     * Font color of the hover tab in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-hover-color'?: string;
+
+    /**
+     * Font size of the title of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-title-fontsize'?: string;
+
+    /**
+     * Font weight of the title of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-title-fontweight'?: string;
+
+    /**
+     * Font weight of the description of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-description-font-weight'?: string;
+
+    /**
+     * Opacity of the description of the tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-tile-description-opacity'?: string;
+
+    /**
+     * Background color of the parameter chips in the Liveboard.
+     */
+    '--ts-var-parameter-chip-background'?: string;
+
+    /**
+     * Font color of the parameter chips in the Liveboard.
+     */
+    '--ts-var-parameter-chip-text-color'?: string;
+
+    /**
+     * Background color of the parameter chips in the Liveboard on hover.
+     */
+    '--ts-var-parameter-chip-hover-background'?: string;
+
+    /**
+     * Font color of the parameter chips in the Liveboard on hover.
+     */
+    '--ts-var-parameter-chip-hover-text-color'?: string;
+
+    /**
+     * Background color of the parameter chips in the Liveboard on active.
+     */
+    '--ts-var-parameter-chip-active-background'?: string;
+
+    /**
+     * Font color of the parameter chips in the Liveboard on active.
+     */
+    '--ts-var-parameter-chip-active-text-color'?: string;
+
+    /**
+     * Background color of the action button in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-action-button-background'?: string;
+
+    /**
+     * Font color of the action button in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-action-button-font-color'?: string;
+
+    /**
+     * Font color of the action button in the Liveboard header on hover.
+     */
+    '--ts-var-liveboard-header-action-button-hover-color'?: string;
+
+    /**
+     * Font color of the action button in the Liveboard header on active.
+     */
+    '--ts-var-liveboard-header-action-button-active-color'?: string;
+
+    /**
+     * Background color of the badge in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-badge-background'?: string;
+
+    /**
+     * Font color of the badge in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-badge-font-color'?: string;
+
+    /**
+     * Background color of the modified badge in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-badge-modified-background'?: string;
+
+    /**
+     * Font color of the modified badge in the Liveboard header.
+     */
+    '--ts-var-liveboard-header-badge-modified-font-color'?: string;
+
+    /**
+     * Font color of the badge in the Liveboard header on hover.
+     */
+    '--ts-var-liveboard-header-badge-hover-color'?: string;
+
+    /**
+     * Font color of the badge in the Liveboard header on active.
+     */
+    '--ts-var-liveboard-header-badge-active-color'?: string;
+
+    /**
+     * Font color of the hero text in the KPI widget.
+     */
+    '--ts-var-kpi-hero-color'?: string;
+
+    /**
+     * Font color of the comparison text in the KPI widget.
+     */
+    '--ts-var-kpi-comparison-color'?: string;
+
+    /**
+     * Font color of the analyze text in the KPI widget.
+     */
+    '--ts-var-kpi-analyze-text-color'?: string;
+
+    /**
+     * Font color of the legend title in the heatmap chart.
+     */
+    '--ts-var-chart-heatmap-legend-title-color'?: string;
+
+    /**
+     * Font color of the legend label in the heatmap chart.
+     */
+    '--ts-var-chart-heatmap-legend-label-color'?: string;
+
+    /**
+     * Font color of the legend title in the treemap chart.
+     */
+    '--ts-var-chart-treemap-legend-title-color'?: string;
+
+    /**
+     * Font color of the legend label in the treemap chart.
+     */
+    '--ts-var-chart-treemap-legend-label-color'?: string;
+
+    /**
+     * Color of the positive change in the KPI.
+     */
+    '--ts-var-kpi-positive-change-color'?: string;
+
+    /**
+     * Color of the negative change in the KPI.
+     */
+    '--ts-var-kpi-negative-change-color'?: string;
+ 
+    /**
+     * Background color of the change analysis insights.
+     */
+    '--ts-var-change-analysis-insights-background'?: string;
+
+    /**
+     * Background color of the forecasting card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-forecasting-card-background'?: string;
+
+    /**
+     * Background color of the outlier card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-outlier-card-background'?: string;
+
+    /**
+     * Background color of the trend card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-trend-card-background'?: string;
+    
+    /**
+     * Background color of the crosscorrelation card in the SpotIQ analyze.
+     */
+    '--ts-var-spotiq-analyze-crosscorrelation-card-background'?: string;
+    
+    /**
+     * Background color of the summary header in the CCA modal.
+     */
+    '--ts-var-cca-modal-summary-header-background'?: string;
   }

@@ -62,7 +62,7 @@ describe('getCustomActions function', () => {
             
             expect(result.actions).toEqual([actions[0]]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Spotter-level custom actions cannot have position 'PRIMARY'");
+            expect(result.errors[0]).toContain("Position 'PRIMARY' is not supported for spotter-level custom actions. Supported positions: MENU, CONTEXTMENU");
         });
 
         test('should sort actions by name', () => {
@@ -232,9 +232,8 @@ describe('getCustomActions function', () => {
             };
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
-            expect(result.errors).toHaveLength(2);
-            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions");
-            expect(result.errors).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
+            expect(result.errors).toHaveLength(1);
+            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions. Supported positions: PRIMARY, MENU");
         });
 
         test('should reject invalid position for SPOTTER', () => {
@@ -247,7 +246,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Spotter-level custom actions cannot have position 'PRIMARY'");
+            expect(result.errors[0]).toContain("Position 'PRIMARY' is not supported for spotter-level custom actions. Supported positions: MENU, CONTEXTMENU");
         });
 
         test('should accept valid positions for LIVEBOARD', () => {
@@ -284,7 +283,8 @@ describe('getCustomActions function', () => {
                 position: CustomActionsPosition.PRIMARY,
             };
             const result = getCustomActions([firstAction, secondAction]);
-            expect(result.actions).toHaveLength(2);
+            expect(result.actions).toHaveLength(1);
+            expect(result.actions[0]).toEqual(firstAction);
             expect(result.errors).toHaveLength(1);
             expect(result.errors[0]).toContain("Multiple primary actions found for liveboard-level custom actions");
         });
@@ -322,7 +322,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId");
+            expect(result.errors[0]).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId. Supported metadata IDs: liveboardIds");
         });
 
         test('should accept valid metadata IDs for LIVEBOARD', () => {
@@ -355,7 +355,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Invalid data model IDs for viz-level custom actions: invalidId");
+            expect(result.errors[0]).toContain("Invalid data model IDs for viz-level custom actions: invalidId. Supported data model IDs: modelIds, modelColumnNames");
         });
 
         test('should accept valid data model IDs for VIZ', () => {
@@ -387,7 +387,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Invalid fields for liveboard-level custom actions: invalidField");
+            expect(result.errors[0]).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds");
         });
 
         test('should accept valid fields for LIVEBOARD', () => {
@@ -443,11 +443,10 @@ describe('getCustomActions function', () => {
             } as any;
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
-            expect(result.errors).toHaveLength(4);
-            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions");
-            expect(result.errors).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
-            expect(result.errors).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId");
-            expect(result.errors).toContain("Invalid fields for liveboard-level custom actions: invalidField");
+            expect(result.errors).toHaveLength(3);
+            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions. Supported positions: PRIMARY, MENU");
+            expect(result.errors).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId. Supported metadata IDs: liveboardIds");
+            expect(result.errors).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds");
         });
 
         test('should handle mix of valid and invalid actions', () => {
@@ -466,7 +465,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([validAction, invalidAction]);
             expect(result.actions).toEqual([validAction]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Spotter-level custom actions cannot have position 'PRIMARY'");
+            expect(result.errors[0]).toContain("Position 'PRIMARY' is not supported for spotter-level custom actions. Supported positions: MENU, CONTEXTMENU");
         });
     });
 });

@@ -1,10 +1,10 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter } from '../types';
 import { TsEmbed } from './ts-embed';
-import { getQueryParamString } from '../utils';
+import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
 
-/** 
+/**
  * Configuration for search options
  */
 export interface SearchOptions {
@@ -20,7 +20,8 @@ export interface SearchOptions {
  */
 export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
-     * The ID of the data source object. For example, Model, View, or Table. Spotter uses this object to query data and generate Answers.
+     * The ID of the data source object. For example, Model, View, or Table. Spotter uses
+     * this object to query data and generate Answers.
      */
     worksheetId: string;
     /**
@@ -30,7 +31,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * disableSourceSelection : Disables data source selection
      * but still display the selected data source.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -44,7 +45,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     disableSourceSelection?: boolean;
     /**
      * hideSourceSelection : Hide data source selection
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -58,7 +59,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     hideSourceSelection?: boolean;
     /**
      * Flag to control Data panel experience
-     * 
+     *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
      * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
@@ -76,7 +77,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -91,7 +92,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
-     * 
+     *
      * Supported embed types: `SpotterEmbed`
      * @example
      * ```js
@@ -103,6 +104,66 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSampleQuestions?: boolean;
+    /**
+     * The list of runtime filters to apply to a search Answer,
+     * visualization, or Liveboard.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    // other embed view config
+     *    runtimeFilters: [
+     *           {
+     *             columnName: 'color',
+     *             operator: RuntimeFilterOp.EQ,
+     *             values: ['red'],
+     *           },
+     *       ],
+     * })
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     */
+    runtimeFilters?: RuntimeFilter[];
+    /**
+     * Flag to control whether runtime filters should be included in the URL.
+     * If true, filters will be passed via app initialization payload instead.
+     * If false/undefined, filters will be added to URL (default behavior).
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     */
+    excludeRuntimeFiltersfromURL?: boolean;
+    /**
+     * The list of runtime parameters to apply to the conversation.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    // other embed view config
+     *    runtimeParameters: [
+     *           {
+     *             name: 'Integer Param',
+     *             value: 10,
+     *           },
+     *       ],
+     * })
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     */
+    runtimeParameters?: RuntimeParameter[];
+    /**
+     * Flag to control whether runtime parameters should be included in the URL.
+     * If true, parameters will be passed via app initialization payload instead.
+     * If false/undefined, parameters will be added to URL (default behavior).
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     */
+    excludeRuntimeParametersfromURL?: boolean;
 }
 
 /**
@@ -144,6 +205,10 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            runtimeFilters,
+            excludeRuntimeFiltersfromURL,
+            runtimeParameters,
+            excludeRuntimeParametersfromURL,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         if (!worksheetId) {
@@ -175,11 +240,21 @@ export class SpotterEmbed extends TsEmbed {
         if (queryParamsString) {
             query = `?${queryParamsString}`;
         }
+
+        const filterQuery = getFilterQuery(runtimeFilters || []);
+        if (filterQuery && !excludeRuntimeFiltersfromURL) {
+            query += `&${filterQuery}`;
+        }
+
+        const parameterQuery = getRuntimeParameters(runtimeParameters || []);
+        if (parameterQuery && !excludeRuntimeParametersfromURL) {
+            query += `&${parameterQuery}`;
+        }
+
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
             worksheet: worksheetId,
             query: searchOptions?.searchQuery || '',
         });
-
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
 

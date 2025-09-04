@@ -676,6 +676,7 @@ export interface EmbedConfig {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
+     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
      * init({
      *   ... // other embed config options
      *   customActions: [
@@ -1066,6 +1067,7 @@ export interface BaseViewConfig {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
+     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *   ... // other embed config options
@@ -1092,12 +1094,15 @@ export interface HomePageConfig {
      * Hide list page columns
      * For example: hiddenListColumns = [ListPageColumns.Author]
      *
-     * **Note**: This option is available only in full app embedding.
+     * **Note**: This option is currently available only in full app embedding and requires importing the ListPageColumns enum. 
+     * At present, it can be used with Liveboard and Answer list pages, and starting with version 10.14.0.cl, it will also be supported for the Home page.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
      * @example
      * ```js
+     * import { ListPageColumns } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
@@ -1112,11 +1117,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
@@ -1131,11 +1139,14 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomepageModule` enum.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
+     * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
@@ -1151,6 +1162,8 @@ export interface HomePageConfig {
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
+     * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
+     * 
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
@@ -1160,6 +1173,7 @@ export interface HomePageConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * To use it, you need to import `HomeLeftNavItem` enum.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -1417,6 +1431,8 @@ export interface LiveboardAppEmbedViewConfig {
     showLiveboardVerifiedBadge?: boolean;
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
+     * 
+     * **Note**: This feature is supported only if compact header is enabled on your Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled` attribute.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
@@ -1427,6 +1443,7 @@ export interface LiveboardAppEmbedViewConfig {
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    hideIrrelevantChipsInLiveboardTabs: true,
+     *    isLiveboardCompactHeaderEnabled: true,
      * })
      * ```
      */
@@ -1480,6 +1497,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
+    /**
+     * This flag is used to enable or disable the XLSX/CSV download option for Liveboards.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardXLSXCSVDownload: true,
+     * })
+     * ```
+     */
+    liveboardXLSXCSVDownload?: boolean;
+
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig {}
@@ -2843,7 +2876,30 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
-    SpotterInit = 'spotterInit'
+    SpotterInit = 'spotterInit',
+    /**
+     * @hidden
+     * Triggers when the embed listener is ready to receive events.
+     * This is used to trigger events after the embed container is loaded.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EmbedListenerReady, () => {
+     *     console.log('EmbedListenerReady');
+     * })
+     * ```
+     */
+    EmbedListenerReady = 'EmbedListenerReady',
+    /**
+     * Emitted when the organization is switched.
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.OrgSwitched, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    OrgSwitched = 'orgSwitched',
 }
 
 /**
@@ -4213,6 +4269,7 @@ export enum Param {
     Query = 'query',
     HideHomepageLeftNav = 'hideHomepageLeftNav',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
+    HomepageVersion = 'homepageVersion',
     ListPageVersion = 'listpageVersion',
     PendoTrackingKey = 'additionalPendoKey',
     LiveboardHeaderSticky = 'isLiveboardHeaderSticky',
@@ -4253,7 +4310,8 @@ export enum Param {
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
-    RootMarginForLazyLoad = 'rootMarginForLazyLoad'
+    RootMarginForLazyLoad = 'rootMarginForLazyLoad',
+    LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
 }
 
 /**
@@ -4407,27 +4465,27 @@ export enum Action {
      */
     ConfigureFilter = 'configureFilter',
     /**
-    * The **Collapse data sources** icon on the Search page.
-    * Collapses the panel showing data sources.
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.CollapseDataPanel]
-    * ```
-    * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
-    */
+     * The **Collapse data sources** icon on the Search page.
+     * Collapses the panel showing data sources.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CollapseDataPanel]
+     * ```
+     * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
+     */
     CollapseDataSources = 'collapseDataSources',
     /**
-    * The **Collapse data panel** icon on the Search page.
-    * Collapses the data panel view.
-    *
-    * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
-    *
-    * @example
-    * ```js
-    * disabledActions: [Action.CollapseDataPanel]
-    * ```
-    */
+     * The **Collapse data panel** icon on the Search page.
+     * Collapses the data panel view.
+     *
+     * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.CollapseDataPanel]
+     * ```
+     */
     CollapseDataPanel = 'collapseDataPanel',
     /**
      * The **Choose sources** button on Search page.
@@ -5125,6 +5183,17 @@ export enum Action {
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
+     * Action ID to hide or disable Iterative Change Analysis option
+     * on contextual change analysis  Inisght charts context menu
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.EnableIterativeChangeAnalysis]
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot Cloud: 9.12.0.cl
+     */
+    EnableIterativeChangeAnalysis = 'enableIterativeChangeAnalysis',
+    /**
      * Action ID to hide or disable Natural Language Search query.
      *
      * @example
@@ -5509,6 +5578,39 @@ export enum Action {
      *  @version SDK: 1.39.0 | ThoughtSpot Cloud: 10.10.0.cl
      */
     InConversationTraining = 'InConversationTraining',
+    /**
+     * Action ID to hide the warnings banner in
+     * Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterWarningsBanner]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterWarningsBanner = 'SpotterWarningsBanner',
+    /**
+     * Action ID to hide the warnings border on the knowledge
+     * card in Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterWarningsOnTokens]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterWarningsOnTokens = 'SpotterWarningsOnTokens',
+    /**
+     * Action ID to disable the click event handler on knowledge
+     * card in Spotter results. It's an EA feature and
+     * handled by LD.
+     *  @example
+     * ```js
+     * hiddenAction: [Action.SpotterTokenQuickEdit]
+     * ```
+     *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
+     */
+    SpotterTokenQuickEdit = 'SpotterTokenQuickEdit',
 }
 
 export interface AnswerServiceType {
