@@ -5596,7 +5596,6 @@ export interface CustomAction {
     }
     orgIds?: string[];
     groupIds?: string[];
-    // we might have spotter parameters as well
 }
 
 /**

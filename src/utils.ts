@@ -386,7 +386,7 @@ export const getValueFromWindow = <T = any>
  * @returns boolean indicating if the string is found in the array
  */
 export const arrayIncludesString = (arr: readonly unknown[], key: string): boolean => {
-    return (arr as string[]).includes(key);
+    return arr.some(item => typeof item === 'string' && item === key);
 };
 
 /**

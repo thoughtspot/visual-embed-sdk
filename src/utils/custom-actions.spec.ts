@@ -232,8 +232,9 @@ describe('getCustomActions function', () => {
             };
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
-            expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
+            expect(result.errors).toHaveLength(2);
+            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions");
+            expect(result.errors).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
         });
 
         test('should reject invalid position for SPOTTER', () => {
@@ -405,7 +406,7 @@ describe('getCustomActions function', () => {
     });
 
     describe('Duplicate ID Handling', () => {
-        test('should keep only the first action when duplicate IDs are found', () => {
+        test('should keep only the first action when duplicate IDs are found and report duplicate errors', () => {
             const action1 = {
                 id: 'duplicate-id',
                 name: 'First Action',
@@ -421,7 +422,10 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action1, action2]);
             expect(result.actions).toHaveLength(1);
             expect(result.actions[0]).toEqual(action1);
-            expect(result.errors).toEqual([]);
+            expect(result.errors).toHaveLength(1);
+            expect(result.errors[0]).toContain("Duplicate custom action ID 'duplicate-id' found");
+            expect(result.errors[0]).toContain("Actions with names 'Second Action' will be ignored");
+            expect(result.errors[0]).toContain("Keeping 'First Action'");
         });
     });
 
@@ -439,10 +443,11 @@ describe('getCustomActions function', () => {
             } as any;
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
-            expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
-            expect(result.errors[0]).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId");
-            expect(result.errors[0]).toContain("Invalid fields for liveboard-level custom actions: invalidField");
+            expect(result.errors).toHaveLength(4);
+            expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions");
+            expect(result.errors).toContain("Liveboard-level custom actions cannot have position 'CONTEXTMENU'");
+            expect(result.errors).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId");
+            expect(result.errors).toContain("Invalid fields for liveboard-level custom actions: invalidField");
         });
 
         test('should handle mix of valid and invalid actions', () => {

@@ -1041,7 +1041,7 @@ describe('Unit test case for ts embed', () => {
             jest.clearAllMocks();
         });
 
-        test('should handle CustomActionsValidationResult with validation errors in getDefaultAppInitData', async () => {
+        test('should handle valid custom actions and sort them by name in getDefaultAppInitData', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},

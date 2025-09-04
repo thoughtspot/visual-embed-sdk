@@ -8,7 +8,8 @@ export interface CustomActionsValidationResult {
 
 type CustomActionValidation = {
     isValid: boolean;
-    reason: string;
+    errors: string[];
+    warnings: string[];
 };
 
 /**
@@ -61,13 +62,14 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
     // Check if target type is supported
-    if (!customActionValidationConfig[targetType]) {
-        const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
-        return { isValid: false, reason: errorMessage };
-    }
+            if (!customActionValidationConfig[targetType]) {
+            const errorMessage = `Custom Action Validation Error for '${actionId}': Target type '${targetType}' is not supported`;
+            return { isValid: false, errors: [errorMessage], warnings: [] };
+        }
 
     const config = customActionValidationConfig[targetType];
     const errors: string[] = [];
+    const warnings: string[] = [];
 
     // Validate position
     if (!arrayIncludesString(config.positions, position)) {
@@ -89,7 +91,7 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     if (position === CustomActionsPosition.PRIMARY) {
         const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
         if (existingPrimaryAction) {
-            errors.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'. Only the first action will be shown.`);
+            warnings.push(`Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingPrimaryAction.name}' and '${action.name}'. Only the first action will be shown.`);
         } else {
             primaryActionsPerTarget.set(targetType, action);
         }
@@ -124,35 +126,36 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
 
     return {
         isValid: errors.length === 0,
-        reason: errors.length > 0 ? errors.join('; ') : '',
+        errors,
+        warnings,
     };
 };
 
 /**
  * Validates basic action structure and required fields
  * @param action - The action to validate
- * @returns boolean indicating if the action has valid structure
+ * @returns Object containing validation result and missing fields
  * 
  * @hidden
  */
-const validateActionStructure = (action: any): boolean => {
+const validateActionStructure = (action: any): { isValid: boolean; missingFields: string[] } => {
     if (!action || typeof action !== 'object') {
-        return false;
+        return { isValid: false, missingFields: [] };
     }
 
     // Check for all missing required fields
     const missingFields = ['id', 'name', 'target', 'position'].filter(field => !action[field]);
-    return missingFields.length === 0;
+    return { isValid: missingFields.length === 0, missingFields };
 };
 
 /**
  * Checks for duplicate IDs among actions
  * @param actions - Array of actions to check
- * @returns Array of actions with unique IDs
+ * @returns Object containing filtered actions and duplicate errors
  * 
  * @hidden
  */
-const filterDuplicateIds = (actions: CustomAction[]): CustomAction[] => {
+const filterDuplicateIds = (actions: CustomAction[]): { actions: CustomAction[]; errors: string[] } => {
     const idMap = new Map<string, CustomAction[]>();
     actions.forEach((action) => {
         const existing = idMap.get(action.id) || [];
@@ -161,16 +164,20 @@ const filterDuplicateIds = (actions: CustomAction[]): CustomAction[] => {
     });
 
     const actionsWithUniqueIds: CustomAction[] = [];
+    const errors: string[] = [];
+    
     idMap.forEach((actionsWithSameId, id) => {
         if (actionsWithSameId.length === 1) {
             actionsWithUniqueIds.push(actionsWithSameId[0]);
         } else {
-            // Keep the first action and log warning for duplicates
+            // Keep the first action and add error for duplicates
             actionsWithUniqueIds.push(actionsWithSameId[0]);
+            const duplicateNames = actionsWithSameId.slice(1).map(action => action.name);
+            errors.push(`Duplicate custom action ID '${id}' found. Actions with names '${duplicateNames.join("', '")}' will be ignored. Keeping '${actionsWithSameId[0].name}'.`);
         }
     });
 
-    return actionsWithUniqueIds;
+    return { actions: actionsWithUniqueIds, errors };
 };
 
 /**
@@ -189,12 +196,12 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
     // Step 1: Handle invalid actions first (null, undefined, missing required
     // fields)
     const validActions = customActions.filter(action => {
-        if (!validateActionStructure(action)) {
+        const validation = validateActionStructure(action);
+        if (!validation.isValid) {
             if (!action || typeof action !== 'object') {
                 errors.push('Custom Action Validation Error: Invalid action object provided');
             } else {
-                const missingFields = ['id', 'name', 'target', 'position'].filter(field => !(action as any)[field]);
-                const errorMessage = `Custom Action Validation Error for '${(action as any).id}': Missing required fields: ${missingFields.join(', ')}`;
+                const errorMessage = `Custom Action Validation Error for '${(action as any).id}': Missing required fields: ${validation.missingFields.join(', ')}`;
                 errors.push(errorMessage);
             }
             return false;
@@ -203,31 +210,24 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
     });
 
     // Step 2: Check for duplicate IDs among valid actions
-    const actionsWithUniqueIds = filterDuplicateIds(validActions);
+    const { actions: actionsWithUniqueIds, errors: duplicateErrors } = filterDuplicateIds(validActions);
+    
+    // Add duplicate errors to the errors array
+    duplicateErrors.forEach(error => errors.push(error));
 
     // Step 3: Validate actions with unique IDs
     const finalValidActions: CustomAction[] = [];
     actionsWithUniqueIds.forEach((action) => {
-        const { isValid, reason } = validateCustomAction(action, primaryActionsPerTarget);
+        const { isValid, errors: validationErrors, warnings } = validateCustomAction(action, primaryActionsPerTarget);
+        
+        // Add warnings to the errors array (they're informational)
+        warnings.forEach(warning => errors.push(warning));
+        
         if (isValid) {
             finalValidActions.push(action);
         } else {
-            // Check if the only error is a primary action conflict
-            const hasOnlyPrimaryActionConflict = reason.includes('Multiple primary actions found') && 
-                !reason.includes('Position') && 
-                !reason.includes('Target type') && 
-                !reason.includes('Invalid metadata IDs') && 
-                !reason.includes('Invalid data model IDs') && 
-                !reason.includes('Invalid fields');
-            
-            if (hasOnlyPrimaryActionConflict) {
-                // Primary action conflicts are warnings, not validation
-                // failures
-                finalValidActions.push(action);
-                errors.push(reason);
-            } else {
-                errors.push(reason);
-            }
+            // Add validation errors to the errors array
+            validationErrors.forEach(error => errors.push(error));
         }
     });
 
