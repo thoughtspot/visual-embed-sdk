@@ -5119,7 +5119,7 @@ export enum Action {
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
-    EnableIterativeChangeAnalysis = 'enableIterativeChangeAnalysis',
+    IterativeChangeAnalysis = 'context-menu-item-do-iterative-analysis',
     /**
      * Action ID to hide or disable Natural Language Search query.
      *
