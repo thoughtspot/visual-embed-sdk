@@ -1244,7 +1244,7 @@ export interface SearchLiveboardCommonViewConfig {
      *
      * Supported embed types: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
-     * @default false
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, SearchBarEmbed, or LiveboardEmbed

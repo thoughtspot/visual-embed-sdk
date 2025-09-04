@@ -61,7 +61,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * Flag to control Data panel experience
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @default false
+     * @default true
      * @version SDK: 1.36.0 | ThoughtSpot Cloud: 10.4.0.cl
      * @example
      * ```js
