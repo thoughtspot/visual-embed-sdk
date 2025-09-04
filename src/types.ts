@@ -2350,6 +2350,11 @@ export enum EmbedEvent {
      */
     APP_INIT = 'appInit',
     /**
+     * Internal event to clear the cached info
+     * @hidden
+     */
+    CLEAR_INFO_CACHE = 'clearInfoCache',
+    /**
      * Emitted when a user clicks **Show Liveboard details** on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example

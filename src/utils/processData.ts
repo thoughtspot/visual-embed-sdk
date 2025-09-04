@@ -12,6 +12,7 @@ import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
 import { logger } from '../utils/logger';
 import { handleExitPresentMode } from '../utils';
+import { resetCachedPreauthInfo, resetCachedSessionInfo } from './sessionInfoService';
 
 /**
  * Process the ExitPresentMode event and handle default fullscreen exit
@@ -26,6 +27,14 @@ function processExitPresentMode(e: any) {
     }
 }
 
+/**
+ *
+ * @param e
+ */
+function processClearInfoCache(e: any) {
+    resetCachedPreauthInfo();
+    resetCachedSessionInfo();
+}
 /**
  *
  * @param e
@@ -153,6 +162,8 @@ export function processEventData(
             return processAuthLogout(e, containerEl);
         case EmbedEvent.ExitPresentMode:
             return processExitPresentMode(e);
+        case EmbedEvent.CLEAR_INFO_CACHE:
+            return processClearInfoCache(e);
         default:
     }
     return e;
