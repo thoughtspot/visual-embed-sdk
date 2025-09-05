@@ -6,9 +6,7 @@ import {
 } from './search';
 import * as authInstance from '../auth';
 import { init } from '../index';
-import {
-    Action, AuthType, EmbedEvent, RuntimeFilterOp,
-} from '../types';
+import { Action, AuthType, EmbedEvent, RuntimeFilterOp } from '../types';
 import {
     executeAfterWait,
     getDocumentBody,
@@ -58,7 +56,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
         });
     });
@@ -444,7 +442,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=true${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=true${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -459,7 +457,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -474,7 +472,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSources=[%22data-source-1%22]&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -505,7 +503,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false&hideSearchBar=true${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -528,13 +526,14 @@ describe('Search embed tests', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             // eslint-disable-next-line max-len
-            dataPanelCustomGroupsAccordionInitialState: DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
+            dataPanelCustomGroupsAccordionInitialState:
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -566,7 +565,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
 
@@ -612,7 +611,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&executeSearch=true&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&executeSearch=true&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
 
@@ -640,7 +639,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&searchTokenString=[commit date][revenue]${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false&searchTokenString=[commit date][revenue]${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
     });
@@ -660,7 +659,7 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false&searchTokenString=[commit date][revenue]${prefixParams}#/embed/saved-answer/${answerId}`,
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false&searchTokenString=[commit date][revenue]${prefixParams}#/embed/saved-answer/${answerId}`,
             );
         });
 

@@ -619,7 +619,7 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,

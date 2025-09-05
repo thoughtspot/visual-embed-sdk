@@ -429,7 +429,7 @@ export class LiveboardEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             enableAskSage,
             enable2ColumnLayout,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             enableCustomColumnGroups = false,
             oAuthPollingInterval,
             isForceRedirect,
