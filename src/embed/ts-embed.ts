@@ -35,6 +35,7 @@ import {
     removeStyleProperties,
     isUndefined,
 } from '../utils';
+import { getCustomActions } from '../utils/custom-actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -380,6 +381,16 @@ export class TsEmbed {
 
     protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
         const authToken = await this.getAuthTokenForCookielessInit();
+        const customActionsResult = getCustomActions([
+            ...(this.viewConfig.customActions || []),
+            ...(this.embedConfig.customActions || [])
+        ]);
+        if (customActionsResult.errors.length > 0) {
+            this.handleError({
+                type: 'CUSTOM_ACTION_VALIDATION',
+                message: customActionsResult.errors,
+            });
+        }
         return {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
@@ -398,6 +409,7 @@ export class TsEmbed {
             customVariablesForThirdPartyTools:
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
+            customActions: customActionsResult.actions,
         };
     }
 
