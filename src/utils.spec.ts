@@ -373,6 +373,7 @@ describe('Fullscreen Utility Functions', () => {
             handlePresentEvent(mockIframe);
 
             expect(mockIframe.requestFullscreen).toHaveBeenCalled();
+            expect(logger.error).not.toHaveBeenCalled();
         });
 
         it('should log error when fullscreen API is not supported', () => {
@@ -392,6 +393,7 @@ describe('Fullscreen Utility Functions', () => {
             handlePresentEvent(mockIframe);
 
             expect(mockIframe.requestFullscreen).not.toHaveBeenCalled();
+            expect(logger.error).not.toHaveBeenCalled();
         });
     });
 
