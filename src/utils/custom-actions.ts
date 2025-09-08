@@ -77,17 +77,6 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
         errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_POSITION(position, targetType, supportedPositions));
     }
 
-    // Check for primary action conflicts (this is a warning, not a validation
-    // failure)
-    if (position === CustomActionsPosition.PRIMARY) {
-        const existingPrimaryAction = primaryActionsPerTarget.get(targetType);
-        if (existingPrimaryAction) {
-            errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.MULTIPLE_PRIMARY_ACTIONS(targetType, existingPrimaryAction.name, action.name));
-        } else {
-            primaryActionsPerTarget.set(targetType, action);
-        }
-    }
-
     // Validate metadata IDs
     if (metadataIds) {
         const invalidMetadataIds = Object.keys(metadataIds).filter(

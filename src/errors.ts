@@ -25,7 +25,6 @@ export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
     MISSING_REQUIRED_FIELDS: (id: string, missingFields: string[]) => `Custom Action Validation Error for '${id}': Missing required fields: ${missingFields.join(', ')}`,
     UNSUPPORTED_TARGET: (id: string, targetType: string) => `Custom Action Validation Error for '${id}': Target type '${targetType}' is not supported`,
     INVALID_POSITION: (position: string, targetType: string, supportedPositions: string) => `Position '${position}' is not supported for ${targetType.toLowerCase()}-level custom actions. Supported positions: ${supportedPositions}`,
-    MULTIPLE_PRIMARY_ACTIONS: (targetType: string, existingName: string, newName: string) => `Multiple primary actions found for ${targetType.toLowerCase()}-level custom actions: '${existingName}' and '${newName}'. Only the first action will be shown.`,
     INVALID_METADATA_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => `Invalid metadata IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidIds.join(', ')}. Supported metadata IDs: ${supportedIds}`,
     INVALID_DATA_MODEL_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => `Invalid data model IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidIds.join(', ')}. Supported data model IDs: ${supportedIds}`,
     INVALID_FIELDS: (targetType: string, invalidFields: string[], supportedFields: string) => `Invalid fields for ${targetType.toLowerCase()}-level custom actions: ${invalidFields.join(', ')}. Supported fields: ${supportedFields}`,

@@ -268,46 +268,6 @@ describe('getCustomActions function', () => {
         });
     });
 
-    describe('Primary Action Conflicts', () => {
-        test('should warn about multiple primary actions for same target', () => {
-            const firstAction = {
-                id: 'first-id',
-                name: 'First Action',
-                target: CustomActionTarget.LIVEBOARD,
-                position: CustomActionsPosition.PRIMARY,
-            };
-            const secondAction = {
-                id: 'second-id',
-                name: 'Second Action',
-                target: CustomActionTarget.LIVEBOARD,
-                position: CustomActionsPosition.PRIMARY,
-            };
-            const result = getCustomActions([firstAction, secondAction]);
-            expect(result.actions).toHaveLength(1);
-            expect(result.actions[0]).toEqual(firstAction);
-            expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Multiple primary actions found for liveboard-level custom actions");
-        });
-
-        test('should allow multiple primary actions for different targets', () => {
-            const liveboardAction = {
-                id: 'lb-id',
-                name: 'Liveboard Action',
-                target: CustomActionTarget.LIVEBOARD,
-                position: CustomActionsPosition.PRIMARY,
-            };
-            const vizAction = {
-                id: 'viz-id',
-                name: 'Viz Action',
-                target: CustomActionTarget.VIZ,
-                position: CustomActionsPosition.PRIMARY,
-            };
-            const result = getCustomActions([liveboardAction, vizAction]);
-            expect(result.actions).toHaveLength(2);
-            expect(result.errors).toEqual([]);
-        });
-    });
-
     describe('Metadata IDs Validation', () => {
         test('should reject invalid metadata IDs for LIVEBOARD', () => {
             const action = {
