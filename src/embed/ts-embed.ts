@@ -381,10 +381,16 @@ export class TsEmbed {
 
     protected async getDefaultAppInitData(): Promise<DefaultAppInitData> {
         const authToken = await this.getAuthTokenForCookielessInit();
-        const customActionsResult = getCustomActions([
+        const customActions = [
             ...(this.viewConfig.customActions || []),
             ...(this.embedConfig.customActions || [])
-        ]);
+        ];
+        const customActionsResult = getCustomActions(customActions);
+        if (customActions.length > 0) {
+            uploadMixpanelEvent(MIXPANEL_EVENT.CODE_BASED_CUSTOM_ACTION_COUNT, {
+                count: customActions.length,
+            });
+        }
         if (customActionsResult.errors.length > 0) {
             this.handleError({
                 type: 'CUSTOM_ACTION_VALIDATION',
