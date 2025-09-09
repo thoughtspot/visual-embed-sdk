@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-            node-version: '16.19.0'
+            node-version: '20.19.4'
             registry-url: 'https://registry.npmjs.org'
 
       - name: Get Branch Name

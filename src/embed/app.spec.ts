@@ -344,6 +344,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set liveboardXLSXCSVDownload to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardXLSXCSVDownload: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set liveboardXLSXCSVDownload to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardXLSXCSVDownload: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -611,6 +639,43 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when Sliding and ModularWithStylingChanges configured in the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            discoveryExperience: {
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.ModularWithStylingChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when homePage is ModularWithStylingChanges to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            // primaryNavbarVersion is not included under discoveryExperience,
+            // then it set navigationVersion=v2 and modularHomeExperience=false.
+            discoveryExperience: {
+                homePage: HomePage.ModularWithStylingChanges,
+            },
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -657,11 +722,27 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should not add listpageVersion when listPageVersion is List (v2) to the iframe src', async () => {
+
+    test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add listpageVersion=v2 by default when discoveryExperience is provided but listPageVersion is not specified', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             discoveryExperience: {
-                listPageVersion: ListPage.List,
+                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                homePage: HomePage.Modular,
             },
         } as AppViewConfig);
 
@@ -669,10 +750,11 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
+
 
     test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {

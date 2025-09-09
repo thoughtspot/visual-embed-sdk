@@ -62,6 +62,8 @@ import {
     VizPoint,
     CustomActionPayload,
     ListPageColumns,
+    CustomActionsPosition,
+    CustomActionTarget,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -148,6 +150,8 @@ export {
     UIPassthroughEvent,
     ListPageColumns,
     DataPanelCustomColumnGroupsAccordionState,
+    CustomActionsPosition,
+    CustomActionTarget,
 };
 
 export { resetCachedAuthToken } from './authToken';
