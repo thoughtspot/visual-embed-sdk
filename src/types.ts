@@ -5188,16 +5188,16 @@ export enum Action {
      */
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
-     * Action ID to hide or disable Iterative Change Analysis option
+     * Action ID to hide, disable or show Iterative Change Analysis option
      * on contextual change analysis  Inisght charts context menu
      *
      * @example
      * ```js
-     * disabledActions: [Action.EnableIterativeChangeAnalysis]
+     * disabledActions: [Action.IterativeChangeAnalysis]
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
-    EnableIterativeChangeAnalysis = 'enableIterativeChangeAnalysis',
+    IterativeChangeAnalysis = 'context-menu-item-do-iterative-analysis',
     /**
      * Action ID to hide or disable Natural Language Search query.
      *
