@@ -4317,6 +4317,7 @@ export enum Param {
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
+    isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
 }
 
 /**
@@ -5616,6 +5617,29 @@ export enum Action {
      *  @version SDK: 1.41.0 | ThoughtSpot Cloud: 10.13.0.cl
      */
     SpotterTokenQuickEdit = 'SpotterTokenQuickEdit',
+    /**
+     * The **PNG screenshot in email** option in the schedule email dialog.
+     * Includes a PNG screenshot in the notification email body.
+     * @example
+     * ```js
+     * disabledActions: [Action.PngScreenshotInEmail]
+     * ```
+     * ```
+     *  @version SDK: 1.42.0 | ThoughtSpot Cloud: 10.14.0.cl
+     */
+    PngScreenshotInEmail = 'pngScreenshotInEmail',
+    /**
+     * The **Remove attachment** action in the schedule email dialog.
+     * Removes an attachment from the email configuration.
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveAttachment]
+     * ```
+     * ```
+     * ```
+     *  @version SDK: 1.42.0 | ThoughtSpot Cloud: 10.14.0.cl
+     */
+    RemoveAttachment = 'removeAttachment',
 }
 
 export interface AnswerServiceType {
