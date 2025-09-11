@@ -344,6 +344,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isPNGInScheduledEmailsEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isPNGInScheduledEmailsEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set liveboardXLSXCSVDownload to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -325,6 +325,22 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
     /**
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isPNGInScheduledEmailsEnabled: true,
+     * })
+     * ```
+     */
+    isPNGInScheduledEmailsEnabled?: boolean;
+    /**
      * This flag is used to enable the full height lazy load data.
      * 
      * @example
@@ -437,6 +453,7 @@ export class LiveboardEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
+            isPNGInScheduledEmailsEnabled = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -502,6 +519,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (isPNGInScheduledEmailsEnabled !== undefined) {
+            params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

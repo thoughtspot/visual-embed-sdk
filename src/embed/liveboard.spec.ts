@@ -158,6 +158,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isPNGInScheduledEmailsEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isPNGInScheduledEmailsEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set visible actions as empty array', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [],
