@@ -4316,6 +4316,7 @@ export enum Param {
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
+    EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
 }

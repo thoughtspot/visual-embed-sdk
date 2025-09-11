@@ -105,6 +105,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     hideSampleQuestions?: boolean;
     /**
+     * enablePastConversationsSidebar : Controls the visibility of the past conversations sidebar.
+     * 
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    enablePastConversationsSidebar : true,
+     * })
+     * ```
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
+    /**
      * The list of runtime filters to apply to a search Answer,
      * visualization, or Liveboard.
      *
@@ -204,6 +219,7 @@ export class SpotterEmbed extends TsEmbed {
             hideSourceSelection,
             dataPanelV2,
             showSpotterLimitations,
+            enablePastConversationsSidebar,
             hideSampleQuestions,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
@@ -233,6 +249,10 @@ export class SpotterEmbed extends TsEmbed {
 
         if (!isUndefined(hideSampleQuestions)) {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
+        }
+
+        if (!isUndefined(enablePastConversationsSidebar)) {
+            queryParams[Param.EnablePastConversationsSidebar] = !!enablePastConversationsSidebar;
         }
 
         let query = '';
