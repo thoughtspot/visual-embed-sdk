@@ -77,7 +77,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=false#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=true#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -820,7 +820,6 @@ describe('Liveboard/viz embed tests', () => {
             expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
                 libEmbed,
             );
-
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, {
@@ -852,7 +851,7 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             });
         });
-       
+
         test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async (done) => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
@@ -905,7 +904,6 @@ describe('Liveboard/viz embed tests', () => {
                 });
             });
 
-
             await executeAfterWait(() => {
                 const iFrame = document.getElementById(
                     libEmbed.getPreRenderIds().child,
@@ -917,7 +915,6 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             }, 1005);
         });
-
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
