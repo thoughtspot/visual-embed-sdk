@@ -25,6 +25,7 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
     VISUAL_SDK_EMBED_CREATE: 'visual-sdk-embed-create',
     VERCEL_INTEGRATION_COMPLETED: 'vercel-integration-completed',
+    CODE_BASED_CUSTOM_ACTION_COUNT: 'code-based-custom-action-count',
 };
 
 let isMixpanelInitialized = false;

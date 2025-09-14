@@ -1143,6 +1143,80 @@ describe('Unit test case for ts embed', () => {
                 expect(appInitData.customActions[1].name).toBe('Valid Action');
             });
         });
+
+        test('should trigger CODE_BASED_CUSTOM_ACTION_COUNT mixpanel event with correct count', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            
+            const customActions = [
+                {
+                    id: 'action1',
+                    name: 'Custom Action 1',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.PRIMARY,
+                    metadataIds: { liveboardIds: ['lb123'] }
+                },
+                {
+                    id: 'action2',
+                    name: 'Custom Action 2',
+                    target: CustomActionTarget.VIZ,
+                    position: CustomActionsPosition.MENU,
+                    metadataIds: { vizIds: ['viz456'] }
+                }
+            ];
+            
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                customActions
+            });
+            
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                // Verify that CODE_BASED_CUSTOM_ACTION_COUNT mixpanel event is called with correct count
+                expect(mockMixPanelEvent).toHaveBeenCalledWith(
+                    MIXPANEL_EVENT.CODE_BASED_CUSTOM_ACTION_COUNT,
+                    {
+                        count: 2,
+                    }
+                );
+            });
+        });
+
+        test('should not trigger CODE_BASED_CUSTOM_ACTION_COUNT mixpanel event when no custom actions', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                // No customActions provided
+            });
+            
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            // Verify that CODE_BASED_CUSTOM_ACTION_COUNT mixpanel event is NOT called when count is 0
+            expect(mockMixPanelEvent).not.toHaveBeenCalledWith(
+                MIXPANEL_EVENT.CODE_BASED_CUSTOM_ACTION_COUNT,
+                expect.anything()
+            );
+        });
     });
 
     describe('Token fetch fails in cookieless authentication authType', () => {
