@@ -83,15 +83,21 @@ function compareVariables(interfaceVars, implementationVars) {
  */
 function validateCSSVariables() {
     console.log('🔍 Validating CSS variables consistency...\n');
+    console.log('📁 Script location:', __filename);
+    console.log('📁 Working directory:', process.cwd());
+    console.log('📁 Command line arguments:', process.argv);
+    console.log('');
     
     // Path to the interface file
     const interfacePath = path.join(__dirname, '..', 'src', 'css-variables.ts');
+    console.log('📁 Interface file path:', interfacePath);
     
     // Check if interface file exists
     if (!fs.existsSync(interfacePath)) {
         console.error(`❌ Interface file not found: ${interfacePath}`);
         process.exit(1);
     }
+    console.log('✅ Interface file exists');
     
     // Extract variables from interface
     const interfaceVars = extractVariablesFromInterface(interfacePath);
@@ -99,6 +105,8 @@ function validateCSSVariables() {
     
     // Get implementation content from command line argument or environment
     const implementationContent = process.argv[2] || process.env.CSS_VARS_IMPLEMENTATION;
+    console.log('📁 Implementation content length:', implementationContent ? implementationContent.length : 'undefined');
+    console.log('📁 Implementation content preview:', implementationContent ? implementationContent.substring(0, 200) + '...' : 'undefined');
     
     if (!implementationContent) {
         console.log('⚠️  No implementation content provided. Use:');

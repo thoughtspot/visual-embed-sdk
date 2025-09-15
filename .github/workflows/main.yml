@@ -95,61 +95,26 @@ jobs:
                   ls -la theme-builder/ || echo "Theme builder directory not found"
                   echo ""
                   
-                  echo "Available files in src/:"
-                  ls -la theme-builder/src/ 2>/dev/null || echo "src directory not found"
-                  echo ""
-                  
-                  echo "Searching for sdkVariable files..."
-                  find theme-builder -name "*sdkVariable*" -type f 2>/dev/null || echo "No sdkVariable files found"
-                  echo ""
-                  
-                  echo "Searching for any .ts files in src/:"
-                  find theme-builder/src -name "*.ts" -type f 2>/dev/null || echo "No .ts files found in src/"
-                  echo ""
-                  
-                  echo "Searching for data directory..."
-                  find theme-builder -name "data" -type d 2>/dev/null || echo "No data directory found"
-                  echo ""
-                  
-                  # Try to find the file with different possible names
-                  POSSIBLE_FILES=(
-                      "theme-builder/src/data/sdkVariable.ts"
-                      "theme-builder/src/sdkVariable.ts"
-                      "theme-builder/sdkVariable.ts"
-                      "theme-builder/src/variables.ts"
-                      "theme-builder/src/css-variables.ts"
-                  )
-                  
-                  FOUND_FILE=""
-                  for file in "${POSSIBLE_FILES[@]}"; do
-                      if [ -f "$file" ]; then
-                          echo "✅ Found file: $file"
-                          FOUND_FILE="$file"
-                          break
-                      fi
-                  done
-                  
-                  if [ -z "$FOUND_FILE" ]; then
-                      echo "❌ Could not find the target file with any expected name"
-                      echo "Please check the repository structure and update the file path"
+                  echo "Checking for the target file..."
+                  if [ -f "theme-builder/src/data/sdkVariable.ts" ]; then
+                      echo "✅ Found target file: theme-builder/src/data/sdkVariable.ts"
+                      echo "File size: $(wc -c < theme-builder/src/data/sdkVariable.ts) bytes"
+                      echo "First few lines:"
+                      head -5 theme-builder/src/data/sdkVariable.ts
+                  else
+                      echo "❌ Target file not found: theme-builder/src/data/sdkVariable.ts"
+                      echo "Available files in src/:"
+                      ls -la theme-builder/src/ 2>/dev/null || echo "src directory not found"
+                      echo ""
+                      echo "Searching for sdkVariable files..."
+                      find theme-builder -name "*sdkVariable*" -type f 2>/dev/null || echo "No sdkVariable files found"
                       exit 1
                   fi
-                  
-                  echo "FILE_PATH=$FOUND_FILE" >> $GITHUB_ENV
 
             - name: Validate CSS variables
               run: |
                   echo "🔍 Starting CSS variables validation..."
-                  echo "📁 Using theme builder file: ${{ env.FILE_PATH }}"
-                  
-                  # Check if the file exists
-                  if [ -f "${{ env.FILE_PATH }}" ]; then
-                      echo "✅ File exists, running validation..."
-                      node scripts/validate-css-variables.js "$(cat ${{ env.FILE_PATH }})"
-                      echo "✅ Validation completed!"
-                  else
-                      echo "❌ File not found: ${{ env.FILE_PATH }}"
-                      echo "Available files in theme-builder:"
-                      find theme-builder -name "*.ts" -type f 2>/dev/null || echo "No .ts files found"
-                      exit 1
-                  fi
+                  echo "📁 Using theme builder file: theme-builder/src/data/sdkVariable.ts"
+                  echo "📋 Running validation..."
+                  node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
+                  echo "✅ Validation completed!"
