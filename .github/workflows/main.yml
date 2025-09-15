@@ -141,6 +141,15 @@ jobs:
               run: |
                   echo "🔍 Starting CSS variables validation..."
                   echo "📁 Using theme builder file: ${{ env.FILE_PATH }}"
-                  echo "📋 Running validation..."
-                  node scripts/validate-css-variables.js "$(cat ${{ env.FILE_PATH }})"
-                  echo "✅ Validation completed!"
+                  
+                  # Check if the file exists
+                  if [ -f "${{ env.FILE_PATH }}" ]; then
+                      echo "✅ File exists, running validation..."
+                      node scripts/validate-css-variables.js "$(cat ${{ env.FILE_PATH }})"
+                      echo "✅ Validation completed!"
+                  else
+                      echo "❌ File not found: ${{ env.FILE_PATH }}"
+                      echo "Available files in theme-builder:"
+                      find theme-builder -name "*.ts" -type f 2>/dev/null || echo "No .ts files found"
+                      exit 1
+                  fi
