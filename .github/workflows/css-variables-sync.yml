@@ -18,6 +18,25 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Test repository access
+        run: |
+          echo "🔍 Testing repository access..."
+          echo "Repository: thoughtspot/Thoughtspot-theme-builder"
+          echo "Branch: release"
+          
+          # Test if we can access the repository
+          if curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+              "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder" | grep -q "full_name"; then
+              echo "✅ Repository access confirmed"
+          else
+              echo "❌ Cannot access repository. Possible issues:"
+              echo "1. Repository name is incorrect"
+              echo "2. Repository is under different organization"
+              echo "3. Token doesn't have access to this repository"
+              echo "4. Repository doesn't exist"
+              exit 1
+          fi
+
       - name: Checkout theme builder repo
         uses: actions/checkout@v2
         with:
