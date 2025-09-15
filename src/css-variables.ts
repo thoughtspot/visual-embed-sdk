@@ -9,6 +9,11 @@ export interface CustomCssVariables {
     '--ts-var-root-background'?: string;
 
     /**
+     * TEST VARIABLE - This should cause validation to fail
+     */
+    '--ts-var-test-variable'?: string;
+
+    /**
      * Color of the text on application pages.
      */
     '--ts-var-root-color'?: string;
