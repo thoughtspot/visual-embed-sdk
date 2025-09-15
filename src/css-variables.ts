@@ -3,15 +3,6 @@
  * are the only allowed variables possible.
  */
 export interface CustomCssVariables {
-    /**
-     * Background color of the Liveboard, visualization, Search, and Answer pages.
-     */
-    '--ts-var-root-background'?: string;
-
-    /**
-     * TEST VARIABLE - This should cause validation to fail
-     */
-    '--ts-var-test-variable'?: string;
 
     /**
      * Color of the text on application pages.
