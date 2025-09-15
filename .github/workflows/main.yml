@@ -78,14 +78,33 @@ jobs:
               with:
                   node-version: '20'
 
+            - name: Debug repository access
+              run: |
+                  echo "🔍 Testing repository access..."
+                  if [ -z "${{ secrets.THEME_BUILDER_REPO }}" ]; then
+                      echo "❌ THEME_BUILDER_REPO secret is not set"
+                      echo "Please set THEME_BUILDER_REPO secret to: thoughtspot/Thoughtspot-theme-builder"
+                      exit 1
+                  else
+                      echo "✅ THEME_BUILDER_REPO secret is set to: ${{ secrets.THEME_BUILDER_REPO }}"
+                      if [ "${{ secrets.THEME_BUILDER_REPO }}" != "thoughtspot/Thoughtspot-theme-builder" ]; then
+                          echo "⚠️  Warning: Expected 'thoughtspot/Thoughtspot-theme-builder' but got '${{ secrets.THEME_BUILDER_REPO }}'"
+                      fi
+                  fi
+
             - name: Checkout theme builder repo
               uses: actions/checkout@v2
               with:
-                  repository: ${{ secrets.THEME_BUILDER_REPO }}
+                  repository: thoughtspot/Thoughtspot-theme-builder
                   path: theme-builder
                   ref: release
                   token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Validate CSS variables
               run: |
+                  echo "🔍 Starting CSS variables validation..."
+                  echo "📁 Checking theme builder file..."
+                  ls -la theme-builder/src/data/sdkVariable.ts
+                  echo "📋 Running validation..."
                   node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
+                  echo "✅ Validation completed!"
