@@ -21,10 +21,10 @@ jobs:
       - name: Checkout theme builder repo
         uses: actions/checkout@v2
         with:
-          repository: ${{ secrets.THEME_BUILDER_REPO }}
+          repository: thoughtspot/Thoughtspot-theme-builder
           path: theme-builder
           ref: release
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.THEME_BUILDER_TOKEN }}
 
       - name: Validate CSS variables
         run: |
