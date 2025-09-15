@@ -288,32 +288,44 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
         thoughtSpotHost, username, authEndpoint, getAuthToken,
     } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
+        const _typeOfGetAuthToken = typeof (getAuthToken)
+        logger.log("91. type of _typeOfGetAuthToken" , _typeOfGetAuthToken);
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     loggedInStatus = await isLoggedIn(thoughtSpotHost);
 
     if (!loggedInStatus) {
         let authToken: string;
+        logger.log('30.doTokenAuth: getting authentication token');
         try {
+            logger.log('31.doTokenAuth: getting authentication token');
             authToken = await getAuthenticationToken(embedConfig);
+            logger.log('32.doTokenAuth: authentication token', authToken);
         } catch (e) {
+            logger.log('33.doTokenAuth: error getting authentication token');
             loggedInStatus = false;
             throw e;
         }
+        logger.log('34.doTokenAuth: authentication token', authToken);
         let resp;
         try {
+            logger.log('35.doTokenAuth: fetching auth post service');
             resp = await fetchAuthPostService(thoughtSpotHost, username, authToken);
         } catch (e) {
+            logger.log('36.doTokenAuth: error fetching auth post service');
             resp = await fetchAuthService(thoughtSpotHost, username, authToken);
         }
         // token login issues a 302 when successful
         loggedInStatus = resp.ok || resp.type === 'opaqueredirect';
         if (loggedInStatus && embedConfig.detectCookieAccessSlow) {
+            logger.log('37.doTokenAuth: checking if logged in');
             // When 3rd party cookie access is blocked, this will fail because
             // cookies will not be sent with the call.
             loggedInStatus = await isLoggedIn(thoughtSpotHost);
         }
+        logger.log('38.doTokenAuth: loggedInStatus', loggedInStatus);
     }
+    console.log('39.doTokenAuth: loggedInStatus', loggedInStatus);
     return loggedInStatus;
 };
 
@@ -324,18 +336,24 @@ export const doTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
 export const doCookielessTokenAuth = async (embedConfig: EmbedConfig): Promise<boolean> => {
     const { authEndpoint, getAuthToken } = embedConfig;
     if (!authEndpoint && !getAuthToken) {
+        const _typeOfGetAuthToken = typeof (getAuthToken)
+        logger.log("92. type of _typeOfGetAuthToken" , _typeOfGetAuthToken);
         throw new Error('Either auth endpoint or getAuthToken function must be provided');
     }
     let authSuccess = false;
     try {
+        logger.log('71.doCookielessTokenAuth: getting authentication token');
         const authToken = await getAuthenticationToken(embedConfig);
+        logger.log('72.doCookielessTokenAuth: authentication token', authToken);
         if (authToken) {
+            logger.log('73.doCookielessTokenAuth: authentication token', authToken);
             authSuccess = true;
         }
     } catch {
+        logger.log('74.doCookielessTokenAuth: error getting authentication token');
         authSuccess = false;
     }
-
+    logger.log('75.doCookielessTokenAuth: authSuccess', authSuccess);
     return authSuccess;
 };
 

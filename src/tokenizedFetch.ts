@@ -3,6 +3,8 @@ import { getEmbedConfig } from './embed/embedConfig';
 
 import { AuthType } from './types';
 
+import { logger } from './utils/logger';
+
 /**
  * Fetch wrapper that adds the authentication token to the request.
  * Use this to call the ThoughtSpot APIs when using the visual embed sdk.
@@ -29,9 +31,13 @@ export const tokenizedFetch: typeof fetch = async (input, init): Promise<Respons
     }
 
     const req = new Request(input, init);
+    logger.log('76.tokenizedFetch: getting authentication token');
     const authToken = await getAuthenticationToken(embedConfig);
+    logger.log('77.tokenizedFetch: authentication token', authToken);
     if (authToken) {
+        logger.log('78.tokenizedFetch: appending authentication token');
         req.headers.append('Authorization', `Bearer ${authToken}`);
     }
+    logger.log('79.tokenizedFetch: fetching request');
     return fetch(req);
 };

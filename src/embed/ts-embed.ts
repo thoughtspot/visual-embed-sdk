@@ -338,6 +338,7 @@ export class TsEmbed {
         window.addEventListener('message', messageEventListener);
 
         const onlineEventListener = (e: Event) => {
+            logger.info('1.online event listener is coming here');
             this.trigger(HostEvent.Reload);
         };
         window.addEventListener('online', onlineEventListener);
@@ -369,12 +370,14 @@ export class TsEmbed {
         if (this.embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) return authToken;
 
         try {
+            logger.log('80.getAuthTokenForCookielessInit: getting authentication token');
             authToken = await getAuthenticationToken(this.embedConfig);
         } catch (e) {
+            logger.log('81.getAuthTokenForCookielessInit: error getting authentication token');
             processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             throw e;
         }
-
+        logger.log('82.getAuthTokenForCookielessInit: authentication token', authToken);
         return authToken;
     }
 
@@ -434,20 +437,27 @@ export class TsEmbed {
         // Default autoLogin: true for cookieless if undefined/null, otherwise
         // false
         autoLogin = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        // over here we are getting auth expire
         if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
             try {
+                logger.log('83.updateAuthToken: getting authentication token');
                 const authToken = await getAuthenticationToken(this.embedConfig);
+                logger.log('84.updateAuthToken: authentication token', authToken);
                 responder({
                     type: EmbedEvent.AuthExpire,
                     data: { authToken },
                 });
+                logger.log('85.updateAuthToken: authentication token', authToken);
             } catch (e) {
+                logger.log('86.updateAuthToken: error getting authentication token');
                 logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             }
         } else if (autoLogin) {
+            logger.log('87.updateAuthToken: autoLogin');
             handleAuth();
         }
+        logger.log('88.updateAuthToken: notifyAuthFailure');
         notifyAuthFailure(AuthFailureType.EXPIRY);
     };
 
@@ -460,18 +470,25 @@ export class TsEmbed {
         handleAuth().then(async () => {
             let authToken = '';
             try {
+                logger.log('89.idleSessionTimeout: getting authentication token');
                 authToken = await getAuthenticationToken(this.embedConfig);
+                logger.log('90.idleSessionTimeout: authentication token', authToken);
                 responder({
                     type: EmbedEvent.IdleSessionTimeout,
                     data: { authToken },
                 });
+                logger.log('91.idleSessionTimeout: authentication token', authToken);
             } catch (e) {
+                logger.log('92.idleSessionTimeout: error getting authentication token');
                 logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                logger.log('93.idleSessionTimeout: error getting authentication token');
             }
         }).catch((e) => {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
+            logger.log('94.idleSessionTimeout: auto login failed');
         });
+        logger.log('95.idleSessionTimeout: notifyAuthFailure');
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
@@ -779,6 +796,7 @@ export class TsEmbed {
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
                         this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
+                        logger.log('auth expire is coming here');
                         return;
                     }
 
@@ -1209,18 +1227,22 @@ export class TsEmbed {
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        logger.log("2. trigger event listener is coming here");
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
+            logger.log("3. Please call render before triggering events");
             this.handleError('Please call render before triggering events');
             return null;
         }
 
         if (!messageType) {
+            logger.log("4. Host event type is undefined");
             this.handleError('Host event type is undefined');
             return null;
         }
         // send an empty object, this is needed for liveboard default handlers
+        logger.log("5. Sending host event to the embedded app");
         return this.hostEventClient.triggerHostEvent(messageType, data);
     }
 
