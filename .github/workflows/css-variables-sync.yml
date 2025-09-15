@@ -1,0 +1,26 @@
+name: CSS Variables Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/css-variables.ts'
+
+jobs:
+  validate:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Checkout theme builder repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.THEME_BUILDER_REPO }}
+          path: theme-builder
+          ref: release
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate CSS variables
+        run: |
+          node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
