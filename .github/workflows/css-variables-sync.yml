@@ -1,4 +1,4 @@
-name: CSS Variables Validation
+name: CSS Variables Sync Check
 
 on:
   pull_request:
@@ -7,11 +7,16 @@ on:
 
 jobs:
   validate:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Checkout theme builder repo
         uses: actions/checkout@v2
