@@ -24,16 +24,35 @@ jobs:
           echo "Repository: thoughtspot/Thoughtspot-theme-builder"
           echo "Branch: release"
           
-          # Test if we can access the repository
-          if curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
-              "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder" | grep -q "full_name"; then
+          # Test repository access
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+              "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder")
+          
+          if echo "$RESPONSE" | grep -q "full_name"; then
               echo "✅ Repository access confirmed"
+              
+              # Test branch access
+              BRANCH_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+                  "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches/release")
+              
+              if echo "$BRANCH_RESPONSE" | grep -q "name"; then
+                  echo "✅ Release branch access confirmed"
+              else
+                  echo "❌ Release branch not found or not accessible"
+                  echo "Available branches:"
+                  curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+                      "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches" | \
+                      jq -r '.[].name' 2>/dev/null || echo "Could not fetch branches"
+                  exit 1
+              fi
           else
-              echo "❌ Cannot access repository. Possible issues:"
-              echo "1. Repository name is incorrect"
-              echo "2. Repository is under different organization"
-              echo "3. Token doesn't have access to this repository"
-              echo "4. Repository doesn't exist"
+              echo "❌ Cannot access repository. Response:"
+              echo "$RESPONSE"
+              echo ""
+              echo "Possible issues:"
+              echo "1. Token doesn't have access to this repository"
+              echo "2. Token is invalid or expired"
+              echo "3. Repository permissions issue"
               exit 1
           fi
 
