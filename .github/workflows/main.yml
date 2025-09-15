@@ -78,13 +78,61 @@ jobs:
               with:
                   node-version: '20'
 
+            - name: Test repository access
+              run: |
+                  echo "🔍 Testing repository access..."
+                  echo "Repository: thoughtspot/Thoughtspot-theme-builder"
+                  echo "Branch: release"
+                  echo "Token present: ${{ secrets.THEME_BUILDER_TOKEN != '' }}"
+                  
+                  # Test repository access
+                  echo "Making API call to GitHub..."
+                  RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+                      "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder")
+                  
+                  echo "API Response:"
+                  echo "$RESPONSE"
+                  echo ""
+                  
+                  if echo "$RESPONSE" | grep -q "full_name"; then
+                      echo "✅ Repository access confirmed"
+                      
+                      # Test branch access
+                      echo "Testing branch access..."
+                      BRANCH_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+                          "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches/release")
+                      
+                      echo "Branch API Response:"
+                      echo "$BRANCH_RESPONSE"
+                      echo ""
+                      
+                      if echo "$BRANCH_RESPONSE" | grep -q "name"; then
+                          echo "✅ Release branch access confirmed"
+                      else
+                          echo "❌ Release branch not found or not accessible"
+                          echo "Available branches:"
+                          curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
+                              "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches" | \
+                              jq -r '.[].name' 2>/dev/null || echo "Could not fetch branches"
+                          exit 1
+                      fi
+                  else
+                      echo "❌ Cannot access repository"
+                      echo "Possible issues:"
+                      echo "1. Token doesn't have access to this repository"
+                      echo "2. Token is invalid or expired"
+                      echo "3. Repository permissions issue"
+                      echo "4. Repository doesn't exist"
+                      exit 1
+                  fi
+
             - name: Checkout theme builder repo
               uses: actions/checkout@v2
               with:
                   repository: thoughtspot/Thoughtspot-theme-builder
                   path: theme-builder
                   ref: release
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.THEME_BUILDER_TOKEN }}
 
             - name: Validate CSS variables
               run: |
