@@ -114,7 +114,7 @@ jobs:
             - name: Validate CSS variables
               run: |
                   echo "🔍 Starting CSS variables validation..."
-                  echo "📁 Using theme builder file: ./src/data/sdkVariable.ts"
+                  echo "📁 Using theme builder file: theme-builder/src/data/sdkVariable.ts"
                   echo "📋 Running validation..."
-                  node scripts/validate-css-variables.js "$(cat ./src/data/sdkVariable.ts)"
+                  node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
                   echo "✅ Validation completed!"
