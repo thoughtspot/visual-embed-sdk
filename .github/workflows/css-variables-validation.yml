@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'src/css-variables.ts'
-  workflow_dispatch: # Allow manual triggering
+  workflow_dispatch:
 
 jobs:
   validate-css-variables:
@@ -31,17 +31,11 @@ jobs:
 
       - name: Verify theme builder file access
         run: |
-          echo "🔍 Verifying theme builder file access..."
-          echo "✅ Theme builder file: theme-builder/src/data/sdkVariable.ts"
-          echo "File size: $(wc -c < theme-builder/src/data/sdkVariable.ts) bytes"
+          echo "Verifying theme builder file access..."
+          echo "Theme builder file: theme-builder/src/data/sdkVariable.ts"
 
       - name: Validate CSS variables consistency
         run: |
-          echo "🔍 Starting CSS variables validation..."
-          echo "Interface file: src/css-variables.ts"
-          echo "Implementation file: theme-builder/src/data/sdkVariable.ts"
           echo "Running validation..."
-          
           node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
-          
-          echo "✅ CSS variables validation completed successfully!"
+          echo "CSS variables validation completed successfully!"
