@@ -78,54 +78,6 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Test repository access
-              run: |
-                  echo "🔍 Testing repository access..."
-                  echo "Repository: thoughtspot/Thoughtspot-theme-builder"
-                  echo "Branch: release"
-                  echo "Token present: ${{ secrets.THEME_BUILDER_TOKEN != '' }}"
-                  
-                  # Test repository access
-                  echo "Making API call to GitHub..."
-                  RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
-                      "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder")
-                  
-                  echo "API Response:"
-                  echo "$RESPONSE"
-                  echo ""
-                  
-                  if echo "$RESPONSE" | grep -q "full_name"; then
-                      echo "✅ Repository access confirmed"
-                      
-                      # Test branch access
-                      echo "Testing branch access..."
-                      BRANCH_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
-                          "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches/release")
-                      
-                      echo "Branch API Response:"
-                      echo "$BRANCH_RESPONSE"
-                      echo ""
-                      
-                      if echo "$BRANCH_RESPONSE" | grep -q "name"; then
-                          echo "✅ Release branch access confirmed"
-                      else
-                          echo "❌ Release branch not found or not accessible"
-                          echo "Available branches:"
-                          curl -s -H "Authorization: token ${{ secrets.THEME_BUILDER_TOKEN }}" \
-                              "https://api.github.com/repos/thoughtspot/Thoughtspot-theme-builder/branches" | \
-                              jq -r '.[].name' 2>/dev/null || echo "Could not fetch branches"
-                          exit 1
-                      fi
-                  else
-                      echo "❌ Cannot access repository"
-                      echo "Possible issues:"
-                      echo "1. Token doesn't have access to this repository"
-                      echo "2. Token is invalid or expired"
-                      echo "3. Repository permissions issue"
-                      echo "4. Repository doesn't exist"
-                      exit 1
-                  fi
-
             - name: Checkout theme builder repo
               uses: actions/checkout@v2
               with:
@@ -133,12 +85,36 @@ jobs:
                   path: theme-builder
                   ref: release
                   token: ${{ secrets.THEME_BUILDER_TOKEN }}
+                  fetch-depth: 1
+
+            - name: Verify checkout and file access
+              run: |
+                  echo "🔍 Verifying checkout..."
+                  echo "Current directory: $(pwd)"
+                  echo "Theme builder directory contents:"
+                  ls -la theme-builder/ || echo "Theme builder directory not found"
+                  echo ""
+                  
+                  echo "Checking for the target file..."
+                  if [ -f "theme-builder/src/data/sdkVariable.ts" ]; then
+                      echo "✅ Found target file: theme-builder/src/data/sdkVariable.ts"
+                      echo "File size: $(wc -c < theme-builder/src/data/sdkVariable.ts) bytes"
+                      echo "First few lines:"
+                      head -5 theme-builder/src/data/sdkVariable.ts
+                  else
+                      echo "❌ Target file not found: theme-builder/src/data/sdkVariable.ts"
+                      echo "Available files in src/data/:"
+                      ls -la theme-builder/src/data/ 2>/dev/null || echo "src/data directory not found"
+                      echo ""
+                      echo "Available files in src/:"
+                      ls -la theme-builder/src/ 2>/dev/null || echo "src directory not found"
+                      exit 1
+                  fi
 
             - name: Validate CSS variables
               run: |
                   echo "🔍 Starting CSS variables validation..."
-                  echo "📁 Checking theme builder file..."
-                  ls -la theme-builder/src/data/sdkVariable.ts
+                  echo "📁 Using theme builder file: theme-builder/src/data/sdkVariable.ts"
                   echo "📋 Running validation..."
                   node scripts/validate-css-variables.js "$(cat theme-builder/src/data/sdkVariable.ts)"
                   echo "✅ Validation completed!"
