@@ -78,20 +78,6 @@ jobs:
               with:
                   node-version: '20'
 
-            - name: Debug repository access
-              run: |
-                  echo "🔍 Testing repository access..."
-                  if [ -z "${{ secrets.THEME_BUILDER_REPO }}" ]; then
-                      echo "❌ THEME_BUILDER_REPO secret is not set"
-                      echo "Please set THEME_BUILDER_REPO secret to: thoughtspot/Thoughtspot-theme-builder"
-                      exit 1
-                  else
-                      echo "✅ THEME_BUILDER_REPO secret is set to: ${{ secrets.THEME_BUILDER_REPO }}"
-                      if [ "${{ secrets.THEME_BUILDER_REPO }}" != "thoughtspot/Thoughtspot-theme-builder" ]; then
-                          echo "⚠️  Warning: Expected 'thoughtspot/Thoughtspot-theme-builder' but got '${{ secrets.THEME_BUILDER_REPO }}'"
-                      fi
-                  fi
-
             - name: Checkout theme builder repo
               uses: actions/checkout@v2
               with:
