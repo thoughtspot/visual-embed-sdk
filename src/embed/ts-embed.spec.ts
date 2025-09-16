@@ -2488,7 +2488,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         afterAll((): void => {
-            window.location = location;
+            window.location = location as any;
         });
 
         it('get url params for TS', () => {

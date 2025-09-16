@@ -118,12 +118,7 @@ export class SearchBarEmbed extends TsEmbed {
         this.viewConfig = viewConfig;
     }
 
-    /**
-     * Construct the URL of the embedded ThoughtSpot search to be
-     * loaded in the iframe
-     * @param dataSources A list of data source GUIDs
-     */
-    private getIFrameSrc() {
+    protected getEmbedParamsObject() {
         const {
             searchOptions,
             dataSource,
@@ -131,7 +126,6 @@ export class SearchBarEmbed extends TsEmbed {
             useLastSelectedSources = false,
             excludeSearchTokenStringFromURL,
         } = this.viewConfig;
-        const path = 'search-bar-embed';
         const queryParams = this.getBaseQueryParams();
 
         queryParams[Param.HideActions] = [...(queryParams[Param.HideActions] ?? [])];
@@ -159,6 +153,19 @@ export class SearchBarEmbed extends TsEmbed {
             queryParams[Param.UseLastSelectedDataSource] = false;
         }
         queryParams[Param.searchEmbed] = true;
+
+        return queryParams;
+    }
+
+    /**
+     * Construct the URL of the embedded ThoughtSpot search to be
+     * loaded in the iframe
+     * @param dataSources A list of data source GUIDs
+     */
+    private getIFrameSrc() {
+        const queryParams = this.getEmbedParamsObject();
+        const path = 'search-bar-embed';
+       
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
