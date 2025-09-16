@@ -380,6 +380,16 @@ export const getValueFromWindow = <T = any>
     (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
 
 /**
+ * Check if an array includes a string value
+ * @param arr - The array to check
+ * @param key - The string to search for
+ * @returns boolean indicating if the string is found in the array
+ */
+export const arrayIncludesString = (arr: readonly unknown[], key: string): boolean => {
+    return arr.some(item => typeof item === 'string' && item === key);
+};
+
+/**
  * Resets the key if it exists in the `window` object under the `_tsEmbedSDK` key.
  * Returns true if the key was reset, false otherwise.
  * @param key - Key to reset

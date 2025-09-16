@@ -538,6 +538,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isLiveboardStylingAndGroupingEnabled?: boolean;
 
     /**
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isPNGInScheduledEmailsEnabled: true,
+     * })
+     * ```
+     */
+    isPNGInScheduledEmailsEnabled?: boolean;
+
+    /**
      * This flag is used to enable the full height lazy load data.
      * 
      * @example
@@ -619,7 +636,7 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             fullHeight,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,
@@ -643,7 +660,9 @@ export class AppEmbed extends V1Embed {
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
+            liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
+            isPNGInScheduledEmailsEnabled = false,
         } = this.viewConfig;
 
         let params: any = {};
@@ -662,6 +681,7 @@ export class AppEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
 
         params = this.getBaseQueryParams(params);
 
@@ -726,6 +746,10 @@ export class AppEmbed extends V1Embed {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
+        if (isPNGInScheduledEmailsEnabled !== undefined) {
+            params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
@@ -754,6 +778,9 @@ export class AppEmbed extends V1Embed {
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';
+        // Set listpageVersion to v2 by default to reset the LD flag value
+        // for the listpageVersion.
+        params[Param.ListPageVersion] = ListPage.List;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {

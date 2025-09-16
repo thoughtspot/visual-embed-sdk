@@ -87,7 +87,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=false#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=true#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -164,6 +164,21 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardStylingAndGroupingEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isPNGInScheduledEmailsEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isPNGInScheduledEmailsEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -374,6 +389,36 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&arePdfCoverFilterPageCheckboxesEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add liveboardXLSXCSVDownload flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            liveboardXLSXCSVDownload: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add liveboardXLSXCSVDownload flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            liveboardXLSXCSVDownload: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -813,7 +858,6 @@ describe('Liveboard/viz embed tests', () => {
             expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
                 libEmbed,
             );
-
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, {
@@ -892,7 +936,6 @@ describe('Liveboard/viz embed tests', () => {
                 });
             });
 
-
             await executeAfterWait(() => {
                 const iFrame = document.getElementById(
                     libEmbed.getPreRenderIds().child,
@@ -904,6 +947,7 @@ describe('Liveboard/viz embed tests', () => {
                 done();
             }, 1005);
         });
+
 
         test('should replace existing preRender when replaceExistingPreRender is true', async () => {
             const testPreRenderId = 'testReplacePreRender';

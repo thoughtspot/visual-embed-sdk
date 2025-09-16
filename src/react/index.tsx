@@ -602,4 +602,5 @@ export {
     LogLevel,
     getSessionInfo,
     ListPageColumns,
+    CustomActionsPosition,
 } from '../index';
