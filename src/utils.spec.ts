@@ -16,6 +16,7 @@ import {
     handlePresentEvent,
     handleExitPresentMode,
     getTypeFromValue,
+    arrayIncludesString,
     calculateVisibleElementData,
 } from './utils';
 import { RuntimeFilterOp } from './types';
@@ -434,6 +435,39 @@ describe('Fullscreen Utility Functions', () => {
             handleExitPresentMode();
 
             expect(logger.warn).toHaveBeenCalledWith('Exit fullscreen API is not supported by this browser.');
+        });
+    });
+
+    describe('arrayIncludesString', () => {
+        it('should return true when string is found in array', () => {
+            const arr = ['test', 'example', 'value'];
+            expect(arrayIncludesString(arr, 'test')).toBe(true);
+            expect(arrayIncludesString(arr, 'example')).toBe(true);
+            expect(arrayIncludesString(arr, 'value')).toBe(true);
+        });
+
+        it('should return false when string is not found in array', () => {
+            const arr = ['test', 'example', 'value'];
+            expect(arrayIncludesString(arr, 'notfound')).toBe(false);
+            expect(arrayIncludesString(arr, '')).toBe(false);
+        });
+
+        it('should handle empty array', () => {
+            const arr: readonly unknown[] = [];
+            expect(arrayIncludesString(arr, 'test')).toBe(false);
+        });
+
+        it('should handle array with non-string values', () => {
+            const arr = ['test', 123, true, 'value'];
+            expect(arrayIncludesString(arr, 'test')).toBe(true);
+            expect(arrayIncludesString(arr, 'value')).toBe(true);
+            expect(arrayIncludesString(arr, '123')).toBe(false); // string '123' not found
+        });
+
+        it('should be case sensitive', () => {
+            const arr = ['Test', 'Example', 'Value'];
+            expect(arrayIncludesString(arr, 'test')).toBe(false);
+            expect(arrayIncludesString(arr, 'Test')).toBe(true);
         });
     });
 });

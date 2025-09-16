@@ -41,6 +41,16 @@ const thoughtSpotHost = 'tshost';
 const prefixParams = '&isLiveboardEmbed=true';
 const prefixParamsVizEmbed = '&isLiveboardEmbed=true&isVizEmbed=true';
 
+const mockGetSessionInfo = (mockSessionInfo?: any) => {
+    jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue(mockSessionInfo || {
+        releaseVersion: '1.0.0',
+        userGUID: '1234567890',
+        currentOrgId: 1,
+        privileges: [],
+        mixpanelToken: '1234567890',
+    })
+};
+
 beforeAll(() => {
     init({
         thoughtSpotHost,
@@ -77,7 +87,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=false#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableDataPanelV2=true#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -154,6 +164,21 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardStylingAndGroupingEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isPNGInScheduledEmailsEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isPNGInScheduledEmailsEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -364,6 +389,36 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&arePdfCoverFilterPageCheckboxesEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add liveboardXLSXCSVDownload flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            liveboardXLSXCSVDownload: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add liveboardXLSXCSVDownload flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            liveboardXLSXCSVDownload: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -602,13 +657,8 @@ describe('Liveboard/viz embed tests', () => {
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
         // mock getSessionInfo
-        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-            releaseVersion: '1.0.0',
-            userGUID: '1234567890',
-            currentOrgId: 1,
-            privileges: [],
-            mixpanelToken: '1234567890',
-        });
+
+        mockGetSessionInfo();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
@@ -642,6 +692,7 @@ describe('Liveboard/viz embed tests', () => {
             privileges: [],
             mixpanelToken: '1234567890',
         });
+        mockGetSessionInfo();
 
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -821,7 +872,6 @@ describe('Liveboard/viz embed tests', () => {
             expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
                 libEmbed,
             );
-
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, {
@@ -862,13 +912,7 @@ describe('Liveboard/viz embed tests', () => {
                 preRenderId: testPreRenderId,
             });
 
-            jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-                releaseVersion: '1.0.0',
-                userGUID: '1234567890',
-                currentOrgId: 1,
-                privileges: [],
-                mixpanelToken: '1234567890',
-            });
+            mockGetSessionInfo();
             let resizeObserverCb: any;
             (window as any).ResizeObserver =
                 window.ResizeObserver ||
@@ -906,7 +950,6 @@ describe('Liveboard/viz embed tests', () => {
                 });
             });
 
-
             await executeAfterWait(() => {
                 const iFrame = document.getElementById(
                     libEmbed.getPreRenderIds().child,
@@ -917,6 +960,60 @@ describe('Liveboard/viz embed tests', () => {
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
                 done();
             }, 1005);
+        });
+
+
+        test('should replace existing preRender when replaceExistingPreRender is true', async () => {
+            const testPreRenderId = 'testReplacePreRender';
+
+            // Stub ResizeObserver for JSDOM
+            (window as any).ResizeObserver = (window as any).ResizeObserver
+                || jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            // Create initial embed and show preRender (this will create the
+            // preRender wrapper/child)
+            const embedA = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            await embedA.showPreRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const ids = embedA.getPreRenderIds();
+            const oldWrapper = document.getElementById(ids.wrapper);
+            const oldChild = document.getElementById(ids.child);
+
+            const tsKey = '__tsEmbed';
+            expect((oldWrapper as any)[tsKey]).toBe(embedA);
+
+            // Create a new embed instance and preRender with
+            // replaceExistingPreRender = true
+            const embedB = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+            const prerenderGenericSpy = jest.spyOn(embedB, 'prerenderGeneric');
+
+            await embedB.preRender(false, true);
+
+            await waitFor(() => (document.getElementById(ids.wrapper) as any)?.[tsKey] === embedB);
+
+            const newWrapper = document.getElementById(ids.wrapper);
+            const newChild = document.getElementById(ids.child);
+
+            // Should have called prerenderGeneric for the new embed instance
+            expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
+
+            // Wrapper should be replaced (new wrapper element), child iframe
+            // may be reused
+            expect(newWrapper).not.toBe(oldWrapper);
+
+            // __tsEmbed on wrapper should now point to the new embed instance
+            expect((newWrapper as any)[tsKey]).toBe(embedB);
         });
     });
 

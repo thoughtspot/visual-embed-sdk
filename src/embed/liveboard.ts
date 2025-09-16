@@ -325,6 +325,22 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
     /**
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isPNGInScheduledEmailsEnabled: true,
+     * })
+     * ```
+     */
+    isPNGInScheduledEmailsEnabled?: boolean;
+    /**
      * This flag is used to enable the full height lazy load data.
      * 
      * @example
@@ -435,13 +451,15 @@ export class LiveboardEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             enableAskSage,
             enable2ColumnLayout,
-            dataPanelV2 = false,
+            dataPanelV2 = true,
             enableCustomColumnGroups = false,
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF = false,
+            liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
+            isPNGInScheduledEmailsEnabled = false,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -509,6 +527,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
+        if (isPNGInScheduledEmailsEnabled !== undefined) {
+            params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
@@ -517,6 +539,8 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+        const queryParams = getQueryParamString(params, true);
 
         return params;
     }

@@ -94,10 +94,12 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             };
         }, [viewConfig, listeners]);
 
+        const preRenderStyles = isPreRenderedComponent ? { display: 'none' } : {};
+
         return viewConfig.insertAsSibling ? (
-            <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
+            <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute', ...preRenderStyles }}></span>
         ) : (
-            <div data-testid="tsEmbed" ref={ref} style={style} className={`ts-embed-container ${className}`}></div>
+            <div data-testid="tsEmbed" ref={ref} style={{ ...style, ...preRenderStyles }} className={`ts-embed-container ${className}`}></div>
         );
     },
 );
@@ -600,4 +602,5 @@ export {
     LogLevel,
     getSessionInfo,
     ListPageColumns,
+    CustomActionsPosition,
 } from '../index';

@@ -279,4 +279,16 @@ describe('Unit test for process data', () => {
         
         mockHandleExitPresentMode.mockReset();
     });
+
+    test('should handle ClearInfoCache', () => {
+        const mockResetCachedPreauthInfo = jest.spyOn(sessionInfoService, 'resetCachedPreauthInfo').mockImplementation(() => {});
+        const mockResetCachedSessionInfo = jest.spyOn(sessionInfoService, 'resetCachedSessionInfo').mockImplementation(() => {});
+        const processedData = {
+            type: EmbedEvent.CLEAR_INFO_CACHE,
+            data: {},
+        };
+        processDataInstance.processEventData(EmbedEvent.CLEAR_INFO_CACHE, processedData, thoughtSpotHost, null);
+        expect(mockResetCachedPreauthInfo).toHaveBeenCalled();
+        expect(mockResetCachedSessionInfo).toHaveBeenCalled();
+    });
 });

@@ -1,5 +1,5 @@
 docs
 .cache
 coverage
-.coveralls
+.coveralls-next
 .github
