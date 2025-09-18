@@ -632,28 +632,28 @@ export interface CustomCssVariables {
     /**
      * Background color of the filter chips in the Liveboard.
      * 
-     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip-background'?: string;
 
     /**
      * Font color of the filter chips in the Liveboard.
      * 
-     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip-color'?: string;
 
     /**
      * Background color of the filter chips in the Liveboard on hover.
      * 
-     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip--hover-background'?: string;
 
     /**
      * Background color of the filter chips in the Liveboard on active.
      * 
-     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip--active-background'?: string;
 

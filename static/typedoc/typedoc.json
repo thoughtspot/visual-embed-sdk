@@ -29286,7 +29286,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard on active.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.\n"
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -29310,7 +29310,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard on hover.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.\n"
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -29334,7 +29334,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.\n"
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -29358,7 +29358,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the filter chips in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.\n"
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
