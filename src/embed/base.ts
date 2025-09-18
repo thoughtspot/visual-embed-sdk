@@ -163,6 +163,8 @@ function sanity(embedConfig: EmbedConfig) {
         throw new Error('ThoughtSpot host not provided');
     }
     if (embedConfig.authType === AuthType.TrustedAuthToken) {
+        const _typeOfGetAuthToken = typeof (embedConfig.getAuthToken)
+        logger.log("94. type of _typeOfGetAuthToken" , _typeOfGetAuthToken);
         if (!embedConfig.authEndpoint && typeof embedConfig.getAuthToken !== 'function') {
             throw new Error('Trusted auth should provide either authEndpoint or getAuthToken');
         }

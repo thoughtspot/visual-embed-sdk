@@ -37,8 +37,10 @@ export async function verifyTokenService(
     thoughtSpotHost: string,
     authToken: string,
 ): Promise<boolean> {
+    logger.log('63.verifyTokenService: verifying authentication token');
     const authVerificationUrl = `${thoughtSpotHost}${EndPoints.IS_ACTIVE}`;
     try {
+        logger.log('64.verifyTokenService: fetching authentication token');
         const res = await fetch(authVerificationUrl, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -48,6 +50,7 @@ export async function verifyTokenService(
         });
         return res.ok;
     } catch (e) {
+        logger.log('65.verifyTokenService: error verifying authentication token');
         logger.warn(`Token Verification Service failed : ${e.message}`);
     }
 

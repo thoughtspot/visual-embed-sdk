@@ -1,4 +1,5 @@
 import { HostEvent } from '../../types';
+import { logger } from '../../utils/logger';
 import { processTrigger as processTriggerService } from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
@@ -24,11 +25,14 @@ export class HostEventClient {
    * @returns {Promise<any>} - the response from the process trigger
    */
   protected async processTrigger(message: HostEvent, data: any): Promise<any> {
+      logger.log("8. Processing trigger");
       if (!this.iFrame) {
+          logger.log("9. Iframe element is not set");
           throw new Error('Iframe element is not set');
       }
 
       const thoughtspotHost = getEmbedConfig().thoughtSpotHost;
+      logger.log("10. Thoughtspot host is set");
       return processTriggerService(
           this.iFrame,
           message,
@@ -66,6 +70,7 @@ export class HostEventClient {
       hostEvent: HostEvent,
       data: any,
   ): Promise<any> {
+      logger.log("7. Host event fallback");
       return this.processTrigger(hostEvent, data);
   }
 
@@ -136,6 +141,7 @@ export class HostEventClient {
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
   ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+      logger.log("6. Triggering host event");
       switch (hostEvent) {
           case HostEvent.Pin:
               return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>) as any;
