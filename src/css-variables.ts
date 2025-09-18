@@ -630,34 +630,32 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-group-tile-background'?: string;
 
     /**
-     * Background color of the chips in the Liveboard.
+     * Background color of the filter chips in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
      */
     '--ts-var-liveboard-chip-background'?: string;
 
     /**
-     * Font color of the chips in the Liveboard.
+     * Font color of the filter chips in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
      */
     '--ts-var-liveboard-chip-color'?: string;
 
     /**
-     * Background color of the chips in the Liveboard on hover.
+     * Background color of the filter chips in the Liveboard on hover.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
      */
     '--ts-var-liveboard-chip--hover-background'?: string;
 
     /**
-     * Font color of the chips in the Liveboard on hover.
-     */
-    '--ts-var-liveboard-chip--hover-color'?: string;
-
-    /**
-     * Background color of the chips in the Liveboard on active.
+     * Background color of the filter chips in the Liveboard on active.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set isLiveboardStylingAndGrouping sdk flag to true to start modifying this css variable.
      */
     '--ts-var-liveboard-chip--active-background'?: string;
-
-    /**
-     * Font color of the chips in the Liveboard on active.
-     */
-    '--ts-var-liveboard-chip--active-color'?: string;
 
     /**
      * Width of the side panel in the Liveboard.
