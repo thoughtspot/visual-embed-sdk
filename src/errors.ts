@@ -10,6 +10,7 @@ export const ERROR_MESSAGE = {
     SDK_NOT_INITIALIZED: 'SDK not initialized',
     SESSION_INFO_FAILED: 'Failed to get session information',
     INVALID_TOKEN_ERROR: 'Received invalid token from getAuthToken callback or authToken endpoint.',
+    INVALID_TOKEN_TYPE_ERROR: 'Expected getAuthToken to return a string, but received a ',
     MIXPANEL_TOKEN_NOT_FOUND: 'Mixpanel token not found in session info',
     PRERENDER_ID_MISSING: 'PreRender ID is required for preRender',
     SYNC_STYLE_CALLED_BEFORE_RENDER: 'PreRender should be called before using syncPreRenderStyle',
