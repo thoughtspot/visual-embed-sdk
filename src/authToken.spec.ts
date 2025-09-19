@@ -1,6 +1,7 @@
 import { getAuthenticationToken, resetCachedAuthToken, validateAuthToken } from './authToken';
 import * as authServiceInstance from './utils/authService/authService';
 import { EmbedConfig } from './types';
+import { formatTemplate } from './utils';
 import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
 
@@ -36,6 +37,10 @@ describe('AuthToken Unit tests', () => {
         const loggerSpy = jest.spyOn(logger, 'error');
 
         const authToken = (123 as unknown) as string;
+        const errorMessage = formatTemplate(ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR, {
+            invalidType: typeof authToken,
+        });
+
         await expect(
             validateAuthToken(
                 {
@@ -43,10 +48,8 @@ describe('AuthToken Unit tests', () => {
                 } as EmbedConfig,
                 authToken,
             ),
-        ).rejects.toThrow(`${ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR} ${typeof authToken}.`);
-        expect(loggerSpy).toHaveBeenCalledWith(
-            `${ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR} ${typeof authToken}.`,
-        );
+        ).rejects.toThrow(errorMessage);
+        expect(loggerSpy).toHaveBeenCalledWith(errorMessage);
 
         loggerSpy.mockRestore();
     });
@@ -56,6 +59,10 @@ describe('AuthToken Unit tests', () => {
         const loggerSpy = jest.spyOn(logger, 'error');
 
         const authToken = ({} as unknown) as string;
+        const errorMessage = formatTemplate(ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR, {
+            invalidType: typeof authToken,
+        });
+
         await expect(
             validateAuthToken(
                 {
@@ -63,10 +70,8 @@ describe('AuthToken Unit tests', () => {
                 } as EmbedConfig,
                 authToken,
             ),
-        ).rejects.toThrow(`${ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR} ${typeof authToken}.`);
-        expect(loggerSpy).toHaveBeenCalledWith(
-            `${ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR} ${typeof authToken}.`,
-        );
+        ).rejects.toThrow(errorMessage);
+        expect(loggerSpy).toHaveBeenCalledWith(errorMessage);
 
         loggerSpy.mockRestore();
     });
