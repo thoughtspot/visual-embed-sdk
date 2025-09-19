@@ -18,6 +18,7 @@ import {
     getTypeFromValue,
     arrayIncludesString,
     calculateVisibleElementData,
+    formatTemplate,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -716,5 +717,22 @@ describe('calculateVisibleElementData', () => {
             left: 0, // Not clipped from left
             width: 1200, // Full viewport width
         });
+    });
+});
+
+describe('formatTemplate', () => {
+    it('should replace placeholders with provided values', () => {
+        expect(
+            formatTemplate('Hello {name}, you are {age} years old', { name: 'John', age: 30 }),
+        ).toBe('Hello John, you are 30 years old');
+        expect(
+            formatTemplate('Expected {type}, but received {actual}', {
+                type: 'string',
+                actual: 'number',
+            }),
+        ).toBe('Expected string, but received number');
+        expect(
+            formatTemplate('Hello {name}, you are {age} years old', { name: 'John' }),
+        ).toBe('Hello John, you are {age} years old');
     });
 });
