@@ -53,7 +53,7 @@ export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<
     return authToken;
 }
 
-const validateAuthToken = async (
+export const validateAuthToken = async (
     embedConfig: EmbedConfig,
     authToken: string,
     suppressAlert?: boolean,
