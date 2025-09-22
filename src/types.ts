@@ -3671,13 +3671,14 @@ export enum HostEvent {
      */
     Share = 'share',
   /**
-   * Trigger the **Save** action on a Liveboard , Answer or Spotter.
+   * Trigger the **Save** action on a Liveboard, Answer, or Spotter.
    * Saves the changes.
    *
-   * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+   * @param - `vizId` refers to the Spotter Visualization Id used in Spotter embed.
+   * It is required and can be retrieved from the data embed event.
    *
    * @example
-   * ```js  
+   * ```js
    * // Save changes in a Liveboard
    * liveboardEmbed.trigger(HostEvent.Save)
    * ```
@@ -3690,14 +3691,14 @@ export enum HostEvent {
    * ```js
    * // Save an Answer in Spotter (requires vizId)
    * spotterEmbed.trigger(HostEvent.Save, {
-   *   vizId:"730496d6-6903-4601-937e-2c691821af3c"
+   *   vizId: "730496d6-6903-4601-937e-2c691821af3c"
    * })
    * ```
    *
    * ```js
    * // How to get the vizId in Spotter?
-   * 
-   * // We can use the Data event dispatched on each answer creation to get the vizId.
+   *
+   * // You can use the Data event dispatched on each answer creation to get the vizId.
    * let latestSpotterVizId = '';
    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
    *   latestSpotterVizId = payload.data.id;
