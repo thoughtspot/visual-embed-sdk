@@ -58,7 +58,6 @@ export const validateAuthToken = async (
     authToken: string,
     suppressAlert?: boolean,
 ): Promise<boolean> => {
-    const cachedAuthToken = getCacheAuthToken();
     // even if token verification is disabled, we will still validate
     // that the token is a string before proceeding.
     if (typeof authToken !== 'string') {
@@ -68,6 +67,8 @@ export const validateAuthToken = async (
         logger.error(errorMessage);
         throw new Error(errorMessage);
     }
+
+    const cachedAuthToken = getCacheAuthToken();
 
     if (embedConfig.disableTokenVerification) {
         logger.info('Token verification is disabled. Assuming token is valid.');
