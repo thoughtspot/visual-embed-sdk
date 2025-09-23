@@ -46,7 +46,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * incrementally as users scroll the page to view the charts and tables.
      *
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -61,7 +61,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * This is the minimum height(in pixels) for a full-height Liveboard.
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
@@ -90,7 +90,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * The Liveboard to display in the embedded view.
      * Use either liveboardId or pinboardId to reference the Liveboard to embed.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1
      * @example
@@ -108,7 +108,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     pinboardId?: string;
     /**
      * The visualization within the Liveboard to display.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @example
@@ -123,7 +123,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * If set to true, all filter chips from a
      * Liveboard page will be read-only (no X buttons)
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.3.0 | ThoughtSpot ts7.aug.cl, 7.2.1.sw
      * @example
@@ -139,7 +139,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Array of visualization IDs which should be visible when the Liveboard
      * renders. This can be changed by triggering the `SetVisibleVizs`
      * event.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1-sw
      * @example
@@ -161,7 +161,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * Render embedded Liveboards and visualizations in the
      * new Liveboard experience mode.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.14.0 | ThoughtSpot: 8.6.0.cl, 8.8.1-sw
      * @example
@@ -176,7 +176,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * Set a Liveboard tab as an active tab.
      * Specify the tab ID.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -190,7 +190,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     activeTabId?: string;
     /**
      * Show or hide the tab panel of the embedded Liveboard.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      * @example
@@ -211,7 +211,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Since, this will show preview images, be careful that it may show
      * undesired data to the user when using row level security.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -227,8 +227,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     showPreviewLoader?: boolean;
     /**
      * The Liveboard to run on regular intervals to fetch the cdw token.
-     * 
-     * Supported embed types: `LiveboardEmbed`  
+     *
+     * Supported embed types: `LiveboardEmbed`
      * @hidden
      * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      * @example
@@ -242,7 +242,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
 
     /**
      * The Liveboard is set to force a token fetch during the initial load.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
      * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
@@ -259,7 +259,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * The source connection ID for authentication.
      * @hidden
      * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -273,7 +273,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * The list of tab IDs to hide from the embedded.
      * This Tabs will be hidden from their respective LBs.
      * Use this to hide an tabID.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
@@ -293,7 +293,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Only the tabs specified in the array will be shown in the Liveboard.
      *
      * Use either `visibleTabs` or `hiddenTabs`.
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
@@ -310,7 +310,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     visibleTabs?: string[];
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
-     * 
+     *
      * Supported embed types: `LiveboardEmbed`, `AppEmbed`
      * @type {boolean}
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -326,7 +326,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isLiveboardStylingAndGroupingEnabled?: boolean;
     /**
      * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
@@ -342,7 +342,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
      * This flag is used to enable the full height lazy load data.
-     * 
+     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -351,7 +351,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     * 
+     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
@@ -359,13 +359,13 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     lazyLoadingForFullHeight?: boolean;
     /**
      * The margin to be used for lazy loading.
-     * 
+     *
      * For example, if the margin is set to '10px',
      * the visualization will be loaded 10px before the its top edge is visible in the
      * viewport.
-     * 
+     *
      * The format is similar to CSS margin.
-     * 
+     *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -380,6 +380,22 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
+    /**
+     * showSpotterLimitations : show limitation text
+     * of the spotter underneath the chat input.
+     * default is false.
+     *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    // ...other options
+     *    showSpotterLimitations: true,
+     * })
+     * ```
+     * @type {string}
+     * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
+     */
+    showSpotterLimitations?: boolean;
 }
 
 /**
@@ -454,6 +470,7 @@ export class LiveboardEmbed extends V1Embed {
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            showSpotterLimitations,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -523,6 +540,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+
+        if (showSpotterLimitations !== undefined) {
+            params[Param.ShowSpotterLimitations] = showSpotterLimitations;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
