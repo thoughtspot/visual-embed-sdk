@@ -3823,7 +3823,7 @@ export enum HostEvent {
      *      column: "Date",
      *      oper: 'EQ',
      *      values: ["2023-07-31"],
-     *      types: "EXACT_DATE"
+     *      type: "EXACT_DATE"
      *    }]
      * });
      * ```
