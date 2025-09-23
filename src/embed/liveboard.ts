@@ -392,7 +392,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    showSpotterLimitations: true,
      * })
      * ```
-     * @type {string}
+     * @type {boolean}
      * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
