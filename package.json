@@ -44,7 +44,7 @@
     "scripts": {
         "lint": "eslint 'src/**'",
         "lint:fix": "eslint 'src/**/*.*' --fix",
-        "tsc": "tsc -p . --incremental false; tsc -p . --incremental false --module commonjs --outDir cjs",
+        "tsc": "tsc -p tsconfig.build.json --incremental false; tsc -p tsconfig.build.json --incremental false --module commonjs --outDir cjs",
         "build-and-publish": "npm run build:gatsby && npm run publish",
         "bundle-dts-file": "dts-bundle-generator --config ./dts-config/dts-bundle-file.config.js",
         "bundle-dts": "dts-bundle-generator --config ./dts-config/dts-bundle.config.js",
@@ -52,7 +52,7 @@
         "bundle-dts-react-full": "dts-bundle-generator --config ./dts-config/dts-bundle-react-full.config.js",
         "build": "rollup -c",
         "watch": "rollup -cw",
-        "docgen": "typedoc --tsconfig tsconfig.json --theme typedoc-theme --json static/typedoc/typedoc.json --disableOutputCheck",
+        "docgen": "typedoc --tsconfig tsconfig.build.json --theme typedoc-theme --json static/typedoc/typedoc.json --disableOutputCheck",
         "test-sdk": "jest -c jest.config.sdk.js --runInBand",
         "test": "npm run test-sdk",
         "posttest": "cat ./coverage/sdk/lcov.info | npx coveralls-next",
