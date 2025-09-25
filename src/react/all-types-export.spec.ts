@@ -6,6 +6,8 @@ describe('Exports', () => {
     });
 
     it('should not have undefined exports', () => {
-        Object.keys(Exports).forEach((exportKey) => expect(Boolean(Exports[exportKey])).toBe(true));
+        Object.entries(Exports).forEach(([, exportValue]) => {
+            expect(Boolean(exportValue)).toBe(true);
+        });
     });
 });
