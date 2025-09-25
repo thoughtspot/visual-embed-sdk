@@ -6,8 +6,6 @@ describe('Exports', () => {
     });
 
     it('should not have undefined exports', () => {
-        Object.entries(Exports).forEach(([, exportValue]) => {
-            expect(Boolean(exportValue)).toBe(true);
-        });
+        Object.entries(Exports).forEach(([, exportValue]) => {expect(Boolean(exportValue)).toBe(true);});
     });
 });
