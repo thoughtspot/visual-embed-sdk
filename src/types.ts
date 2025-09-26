@@ -3670,24 +3670,45 @@ export enum HostEvent {
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     Share = 'share',
-    /**
-     * Trigger the **Save**  action on a Liveboard or Answer.
-     * Saves the changes.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
-     * @example
-     * ```js
-     * liveboardEmbed.trigger(HostEvent.Save)
-     * ```
-     * ```js
-     * searchEmbed.trigger(HostEvent.Save)
-     * ```
-     * ```js
-     * spotterEmbed.trigger(HostEvent.Save, {
-     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
-     * })
-     * ```
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
-     */
+  /**
+   * Trigger the **Save** action on a Liveboard, Answer, or Spotter.
+   * Saves the changes.
+   *
+   * @param - `vizId` refers to the Spotter Visualization Id used in Spotter embed.
+   * It is required and can be retrieved from the data embed event.
+   *
+   * @example
+   * ```js
+   * // Save changes in a Liveboard
+   * liveboardEmbed.trigger(HostEvent.Save)
+   * ```
+   *
+   * ```js
+   * // Save the current Answer in Search embed
+   * searchEmbed.trigger(HostEvent.Save)
+   * ```
+   *
+   * ```js
+   * // Save an Answer in Spotter (requires vizId)
+   * spotterEmbed.trigger(HostEvent.Save, {
+   *   vizId: "730496d6-6903-4601-937e-2c691821af3c"
+   * })
+   * ```
+   *
+   * ```js
+   * // How to get the vizId in Spotter?
+   *
+   * // You can use the Data event dispatched on each answer creation to get the vizId.
+   * let latestSpotterVizId = '';
+   * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+   *   latestSpotterVizId = payload.data.id;
+   * });
+   *
+   * spotterEmbed.trigger(HostEvent.Save, { vizId: latestSpotterVizId });
+   * ```
+   *
+   * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
+   */
     Save = 'save',
     /**
      * Trigger the **Sync to Sheets** action on an embedded visualization or Answer
