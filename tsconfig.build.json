@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "typedocOptions": {
+        "entryPoints": ["src/index.ts"],
+        "out": "static/typedoc",
+        "json": "static/typedoc/typedoc.json",
+        "excludePrivate": true,
+        "excludeProtected": true,
+        "excludeInternal": true,
+        "hideGenerator": true,
+        "categorizeByGroup": false
+    }
+}
