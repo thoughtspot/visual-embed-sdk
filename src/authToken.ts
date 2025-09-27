@@ -35,7 +35,7 @@ export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<
 
     let authToken = null;
     if (getAuthToken) {
-        authToken = await getAuthToken();
+        try{ authToken = await getAuthToken(); } catch (e) { logger.error(e.message); throw e; }
     } else {
         const response = await fetchAuthTokenService(authEndpoint);
         authToken = await response.text();
