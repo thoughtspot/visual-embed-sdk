@@ -18,6 +18,26 @@ describe('AuthToken Unit tests', () => {
         expect(authServiceInstance.verifyTokenService).not.toBeCalled();
     });
 
+    test('getAuthenticationToken: When getAuthToken is throw error', async () => {
+        const loggerSpy = jest.spyOn(logger, 'error');
+
+        resetCachedAuthToken();
+        jest.clearAllMocks();
+
+        const errorMessage = await getAuthenticationToken({
+            thoughtSpotHost: 'test',
+            getAuthToken: async () => {
+                throw new Error('Error fetching auth token');
+            },
+            disableTokenVerification: true,
+        } as any).catch((error) => error.message);
+
+        expect(errorMessage).toBe('Error fetching auth token');
+
+        expect(loggerSpy).toHaveBeenCalledWith('Error fetching auth token');
+        loggerSpy.mockRestore();
+    });
+
     test('getAuthenticationToken: When verification is enabled', async () => {
         resetCachedAuthToken();
         jest.clearAllMocks();
