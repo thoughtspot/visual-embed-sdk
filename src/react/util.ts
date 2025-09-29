@@ -24,10 +24,10 @@ export function getViewPropsAndListeners<
     return Object.keys(props).reduce(
         (accu, key) => {
             if (key.startsWith('on')) {
-                const eventName = key.substr(2);
-                accu.listeners[EmbedEvent[eventName]] = props[key];
+                const eventName = key.substr(2) as any;
+                (accu.listeners as any)[EmbedEvent[eventName as keyof typeof EmbedEvent] as any] = props[key as keyof T];
             } else {
-                accu.viewConfig[key] = props[key];
+                (accu.viewConfig as any)[key] = props[key as keyof T];
             }
             return accu;
         },

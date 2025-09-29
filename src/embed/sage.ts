@@ -200,9 +200,9 @@ export class SageEmbed extends V1Embed {
             dataSource, searchOptions,
         } = this.viewConfig;
 
-        if (dataSource) postHashObj[Param.WorksheetId] = dataSource;
+        if (dataSource) (postHashObj as any)[Param.WorksheetId] = dataSource;
         if (searchOptions?.searchQuery && searchOptions.executeSearch) {
-            postHashObj[Param.executeSearch] = true;
+            (postHashObj as any)[Param.executeSearch] = true;
         }
 
         let sagePostHashParams = new URLSearchParams(postHashObj).toString();
