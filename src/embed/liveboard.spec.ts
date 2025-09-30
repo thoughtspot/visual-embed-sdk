@@ -657,6 +657,7 @@ describe('Liveboard/viz embed tests', () => {
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
         // mock getSessionInfo
+
         mockGetSessionInfo();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -684,6 +685,13 @@ describe('Liveboard/viz embed tests', () => {
         mockMessageChannel();
 
         // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
         mockGetSessionInfo();
 
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -779,6 +787,12 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('PreRender flow for liveboard embed', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: "http://tshost",
+                authType: AuthType.None,
+            });
+        });
         test('it should preRender generic with liveboard id is not passed', async (done) => {
             const consoleSpy = jest.spyOn(console, 'error');
             const libEmbed = new LiveboardEmbed(getRootEl(), {

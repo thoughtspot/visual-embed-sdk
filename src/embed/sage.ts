@@ -153,12 +153,7 @@ export class SageEmbed extends V1Embed {
         super(domSelector, viewConfig);
     }
 
-    /**
-     * Constructs a map of parameters to be passed on to the
-     * embedded Eureka or Sage search page.
-     * @returns {string} query string
-     */
-    protected getEmbedParams(): string {
+    protected getEmbedParamsObject() {
         const {
             disableWorksheetChange,
             hideWorksheetSelector,
@@ -184,6 +179,16 @@ export class SageEmbed extends V1Embed {
         params[Param.IsProductTour] = !!isProductTour;
         params[Param.HideSageAnswerHeader] = !!hideSageAnswerHeader;
 
+        return params;
+    }
+
+    /**
+     * Constructs a map of parameters to be passed on to the
+     * embedded Eureka or Sage search page.
+     * @returns {string} query string
+     */
+    protected getEmbedParams(): string {
+        const params = this.getEmbedParamsObject();
         return getQueryParamString(params, true);
     }
 
@@ -194,7 +199,7 @@ export class SageEmbed extends V1Embed {
      */
     public getIFrameSrc(): string {
         const path = 'eureka';
-        const postHashObj = {};
+        const postHashObj: Record<string, any> = {};
         const tsPostHashParams = this.getThoughtSpotPostUrlParams();
         const {
             dataSource, searchOptions,
