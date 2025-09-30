@@ -787,6 +787,7 @@ export class TsEmbed {
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
 
+            console.log("getAuthPromise is coming here");
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
