@@ -324,8 +324,7 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning =
-                'Network not Detected. Embed is offline. Please reconnect and refresh';
+            const offlineWarning = ERROR_MESSAGE.OFFLINE_WARNING;
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
