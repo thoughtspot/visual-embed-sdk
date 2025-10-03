@@ -3345,4 +3345,115 @@ describe('Unit test case for ts embed', () => {
             expect(searchEmbed.isEmbedContainerLoaded).toBe(true);
         });
     });
+
+    describe('Online event listener registration after auth failure', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                loginFailedMessage: 'Not logged in',
+            });
+        });
+
+        test('should register online event listener when authentication fails', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
+                new Error('Auth failed'),
+            );
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            addEventListenerSpy.mockClear();
+            await searchEmbed.render();
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                const onlineListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'online',
+                );
+                expect(onlineListenerCalls).toHaveLength(1);
+                const offlineListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'offline',
+                );
+                expect(offlineListenerCalls).toHaveLength(1);
+                const messageListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'message',
+                );
+                expect(messageListenerCalls).toHaveLength(0);
+            });
+
+            addEventListenerSpy.mockRestore();
+        });
+
+        test('should attempt to trigger reload when online event occurs after auth failure', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
+                new Error('Auth failed'),
+            );
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const triggerSpy = jest.spyOn(searchEmbed, 'trigger').mockResolvedValue(null);
+            await searchEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                triggerSpy.mockClear();
+                const onlineEvent = new Event('online');
+                window.dispatchEvent(onlineEvent);
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Reload);
+            });
+
+            triggerSpy.mockReset();
+        });
+
+        test('should handle online event gracefully when no iframe exists', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
+                new Error('Auth failed'),
+            );
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            await searchEmbed.render();
+            await executeAfterWait(() => {
+                expect(getRootEl().innerHTML).toContain('Not logged in');
+                const onlineEvent = new Event('online');
+                expect(() => {
+                    window.dispatchEvent(onlineEvent);
+                }).not.toThrow();
+            });
+    
+            errorSpy.mockReset();
+        });
+
+        test('should register all event listeners when authentication succeeds', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(true);
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            addEventListenerSpy.mockClear();
+            await searchEmbed.render();
+            await executeAfterWait(() => {
+                const onlineListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'online',
+                );
+                expect(onlineListenerCalls).toHaveLength(1);
+                const offlineListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'offline',
+                );
+                expect(offlineListenerCalls).toHaveLength(1);
+                const messageListenerCalls = addEventListenerSpy.mock.calls.filter(
+                    (call) => call[0] === 'message',
+                );
+                expect(messageListenerCalls).toHaveLength(1);
+            });
+
+            addEventListenerSpy.mockRestore();
+        });
+        test('should successfully trigger reload when online event occurs after auth success', async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(true);
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const triggerSpy = jest.spyOn(searchEmbed, 'trigger').mockResolvedValue({} as any);
+            await searchEmbed.render();
+            await executeAfterWait(() => {
+                triggerSpy.mockClear();
+                const onlineEvent = new Event('online');
+                window.dispatchEvent(onlineEvent);
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Reload);
+            });
+            triggerSpy.mockReset();
+        });
+    });
 });
