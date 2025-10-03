@@ -331,7 +331,7 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 ];
 
 export interface SearchAppInitData extends DefaultAppInitData {
-  searchOptions?: SearchOptions;
+    searchOptions?: SearchOptions;
 }
 
 /**
@@ -381,7 +381,7 @@ export class SearchEmbed extends TsEmbed {
         return { ...defaultAppInitData, ...this.getSearchInitData() };
     }
 
-    protected getEmbedParams(): string {
+    protected getEmbedParamsObject() {
         const {
             hideResults,
             enableSearchAssist,
@@ -398,7 +398,7 @@ export class SearchEmbed extends TsEmbed {
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
             isOnBeforeGetVizDataInterceptEnabled = false,
-            /* eslint-disable-next-line max-len */
+
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
@@ -443,7 +443,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         if (isOnBeforeGetVizDataInterceptEnabled) {
-            /* eslint-disable-next-line max-len */
+
             queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
@@ -460,7 +460,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
-        /* eslint-disable-next-line max-len */
+
         queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -468,12 +468,23 @@ export class SearchEmbed extends TsEmbed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            /* eslint-disable-next-line max-len */
+
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            /* eslint-disable-next-line max-len */
+
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
+        return queryParams;
+    }
+
+    protected getEmbedParams() {
+        const {
+            runtimeParameters,
+            runtimeFilters,
+            excludeRuntimeParametersfromURL,
+            excludeRuntimeFiltersfromURL,
+        } = this.viewConfig;
+        const queryParams = this.getEmbedParamsObject();
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
