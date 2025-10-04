@@ -357,6 +357,19 @@ describe('App embed tests', () => {
             );
         });
     });
+    test('should set isLinkParametersEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLinkParametersEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
 
     test('should set liveboardXLSXCSVDownload to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
