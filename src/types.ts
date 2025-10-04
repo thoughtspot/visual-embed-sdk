@@ -1527,6 +1527,7 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLinkParametersEnabled?: boolean;
+    
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig { }
