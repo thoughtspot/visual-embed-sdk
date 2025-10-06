@@ -377,7 +377,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This provides a clean interface without tag-related UI elements.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.42.1 | ThoughtSpot: 10.14.0.cl
+     * @version SDK: 1.42.2 | ThoughtSpot: 10.15.0.cl
      * @example
      * ```js
      * // Simple usage - automatically hides all tag-related UI
