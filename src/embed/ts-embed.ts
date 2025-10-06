@@ -312,13 +312,36 @@ export class TsEmbed {
     private subscribedListeners: Record<string, any> = {};
 
     /**
-     * Adds a global event listener to window for "message" events.
-     * ThoughtSpot detects if a particular event is targeted to this
-     * embed instance through an identifier contained in the payload,
-     * and executes the registered callbacks accordingly.
+     * Subscribe to network events (online/offline) that should
+     * work regardless of auth status
      */
-    private subscribeToEvents() {
-        this.unsubscribeToEvents();
+    private subscribeToNetworkEvents() {
+        this.unsubscribeToNetworkEvents();
+
+        const onlineEventListener = (e: Event) => {
+            this.trigger(HostEvent.Reload);
+        };
+        window.addEventListener('online', onlineEventListener);
+
+        const offlineEventListener = (e: Event) => {
+            const offlineWarning = ERROR_MESSAGE.OFFLINE_WARNING;
+            this.executeCallbacks(EmbedEvent.Error, {
+                offlineWarning,
+            });
+            logger.warn(offlineWarning);
+        };
+        window.addEventListener('offline', offlineEventListener);
+
+        this.subscribedListeners.online = onlineEventListener;
+        this.subscribedListeners.offline = offlineEventListener;
+    }
+
+    /**
+     * Subscribe to message events that depend on successful iframe setup
+     */
+    private subscribeToMessageEvents() {
+        this.unsubscribeToMessageEvents();
+
         const messageEventListener = (event: MessageEvent<any>) => {
             const eventType = this.getEventType(event);
             const eventPort = this.getEventPort(event);
@@ -338,25 +361,37 @@ export class TsEmbed {
         };
         window.addEventListener('message', messageEventListener);
 
-        const onlineEventListener = (e: Event) => {
-            this.trigger(HostEvent.Reload);
-        };
-        window.addEventListener('online', onlineEventListener);
+        this.subscribedListeners.message = messageEventListener;
+    }
+    /**
+     * Adds event listeners for both network and message events.
+     * This maintains backward compatibility with the existing method.
+     * Adds a global event listener to window for "message" events.
+     * ThoughtSpot detects if a particular event is targeted to this
+     * embed instance through an identifier contained in the payload,
+     * and executes the registered callbacks accordingly.
+     */
+    private subscribeToEvents() {
+        this.subscribeToNetworkEvents();
+        this.subscribeToMessageEvents();
+    }
 
-        const offlineEventListener = (e: Event) => {
-            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
-            this.executeCallbacks(EmbedEvent.Error, {
-                offlineWarning,
-            });
-            logger.warn(offlineWarning);
-        };
-        window.addEventListener('offline', offlineEventListener);
+    private unsubscribeToNetworkEvents() {
+        if (this.subscribedListeners.online) {
+            window.removeEventListener('online', this.subscribedListeners.online);
+            delete this.subscribedListeners.online;
+        }
+        if (this.subscribedListeners.offline) {
+            window.removeEventListener('offline', this.subscribedListeners.offline);
+            delete this.subscribedListeners.offline;
+        }
+    }
 
-        this.subscribedListeners = {
-            message: messageEventListener,
-            online: onlineEventListener,
-            offline: offlineEventListener,
-        };
+    private unsubscribeToMessageEvents() {
+        if (this.subscribedListeners.message) {
+            window.removeEventListener('message', this.subscribedListeners.message);
+            delete this.subscribedListeners.message;
+        }
     }
 
     private unsubscribeToEvents() {
@@ -798,6 +833,9 @@ export class TsEmbed {
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
 
+            // Always subscribe to network events, regardless of auth status
+            this.subscribeToNetworkEvents();
+
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
@@ -843,7 +881,9 @@ export class TsEmbed {
                             el.remove();
                         });
                     }
-                    this.subscribeToEvents();
+                    // Subscribe to message events only after successful
+                    // auth and iframe setup
+                    this.subscribeToMessageEvents();
                 })
                 .catch((error) => {
                     nextInQueue();
@@ -1243,6 +1283,16 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
+
+        // Check if iframe exists before triggering - 
+        // this prevents the error when auth fails
+        if (!this.iFrame) {
+            logger.debug(
+                `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
+            );
+            return null;
+        }
+
         // send an empty object, this is needed for liveboard default handlers
         return this.hostEventClient.triggerHostEvent(messageType, data);
     }
