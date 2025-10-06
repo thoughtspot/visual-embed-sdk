@@ -4261,6 +4261,7 @@ export enum Param {
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
     Tag = 'tag',
+    HideTagFilterChips = 'hideTagFilterChips',
     AutoLogin = 'autoLogin',
     searchTokenString = 'searchTokenString',
     executeSearch = 'executeSearch',

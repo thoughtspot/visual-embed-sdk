@@ -430,6 +430,37 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add the hideTagFilterChips true to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            hideTagFilterChips: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+    
+    test('Should add the hideTagFilterChips false to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            hideTagFilterChips: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add enableSearchAssist flagto the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -368,6 +368,32 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     tag?: string;
     /**
+     * Hide tag filter chips that appear when content is filtered by tags.
+     * When enabled, this automatically:
+     * - Hides tag filter indicators/chips from the UI
+     * - Adds Action.ManageTags to hiddenActions (if not already present)
+     * - Adds ListPageColumns.Tags to hiddenListColumns (if not already present)
+     * 
+     * This provides a clean interface without tag-related UI elements.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.42.1 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * // Simple usage - automatically hides all tag-related UI
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    tag: 'Some Tag',
+     *    hideTagFilterChips: true, // This is all you need!
+     * });
+     * 
+     * // No need to manually specify:
+     * // hiddenActions: [Action.ManageTags],
+     * // hiddenListColumns: [ListPageColumns.Tags]
+     * ```
+     */
+    hideTagFilterChips?: boolean;
+    /**
      * The array of GUIDs to be hidden
      * 
      * Supported embed types: `AppEmbed`
@@ -625,6 +651,7 @@ export class AppEmbed extends V1Embed {
     protected getEmbedParams() {
         const {
             tag,
+            hideTagFilterChips,
             hideObjects,
             liveboardV2,
             showPrimaryNavbar,
@@ -683,6 +710,7 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
         params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+        params[Param.HideTagFilterChips] = hideTagFilterChips;
 
         params = this.getBaseQueryParams(params);
 
