@@ -2905,6 +2905,25 @@ export enum EmbedEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     OrgSwitched = 'orgSwitched',
+
+    /**
+     * Emitted whenever an intercepted api is attempted to be called inside embed.
+     * 
+     * @example,
+     * ```js
+     * 
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed view config
+     *   apiIntercept: true,
+     * });
+     *
+     * embed.on(EmbedEvent.ApiIntercept, (data) => {
+     *   console.log('ApiIntercept', data);
+     *   return data;
+     * });
+     * ``` 
+     */
+    ApiIntercept = 'ApiIntercept',
 }
 
 /**
