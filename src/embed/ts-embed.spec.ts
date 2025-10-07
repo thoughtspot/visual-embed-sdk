@@ -28,6 +28,7 @@ import {
     ContextMenuTriggerOptions,
     CustomActionTarget,
     CustomActionsPosition,
+    InitState,
 } from '../types';
 import {
     executeAfterWait,
@@ -1908,14 +1909,67 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Error should be true', async () => {
+        test('Error should be false', async () => {
             spyOn(logger, 'error');
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             await tsEmbed.render();
-            expect(tsEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You need to init the ThoughtSpot SDK module first',
-            );
+            expect(tsEmbed['isError']).toBe(false);
+            expect(tsEmbed['getInitState']()).toBe(InitState.Ready);
+            expect(logger.error).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('Initialization State Management', () => {
+        let tsEmbed: SearchEmbed;
+        let mockInitPromise: Promise<any>;
+        let mockResolve: () => void;
+        let mockReject: (error: any) => void;
+    
+        beforeEach(() => {
+            mockInitPromise = new Promise<void>((resolve) => {
+                mockResolve = () => resolve();
+            });
+
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => '');
+            init({
+                thoughtSpotHost: '',
+                authType: AuthType.None,
+            });
+        });
+        test('Should initialize with correct state progression (NotStarted -> Initializing -> Ready)', async () => {
+            const initStateChangeCallback = jest.fn();
+            
+            tsEmbed = new SearchEmbed(getRootEl(), {});
+            
+            // Check initial state immediately after construction
+            expect(tsEmbed.getInitState()).toBe(InitState.Initializing);
+            
+            // Register callback for future state changes
+            tsEmbed.on(EmbedEvent.InitStateChange, initStateChangeCallback);
+    
+            // Resolve the init promise to trigger Ready state
+            mockResolve();
+            await mockInitPromise;
+            
+            // Wait a tick for the promise resolution to propagate
+            await new Promise(resolve => setTimeout(resolve, 0));
+    
+            // Should now be Ready
+            expect(tsEmbed.getInitState()).toBe(InitState.Ready);
+            
+            // Check that callback was called
+            expect(initStateChangeCallback).toHaveBeenCalledTimes(1);
+            
+            // Extract just the first argument (the data)
+            const [callData] = initStateChangeCallback.mock.calls[0];
+            expect(callData).toEqual({
+                state: InitState.Ready,
+                previousState: InitState.Initializing,
+                timestamp: expect.any(Number),
+            });
+    
+            // waitForInit should resolve
+            await expect(tsEmbed.waitForInit()).resolves.toBeUndefined();
         });
     });
 

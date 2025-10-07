@@ -2905,6 +2905,25 @@ export enum EmbedEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     OrgSwitched = 'orgSwitched',
+
+    /**
+     * Embed initialization state has changed
+     * @returns state - The current initialization state
+     * @returns previousState - The previous initialization state  
+     * @version SDK: 1.42.1 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.InitStateChange, (payload) => {
+     *   console.log(`Init state changed from ${payload.previousState} to ${payload.state}`);
+     *   if (payload.state === 'initializing') {
+     *     showLoader();
+     *   } else if (payload.state === 'ready') {
+     *     hideLoader();
+     *   }
+     * });
+     * ```
+     */
+    InitStateChange = 'initStateChange',
 }
 
 /**
@@ -5865,6 +5884,32 @@ export enum LogLevel {
      * @version SDK: 1.26.7 | ThoughtSpot Cloud: 9.10.0.cl
      */
     TRACE = 'TRACE',
+}
+
+/**
+ * Represents the initialization state of an embed instance
+ *
+ * @version SDK: 1.42.1 | ThoughtSpot: 10.15.0.cl
+ * @example
+ * ``` js
+ * NotStarted = 'not-started'
+ * Initializing = 'initializing'
+ * Ready = 'ready'
+ * ```
+ */
+export enum InitState {
+    /**
+     * Embed instance created but initialization not started
+     */
+    NotStarted = 'not-started',
+    /**
+     * SDK initialization in progress  
+     */
+    Initializing = 'initializing',
+    /**
+     * SDK initialization completed successfully
+     */
+    Ready = 'ready',
 }
 
 export interface DefaultAppInitData {

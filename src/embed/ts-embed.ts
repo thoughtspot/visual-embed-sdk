@@ -57,6 +57,7 @@ import {
     ContextMenuTriggerOptions,
     DefaultAppInitData,
     AllEmbedViewConfig as ViewConfig,
+    InitState,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -186,6 +187,63 @@ export class TsEmbed {
      */
     private fullscreenChangeHandler: (() => void) | null = null;
 
+    /**
+    * Current initialization state
+    */
+    private initState: InitState = InitState.NotStarted;
+    
+    /**
+    * Promise that resolves when initialization is complete
+    */
+    protected initPromise: Promise<void>;
+    
+    /**
+    * Resolve function for the init promise
+    */
+    private initPromiseResolve: () => void;
+
+    /**
+     * Sets the initialization state and emits events
+     */
+    private setInitState(newState: InitState): void {
+        const previousState = this.initState;
+        this.initState = newState;
+        
+        this.executeCallbacks(EmbedEvent.InitStateChange, {
+            state: newState,
+            previousState,
+            timestamp: Date.now(),
+        });
+        
+        if (newState === InitState.Ready) {
+            this.initPromiseResolve();
+        }
+    }
+
+    /**
+     * Gets the current initialization state
+     */
+    public getInitState(): InitState {
+        return this.initState;
+    }
+
+    /**
+     * Returns a promise that resolves when initialization is complete
+     */
+    public waitForInit(): Promise<void> {
+        return this.initPromise;
+    }
+
+    /**
+     * Waits for initialization if needed, otherwise returns immediately
+     */
+    private async ensureInitialized(): Promise<void> {
+        if (this.initState === InitState.Ready) {
+            return; 
+        }
+        await this.waitForInit();
+    }
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.el = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
@@ -203,6 +261,12 @@ export class TsEmbed {
         this.embedConfig = embedConfig;
     
         this.hostEventClient = new HostEventClient(this.iFrame);
+
+        this.initPromise = new Promise((resolve) => {
+            this.initPromiseResolve = resolve;
+        });
+        this.setInitState(InitState.Initializing);
+
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
@@ -210,14 +274,8 @@ export class TsEmbed {
             this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
+            this.setInitState(InitState.Ready);
         });
-    }
-
-    /**
-     * Throws error encountered during initialization.
-     */
-    private throwInitError() {
-        this.handleError('You need to init the ThoughtSpot SDK module first');
     }
 
     /**
@@ -814,8 +872,12 @@ export class TsEmbed {
         if (this.isError) {
             return null;
         }
-        if (!this.thoughtSpotHost) {
-            this.throwInitError();
+        // Wait for initialization instead of throwing error
+        try {
+            await this.ensureInitialized();
+        } catch (error) {
+            this.handleError('Cannot render: initialization failed');
+            return null;
         }
         if (url.length > URL_MAX_LENGTH) {
             // warn: The URL is too long

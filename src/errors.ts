@@ -20,6 +20,7 @@ export const ERROR_MESSAGE = {
     RENDER_CALLED_BEFORE_INIT: 'Looks like render was called before calling init, the render won\'t start until init is called.\nFor more info check\n1. https://developers.thoughtspot.com/docs/Function_init#_init\n2.https://developers.thoughtspot.com/docs/getting-started#initSdk',
     SPOTTER_AGENT_NOT_INITIALIZED: 'SpotterAgent not initialized',
     OFFLINE_WARNING : 'Network not Detected. Embed is offline. Please reconnect and refresh',
+    EMBED_INITIALIZATION_FAILED: 'Embed initialization failed',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
