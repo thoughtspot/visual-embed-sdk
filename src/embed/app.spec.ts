@@ -357,6 +357,7 @@ describe('App embed tests', () => {
             );
         });
     });
+
     test('should set isLinkParametersEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -367,6 +368,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+    
+    test('should set isLinkParametersEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLinkParametersEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=false${defaultParamsPost}#/home`,
             );
         });
     });
