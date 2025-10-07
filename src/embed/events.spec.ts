@@ -272,15 +272,18 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
 
         await executeAfterWait(() => {
-            expect(spy).toHaveBeenCalledTimes(3);
+            expect(spy).toHaveBeenCalledTimes(4);
             expect(spy.mock.calls[0][0]).toMatchObject({
-                type: EmbedEvent.Init,
+                type: EmbedEvent.InitStateChange,
             });
             expect(spy.mock.calls[1][0]).toMatchObject({
+                type: EmbedEvent.Init,
+            });
+            expect(spy.mock.calls[2][0]).toMatchObject({
                 type: EmbedEvent.CustomAction,
                 data: PAYLOAD,
             });
-            expect(spy.mock.calls[2][0]).toMatchObject({
+            expect(spy.mock.calls[3][0]).toMatchObject({
                 type: EmbedEvent.DialogOpen,
             });
         }, EVENT_WAIT_TIME);

@@ -1926,7 +1926,8 @@ describe('Unit test case for ts embed', () => {
         let mockReject: (error: any) => void;
     
         beforeEach(() => {
-            mockInitPromise = new Promise<void>((resolve) => {
+            mockInitPromise = new Promise<void>((resolve , reject) => {
+                mockReject = (error: any) => reject(error);
                 mockResolve = () => resolve();
             });
 
@@ -1963,6 +1964,7 @@ describe('Unit test case for ts embed', () => {
             // Extract just the first argument (the data)
             const [callData] = initStateChangeCallback.mock.calls[0];
             expect(callData).toEqual({
+                type: EmbedEvent.InitStateChange,
                 state: InitState.Ready,
                 previousState: InitState.Initializing,
                 timestamp: expect.any(Number),

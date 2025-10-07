@@ -5895,6 +5895,7 @@ export enum LogLevel {
  * NotStarted = 'not-started'
  * Initializing = 'initializing'
  * Ready = 'ready'
+ * Error = 'error'
  * ```
  */
 export enum InitState {
@@ -5910,6 +5911,10 @@ export enum InitState {
      * SDK initialization completed successfully
      */
     Ready = 'ready',
+    /**
+     * SDK initialization failed
+     */
+    Error = 'error',
 }
 
 export interface DefaultAppInitData {

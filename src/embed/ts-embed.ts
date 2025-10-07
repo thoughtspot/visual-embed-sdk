@@ -203,6 +203,11 @@ export class TsEmbed {
     private initPromiseResolve: () => void;
 
     /**
+    * Reject function for the init promise
+    */
+    private initPromiseReject: (error: any) => void;
+
+    /**
      * Sets the initialization state and emits events
      */
     private setInitState(newState: InitState): void {
@@ -210,6 +215,7 @@ export class TsEmbed {
         this.initState = newState;
         
         this.executeCallbacks(EmbedEvent.InitStateChange, {
+            type: EmbedEvent.InitStateChange,
             state: newState,
             previousState,
             timestamp: Date.now(),
@@ -262,8 +268,9 @@ export class TsEmbed {
     
         this.hostEventClient = new HostEventClient(this.iFrame);
 
-        this.initPromise = new Promise((resolve) => {
+        this.initPromise = new Promise((resolve , reject) => {
             this.initPromiseResolve = resolve;
+            this.initPromiseReject = reject;
         });
         this.setInitState(InitState.Initializing);
 
@@ -275,6 +282,8 @@ export class TsEmbed {
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
             this.setInitState(InitState.Ready);
+        }).catch((error) => {
+            this.initPromiseReject(error);
         });
     }
 
@@ -876,7 +885,7 @@ export class TsEmbed {
         try {
             await this.ensureInitialized();
         } catch (error) {
-            this.handleError('Cannot render: initialization failed');
+            this.handleError(ERROR_MESSAGE.EMBED_INITIALIZATION_FAILED);
             return null;
         }
         if (url.length > URL_MAX_LENGTH) {
