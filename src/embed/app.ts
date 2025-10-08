@@ -371,13 +371,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Hide tag filter chips that appear when content is filtered by tags.
      * When enabled, this automatically:
      * - Hides tag filter indicators/chips from the UI
-     * - Adds Action.ManageTags to hiddenActions (if not already present)
-     * - Adds ListPageColumns.Tags to hiddenListColumns (if not already present)
      * 
      * This provides a clean interface without tag-related UI elements.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.42.2 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
      * @example
      * ```js
      * // Simple usage - automatically hides all tag-related UI
@@ -386,10 +384,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    tag: 'Some Tag',
      *    hideTagFilterChips: true, // This is all you need!
      * });
-     * 
-     * // No need to manually specify:
-     * // hiddenActions: [Action.ManageTags],
-     * // hiddenListColumns: [ListPageColumns.Tags]
      * ```
      */
     hideTagFilterChips?: boolean;

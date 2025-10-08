@@ -11850,7 +11850,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 636,
+							"line": 630,
 							"character": 4
 						}
 					],
@@ -11914,7 +11914,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 973,
+							"line": 990,
 							"character": 11
 						}
 					],
@@ -12031,7 +12031,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 842,
+							"line": 859,
 							"character": 11
 						}
 					],
@@ -12368,7 +12368,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 947,
+							"line": 964,
 							"character": 11
 						}
 					],
@@ -12744,7 +12744,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1002,
+							"line": 1019,
 							"character": 17
 						}
 					],
@@ -13131,7 +13131,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 630,
+					"line": 624,
 					"character": 13
 				}
 			],
@@ -21884,7 +21884,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 499,
+							"line": 493,
 							"character": 4
 						}
 					],
@@ -22078,7 +22078,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 520,
+							"line": 514,
 							"character": 4
 						}
 					],
@@ -22315,7 +22315,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 492,
+							"line": 486,
 							"character": 4
 						}
 					],
@@ -22556,7 +22556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 436,
+							"line": 430,
 							"character": 4
 						}
 					],
@@ -22780,7 +22780,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 459,
+							"line": 453,
 							"character": 4
 						}
 					],
@@ -23260,7 +23260,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 412,
+							"line": 406,
 							"character": 4
 						}
 					],
@@ -23319,19 +23319,23 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Flag to use home page search bar mode",
-						"text": "Supported embed types: `AppEmbed`",
+						"shortText": "Hide tag filter chips that appear when content is filtered by tags.\nWhen enabled, this automatically:\n- Hides tag filter indicators/chips from the UI",
+						"text": "This provides a clean interface without tag-related UI elements.\n\nSupported embed types: `AppEmbed`",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl\n"
+								"text": "SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n// Simple usage - automatically hides all tag-related UI\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   tag: 'Some Tag',\n   hideTagFilterChips: true, // This is all you need!\n});\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 532,
+							"line": 389,
 							"character": 4
 						}
 					],
@@ -23365,8 +23369,8 @@
 					},
 					"sources": [
 						{
-							"fileName": "types.ts",
-							"line": 896,
+							"fileName": "embed/app.ts",
+							"line": 526,
 							"character": 4
 						}
 					],
@@ -23522,7 +23526,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 564,
+							"line": 558,
 							"character": 4
 						}
 					],
@@ -23551,7 +23555,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 525,
+							"line": 519,
 							"character": 4
 						}
 					],
@@ -23585,7 +23589,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 581,
+							"line": 575,
 							"character": 4
 						}
 					],
@@ -23623,7 +23627,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 547,
+							"line": 541,
 							"character": 4
 						}
 					],
@@ -23660,7 +23664,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 599,
+							"line": 593,
 							"character": 4
 						}
 					],
@@ -23694,7 +23698,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 623,
+							"line": 617,
 							"character": 4
 						}
 					],
@@ -23846,7 +23850,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 474,
+							"line": 468,
 							"character": 4
 						}
 					],
