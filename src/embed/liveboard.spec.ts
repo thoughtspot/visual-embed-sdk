@@ -183,6 +183,36 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLinkParametersEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLinkParametersEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLinkParametersEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLinkParametersEnabled to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLinkParametersEnabled: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLinkParametersEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set visible actions as empty array', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [],

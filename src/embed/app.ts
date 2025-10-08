@@ -663,6 +663,7 @@ export class AppEmbed extends V1Embed {
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isLinkParametersEnabled,
         } = this.viewConfig;
 
         let params: any = {};
@@ -748,6 +749,10 @@ export class AppEmbed extends V1Embed {
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+
+        if (isLinkParametersEnabled !== undefined) {
+            params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
