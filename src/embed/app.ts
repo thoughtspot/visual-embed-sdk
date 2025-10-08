@@ -704,7 +704,6 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
         params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
-        params[Param.HideTagFilterChips] = hideTagFilterChips;
 
         params = this.getBaseQueryParams(params);
 
@@ -771,6 +770,10 @@ export class AppEmbed extends V1Embed {
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+        
+        if (hideTagFilterChips !== undefined) {
+            params[Param.HideTagFilterChips] = hideTagFilterChips;
         }
 
         if (isLinkParametersEnabled !== undefined) {
