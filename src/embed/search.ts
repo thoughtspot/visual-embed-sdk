@@ -26,6 +26,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
+import { getInterceptInitData } from '../api-intercept';
 
 /**
  * Configuration for search options.
@@ -442,7 +443,8 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.HideSearchBar] = true;
         }
 
-        if (isOnBeforeGetVizDataInterceptEnabled) {
+        const { enableApiIntercept } = getInterceptInitData(this.embedConfig, this.viewConfig);
+        if (isOnBeforeGetVizDataInterceptEnabled && !enableApiIntercept) {
 
             queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }

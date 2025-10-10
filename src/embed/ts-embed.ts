@@ -71,6 +71,7 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { getInterceptInitData, handleInterceptEvent, processLegacyInterceptResponse } from '../api-intercept';
 
 const { version } = pkgInfo;
 
@@ -201,7 +202,7 @@ export class TsEmbed {
         });
         const embedConfig = getEmbedConfig();
         this.embedConfig = embedConfig;
-    
+
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
@@ -336,33 +337,50 @@ export class TsEmbed {
         this.subscribedListeners.offline = offlineEventListener;
     }
 
+    private messageEventListener = async (event: MessageEvent<any>) => {
+        const eventType = this.getEventType(event);
+        const eventPort = this.getEventPort(event);
+        const eventData = this.formatEventData(event, eventType);
+        if (event.source === this.iFrame.contentWindow) {
+            const processedEventData = await processEventData(
+                eventType,
+                eventData,
+                this.thoughtSpotHost,
+                this.isPreRendered ? this.preRenderWrapper : this.el,
+            );
+
+            const executeEvent = (_eventType: EmbedEvent, data: any) => {
+                this.executeCallbacks(_eventType, data, eventPort);
+            }
+
+            if (eventType === EmbedEvent.ApiIntercept && this.viewConfig.enableApiIntercept) {
+                const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
+                    const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
+                    return response[0]?.value;
+                }
+                handleInterceptEvent({ eventData: processedEventData, executeEvent, embedConfig: this.embedConfig, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+                return;
+            }
+
+            this.executeCallbacks(
+                eventType,
+                processedEventData,
+                eventPort,
+            );
+        }
+    };
     /**
      * Subscribe to message events that depend on successful iframe setup
      */
     private subscribeToMessageEvents() {
         this.unsubscribeToMessageEvents();
 
-        const messageEventListener = (event: MessageEvent<any>) => {
-            const eventType = this.getEventType(event);
-            const eventPort = this.getEventPort(event);
-            const eventData = this.formatEventData(event, eventType);
-            if (event.source === this.iFrame.contentWindow) {
-                this.executeCallbacks(
-                    eventType,
-                    processEventData(
-                        eventType,
-                        eventData,
-                        this.thoughtSpotHost,
-                        this.isPreRendered ? this.preRenderWrapper : this.el,
-                    ),
-                    eventPort,
-                );
-            }
-        };
-        window.addEventListener('message', messageEventListener);
+        window.addEventListener('message', this.messageEventListener);
 
-        this.subscribedListeners.message = messageEventListener;
+        this.subscribedListeners.message = this.messageEventListener;
     }
+   
+
     /**
      * Adds event listeners for both network and message events.
      * This maintains backward compatibility with the existing method.
@@ -375,6 +393,7 @@ export class TsEmbed {
         this.subscribeToNetworkEvents();
         this.subscribeToMessageEvents();
     }
+
 
     private unsubscribeToNetworkEvents() {
         if (this.subscribedListeners.online) {
@@ -426,7 +445,7 @@ export class TsEmbed {
                 message: customActionsResult.errors,
             });
         }
-        return {
+        const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
             runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
@@ -445,7 +464,10 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            ...getInterceptInitData(this.embedConfig, this.viewConfig),
         };
+
+        return baseInitData;
     }
 
     protected async getAppInitData() {
@@ -1023,6 +1045,21 @@ export class TsEmbed {
         this.iFrame.style.height = getCssDimension(height);
     }
 
+    protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
+
+        const { enableApiIntercept } = getInterceptInitData(this.embedConfig, this.viewConfig);
+        if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept && enableApiIntercept) {
+            return (payload: any) => {
+                const payloadToSend = processLegacyInterceptResponse(payload);
+                this.triggerEventOnPort(eventPort, payloadToSend);
+            }
+        }
+
+        return (payload: any) => {
+            this.triggerEventOnPort(eventPort, payload);
+        }
+    }
+
     /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
@@ -1047,9 +1084,8 @@ export class TsEmbed {
                 // payload
                 || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
-                callbackObj.callback(data, (payload) => {
-                    this.triggerEventOnPort(eventPort, payload);
-                });
+                const responder = this.createEmbedEventResponder(eventPort, eventType);
+                callbackObj.callback(data, responder);
             }
         });
     }
@@ -1191,12 +1227,12 @@ export class TsEmbed {
         }
     }
 
-     /**
-     * @hidden
-     * Internal state to track if the embed container is loaded.
-     * This is used to trigger events after the embed container is loaded.
-     */
-     public isEmbedContainerLoaded = false;
+    /**
+    * @hidden
+    * Internal state to track if the embed container is loaded.
+    * This is used to trigger events after the embed container is loaded.
+    */
+    public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
@@ -1348,7 +1384,7 @@ export class TsEmbed {
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        
+
         const isAlreadyRendered = this.connectPreRendered();
         if (isAlreadyRendered && !replaceExistingPreRender) {
             return this;
