@@ -1794,7 +1794,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Style panel** on a Liveboard.\nAllows users to control visibility of liveboard style panel.",
+						"shortText": "The **Style panel** on a Liveboard.\nControls the visibility of the Liveboard style panel.",
 						"tags": [
 							{
 								"tag": "example",
