@@ -368,6 +368,26 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     tag?: string;
     /**
+     * Hide tag filter chips that appear when content is filtered by tags.
+     * When enabled, this automatically:
+     * - Hides tag filter indicators/chips from the UI
+     * 
+     * This provides a clean interface without tag-related UI elements.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Simple usage - automatically hides all tag-related UI
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    tag: 'Some Tag',
+     *    hideTagFilterChips: true, // This is all you need!
+     * });
+     * ```
+     */
+    hideTagFilterChips?: boolean;
+    /**
      * The array of GUIDs to be hidden
      * 
      * Supported embed types: `AppEmbed`
@@ -625,6 +645,7 @@ export class AppEmbed extends V1Embed {
     protected getEmbedParams() {
         const {
             tag,
+            hideTagFilterChips,
             hideObjects,
             liveboardV2,
             showPrimaryNavbar,
@@ -749,6 +770,10 @@ export class AppEmbed extends V1Embed {
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+        
+        if (hideTagFilterChips !== undefined) {
+            params[Param.HideTagFilterChips] = hideTagFilterChips;
         }
 
         if (isLinkParametersEnabled !== undefined) {
