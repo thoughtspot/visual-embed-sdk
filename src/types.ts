@@ -5990,11 +5990,15 @@ export enum InterceptedApiType {
     /**
      * The apis that are use to get the data for the embed
      */
-    DATA = 'DATA',
+    ANSWER_DATA = 'ANSWER_DATA',
     /**
      * This will intercept all the apis
      */
     ALL = 'ALL',
+    /**
+     * The apis that are use to get the data for the liveboard
+     */
+    LIVEBOARD_DATA = 'LIVEBOARD_DATA',
 }
 
 
