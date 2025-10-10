@@ -16,6 +16,7 @@ import {
     defaultParams,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     postMessageToParent,
     getIFrameEl,
     mockMessageChannel,
@@ -135,6 +136,20 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]${prefixParams}#/embed/viz/${liveboardId}`,
             );
+        });
+    });
+
+    test('should set LiveboardStylePanel in visible actions', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            visibleActions: [Action.LiveboardStylePanel],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                visibleAction: JSON.stringify([Action.LiveboardStylePanel]),
+            });
         });
     });
 
