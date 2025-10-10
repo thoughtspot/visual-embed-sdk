@@ -1513,6 +1513,21 @@ export interface LiveboardAppEmbedViewConfig {
      */
     liveboardXLSXCSVDownload?: boolean;
     /**
+     * This flag is used to enable or disable new liveboard filter ux v2
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardFilterUXV2Enabled: true,
+     * })
+     * ```
+     */
+    isLiveboardFilterUXV2Enabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -4365,6 +4380,7 @@ export enum Param {
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    isLiveboardFilterUXV2Enabled = 'isLiveboardFilterUXV2Enabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
 }
 
