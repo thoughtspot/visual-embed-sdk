@@ -1,7 +1,7 @@
 import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
 import { InterceptedApiType, BaseViewConfig, EmbedConfig, InterceptV2Flags, EmbedEvent } from "./types";
-
+import { logger } from "./utils/logger";
 
 
 const defaultUrls: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, string[]> = {
