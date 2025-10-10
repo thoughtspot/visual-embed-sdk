@@ -5691,7 +5691,7 @@ export enum Action {
     RemoveAttachment = 'removeAttachment',
     /**
      * The **Style panel** on a Liveboard.
-     * Allows users to control visibility of liveboard style panel.
+     * Controls the visibility of the Liveboard style panel.
      * @example
      * ```js
      * hiddenActions: [Action.LiveboardStylePanel]

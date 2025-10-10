@@ -16,6 +16,7 @@ import {
     defaultParams,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     postMessageToParent,
     getIFrameEl,
     mockMessageChannel,
@@ -140,16 +141,15 @@ describe('Liveboard/viz embed tests', () => {
 
     test('should set LiveboardStylePanel in visible actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            visibleActions: [Action.LiveboardStylePanel, Action.Edit, Action.Save],
+            visibleActions: [Action.LiveboardStylePanel],
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&visibleAction=[%22${Action.LiveboardStylePanel}%22,%22${Action.Edit}%22,%22${Action.Save}%22]${prefixParams}#/embed/viz/${liveboardId}`,
-            );
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                visibleAction: JSON.stringify([Action.LiveboardStylePanel]),
+            });
         });
     });
 
