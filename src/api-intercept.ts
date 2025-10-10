@@ -9,9 +9,11 @@ const defaultUrls: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, s
         '/prism/?op=CreateAnswerSession',
         '/prism/?op=GetV2SourceDetail',
     ] as string[],
-    [InterceptedApiType.DATA]: [
+    [InterceptedApiType.ANSWER_DATA]: [
         '/prism/?op=GetChartWithData',
         '/prism/?op=GetTableWithHeadlineData',
+    ] as string[],
+    [InterceptedApiType.LIVEBOARD_DATA]: [
         '/prism/?op=LoadContextBook'
     ] as string[],
 };
@@ -31,13 +33,14 @@ interface LegacyInterceptFlags {
     isOnBeforeGetVizDataInterceptEnabled: boolean;
 }
 
-const processInterceptUrls = (combinedUrls: (string | InterceptedApiType)[]) => {
+const processInterceptUrls = (interceptUrls: (string | InterceptedApiType)[]) => {
+    let processedUrls = [...interceptUrls];
     Object.entries(defaultUrls).forEach(([apiType, apiTypeUrls]) => {
-        if (!combinedUrls.includes(apiType)) return;
-        combinedUrls = combinedUrls.filter(url => url !== apiType);
-        combinedUrls = [...combinedUrls, ...apiTypeUrls];
+        if (!processedUrls.includes(apiType)) return;
+        processedUrls = processedUrls.filter(url => url !== apiType);
+        processedUrls = [...processedUrls, ...apiTypeUrls];
     })
-    return combinedUrls.map(url => formatInterceptUrl(url));
+    return processedUrls.map(url => formatInterceptUrl(url));
 }
 export const getInterceptInitData = (embedConfig: EmbedConfig, viewConfig: BaseViewConfig): InterceptV2Flags => {
 
@@ -50,7 +53,7 @@ export const getInterceptInitData = (embedConfig: EmbedConfig, viewConfig: BaseV
     const combinedUrls = [...(embedConfig.interceptUrls || []), ...(viewConfig.interceptUrls || [])];
 
     if ((viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
-        combinedUrls.push(InterceptedApiType.DATA);
+        combinedUrls.push(InterceptedApiType.ANSWER_DATA);
     }
 
     const shouldInterceptAll = combinedUrls.includes(InterceptedApiType.ALL);
@@ -102,7 +105,7 @@ export const handleInterceptEvent = async (params: { eventData: any, executeEven
     const sessionId = init?.body?.variables?.session?.sessionId;
     const vizId = init?.body?.variables?.contextBookId;
 
-    if (defaultUrls.DATA.includes(requestUrl) && (viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
+    if (defaultUrls.ANSWER_DATA.includes(requestUrl) && (viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
         const answerTml = await getUnsavedAnswerTml({ sessionId, vizId });
         executeEvent(EmbedEvent.OnBeforeGetVizDataIntercept, { data: { data: answerTml } });
     }
