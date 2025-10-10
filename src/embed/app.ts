@@ -19,6 +19,7 @@ import {
     AllEmbedViewConfig,
 } from '../types';
 import { V1Embed } from './ts-embed';
+import { getInterceptInitData } from '../api-intercept';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -752,7 +753,9 @@ export class AppEmbed extends V1Embed {
             params[Param.enableAskSage] = enableAskSage;
         }
 
-        if (isOnBeforeGetVizDataInterceptEnabled) {
+        const { enableApiIntercept } = getInterceptInitData(this.embedConfig, this.viewConfig);
+
+        if (isOnBeforeGetVizDataInterceptEnabled && !enableApiIntercept) {
 
             params[
                 Param.IsOnBeforeGetVizDataInterceptEnabled

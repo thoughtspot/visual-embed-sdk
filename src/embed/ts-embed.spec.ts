@@ -1045,7 +1045,7 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.APP_INIT,
                 data: {},
             };
-            
+
             // Create a SearchEmbed with valid custom actions to test
             // CustomActionsValidationResult
             const searchEmbed = new SearchEmbed(getRootEl(), {
@@ -1067,7 +1067,7 @@ describe('Unit test case for ts embed', () => {
                     }
                 ]
             });
-            
+
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -1116,7 +1116,7 @@ describe('Unit test case for ts embed', () => {
                         customVariablesForThirdPartyTools: {},
                     },
                 });
-                
+
                 // Verify that CustomActionsValidationResult structure is
                 // correct
                 const appInitData = mockPort.postMessage.mock.calls[0][0].data;
@@ -1137,7 +1137,7 @@ describe('Unit test case for ts embed', () => {
                         })
                     ])
                 );
-                
+
                 // Verify actions are sorted by name (alphabetically)
                 expect(appInitData.customActions[0].name).toBe('Another Valid Action');
                 expect(appInitData.customActions[1].name).toBe('Valid Action');
@@ -2444,7 +2444,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         afterAll((): void => {
-            window.location = location as any;
+            (window.location as any) = location;
         });
 
         it('get url params for TS', () => {
@@ -3362,7 +3362,7 @@ describe('Unit test case for ts embed', () => {
                 new Error('Auth failed'),
             );
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
             await searchEmbed.render();
             await executeAfterWait(() => {
                 expect(getRootEl().innerHTML).toContain('Not logged in');
@@ -3371,7 +3371,7 @@ describe('Unit test case for ts embed', () => {
                     window.dispatchEvent(onlineEvent);
                 }).not.toThrow();
             });
-    
+
             errorSpy.mockReset();
         });
 

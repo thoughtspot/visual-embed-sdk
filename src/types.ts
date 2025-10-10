@@ -329,7 +329,7 @@ export interface CustomisationsInterface {
  * if a trusted authentication server is used.
  * @group Authentication / Init
  */
-export interface EmbedConfig {
+export interface EmbedConfig extends InterceptV2Flags {
     /**
      * The ThoughtSpot cluster hostname or IP address.
      */
@@ -739,7 +739,7 @@ export interface FrameParams {
 /**
  * The common configuration object for an embedded view.
  */
-export interface BaseViewConfig {
+export interface BaseViewConfig extends InterceptV2Flags {
     /**
      * @hidden
      */
@@ -2966,6 +2966,21 @@ export enum EmbedEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     OrgSwitched = 'orgSwitched',
+    /**
+     * Emitted when the user intercepts a URL.
+     *
+     * Supported on all embed types.
+     * 
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.ApiIntercept, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * 
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
+     */
+    ApiIntercept = 'ApiIntercept',
 }
 
 /**
@@ -5962,4 +5977,68 @@ export interface DefaultAppInitData {
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
     customActions: CustomAction[];
+}
+
+/**
+ * Enum for the type of API intercepted
+ */
+export enum InterceptedApiType {
+    /**
+     * The apis that are use to get the metadata for the embed
+     */
+    METADATA = 'METADATA',
+    /**
+     * The apis that are use to get the data for the embed
+     */
+    DATA = 'DATA',
+    /**
+     * This will intercept all the apis
+     */
+    ALL = 'ALL',
+}
+
+
+export type InterceptV2Flags = {
+    /**
+     * Enable intercepting the apis
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ...viewConfig,
+     *   enableApiIntercept: true,
+     *   interceptUrls: [InterceptedApiType.DATA],
+     * })
+     * ```
+     * 
+     */
+    enableApiIntercept?: boolean;
+    /**
+     * The apis to intercept
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ...viewConfig,
+     *   enableApiIntercept: true,
+     *   interceptUrls: [InterceptedApiType.DATA],
+     * })
+     * ```
+     */
+    interceptUrls?: (string | InterceptedApiType)[];
+    /**
+     * The timeout for the intercept, default is 30000ms
+     * the api will error out if the timeout is reached
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ...viewConfig,
+     *   enableApiIntercept: true,
+     *   interceptUrls: [InterceptedApiType.ALL],
+     *   interceptTimeout: 1000,
+     * })
+     * ```
+     */
+    interceptTimeout?: number;
 }
