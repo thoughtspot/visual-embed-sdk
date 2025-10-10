@@ -663,6 +663,7 @@ export class AppEmbed extends V1Embed {
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isLiveboardFilterUXV2Enabled = false,
             isLinkParametersEnabled,
         } = this.viewConfig;
 
@@ -753,6 +754,10 @@ export class AppEmbed extends V1Embed {
 
         if (isLinkParametersEnabled !== undefined) {
             params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
+        }
+
+        if (isLiveboardFilterUXV2Enabled != undefined) {
+            params[Param.isLiveboardFilterUXV2Enabled] = isLiveboardFilterUXV2Enabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

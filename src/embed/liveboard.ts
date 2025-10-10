@@ -477,6 +477,7 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             showSpotterLimitations,
+            isLiveboardFilterUXV2Enabled = false,
             isLinkParametersEnabled,
         } = this.viewConfig;
 
@@ -555,6 +556,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLinkParametersEnabled !== undefined) {
             params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
+        }
+
+        if (isLiveboardFilterUXV2Enabled !== undefined) {
+            params[Param.isLiveboardFilterUXV2Enabled] = isLiveboardFilterUXV2Enabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
