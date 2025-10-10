@@ -64,6 +64,7 @@ import {
     ListPageColumns,
     CustomActionsPosition,
     CustomActionTarget,
+    InterceptedApiType,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -152,6 +153,7 @@ export {
     DataPanelCustomColumnGroupsAccordionState,
     CustomActionsPosition,
     CustomActionTarget,
+    InterceptedApiType,
 };
 
 export { resetCachedAuthToken } from './authToken';

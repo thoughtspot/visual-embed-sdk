@@ -7,6 +7,7 @@ export enum UIPassthroughEvent {
   GetAvailableUIPassthroughs = 'getAvailableUiPassthroughs',
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
+  GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
 }
 
 // UI Passthrough Contract
@@ -62,6 +63,15 @@ export type UIPassthroughContractBase = {
   [UIPassthroughEvent.GetLiveboardConfig]: {
     request: any;
     response: any;
+  };
+  [UIPassthroughEvent.GetUnsavedAnswerTML]: {
+    request: {
+      sessionId?: string;
+      vizId?: string;
+    };
+    response: {
+      tml: string;
+    };
   };
 };
 
