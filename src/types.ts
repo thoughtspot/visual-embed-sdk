@@ -5883,13 +5883,35 @@ export enum LogLevel {
     TRACE = 'TRACE',
 }
 
+
+/**
+ * Error event object
+ *
+ * This object is used to represent an error that occurs within the embedded component.
+ * It is used to provide context about the error that occurred and to help with debugging.
+ *
+ * This object is returned by the `on` method of the embed object.
+ *
+ * @param errorType - The type of error that occurred.
+ * @param message - A human-readable error message describing what went wrong.
+ * @param code - Optional error code providing a machine-readable identifier for the error.
+ * @param source - The source system or component where the error originated.
+ * @param details - Additional error details providing context-specific information.
+ * @param error - Legacy error message field maintained for backward compatibility.
+ *
+ * @example
+ * ```js
+ * { errorType: 'API', message: 'API call failed', code: 'TS-001', source: 'API', details: { request: { url: '/api/rest/2.0/searchdata', method: 'GET' } } }
+ * ```
+ * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+ */
 export interface EmbedErrorEvent {
     errorType: 'API' | 'FULLSCREEN' | 'SINGLE_VALUE_FILTER' | 'NON_EXIST_FILTER' | 'INVALID_DATE_VALUE' | 'INVALID_OPERATOR' | 'VALIDATION_ERROR';
     message: string;
     code?: string;
     source?: 'API' | 'NETWORK' | 'SDK' | 'VALIDATION' | 'UNKNOWN';
     details?: any;
-    error?: string | string[]; // This is the error message to avoid breaking changes
+    error?: string | string[];
 }
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
