@@ -220,11 +220,11 @@ export class TsEmbed {
     private throwInitError() {
         this.handleError({
             errorType: 'VALIDATION_ERROR',
-            message: 'You need to init the ThoughtSpot SDK module first',
+            message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             code: 'INIT_ERROR',
             source: 'SDK',
             details: {},
-            error: 'You need to init the ThoughtSpot SDK module first',
+            error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
         } as EmbedErrorEvent);
     }
 
@@ -330,18 +330,17 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning = ERROR_MESSAGE.OFFLINE_WARNING;
             this.executeCallbacks(EmbedEvent.Error, {
                 errorType: 'API',
-                message: offlineWarning,
+                message: ERROR_MESSAGE.OFFLINE_WARNING,
                 code: 'NETWORK_ERROR',
                 source: 'SDK',
                 details: {
                     event: e,
                 },
-                error: offlineWarning,
+                error: ERROR_MESSAGE.OFFLINE_WARNING,
             } as EmbedErrorEvent);
-            logger.warn(offlineWarning);
+            logger.warn(ERROR_MESSAGE.OFFLINE_WARNING);
         };
         window.addEventListener('offline', offlineEventListener);
 
@@ -652,11 +651,11 @@ export class TsEmbed {
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden actions and visible actions',
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden actions and visible actions',
+                error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             } as EmbedErrorEvent);
             return queryParams;
         }
@@ -664,11 +663,11 @@ export class TsEmbed {
         if (Array.isArray(visibleTabs) && Array.isArray(hiddenTabs)) {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden Tabs and visible Tabs',
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden Tabs and visible Tabs',
+                error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             } as EmbedErrorEvent);
             return queryParams;
         }
@@ -924,11 +923,11 @@ export class TsEmbed {
                     this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     this.handleError({
                         errorType: 'API',
-                        message: error.message || 'Login failed',
+                        message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                         code: 'LOGIN_FAILED',
                         source: 'SDK',
                         details: {},
-                        error: error.message || 'Login failed',
+                        error: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                     } as EmbedErrorEvent);
                 });
         });
@@ -1315,11 +1314,11 @@ export class TsEmbed {
         if (!this.isRendered) {
             this.handleError({
                 errorType: 'INVALID_OPERATOR',
-                message: 'Please call render before triggering events',
+                message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
                 code: 'RENDER_NOT_CALLED',
                 source: 'SDK',
                 details: {},
-                error: 'Please call render before triggering events',
+                error: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
             } as EmbedErrorEvent);
             return null;
         }
@@ -1327,11 +1326,11 @@ export class TsEmbed {
         if (!messageType) {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
-                message: 'Host event type is undefined',
+                message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
                 code: 'HOST_EVENT_TYPE_UNDEFINED',
                 source: 'SDK',
                 details: {},
-                error: 'Host event type is undefined',
+                error: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
             } as EmbedErrorEvent);
             return null;
         }

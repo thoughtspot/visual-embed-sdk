@@ -1758,11 +1758,11 @@ describe('Unit test case for ts embed', () => {
             expect(pinboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden actions and visible actions',
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden actions and visible actions',
+                error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             });
         });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
@@ -1795,11 +1795,11 @@ describe('Unit test case for ts embed', () => {
             expect(liveboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden actions and visible actions',
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden actions and visible actions',
+                error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             });
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
@@ -1845,11 +1845,11 @@ describe('Unit test case for ts embed', () => {
             expect(pinboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden Tabs and visible Tabs',
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden Tabs and visible Tabs',
+                error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             });
         });
         test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
@@ -1882,11 +1882,11 @@ describe('Unit test case for ts embed', () => {
             expect(liveboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You cannot have both hidden Tabs and visible Tabs',
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: 'VALIDATION_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You cannot have both hidden Tabs and visible Tabs',
+                error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             });
         }
         test('should throw error when there are both visible and hidden Tab arrays', async () => {
@@ -1935,11 +1935,11 @@ describe('Unit test case for ts embed', () => {
             expect(tsEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
-                message: 'You need to init the ThoughtSpot SDK module first',
+                message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
                 code: 'INIT_ERROR',
                 source: 'SDK',
                 details: {},
-                error: 'You need to init the ThoughtSpot SDK module first',
+                error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             });
         });
     });
