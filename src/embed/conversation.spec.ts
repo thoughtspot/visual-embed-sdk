@@ -119,9 +119,14 @@ describe('ConversationEmbed', () => {
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
-        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-        );
+        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith({
+            errorType: 'VALIDATION_ERROR',
+            message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            code: 'WORKSHEET_ID_NOT_FOUND',
+            source: 'SDK',
+            details: {},
+            error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+        });
     });
 
     it('should render the conversation embed if data panel v2 flag is true', async () => {

@@ -1969,22 +1969,24 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     * `API` - API call failure error.
-     * `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     * mode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
-     * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
-     * `INVALID_DATE_VALUE` - Invalid date value error.
-     * `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     * - `API` - API call failure error.
+     * - `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
+     * mode. 
+     * - `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
+     * filter. 
+     * - `NON_EXIST_FILTER` - Error due to a non-existent filter.
+     * - `INVALID_DATE_VALUE` - Invalid date value error.
+     * - `INVALID_OPERATOR` - Use of invalid operator during filter application.
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
-     * @returns error - An error object or message
-     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
+     * @returns error - An error object {@link EmbedErrorEvent}
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
      * @example
      * ```js
      * // API error
      * SearchEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
-     *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
+     *   // { errorType: "API", message: '...', code: '...', source: 'API', details: any, error: '...' }
      * });
      * ```
      * @example
@@ -1992,10 +1994,7 @@ export enum EmbedEvent {
      * // Fullscreen error (Errors during presenting of a liveboard)
      * LiveboardEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
-     *   // { type: "Error", data: { errorType: "FULLSCREEN", error: {
-     *   //   message: "Fullscreen API is not enabled",
-     *   //   stack: "..."
-     *   // } }}
+     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...', source: 'FULLSCREEN', details: any, error: '...' }
      * })
      * ```
      */
@@ -5884,6 +5883,36 @@ export enum LogLevel {
     TRACE = 'TRACE',
 }
 
+
+/**
+ * Error event object
+ *
+ * This object is used to represent an error that occurs within the embedded component.
+ * It is used to provide context about the error that occurred and to help with debugging.
+ *
+ * This object is returned by the `on` method of the embed object.
+ *
+ * @param errorType - The type of error that occurred.
+ * @param message - A human-readable error message describing what went wrong.
+ * @param code - Optional error code providing a machine-readable identifier for the error.
+ * @param source - The source system or component where the error originated.
+ * @param details - Additional error details providing context-specific information.
+ * @param error - Legacy error message field maintained for backward compatibility.
+ *
+ * @example
+ * ```js
+ * { errorType: 'API', message: 'API call failed', code: 'TS-001', source: 'API', details: { request: { url: '/api/rest/2.0/searchdata', method: 'GET' } } }
+ * ```
+ * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+ */
+export interface EmbedErrorEvent {
+    errorType: 'API' | 'FULLSCREEN' | 'SINGLE_VALUE_FILTER' | 'NON_EXIST_FILTER' | 'INVALID_DATE_VALUE' | 'INVALID_OPERATOR' | 'VALIDATION_ERROR';
+    message: string;
+    code?: string;
+    source?: 'API' | 'NETWORK' | 'SDK' | 'VALIDATION' | 'UNKNOWN';
+    details?: any;
+    error?: string | string[];
+}
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;
