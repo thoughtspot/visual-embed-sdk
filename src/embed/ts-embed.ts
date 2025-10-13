@@ -334,7 +334,7 @@ export class TsEmbed {
                 errorType: 'API',
                 message: ERROR_MESSAGE.OFFLINE_WARNING,
                 code: 'NETWORK_ERROR',
-                source: 'SDK',
+                source: 'NETWORK',
                 details: {
                     event: e,
                 },
@@ -652,7 +652,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_ACTIONS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
@@ -664,7 +664,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_TABS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
@@ -1313,7 +1313,7 @@ export class TsEmbed {
 
         if (!this.isRendered) {
             this.handleError({
-                errorType: 'INVALID_OPERATOR',
+                errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
                 code: 'RENDER_NOT_CALLED',
                 source: 'SDK',

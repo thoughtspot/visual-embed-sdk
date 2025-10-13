@@ -1759,7 +1759,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_ACTIONS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
@@ -1796,7 +1796,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_ACTIONS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
@@ -1846,7 +1846,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_TABS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
@@ -1883,7 +1883,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: 'VALIDATION_ERROR',
+                code: 'CONFLICTING_TABS_CONFIG',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,

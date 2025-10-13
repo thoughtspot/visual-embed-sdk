@@ -614,7 +614,7 @@ export class LiveboardEmbed extends V1Embed {
             this.handleError({
                 errorType: 'VALIDATION_ERROR',
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
-                code: 'VALIDATION_ERROR',
+                code: 'LIVEBOARD_ID_MISSING',
                 source: 'SDK',
                 details: {},
                 error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,

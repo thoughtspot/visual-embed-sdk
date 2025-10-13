@@ -122,7 +122,7 @@ describe('ConversationEmbed', () => {
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith({
             errorType: 'VALIDATION_ERROR',
             message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-            code: 'VALIDATION_ERROR',
+            code: 'WORKSHEET_ID_NOT_FOUND',
             source: 'SDK',
             details: {},
             error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
