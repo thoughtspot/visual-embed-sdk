@@ -164,6 +164,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
+    /**
+     * enablePastConversationsSidebar : Controls the visibility of the past conversations sidebar.
+     * 
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    enablePastConversationsSidebar : true,
+     * })
+     * ```
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
 }
 
 /**
@@ -205,6 +220,7 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            enablePastConversationsSidebar,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
@@ -246,9 +262,14 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            enablePastConversationsSidebar,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
+
+        if (!isUndefined(enablePastConversationsSidebar)) {
+            queryParams[Param.EnablePastConversationsSidebar] = !!enablePastConversationsSidebar;
+        }
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
