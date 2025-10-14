@@ -1,4 +1,3 @@
-import { disable } from 'mixpanel-browser';
 import * as processDataInstance from './processData';
 import * as answerServiceInstance from './graphql/answerService/answerService';
 import * as auth from '../auth';

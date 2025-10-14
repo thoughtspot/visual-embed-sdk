@@ -120,17 +120,19 @@ export const processLegacyInterceptResponse = (payload: any) => {
 
     const payloadToSend = {
         execute: payload?.data?.execute,
-        body: {
-            errors: [
-                {
-                    errorObj: {
-                        title,
-                        desc
+        response: {
+            body: {
+                errors: [
+                    {
+                        errorObj: {
+                            title,
+                            desc
+                        }
                     }
-                }
-            ],
-        },
-        status: 200,
+                ],
+            },
+            status: 200,
+        }
     };
 
     return { data: payloadToSend };
