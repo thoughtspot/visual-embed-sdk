@@ -4367,6 +4367,7 @@ export enum Param {
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
+    EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
 }
 
 /**
