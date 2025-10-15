@@ -5709,6 +5709,16 @@ export enum Action {
      *  @version SDK: 1.42.0 | ThoughtSpot Cloud: 10.14.0.cl
      */
     RemoveAttachment = 'removeAttachment',
+    /**
+     * The **Style panel** on a Liveboard.
+     * Controls the visibility of the Liveboard style panel.
+     * @example
+     * ```js
+     * hiddenActions: [Action.LiveboardStylePanel]
+     * ```
+     * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
+     */
+    LiveboardStylePanel = 'liveboardStylePanel',
 }
 
 export interface AnswerServiceType {
