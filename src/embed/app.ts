@@ -684,6 +684,7 @@ export class AppEmbed extends V1Embed {
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
         } = this.viewConfig;
 
@@ -778,6 +779,12 @@ export class AppEmbed extends V1Embed {
 
         if (isLinkParametersEnabled !== undefined) {
             params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
+        }
+
+        if (isCentralizedLiveboardFilterUXEnabled != undefined) {
+            params[
+                Param.isCentralizedLiveboardFilterUXEnabled
+            ] = isCentralizedLiveboardFilterUXEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
