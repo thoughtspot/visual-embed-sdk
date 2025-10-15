@@ -125,7 +125,7 @@ export const processLegacyInterceptResponse = (payload: any) => {
                 errors: [
                     {
                         title: errorText,
-                        message: errorDescription,
+                        description: errorDescription,
                         isUserError: true,
                     },
                 ],
