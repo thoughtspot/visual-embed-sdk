@@ -115,25 +115,22 @@ export const handleInterceptEvent = async (params: { eventData: any, executeEven
 
 export const processLegacyInterceptResponse = (payload: any) => {
 
-    const title = payload?.data?.errorText;
-    const desc = payload?.data?.errorDescription;
-
     const payloadToSend = {
         execute: payload?.data?.execute,
         response: {
             body: {
                 errors: [
                     {
-                        errorObj: {
-                            title,
-                            desc
-                        }
-                    }
+                        title: payload?.data?.errorText,
+                        message: payload?.data?.errorDescription,
+                        isUserError: true,
+                    },
                 ],
+                data: {},
             },
-            status: 200,
-        }
+        },
     };
+
 
     return { data: payloadToSend };
 }
