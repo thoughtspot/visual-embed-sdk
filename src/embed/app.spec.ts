@@ -414,6 +414,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isCentralizedLiveboardFilterUXEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isCentralizedLiveboardFilterUXEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isCentralizedLiveboardFilterUXEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isCentralizedLiveboardFilterUXEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -1513,6 +1513,24 @@ export interface LiveboardAppEmbedViewConfig {
      */
     liveboardXLSXCSVDownload?: boolean;
     /**
+     * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
+     * When enabled, a unified modal is used to manage and update multiple filters at once,
+     * replacing the older individual filter interactions.
+     * To enable this feature on your instance, contact ThoughtSpot Support.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isCentralizedLiveboardFilterUXEnabled: true,
+     * })
+     * ```
+     */
+    isCentralizedLiveboardFilterUXEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -4366,6 +4384,7 @@ export enum Param {
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
 }
