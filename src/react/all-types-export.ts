@@ -59,4 +59,5 @@ export {
     resetCachedAuthToken,
     UIPassthroughEvent,
     DataPanelCustomColumnGroupsAccordionState,
+    InterceptedApiType,
 } from '../index';
