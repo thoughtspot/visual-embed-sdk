@@ -676,6 +676,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
             hideIrrelevantChipsInLiveboardTabs = false,
+            isEnhancedFilterInteractivityEnabled = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
@@ -699,6 +700,7 @@ export class AppEmbed extends V1Embed {
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
