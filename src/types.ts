@@ -1545,7 +1545,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLinkParametersEnabled?: boolean;
-    
+
+    /**
+     * This flag is used to enable or disable the enhanced filter interactivity in liveboard.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isEnhancedFilterInteractivityEnabled: true,
+     * })
+     * ```
+     */
+    isEnhancedFilterInteractivityEnabled?: boolean;
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig { }
@@ -4368,6 +4383,7 @@ export enum Param {
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
     HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
+    IsEnhancedFilterInteractivityEnabled = 'isLiveboardPermissionV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
