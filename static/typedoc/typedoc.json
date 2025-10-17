@@ -3912,7 +3912,7 @@
 			]
 		},
 		{
-			"id": 2906,
+			"id": 2896,
 			"name": "CustomActionTarget",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -3922,7 +3922,7 @@
 			},
 			"children": [
 				{
-					"id": 2909,
+					"id": 2899,
 					"name": "ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3937,7 +3937,7 @@
 					"defaultValue": "\"ANSWER\""
 				},
 				{
-					"id": 2907,
+					"id": 2897,
 					"name": "LIVEBOARD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3952,7 +3952,7 @@
 					"defaultValue": "\"LIVEBOARD\""
 				},
 				{
-					"id": 2910,
+					"id": 2900,
 					"name": "SPOTTER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3967,7 +3967,7 @@
 					"defaultValue": "\"SPOTTER\""
 				},
 				{
-					"id": 2908,
+					"id": 2898,
 					"name": "VIZ",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3987,10 +3987,10 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2909,
-						2907,
-						2910,
-						2908
+						2899,
+						2897,
+						2900,
+						2898
 					]
 				}
 			],
@@ -4003,7 +4003,7 @@
 			]
 		},
 		{
-			"id": 2902,
+			"id": 2892,
 			"name": "CustomActionsPosition",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4013,7 +4013,7 @@
 			},
 			"children": [
 				{
-					"id": 2905,
+					"id": 2895,
 					"name": "CONTEXTMENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4028,7 +4028,7 @@
 					"defaultValue": "\"CONTEXTMENU\""
 				},
 				{
-					"id": 2904,
+					"id": 2894,
 					"name": "MENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4043,7 +4043,7 @@
 					"defaultValue": "\"MENU\""
 				},
 				{
-					"id": 2903,
+					"id": 2893,
 					"name": "PRIMARY",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4063,9 +4063,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2905,
-						2904,
-						2903
+						2895,
+						2894,
+						2893
 					]
 				}
 			],
@@ -4078,7 +4078,7 @@
 			]
 		},
 		{
-			"id": 2898,
+			"id": 2888,
 			"name": "DataPanelCustomColumnGroupsAccordionState",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4088,7 +4088,7 @@
 			},
 			"children": [
 				{
-					"id": 2900,
+					"id": 2890,
 					"name": "COLLAPSE_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4106,7 +4106,7 @@
 					"defaultValue": "\"COLLAPSE_ALL\""
 				},
 				{
-					"id": 2899,
+					"id": 2889,
 					"name": "EXPAND_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4124,7 +4124,7 @@
 					"defaultValue": "\"EXPAND_ALL\""
 				},
 				{
-					"id": 2901,
+					"id": 2891,
 					"name": "EXPAND_FIRST",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4147,9 +4147,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2900,
-						2899,
-						2901
+						2890,
+						2889,
+						2891
 					]
 				}
 			],
@@ -6954,7 +6954,7 @@
 			]
 		},
 		{
-			"id": 2856,
+			"id": 2846,
 			"name": "HomePage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -6970,7 +6970,7 @@
 			},
 			"children": [
 				{
-					"id": 2857,
+					"id": 2847,
 					"name": "Modular",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6988,7 +6988,7 @@
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2858,
+					"id": 2848,
 					"name": "ModularWithStylingChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7011,8 +7011,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2857,
-						2858
+						2847,
+						2848
 					]
 				}
 			],
@@ -7025,14 +7025,14 @@
 			]
 		},
 		{
-			"id": 2850,
+			"id": 2840,
 			"name": "HomePageSearchBarMode",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2852,
+					"id": 2842,
 					"name": "AI_ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7047,7 +7047,7 @@
 					"defaultValue": "\"aiAnswer\""
 				},
 				{
-					"id": 2853,
+					"id": 2843,
 					"name": "NONE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7062,7 +7062,7 @@
 					"defaultValue": "\"none\""
 				},
 				{
-					"id": 2851,
+					"id": 2841,
 					"name": "OBJECT_SEARCH",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7082,9 +7082,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2852,
-						2853,
-						2851
+						2842,
+						2843,
+						2841
 					]
 				}
 			],
@@ -9472,7 +9472,7 @@
 			]
 		},
 		{
-			"id": 2859,
+			"id": 2849,
 			"name": "ListPage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9488,7 +9488,7 @@
 			},
 			"children": [
 				{
-					"id": 2860,
+					"id": 2850,
 					"name": "List",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9506,7 +9506,7 @@
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2861,
+					"id": 2851,
 					"name": "ListWithUXChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9529,8 +9529,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2860,
-						2861
+						2850,
+						2851
 					]
 				}
 			],
@@ -9543,7 +9543,7 @@
 			]
 		},
 		{
-			"id": 2892,
+			"id": 2882,
 			"name": "ListPageColumns",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9559,7 +9559,7 @@
 			},
 			"children": [
 				{
-					"id": 2895,
+					"id": 2885,
 					"name": "Author",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9577,7 +9577,7 @@
 					"defaultValue": "\"AUTHOR\""
 				},
 				{
-					"id": 2896,
+					"id": 2886,
 					"name": "DateSort",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9595,7 +9595,7 @@
 					"defaultValue": "\"DATE_SORT\""
 				},
 				{
-					"id": 2893,
+					"id": 2883,
 					"name": "Favourite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9613,7 +9613,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2897,
+					"id": 2887,
 					"name": "Share",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9631,7 +9631,7 @@
 					"defaultValue": "\"SHARE\""
 				},
 				{
-					"id": 2894,
+					"id": 2884,
 					"name": "Tags",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9654,11 +9654,11 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2895,
-						2896,
-						2893,
-						2897,
-						2894
+						2885,
+						2886,
+						2883,
+						2887,
+						2884
 					]
 				}
 			],
@@ -9671,7 +9671,7 @@
 			]
 		},
 		{
-			"id": 2827,
+			"id": 2817,
 			"name": "LogLevel",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9681,7 +9681,7 @@
 			},
 			"children": [
 				{
-					"id": 2832,
+					"id": 2822,
 					"name": "DEBUG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9709,7 +9709,7 @@
 					"defaultValue": "\"DEBUG\""
 				},
 				{
-					"id": 2829,
+					"id": 2819,
 					"name": "ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9737,7 +9737,7 @@
 					"defaultValue": "\"ERROR\""
 				},
 				{
-					"id": 2831,
+					"id": 2821,
 					"name": "INFO",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9765,7 +9765,7 @@
 					"defaultValue": "\"INFO\""
 				},
 				{
-					"id": 2828,
+					"id": 2818,
 					"name": "SILENT",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9793,7 +9793,7 @@
 					"defaultValue": "\"SILENT\""
 				},
 				{
-					"id": 2833,
+					"id": 2823,
 					"name": "TRACE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9821,7 +9821,7 @@
 					"defaultValue": "\"TRACE\""
 				},
 				{
-					"id": 2830,
+					"id": 2820,
 					"name": "WARN",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9854,12 +9854,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2832,
-						2829,
-						2831,
-						2828,
-						2833,
-						2830
+						2822,
+						2819,
+						2821,
+						2818,
+						2823,
+						2820
 					]
 				}
 			],
@@ -10120,7 +10120,7 @@
 			]
 		},
 		{
-			"id": 2854,
+			"id": 2844,
 			"name": "PrimaryNavbarVersion",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -10136,7 +10136,7 @@
 			},
 			"children": [
 				{
-					"id": 2855,
+					"id": 2845,
 					"name": "Sliding",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10159,7 +10159,7 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2855
+						2845
 					]
 				}
 			],
@@ -10484,14 +10484,14 @@
 			]
 		},
 		{
-			"id": 2885,
+			"id": 2875,
 			"name": "UIPassthroughEvent",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2890,
+					"id": 2880,
 					"name": "GetAnswerConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10506,7 +10506,7 @@
 					"defaultValue": "\"getAnswerPageConfig\""
 				},
 				{
-					"id": 2889,
+					"id": 2879,
 					"name": "GetAvailableUIPassthroughs",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10521,7 +10521,7 @@
 					"defaultValue": "\"getAvailableUiPassthroughs\""
 				},
 				{
-					"id": 2888,
+					"id": 2878,
 					"name": "GetDiscoverabilityStatus",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10536,7 +10536,7 @@
 					"defaultValue": "\"getDiscoverabilityStatus\""
 				},
 				{
-					"id": 2891,
+					"id": 2881,
 					"name": "GetLiveboardConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10551,7 +10551,7 @@
 					"defaultValue": "\"getPinboardPageConfig\""
 				},
 				{
-					"id": 2886,
+					"id": 2876,
 					"name": "PinAnswerToLiveboard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10566,7 +10566,7 @@
 					"defaultValue": "\"addVizToPinboard\""
 				},
 				{
-					"id": 2887,
+					"id": 2877,
 					"name": "SaveAnswer",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10586,12 +10586,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2890,
-						2889,
-						2888,
-						2891,
-						2886,
-						2887
+						2880,
+						2879,
+						2878,
+						2881,
+						2876,
+						2877
 					]
 				}
 			],
@@ -10711,7 +10711,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2862,
+											"id": 2852,
 											"name": "VizPoint"
 										}
 									}
@@ -13055,7 +13055,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -14853,7 +14853,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -16166,7 +16166,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -17411,7 +17411,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -18639,7 +18639,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -19895,7 +19895,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -21626,7 +21626,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2885,
+										"id": 2875,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -22113,7 +22113,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2898,
+						"id": 2888,
 						"name": "DataPanelCustomColumnGroupsAccordionState"
 					}
 				},
@@ -22981,7 +22981,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2892,
+							"id": 2882,
 							"name": "ListPageColumns"
 						}
 					},
@@ -23400,7 +23400,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2850,
+						"id": 2840,
 						"name": "HomePageSearchBarMode"
 					}
 				},
@@ -24294,7 +24294,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -27349,7 +27349,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -27592,7 +27592,7 @@
 			]
 		},
 		{
-			"id": 2865,
+			"id": 2855,
 			"name": "CustomActionPayload",
 			"kind": 256,
 			"kindString": "Interface",
@@ -27607,7 +27607,7 @@
 			},
 			"children": [
 				{
-					"id": 2866,
+					"id": 2856,
 					"name": "contextMenuPoints",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27624,14 +27624,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2867,
+							"id": 2857,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2868,
+									"id": 2858,
 									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27645,12 +27645,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 2862,
+										"id": 2852,
 										"name": "VizPoint"
 									}
 								},
 								{
-									"id": 2869,
+									"id": 2859,
 									"name": "selectedPoints",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27666,7 +27666,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2862,
+											"id": 2852,
 											"name": "VizPoint"
 										}
 									}
@@ -27677,8 +27677,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2868,
-										2869
+										2858,
+										2859
 									]
 								}
 							]
@@ -27686,7 +27686,7 @@
 					}
 				},
 				{
-					"id": 2870,
+					"id": 2860,
 					"name": "embedAnswerData",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27701,14 +27701,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2871,
+							"id": 2861,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2879,
+									"id": 2869,
 									"name": "columns",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27729,7 +27729,7 @@
 									}
 								},
 								{
-									"id": 2880,
+									"id": 2870,
 									"name": "data",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27750,7 +27750,7 @@
 									}
 								},
 								{
-									"id": 2873,
+									"id": 2863,
 									"name": "id",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27768,7 +27768,7 @@
 									}
 								},
 								{
-									"id": 2872,
+									"id": 2862,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27786,7 +27786,7 @@
 									}
 								},
 								{
-									"id": 2874,
+									"id": 2864,
 									"name": "sources",
 									"kind": 1024,
 									"kindString": "Property",
@@ -27801,14 +27801,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 2875,
+											"id": 2865,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 2876,
+													"id": 2866,
 													"name": "header",
 													"kind": 1024,
 													"kindString": "Property",
@@ -27823,14 +27823,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 2877,
+															"id": 2867,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 2878,
+																	"id": 2868,
 																	"name": "guid",
 																	"kind": 1024,
 																	"kindString": "Property",
@@ -27853,7 +27853,7 @@
 																	"title": "Properties",
 																	"kind": 1024,
 																	"children": [
-																		2878
+																		2868
 																	]
 																}
 															]
@@ -27866,7 +27866,7 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														2876
+														2866
 													]
 												}
 											]
@@ -27879,23 +27879,23 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2879,
-										2880,
-										2873,
-										2872,
-										2874
+										2869,
+										2870,
+										2863,
+										2862,
+										2864
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 2881,
+								"id": 2871,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2882,
+										"id": 2872,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -27914,7 +27914,7 @@
 					}
 				},
 				{
-					"id": 2883,
+					"id": 2873,
 					"name": "session",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27933,7 +27933,7 @@
 					}
 				},
 				{
-					"id": 2884,
+					"id": 2874,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27958,10 +27958,10 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2866,
-						2870,
-						2883,
-						2884
+						2856,
+						2860,
+						2873,
+						2874
 					]
 				}
 			],
@@ -28605,7 +28605,7 @@
 					}
 				},
 				{
-					"id": 2823,
+					"id": 2813,
 					"name": "--ts-var-cca-modal-summary-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28618,7 +28618,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 907,
+							"line": 849,
 							"character": 4
 						}
 					],
@@ -28628,7 +28628,7 @@
 					}
 				},
 				{
-					"id": 2818,
+					"id": 2808,
 					"name": "--ts-var-change-analysis-insights-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28641,7 +28641,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 882,
+							"line": 824,
 							"character": 4
 						}
 					],
@@ -28651,7 +28651,7 @@
 					}
 				},
 				{
-					"id": 2813,
+					"id": 2803,
 					"name": "--ts-var-chart-heatmap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28664,7 +28664,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 857,
+							"line": 799,
 							"character": 4
 						}
 					],
@@ -28674,7 +28674,7 @@
 					}
 				},
 				{
-					"id": 2812,
+					"id": 2802,
 					"name": "--ts-var-chart-heatmap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28687,7 +28687,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 852,
+							"line": 794,
 							"character": 4
 						}
 					],
@@ -28697,7 +28697,7 @@
 					}
 				},
 				{
-					"id": 2815,
+					"id": 2805,
 					"name": "--ts-var-chart-treemap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28710,7 +28710,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 867,
+							"line": 809,
 							"character": 4
 						}
 					],
@@ -28720,7 +28720,7 @@
 					}
 				},
 				{
-					"id": 2814,
+					"id": 2804,
 					"name": "--ts-var-chart-treemap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28733,7 +28733,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 862,
+							"line": 804,
 							"character": 4
 						}
 					],
@@ -29318,7 +29318,7 @@
 					}
 				},
 				{
-					"id": 2811,
+					"id": 2801,
 					"name": "--ts-var-kpi-analyze-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29331,7 +29331,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 847,
+							"line": 789,
 							"character": 4
 						}
 					],
@@ -29341,7 +29341,7 @@
 					}
 				},
 				{
-					"id": 2810,
+					"id": 2800,
 					"name": "--ts-var-kpi-comparison-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29354,7 +29354,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 842,
+							"line": 784,
 							"character": 4
 						}
 					],
@@ -29364,7 +29364,7 @@
 					}
 				},
 				{
-					"id": 2809,
+					"id": 2799,
 					"name": "--ts-var-kpi-hero-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29377,7 +29377,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 837,
+							"line": 779,
 							"character": 4
 						}
 					],
@@ -29387,7 +29387,7 @@
 					}
 				},
 				{
-					"id": 2817,
+					"id": 2807,
 					"name": "--ts-var-kpi-negative-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29400,7 +29400,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 877,
+							"line": 819,
 							"character": 4
 						}
 					],
@@ -29410,7 +29410,7 @@
 					}
 				},
 				{
-					"id": 2816,
+					"id": 2806,
 					"name": "--ts-var-kpi-positive-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29423,7 +29423,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 872,
+							"line": 814,
 							"character": 4
 						}
 					],
@@ -29479,7 +29479,7 @@
 					}
 				},
 				{
-					"id": 2768,
+					"id": 2760,
 					"name": "--ts-var-liveboard-answer-viz-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29492,7 +29492,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 610,
+							"line": 562,
 							"character": 4
 						}
 					],
@@ -29502,7 +29502,7 @@
 					}
 				},
 				{
-					"id": 2781,
+					"id": 2773,
 					"name": "--ts-var-liveboard-chip--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29516,7 +29516,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 697,
+							"line": 649,
 							"character": 4
 						}
 					],
@@ -29526,7 +29526,7 @@
 					}
 				},
 				{
-					"id": 2780,
+					"id": 2772,
 					"name": "--ts-var-liveboard-chip--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29540,7 +29540,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 690,
+							"line": 642,
 							"character": 4
 						}
 					],
@@ -29550,7 +29550,7 @@
 					}
 				},
 				{
-					"id": 2778,
+					"id": 2770,
 					"name": "--ts-var-liveboard-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29564,7 +29564,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 676,
+							"line": 628,
 							"character": 4
 						}
 					],
@@ -29574,7 +29574,7 @@
 					}
 				},
 				{
-					"id": 2779,
+					"id": 2771,
 					"name": "--ts-var-liveboard-chip-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29588,7 +29588,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 683,
+							"line": 635,
 							"character": 4
 						}
 					],
@@ -29598,7 +29598,7 @@
 					}
 				},
 				{
-					"id": 2786,
+					"id": 2778,
 					"name": "--ts-var-liveboard-cross-filter-layout-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29611,7 +29611,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 722,
+							"line": 674,
 							"character": 4
 						}
 					],
@@ -29621,7 +29621,7 @@
 					}
 				},
 				{
-					"id": 2784,
+					"id": 2776,
 					"name": "--ts-var-liveboard-dual-column-breakpoint",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29634,7 +29634,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 712,
+							"line": 664,
 							"character": 4
 						}
 					],
@@ -29644,7 +29644,7 @@
 					}
 				},
 				{
-					"id": 2783,
+					"id": 2775,
 					"name": "--ts-var-liveboard-edit-bar-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29657,7 +29657,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 707,
+							"line": 659,
 							"character": 4
 						}
 					],
@@ -29667,7 +29667,7 @@
 					}
 				},
 				{
-					"id": 2769,
+					"id": 2761,
 					"name": "--ts-var-liveboard-group-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29681,7 +29681,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 617,
+							"line": 569,
 							"character": 4
 						}
 					],
@@ -29691,7 +29691,7 @@
 					}
 				},
 				{
-					"id": 2770,
+					"id": 2762,
 					"name": "--ts-var-liveboard-group-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29705,7 +29705,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 624,
+							"line": 576,
 							"character": 4
 						}
 					],
@@ -29715,7 +29715,7 @@
 					}
 				},
 				{
-					"id": 2774,
+					"id": 2766,
 					"name": "--ts-var-liveboard-group-description-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29729,7 +29729,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 648,
+							"line": 600,
 							"character": 4
 						}
 					],
@@ -29739,55 +29739,7 @@
 					}
 				},
 				{
-					"id": 2764,
-					"name": "--ts-var-liveboard-group-description-font-size",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font size of the description of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 584,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2765,
-					"name": "--ts-var-liveboard-group-description-font-weight",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font weight of the description of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 591,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2758,
+					"id": 2754,
 					"name": "--ts-var-liveboard-group-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29801,7 +29753,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 542,
+							"line": 522,
 							"character": 4
 						}
 					],
@@ -29811,7 +29763,7 @@
 					}
 				},
 				{
-					"id": 2777,
+					"id": 2769,
 					"name": "--ts-var-liveboard-group-tile-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29825,7 +29777,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 669,
+							"line": 621,
 							"character": 4
 						}
 					],
@@ -29835,31 +29787,7 @@
 					}
 				},
 				{
-					"id": 2766,
-					"name": "--ts-var-liveboard-group-tile-border",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Border of the group tiles in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 598,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2776,
+					"id": 2768,
 					"name": "--ts-var-liveboard-group-tile-description-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29873,7 +29801,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 662,
+							"line": 614,
 							"character": 4
 						}
 					],
@@ -29883,7 +29811,7 @@
 					}
 				},
 				{
-					"id": 2767,
+					"id": 2759,
 					"name": "--ts-var-liveboard-group-tile-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29897,7 +29825,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 605,
+							"line": 557,
 							"character": 4
 						}
 					],
@@ -29907,7 +29835,7 @@
 					}
 				},
 				{
-					"id": 2775,
+					"id": 2767,
 					"name": "--ts-var-liveboard-group-tile-title-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29921,7 +29849,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 655,
+							"line": 607,
 							"character": 4
 						}
 					],
@@ -29931,7 +29859,7 @@
 					}
 				},
 				{
-					"id": 2762,
+					"id": 2757,
 					"name": "--ts-var-liveboard-group-tile-title-font-size",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29945,7 +29873,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 570,
+							"line": 543,
 							"character": 4
 						}
 					],
@@ -29955,7 +29883,7 @@
 					}
 				},
 				{
-					"id": 2763,
+					"id": 2758,
 					"name": "--ts-var-liveboard-group-tile-title-font-weight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29969,7 +29897,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 577,
+							"line": 550,
 							"character": 4
 						}
 					],
@@ -29979,7 +29907,7 @@
 					}
 				},
 				{
-					"id": 2773,
+					"id": 2765,
 					"name": "--ts-var-liveboard-group-title-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29993,7 +29921,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 641,
+							"line": 593,
 							"character": 4
 						}
 					],
@@ -30003,7 +29931,7 @@
 					}
 				},
 				{
-					"id": 2760,
+					"id": 2755,
 					"name": "--ts-var-liveboard-group-title-font-size",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30017,7 +29945,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 556,
+							"line": 529,
 							"character": 4
 						}
 					],
@@ -30027,7 +29955,7 @@
 					}
 				},
 				{
-					"id": 2761,
+					"id": 2756,
 					"name": "--ts-var-liveboard-group-title-font-weight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30041,7 +29969,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 563,
+							"line": 536,
 							"character": 4
 						}
 					],
@@ -30051,31 +29979,7 @@
 					}
 				},
 				{
-					"id": 2759,
-					"name": "--ts-var-liveboard-group-title-padding",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Padding of the title of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 549,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2802,
+					"id": 2792,
 					"name": "--ts-var-liveboard-header-action-button-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30088,7 +29992,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 802,
+							"line": 744,
 							"character": 4
 						}
 					],
@@ -30098,7 +30002,7 @@
 					}
 				},
 				{
-					"id": 2799,
+					"id": 2789,
 					"name": "--ts-var-liveboard-header-action-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30111,7 +30015,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 787,
+							"line": 729,
 							"character": 4
 						}
 					],
@@ -30121,7 +30025,7 @@
 					}
 				},
 				{
-					"id": 2800,
+					"id": 2790,
 					"name": "--ts-var-liveboard-header-action-button-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30134,7 +30038,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 792,
+							"line": 734,
 							"character": 4
 						}
 					],
@@ -30144,7 +30048,7 @@
 					}
 				},
 				{
-					"id": 2801,
+					"id": 2791,
 					"name": "--ts-var-liveboard-header-action-button-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30157,214 +30061,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 797,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2750,
-					"name": "--ts-var-liveboard-header-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the header in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 500,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2808,
-					"name": "--ts-var-liveboard-header-badge-active-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the badge in the Liveboard header on active."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 832,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2803,
-					"name": "--ts-var-liveboard-header-badge-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the badge in the Liveboard header."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 807,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2804,
-					"name": "--ts-var-liveboard-header-badge-font-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the badge in the Liveboard header."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 812,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2807,
-					"name": "--ts-var-liveboard-header-badge-hover-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the badge in the Liveboard header on hover."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 827,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2805,
-					"name": "--ts-var-liveboard-header-badge-modified-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the modified badge in the Liveboard header."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 817,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2806,
-					"name": "--ts-var-liveboard-header-badge-modified-font-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the modified badge in the Liveboard header."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 822,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2752,
-					"name": "--ts-var-liveboard-header-font-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the header in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 510,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2751,
-					"name": "--ts-var-liveboard-header-fontsize",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font size of the header in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 505,
+							"line": 739,
 							"character": 4
 						}
 					],
@@ -30375,14 +30072,14 @@
 				},
 				{
 					"id": 2747,
-					"name": "--ts-var-liveboard-layout-background",
+					"name": "--ts-var-liveboard-header-background",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Background color of the layout in the Liveboard."
+						"shortText": "Background color of the header in the Liveboard."
 					},
 					"sources": [
 						{
@@ -30397,15 +30094,153 @@
 					}
 				},
 				{
-					"id": 2748,
-					"name": "--ts-var-liveboard-layout-title-color",
+					"id": 2798,
+					"name": "--ts-var-liveboard-header-badge-active-color",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Font color of the title of the layout in the Liveboard."
+						"shortText": "Font color of the badge in the Liveboard header on active."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 774,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2793,
+					"name": "--ts-var-liveboard-header-badge-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the badge in the Liveboard header."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 749,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2794,
+					"name": "--ts-var-liveboard-header-badge-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the badge in the Liveboard header."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 754,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2797,
+					"name": "--ts-var-liveboard-header-badge-hover-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the badge in the Liveboard header on hover."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 769,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2795,
+					"name": "--ts-var-liveboard-header-badge-modified-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the modified badge in the Liveboard header."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 759,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2796,
+					"name": "--ts-var-liveboard-header-badge-modified-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the modified badge in the Liveboard header."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 764,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2748,
+					"name": "--ts-var-liveboard-header-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the header in the Liveboard."
 					},
 					"sources": [
 						{
@@ -30420,15 +30255,176 @@
 					}
 				},
 				{
-					"id": 2749,
-					"name": "--ts-var-liveboard-layout-title-fontsize",
+					"id": 2746,
+					"name": "--ts-var-liveboard-layout-background",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Font size of the title of the layout in the Liveboard."
+						"shortText": "Background color of the layout in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 480,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2764,
+					"name": "--ts-var-liveboard-notetitle-body-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the body of the note title in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 586,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2763,
+					"name": "--ts-var-liveboard-notetitle-heading-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the heading of the note title in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 581,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2777,
+					"name": "--ts-var-liveboard-single-column-breakpoint",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Breakpoint for the single column layout in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 669,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2779,
+					"name": "--ts-var-liveboard-tab-active-border-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color of the active tab in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 679,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2780,
+					"name": "--ts-var-liveboard-tab-hover-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the hover tab in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 684,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2750,
+					"name": "--ts-var-liveboard-tile-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the tiles in the Liveboard."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 500,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2749,
+					"name": "--ts-var-liveboard-tile-border-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Border color of the tiles in the Liveboard."
 					},
 					"sources": [
 						{
@@ -30443,20 +30439,20 @@
 					}
 				},
 				{
-					"id": 2772,
-					"name": "--ts-var-liveboard-notetitle-body-font-color",
+					"id": 2751,
+					"name": "--ts-var-liveboard-tile-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Font color of the body of the note title in the Liveboard."
+						"shortText": "Border radius of the tiles in the Liveboard."
 					},
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 634,
+							"line": 505,
 							"character": 4
 						}
 					],
@@ -30466,112 +30462,20 @@
 					}
 				},
 				{
-					"id": 2771,
-					"name": "--ts-var-liveboard-notetitle-heading-font-color",
+					"id": 2752,
+					"name": "--ts-var-liveboard-tile-padding",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Font color of the heading of the note title in the Liveboard."
+						"shortText": "Padding of the tiles in the Liveboard."
 					},
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 629,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2785,
-					"name": "--ts-var-liveboard-single-column-breakpoint",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Breakpoint for the single column layout in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 717,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2787,
-					"name": "--ts-var-liveboard-tab-active-border-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Border color of the active tab in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 727,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2788,
-					"name": "--ts-var-liveboard-tab-hover-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the hover tab in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 732,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2754,
-					"name": "--ts-var-liveboard-tile-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 520,
+							"line": 510,
 							"character": 4
 						}
 					],
@@ -30582,14 +30486,14 @@
 				},
 				{
 					"id": 2753,
-					"name": "--ts-var-liveboard-tile-border-color",
+					"name": "--ts-var-liveboard-tile-table-header-background",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Border color of the tiles in the Liveboard."
+						"shortText": "Background color of the table header in the Liveboard."
 					},
 					"sources": [
 						{
@@ -30604,122 +30508,7 @@
 					}
 				},
 				{
-					"id": 2755,
-					"name": "--ts-var-liveboard-tile-border-radius",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Border radius of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 525,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2791,
-					"name": "--ts-var-liveboard-tile-description-font-weight",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font weight of the description of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 747,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2792,
-					"name": "--ts-var-liveboard-tile-description-opacity",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Opacity of the description of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 752,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2756,
-					"name": "--ts-var-liveboard-tile-padding",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Padding of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 530,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2757,
-					"name": "--ts-var-liveboard-tile-table-header-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the table header in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 535,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2789,
+					"id": 2781,
 					"name": "--ts-var-liveboard-tile-title-fontsize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30732,7 +30521,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 737,
+							"line": 689,
 							"character": 4
 						}
 					],
@@ -30742,7 +30531,7 @@
 					}
 				},
 				{
-					"id": 2790,
+					"id": 2782,
 					"name": "--ts-var-liveboard-tile-title-fontweight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30755,7 +30544,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 742,
+							"line": 694,
 							"character": 4
 						}
 					],
@@ -30949,7 +30738,7 @@
 					}
 				},
 				{
-					"id": 2797,
+					"id": 2787,
 					"name": "--ts-var-parameter-chip-active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30962,7 +30751,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 777,
+							"line": 719,
 							"character": 4
 						}
 					],
@@ -30972,7 +30761,7 @@
 					}
 				},
 				{
-					"id": 2798,
+					"id": 2788,
 					"name": "--ts-var-parameter-chip-active-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30985,7 +30774,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 782,
+							"line": 724,
 							"character": 4
 						}
 					],
@@ -30995,7 +30784,7 @@
 					}
 				},
 				{
-					"id": 2793,
+					"id": 2783,
 					"name": "--ts-var-parameter-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31008,7 +30797,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 757,
+							"line": 699,
 							"character": 4
 						}
 					],
@@ -31018,7 +30807,7 @@
 					}
 				},
 				{
-					"id": 2795,
+					"id": 2785,
 					"name": "--ts-var-parameter-chip-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31031,7 +30820,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 767,
+							"line": 709,
 							"character": 4
 						}
 					],
@@ -31041,7 +30830,7 @@
 					}
 				},
 				{
-					"id": 2796,
+					"id": 2786,
 					"name": "--ts-var-parameter-chip-hover-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31054,7 +30843,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 772,
+							"line": 714,
 							"character": 4
 						}
 					],
@@ -31064,7 +30853,7 @@
 					}
 				},
 				{
-					"id": 2794,
+					"id": 2784,
 					"name": "--ts-var-parameter-chip-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31077,7 +30866,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 762,
+							"line": 704,
 							"character": 4
 						}
 					],
@@ -31501,7 +31290,7 @@
 					}
 				},
 				{
-					"id": 2782,
+					"id": 2774,
 					"name": "--ts-var-side-panel-width",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31514,7 +31303,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 702,
+							"line": 654,
 							"character": 4
 						}
 					],
@@ -31524,7 +31313,7 @@
 					}
 				},
 				{
-					"id": 2822,
+					"id": 2812,
 					"name": "--ts-var-spotiq-analyze-crosscorrelation-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31537,7 +31326,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 902,
+							"line": 844,
 							"character": 4
 						}
 					],
@@ -31547,7 +31336,7 @@
 					}
 				},
 				{
-					"id": 2819,
+					"id": 2809,
 					"name": "--ts-var-spotiq-analyze-forecasting-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31560,7 +31349,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 887,
+							"line": 829,
 							"character": 4
 						}
 					],
@@ -31570,7 +31359,7 @@
 					}
 				},
 				{
-					"id": 2820,
+					"id": 2810,
 					"name": "--ts-var-spotiq-analyze-outlier-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31583,7 +31372,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 892,
+							"line": 834,
 							"character": 4
 						}
 					],
@@ -31593,7 +31382,7 @@
 					}
 				},
 				{
-					"id": 2821,
+					"id": 2811,
 					"name": "--ts-var-spotiq-analyze-trend-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31606,7 +31395,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 897,
+							"line": 839,
 							"character": 4
 						}
 					],
@@ -31823,29 +31612,6 @@
 					}
 				},
 				{
-					"id": 2746,
-					"name": "--ts-var-viz-tile-height",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Height of the tiles in the Liveboard."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 480,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
 					"id": 2696,
 					"name": "--ts-var-viz-title-color",
 					"kind": 1024,
@@ -31947,12 +31713,12 @@
 						2693,
 						2692,
 						2680,
-						2823,
-						2818,
 						2813,
-						2812,
-						2815,
-						2814,
+						2808,
+						2803,
+						2802,
+						2805,
+						2804,
 						2742,
 						2745,
 						2740,
@@ -31978,68 +31744,59 @@
 						2737,
 						2736,
 						2735,
-						2811,
-						2810,
-						2809,
-						2817,
-						2816,
+						2801,
+						2800,
+						2799,
+						2807,
+						2806,
 						2733,
 						2732,
-						2768,
-						2781,
-						2780,
-						2778,
-						2779,
-						2786,
-						2784,
-						2783,
-						2769,
-						2770,
-						2774,
-						2764,
-						2765,
-						2758,
-						2777,
-						2766,
-						2776,
-						2767,
-						2775,
-						2762,
-						2763,
-						2773,
 						2760,
-						2761,
-						2759,
-						2802,
-						2799,
-						2800,
-						2801,
-						2750,
-						2808,
-						2803,
-						2804,
-						2807,
-						2805,
-						2806,
-						2752,
-						2751,
-						2747,
-						2748,
-						2749,
+						2773,
 						2772,
+						2770,
 						2771,
-						2785,
-						2787,
-						2788,
+						2778,
+						2776,
+						2775,
+						2761,
+						2762,
+						2766,
 						2754,
-						2753,
-						2755,
-						2791,
-						2792,
-						2756,
+						2769,
+						2768,
+						2759,
+						2767,
 						2757,
+						2758,
+						2765,
+						2755,
+						2756,
+						2792,
 						2789,
 						2790,
+						2791,
+						2747,
+						2798,
+						2793,
+						2794,
+						2797,
+						2795,
+						2796,
+						2748,
+						2746,
+						2764,
+						2763,
+						2777,
+						2779,
+						2780,
+						2750,
+						2749,
+						2751,
+						2752,
+						2753,
+						2781,
+						2782,
 						2725,
 						2722,
 						2721,
@@ -32048,12 +31805,12 @@
 						2724,
 						2659,
 						2660,
-						2797,
-						2798,
-						2793,
-						2795,
-						2796,
-						2794,
+						2787,
+						2788,
+						2783,
+						2785,
+						2786,
+						2784,
 						2654,
 						2655,
 						2656,
@@ -32072,11 +31829,11 @@
 						2663,
 						2669,
 						2734,
-						2782,
-						2822,
-						2819,
-						2820,
-						2821,
+						2774,
+						2812,
+						2809,
+						2810,
+						2811,
 						2674,
 						2675,
 						2704,
@@ -32086,7 +31843,6 @@
 						2700,
 						2701,
 						2705,
-						2746,
 						2696,
 						2697,
 						2698
@@ -33138,7 +32894,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2827,
+						"id": 2817,
 						"name": "LogLevel"
 					}
 				},
@@ -35764,7 +35520,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -36405,7 +36161,7 @@
 			]
 		},
 		{
-			"id": 2824,
+			"id": 2814,
 			"name": "RuntimeParameter",
 			"kind": 256,
 			"kindString": "Interface",
@@ -36415,7 +36171,7 @@
 			},
 			"children": [
 				{
-					"id": 2825,
+					"id": 2815,
 					"name": "name",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36436,7 +36192,7 @@
 					}
 				},
 				{
-					"id": 2826,
+					"id": 2816,
 					"name": "value",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36475,8 +36231,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2825,
-						2826
+						2815,
+						2816
 					]
 				}
 			],
@@ -37698,7 +37454,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -39122,7 +38878,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -40860,7 +40616,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -43105,7 +42861,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2824,
+							"id": 2814,
 							"name": "RuntimeParameter"
 						}
 					}
@@ -43404,14 +43160,14 @@
 			]
 		},
 		{
-			"id": 2862,
+			"id": 2852,
 			"name": "VizPoint",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 2863,
+					"id": 2853,
 					"name": "selectedAttributes",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43432,7 +43188,7 @@
 					}
 				},
 				{
-					"id": 2864,
+					"id": 2854,
 					"name": "selectedMeasures",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43458,8 +43214,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2863,
-						2864
+						2853,
+						2854
 					]
 				}
 			],
@@ -44968,7 +44724,7 @@
 			]
 		},
 		{
-			"id": 2911,
+			"id": 2901,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -44984,7 +44740,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2912,
+					"id": 2902,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -45103,7 +44859,7 @@
 			]
 		},
 		{
-			"id": 2834,
+			"id": 2824,
 			"name": "uploadMixpanelEvent",
 			"kind": 64,
 			"kindString": "Function",
@@ -45117,7 +44873,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2835,
+					"id": 2825,
 					"name": "uploadMixpanelEvent",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -45127,7 +44883,7 @@
 					},
 					"parameters": [
 						{
-							"id": 2836,
+							"id": 2826,
 							"name": "eventId",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -45139,7 +44895,7 @@
 							}
 						},
 						{
-							"id": 2837,
+							"id": 2827,
 							"name": "eventProps",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -45150,7 +44906,7 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 2838,
+									"id": 2828,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -45179,24 +44935,24 @@
 				1736,
 				1891,
 				2229,
-				2906,
-				2902,
-				2898,
+				2896,
+				2892,
+				2888,
 				2087,
 				1923,
 				2596,
-				2856,
-				2850,
+				2846,
+				2840,
 				2607,
 				2016,
-				2859,
-				2892,
-				2827,
+				2849,
+				2882,
+				2817,
 				1882,
 				2585,
-				2854,
+				2844,
 				1907,
-				2885
+				2875
 			]
 		},
 		{
@@ -45223,7 +44979,7 @@
 				1746,
 				1257,
 				1523,
-				2865,
+				2855,
 				2653,
 				2641,
 				2631,
@@ -45231,7 +44987,7 @@
 				2590,
 				2379,
 				1903,
-				2824,
+				2814,
 				2454,
 				2337,
 				2283,
@@ -45239,7 +44995,7 @@
 				1228,
 				1483,
 				1879,
-				2862,
+				2852,
 				2644,
 				21,
 				25
@@ -45268,9 +45024,9 @@
 				1,
 				4,
 				7,
-				2911,
+				2901,
 				37,
-				2834
+				2824
 			]
 		}
 	],
