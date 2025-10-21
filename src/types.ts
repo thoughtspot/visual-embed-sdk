@@ -3093,8 +3093,6 @@ export enum HostEvent {
     Reload = 'reload',
     /**
      * Get iframe URL for the current embed view.
-     * Developers can use this URL to embed a ThoughtSpot object
-     * in apps like Salesforce or Sharepoint.
      * @example
      * ```js
      * const url = embed.trigger(HostEvent.GetIframeUrl);
