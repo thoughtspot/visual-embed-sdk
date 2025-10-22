@@ -2807,7 +2807,7 @@ export enum EmbedEvent {
      * the table visualization.
      *
      * If the Row-Level Security (RLS) rules are applied on the
-     * Worksheet or Model, exercise caution when changing column
+     * Model, exercise caution when changing column
      * or table cell values to maintain data security.
      *
      * @example
@@ -2865,7 +2865,7 @@ export enum EmbedEvent {
      */
     SpotterData = 'SpotterData',
     /**
-     * Emitted when user opens up the worksheet preview modal in Spotter embed.
+     * Emitted when user opens up the data source preview modal in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
@@ -3092,9 +3092,7 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Get iframe URL for the current embed view on the playground.
-     * Developers can use this URL to embed a ThoughtSpot object
-     * in apps like Salesforce or Sharepoint.
+     * Get iframe URL for the current embed view.
      * @example
      * ```js
      * const url = embed.trigger(HostEvent.GetIframeUrl);
@@ -4166,7 +4164,7 @@ export enum HostEvent {
      */
     EditLastPrompt = 'EditLastPrompt',
     /**
-     * Opens the Worksheet preview modal in Spotter Embed.
+     * Opens the data source preview modal in Spotter Embed.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
@@ -4516,7 +4514,7 @@ export enum Action {
      */
     SchedulesList = 'schedule-list',
     /**
-     * The **Share** action on a Liveboard, Answer, or Worksheet.
+     * The **Share** action on a Liveboard, Answer, or Model.
      * Allows users to share an object with other users and groups.
      * @example
      * ```js
@@ -4975,7 +4973,7 @@ export enum Action {
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
      * The Favorites icon (*) for Answers,
-     * Liveboard, and data objects like Worksheet, Model,
+     * Liveboard, and data objects like Model,
      * Tables and Views.
      * Allows adding an object to the user's favorites list.
      * @example
