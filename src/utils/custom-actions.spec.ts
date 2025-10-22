@@ -428,4 +428,26 @@ describe('getCustomActions function', () => {
             expect(result.errors[0]).toContain("Position 'PRIMARY' is not supported for spotter-level custom actions. Supported positions: MENU, CONTEXTMENU");
         });
     });
+
+    describe('Warnings', () => {
+        test('should warn when action name length exceeds 30 characters', () => {
+            // Arrange
+            const longName = 'A'.repeat(31);
+            const action: CustomAction = {
+                id: 'long-name-id',
+                name: longName,
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+
+            // Act
+            const result = getCustomActions([action]);
+
+            // Assert
+            expect(result.actions).toHaveLength(1);
+            expect(logger.warn).toHaveBeenCalledWith([
+                `Custom action name '${longName}' exceeds 30 characters. This may cause display or truncation issues in the UI.`
+            ]);
+        });
+    });
 });
