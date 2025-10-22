@@ -2290,6 +2290,20 @@ export enum EmbedEvent {
      */
     AnswerDelete = 'answerDelete',
     /**
+     * Emitted when the AI Highlights action is triggered on a Liveboard
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     *```js
+     * //emit when action starts
+     * searchEmbed.on(EmbedEvent.AIHighlights, payload => {
+     *   console.log('AI Highlights', payload)}, {start: true })
+     * //emit when action ends
+     * searchEmbed.on(EmbedEvent.AIHighlights, payload => {
+     *   console.log('AI Highlights', payload)})
+     *```
+     */
+    AIHighlights = 'aiHighlights',
+    /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -3378,6 +3392,16 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
+    /**
+     * Trigger the **AI Highlights** action on an embedded Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AIHighlights)
+     * ```
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     */
+    AIHighlights = 'aiHighlights',
     /**
      * Trigger the **Make a copy** action on a Liveboard,
      * visualization, or Answer page.
