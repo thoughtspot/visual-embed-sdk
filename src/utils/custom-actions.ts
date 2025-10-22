@@ -2,6 +2,7 @@ import { CustomAction, CustomActionsPosition, CustomActionTarget } from '../type
 import { arrayIncludesString } from '../utils';
 import sortBy from 'lodash/sortBy';
 import { CUSTOM_ACTIONS_ERROR_MESSAGE } from '../errors';
+import { logger } from './logger';
 
 export interface CustomActionsValidationResult {
     actions: CustomAction[];
@@ -207,6 +208,16 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
             finalValidActions.push(action);
         }
     });
+
+    // Step 4: Collect warnings for long custom action names
+    const MAX_ACTION_NAME_LENGTH = 30;
+    const warnings = finalValidActions
+        .filter(action => action.name.length > MAX_ACTION_NAME_LENGTH)
+        .map(action => `Custom action name '${action.name}' exceeds ${MAX_ACTION_NAME_LENGTH} characters. This may cause display or truncation issues in the UI.`);
+
+    if (warnings.length > 0) {
+        logger.warn(warnings);
+    }
 
     const sortedActions = sortBy(finalValidActions, (a) => a.name.toLocaleLowerCase());
 

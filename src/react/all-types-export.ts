@@ -59,4 +59,6 @@ export {
     resetCachedAuthToken,
     UIPassthroughEvent,
     DataPanelCustomColumnGroupsAccordionState,
+    CustomActionsPosition,
+    CustomActionTarget,
 } from '../index';
