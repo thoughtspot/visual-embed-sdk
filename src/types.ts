@@ -2295,14 +2295,14 @@ export enum EmbedEvent {
      * @example
      *```js
      * //emit when action starts
-     * searchEmbed.on(EmbedEvent.AIHighlights, payload => {
+     * liveboardEmbed.on(EmbedEvent.AIHighlights, payload => {
      *   console.log('AI Highlights', payload)}, {start: true })
      * //emit when action ends
-     * searchEmbed.on(EmbedEvent.AIHighlights, payload => {
+     * liveboardEmbed.on(EmbedEvent.AIHighlights, payload => {
      *   console.log('AI Highlights', payload)})
      *```
      */
-    AIHighlights = 'aiHighlights',
+    AIHighlights = 'AIHighlights',
     /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
@@ -3401,7 +3401,7 @@ export enum HostEvent {
      * ```
      * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
      */
-    AIHighlights = 'aiHighlights',
+    AIHighlights = 'AIHighlights',
     /**
      * Trigger the **Make a copy** action on a Liveboard,
      * visualization, or Answer page.
