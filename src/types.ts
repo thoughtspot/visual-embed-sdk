@@ -702,7 +702,7 @@ export interface EmbedConfig {
     /**
      * The timeout for the cleanup to be completed before destroying the embed.
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
-     * @default 10000
+     * @default 5000
      */
     cleanupTimeout?: number;
 }

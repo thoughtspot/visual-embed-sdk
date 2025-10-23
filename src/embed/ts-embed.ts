@@ -1402,13 +1402,14 @@ export class TsEmbed {
                 this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
             } else {
                 const cleanupTimeout = getEmbedConfig().cleanupTimeout;
-                setTimeout(() => {
-                    this.trigger(HostEvent.DestroyEmbed).then(() => {
-                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
-                    }).catch((e) => {
-                        logger.log('Error destroying TS Embed', e);
-                    });
-                }, cleanupTimeout);
+                Promise.race([
+                    this.trigger(HostEvent.DestroyEmbed),
+                    new Promise((resolve) => setTimeout(resolve, cleanupTimeout)),
+                ]).then(() => {
+                    this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                }).catch((e) => {
+                    logger.log('Error destroying TS Embed', e);
+                });
             }
         } catch (e) {
             logger.log('Error destroying TS Embed', e);
