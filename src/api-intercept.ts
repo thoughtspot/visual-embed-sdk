@@ -12,6 +12,7 @@ const defaultUrls: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, s
     [InterceptedApiType.ANSWER_DATA]: [
         '/prism/?op=GetChartWithData',
         '/prism/?op=GetTableWithHeadlineData',
+        '/prism/?op=GetTableWithData',
     ] as string[],
     [InterceptedApiType.LIVEBOARD_DATA]: [
         '/prism/?op=LoadContextBook'
