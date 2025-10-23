@@ -41,6 +41,8 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     authTriggerText: 'Authorize',
     authType: AuthType.None,
     logLevel: LogLevel.ERROR,
+    waitForCleanupOnDestroy: false,
+    cleanupTimeout: 5000,
 };
 
 export interface executeTMLInput {

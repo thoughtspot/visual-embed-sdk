@@ -1396,8 +1396,20 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
+            if (!getEmbedConfig().waitForCleanupOnDestroy) {
+                this.trigger(HostEvent.DestroyEmbed)
+                this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+            } else {
+                const cleanupTimeout = getEmbedConfig().cleanupTimeout;
+                setTimeout(() => {
+                    this.trigger(HostEvent.DestroyEmbed).then(() => {
+                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                    }).catch((e) => {
+                        logger.log('Error destroying TS Embed', e);
+                    });
+                }, cleanupTimeout);
+            }
         } catch (e) {
             logger.log('Error destroying TS Embed', e);
         }
