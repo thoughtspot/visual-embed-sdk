@@ -9233,7 +9233,7 @@
 							{
 								"tag": "param",
 								"text": "Description text for the Answer.\nOptionally, to control the visibility of the Parameter chip\nwhen applying an override, set the `isVisibleToUser`\nattribute.\n",
-								"param": "`description`"
+								"param": "`value`"
 							},
 							{
 								"tag": "example",

@@ -4038,7 +4038,7 @@ export enum HostEvent {
      * Triggers an action to update Parameter values on embedded
      * Answers, Liveboard, and Spotter answer in Edit mode.
      * @param - `name` - Parameter name.
-     * @param   `description` - Description text for the Answer.
+     * @param   `value` - Description text for the Answer.
      * Optionally, to control the visibility of the Parameter chip
      * when applying an override, set the `isVisibleToUser`
      * attribute.
