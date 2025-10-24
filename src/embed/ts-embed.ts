@@ -836,6 +836,7 @@ export class TsEmbed {
             // Always subscribe to network events, regardless of auth status
             this.subscribeToNetworkEvents();
 
+            console.log("getAuthPromise is coming here");
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
