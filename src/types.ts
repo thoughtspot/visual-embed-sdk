@@ -4036,15 +4036,22 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers, Liveboard and Spotter answer in Edit mode.
+     * Answers, Liveboard, and Spotter answer in Edit mode.
+     * @param - `name` - Name of the Parameter
+     * @param - `value` - The value to set for the Parameter.
+     *
+     * Optionally, to control the visibility of the Parameter chip
+     * when applying an override, set the `isVisibleToUser`
+     * attribute.
      *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
-     * name: "Color",
-     * value: "almond"
+     *   name: "Integer Range Param",
+     *   value: 10,
+     *   isVisibleToUser: true
      * }])
-     *
+     * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     UpdateParameters = 'UpdateParameters',
@@ -4091,10 +4098,11 @@ export enum HostEvent {
      * If no parameters are specified, the save action is
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
-     * @param - optional attributes to set Answer properties.
-     *  `name` - Name string for the Answer.
-     *  `description` - Description text for the Answer.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed
+     * and is required in Spotter embed.
+     * Optional attributes to set Answer properties include:
+     * @param - `name` - Name string for the Answer.
+     * @param - `description` - Description text for the Answer.
      * @example
      * ```js
      * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
