@@ -4051,7 +4051,7 @@ export enum HostEvent {
      *   value: 10,
      *   isVisibleToUser: true
      * }])
-     *
+     * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     UpdateParameters = 'UpdateParameters',

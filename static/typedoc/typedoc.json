@@ -9237,7 +9237,11 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\n  name: \"Integer Range Param\",\n  value: 10,\n  isVisibleToUser: true\n}])\n\n@version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\n  name: \"Integer Range Param\",\n  value: 10,\n  isVisibleToUser: true\n}])\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
