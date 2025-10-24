@@ -9227,17 +9227,17 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`name` - Parameter name",
+								"text": "`name` - Name of the Parameter",
 								"param": "-"
 							},
 							{
 								"tag": "param",
-								"text": "`value` - Parameter value\n\nOptionally, to control the visibility of the Parameter chip\nwhen applying an override, set the `isVisibleToUser`\nattribute.\n",
+								"text": "`value` - The value to set for the Parameter.\n\nOptionally, to control the visibility of the Parameter chip\nwhen applying an override, set the `isVisibleToUser`\nattribute.\n",
 								"param": "-"
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\n  name: \"Integer Range Param\",\n  value: \"10\",\n  isVisibleToUser: true\n}])\n\n@version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\n  name: \"Integer Range Param\",\n  value: 10,\n  isVisibleToUser: true\n}])\n\n@version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},

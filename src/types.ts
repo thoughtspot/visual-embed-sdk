@@ -4037,8 +4037,8 @@ export enum HostEvent {
     /**
      * Triggers an action to update Parameter values on embedded
      * Answers, Liveboard, and Spotter answer in Edit mode.
-     * @param - `name` - Parameter name
-     * @param - `value` - Parameter value
+     * @param - `name` - Name of the Parameter
+     * @param - `value` - The value to set for the Parameter.
      *
      * Optionally, to control the visibility of the Parameter chip
      * when applying an override, set the `isVisibleToUser`
@@ -4048,7 +4048,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
      *   name: "Integer Range Param",
-     *   value: "10",
+     *   value: 10,
      *   isVisibleToUser: true
      * }])
      *
