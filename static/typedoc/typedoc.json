@@ -9227,13 +9227,13 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "`name` - Parameter name.",
+								"text": "`name` - Parameter name",
 								"param": "-"
 							},
 							{
 								"tag": "param",
-								"text": "Parameter value.\n\nOptionally, to control the visibility of the Parameter chip\nwhen applying an override, set the `isVisibleToUser`\nattribute.\n",
-								"param": "`value`"
+								"text": "`value` - Parameter value\n\nOptionally, to control the visibility of the Parameter chip\nwhen applying an override, set the `isVisibleToUser`\nattribute.\n",
+								"param": "-"
 							},
 							{
 								"tag": "example",
