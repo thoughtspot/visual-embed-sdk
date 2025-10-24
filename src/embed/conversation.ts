@@ -1,6 +1,6 @@
 import isUndefined from 'lodash/isUndefined';
-import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter } from '../types';
+import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, EmbedErrorDetailsEvent } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
 
@@ -246,7 +246,7 @@ export class SpotterEmbed extends TsEmbed {
         } = this.viewConfig;
 
         if (!worksheetId) {
-            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
+            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND, { errorType: 'VALIDATION_ERROR', message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND, code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND, source: 'SDK', details: {} } as EmbedErrorDetailsEvent);
         }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
