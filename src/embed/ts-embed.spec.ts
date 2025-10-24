@@ -1,5 +1,5 @@
 import { resetValueFromWindow } from '../utils';
-import { ERROR_MESSAGE } from '../errors';
+import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
@@ -1613,9 +1613,14 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden actions and visible actions',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                source: 'SDK',
+                details: {},
+            });
+            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG);
         });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1645,9 +1650,14 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden actions and visible actions',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                source: 'SDK',
+                details: {},
+            });
+            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG);
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
             await testActionsForLiveboards([Action.DownloadAsCsv], [Action.DownloadAsCsv]);
@@ -1690,9 +1700,14 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden Tabs and visible Tabs',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                source: 'SDK',
+                details: {},
+            });
+            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_TABS_CONFIG);
         });
         test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1722,9 +1737,14 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden Tabs and visible Tabs',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                source: 'SDK',
+                details: {},
+            });
+            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_TABS_CONFIG);
         }
         test('should throw error when there are both visible and hidden Tab arrays', async () => {
             await testTabsForLiveboards([tabId1], [tabId2]);
@@ -1770,9 +1790,14 @@ describe('Unit test case for ts embed', () => {
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             await tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You need to init the ThoughtSpot SDK module first',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
+                code: ERROR_CODE.INIT_ERROR,
+                source: 'SDK',
+                details: {},
+            });
+            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.INIT_SDK_REQUIRED);
         });
     });
 
