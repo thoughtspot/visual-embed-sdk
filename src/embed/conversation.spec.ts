@@ -10,7 +10,7 @@ import {
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
-import { ERROR_MESSAGE } from '../errors';
+import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 
@@ -121,6 +121,13 @@ describe('ConversationEmbed', () => {
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
             ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            {
+                errorType: 'VALIDATION_ERROR',
+                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+                code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
+                source: 'SDK',
+                details: {},
+            },
         );
     });
 
