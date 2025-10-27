@@ -2428,174 +2428,6 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('When destroyed', () => {
-        it('should remove the iframe', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                },
-            });
-            await appEmbed.render();
-            expect(getIFrameEl()).toBeTruthy();
-            appEmbed.destroy();
-            expect(getIFrameEl()).toBeFalsy();
-        });
-
-        it('should remove the iframe when insertAsSibling is true', async () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                },
-                insertAsSibling: true,
-            });
-            await appEmbed.render();
-            expect(getIFrameEl()).toBeTruthy();
-            appEmbed.destroy();
-            expect(getIFrameEl()).toBeFalsy();
-        });
-
-        it("Should remove the error message on destroy if it's present", async () => {
-            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(false);
-            const appEmbed = new AppEmbed(getRootEl(), {
-                frameParams: {
-                    width: '100%',
-                    height: '100%',
-                },
-                insertAsSibling: true,
-            });
-            await appEmbed.render();
-            expect(getRootEl().nextElementSibling.innerHTML).toContain('Not logged in');
-            appEmbed.destroy();
-            expect(getRootEl().nextElementSibling.innerHTML).toBe('');
-        });
-
-        describe('with waitForCleanupOnDestroy configuration', () => {
-            let originalEmbedConfig: any;
-
-            beforeEach(() => {
-                originalEmbedConfig = embedConfig.getEmbedConfig();
-            });
-
-            afterEach(() => {
-                embedConfig.setEmbedConfig(originalEmbedConfig);
-            });
-
-            it('should trigger DestroyEmbed event immediately when waitForCleanupOnDestroy is false', async () => {
-                embedConfig.setEmbedConfig({
-                    ...originalEmbedConfig,
-                    waitForCleanupOnDestroy: false,
-                });
-
-                const appEmbed = new AppEmbed(getRootEl(), {
-                    frameParams: {
-                        width: '100%',
-                        height: '100%',
-                    },
-                });
-                await appEmbed.render();
-
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
-
-                appEmbed.destroy();
-
-                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
-                expect(removeChildSpy).toHaveBeenCalled();
-            });
-
-            it('should trigger DestroyEmbed event and wait for cleanup when waitForCleanupOnDestroy is true', async () => {
-                embedConfig.setEmbedConfig({
-                    ...originalEmbedConfig,
-                    waitForCleanupOnDestroy: true,
-                    cleanupTimeout: 1000,
-                });
-
-                const appEmbed = new AppEmbed(getRootEl(), {
-                    frameParams: {
-                        width: '100%',
-                        height: '100%',
-                    },
-                });
-                await appEmbed.render();
-
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
-
-                appEmbed.destroy();
-
-                // Should be called immediately when waitForCleanupOnDestroy is true
-                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
-                
-                // Wait for the timeout to complete
-                await new Promise(resolve => setTimeout(resolve, 1100));
-
-                expect(removeChildSpy).toHaveBeenCalled();
-            });
-
-            it('should handle Promise.race with successful cleanup completion', async () => {
-                embedConfig.setEmbedConfig({
-                    ...originalEmbedConfig,
-                    waitForCleanupOnDestroy: true,
-                    cleanupTimeout: 2000,
-                });
-
-                const appEmbed = new AppEmbed(getRootEl(), {
-                    frameParams: {
-                        width: '100%',
-                        height: '100%',
-                    },
-                });
-                await appEmbed.render();
-
-                // Mock trigger to resolve quickly (before timeout)
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() => 
-                    new Promise(resolve => setTimeout(() => resolve(null), 100))
-                );
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
-
-                appEmbed.destroy();
-
-                // Wait for the trigger to complete
-                await new Promise(resolve => setTimeout(resolve, 200));
-
-                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
-                expect(removeChildSpy).toHaveBeenCalled();
-            });
-
-            it('should handle Promise.race with timeout when cleanup takes too long', async () => {
-                embedConfig.setEmbedConfig({
-                    ...originalEmbedConfig,
-                    waitForCleanupOnDestroy: true,
-                    cleanupTimeout: 100,
-                });
-
-                const appEmbed = new AppEmbed(getRootEl(), {
-                    frameParams: {
-                        width: '100%',
-                        height: '100%',
-                    },
-                });
-                await appEmbed.render();
-
-                // Mock trigger to take longer than timeout
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() => 
-                    new Promise(resolve => setTimeout(() => resolve(null), 500))
-                );
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
-
-                appEmbed.destroy();
-
-                // Wait for the timeout to complete
-                await new Promise(resolve => setTimeout(resolve, 200));
-
-                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
-                expect(removeChildSpy).toHaveBeenCalled();
-            });
-        });
-    });
-
     describe('validate getThoughtSpotPostUrlParams', () => {
         const { location } = window;
 
@@ -3578,6 +3410,174 @@ describe('Unit test case for ts embed', () => {
                 expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Reload);
             });
             triggerSpy.mockReset();
+        });
+    });
+
+    describe('When destroyed', () => {
+        it('should remove the iframe', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            expect(getIFrameEl()).toBeTruthy();
+            appEmbed.destroy();
+            expect(getIFrameEl()).toBeFalsy();
+        });
+
+        it('should remove the iframe when insertAsSibling is true', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getIFrameEl()).toBeTruthy();
+            appEmbed.destroy();
+            expect(getIFrameEl()).toBeFalsy();
+        });
+
+        it("Should remove the error message on destroy if it's present", async () => {
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(false);
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                insertAsSibling: true,
+            });
+            await appEmbed.render();
+            expect(getRootEl().nextElementSibling.innerHTML).toContain('Not logged in');
+            appEmbed.destroy();
+            expect(getRootEl().nextElementSibling.innerHTML).toBe('');
+        });
+
+        describe('with waitForCleanupOnDestroy configuration', () => {
+            let originalEmbedConfig: any;
+
+            beforeEach(() => {
+                originalEmbedConfig = embedConfig.getEmbedConfig();
+            });
+
+            afterEach(() => {
+                embedConfig.setEmbedConfig(originalEmbedConfig);
+            });
+
+            it('should trigger DestroyEmbed event immediately when waitForCleanupOnDestroy is false', async () => {
+                embedConfig.setEmbedConfig({
+                    ...originalEmbedConfig,
+                    waitForCleanupOnDestroy: false,
+                });
+
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+
+                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
+                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+
+                appEmbed.destroy();
+
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
+                expect(removeChildSpy).toHaveBeenCalled();
+            });
+
+            it('should trigger DestroyEmbed event and wait for cleanup when waitForCleanupOnDestroy is true', async () => {
+                embedConfig.setEmbedConfig({
+                    ...originalEmbedConfig,
+                    waitForCleanupOnDestroy: true,
+                    cleanupTimeout: 1000,
+                });
+
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+
+                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
+                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+
+                appEmbed.destroy();
+
+                // Should be called immediately when waitForCleanupOnDestroy is true
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
+                
+                // Wait for the timeout to complete
+                await new Promise(resolve => setTimeout(resolve, 1100));
+
+                expect(removeChildSpy).toHaveBeenCalled();
+            });
+
+            it('should handle Promise.race with successful cleanup completion', async () => {
+                embedConfig.setEmbedConfig({
+                    ...originalEmbedConfig,
+                    waitForCleanupOnDestroy: true,
+                    cleanupTimeout: 2000,
+                });
+
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+
+                // Mock trigger to resolve quickly (before timeout)
+                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() => 
+                    new Promise(resolve => setTimeout(() => resolve(null), 100))
+                );
+                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+
+                appEmbed.destroy();
+
+                // Wait for the trigger to complete
+                await new Promise(resolve => setTimeout(resolve, 200));
+
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
+                expect(removeChildSpy).toHaveBeenCalled();
+            });
+
+            it('should handle Promise.race with timeout when cleanup takes too long', async () => {
+                embedConfig.setEmbedConfig({
+                    ...originalEmbedConfig,
+                    waitForCleanupOnDestroy: true,
+                    cleanupTimeout: 100,
+                });
+
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+
+                // Mock trigger to take longer than timeout
+                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() => 
+                    new Promise(resolve => setTimeout(() => resolve(null), 500))
+                );
+                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+
+                appEmbed.destroy();
+
+                // Wait for the timeout to complete
+                await new Promise(resolve => setTimeout(resolve, 200));
+
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
+                expect(removeChildSpy).toHaveBeenCalled();
+            });
         });
     });
 });
