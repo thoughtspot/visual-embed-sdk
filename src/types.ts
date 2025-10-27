@@ -692,6 +692,19 @@ export interface EmbedConfig {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Wait for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default false
+     */
+    waitForCleanupOnDestroy?: boolean;
+    /**
+     * The timeout for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default 5000
+     */
+    cleanupTimeout?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -4247,6 +4260,15 @@ export enum HostEvent {
      * ```
      */
     UpdateEmbedParams = 'updateEmbedParams',
+    /**
+     * Triggered when the embed is needed to be destroyed. This is used to clean up any embed related resources internally.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DestroyEmbed);
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    DestroyEmbed = 'EmbedDestroyed',
 }
 
 /**
