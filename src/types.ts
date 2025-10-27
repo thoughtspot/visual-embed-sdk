@@ -2291,15 +2291,12 @@ export enum EmbedEvent {
     AnswerDelete = 'answerDelete',
     /**
      * Emitted when the AI Highlights action is triggered on a Liveboard
-     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
      * @example
      *```js
-     * //emit when action starts
-     * liveboardEmbed.on(EmbedEvent.AIHighlights, payload => {
-     *   console.log('AI Highlights', payload)}, {start: true })
-     * //emit when action ends
-     * liveboardEmbed.on(EmbedEvent.AIHighlights, payload => {
-     *   console.log('AI Highlights', payload)})
+     * liveboardEmbed.on(EmbedEvent.AIHighlights, (payload) => {
+     *   console.log('AI Highlights', payload);
+     * })
      *```
      */
     AIHighlights = 'AIHighlights',
@@ -3399,7 +3396,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.AIHighlights)
      * ```
-     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
      */
     AIHighlights = 'AIHighlights',
     /**
