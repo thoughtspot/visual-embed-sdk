@@ -3,7 +3,6 @@ import { getEmbedConfig } from "./embed/embedConfig";
 import { InterceptedApiType, BaseViewConfig, EmbedConfig, InterceptV2Flags, EmbedEvent } from "./types";
 import { logger } from "./utils/logger";
 
-
 const defaultUrls: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, string[]> = {
     [InterceptedApiType.METADATA]: [
         '/prism/?op=CreateAnswerSession',
@@ -43,8 +42,8 @@ const processInterceptUrls = (interceptUrls: (string | InterceptedApiType)[]) =>
     })
     return processedUrls.map(url => formatInterceptUrl(url));
 }
-export const getInterceptInitData = (embedConfig: EmbedConfig, viewConfig: BaseViewConfig): InterceptV2Flags => {
-
+export const getInterceptInitData = (viewConfig: BaseViewConfig): InterceptV2Flags => {
+    const embedConfig = getEmbedConfig();
     const enableApiIntercept = (embedConfig.enableApiIntercept || viewConfig.enableApiIntercept) && (viewConfig.enableApiIntercept !== false);
 
     if (!enableApiIntercept) return {
@@ -69,6 +68,15 @@ export const getInterceptInitData = (embedConfig: EmbedConfig, viewConfig: BaseV
     };
 }
 
+const parseJson = (jsonString: string): [any, Error | null] => {
+    try {
+        const json = JSON.parse(jsonString);
+        return [json, null];
+    } catch (error) {
+        return [null, error];
+    }
+}
+
 /**
  * 
  * @param fetchInit 
@@ -76,9 +84,17 @@ export const getInterceptInitData = (embedConfig: EmbedConfig, viewConfig: BaseV
 const parseInterceptData = (eventDataString: any) => {
 
     try {
-        const { input, init } = JSON.parse(eventDataString);
+        const [parsedData, error] = parseJson(eventDataString);
+        if (error) {
+            return [null, error];
+        }
 
-        init.body = JSON.parse(init.body);
+        const { input, init } = parsedData;
+
+        const [parsedBody, bodyParseError] = parseJson(init.body);
+        if (!bodyParseError) {
+            init.body = parsedBody;
+        }
 
         const parsedInit = { input, init };
         return [parsedInit, null];
@@ -87,7 +103,12 @@ const parseInterceptData = (eventDataString: any) => {
     }
 }
 
-export const handleInterceptEvent = async (params: { eventData: any, executeEvent: (eventType: EmbedEvent, data: any) => void, embedConfig: EmbedConfig, viewConfig: BaseViewConfig, getUnsavedAnswerTml: (props: { sessionId?: string, vizId?: string }) => Promise<{ tml: string }> }) => {
+export const handleInterceptEvent = async (params: { 
+    eventData: any, 
+    executeEvent: (eventType: EmbedEvent, data: any) => void, 
+    viewConfig: BaseViewConfig, 
+    getUnsavedAnswerTml: (props: { sessionId?: string, vizId?: string }) => Promise<{ tml: string }> 
+}) => {
 
     const { eventData, executeEvent, viewConfig, getUnsavedAnswerTml } = params;
 

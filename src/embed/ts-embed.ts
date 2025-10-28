@@ -349,16 +349,15 @@ export class TsEmbed {
                 this.isPreRendered ? this.preRenderWrapper : this.el,
             );
 
-            const executeEvent = (_eventType: EmbedEvent, data: any) => {
-                this.executeCallbacks(_eventType, data, eventPort);
-            }
-
             if (eventType === EmbedEvent.ApiIntercept && this.viewConfig.enableApiIntercept) {
+                const executeEvent = (_eventType: EmbedEvent, data: any) => {
+                    this.executeCallbacks(_eventType, data, eventPort);
+                }    
                 const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
                     const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
                     return response[0]?.value;
                 }
-                handleInterceptEvent({ eventData: processedEventData, executeEvent, embedConfig: this.embedConfig, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+                handleInterceptEvent({ eventData: processedEventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
                 return;
             }
 
@@ -464,7 +463,7 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
-            ...getInterceptInitData(this.embedConfig, this.viewConfig),
+            ...getInterceptInitData(this.viewConfig),
         };
 
         return baseInitData;
@@ -1047,7 +1046,7 @@ export class TsEmbed {
 
     protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
 
-        const { enableApiIntercept } = getInterceptInitData(this.embedConfig, this.viewConfig);
+        const { enableApiIntercept } = getInterceptInitData(this.viewConfig);
         if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept && enableApiIntercept) {
             return (payload: any) => {
                 const payloadToSend = processLegacyInterceptResponse(payload);
