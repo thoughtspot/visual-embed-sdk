@@ -1,19 +1,16 @@
 import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
-import { InterceptedApiType, BaseViewConfig, EmbedConfig, InterceptV2Flags, EmbedEvent } from "./types";
+import { InterceptedApiType, BaseViewConfig, EmbedConfig, ApiInterceptFlags, EmbedEvent } from "./types";
+import { embedEventStatus } from "./utils";
 import { logger } from "./utils/logger";
 
-const defaultUrls: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, string[]> = {
-    [InterceptedApiType.METADATA]: [
-        '/prism/?op=CreateAnswerSession',
-        '/prism/?op=GetV2SourceDetail',
-    ] as string[],
-    [InterceptedApiType.ANSWER_DATA]: [
+const DefaultInterceptUrlsMap: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, string[]> = {
+    [InterceptedApiType.AnswerData]: [
         '/prism/?op=GetChartWithData',
         '/prism/?op=GetTableWithHeadlineData',
         '/prism/?op=GetTableWithData',
     ] as string[],
-    [InterceptedApiType.LIVEBOARD_DATA]: [
+    [InterceptedApiType.LiveboardData]: [
         '/prism/?op=LoadContextBook'
     ] as string[],
 };
@@ -32,39 +29,43 @@ export const processApiIntercept = async (eventData: any) => {
 interface LegacyInterceptFlags {
     isOnBeforeGetVizDataInterceptEnabled: boolean;
 }
-
+/**
+ * Converts user passed url values to proper urls
+ * [ANSER_DATA] => ['https://host/pris/op?=op']
+ * @param interceptUrls 
+ * @returns 
+ */
 const processInterceptUrls = (interceptUrls: (string | InterceptedApiType)[]) => {
     let processedUrls = [...interceptUrls];
-    Object.entries(defaultUrls).forEach(([apiType, apiTypeUrls]) => {
+    Object.entries(DefaultInterceptUrlsMap).forEach(([apiType, apiTypeUrls]) => {
         if (!processedUrls.includes(apiType)) return;
         processedUrls = processedUrls.filter(url => url !== apiType);
         processedUrls = [...processedUrls, ...apiTypeUrls];
     })
     return processedUrls.map(url => formatInterceptUrl(url));
 }
-export const getInterceptInitData = (viewConfig: BaseViewConfig): InterceptV2Flags => {
-    const embedConfig = getEmbedConfig();
-    const enableApiIntercept = (embedConfig.enableApiIntercept || viewConfig.enableApiIntercept) && (viewConfig.enableApiIntercept !== false);
 
-    if (!enableApiIntercept) return {
-        enableApiIntercept: false,
-    };
-
-    const combinedUrls = [...(embedConfig.interceptUrls || []), ...(viewConfig.interceptUrls || [])];
+/**
+ * Returns the data to be sent to embed to setup intercepts
+ * the urls to intercept, timeout etc
+ * @param viewConfig 
+ * @returns 
+ */
+export const getInterceptInitData = (viewConfig: BaseViewConfig): ApiInterceptFlags => {
+    const combinedUrls = [...(viewConfig.interceptUrls || [])];
 
     if ((viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
-        combinedUrls.push(InterceptedApiType.ANSWER_DATA);
+        combinedUrls.push(InterceptedApiType.AnswerData);
     }
 
     const shouldInterceptAll = combinedUrls.includes(InterceptedApiType.ALL);
     const interceptUrls = shouldInterceptAll ? [InterceptedApiType.ALL] : processInterceptUrls(combinedUrls);
 
-    const interceptTimeout = embedConfig.interceptTimeout || viewConfig.interceptTimeout;
+    const interceptTimeout = viewConfig.interceptTimeout;
 
     return {
         interceptUrls,
         interceptTimeout,
-        enableApiIntercept,
     };
 }
 
@@ -103,11 +104,29 @@ const parseInterceptData = (eventDataString: any) => {
     }
 }
 
-export const handleInterceptEvent = async (params: { 
-    eventData: any, 
-    executeEvent: (eventType: EmbedEvent, data: any) => void, 
-    viewConfig: BaseViewConfig, 
-    getUnsavedAnswerTml: (props: { sessionId?: string, vizId?: string }) => Promise<{ tml: string }> 
+const getUrlType = (url: string) => {
+    for (const [apiType, apiTypeUrls] of Object.entries(DefaultInterceptUrlsMap)) {
+        if (apiTypeUrls.includes(url)) return apiType as InterceptedApiType;
+    }
+    // TODO: have a unknown type maybe ??
+    return InterceptedApiType.ALL;
+}
+
+/**
+ * Handle Api intercept event and simulate legacy onBeforeGetVizDataIntercept event
+ * 
+ * embed sends -> ApiIntercept -> we send 
+ *  ApiIntercept 
+ *  OnBeforeGetVizDataIntercept (if url is part of DefaultUrlMap.AnswerData)
+ * 
+ * @param params 
+ * @returns 
+ */
+export const handleInterceptEvent = async (params: {
+    eventData: any,
+    executeEvent: (eventType: EmbedEvent, data: any) => void,
+    viewConfig: BaseViewConfig,
+    getUnsavedAnswerTml: (props: { sessionId?: string, vizId?: string }) => Promise<{ tml: string }>
 }) => {
 
     const { eventData, executeEvent, viewConfig, getUnsavedAnswerTml } = params;
@@ -122,23 +141,37 @@ export const handleInterceptEvent = async (params: {
         return;
     }
 
-    const { input: requestUrl, init } = interceptData;
 
+    const { input: requestUrl, init } = interceptData;
+    
     const sessionId = init?.body?.variables?.session?.sessionId;
     const vizId = init?.body?.variables?.contextBookId;
 
-    if (defaultUrls.ANSWER_DATA.includes(requestUrl) && (viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
+    const answerDataUrls = DefaultInterceptUrlsMap[InterceptedApiType.AnswerData];
+    const legacyInterceptEnabled = viewConfig.isOnBeforeGetVizDataInterceptEnabled;
+    const isAnswerDataUrl = answerDataUrls.includes(requestUrl);
+    const sendLegacyIntercept = isAnswerDataUrl && legacyInterceptEnabled;
+    if (sendLegacyIntercept) {
         const answerTml = await getUnsavedAnswerTml({ sessionId, vizId });
-        executeEvent(EmbedEvent.OnBeforeGetVizDataIntercept, { data: { data: answerTml } });
+        // Build the legacy payload for backwards compatibility
+        const legacyPayload = {
+            data: {
+                data: { answer: answerTml },
+                status: embedEventStatus.END,
+                type: EmbedEvent.OnBeforeGetVizDataIntercept
+            }
+        }
+        executeEvent(EmbedEvent.OnBeforeGetVizDataIntercept, legacyPayload);
     }
 
-    executeEvent(EmbedEvent.ApiIntercept, interceptData);
+    const urlType = getUrlType(requestUrl);
+    executeEvent(EmbedEvent.ApiIntercept, { ...interceptData, urlType });
 }
 
 export const processLegacyInterceptResponse = (payload: any) => {
 
-    const errorText = payload?.data?.errorText || payload?.data?.error?.errorText;
-    const errorDescription = payload?.data?.errorDescription || payload?.data?.error?.errorDescription;
+    const errorText = payload?.data?.error?.errorText;
+    const errorDescription = payload?.data?.error?.errorDescription;
 
     const payloadToSend = {
         execute: payload?.data?.execute,

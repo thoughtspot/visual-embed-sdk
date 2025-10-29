@@ -337,6 +337,17 @@ export class TsEmbed {
         this.subscribedListeners.offline = offlineEventListener;
     }
 
+    private handleApiInterceptEvent({ eventData, eventPort }: { eventData: any, eventPort: MessagePort | void }) {
+        const executeEvent = (_eventType: EmbedEvent, data: any) => {
+            this.executeCallbacks(_eventType, data, eventPort);
+        }
+        const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
+            const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
+            return response[0]?.value;
+        }
+        handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+    }
+
     private messageEventListener = async (event: MessageEvent<any>) => {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
@@ -349,15 +360,8 @@ export class TsEmbed {
                 this.isPreRendered ? this.preRenderWrapper : this.el,
             );
 
-            if (eventType === EmbedEvent.ApiIntercept && this.viewConfig.enableApiIntercept) {
-                const executeEvent = (_eventType: EmbedEvent, data: any) => {
-                    this.executeCallbacks(_eventType, data, eventPort);
-                }    
-                const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
-                    const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
-                    return response[0]?.value;
-                }
-                handleInterceptEvent({ eventData: processedEventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+            if (eventType === EmbedEvent.ApiIntercept) {
+                this.handleApiInterceptEvent({ eventData, eventPort });
                 return;
             }
 
@@ -1044,10 +1048,16 @@ export class TsEmbed {
         this.iFrame.style.height = getCssDimension(height);
     }
 
+    /**
+     * We can process the customer given payload before sending it to the embed port
+     * Embed event handler -> responder -> createEmbedEventResponder -> send response
+     * @param eventPort The event port for a specific MessageChannel
+     * @param eventType The event type
+     * @returns 
+     */
     protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
 
-        const { enableApiIntercept } = getInterceptInitData(this.viewConfig);
-        if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept && enableApiIntercept) {
+        if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
             return (payload: any) => {
                 const payloadToSend = processLegacyInterceptResponse(payload);
                 this.triggerEventOnPort(eventPort, payloadToSend);

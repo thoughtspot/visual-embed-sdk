@@ -329,7 +329,7 @@ export interface CustomisationsInterface {
  * if a trusted authentication server is used.
  * @group Authentication / Init
  */
-export interface EmbedConfig extends InterceptV2Flags {
+export interface EmbedConfig {
     /**
      * The ThoughtSpot cluster hostname or IP address.
      */
@@ -739,7 +739,7 @@ export interface FrameParams {
 /**
  * The common configuration object for an embedded view.
  */
-export interface BaseViewConfig extends InterceptV2Flags {
+export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * @hidden
      */
@@ -2732,21 +2732,24 @@ export enum EmbedEvent {
 
      * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
      * for this embed event to get emitted.
-     * @param: payload
-     * @param: responder
+     * @param:payload The payload received from the embed related to the Data API call.
+     * @param:responder
      * Contains elements that lets developers define whether ThoughtSpot
      * should run the search, and if not, what error message
      * should be shown to the user.
      *
-     * execute: When execute returns `true`, the search will be run.
+     * `execute` - When execute returns `true`, the search will be run.
      * When execute returns `false`, the search will not be executed.
      *
-     * error: Developers can customize the error message text when `execute`
-     * returns `false` using the error parameter in responder.
+     * `error` - Developers can customize the error message text when `execute`
+     * is `false` using the `errorText` and `errorDescription` parameters in responder.
+     * 
+     * `errorText` - The error message text to be shown to the user.
+     * `errorDescription (ThoughtSpot: 10.15.0.cl and above)` - The error description to be shown to the user.
      * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
      *```js
-     * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
+     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
      * (payload, responder) => {
      *  responder({
      *      data: {
@@ -2762,7 +2765,7 @@ export enum EmbedEvent {
      * ```
      *
      *```js
-     * .on(EmbedEvent.OnBeforeGetVizDataIntercept,
+     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
      * (payload, responder) => {
      * const query = payload.data.data.answer.search_query
      * responder({
@@ -2773,7 +2776,8 @@ export enum EmbedEvent {
      *      error: {
      *      //Provide a custom error message to explain to your end user
      *      // why their search did not run, and which searches are accepted by your custom logic.
-     *      errorText: "You can't use this query :" + query + ".
+     *      errorText: "Error Occurred",
+     *      errorDescription: "You can't use this query :" + query + ".
      *      The 'sales' measures can never be used at the 'county' level.
      *      Please try another measure, or remove 'county' from your search."
      *      }
@@ -4290,7 +4294,7 @@ export enum HostEvent {
  * The different visual modes that the data sources panel within
  * search could appear in, such as hidden, collapsed, or expanded.
  */
- 
+
 export enum DataSourceVisualMode {
     /**
      * The data source panel is hidden.
@@ -4310,7 +4314,7 @@ export enum DataSourceVisualMode {
  * The query params passed down to the embedded ThoughtSpot app
  * containing configuration and/or visual information.
  */
- 
+
 export enum Param {
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
@@ -4467,7 +4471,7 @@ export enum Param {
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
  */
- 
+
 export enum Action {
     /**
      * The **Save** action on an Answer or Liveboard.
@@ -5984,13 +5988,9 @@ export interface DefaultAppInitData {
  */
 export enum InterceptedApiType {
     /**
-     * The apis that are use to get the metadata for the embed
-     */
-    METADATA = 'METADATA',
-    /**
      * The apis that are use to get the data for the embed
      */
-    ANSWER_DATA = 'ANSWER_DATA',
+    AnswerData = 'AnswerData',
     /**
      * This will intercept all the apis
      */
@@ -5998,25 +5998,19 @@ export enum InterceptedApiType {
     /**
      * The apis that are use to get the data for the liveboard
      */
-    LIVEBOARD_DATA = 'LIVEBOARD_DATA',
+    LiveboardData = 'LiveboardData',
 }
 
 
-export type InterceptV2Flags = {
+export type ApiInterceptFlags = {
     /**
-     * Enable intercepting the apis
-     * 
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ...viewConfig,
-     *   enableApiIntercept: true,
-     *   interceptUrls: [InterceptedApiType.DATA],
-     * })
-     * ```
-     * 
-     */
-    enableApiIntercept?: boolean;
+    * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
+    * 
+    * Can be used for Serach and App Embed from SDK 1.29.0
+    * 
+    * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
+    */
+    isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * The apis to intercept
      * 
@@ -6028,6 +6022,8 @@ export type InterceptV2Flags = {
      *   interceptUrls: [InterceptedApiType.DATA],
      * })
      * ```
+     * 
+     * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptUrls?: (string | InterceptedApiType)[];
     /**
@@ -6043,6 +6039,8 @@ export type InterceptV2Flags = {
      *   interceptTimeout: 1000,
      * })
      * ```
+     * 
+     * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptTimeout?: number;
 }

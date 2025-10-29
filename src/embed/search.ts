@@ -278,13 +278,6 @@ export interface SearchViewConfig
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * Flag to enable onBeforeSearchExecute Embed Event
-     * 
-     * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
-     */
-    isOnBeforeGetVizDataInterceptEnabled?: boolean;
-    /**
      * This controls the initial behaviour of custom column groups accordion.
      * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
      * List of different enum values:-
@@ -398,8 +391,6 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
-            isOnBeforeGetVizDataInterceptEnabled = false,
-
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
@@ -441,12 +432,6 @@ export class SearchEmbed extends TsEmbed {
 
         if (hideSearchBar) {
             queryParams[Param.HideSearchBar] = true;
-        }
-
-        const { enableApiIntercept } = getInterceptInitData(this.embedConfig, this.viewConfig);
-        if (isOnBeforeGetVizDataInterceptEnabled && !enableApiIntercept) {
-
-            queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         if (!focusSearchBarOnRender) {
