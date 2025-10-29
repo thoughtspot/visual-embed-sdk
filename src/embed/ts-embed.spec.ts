@@ -3706,10 +3706,14 @@ describe('Unit test case for ts embed', () => {
                 
                 expect(mockProcessTrigger).toHaveBeenCalled();
                 const callArgs = mockProcessTrigger.mock.calls[0];
-                expect(callArgs[1]).toBe(UIPassthroughEvent.GetUnsavedAnswerTML);
-                expect(callArgs[3]).toEqual({
-                    sessionId: 'session-123',
-                    vizId: 'viz-456'
+                // Verify UIPassthrough event is triggered with the right params
+                expect(callArgs[1]).toBe('UiPassthrough');
+                expect(callArgs[3]).toMatchObject({
+                    type: 'getUnsavedAnswerTML',
+                    parameters: {
+                        sessionId: 'session-123',
+                        vizId: 'viz-456'
+                    }
                 });
                 expect(result).toEqual(mockTmlResponse);
             });
