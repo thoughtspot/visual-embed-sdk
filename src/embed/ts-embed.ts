@@ -348,12 +348,12 @@ export class TsEmbed {
         handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
     }
 
-    private messageEventListener = async (event: MessageEvent<any>) => {
+    private messageEventListener = (event: MessageEvent<any>) => {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
         if (event.source === this.iFrame.contentWindow) {
-            const processedEventData = await processEventData(
+            const processedEventData = processEventData(
                 eventType,
                 eventData,
                 this.thoughtSpotHost,

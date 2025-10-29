@@ -21,11 +21,6 @@ const formatInterceptUrl = (url: string) => {
     return url;
 }
 
-export const processApiIntercept = async (eventData: any) => {
-
-    return JSON.parse(eventData.data);
-}
-
 interface LegacyInterceptFlags {
     isOnBeforeGetVizDataInterceptEnabled: boolean;
 }
@@ -79,8 +74,8 @@ const parseJson = (jsonString: string): [any, Error | null] => {
 }
 
 /**
- * 
- * @param fetchInit 
+ * Parse the api intercept data and return the parsed data and error if any
+ * Embed returns the input and init from the fetch call
  */
 const parseInterceptData = (eventDataString: any) => {
 
