@@ -64,10 +64,9 @@ import * as authToken from '../authToken';
 import * as apiIntercept from '../api-intercept';
 
 jest.mock('../utils/processTrigger');
-jest.mock('../api-intercept');
 
 const mockProcessTrigger = processTrigger as jest.Mock;
-const mockHandleInterceptEvent = apiIntercept.handleInterceptEvent as jest.Mock;
+const mockHandleInterceptEvent = jest.spyOn(apiIntercept, 'handleInterceptEvent');
 const defaultViewConfig = {
     frameParams: {
         width: 1280,
@@ -3693,17 +3692,17 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(async () => {
                 expect(capturedGetUnsavedAnswerTml).toBeDefined();
-                
+
                 // Clear previous calls
                 mockProcessTrigger.mockClear();
-                
+
                 // Simulate getUnsavedAnswerTml being called by
                 // handleInterceptEvent
                 const result = await capturedGetUnsavedAnswerTml({
                     sessionId: 'session-123',
                     vizId: 'viz-456'
                 });
-                
+
                 expect(mockProcessTrigger).toHaveBeenCalled();
                 const callArgs = mockProcessTrigger.mock.calls[0];
                 // Verify UIPassthrough event is triggered with the right params
