@@ -121,7 +121,7 @@ const getMockAppInitPayload = (data: any) => {
         runtimeFilterParams: null,
         runtimeParameterParams: null,
         hiddenHomeLeftNavItems: [],
-        hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
+        hiddenHomepageModules: [],
         hiddenListColumns: [],
         customActions: [],
         reorderedHomepageModules: [],
@@ -365,19 +365,7 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({}));
             });
         });
 
@@ -401,16 +389,6 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
                     customisations: customisationsView,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -439,17 +417,7 @@ describe('Unit test case for ts embed', () => {
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
                     hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -474,19 +442,7 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({}));
             });
         });
 
@@ -514,18 +470,8 @@ describe('Unit test case for ts embed', () => {
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
                     reorderedHomepageModules:
                         [HomepageModule.MyLibrary, HomepageModule.Watchlist],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -557,17 +503,7 @@ describe('Unit test case for ts embed', () => {
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
                     runtimeParameterParams: 'param1=color&paramVal1=blue',
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -600,17 +536,7 @@ describe('Unit test case for ts embed', () => {
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
                     runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -641,19 +567,7 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({}));
             });
         });
 
@@ -684,19 +598,7 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({}));
             });
         });
 
@@ -725,18 +627,8 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
-                    authToken: '',
-                    hostConfig: undefined,
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
                     hiddenHomeLeftNavItems:
                         [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    reorderedHomepageModules: [],
-                    customVariablesForThirdPartyTools,
                 }));
             });
         });
@@ -893,16 +785,7 @@ describe('Unit test case for ts embed', () => {
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations,
                     authToken: 'test_auth_token1',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
                     customVariablesForThirdPartyTools: {},
                 }));
             });
@@ -977,14 +860,6 @@ describe('Unit test case for ts embed', () => {
                         },
                     },
                     authToken: 'test_auth_token1',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
-                    customActions: [],
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
                     customVariablesForThirdPartyTools: {},
                 }));
                 const customisationContent = mockPort.postMessage.mock.calls[0][0].data.customisations.content;
@@ -1080,11 +955,6 @@ describe('Unit test case for ts embed', () => {
                         },
                     },
                     authToken: 'test_auth_token1',
-                    runtimeFilterParams: null,
-                    runtimeParameterParams: null,
-                    hiddenHomeLeftNavItems: [],
-                    hiddenHomepageModules: [],
-                    hiddenListColumns: [],
                     customActions: [
                         {
                             id: 'action2',
@@ -1101,8 +971,6 @@ describe('Unit test case for ts embed', () => {
                             metadataIds: { liveboardIds: ['lb123'] }
                         }
                     ], // Actions should be sorted by name
-                    hostConfig: undefined,
-                    reorderedHomepageModules: [],
                     customVariablesForThirdPartyTools: {},
                 }));
 
