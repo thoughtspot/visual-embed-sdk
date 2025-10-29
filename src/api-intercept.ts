@@ -168,6 +168,21 @@ export const handleInterceptEvent = async (params: {
     executeEvent(EmbedEvent.ApiIntercept, { ...interceptData, urlType });
 }
 
+/**
+ * Support both the legacy and new format of the api intercept response
+ * @param payload 
+ * @returns 
+ */
+export const processApiInterceptResponse = (payload: any) => {
+   const isLegacyFormat = payload?.data?.error;
+
+   if (isLegacyFormat) {
+    return processLegacyInterceptResponse(payload);
+   }
+
+   return payload;
+}
+
 export const processLegacyInterceptResponse = (payload: any) => {
 
     const errorText = payload?.data?.error?.errorText;

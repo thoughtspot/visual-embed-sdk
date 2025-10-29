@@ -2977,11 +2977,75 @@ export enum EmbedEvent {
      * 
      * @example
      * ```js
-     * embed.on(EmbedEvent.ApiIntercept, (payload) => {
+     * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
      *     console.log('payload', payload);
+     *     responder({
+     *         data: {
+     *             execute: false,
+     *             error: {
+     *                 errorText: 'Error Occurred',
+     *             }
+     *         }
+     *     })
      * })
      * ```
      * 
+     * ```js
+     * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
+     *     console.log('payload', payload);
+     *     responder({
+     *         data: {
+     *             execute: false,
+     *             error: {
+     *                 errorText: 'Error Occurred',
+     *             }
+     *         }
+     *     })
+     * })
+     * ```
+     * 
+     * ```js
+     * // We can also send a response for the intercepted api
+     * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
+     *     console.log('payload', payload);
+     *     responder({
+     *         data: {
+     *             execute: false,
+     *             response: {
+     *                body: {
+     *                    data: {
+     *                       // Some api response
+     *                    },
+     *                }
+     *             }
+     *         }
+     *     })
+     * })
+     * 
+     * // here embed will use the response from the responder as the response for the api
+     * ```
+     * 
+     * ```js
+     * // We can also send error in response for the intercepted api
+     * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
+     *     console.log('payload', payload);
+     *     responder({
+     *         data: {
+     *             execute: false,
+     *             response: {
+     *                body: {
+     *                    errors: [{
+     *                      title: 'Error Occurred',
+     *                      description: 'Error Description',
+     *                      isUserError: true,
+     *                    }],
+     *                    data: {},
+     *                },
+     *             }
+     *         }
+     *     })
+     * })
+     * ```
      * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
      */
     ApiIntercept = 'ApiIntercept',
@@ -6012,7 +6076,8 @@ export type ApiInterceptFlags = {
     */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
-     * The apis to intercept
+     * This allows to intercept the urls passed, once intercepted the api will only 
+     * run based on the reponse from the responder of ApiIntercept event.
      * 
      * @example
      * ```js

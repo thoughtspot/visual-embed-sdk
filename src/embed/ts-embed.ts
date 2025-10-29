@@ -71,7 +71,7 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
-import { getInterceptInitData, handleInterceptEvent, processLegacyInterceptResponse } from '../api-intercept';
+import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
 
 const { version } = pkgInfo;
 
@@ -1057,15 +1057,18 @@ export class TsEmbed {
      */
     protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
 
-        if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
-            return (payload: any) => {
-                const payloadToSend = processLegacyInterceptResponse(payload);
-                this.triggerEventOnPort(eventPort, payloadToSend);
+        const getPayloadToSend = (payload: any) => {
+            if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
+                return processLegacyInterceptResponse(payload);
             }
-        }
-
+            if (eventType === EmbedEvent.ApiIntercept) {
+                return processApiInterceptResponse(payload);
+            }
+            return payload;
+        }   
         return (payload: any) => {
-            this.triggerEventOnPort(eventPort, payload);
+            const payloadToSend = getPayloadToSend(payload);
+            this.triggerEventOnPort(eventPort, payloadToSend);
         }
     }
 
