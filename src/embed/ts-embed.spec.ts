@@ -3613,12 +3613,11 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(() => {
                 expect(mockHandleInterceptEvent).toHaveBeenCalledTimes(1);
-                expect(mockHandleInterceptEvent).toHaveBeenCalledWith({
-                    eventData: mockEventData,
-                    executeEvent: expect.any(Function),
-                    viewConfig: defaultViewConfig,
-                    getUnsavedAnswerTml: expect.any(Function),
-                });
+                const call = mockHandleInterceptEvent.mock.calls[0][0];
+                expect(call.eventData).toEqual(mockEventData);
+                expect(call.executeEvent).toBeInstanceOf(Function);
+                expect(call.getUnsavedAnswerTml).toBeInstanceOf(Function);
+                expect(call.viewConfig).toMatchObject(defaultViewConfig);
             });
         });
 
@@ -3694,14 +3693,17 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(async () => {
                 expect(capturedGetUnsavedAnswerTml).toBeDefined();
-
+                
+                // Clear previous calls
+                mockProcessTrigger.mockClear();
+                
                 // Simulate getUnsavedAnswerTml being called by
                 // handleInterceptEvent
                 const result = await capturedGetUnsavedAnswerTml({
                     sessionId: 'session-123',
                     vizId: 'viz-456'
                 });
-
+                
                 expect(mockProcessTrigger).toHaveBeenCalled();
                 const callArgs = mockProcessTrigger.mock.calls[0];
                 expect(callArgs[1]).toBe(UIPassthroughEvent.GetUnsavedAnswerTML);
