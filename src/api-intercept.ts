@@ -1,6 +1,6 @@
 import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
-import { InterceptedApiType, BaseViewConfig, EmbedConfig, ApiInterceptFlags, EmbedEvent } from "./types";
+import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent } from "./types";
 import { embedEventStatus } from "./utils";
 import { logger } from "./utils/logger";
 

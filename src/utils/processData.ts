@@ -12,7 +12,6 @@ import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
 import { handleExitPresentMode } from '../utils';
 import { resetCachedPreauthInfo, resetCachedSessionInfo } from './sessionInfoService';
-import { processApiIntercept } from '../api-intercept';
 
 /**
  * Process the ExitPresentMode event and handle default fullscreen exit
