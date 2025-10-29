@@ -48,7 +48,8 @@ export default defineConfig([
                     maxLength: 90,
                     ignoreUrls: true,
                 },
-            ]
-		}
+            ],
+            'import/no-cycle': "error"
+        },
     },
 ]);
