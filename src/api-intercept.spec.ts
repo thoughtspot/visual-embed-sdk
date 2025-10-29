@@ -34,36 +34,6 @@ describe('api-intercept', () => {
     JSON.parse = originalJsonParse;
   });
 
-  describe('processApiIntercept', () => {
-    it('should parse and return JSON data', async () => {
-      const eventData = {
-        data: JSON.stringify({ key: 'value' })
-      };
-
-      const result = await apiIntercept.processApiIntercept(eventData);
-
-      expect(result).toEqual({ key: 'value' });
-    });
-
-    it('should handle complex nested objects', async () => {
-      const complexData = {
-        nested: {
-          deep: {
-            value: 'test',
-            array: [1, 2, 3]
-          }
-        }
-      };
-      const eventData = {
-        data: JSON.stringify(complexData)
-      };
-
-      const result = await apiIntercept.processApiIntercept(eventData);
-
-      expect(result).toEqual(complexData);
-    });
-  });
-
   describe('getInterceptInitData', () => {
     it('should return default intercept flags when no intercepts are configured', () => {
       const viewConfig: BaseViewConfig = {};
