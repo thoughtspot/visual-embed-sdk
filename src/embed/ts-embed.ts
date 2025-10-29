@@ -343,7 +343,7 @@ export class TsEmbed {
         }
         const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
             const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
-            return response[0]?.value;
+            return response.filter((item) => item.value)?.[0]?.value;
         }
         handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
     }
