@@ -582,7 +582,7 @@ export class TsEmbed {
 
     protected getUpdateEmbedParamsObject() {
         let queryParams = this.getEmbedParamsObject();
-        queryParams = { ...this.viewConfig, ...queryParams };
+        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
         return queryParams;
     }
 
