@@ -151,7 +151,7 @@ export const handleInterceptEvent = async (params: {
         // Build the legacy payload for backwards compatibility
         const legacyPayload = {
             data: {
-                data: { answer: answerTml },
+                data:  answerTml,
                 status: embedEventStatus.END,
                 type: EmbedEvent.OnBeforeGetVizDataIntercept
             }

@@ -187,7 +187,7 @@ describe('api-intercept', () => {
 
     beforeEach(() => {
       executeEvent = jest.fn();
-      getUnsavedAnswerTml = jest.fn().mockResolvedValue({ tml: 'test-tml' });
+      getUnsavedAnswerTml = jest.fn().mockResolvedValue({ answer: { tml: 'test-tml' } });
       viewConfig = {};
     });
 
