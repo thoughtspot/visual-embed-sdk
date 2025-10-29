@@ -6045,6 +6045,8 @@ export interface DefaultAppInitData {
     customVariablesForThirdPartyTools: Record<string, any>;
     hiddenListColumns: ListPageColumns[];
     customActions: CustomAction[];
+    interceptTimeout: number | undefined;
+    interceptUrls: (string | InterceptedApiType)[];
 }
 
 /**

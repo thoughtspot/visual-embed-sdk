@@ -51,7 +51,7 @@ const processInterceptUrls = (interceptUrls: (string | InterceptedApiType)[]) =>
  * @param viewConfig 
  * @returns 
  */
-export const getInterceptInitData = (viewConfig: BaseViewConfig): ApiInterceptFlags => {
+export const getInterceptInitData = (viewConfig: BaseViewConfig): Required<Omit<ApiInterceptFlags, 'isOnBeforeGetVizDataInterceptEnabled'>> => {
     const combinedUrls = [...(viewConfig.interceptUrls || [])];
 
     if ((viewConfig as LegacyInterceptFlags).isOnBeforeGetVizDataInterceptEnabled) {
