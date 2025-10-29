@@ -61,10 +61,13 @@ import { processTrigger } from '../utils/processTrigger';
 import { UIPassthroughEvent } from './hostEventClient/contracts';
 import * as sessionInfoService from '../utils/sessionInfoService';
 import * as authToken from '../authToken';
+import * as apiIntercept from '../api-intercept';
 
 jest.mock('../utils/processTrigger');
+jest.mock('../api-intercept');
 
 const mockProcessTrigger = processTrigger as jest.Mock;
+const mockHandleInterceptEvent = apiIntercept.handleInterceptEvent as jest.Mock;
 const defaultViewConfig = {
     frameParams: {
         width: 1280,
@@ -3564,6 +3567,391 @@ describe('Unit test case for ts embed', () => {
 
                 expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
                 expect(removeChildSpy).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('handleApiInterceptEvent', () => {
+        beforeEach(() => {
+            document.body.innerHTML = getDocumentBody();
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+            jest.clearAllMocks();
+            mockHandleInterceptEvent.mockClear();
+        });
+
+        test('should call handleInterceptEvent with correct parameters', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            variables: {
+                                session: { sessionId: 'session-123' },
+                                contextBookId: 'viz-456'
+                            }
+                        })
+                    }
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleInterceptEvent).toHaveBeenCalledTimes(1);
+                expect(mockHandleInterceptEvent).toHaveBeenCalledWith({
+                    eventData: mockEventData,
+                    executeEvent: expect.any(Function),
+                    viewConfig: defaultViewConfig,
+                    getUnsavedAnswerTml: expect.any(Function),
+                });
+            });
+        });
+
+        test('should execute callbacks through executeEvent function', async () => {
+            let capturedExecuteEvent: any;
+            mockHandleInterceptEvent.mockImplementation((params) => {
+                capturedExecuteEvent = params.executeEvent;
+            });
+
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const mockCallback = jest.fn();
+            searchEmbed.on(EmbedEvent.CustomAction, mockCallback);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(capturedExecuteEvent).toBeDefined();
+
+                // Simulate executeEvent being called by handleInterceptEvent
+                const testData = { test: 'data' };
+                capturedExecuteEvent(EmbedEvent.CustomAction, testData);
+
+                // executeEvent passes data as first param to callback
+                expect(mockCallback).toHaveBeenCalled();
+                expect(mockCallback.mock.calls[0][0]).toEqual(testData);
+            });
+        });
+
+        test('should call triggerUIPassThrough through getUnsavedAnswerTml function', async () => {
+            let capturedGetUnsavedAnswerTml: any;
+            mockHandleInterceptEvent.mockImplementation((params) => {
+                capturedGetUnsavedAnswerTml = params.getUnsavedAnswerTml;
+            });
+
+            const mockTmlResponse = { tml: 'test-tml-content' };
+            mockProcessTrigger.mockResolvedValue([{ value: mockTmlResponse }]);
+
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(async () => {
+                expect(capturedGetUnsavedAnswerTml).toBeDefined();
+
+                // Simulate getUnsavedAnswerTml being called by
+                // handleInterceptEvent
+                const result = await capturedGetUnsavedAnswerTml({
+                    sessionId: 'session-123',
+                    vizId: 'viz-456'
+                });
+
+                expect(mockProcessTrigger).toHaveBeenCalled();
+                const callArgs = mockProcessTrigger.mock.calls[0];
+                expect(callArgs[1]).toBe(UIPassthroughEvent.GetUnsavedAnswerTML);
+                expect(callArgs[3]).toEqual({
+                    sessionId: 'session-123',
+                    vizId: 'viz-456'
+                });
+                expect(result).toEqual(mockTmlResponse);
+            });
+        });
+
+        test('should pass viewConfig to handleInterceptEvent', async () => {
+            const customViewConfig = {
+                ...defaultViewConfig,
+                interceptUrls: ['/api/test'],
+                interceptTimeout: 5000,
+            };
+
+            const searchEmbed = new SearchEmbed(getRootEl(), customViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/api/test',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                const call = mockHandleInterceptEvent.mock.calls[0][0];
+                expect(call.viewConfig).toMatchObject({
+                    interceptUrls: ['/api/test'],
+                    interceptTimeout: 5000,
+                });
+            });
+        });
+
+        test('should handle ApiIntercept event with eventPort', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleInterceptEvent).toHaveBeenCalled();
+
+                // Verify the executeEvent function uses the port
+                const executeEventFn = mockHandleInterceptEvent.mock.calls[0][0].executeEvent;
+                expect(executeEventFn).toBeDefined();
+            });
+        });
+
+        test('should not process non-ApiIntercept events through handleApiInterceptEvent', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.Save,
+                data: { answerId: '123' },
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleInterceptEvent).not.toHaveBeenCalled();
+            });
+        });
+
+        test('should handle multiple ApiIntercept events', async () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData1 = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockEventData2 = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=LoadContextBook',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData1, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                postMessageToParent(getIFrameEl().contentWindow, mockEventData2, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleInterceptEvent).toHaveBeenCalledTimes(2);
+            });
+        });
+
+        test('should pass eventPort to executeCallbacks', async () => {
+            let capturedExecuteEvent: any;
+            mockHandleInterceptEvent.mockImplementation((params) => {
+                capturedExecuteEvent = params.executeEvent;
+            });
+
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const mockCallback = jest.fn();
+            searchEmbed.on(EmbedEvent.ApiIntercept, mockCallback);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(capturedExecuteEvent).toBeDefined();
+
+                // Call executeEvent with a response
+                const responseData = { execute: true };
+                capturedExecuteEvent(EmbedEvent.ApiIntercept, responseData);
+
+                // Verify the callback was invoked with the data
+                expect(mockCallback).toHaveBeenCalled();
+                expect(mockCallback.mock.calls[0][0]).toEqual(responseData);
+            });
+        });
+
+        test('should handle getUnsavedAnswerTml with empty response', async () => {
+            let capturedGetUnsavedAnswerTml: any;
+            mockHandleInterceptEvent.mockImplementation((params) => {
+                capturedGetUnsavedAnswerTml = params.getUnsavedAnswerTml;
+            });
+
+            mockProcessTrigger.mockResolvedValue([]);
+
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await searchEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=GetChartWithData',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(async () => {
+                expect(capturedGetUnsavedAnswerTml).toBeDefined();
+
+                const result = await capturedGetUnsavedAnswerTml({
+                    sessionId: 'session-123',
+                    vizId: 'viz-456'
+                });
+
+                expect(result).toBeUndefined();
+            });
+        });
+
+        test('should work with LiveboardEmbed', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId: 'test-liveboard-id',
+            });
+            await liveboardEmbed.render();
+
+            const mockEventData = {
+                type: EmbedEvent.ApiIntercept,
+                data: JSON.stringify({
+                    input: '/prism/?op=LoadContextBook',
+                    init: {}
+                })
+            };
+
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEventData, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleInterceptEvent).toHaveBeenCalledTimes(1);
+                expect(mockHandleInterceptEvent).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        eventData: mockEventData,
+                    })
+                );
             });
         });
     });
