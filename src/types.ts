@@ -2976,19 +2976,6 @@ export enum EmbedEvent {
      * Supported on all embed types.
      * 
      * @example
-     * ```js
-     * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
-     *     console.log('payload', payload);
-     *     responder({
-     *         data: {
-     *             execute: false,
-     *             error: {
-     *                 errorText: 'Error Occurred',
-     *             }
-     *         }
-     *     })
-     * })
-     * ```
      * 
      * ```js
      * embed.on(EmbedEvent.ApiIntercept, (payload, responder) => {
@@ -6074,7 +6061,7 @@ export type ApiInterceptFlags = {
     * 
     * Can be used for Serach and App Embed from SDK 1.29.0
     * 
-    * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
+    * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
     */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
@@ -6090,7 +6077,7 @@ export type ApiInterceptFlags = {
      * })
      * ```
      * 
-     * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptUrls?: (string | InterceptedApiType)[];
     /**
@@ -6107,7 +6094,7 @@ export type ApiInterceptFlags = {
      * })
      * ```
      * 
-     * @version SDK : 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptTimeout?: number;
 }
