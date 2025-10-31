@@ -692,6 +692,19 @@ export interface EmbedConfig {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Wait for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default false
+     */
+    waitForCleanupOnDestroy?: boolean;
+    /**
+     * The timeout for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default 5000
+     */
+    cleanupTimeout?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -2290,6 +2303,17 @@ export enum EmbedEvent {
      */
     AnswerDelete = 'answerDelete',
     /**
+     * Emitted when the AI Highlights action is triggered on a Liveboard
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.AIHighlights, (payload) => {
+     *   console.log('AI Highlights', payload);
+     * })
+     *```
+     */
+    AIHighlights = 'AIHighlights',
+    /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -3379,6 +3403,16 @@ export enum HostEvent {
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
+     * Trigger the **AI Highlights** action on an embedded Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AIHighlights)
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     */
+    AIHighlights = 'AIHighlights',
+    /**
      * Trigger the **Make a copy** action on a Liveboard,
      * visualization, or Answer page.
      * @example
@@ -4254,6 +4288,15 @@ export enum HostEvent {
      * ```
      */
     UpdateEmbedParams = 'updateEmbedParams',
+    /**
+     * Triggered when the embed is needed to be destroyed. This is used to clean up any embed related resources internally.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DestroyEmbed);
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    DestroyEmbed = 'EmbedDestroyed',
 }
 
 /**
