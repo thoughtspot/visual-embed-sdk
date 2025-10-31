@@ -4040,16 +4040,15 @@ export enum HostEvent {
      * @param - `name` - Name of the Parameter
      * @param - `value` - The value to set for the Parameter.
      *
-     * Optionally, to control the visibility of the Parameter chip
-     * when applying an override, set the `isVisibleToUser`
-     * attribute.
+     * Optionally, to control the visibility of the Parameter chip,
+     * use the `isVisibleToUser` attribute when applying an override.
      *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
      *   name: "Integer Range Param",
      *   value: 10,
-     *   isVisibleToUser: true
+     *   isVisibleToUser: false
      * }])
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
