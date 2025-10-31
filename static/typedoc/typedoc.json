@@ -8701,12 +8701,17 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "optional attributes to set Answer properties.\n `name` - Name string for the Answer.\n `description` - Description text for the Answer.",
+								"text": "`vizId` refers to the Answer ID in Spotter embed\nand is required in Spotter embed.\nOptional attributes to set Answer properties include:",
 								"param": "-"
 							},
 							{
 								"tag": "param",
-								"text": "`vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.",
+								"text": "`name` - Name string for the Answer.",
+								"param": "-"
+							},
+							{
+								"tag": "param",
+								"text": "`description` - Description text for the Answer.",
 								"param": "-"
 							},
 							{
@@ -9275,11 +9280,25 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Triggers an action to update Parameter values on embedded\nAnswers, Liveboard and Spotter answer in Edit mode.",
+						"shortText": "Triggers an action to update Parameter values on embedded\nAnswers, Liveboard, and Spotter answer in Edit mode.",
 						"tags": [
 							{
+								"tag": "param",
+								"text": "`name` - Name of the Parameter",
+								"param": "-"
+							},
+							{
+								"tag": "param",
+								"text": "`value` - The value to set for the Parameter.\n\nOptionally, to control the visibility of the Parameter chip,\nuse the `isVisibleToUser` attribute when applying an override.\n",
+								"param": "-"
+							},
+							{
 								"tag": "example",
-								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\nname: \"Color\",\nvalue: \"almond\"\n}])\n\n@version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
+								"text": "\n```js\nliveboardEmbed.trigger(HostEvent.UpdateParameters, [{\n  name: \"Integer Range Param\",\n  value: 10,\n  isVisibleToUser: false\n}])\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
