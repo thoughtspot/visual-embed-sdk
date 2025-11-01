@@ -16,6 +16,7 @@ import {
     defaultParams,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     postMessageToParent,
     getIFrameEl,
     mockMessageChannel,
@@ -138,6 +139,20 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set LiveboardStylePanel in visible actions', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            visibleActions: [Action.LiveboardStylePanel],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                visibleAction: JSON.stringify([Action.LiveboardStylePanel]),
+            });
+        });
+    });
+
     test('should set enable2ColumnLayout to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             enable2ColumnLayout: true,
@@ -164,6 +179,21 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardStylingAndGroupingEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLiveboardPermissionV2Enabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isEnhancedFilterInteractivityEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardPermissionV2Enabled=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -449,6 +479,36 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add isCentralizedLiveboardFilterUXEnabled flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isCentralizedLiveboardFilterUXEnabled: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isCentralizedLiveboardFilterUXEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add isCentralizedLiveboardFilterUXEnabled flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isCentralizedLiveboardFilterUXEnabled: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isCentralizedLiveboardFilterUXEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });

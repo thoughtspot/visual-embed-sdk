@@ -692,6 +692,19 @@ export interface EmbedConfig {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Wait for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default false
+     */
+    waitForCleanupOnDestroy?: boolean;
+    /**
+     * The timeout for the cleanup to be completed before destroying the embed.
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     * @default 5000
+     */
+    cleanupTimeout?: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -1513,6 +1526,24 @@ export interface LiveboardAppEmbedViewConfig {
      */
     liveboardXLSXCSVDownload?: boolean;
     /**
+     * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
+     * When enabled, a unified modal is used to manage and update multiple filters at once,
+     * replacing the older individual filter interactions.
+     * To enable this feature on your instance, contact ThoughtSpot Support.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isCentralizedLiveboardFilterUXEnabled: true,
+     * })
+     * ```
+     */
+    isCentralizedLiveboardFilterUXEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -1527,7 +1558,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLinkParametersEnabled?: boolean;
-    
+
+    /**
+     * This flag is used to enable or disable the enhanced filter interactivity in liveboard.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isEnhancedFilterInteractivityEnabled: true,
+     * })
+     * ```
+     */
+    isEnhancedFilterInteractivityEnabled?: boolean;
 }
 
 export interface AllEmbedViewConfig extends BaseViewConfig, SearchLiveboardCommonViewConfig, HomePageConfig, LiveboardAppEmbedViewConfig { }
@@ -2257,6 +2303,17 @@ export enum EmbedEvent {
      */
     AnswerDelete = 'answerDelete',
     /**
+     * Emitted when the AI Highlights action is triggered on a Liveboard
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     *```js
+     * liveboardEmbed.on(EmbedEvent.AIHighlights, (payload) => {
+     *   console.log('AI Highlights', payload);
+     * })
+     *```
+     */
+    AIHighlights = 'AIHighlights',
+    /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -2774,7 +2831,7 @@ export enum EmbedEvent {
      * the table visualization.
      *
      * If the Row-Level Security (RLS) rules are applied on the
-     * Worksheet or Model, exercise caution when changing column
+     * Model, exercise caution when changing column
      * or table cell values to maintain data security.
      *
      * @example
@@ -2832,7 +2889,7 @@ export enum EmbedEvent {
      */
     SpotterData = 'SpotterData',
     /**
-     * Emitted when user opens up the worksheet preview modal in Spotter embed.
+     * Emitted when user opens up the data source preview modal in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
@@ -3059,9 +3116,7 @@ export enum HostEvent {
      */
     Reload = 'reload',
     /**
-     * Get iframe URL for the current embed view on the playground.
-     * Developers can use this URL to embed a ThoughtSpot object
-     * in apps like Salesforce or Sharepoint.
+     * Get iframe URL for the current embed view.
      * @example
      * ```js
      * const url = embed.trigger(HostEvent.GetIframeUrl);
@@ -3358,6 +3413,16 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
+    /**
+     * Trigger the **AI Highlights** action on an embedded Liveboard
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.AIHighlights)
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     */
+    AIHighlights = 'AIHighlights',
     /**
      * Trigger the **Make a copy** action on a Liveboard,
      * visualization, or Answer page.
@@ -4035,15 +4100,21 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers, Liveboard and Spotter answer in Edit mode.
+     * Answers, Liveboard, and Spotter answer in Edit mode.
+     * @param - `name` - Name of the Parameter
+     * @param - `value` - The value to set for the Parameter.
+     *
+     * Optionally, to control the visibility of the Parameter chip,
+     * use the `isVisibleToUser` attribute when applying an override.
      *
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
-     * name: "Color",
-     * value: "almond"
+     *   name: "Integer Range Param",
+     *   value: 10,
+     *   isVisibleToUser: false
      * }])
-     *
+     * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     UpdateParameters = 'UpdateParameters',
@@ -4092,10 +4163,11 @@ export enum HostEvent {
      * If no parameters are specified, the save action is
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
-     * @param - optional attributes to set Answer properties.
-     *  `name` - Name string for the Answer.
-     *  `description` - Description text for the Answer.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - `vizId` refers to the Answer ID in Spotter embed
+     * and is required in Spotter embed.
+     * Optional attributes to set Answer properties include:
+     * @param - `name` - Name string for the Answer.
+     * @param - `description` - Description text for the Answer.
      * @example
      * ```js
      * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
@@ -4167,7 +4239,7 @@ export enum HostEvent {
      */
     EditLastPrompt = 'EditLastPrompt',
     /**
-     * Opens the Worksheet preview modal in Spotter Embed.
+     * Opens the data source preview modal in Spotter Embed.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.PreviewSpotterData);
@@ -4257,6 +4329,15 @@ export enum HostEvent {
      * ```
      */
     UpdateEmbedParams = 'updateEmbedParams',
+    /**
+     * Triggered when the embed is needed to be destroyed. This is used to clean up any embed related resources internally.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DestroyEmbed);
+     * ```
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
+     */
+    DestroyEmbed = 'EmbedDestroyed',
 }
 
 /**
@@ -4391,6 +4472,7 @@ export enum Param {
     ShowLiveboardReverifyBanner = 'showLiveboardReverifyBanner',
     LiveboardHeaderV2 = 'isLiveboardHeaderV2Enabled',
     HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
+    IsEnhancedFilterInteractivityEnabled = 'isLiveboardPermissionV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
@@ -4407,7 +4489,9 @@ export enum Param {
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
+    EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
 }
 
 /**
@@ -4521,7 +4605,7 @@ export enum Action {
      */
     SchedulesList = 'schedule-list',
     /**
-     * The **Share** action on a Liveboard, Answer, or Worksheet.
+     * The **Share** action on a Liveboard, Answer, or Model.
      * Allows users to share an object with other users and groups.
      * @example
      * ```js
@@ -4980,7 +5064,7 @@ export enum Action {
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
      * The Favorites icon (*) for Answers,
-     * Liveboard, and data objects like Worksheet, Model,
+     * Liveboard, and data objects like Model,
      * Tables and Views.
      * Allows adding an object to the user's favorites list.
      * @example
@@ -5730,6 +5814,16 @@ export enum Action {
      *  @version SDK: 1.42.0 | ThoughtSpot Cloud: 10.14.0.cl
      */
     RemoveAttachment = 'removeAttachment',
+    /**
+     * The **Style panel** on a Liveboard.
+     * Controls the visibility of the Liveboard style panel.
+     * @example
+     * ```js
+     * hiddenActions: [Action.LiveboardStylePanel]
+     * ```
+     * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
+     */
+    LiveboardStylePanel = 'liveboardStylePanel',
 }
 
 export interface AnswerServiceType {
