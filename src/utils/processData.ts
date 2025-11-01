@@ -10,7 +10,6 @@ import { AuthType, CustomActionPayload, EmbedEvent } from '../types';
 import { AnswerService } from './graphql/answerService/answerService';
 import { resetCachedAuthToken } from '../authToken';
 import { ERROR_MESSAGE } from '../errors';
-import { logger } from '../utils/logger';
 import { handleExitPresentMode } from '../utils';
 import { resetCachedPreauthInfo, resetCachedSessionInfo } from './sessionInfoService';
 
@@ -21,7 +20,7 @@ import { resetCachedPreauthInfo, resetCachedSessionInfo } from './sessionInfoSer
 function processExitPresentMode(e: any) {
     const embedConfig = getEmbedConfig();
     const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
-    
+
     if (!disableFullscreenPresentation) {
         handleExitPresentMode();
     }
@@ -103,7 +102,7 @@ export function processAuthFailure(e: any, containerEl: Element) {
     const {
         loginFailedMessage, authType, disableLoginFailurePage, autoLogin,
     } = getEmbedConfig();
-    
+
     const isEmbeddedSSO = authType === AuthType.EmbeddedSSO;
     const isTrustedAuth = authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless;
     const isEmbeddedSSOInfoFailure = isEmbeddedSSO && e?.data?.type === AuthFailureType.UNAUTHENTICATED_FAILURE;
@@ -144,26 +143,26 @@ function processAuthLogout(e: any, containerEl: Element) {
  */
 export function processEventData(
     type: EmbedEvent,
-    e: any,
+    eventData: any,
     thoughtSpotHost: string,
     containerEl: Element,
 ): any {
     switch (type) {
         case EmbedEvent.CustomAction:
-            return processCustomAction(e, thoughtSpotHost);
+            return processCustomAction(eventData, thoughtSpotHost);
         case EmbedEvent.AuthInit:
-            return processAuthInit(e);
+            return processAuthInit(eventData);
         case EmbedEvent.NoCookieAccess:
-            return processNoCookieAccess(e, containerEl);
+            return processNoCookieAccess(eventData, containerEl);
         case EmbedEvent.AuthFailure:
-            return processAuthFailure(e, containerEl);
+            return processAuthFailure(eventData, containerEl);
         case EmbedEvent.AuthLogout:
-            return processAuthLogout(e, containerEl);
+            return processAuthLogout(eventData, containerEl);
         case EmbedEvent.ExitPresentMode:
-            return processExitPresentMode(e);
+            return processExitPresentMode(eventData);
         case EmbedEvent.CLEAR_INFO_CACHE:
             return processClearInfoCache();
         default:
     }
-    return e;
+    return eventData;
 }

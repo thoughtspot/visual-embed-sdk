@@ -1,4 +1,3 @@
-import { isUndefined } from '../utils';
 import { LogLevel } from '../types';
 
 const logFunctions: {
@@ -42,7 +41,7 @@ class Logger {
 
     public canLog(logLevel: LogLevel): boolean {
         if (logLevel === LogLevel.SILENT) return false;
-        if (!isUndefined(globalLogLevelOverride)) {
+        if (globalLogLevelOverride !== undefined) {
             return compareLogLevels(globalLogLevelOverride, logLevel) >= 0;
         }
         return compareLogLevels(this.logLevel, logLevel) >= 0;
