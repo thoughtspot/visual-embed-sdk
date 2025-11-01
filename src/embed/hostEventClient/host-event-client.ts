@@ -23,7 +23,7 @@ export class HostEventClient {
    * @param {any} data Data to send with the host event
    * @returns {Promise<any>} - the response from the process trigger
    */
-  protected async processTrigger(message: HostEvent, data: any): Promise<any> {
+  protected async processTrigger(message: HostEvent, data: any, context?: any): Promise<any> {
       if (!this.iFrame) {
           throw new Error('Iframe element is not set');
       }
@@ -34,6 +34,7 @@ export class HostEventClient {
           message,
           thoughtspotHost,
           data,
+          context,
       );
   }
 
@@ -65,8 +66,9 @@ export class HostEventClient {
   public async hostEventFallback(
       hostEvent: HostEvent,
       data: any,
+      context?: any,
   ): Promise<any> {
-      return this.processTrigger(hostEvent, data);
+      return this.processTrigger(hostEvent, data, context);
   }
 
   /**
@@ -132,9 +134,11 @@ export class HostEventClient {
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
+    ContextT,
   >(
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
+      context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT>> {
       switch (hostEvent) {
           case HostEvent.Pin:
@@ -144,7 +148,7 @@ export class HostEventClient {
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
               ) as any;
           default:
-              return this.hostEventFallback(hostEvent, payload);
+              return this.hostEventFallback(hostEvent, payload, context as any);
       }
   }
 }
