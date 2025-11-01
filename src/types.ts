@@ -1881,7 +1881,7 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to an Answer or Liveboard is received.
+     * Data pertaining to an Answer, Liveboard or Spotter visualization is received.
      * The event payload includes the raw data of the object.
      * @return data -  Answer of Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
@@ -3264,7 +3264,7 @@ export enum HostEvent {
      * the following parameters:
      *
      * @param
-     * `vizId`-  GUID of the saved Answer or visualization to pin to a Liveboard.
+     * `vizId`-  GUID of the saved Answer or Spotter visualization ID to pin to a Liveboard.
      *  Optional when pinning a new chart or table generated from a Search query.
      *  **Required** in Spotter Embed.
      * @param
@@ -3316,10 +3316,16 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * const pinResponse = await spotterEmbed.trigger(HostEvent.Pin, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
-     * ```
+
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in Pin host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.Pin, { vizId: latestSpotterVizId });
+    * ```
+     * 
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     Pin = 'pin',
@@ -3394,10 +3400,15 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.DownloadAsPdf, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
-     * ```
+
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in DownloadAsPdf host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.DownloadAsPdf, { vizId: latestSpotterVizId });
+    * ```
      * 
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3434,10 +3445,14 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * const pinResponse = await spotterEmbed.trigger(HostEvent.MakeACopy, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
-     * ```
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in MakeACopy host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.MakeACopy, { vizId: latestSpotterVizId });
+    * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     MakeACopy = 'makeACopy',
@@ -3522,15 +3537,7 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * const pinResponse = await spotterEmbed.trigger(HostEvent.Edit, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
-     * ```
-     * @example
-     * ```js
-     * const editResponse = await spotterEmbed.trigger(HostEvent.Edit, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
+     * spotterEmbed.trigger(HostEvent.Edit);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3579,16 +3586,23 @@ export enum HostEvent {
      *   );
      * })
      * ```
-     * @example
+     * * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.GetTML, {
-     *   vizId: '730496d6-6903-4601-937e-2c691821af3c'
+
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in Pin host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.GetTML, {
+     *   vizId: latestSpotterVizId
      * }).then((tml) => {
      *   console.log(
      *      tml.answer.search_query // TML representation of the search query
      *   );
      * })
-     * ```
+    * ```
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      * @important
      */
@@ -3652,7 +3666,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** action on charts in
      * the embedded view.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Download, {vizId:
@@ -3662,10 +3676,14 @@ export enum HostEvent {
      * embed.trigger(HostEvent.Download)
      * ```
      * ```js
-     * spotterEmbed.trigger(HostEvent.Download, {
-     *     vizId:'730496d6-6903-4601-937e-2c691821af3c'
-     *  });
-     * ```
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in Download host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.Download, { vizId: latestSpotterVizId });
+    * ```
      * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
      * Use {@link DownloadAsPng}
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
@@ -3683,9 +3701,13 @@ export enum HostEvent {
      *
      * searchEmbed.trigger(HostEvent.DownloadAsPng)
      * 
-     * spotterEmbed.trigger(HostEvent.DownloadAsPng, {
-     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
-     * })
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in DownloadAsPng host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.DownloadAsPng, { vizId: latestSpotterVizId });
      * ```
      * 
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
@@ -3694,7 +3716,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **CSV**  action on tables in
      * the embedded view.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsCsv, {vizId:
@@ -3707,9 +3729,13 @@ export enum HostEvent {
      * searchEmbed.trigger(HostEvent.DownloadAsCsv)
      * ```
      * ```js
-     * spotterEmbed.trigger(HostEvent.DownloadAsCsv, {
-     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
-     * })
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in DownloadAsCsv host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.DownloadAsCsv, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3717,7 +3743,7 @@ export enum HostEvent {
     /**
      * Trigger the **Download** > **XLSX**  action on tables
      * in the embedded view.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DownloadAsXlsx, {vizId:
@@ -3730,9 +3756,13 @@ export enum HostEvent {
      * searchEmbed.trigger(HostEvent.DownloadAsXlsx)
      * ```
      * ```js
-     * spotterEmbed.trigger(HostEvent.downloadAsXLSX, {
-     *       vizId:"730496d6-6903-4601-937e-2c691821af3c"
-     * })
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in DownloadAsXlsx host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.DownloadAsXlsx, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -3769,7 +3799,7 @@ export enum HostEvent {
    * ```
    *
    * ```js
-   * // Save an Answer in Spotter (requires vizId)
+   * // Save a Visualization in Spotter (requires vizId)
    * spotterEmbed.trigger(HostEvent.Save, {
    *   vizId: "730496d6-6903-4601-937e-2c691821af3c"
    * })
@@ -4097,11 +4127,13 @@ export enum HostEvent {
      * });
      *```
      *```js
-     * spotterEmbed.trigger(HostEvent.GetParameters, {
-     *  vizId: '730496d6-6903-4601-937e-2c691821af3c'
-     * }).then((parameter) => {
-     *  console.log('parameters', parameter);
-     * });
+    * // You can use the Data event dispatched on each answer creation to get the vizId and use in GetParameters host event.
+    * let latestSpotterVizId = '';
+    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+    *   latestSpotterVizId = payload.data.id;
+    * });
+    *
+    * spotterEmbed.trigger(HostEvent.GetParameters, { vizId: latestSpotterVizId });
      *```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
@@ -4145,11 +4177,13 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * const saveAnswerResponse = await spotterEmbed.trigger(HostEvent.SaveAnswer, {
-     *      vizId: '730496d6-6903-4601-937e-2c691821af3c',
-     *      name: "Sales by states",
-     *      description: "Total sales by states in MidWest"
+     * // You can use the Data event dispatched on each answer creation to get the vizId and use in SaveAnswer host event.
+     * let latestSpotterVizId = '';
+     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     *   latestSpotterVizId = payload.data.id;
      * });
+    *
+    * spotterEmbed.trigger(HostEvent.SaveAnswer, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
@@ -4233,12 +4267,15 @@ export enum HostEvent {
     DeleteLastPrompt = 'DeleteLastPrompt',
     /**
      * Toggle the visualization to chart or table view.
-     * @param - `vizId ` refers to the answer id in spotter Embed, it is required in spotter Embed.
+     * @param - `vizId ` refers to the Visualization ID in Spotter embed and is required.
      * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, {
-     *          vizId:'b535c760-8bbe-4e6f-bb26-af56b4129a1e'
+     * let latestSpotterVizId = '';
+     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     *   latestSpotterVizId = payload.data.id;
      * });
+    *
+    * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, { vizId: latestSpotterVizId });
      *```
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
@@ -4267,12 +4304,16 @@ export enum HostEvent {
      */
     VisibleEmbedCoordinates = 'visibleEmbedCoordinates',
     /**
-     * Trigger the *Ask Spotter* action for visualizations
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * Trigger the *Spotter* action for visualizations present on the liveboard's vizzes.
+     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required.
      * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.AskSpotter,
-     * {vizId:'730496d6-6903-4601-937e-2c691821af3c'})
+     * let latestSpotterVizId = '';
+     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     *   latestSpotterVizId = payload.data.id;
+     * });
+    *
+    * spotterEmbed.trigger(HostEvent.AskSpotter, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
