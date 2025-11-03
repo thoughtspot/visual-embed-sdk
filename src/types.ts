@@ -3033,7 +3033,7 @@ export enum EmbedEvent {
      *     })
      * })
      * ```
-     * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     ApiIntercept = 'ApiIntercept',
 }
