@@ -513,11 +513,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
-     * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
-     * @version SDK : 1.29.0 | ThoughtSpot: 10.1.0.cl
-     */
-    isOnBeforeGetVizDataInterceptEnabled?: boolean;
-    /**
      * Flag to use home page search bar mode
      * 
      * Supported embed types: `AppEmbed`
@@ -668,8 +663,6 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
-            isOnBeforeGetVizDataInterceptEnabled = false,
-
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
@@ -750,13 +743,6 @@ export class AppEmbed extends V1Embed {
 
         if (enableAskSage) {
             params[Param.enableAskSage] = enableAskSage;
-        }
-
-        if (isOnBeforeGetVizDataInterceptEnabled) {
-
-            params[
-                Param.IsOnBeforeGetVizDataInterceptEnabled
-            ] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         if (homePageSearchBarMode) {

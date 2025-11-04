@@ -71,6 +71,7 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
 
 const { version } = pkgInfo;
 
@@ -201,7 +202,7 @@ export class TsEmbed {
         });
         const embedConfig = getEmbedConfig();
         this.embedConfig = embedConfig;
-    
+
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
@@ -336,33 +337,53 @@ export class TsEmbed {
         this.subscribedListeners.offline = offlineEventListener;
     }
 
+    private handleApiInterceptEvent({ eventData, eventPort }: { eventData: any, eventPort: MessagePort | void }) {
+        const executeEvent = (_eventType: EmbedEvent, data: any) => {
+            this.executeCallbacks(_eventType, data, eventPort);
+        }
+        const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
+            const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
+            return response.filter((item) => item.value)?.[0]?.value;
+        }
+        handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+    }
+
+    private messageEventListener = (event: MessageEvent<any>) => {
+        const eventType = this.getEventType(event);
+        const eventPort = this.getEventPort(event);
+        const eventData = this.formatEventData(event, eventType);
+        if (event.source === this.iFrame.contentWindow) {
+            const processedEventData = processEventData(
+                eventType,
+                eventData,
+                this.thoughtSpotHost,
+                this.isPreRendered ? this.preRenderWrapper : this.el,
+            );
+
+            if (eventType === EmbedEvent.ApiIntercept) {
+                this.handleApiInterceptEvent({ eventData, eventPort });
+                return;
+            }
+
+            this.executeCallbacks(
+                eventType,
+                processedEventData,
+                eventPort,
+            );
+        }
+    };
     /**
      * Subscribe to message events that depend on successful iframe setup
      */
     private subscribeToMessageEvents() {
         this.unsubscribeToMessageEvents();
 
-        const messageEventListener = (event: MessageEvent<any>) => {
-            const eventType = this.getEventType(event);
-            const eventPort = this.getEventPort(event);
-            const eventData = this.formatEventData(event, eventType);
-            if (event.source === this.iFrame.contentWindow) {
-                this.executeCallbacks(
-                    eventType,
-                    processEventData(
-                        eventType,
-                        eventData,
-                        this.thoughtSpotHost,
-                        this.isPreRendered ? this.preRenderWrapper : this.el,
-                    ),
-                    eventPort,
-                );
-            }
-        };
-        window.addEventListener('message', messageEventListener);
+        window.addEventListener('message', this.messageEventListener);
 
-        this.subscribedListeners.message = messageEventListener;
+        this.subscribedListeners.message = this.messageEventListener;
     }
+   
+
     /**
      * Adds event listeners for both network and message events.
      * This maintains backward compatibility with the existing method.
@@ -375,6 +396,7 @@ export class TsEmbed {
         this.subscribeToNetworkEvents();
         this.subscribeToMessageEvents();
     }
+
 
     private unsubscribeToNetworkEvents() {
         if (this.subscribedListeners.online) {
@@ -426,7 +448,7 @@ export class TsEmbed {
                 message: customActionsResult.errors,
             });
         }
-        return {
+        const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
             runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
@@ -445,7 +467,10 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            ...getInterceptInitData(this.viewConfig),
         };
+
+        return baseInitData;
     }
 
     protected async getAppInitData() {
@@ -557,7 +582,7 @@ export class TsEmbed {
 
     protected getUpdateEmbedParamsObject() {
         let queryParams = this.getEmbedParamsObject();
-        queryParams = { ...this.viewConfig, ...queryParams };
+        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
         return queryParams;
     }
 
@@ -1024,6 +1049,30 @@ export class TsEmbed {
     }
 
     /**
+     * We can process the customer given payload before sending it to the embed port
+     * Embed event handler -> responder -> createEmbedEventResponder -> send response
+     * @param eventPort The event port for a specific MessageChannel
+     * @param eventType The event type
+     * @returns 
+     */
+    protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
+
+        const getPayloadToSend = (payload: any) => {
+            if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
+                return processLegacyInterceptResponse(payload);
+            }
+            if (eventType === EmbedEvent.ApiIntercept) {
+                return processApiInterceptResponse(payload);
+            }
+            return payload;
+        }   
+        return (payload: any) => {
+            const payloadToSend = getPayloadToSend(payload);
+            this.triggerEventOnPort(eventPort, payloadToSend);
+        }
+    }
+
+    /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
      * @param data The payload invoked with the event handler
@@ -1047,9 +1096,8 @@ export class TsEmbed {
                 // payload
                 || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
-                callbackObj.callback(data, (payload) => {
-                    this.triggerEventOnPort(eventPort, payload);
-                });
+                const responder = this.createEmbedEventResponder(eventPort, eventType);
+                callbackObj.callback(data, responder);
             }
         });
     }
@@ -1191,12 +1239,12 @@ export class TsEmbed {
         }
     }
 
-     /**
-     * @hidden
-     * Internal state to track if the embed container is loaded.
-     * This is used to trigger events after the embed container is loaded.
-     */
-     public isEmbedContainerLoaded = false;
+    /**
+    * @hidden
+    * Internal state to track if the embed container is loaded.
+    * This is used to trigger events after the embed container is loaded.
+    */
+    public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
@@ -1348,7 +1396,7 @@ export class TsEmbed {
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-        
+
         const isAlreadyRendered = this.connectPreRendered();
         if (isAlreadyRendered && !replaceExistingPreRender) {
             return this;
