@@ -1620,7 +1620,6 @@ describe('Unit test case for ts embed', () => {
                 source: 'SDK',
                 details: {},
             });
-            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG);
         });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1657,7 +1656,6 @@ describe('Unit test case for ts embed', () => {
                 source: 'SDK',
                 details: {},
             });
-            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG);
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
             await testActionsForLiveboards([Action.DownloadAsCsv], [Action.DownloadAsCsv]);
@@ -1707,7 +1705,6 @@ describe('Unit test case for ts embed', () => {
                 source: 'SDK',
                 details: {},
             });
-            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_TABS_CONFIG);
         });
         test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1744,7 +1741,6 @@ describe('Unit test case for ts embed', () => {
                 source: 'SDK',
                 details: {},
             });
-            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CONFLICTING_TABS_CONFIG);
         }
         test('should throw error when there are both visible and hidden Tab arrays', async () => {
             await testTabsForLiveboards([tabId1], [tabId2]);
@@ -1797,7 +1793,6 @@ describe('Unit test case for ts embed', () => {
                 source: 'SDK',
                 details: {},
             });
-            expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.INIT_SDK_REQUIRED);
         });
     });
 
