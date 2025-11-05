@@ -450,7 +450,7 @@ export class TsEmbed {
             ...(this.embedConfig.customActions || [])
         ]);
         if (customActionsResult.errors.length > 0) {
-            this.handleError({ type: 'CUSTOM_ACTION_VALIDATION', message: customActionsResult.errors }, { errorType: 'VALIDATION_ERROR', message: customActionsResult.errors, code: 'CUSTOM_ACTION_VALIDATION', source: 'SDK', details: {} } as EmbedErrorDetailsEvent);
+            this.handleError({ type: ERROR_CODE.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }, { errorType: 'VALIDATION_ERROR', message: customActionsResult.errors, code: ERROR_CODE.CUSTOM_ACTION_VALIDATION, source: 'SDK', details: {} } as EmbedErrorDetailsEvent);
         }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),

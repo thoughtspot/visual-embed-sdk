@@ -2106,7 +2106,7 @@ export enum EmbedEvent {
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      * @returns error - An error object {@link EmbedErrorDetailsEvent}
-     * @version SDK: 1.44.0 | ThoughtSpot: 10.16.0.cl
+     * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
      * @example
      * ```js
      * // API error
@@ -6244,7 +6244,7 @@ export enum LogLevel {
  *
  * @param errorType - The type of error that occurred.
  * @param message - A human-readable error message describing what went wrong.
- * @param code - Optional error code providing a machine-readable identifier for the error.
+ * @param code - Error code providing a machine-readable identifier for the error.
  * @param source - The source system or component where the error originated.
  * @param details - Additional error details providing context-specific information.
  *
@@ -6252,13 +6252,13 @@ export enum LogLevel {
  * ```js
  * { errorType: 'API', message: 'API call failed', code: 'TS-001', source: 'API', details: { request: { url: '/api/rest/2.0/searchdata', method: 'GET' } } }
  * ```
- * @version SDK: 1.44.0 | ThoughtSpot: 10.16.0.cl
+ * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
  */
 export interface EmbedErrorDetailsEvent {
-    errorType: 'API' | 'FULLSCREEN' | 'SINGLE_VALUE_FILTER' | 'NON_EXIST_FILTER' | 'INVALID_DATE_VALUE' | 'INVALID_OPERATOR' | 'VALIDATION_ERROR';
+    errorType: 'API' | 'FULLSCREEN' | 'SINGLE_VALUE_FILTER' | 'NON_EXIST_FILTER' | 'INVALID_DATE_VALUE' | 'INVALID_OPERATOR' | 'VALIDATION_ERROR' | string;
     message: string | string[];
     code: string;
-    source: 'API' | 'NETWORK' | 'SDK' | 'VALIDATION' | 'UNKNOWN';
+    source?: 'API' | 'NETWORK' | 'SDK';
     details?: any;
 }
 export interface DefaultAppInitData {
