@@ -3849,3 +3849,78 @@ describe('Unit test case for ts embed', () => {
         });
     });
 });
+
+
+describe('Additional Coverage Tests', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    test('should handle getAuthTokenForCookielessInit with non-cookieless auth', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const token = await searchEmbed['getAuthTokenForCookielessInit']();
+        expect(token).toBe('');
+    });
+
+    test('should call setIFrameHeight', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        await executeAfterWait(() => {
+            searchEmbed['setIFrameHeight'](500);
+            expect(getIFrameEl().style.height).toBe('500px');
+        });
+    });
+
+    test('should test getIframeCenter calculation', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        await executeAfterWait(() => {
+            const center = searchEmbed['getIframeCenter']();
+            expect(center).toHaveProperty('iframeCenter');
+            expect(center).toHaveProperty('iframeHeight');
+            expect(center).toHaveProperty('viewPortHeight');
+        });
+    });
+
+    test('should handle preRender with replaceExistingPreRender=true', async () => {
+        createRootEleForEmbed();
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'test-replace',
+            liveboardId: 'lb1',
+        });
+        await embed1.preRender();
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'test-replace',
+            liveboardId: 'lb2',
+        });
+        await embed2.preRender(false, true);
+        expect(document.getElementById('tsEmbed-pre-render-wrapper-test-replace')).toBeTruthy();
+    });
+
+    test('should test getIframeSrc base implementation', () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        expect(searchEmbed.getIframeSrc()).toBe('');
+    });
+
+    test('should handle createEmbedEventResponder with OnBeforeGetVizDataIntercept', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const mockPort: any = { postMessage: jest.fn() };
+        const responder = searchEmbed['createEmbedEventResponder'](
+            mockPort,
+            EmbedEvent.OnBeforeGetVizDataIntercept,
+        );
+        responder({ data: 'test' });
+        expect(mockPort.postMessage).toHaveBeenCalled();
+    });
+
+    test('should clean up message event listeners', async () => {
+        const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        searchEmbed['unsubscribeToMessageEvents']();
+        expect(removeEventListenerSpy).toHaveBeenCalledWith('message', expect.any(Function));
+    });
+});
