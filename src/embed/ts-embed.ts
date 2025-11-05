@@ -332,7 +332,7 @@ export class TsEmbed {
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
-            const errorDetails = { errorType: 'API', message: ERROR_MESSAGE.OFFLINE_WARNING, code: ERROR_CODE.NETWORK_ERROR, source: 'NETWORK', details: { event: e, } } as EmbedErrorDetailsEvent;
+            const errorDetails = { errorType: 'NETWORK', message: ERROR_MESSAGE.OFFLINE_WARNING, code: ERROR_CODE.NETWORK_ERROR, source: 'NETWORK', details: { event: e, } } as EmbedErrorDetailsEvent;
             this.executeCallbacks(EmbedEvent.ErrorDetails, errorDetails);
             logger.warn(errorDetails);
         };
