@@ -130,6 +130,8 @@ const getMockAppInitPayload = (data: any) => {
         customVariablesForThirdPartyTools,
         interceptTimeout: undefined,
         interceptUrls: [],
+        allowedRoutes: [],
+        accessDeniedMessage: '',
     };
     return {
         type: EmbedEvent.APP_INIT,

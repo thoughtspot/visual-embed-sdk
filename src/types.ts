@@ -1106,6 +1106,46 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Array of routes that are allowed to be accessed in the embedded app.
+     * When specified, navigation will be restricted to only these routes.
+     * Use Path.All to allow all routes without restrictions.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @example
+     *
+     *
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+     *    accessDeniedMessage: 'You do not have access to this page'
+     * })
+     *      * 
+     *
+     * // Allow all routes
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    allowedRoutes: [Path.All]
+     * })
+     *      */
+        allowedRoutes?: Path[];
+        /**
+         * Custom message to display when a user tries to access a route
+         * that is not in the allowedRoutes list.
+         * 
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @default 'Access Denied'
+         * @example
+         *
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    allowedRoutes: [Path.Home, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have permission to access this page. 
+         * Please contact your administrator.'
+         * })
+         *      */
+        accessDeniedMessage?: string;
+    
 }
 
 /**
@@ -6376,6 +6416,8 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
+    allowedRoutes: Path[];
+    accessDeniedMessage: string;
 }
 
 /**
