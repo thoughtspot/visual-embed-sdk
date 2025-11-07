@@ -1115,36 +1115,39 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @example
      *
-     *
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
      *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
      *    accessDeniedMessage: 'You do not have access to this page'
-     * })
-     *      * 
+     * })```
      *
      * // Allow all routes
+     * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    allowedRoutes: [Path.All]
      * })
-     *      */
-        allowedRoutes?: Path[];
-        /**
-         * Custom message to display when a user tries to access a route
-         * that is not in the allowedRoutes list.
-         * 
-         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
-         * @default 'Access Denied'
-         * @example
-         *
-         * const embed = new AppEmbed('#tsEmbed', {
-         *    allowedRoutes: [Path.Home, Path.Liveboards],
-         *    accessDeniedMessage: 'You do not have permission to access this page. 
-         * Please contact your administrator.'
-         * })
-         *      */
-        accessDeniedMessage?: string;
+     * ```
+     */
+    allowedRoutes?: Path[];
+    /**
+     * Custom message to display when a user tries to access a route
+     * that is not in the allowedRoutes list.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @default 'Access Denied'
+     * @example
+     *
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    allowedRoutes: [Path.Home, Path.Liveboards],
+     *    accessDeniedMessage: 'You do not have permission to access this page. 
+     * Please contact your administrator.'
+     * })
+     * ```
+     */
+    accessDeniedMessage?: string;
     
 }
 
