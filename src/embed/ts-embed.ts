@@ -467,6 +467,8 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            allowedRoutes: this.viewConfig.allowedRoutes || [],
+            accessDeniedMessage: this.viewConfig.accessDeniedMessage || '',
             ...getInterceptInitData(this.viewConfig),
         };
 

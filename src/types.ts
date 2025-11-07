@@ -1097,6 +1097,46 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Array of routes that are allowed to be accessed in the embedded app.
+     * When specified, navigation will be restricted to only these routes.
+     * Use Path.All to allow all routes without restrictions.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @example
+     *
+     *
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+     *    accessDeniedMessage: 'You do not have access to this page'
+     * })
+     *      * 
+     *
+     * // Allow all routes
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    allowedRoutes: [Path.All]
+     * })
+     *      */
+        allowedRoutes?: Path[];
+        /**
+         * Custom message to display when a user tries to access a route
+         * that is not in the allowedRoutes list.
+         * 
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @default 'Access Denied'
+         * @example
+         *
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    allowedRoutes: [Path.Home, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have permission to access this page. 
+         * Please contact your administrator.'
+         * })
+         *      */
+        accessDeniedMessage?: string;
+    
 }
 
 /**
@@ -6103,6 +6143,8 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
+    allowedRoutes: Path[];
+    accessDeniedMessage: string;
 }
 
 /**
@@ -6123,6 +6165,78 @@ export enum InterceptedApiType {
     LiveboardData = 'LiveboardData',
 }
 
+/**
+ * Routes/paths within the ThoughtSpot embedded application that can be controlled
+ * for access restrictions.
+ * Use this enum with the `allowedRoutes` configuration to restrict
+ * which routes users can access in the embedded view.
+ * 
+ * @example
+ *
+ * const embed = new AppEmbed('#tsEmbed', {
+ *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+ *    accessDeniedMessage: 'You do not have access to this page'
+ * })
+ *  * @version SDK: 1.45.0 | ThoughtSpot: *
+ */
+export enum Path {
+    /**
+     * Allow all routes - no restrictions
+     */
+    All = '*',
+    /**
+     * Home page
+     */
+    Home = 'home',
+    /**
+     * Search page
+     */
+    Search = 'search',
+    /**
+     * Saved answers listing page
+     */
+    Answers = 'answers',
+    /**
+     * Liveboards listing page
+     */
+    Liveboards = 'liveboards',
+    /**
+     * Liveboard detail/view page
+     */
+    Liveboard = 'liveboard',
+    /**
+     * Pinboards (legacy name for Liveboards)
+     */
+    Pinboards = 'pinboards',
+    /**
+     * Pinboard detail/view page (legacy)
+     */
+    Pinboard = 'pinboard',
+    /**
+     * Data management page
+     */
+    Data = 'data',
+    /**
+     * SpotIQ listing page
+     */
+    SpotIQ = 'insights',
+    /**
+     * Monitor Alerts Page
+     */
+    Monitor = 'monitor',
+    /**
+     * Sage (AI) page
+     */
+    Sage = 'sage',
+    /**
+     * Spotter page
+     */
+    Spotter = 'spotter',
+    /**
+     * Answer detail/view page
+     */
+    Answer = 'answer',
+}
 
 export type ApiInterceptFlags = {
     /**
