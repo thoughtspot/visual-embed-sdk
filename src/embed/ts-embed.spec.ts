@@ -129,6 +129,7 @@ const getMockAppInitPayload = (data: any) => {
         interceptTimeout: undefined,
         interceptUrls: [],
         allowedRoutes: [],
+        blockedRoutes: [],
         accessDeniedMessage: '',
     };
     return {
