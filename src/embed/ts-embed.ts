@@ -36,7 +36,7 @@ import {
     isUndefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
-import { getBlockedAndAllowedRoutesError } from '../utils/allowed-or-blocked-routes';
+import { getBlockedAndAllowedRoutes } from '../utils/allowed-or-blocked-routes';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -461,7 +461,7 @@ export class TsEmbed {
                     error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
                 });
         }
-        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutesError(this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes);
+        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes(this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes);
         if(blockedAndAllowedRoutesResult.error) {
             this.handleError('You cannot have both blockedRoutes and allowedRoutes set at the same time');
         }
@@ -486,7 +486,7 @@ export class TsEmbed {
             customActions: customActionsResult.actions,
             allowedRoutes: blockedAndAllowedRoutesResult.allowedRoutes,
             blockedRoutes: blockedAndAllowedRoutesResult.blockedRoutes,
-            accessDeniedMessage: this.viewConfig.accessDeniedMessage || '',
+            accessDeniedMessage: this.viewConfig.accessDeniedMessage,
             ...getInterceptInitData(this.viewConfig),
         };
 
