@@ -1,9 +1,9 @@
-import { Path } from "src/types";
+import { NavigationPath } from "src/types";
 
 export const getBlockedAndAllowedRoutes = (
-    blockedRoutes: Path[],
-    allowedRoutes: Path[],
-): { allowedRoutes: Path[]; blockedRoutes: Path[]; error: boolean } => {
+    blockedRoutes: NavigationPath[],
+    allowedRoutes: NavigationPath[],
+): { allowedRoutes: NavigationPath[]; blockedRoutes: NavigationPath[]; error: boolean } => {
     if (blockedRoutes && allowedRoutes) {
         return {
             allowedRoutes: [],
