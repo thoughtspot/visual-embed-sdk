@@ -26488,7 +26488,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1567,
+						"id": 1569,
 						"name": "SpotterEmbedViewConfig.additionalFlags"
 					}
 				},
@@ -26530,7 +26530,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1584,
+						"id": 1586,
 						"name": "SpotterEmbedViewConfig.customActions"
 					}
 				},
@@ -26569,7 +26569,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1571,
+						"id": 1573,
 						"name": "SpotterEmbedViewConfig.customizations"
 					}
 				},
@@ -26651,7 +26651,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1579,
+						"id": 1581,
 						"name": "SpotterEmbedViewConfig.disableRedirectionLinksInNewTab"
 					}
 				},
@@ -26729,7 +26729,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1563,
+						"id": 1565,
 						"name": "SpotterEmbedViewConfig.disabledActionReason"
 					}
 				},
@@ -26772,7 +26772,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1562,
+						"id": 1564,
 						"name": "SpotterEmbedViewConfig.disabledActions"
 					}
 				},
@@ -26814,7 +26814,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1575,
+						"id": 1577,
 						"name": "SpotterEmbedViewConfig.doNotTrackPreRenderSize"
 					}
 				},
@@ -26896,7 +26896,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1576,
+						"id": 1578,
 						"name": "SpotterEmbedViewConfig.enableV2Shell_experimental"
 					}
 				},
@@ -27012,7 +27012,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1578,
+						"id": 1580,
 						"name": "SpotterEmbedViewConfig.exposeTranslationIDs"
 					}
 				},
@@ -27052,7 +27052,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1559,
+						"id": 1561,
 						"name": "SpotterEmbedViewConfig.frameParams"
 					}
 				},
@@ -27099,7 +27099,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1564,
+						"id": 1566,
 						"name": "SpotterEmbedViewConfig.hiddenActions"
 					}
 				},
@@ -27216,7 +27216,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1572,
+						"id": 1574,
 						"name": "SpotterEmbedViewConfig.insertAsSibling"
 					}
 				},
@@ -27255,7 +27255,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1581,
+						"id": 1583,
 						"name": "SpotterEmbedViewConfig.linkOverride"
 					}
 				},
@@ -27294,7 +27294,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1566,
+						"id": 1568,
 						"name": "SpotterEmbedViewConfig.locale"
 					}
 				},
@@ -27333,7 +27333,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1580,
+						"id": 1582,
 						"name": "SpotterEmbedViewConfig.overrideOrgId"
 					}
 				},
@@ -27372,7 +27372,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1574,
+						"id": 1576,
 						"name": "SpotterEmbedViewConfig.preRenderId"
 					}
 				},
@@ -27524,7 +27524,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1583,
+						"id": 1585,
 						"name": "SpotterEmbedViewConfig.showAlerts"
 					}
 				},
@@ -27610,7 +27610,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"id": 1565,
+						"id": 1567,
 						"name": "SpotterEmbedViewConfig.visibleActions"
 					}
 				},
@@ -34497,7 +34497,7 @@
 					}
 				},
 				{
-					"id": 2476,
+					"id": 2482,
 					"name": "enableVizTransformations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34765,7 +34765,7 @@
 					}
 				},
 				{
-					"id": 2490,
+					"id": 2496,
 					"name": "hiddenTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34886,7 +34886,7 @@
 					}
 				},
 				{
-					"id": 2485,
+					"id": 2491,
 					"name": "hideTabPanel",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35220,7 +35220,7 @@
 					}
 				},
 				{
-					"id": 2494,
+					"id": 2500,
 					"name": "lazyLoadingForFullHeight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35257,7 +35257,7 @@
 					}
 				},
 				{
-					"id": 2495,
+					"id": 2501,
 					"name": "lazyLoadingMargin",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35329,7 +35329,7 @@
 					}
 				},
 				{
-					"id": 2477,
+					"id": 2483,
 					"name": "liveboardId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35363,7 +35363,7 @@
 					}
 				},
 				{
-					"id": 2483,
+					"id": 2489,
 					"name": "liveboardV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35549,7 +35549,7 @@
 					}
 				},
 				{
-					"id": 2480,
+					"id": 2486,
 					"name": "preventLiveboardFilterRemoval",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35944,7 +35944,7 @@
 					}
 				},
 				{
-					"id": 2496,
+					"id": 2502,
 					"name": "showSpotterLimitations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36023,7 +36023,7 @@
 					}
 				},
 				{
-					"id": 2491,
+					"id": 2497,
 					"name": "visibleTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36060,7 +36060,7 @@
 					}
 				},
 				{
-					"id": 2481,
+					"id": 2487,
 					"name": "visibleVizs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36097,7 +36097,7 @@
 					}
 				},
 				{
-					"id": 2479,
+					"id": 2485,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42087,20 +42087,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 1568,
+							"id": 1570,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 1569,
+								"id": 1571,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 1570,
+										"id": 1572,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -42177,7 +42177,7 @@
 					}
 				},
 				{
-					"id": 1571,
+					"id": 1573,
 					"name": "customizations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42253,7 +42253,7 @@
 					}
 				},
 				{
-					"id": 1579,
+					"id": 1581,
 					"name": "disableRedirectionLinksInNewTab",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42325,7 +42325,7 @@
 					}
 				},
 				{
-					"id": 1563,
+					"id": 1565,
 					"name": "disabledActionReason",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42363,7 +42363,7 @@
 					}
 				},
 				{
-					"id": 1562,
+					"id": 1564,
 					"name": "disabledActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42405,7 +42405,7 @@
 					}
 				},
 				{
-					"id": 1575,
+					"id": 1577,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42484,7 +42484,7 @@
 					}
 				},
 				{
-					"id": 1576,
+					"id": 1578,
 					"name": "enableV2Shell_experimental",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42590,7 +42590,7 @@
 					}
 				},
 				{
-					"id": 1578,
+					"id": 1580,
 					"name": "exposeTranslationIDs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42627,7 +42627,7 @@
 					}
 				},
 				{
-					"id": 1559,
+					"id": 1561,
 					"name": "frameParams",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42666,7 +42666,7 @@
 					}
 				},
 				{
-					"id": 1564,
+					"id": 1566,
 					"name": "hiddenActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42780,7 +42780,7 @@
 					}
 				},
 				{
-					"id": 1572,
+					"id": 1574,
 					"name": "insertAsSibling",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42856,7 +42856,7 @@
 					}
 				},
 				{
-					"id": 1566,
+					"id": 1568,
 					"name": "locale",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42894,7 +42894,7 @@
 					}
 				},
 				{
-					"id": 1580,
+					"id": 1582,
 					"name": "overrideOrgId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42932,7 +42932,7 @@
 					}
 				},
 				{
-					"id": 1574,
+					"id": 1576,
 					"name": "preRenderId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43069,7 +43069,7 @@
 					}
 				},
 				{
-					"id": 1583,
+					"id": 1585,
 					"name": "showAlerts",
 					"kind": 1024,
 					"kindString": "Property",

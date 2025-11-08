@@ -1113,6 +1113,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Use Path.All to allow all routes without restrictions.
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @example
      *
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1131,12 +1132,35 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     allowedRoutes?: Path[];
+
+    /**
+     * Array of routes that are blocked from being accessed in the embedded app.
+     * When specified, navigation will be restricted to only these routes.
+     * Use Path.All to block all routes without restrictions.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    blockedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+     * })
+     * ```
+     * // Block all routes
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    blockedRoutes: [Path.All]
+     * })
+     * ```
+     */
+    blockedRoutes?: Path[];
     /**
      * Custom message to display when a user tries to access a route
      * that is not in the allowedRoutes list.
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @default 'Access Denied'
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @example
      *
      * ```js
@@ -6420,6 +6444,7 @@ export interface DefaultAppInitData {
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
     allowedRoutes: Path[];
+    blockedRoutes: Path[];
     accessDeniedMessage: string;
 }
 
