@@ -2,7 +2,7 @@ import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed } from './conve
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
-import { AuthType, Param, RuntimeFilterOp } from '../types';
+import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, ErrorDetailsSources  } from '../types';
 import {
     getDocumentBody,
     getIFrameSrc,
@@ -122,10 +122,10 @@ describe('ConversationEmbed', () => {
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
             ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
             {
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
                 code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             },
         );
