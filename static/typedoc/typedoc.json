@@ -9976,7 +9976,17 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "Pages within the ThoughtSpot app that can be embedded."
+				"shortText": "Routes/paths within the ThoughtSpot embedded application that can be controlled\nfor access restrictions.\nUse this enum with the `allowedRoutes` configuration\nand `blockedRoutes` configuration to restrict navigation\nwhich routes users can access in the embedded view.",
+				"tags": [
+					{
+						"tag": "example",
+						"text": "\n\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n    allowedRoutes: [Path.Home, Path.Search, Path.Liveboard],\n    accessDeniedMessage: 'You do not have access to this page'\n});\n```\n\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n    blockedRoutes: [Path.Home, Path.Search, Path.Liveboard],\n    accessDeniedMessage: 'You do not have access to this page'\n});\n```"
+					},
+					{
+						"tag": "version",
+						"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl\n"
+					}
+				]
 			},
 			"children": [
 				{
@@ -9985,17 +9995,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "Saved answers listing page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 39,
+							"fileName": "types.ts",
+							"line": 6225,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"answers\""
+					"defaultValue": "\"/insights?/answers\""
+				},
+				{
+					"id": 3067,
+					"name": "AppConnections",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6281,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/app-connections\""
 				},
 				{
 					"id": 1891,
@@ -10003,17 +10025,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "Data management page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 51,
+							"fileName": "types.ts",
+							"line": 6338,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"data\""
+					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
+				},
+				{
+					"id": 3069,
+					"name": "AutoWorksheetWithConnectionId",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6283,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/worksheet/create/auto\""
 				},
 				{
 					"id": 1886,
@@ -10021,17 +10055,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "Home page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 31,
+							"fileName": "types.ts",
+							"line": 6228,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"home\""
+					"defaultValue": "\"/insights?/conv-assist\""
+				},
+				{
+					"id": 3028,
+					"name": "Copilot",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6226,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/copilot\""
 				},
 				{
 					"id": 1889,
@@ -10039,17 +10085,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "Liveboards listing page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 43,
+							"fileName": "types.ts",
+							"line": 6227,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"liveboards\""
+					"defaultValue": "\"/copilot/chat\""
+				},
+				{
+					"id": 3045,
+					"name": "CreateAiAnswerWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6249,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights?/create-ai-answer\""
 				},
 				{
 					"id": 1893,
@@ -10057,17 +10115,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": " Monitor Alerts Page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 59,
+							"fileName": "types.ts",
+							"line": 6317,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"monitor\""
+					"defaultValue": "\"/custom-calendar-test\""
+				},
+				{
+					"id": 3094,
+					"name": "CustomCalendarWizard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6316,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/custom-calendar\""
 				},
 				{
 					"id": 1887,
@@ -10075,17 +10145,29 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "Search page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 35,
+							"fileName": "types.ts",
+							"line": 6277,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"search\""
+					"defaultValue": "\"/data/data-governance\""
+				},
+				{
+					"id": 3024,
+					"name": "DataModelPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6222,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/*\""
 				},
 				{
 					"id": 1892,
@@ -10093,22 +10175,48 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
-					"comment": {
-						"shortText": "SpotIQ listing page"
-					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 55,
+							"fileName": "types.ts",
+							"line": 6271,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"insights\""
-				}
-			],
-			"groups": [
+					"defaultValue": "\"/data/dataset\""
+				},
 				{
-					"title": "Enumeration members",
+					"id": 3060,
+					"name": "Dbt",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6274,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/dbt\""
+				},
+				{
+					"id": 3105,
+					"name": "DbtIntegration",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6333,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/dbt-integration\""
+				},
+				{
+					"id": 3053,
+					"name": "DeepLinkPage",
 					"kind": 16,
 					"children": [
 						1888,
