@@ -6233,6 +6233,30 @@ export enum LogLevel {
     TRACE = 'TRACE',
 }
 
+/**
+ * Error types for embed errors
+ * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ */
+export enum ErrorDetailsTypes {
+    API = 'API',
+    FULLSCREEN = 'FULLSCREEN',
+    SINGLE_VALUE_FILTER = 'SINGLE_VALUE_FILTER',
+    NON_EXIST_FILTER = 'NON_EXIST_FILTER',
+    INVALID_DATE_VALUE = 'INVALID_DATE_VALUE',
+    INVALID_OPERATOR = 'INVALID_OPERATOR',
+    VALIDATION_ERROR = 'VALIDATION_ERROR',
+    NETWORK = 'NETWORK',
+}
+
+/**
+ * Error source for embed errors
+ * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ */
+export enum ErrorDetailsSources {
+    API = 'API',
+    NETWORK = 'NETWORK',
+    SDK = 'SDK',
+}
 
 /**
  * Error event object
@@ -6255,10 +6279,10 @@ export enum LogLevel {
  * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
  */
 export interface EmbedErrorDetailsEvent {
-    errorType: 'API' | 'FULLSCREEN' | 'SINGLE_VALUE_FILTER' | 'NON_EXIST_FILTER' | 'INVALID_DATE_VALUE' | 'INVALID_OPERATOR' | 'VALIDATION_ERROR' | string;
+    errorType: ErrorDetailsTypes;
     message: string | string[];
     code: string;
-    source?: 'API' | 'NETWORK' | 'SDK';
+    source?: ErrorDetailsSources;
     details?: any;
 }
 export interface DefaultAppInitData {

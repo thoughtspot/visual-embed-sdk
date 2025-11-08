@@ -29,6 +29,8 @@ import {
     CustomActionTarget,
     CustomActionsPosition,
     DefaultAppInitData,
+    ErrorDetailsTypes,
+    ErrorDetailsSources
 } from '../types';
 import {
     executeAfterWait,
@@ -1614,10 +1616,10 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
@@ -1650,10 +1652,10 @@ describe('Unit test case for ts embed', () => {
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         }
@@ -1699,10 +1701,10 @@ describe('Unit test case for ts embed', () => {
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
@@ -1735,10 +1737,10 @@ describe('Unit test case for ts embed', () => {
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         }
@@ -1787,10 +1789,10 @@ describe('Unit test case for ts embed', () => {
             await tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
             expect(logger.error).toHaveBeenCalledWith({
-                errorType: 'VALIDATION_ERROR',
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
                 code: ERROR_CODE.INIT_ERROR,
-                source: 'SDK',
+                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
