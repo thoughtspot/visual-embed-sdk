@@ -449,7 +449,7 @@ export class TsEmbed {
                 message: customActionsResult.errors,
             });
         }
-        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes(this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes);
+        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes(this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes, this.viewConfig.embedComponentType || '');
         if(blockedAndAllowedRoutesResult.error) {
             this.handleError(blockedAndAllowedRoutesResult.message);
         }

@@ -1122,7 +1122,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * })
      * ```
      */
-    allowedRoutes?: NavigationPath[];
+    allowedRoutes?: (NavigationPath | string)[];
 
     /**
      * Array of routes that are blocked from being accessed in the embedded app.
@@ -1144,7 +1144,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * })
      * ```
      */
-    blockedRoutes?: NavigationPath[];
+    blockedRoutes?: (NavigationPath | string)[];
     /**
      * Custom message to display when a user tries to access a route
      * that is not in the allowedRoutes list.
@@ -6170,8 +6170,8 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
-    allowedRoutes: NavigationPath[];
-    blockedRoutes: NavigationPath[];
+    allowedRoutes: ( NavigationPath | string)[];
+    blockedRoutes: (NavigationPath | string)[];
     accessDeniedMessage: string;
 }
 
@@ -6218,14 +6218,15 @@ export enum InterceptedApiType {
  * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
  */
 export enum NavigationPath {
+    All = '/*',
     // Core navigation methods
     DataModelPage = '/data/*',
     AdminPage = '/admin',
     Home = '/home',
-    Answers = '/insights?/answers',
+    Answers = '/insights/answers',
     Copilot = '/copilot',
     CopilotChat = '/copilot/chat',
-    ConvAssist = '/insights?/conv-assist',
+    ConvAssist = '/insights/conv-assist',
     TryEverywhere = '/everywhere',
     Documents = '/insights/doc-search',
 
@@ -6239,19 +6240,20 @@ export enum NavigationPath {
     HomeSpotIQAnalysis = '/insights/home/spotiq-analysis',
 
     // Answer/Search related
-    Answer = '/insights?/answer',
-    SavedAnswer = '/insights?/saved-answer/:answerId',
-    View = '/insights?/view/:answerId',
-    EditACopy = '/insights?/answer/edit/:editACopySessionKey',
+    Answer = '/insights/answer',
+    SavedAnswer = '/insights/saved-answer/:answerId',
+    View = '/insights/view/:answerId',
+    EditACopy = '/insights/answer/edit/:editACopySessionKey',
 
     // Eureka/AI related
-    EurekaWithQueryParams = '/insights?/eureka',
-    CreateAiAnswerWithQueryParams = '/insights?/create-ai-answer',
+    EurekaWithQueryParams = '/insights/eureka',
+    CreateAiAnswerWithQueryParams = '/insights/create-ai-answer',
     TrainSageWithQueryParams = '/data/sage/train',
-    AiAnswer = '/insights?/ai-answer/:eurekaAnswerSessionId',
+    AiAnswer = '/insights/ai-answer/:eurekaAnswerSessionId',
 
     // Pinboard/Liveboard
-    Pinboard = '/insights?/pinboard/:pinboardId/:vizId?',
+    Pinboard = '/insights/pinboard/:pinboardId',
+    VizBoard = '/insights/pinboard/:pinboardId/:vizId',
 
     // Monitor
     MonitorV2 = '/monitor',
@@ -6264,7 +6266,7 @@ export enum NavigationPath {
 
     // Insights/SpotIQ
     Insights = '/insights',
-    Insight = '/insights?/insight/:analysisResultId',
+    Insight = '/insights/insight/:analysisResultId',
 
     // Data related
     Table = '/data/tables',

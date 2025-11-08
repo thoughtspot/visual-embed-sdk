@@ -10104,1223 +10104,8 @@
 			},
 			"children": [
 				{
-					"id": 3091,
-					"name": "Actions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6313,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/develop/*/actionsCustomization\""
-				},
-				{
-					"id": 3025,
-					"name": "AdminPage",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6223,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/admin\""
-				},
-				{
-					"id": 3047,
-					"name": "AiAnswer",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6251,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/ai-answer/:eurekaAnswerSessionId\""
-				},
-				{
-					"id": 3040,
-					"name": "Answer",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6242,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/answer\""
-				},
-				{
-					"id": 3027,
-					"name": "Answers",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6225,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/answers\""
-				},
-				{
-					"id": 3067,
-					"name": "AppConnections",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6281,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/app-connections\""
-				},
-				{
-					"id": 3108,
-					"name": "AutoAnswer",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6338,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
-				},
-				{
-					"id": 3069,
-					"name": "AutoWorksheetWithConnectionId",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6283,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/worksheet/create/auto\""
-				},
-				{
-					"id": 3030,
-					"name": "ConvAssist",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6228,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/conv-assist\""
-				},
-				{
-					"id": 3028,
-					"name": "Copilot",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6226,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/copilot\""
-				},
-				{
-					"id": 3029,
-					"name": "CopilotChat",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6227,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/copilot/chat\""
-				},
-				{
-					"id": 3045,
-					"name": "CreateAiAnswerWithQueryParams",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6249,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/create-ai-answer\""
-				},
-				{
-					"id": 3095,
-					"name": "CustomCalendarRedirection",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6317,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/custom-calendar-test\""
-				},
-				{
-					"id": 3094,
-					"name": "CustomCalendarWizard",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6316,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/custom-calendar\""
-				},
-				{
-					"id": 3063,
-					"name": "DataGovernance",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6277,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/data-governance\""
-				},
-				{
-					"id": 3024,
-					"name": "DataModelPage",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6222,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/*\""
-				},
-				{
-					"id": 3057,
-					"name": "Dataset",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6271,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/dataset\""
-				},
-				{
-					"id": 3060,
-					"name": "Dbt",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6274,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/dbt\""
-				},
-				{
-					"id": 3105,
-					"name": "DbtIntegration",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6333,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/dbt-integration\""
-				},
-				{
-					"id": 3053,
-					"name": "DeepLinkPage",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6263,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/deeplink\""
-				},
-				{
-					"id": 3061,
-					"name": "Destination",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6275,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/destination\""
-				},
-				{
-					"id": 3058,
-					"name": "DestinationSync",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6272,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/destination-sync\""
-				},
-				{
-					"id": 3096,
-					"name": "DevelopTab",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6320,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/develop\""
-				},
-				{
-					"id": 3032,
-					"name": "Documents",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6230,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/doc-search\""
-				},
-				{
-					"id": 3043,
-					"name": "EditACopy",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6245,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/answer/edit/:editACopySessionKey\""
-				},
-				{
-					"id": 3072,
-					"name": "Embrace",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6286,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/embrace\""
-				},
-				{
-					"id": 3071,
-					"name": "EmbraceConnections",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6285,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/embrace/connection\""
-				},
-				{
-					"id": 3073,
-					"name": "EmbraceCsvUploadWithDatasourceID",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6287,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/importcsv/loaddata\""
-				},
-				{
-					"id": 3044,
-					"name": "EurekaWithQueryParams",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6248,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/eureka\""
-				},
-				{
-					"id": 3052,
-					"name": "ForgotPassword",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6262,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/requestresetpassword\""
-				},
-				{
-					"id": 3065,
-					"name": "FragmentFeedback",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6279,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/fragment-feedback\""
-				},
-				{
-					"id": 3097,
-					"name": "GetStarted",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6321,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/get-started\""
-				},
-				{
-					"id": 3026,
-					"name": "Home",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6224,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/home\""
-				},
-				{
-					"id": 3033,
-					"name": "HomeAnswers",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6233,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/answers\""
-				},
-				{
-					"id": 3037,
-					"name": "HomeCreatedByMe",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6237,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/created-by-me\""
-				},
-				{
-					"id": 3035,
-					"name": "HomeFavs",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6235,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/favourites\""
-				},
-				{
-					"id": 3036,
-					"name": "HomeLiveboardSchedules",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6236,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/liveboard-schedules\""
-				},
-				{
-					"id": 3034,
-					"name": "HomeLiveboards",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6234,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/liveboards\""
-				},
-				{
-					"id": 3038,
-					"name": "HomeMonitorAlerts",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6238,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/monitor-alerts\""
-				},
-				{
-					"id": 3039,
-					"name": "HomeSpotIQAnalysis",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6239,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/home/spotiq-analysis\""
-				},
-				{
-					"id": 3098,
-					"name": "ImportTsl",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6324,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/import-tsl/:metadataType\""
-				},
-				{
-					"id": 3055,
-					"name": "Insight",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6267,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/insight/:analysisResultId\""
-				},
-				{
-					"id": 3054,
-					"name": "Insights",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6266,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights\""
-				},
-				{
-					"id": 3064,
-					"name": "LiveBoardVerification",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6278,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/liveboard-verification\""
-				},
-				{
-					"id": 3050,
-					"name": "Login",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6260,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/login\""
-				},
-				{
-					"id": 3089,
-					"name": "ManageSchedules",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6309,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/schedules\""
-				},
-				{
-					"id": 3049,
-					"name": "MonitorV2",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6257,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/monitor\""
-				},
-				{
-					"id": 3092,
-					"name": "OnBoarding",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6314,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/onboarding\""
-				},
-				{
-					"id": 3087,
-					"name": "OrgsContent",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6305,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/orgs/content\""
-				},
-				{
-					"id": 3088,
-					"name": "OrgsCreditConsumption",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6306,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/orgs/credit-consumption\""
-				},
-				{
-					"id": 3086,
-					"name": "OrgsGroups",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6304,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/orgs/groups\""
-				},
-				{
-					"id": 3084,
-					"name": "OrgsHome",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6302,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/orgs\""
-				},
-				{
-					"id": 3085,
-					"name": "OrgsUsers",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6303,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/orgs/users\""
-				},
-				{
-					"id": 3048,
-					"name": "Pinboard",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6254,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/pinboard/:pinboardId/:vizId?\""
-				},
-				{
-					"id": 3107,
-					"name": "Purchase",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6337,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/purchase\""
-				},
-				{
-					"id": 3066,
-					"name": "QueryFeedback",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6280,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/query-feedback\""
-				},
-				{
-					"id": 3109,
-					"name": "RequestAccessForObject",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6339,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/requestaccess/:objectType/:objectId\""
-				},
-				{
-					"id": 3051,
-					"name": "ResetPassword",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6261,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/resetpassword\""
-				},
-				{
-					"id": 3041,
-					"name": "SavedAnswer",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6243,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights?/saved-answer/:answerId\""
-				},
-				{
-					"id": 3106,
-					"name": "SchemaViewer",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6334,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/schema-viewer/table\""
-				},
-				{
-					"id": 3090,
-					"name": "Setup",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6312,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/setup\""
-				},
-				{
-					"id": 3104,
-					"name": "SpotAppDetailsAndAnalytics",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6332,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/spotapp\""
-				},
-				{
-					"id": 3103,
-					"name": "SpotAppsAdmin",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6331,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/spotapps-admin\""
-				},
-				{
-					"id": 3062,
-					"name": "SqlView",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6276,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/sql-view\""
-				},
-				{
-					"id": 3056,
-					"name": "Table",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6270,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/tables\""
-				},
-				{
-					"id": 3080,
-					"name": "TeamsAuthenticationOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6296,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/authentication\""
-				},
-				{
-					"id": 3082,
-					"name": "TeamsDataUsage",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6298,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/data-usage\""
-				},
-				{
-					"id": 3083,
-					"name": "TeamsManageSubscription",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6299,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/manage-subscription\""
-				},
-				{
-					"id": 3074,
-					"name": "TeamsMembers",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6290,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/members\""
-				},
-				{
-					"id": 3075,
-					"name": "TeamsPendingInvitations",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6291,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/pending-invitations\""
-				},
-				{
-					"id": 3076,
-					"name": "TeamsPlanOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6292,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/plan-options\""
-				},
-				{
-					"id": 3077,
-					"name": "TeamsSpotIQOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6293,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/spotiq\""
-				},
-				{
-					"id": 3078,
-					"name": "TeamsStyleCustomizationOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6294,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/style-customization\""
-				},
-				{
-					"id": 3081,
-					"name": "TeamsSystemActivitiesOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6297,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/system-activities\""
-				},
-				{
-					"id": 3079,
-					"name": "TeamsUserManagementOptions",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6295,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/teams/user-management\""
-				},
-				{
-					"id": 3099,
-					"name": "TmlUtility",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6325,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/utilities/tml\""
-				},
-				{
-					"id": 3046,
-					"name": "TrainSageWithQueryParams",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6250,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/sage/train\""
-				},
-				{
-					"id": 3031,
-					"name": "TryEverywhere",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6229,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/everywhere\""
-				},
-				{
-					"id": 3100,
-					"name": "TslEditor",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6326,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/tsl-editor\""
-				},
-				{
-					"id": 3101,
-					"name": "TslEditorSingleFile",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6327,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/tsl-editor/:metadataType/:metadataGuid\""
-				},
-				{
-					"id": 3102,
-					"name": "UpdateTslFromFile",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6328,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/import-tsl/:metadataType/:metadataGuid\""
-				},
-				{
 					"id": 3093,
-					"name": "UserPreference",
+					"name": "Actions",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -11331,11 +10116,251 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/user-preference\""
+					"defaultValue": "\"/develop/*/actionsCustomization\""
+				},
+				{
+					"id": 3026,
+					"name": "AdminPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6224,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/admin\""
+				},
+				{
+					"id": 3048,
+					"name": "AiAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6252,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/ai-answer/:eurekaAnswerSessionId\""
+				},
+				{
+					"id": 3024,
+					"name": "All",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6221,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/*\""
+				},
+				{
+					"id": 3041,
+					"name": "Answer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6243,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/answer\""
+				},
+				{
+					"id": 3028,
+					"name": "Answers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6226,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/answers\""
+				},
+				{
+					"id": 3069,
+					"name": "AppConnections",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6283,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/app-connections\""
+				},
+				{
+					"id": 3110,
+					"name": "AutoAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6340,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
+				},
+				{
+					"id": 3071,
+					"name": "AutoWorksheetWithConnectionId",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6285,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/worksheet/create/auto\""
+				},
+				{
+					"id": 3031,
+					"name": "ConvAssist",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6229,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/conv-assist\""
+				},
+				{
+					"id": 3029,
+					"name": "Copilot",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6227,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/copilot\""
+				},
+				{
+					"id": 3030,
+					"name": "CopilotChat",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6228,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/copilot/chat\""
+				},
+				{
+					"id": 3046,
+					"name": "CreateAiAnswerWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6250,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/create-ai-answer\""
+				},
+				{
+					"id": 3097,
+					"name": "CustomCalendarRedirection",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6319,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/custom-calendar-test\""
+				},
+				{
+					"id": 3096,
+					"name": "CustomCalendarWizard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6318,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/custom-calendar\""
+				},
+				{
+					"id": 3065,
+					"name": "DataGovernance",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6279,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/data-governance\""
+				},
+				{
+					"id": 3025,
+					"name": "DataModelPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6223,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/*\""
 				},
 				{
 					"id": 3059,
-					"name": "Utilities",
+					"name": "Dataset",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -11346,26 +10371,581 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/data/utilities\""
+					"defaultValue": "\"/data/dataset\""
 				},
 				{
-					"id": 3042,
-					"name": "View",
+					"id": 3062,
+					"name": "Dbt",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6244,
+							"line": 6276,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/insights?/view/:answerId\""
+					"defaultValue": "\"/data/dbt\""
+				},
+				{
+					"id": 3107,
+					"name": "DbtIntegration",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6335,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/dbt-integration\""
+				},
+				{
+					"id": 3055,
+					"name": "DeepLinkPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6265,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/deeplink\""
+				},
+				{
+					"id": 3063,
+					"name": "Destination",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6277,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/destination\""
+				},
+				{
+					"id": 3060,
+					"name": "DestinationSync",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6274,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/destination-sync\""
+				},
+				{
+					"id": 3098,
+					"name": "DevelopTab",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6322,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/develop\""
+				},
+				{
+					"id": 3033,
+					"name": "Documents",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6231,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/doc-search\""
+				},
+				{
+					"id": 3044,
+					"name": "EditACopy",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6246,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/answer/edit/:editACopySessionKey\""
+				},
+				{
+					"id": 3074,
+					"name": "Embrace",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6288,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/embrace\""
+				},
+				{
+					"id": 3073,
+					"name": "EmbraceConnections",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6287,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/embrace/connection\""
+				},
+				{
+					"id": 3075,
+					"name": "EmbraceCsvUploadWithDatasourceID",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6289,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/importcsv/loaddata\""
+				},
+				{
+					"id": 3045,
+					"name": "EurekaWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6249,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/eureka\""
+				},
+				{
+					"id": 3054,
+					"name": "ForgotPassword",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6264,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/requestresetpassword\""
+				},
+				{
+					"id": 3067,
+					"name": "FragmentFeedback",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6281,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/fragment-feedback\""
+				},
+				{
+					"id": 3099,
+					"name": "GetStarted",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6323,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/get-started\""
+				},
+				{
+					"id": 3027,
+					"name": "Home",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6225,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/home\""
+				},
+				{
+					"id": 3034,
+					"name": "HomeAnswers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6234,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/answers\""
+				},
+				{
+					"id": 3038,
+					"name": "HomeCreatedByMe",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6238,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/created-by-me\""
+				},
+				{
+					"id": 3036,
+					"name": "HomeFavs",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6236,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/favourites\""
+				},
+				{
+					"id": 3037,
+					"name": "HomeLiveboardSchedules",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6237,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/liveboard-schedules\""
+				},
+				{
+					"id": 3035,
+					"name": "HomeLiveboards",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6235,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/liveboards\""
+				},
+				{
+					"id": 3039,
+					"name": "HomeMonitorAlerts",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6239,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/monitor-alerts\""
+				},
+				{
+					"id": 3040,
+					"name": "HomeSpotIQAnalysis",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6240,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/spotiq-analysis\""
+				},
+				{
+					"id": 3100,
+					"name": "ImportTsl",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6326,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/import-tsl/:metadataType\""
+				},
+				{
+					"id": 3057,
+					"name": "Insight",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6269,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/insight/:analysisResultId\""
+				},
+				{
+					"id": 3056,
+					"name": "Insights",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6268,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights\""
+				},
+				{
+					"id": 3066,
+					"name": "LiveBoardVerification",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6280,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/liveboard-verification\""
+				},
+				{
+					"id": 3052,
+					"name": "Login",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6262,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/login\""
+				},
+				{
+					"id": 3091,
+					"name": "ManageSchedules",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6311,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/schedules\""
+				},
+				{
+					"id": 3051,
+					"name": "MonitorV2",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6259,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/monitor\""
+				},
+				{
+					"id": 3094,
+					"name": "OnBoarding",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6316,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/onboarding\""
+				},
+				{
+					"id": 3089,
+					"name": "OrgsContent",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6307,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/content\""
+				},
+				{
+					"id": 3090,
+					"name": "OrgsCreditConsumption",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6308,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/credit-consumption\""
+				},
+				{
+					"id": 3088,
+					"name": "OrgsGroups",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6306,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/groups\""
+				},
+				{
+					"id": 3086,
+					"name": "OrgsHome",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6304,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs\""
+				},
+				{
+					"id": 3087,
+					"name": "OrgsUsers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6305,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/users\""
+				},
+				{
+					"id": 3049,
+					"name": "Pinboard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6255,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/pinboard/:pinboardId\""
+				},
+				{
+					"id": 3109,
+					"name": "Purchase",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6339,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/purchase\""
 				},
 				{
 					"id": 3068,
-					"name": "WorksheetCreate",
+					"name": "QueryFeedback",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -11376,11 +10956,446 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/worksheet/create\""
+					"defaultValue": "\"/data/query-feedback\""
+				},
+				{
+					"id": 3111,
+					"name": "RequestAccessForObject",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6341,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/requestaccess/:objectType/:objectId\""
+				},
+				{
+					"id": 3053,
+					"name": "ResetPassword",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6263,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/resetpassword\""
+				},
+				{
+					"id": 3042,
+					"name": "SavedAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6244,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/saved-answer/:answerId\""
+				},
+				{
+					"id": 3108,
+					"name": "SchemaViewer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6336,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/schema-viewer/table\""
+				},
+				{
+					"id": 3092,
+					"name": "Setup",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6314,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/setup\""
+				},
+				{
+					"id": 3106,
+					"name": "SpotAppDetailsAndAnalytics",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6334,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/spotapp\""
+				},
+				{
+					"id": 3105,
+					"name": "SpotAppsAdmin",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6333,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/spotapps-admin\""
+				},
+				{
+					"id": 3064,
+					"name": "SqlView",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6278,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/sql-view\""
+				},
+				{
+					"id": 3058,
+					"name": "Table",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6272,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/tables\""
+				},
+				{
+					"id": 3082,
+					"name": "TeamsAuthenticationOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6298,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/authentication\""
+				},
+				{
+					"id": 3084,
+					"name": "TeamsDataUsage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6300,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/data-usage\""
+				},
+				{
+					"id": 3085,
+					"name": "TeamsManageSubscription",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6301,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/manage-subscription\""
+				},
+				{
+					"id": 3076,
+					"name": "TeamsMembers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6292,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/members\""
+				},
+				{
+					"id": 3077,
+					"name": "TeamsPendingInvitations",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6293,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/pending-invitations\""
+				},
+				{
+					"id": 3078,
+					"name": "TeamsPlanOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6294,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/plan-options\""
+				},
+				{
+					"id": 3079,
+					"name": "TeamsSpotIQOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6295,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/spotiq\""
+				},
+				{
+					"id": 3080,
+					"name": "TeamsStyleCustomizationOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6296,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/style-customization\""
+				},
+				{
+					"id": 3083,
+					"name": "TeamsSystemActivitiesOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6299,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/system-activities\""
+				},
+				{
+					"id": 3081,
+					"name": "TeamsUserManagementOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6297,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/user-management\""
+				},
+				{
+					"id": 3101,
+					"name": "TmlUtility",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6327,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/utilities/tml\""
+				},
+				{
+					"id": 3047,
+					"name": "TrainSageWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6251,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/sage/train\""
+				},
+				{
+					"id": 3032,
+					"name": "TryEverywhere",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6230,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/everywhere\""
+				},
+				{
+					"id": 3102,
+					"name": "TslEditor",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6328,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/tsl-editor\""
+				},
+				{
+					"id": 3103,
+					"name": "TslEditorSingleFile",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6329,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/tsl-editor/:metadataType/:metadataGuid\""
+				},
+				{
+					"id": 3104,
+					"name": "UpdateTslFromFile",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6330,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/import-tsl/:metadataType/:metadataGuid\""
+				},
+				{
+					"id": 3095,
+					"name": "UserPreference",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6317,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/user-preference\""
+				},
+				{
+					"id": 3061,
+					"name": "Utilities",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6275,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/utilities\""
+				},
+				{
+					"id": 3043,
+					"name": "View",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6245,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/view/:answerId\""
+				},
+				{
+					"id": 3050,
+					"name": "VizBoard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6256,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/pinboard/:pinboardId/:vizId\""
 				},
 				{
 					"id": 3070,
-					"name": "csvUpload",
+					"name": "WorksheetCreate",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -11388,6 +11403,21 @@
 						{
 							"fileName": "types.ts",
 							"line": 6284,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/worksheet/create\""
+				},
+				{
+					"id": 3072,
+					"name": "csvUpload",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6286,
 							"character": 4
 						}
 					],
@@ -11399,92 +11429,94 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3091,
-						3025,
-						3047,
-						3040,
-						3027,
-						3067,
-						3108,
-						3069,
-						3030,
-						3028,
-						3029,
-						3045,
-						3095,
-						3094,
-						3063,
-						3024,
-						3057,
-						3060,
-						3105,
-						3053,
-						3061,
-						3058,
-						3096,
-						3032,
-						3043,
-						3072,
-						3071,
-						3073,
-						3044,
-						3052,
-						3065,
-						3097,
+						3093,
 						3026,
+						3048,
+						3024,
+						3041,
+						3028,
+						3069,
+						3110,
+						3071,
+						3031,
+						3029,
+						3030,
+						3046,
+						3097,
+						3096,
+						3065,
+						3025,
+						3059,
+						3062,
+						3107,
+						3055,
+						3063,
+						3060,
+						3098,
 						3033,
-						3037,
-						3035,
-						3036,
+						3044,
+						3074,
+						3073,
+						3075,
+						3045,
+						3054,
+						3067,
+						3099,
+						3027,
 						3034,
 						3038,
+						3036,
+						3037,
+						3035,
 						3039,
-						3098,
-						3055,
-						3054,
-						3064,
-						3050,
+						3040,
+						3100,
+						3057,
+						3056,
+						3066,
+						3052,
+						3091,
+						3051,
+						3094,
 						3089,
-						3049,
-						3092,
-						3087,
+						3090,
 						3088,
 						3086,
+						3087,
+						3049,
+						3109,
+						3068,
+						3111,
+						3053,
+						3042,
+						3108,
+						3092,
+						3106,
+						3105,
+						3064,
+						3058,
+						3082,
 						3084,
 						3085,
-						3048,
-						3107,
-						3066,
-						3109,
-						3051,
-						3041,
-						3106,
-						3090,
-						3104,
-						3103,
-						3062,
-						3056,
-						3080,
-						3082,
-						3083,
-						3074,
-						3075,
 						3076,
 						3077,
 						3078,
-						3081,
 						3079,
-						3099,
-						3046,
-						3031,
-						3100,
+						3080,
+						3083,
+						3081,
 						3101,
+						3047,
+						3032,
 						3102,
-						3093,
-						3059,
-						3042,
-						3068,
-						3070
+						3103,
+						3104,
+						3095,
+						3061,
+						3043,
+						3050,
+						3070,
+						3072
 					]
 				}
 			],
@@ -23558,9 +23590,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -23600,9 +23631,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -25233,7 +25263,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -25270,7 +25300,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -25535,7 +25565,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -27460,9 +27490,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -27503,9 +27532,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -27985,7 +28013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -28023,7 +28051,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -28061,7 +28089,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -28567,9 +28595,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -28610,9 +28637,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -29373,7 +29399,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -29411,7 +29437,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -29449,7 +29475,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -36214,9 +36240,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -36256,9 +36281,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -37352,7 +37376,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -37389,7 +37413,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -37654,7 +37678,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -39081,9 +39105,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -39123,9 +39146,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -40040,7 +40062,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -40077,7 +40099,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -40114,7 +40136,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -40807,9 +40829,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -40849,9 +40870,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -41669,7 +41689,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -41706,7 +41726,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -41743,7 +41763,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -42416,9 +42436,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -42492,9 +42511,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -43658,7 +43676,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -43695,7 +43713,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -43732,7 +43750,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -44544,9 +44562,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -44586,9 +44603,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -45056,7 +45072,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -45093,7 +45109,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -45130,7 +45146,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -45634,9 +45650,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -45676,9 +45691,8 @@
 					"type": {
 						"type": "array",
 						"elementType": {
-							"type": "reference",
-							"id": 3023,
-							"name": "NavigationPath"
+							"type": "intrinsic",
+							"name": "string"
 						}
 					},
 					"inheritedFrom": {
@@ -46392,7 +46406,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6385,
 							"character": 4
 						}
 					],
@@ -46429,7 +46443,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6368,
 							"character": 4
 						}
 					],
@@ -46466,7 +46480,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -48571,7 +48585,7 @@
 			]
 		},
 		{
-			"id": 3110,
+			"id": 3112,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -48587,7 +48601,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3111,
+					"id": 3113,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -48948,7 +48962,7 @@
 				1,
 				4,
 				7,
-				3110,
+				3112,
 				37,
 				2941
 			]
