@@ -1,6 +1,6 @@
 import { Path } from "src/types";
 
-export const getBlockedAndAllowedRoutesError = (
+export const getBlockedAndAllowedRoutes = (
     blockedRoutes: Path[],
     allowedRoutes: Path[],
 ): { allowedRoutes: Path[]; blockedRoutes: Path[]; error: boolean } => {
