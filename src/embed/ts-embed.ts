@@ -451,7 +451,7 @@ export class TsEmbed {
         }
         const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes(this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes);
         if(blockedAndAllowedRoutesResult.error) {
-            this.handleError('You cannot have both blockedRoutes and allowedRoutes set at the same time');
+            this.handleError(blockedAndAllowedRoutesResult.message);
         }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
@@ -474,7 +474,7 @@ export class TsEmbed {
             customActions: customActionsResult.actions,
             allowedRoutes: blockedAndAllowedRoutesResult.allowedRoutes,
             blockedRoutes: blockedAndAllowedRoutesResult.blockedRoutes,
-            accessDeniedMessage: this.viewConfig.accessDeniedMessage,
+            accessDeniedMessage: this.viewConfig.accessDeniedMessage || '',
             ...getInterceptInitData(this.viewConfig),
         };
 
