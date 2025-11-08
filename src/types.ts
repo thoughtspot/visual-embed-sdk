@@ -1131,7 +1131,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * })
      * ```
      */
-    allowedRoutes?: NavigationPath[];
+    allowedRoutes?: (NavigationPath | string)[];
 
     /**
      * Array of routes that are blocked from being accessed in the embedded app.
@@ -1153,7 +1153,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * })
      * ```
      */
-    blockedRoutes?: NavigationPath[];
+    blockedRoutes?: (NavigationPath | string)[];
     /**
      * Custom message to display when a user tries to access a route
      * that is not in the allowedRoutes list.
@@ -6443,8 +6443,8 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
-    allowedRoutes: NavigationPath[];
-    blockedRoutes: NavigationPath[];
+    allowedRoutes: ( NavigationPath | string)[];
+    blockedRoutes: (NavigationPath | string)[];
     accessDeniedMessage: string;
 }
 

@@ -9998,14 +9998,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6225,
+							"line": 6226,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/insights?/answers\""
+					"defaultValue": "\"/insights/answers\""
 				},
 				{
-					"id": 3067,
+					"id": 3069,
 					"name": "AppConnections",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10013,7 +10013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6281,
+							"line": 6283,
 							"character": 4
 						}
 					],
@@ -10028,14 +10028,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6338,
+							"line": 6340,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
 				},
 				{
-					"id": 3069,
+					"id": 3071,
 					"name": "AutoWorksheetWithConnectionId",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10043,7 +10043,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6283,
+							"line": 6285,
 							"character": 4
 						}
 					],
@@ -10058,14 +10058,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6228,
+							"line": 6229,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/insights?/conv-assist\""
+					"defaultValue": "\"/insights/conv-assist\""
 				},
 				{
-					"id": 3028,
+					"id": 3029,
 					"name": "Copilot",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10073,7 +10073,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6226,
+							"line": 6227,
 							"character": 4
 						}
 					],
@@ -10088,14 +10088,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6227,
+							"line": 6228,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/copilot/chat\""
 				},
 				{
-					"id": 3045,
+					"id": 3046,
 					"name": "CreateAiAnswerWithQueryParams",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10103,11 +10103,11 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6249,
+							"line": 6250,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/insights?/create-ai-answer\""
+					"defaultValue": "\"/insights/create-ai-answer\""
 				},
 				{
 					"id": 1893,
@@ -10118,14 +10118,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6317,
+							"line": 6319,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/custom-calendar-test\""
 				},
 				{
-					"id": 3094,
+					"id": 3096,
 					"name": "CustomCalendarWizard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10133,7 +10133,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6316,
+							"line": 6318,
 							"character": 4
 						}
 					],
@@ -10148,14 +10148,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6277,
+							"line": 6279,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/data-governance\""
 				},
 				{
-					"id": 3024,
+					"id": 3025,
 					"name": "DataModelPage",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10163,7 +10163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6222,
+							"line": 6223,
 							"character": 4
 						}
 					],
@@ -10178,14 +10178,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6271,
+							"line": 6273,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dataset\""
 				},
 				{
-					"id": 3060,
+					"id": 3062,
 					"name": "Dbt",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10193,14 +10193,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6274,
+							"line": 6276,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dbt\""
 				},
 				{
-					"id": 3105,
+					"id": 3107,
 					"name": "DbtIntegration",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10208,14 +10208,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6333,
+							"line": 6335,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dbt-integration\""
 				},
 				{
-					"id": 3053,
+					"id": 3055,
 					"name": "DeepLinkPage",
 					"kind": 16,
 					"children": [

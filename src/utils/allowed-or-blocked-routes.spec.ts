@@ -7,7 +7,7 @@ describe('getBlockedAndAllowedRoutes', () => {
             const blockedRoutes = [NavigationPath.AdminPage];
             const allowedRoutes = [NavigationPath.Home];
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, allowedRoutes);
+            const result = getBlockedAndAllowedRoutes(blockedRoutes, allowedRoutes, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -23,7 +23,7 @@ describe('getBlockedAndAllowedRoutes', () => {
         it('should return allowedRoutes and empty blockedRoutes', () => {
             const allowedRoutes = [NavigationPath.Home, NavigationPath.Answers];
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes);
+            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, '');
 
             expect(result).toEqual({
                 allowedRoutes: [NavigationPath.Home, NavigationPath.Answers],
@@ -36,7 +36,7 @@ describe('getBlockedAndAllowedRoutes', () => {
         it('should handle single allowedRoute', () => {
             const allowedRoutes = [NavigationPath.Copilot];
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes);
+            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, '');
 
             expect(result).toEqual({
                 allowedRoutes: [NavigationPath.Copilot],
@@ -54,7 +54,7 @@ describe('getBlockedAndAllowedRoutes', () => {
                 NavigationPath.Documents,
             ];
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes);
+            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, '');
 
             expect(result).toEqual({
                 allowedRoutes: allowedRoutes,
@@ -69,7 +69,7 @@ describe('getBlockedAndAllowedRoutes', () => {
         it('should return blockedRoutes and empty allowedRoutes', () => {
             const blockedRoutes = [NavigationPath.AdminPage, NavigationPath.Login];
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any);
+            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -82,7 +82,7 @@ describe('getBlockedAndAllowedRoutes', () => {
         it('should handle single blockedRoute', () => {
             const blockedRoutes = [NavigationPath.AdminPage];
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any);
+            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -100,7 +100,7 @@ describe('getBlockedAndAllowedRoutes', () => {
                 NavigationPath.DataModelPage,
             ];
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any);
+            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -113,7 +113,7 @@ describe('getBlockedAndAllowedRoutes', () => {
 
     describe('when neither blockedRoutes nor allowedRoutes is provided', () => {
         it('should return empty arrays with no error', () => {
-            const result = getBlockedAndAllowedRoutes(undefined as any, undefined as any);
+            const result = getBlockedAndAllowedRoutes(undefined as any, undefined as any, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -124,7 +124,7 @@ describe('getBlockedAndAllowedRoutes', () => {
         });
 
         it('should return empty arrays when both are null', () => {
-            const result = getBlockedAndAllowedRoutes(null as any, null as any);
+            const result = getBlockedAndAllowedRoutes(null as any, null as any, '');
 
             expect(result).toEqual({
                 allowedRoutes: [],
