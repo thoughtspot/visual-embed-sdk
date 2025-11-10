@@ -121,13 +121,15 @@ describe('generateAutoAllowedRoutes', () => {
 describe('getBlockedAndAllowedRoutes', () => {
     describe('when both blockedRoutes and allowedRoutes are provided', () => {
         it('should return an error', () => {
-            const blockedRoutes = [NavigationPath.AdminPage];
-            const allowedRoutes = [NavigationPath.Home];
+            const routeBlocking = {
+                blockedRoutes: [NavigationPath.AdminPage],
+                allowedRoutes: [NavigationPath.Home],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
             };
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result).toEqual({
                 allowedRoutes: [],
@@ -141,45 +143,53 @@ describe('getBlockedAndAllowedRoutes', () => {
 
     describe('when only allowedRoutes is provided', () => {
         it('should return auto-generated routes merged with user allowedRoutes', () => {
-            const allowedRoutes = [NavigationPath.Home, NavigationPath.Answers];
+            const routeBlocking = {
+                allowedRoutes: [NavigationPath.Home, NavigationPath.Answers],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
                 liveboardId: '123-abc-456',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toContain(NavigationPath.Home);
             expect(result.allowedRoutes).toContain(NavigationPath.Answers);
             expect(result.allowedRoutes).toContain('/embed/viz/123-abc-456');
             expect(result.allowedRoutes).toContain('/insights/pinboard/123-abc-456');
+            expect(result.allowedRoutes).toContain(NavigationPath.Login);
             expect(result.blockedRoutes).toEqual([]);
             expect(result.error).toBe(false);
             expect(result.message).toBe('');
         });
 
         it('should handle single allowedRoute with auto-generation', () => {
-            const allowedRoutes = [NavigationPath.Copilot];
+            const routeBlocking = {
+                allowedRoutes: [NavigationPath.Copilot],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
                 pageId: 'home',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toContain(NavigationPath.Copilot);
             expect(result.allowedRoutes).toContain('/home');
+            expect(result.allowedRoutes).toContain(NavigationPath.Login);
             expect(result.blockedRoutes).toEqual([]);
             expect(result.error).toBe(false);
         });
 
         it('should only use user allowedRoutes when no auto-routes are generated', () => {
-            const allowedRoutes = [NavigationPath.Home, NavigationPath.Answers];
+            const routeBlocking = {
+                allowedRoutes: [NavigationPath.Home, NavigationPath.Answers],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toEqual([
                 NavigationPath.Home,
@@ -189,17 +199,34 @@ describe('getBlockedAndAllowedRoutes', () => {
             expect(result.blockedRoutes).toEqual([]);
             expect(result.error).toBe(false);
         });
+
+        it('should handle accessDeniedMessage with allowedRoutes', () => {
+            const routeBlocking = {
+                allowedRoutes: [NavigationPath.Home],
+                accessDeniedMessage: 'Custom access denied message',
+            };
+            const config: RouteGenerationConfig = {
+                embedComponentType: 'AppEmbed',
+            };
+
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
+
+            expect(result.message).toBe('Custom access denied message');
+            expect(result.error).toBe(false);
+        });
     });
 
     describe('when only blockedRoutes is provided', () => {
         it('should return empty allowedRoutes and blockedRoutes as-is when no conflicts', () => {
-            const blockedRoutes = [NavigationPath.AdminPage, NavigationPath.Login];
+            const routeBlocking = {
+                blockedRoutes: [NavigationPath.AdminPage, NavigationPath.Login],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
                 liveboardId: '123-abc-456',
             };
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toEqual([]);
             expect(result.blockedRoutes).toEqual([NavigationPath.AdminPage, NavigationPath.Login]);
@@ -208,12 +235,14 @@ describe('getBlockedAndAllowedRoutes', () => {
         });
 
         it('should handle single blockedRoute', () => {
-            const blockedRoutes = [NavigationPath.AdminPage];
+            const routeBlocking = {
+                blockedRoutes: [NavigationPath.AdminPage],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
             };
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toEqual([]);
             expect(result.blockedRoutes).toEqual([NavigationPath.AdminPage]);
@@ -221,33 +250,52 @@ describe('getBlockedAndAllowedRoutes', () => {
         });
 
         it('should handle multiple blockedRoutes', () => {
-            const blockedRoutes = [
-                NavigationPath.AdminPage,
-                NavigationPath.Login,
-                NavigationPath.ResetPassword,
-                NavigationPath.DataModelPage,
-            ];
+            const routeBlocking = {
+                blockedRoutes: [
+                    NavigationPath.AdminPage,
+                    NavigationPath.Login,
+                    NavigationPath.ResetPassword,
+                    NavigationPath.DataModelPage,
+                ],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
                 liveboardId: '123-abc-456',
             };
 
-            const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toEqual([]);
-            expect(result.blockedRoutes).toEqual(blockedRoutes);
+            expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
+            expect(result.error).toBe(false);
+        });
+
+        it('should handle accessDeniedMessage with blockedRoutes', () => {
+            const routeBlocking = {
+                blockedRoutes: [NavigationPath.AdminPage],
+                accessDeniedMessage: 'You do not have access to this route',
+            };
+            const config: RouteGenerationConfig = {
+                embedComponentType: 'AppEmbed',
+            };
+
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
+
+            expect(result.message).toBe('You do not have access to this route');
             expect(result.error).toBe(false);
         });
 
         describe('conflict detection with AppEmbed path', () => {
             it('should return error when blockedRoute exactly matches auto-generated route', () => {
-                const blockedRoutes = ['/pinboard/123-abc-456'];
+                const routeBlocking = {
+                    blockedRoutes: ['/pinboard/123-abc-456'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     path: 'pinboard/123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
                 expect(result.message).toBe(
@@ -258,13 +306,15 @@ describe('getBlockedAndAllowedRoutes', () => {
             });
 
             it('should return error when blockedRoute matches wildcard auto-generated route', () => {
-                const blockedRoutes = ['/pinboard/123-abc-456/*'];
+                const routeBlocking = {
+                    blockedRoutes: ['/pinboard/123-abc-456/*'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     path: 'pinboard/123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
                 expect(result.message).toBe(
@@ -273,29 +323,33 @@ describe('getBlockedAndAllowedRoutes', () => {
             });
 
             it('should NOT return error when blockedRoute does not conflict with path', () => {
-                const blockedRoutes = [NavigationPath.AdminPage, '/different/route'];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage, '/different/route'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     path: 'pinboard/123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
                 expect(result.allowedRoutes).toEqual([]);
             });
         });
 
         describe('conflict detection with AppEmbed pageId', () => {
             it('should return error when blockedRoute conflicts with pageId home', () => {
-                const blockedRoutes = [NavigationPath.Home];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.Home],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     pageId: 'home',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
                 expect(result.message).toBe(
@@ -304,67 +358,77 @@ describe('getBlockedAndAllowedRoutes', () => {
             });
 
             it('should return error when blockedRoute conflicts with pageId answers', () => {
-                const blockedRoutes = [NavigationPath.Answers];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.Answers],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     pageId: 'answers',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should return error when blockedRoute conflicts with any of multiple pageId routes', () => {
-                const blockedRoutes = [NavigationPath.HomeAnswers];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.HomeAnswers],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     pageId: 'answers',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should NOT return error when blockedRoute does not conflict with pageId', () => {
-                const blockedRoutes = [NavigationPath.AdminPage, NavigationPath.DataModelPage];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage, NavigationPath.DataModelPage],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     pageId: 'home',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
             });
         });
 
         describe('conflict detection with AppEmbed without config', () => {
             it('should NOT return error when AppEmbed has no path or pageId', () => {
-                const blockedRoutes = [NavigationPath.AdminPage, NavigationPath.Home];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage, NavigationPath.Home],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
                 expect(result.allowedRoutes).toEqual([]);
             });
         });
 
         describe('conflict detection with LiveboardEmbed', () => {
             it('should return error when blockedRoute matches liveboard route', () => {
-                const blockedRoutes = ['/embed/viz/123-abc-456'];
+                const routeBlocking = {
+                    blockedRoutes: ['/embed/viz/123-abc-456'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                     liveboardId: '123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
                 expect(result.message).toBe(
@@ -373,120 +437,138 @@ describe('getBlockedAndAllowedRoutes', () => {
             });
 
             it('should return error when blockedRoute matches pinboard route', () => {
-                const blockedRoutes = ['/insights/pinboard/123-abc-456'];
+                const routeBlocking = {
+                    blockedRoutes: ['/insights/pinboard/123-abc-456'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                     liveboardId: '123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should return error when blockedRoute matches viz with activeTabId', () => {
-                const blockedRoutes = ['/embed/viz/123-abc-456/tab/tab-1'];
+                const routeBlocking = {
+                    blockedRoutes: ['/embed/viz/123-abc-456/tab/tab-1'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                     liveboardId: '123-abc-456',
                     activeTabId: 'tab-1',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should return error when blockedRoute matches specific vizId route', () => {
-                const blockedRoutes = ['/embed/viz/123-abc-456/789-def-012'];
+                const routeBlocking = {
+                    blockedRoutes: ['/embed/viz/123-abc-456/789-def-012'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                     liveboardId: '123-abc-456',
                     vizId: '789-def-012',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should NOT return error when blockedRoute does not conflict with liveboard', () => {
-                const blockedRoutes = [NavigationPath.AdminPage, '/embed/viz/different-id'];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage, '/embed/viz/different-id'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                     liveboardId: '123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
             });
 
             it('should NOT return error when LiveboardEmbed has no liveboardId', () => {
-                const blockedRoutes = ['/embed/viz/123-abc-456'];
+                const routeBlocking = {
+                    blockedRoutes: ['/embed/viz/123-abc-456'],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'LiveboardEmbed',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
             });
         });
 
         describe('conflict detection with other embed types', () => {
             it('should NOT return error for SageEmbed with blockedRoutes', () => {
-                const blockedRoutes = [NavigationPath.AdminPage];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'SageEmbed',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
             });
 
             it('should NOT return error for SearchEmbed with blockedRoutes', () => {
-                const blockedRoutes = [NavigationPath.AdminPage];
+                const routeBlocking = {
+                    blockedRoutes: [NavigationPath.AdminPage],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'SearchEmbed',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
-                expect(result.blockedRoutes).toEqual(blockedRoutes);
+                expect(result.blockedRoutes).toEqual(routeBlocking.blockedRoutes);
             });
         });
 
         describe('conflict detection edge cases', () => {
             it('should handle multiple blockedRoutes where only one conflicts', () => {
-                const blockedRoutes = [
-                    NavigationPath.AdminPage,
-                    '/pinboard/123-abc-456',
-                    NavigationPath.Login,
-                ];
+                const routeBlocking = {
+                    blockedRoutes: [
+                        NavigationPath.AdminPage,
+                        '/pinboard/123-abc-456',
+                        NavigationPath.Login,
+                    ],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     path: 'pinboard/123-abc-456',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(true);
             });
 
             it('should handle empty blockedRoutes array', () => {
-                const blockedRoutes: string[] = [];
+                const routeBlocking = {
+                    blockedRoutes: [] as string[],
+                };
                 const config: RouteGenerationConfig = {
                     embedComponentType: 'AppEmbed',
                     path: 'pinboard/123',
                 };
 
-                const result = getBlockedAndAllowedRoutes(blockedRoutes, undefined as any, config);
+                const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
                 expect(result.error).toBe(false);
                 expect(result.blockedRoutes).toEqual([]);
@@ -501,7 +583,7 @@ describe('getBlockedAndAllowedRoutes', () => {
                 liveboardId: '123-abc-456',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(undefined, config);
 
             expect(result.allowedRoutes).toEqual([]);
             expect(result.blockedRoutes).toEqual([]);
@@ -509,13 +591,13 @@ describe('getBlockedAndAllowedRoutes', () => {
             expect(result.message).toBe('');
         });
 
-        it('should return empty arrays when both are null', () => {
+        it('should return empty arrays when routeBlocking is empty object', () => {
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
                 pageId: 'home',
             };
 
-            const result = getBlockedAndAllowedRoutes(null as any, null as any, config);
+            const result = getBlockedAndAllowedRoutes({}, config);
 
             expect(result.allowedRoutes).toEqual([]);
             expect(result.blockedRoutes).toEqual([]);
@@ -528,56 +610,81 @@ describe('getBlockedAndAllowedRoutes', () => {
                 embedComponentType: 'AppEmbed',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(undefined, config);
 
             expect(result.allowedRoutes).toEqual([]);
             expect(result.blockedRoutes).toEqual([]);
             expect(result.error).toBe(false);
         });
+
+        it('should handle only accessDeniedMessage without routes', () => {
+            const routeBlocking = {
+                accessDeniedMessage: 'Access denied',
+            };
+            const config: RouteGenerationConfig = {
+                embedComponentType: 'AppEmbed',
+            };
+
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
+
+            expect(result.allowedRoutes).toEqual([]);
+            expect(result.blockedRoutes).toEqual([]);
+            expect(result.error).toBe(false);
+            expect(result.message).toBe('Access denied');
+        });
     });
 
     describe('real-world usage scenarios', () => {
         it('should handle LiveboardEmbed with user-provided allowedRoutes', () => {
-            const allowedRoutes = ['/custom/route'];
+            const routeBlocking = {
+                allowedRoutes: ['/custom/route'],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes[0]).toBe('/embed/viz/33248a57-cc70-4e39-9199-fb5092283381');
             expect(result.allowedRoutes).toContain('/custom/route');
+            expect(result.allowedRoutes).toContain(NavigationPath.Login);
             expect(result.error).toBe(false);
         });
 
         it('should handle viz embed with specific vizId', () => {
-            const allowedRoutes = ['/custom/page'];
+            const routeBlocking = {
+                allowedRoutes: ['/custom/page'],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
                 vizId: '730496d6-6903-4601-937e-2c691821af3c',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toContain(
                 '/embed/viz/33248a57-cc70-4e39-9199-fb5092283381/730496d6-6903-4601-937e-2c691821af3c',
             );
             expect(result.allowedRoutes).toContain('/custom/page');
+            expect(result.allowedRoutes).toContain(NavigationPath.Login);
         });
 
         it('should handle AppEmbed with pageId', () => {
-            const allowedRoutes = [NavigationPath.Copilot];
+            const routeBlocking = {
+                allowedRoutes: [NavigationPath.Copilot],
+            };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'AppEmbed',
                 pageId: 'home',
             };
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, allowedRoutes, config);
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toContain('/home');
             expect(result.allowedRoutes).toContain(NavigationPath.Copilot);
+            expect(result.allowedRoutes).toContain(NavigationPath.Login);
         });
 
         it('should test auto-route generation is working but not used without user routes', () => {
@@ -589,7 +696,7 @@ describe('getBlockedAndAllowedRoutes', () => {
             const autoRoutes = generateAutoAllowedRoutes(config);
             expect(autoRoutes.length).toBeGreaterThan(0);
 
-            const result = getBlockedAndAllowedRoutes(undefined as any, undefined as any, config);
+            const result = getBlockedAndAllowedRoutes(undefined, config);
             expect(result.allowedRoutes).toEqual([]);
         });
     });

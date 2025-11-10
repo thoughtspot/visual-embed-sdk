@@ -461,7 +461,7 @@ export class TsEmbed {
                     error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
                 });
         }
-        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes( this.viewConfig.blockedRoutes, this.viewConfig.allowedRoutes, { embedComponentType: (this.viewConfig as any).embedComponentType || '', liveboardId: (this.viewConfig as any).liveboardId, vizId: (this.viewConfig as any).vizId, activeTabId: (this.viewConfig as any).activeTabId, pageId: (this.viewConfig as any).pageId, path: (this.viewConfig as any).path });
+        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes( this.viewConfig?.routeBlocking, { embedComponentType: (this.viewConfig as any).embedComponentType || '', liveboardId: (this.viewConfig as any).liveboardId, vizId: (this.viewConfig as any).vizId, activeTabId: (this.viewConfig as any).activeTabId, pageId: (this.viewConfig as any).pageId, path: (this.viewConfig as any).path });
         if(blockedAndAllowedRoutesResult.error) {
             this.handleError(blockedAndAllowedRoutesResult.message);
         }
@@ -486,7 +486,7 @@ export class TsEmbed {
             customActions: customActionsResult.actions,
             allowedRoutes: blockedAndAllowedRoutesResult.allowedRoutes,
             blockedRoutes: blockedAndAllowedRoutesResult.blockedRoutes,
-            accessDeniedMessage: this.viewConfig.accessDeniedMessage || '',
+            accessDeniedMessage: blockedAndAllowedRoutesResult.message || '',
             ...getInterceptInitData(this.viewConfig),
         };
 
