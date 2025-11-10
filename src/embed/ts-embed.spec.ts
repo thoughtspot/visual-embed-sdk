@@ -29,6 +29,7 @@ import {
     CustomActionTarget,
     CustomActionsPosition,
     DefaultAppInitData,
+    NavigationPath,
 } from '../types';
 import {
     executeAfterWait,
@@ -3857,7 +3858,9 @@ describe('Unit test case for ts embed', () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
-                allowedRoutes: ['/custom/route'],
+                routeBlocking: {
+                    allowedRoutes: ['/custom/route'],
+                },
             });
 
             liveboardEmbed.render();
@@ -3881,6 +3884,7 @@ describe('Unit test case for ts embed', () => {
                 );
 
                 expect(appInitData.allowedRoutes).toContain('/custom/route');
+                expect(appInitData.allowedRoutes).toContain(NavigationPath.Login);
 
                 expect(appInitData.blockedRoutes).toEqual([]);
             });
@@ -3895,7 +3899,9 @@ describe('Unit test case for ts embed', () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
-                blockedRoutes: ['/admin', '/settings'],
+                routeBlocking: {
+                    blockedRoutes: ['/admin', '/settings'],
+                },
             });
 
             liveboardEmbed.render();
@@ -3926,8 +3932,10 @@ describe('Unit test case for ts embed', () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
-                allowedRoutes: ['/home'],
-                blockedRoutes: ['/admin'],
+                routeBlocking: {
+                    allowedRoutes: ['/home'],
+                    blockedRoutes: ['/admin'],
+                },
             });
 
             jest.spyOn(liveboardEmbed as any, 'handleError').mockImplementation(mockHandleError);
@@ -3949,35 +3957,6 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('should return empty arrays when no routes are configured', async () => {
-            const mockEmbedEventPayload = {
-                type: EmbedEvent.APP_INIT,
-                data: {},
-            };
-
-            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
-            });
-
-            liveboardEmbed.render();
-            const mockPort: any = {
-                postMessage: jest.fn(),
-            };
-
-            await executeAfterWait(() => {
-                const iframe = getIFrameEl();
-                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-            });
-
-            await executeAfterWait(() => {
-                const appInitData = mockPort.postMessage.mock.calls[0][0].data;
-
-                expect(appInitData.allowedRoutes).toEqual([]);
-                expect(appInitData.blockedRoutes).toEqual([]);
-            });
-        });
-
         test('should auto-generate routes for AppEmbed with pageId and merge with user allowedRoutes', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
@@ -3987,7 +3966,9 @@ describe('Unit test case for ts embed', () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 pageId: 'home' as any,
-                allowedRoutes: ['/custom/app/route'],
+                routeBlocking: {
+                    allowedRoutes: ['/custom/app/route'],
+                },
             });
 
             appEmbed.render();
@@ -4005,6 +3986,7 @@ describe('Unit test case for ts embed', () => {
 
                 expect(appInitData.allowedRoutes).toContain('/home');
                 expect(appInitData.allowedRoutes).toContain('/custom/app/route');
+                expect(appInitData.allowedRoutes).toContain(NavigationPath.Login);
             });
         });
 
@@ -4020,8 +4002,10 @@ describe('Unit test case for ts embed', () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
-                accessDeniedMessage: customMessage,
-                allowedRoutes: ['/dashboard'],
+                routeBlocking: {
+                    accessDeniedMessage: customMessage,
+                    allowedRoutes: ['/dashboard'],
+                },
             });
 
             liveboardEmbed.render();
@@ -4040,7 +4024,7 @@ describe('Unit test case for ts embed', () => {
                 expect(appInitData.allowedRoutes.length).toBeGreaterThan(0);
             });
         });
-        
+
         test('should return error when blockedRoute conflicts with auto-generated route', async () => {
             const mockHandleError = jest.fn();
             const mockEmbedEventPayload = {
@@ -4051,7 +4035,9 @@ describe('Unit test case for ts embed', () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 pageId: 'home' as any,
-                blockedRoutes: ['/home'],
+                routeBlocking: {
+                    blockedRoutes: ['/home'],
+                },
             });
 
             jest.spyOn(appEmbed as any, 'handleError').mockImplementation(mockHandleError);
@@ -4070,6 +4056,36 @@ describe('Unit test case for ts embed', () => {
                 expect(mockHandleError).toHaveBeenCalledWith(
                     'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
                 );
+            });
+        });
+
+        test('should handle empty routeBlocking object', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
+                routeBlocking: {},
+            });
+
+            liveboardEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                const appInitData = mockPort.postMessage.mock.calls[0][0].data;
+                expect(appInitData.allowedRoutes).toEqual([]);
+                expect(appInitData.blockedRoutes).toEqual([]);
+                expect(appInitData.accessDeniedMessage).toBe('');
             });
         });
     });

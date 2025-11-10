@@ -1,4 +1,4 @@
-import { NavigationPath } from '../types';
+import { NavigationPath, RouteBlocking } from '../types';
 
 export interface RouteGenerationConfig {
     embedComponentType: string;
@@ -110,15 +110,17 @@ const hasConflictingBlockedRoute = (
  * Get blocked and allowed routes
  */
 export const getBlockedAndAllowedRoutes = (
-    blockedRoutes: (NavigationPath | string)[],
-    allowedRoutes: (NavigationPath | string)[],
-    config: RouteGenerationConfig,
+    routeBlocking?: RouteBlocking,
+    config?: RouteGenerationConfig,
 ): {
     allowedRoutes: (NavigationPath | string)[];
     blockedRoutes: (NavigationPath | string)[];
     error: boolean;
     message: string;
 } => {
+    const blockedRoutes = routeBlocking?.blockedRoutes;
+    const allowedRoutes = routeBlocking?.allowedRoutes;
+    const accessDeniedMessage = routeBlocking?.accessDeniedMessage || '';
     if (blockedRoutes && allowedRoutes) {
         return {
             allowedRoutes: [],
@@ -133,7 +135,7 @@ export const getBlockedAndAllowedRoutes = (
             allowedRoutes: [...autoAllowedRoutes, ...allowedRoutes, NavigationPath.Login],
             blockedRoutes: [],
             error: false,
-            message: '',
+            message: accessDeniedMessage,
         };
     }
     if (blockedRoutes) {
@@ -151,13 +153,13 @@ export const getBlockedAndAllowedRoutes = (
             allowedRoutes: [],
             blockedRoutes: blockedRoutes,
             error: false,
-            message: '',
+            message: accessDeniedMessage,
         };
     }
     return {
         allowedRoutes: [],
         blockedRoutes: [],
         error: false,
-        message: '',
+        message: accessDeniedMessage,
     };
 };

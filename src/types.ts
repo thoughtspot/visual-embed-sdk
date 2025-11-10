@@ -1099,71 +1099,99 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     customActions?: CustomAction[];
 
     /**
-     * Array of routes that are allowed to be accessed in the embedded app.
-     * When specified, navigation will be restricted to only these routes.
-     * Use Path.All to allow all routes without restrictions.
+     * Route blocking configuration for the embedded app.
+     *
+     * Control which routes users can navigate to within the embedded application
+     * using either an allowlist (`allowedRoutes`) or a blocklist (`blockedRoutes`).
+     * 
+     * **Important:** 
+     * - `allowedRoutes` and `blockedRoutes` are mutually exclusive. Use only one at a time.
+     * - The path that the user initially embeds is always accessible, regardless of this configuration.
      * 
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @example
-     *
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
-     *    accessDeniedMessage: 'You do not have access to this page'
-     * })```
-     *
-     * // Allow all routes
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    allowedRoutes: [Path.All]
+     *    routeBlocking: {
+     *       allowedRoutes: [Path.Home, Path.Search, Path.Liveboards] || blockedRoutes: [Path.Admin, Path.Settings],
+     *       accessDeniedMessage: 'You do not have access to this page'
+     *    }
      * })
      * ```
      */
-    allowedRoutes?: (NavigationPath | string)[];
+    routeBlocking?: {
+        /**
+         * Array of routes that are allowed to be accessed in the embedded app.
+         * When specified, navigation will be restricted to only these routes.
+         * All other routes will be blocked.
+         * Use Path.All to allow all routes without restrictions.
+         *
+         * **Important:** The path that the user initially embeds is always unblocked
+         * and accessible, regardless of the 
+         * `allowedRoutes` or `blockedRoutes` configuration.
+         *
+         * Note: `allowedRoutes` and `blockedRoutes` are mutually exclusive.
+         * Use only one at a time.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         * // Allow only specific routes
+         *```js
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    ... // other embed view config
+         *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have access to this page'
+         * })
+         *```
+         **/
+        allowedRoutes?: (NavigationPath | string)[];
 
-    /**
-     * Array of routes that are blocked from being accessed in the embedded app.
-     * When specified, navigation will be restricted to only these routes.
-     * Use Path.All to block all routes without restrictions.
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    blockedRoutes: [Path.Home, Path.Search, Path.Liveboards],
-     * })
-     * ```
-     * // Block all routes
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    blockedRoutes: [Path.All]
-     * })
-     * ```
-     */
-    blockedRoutes?: (NavigationPath | string)[];
-    /**
-     * Custom message to display when a user tries to access a route
-     * that is not in the allowedRoutes list.
-     * 
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
-     * @default 'Access Denied'
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
-     * @example
-     *
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    allowedRoutes: [Path.Home, Path.Liveboards],
-     *    accessDeniedMessage: 'You do not have permission to access this page. 
-     * Please contact your administrator.'
-     * })
-     * ```
-     */
-    accessDeniedMessage?: string;
-    
+        /**
+         * Array of routes that are blocked from being accessed in the embedded app.
+         * When specified, all routes except these will be accessible.
+         * Use Path.All to block all routes.
+         *
+         * **Important:** The path that the user initially embeds is always unblocked
+         * and accessible, regardless of the 
+         * `allowedRoutes` or `blockedRoutes` configuration.
+         *
+         * Note: `allowedRoutes` and `blockedRoutes` are mutually exclusive.
+         * Use only one at a time.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         * // Block specific routes
+         *```js
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    blockedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+         * })
+         *```
+         **/
+        blockedRoutes?: (NavigationPath | string)[];
+
+        /**
+         * Custom message to display when a user tries to access a blocked route
+         * or a route that is not in the allowedRoutes list.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @default 'Access Denied'
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         *
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    allowedRoutes: [Path.Home, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have permission to access this page.'
+         * })
+         **/
+        accessDeniedMessage?: string;
+    };
 }
 
 /**
@@ -6339,6 +6367,11 @@ export enum NavigationPath {
     Purchase = '/purchase',
     AutoAnswer = '/answer/create/auto/:dataSourceId',
     RequestAccessForObject = '/requestaccess/:objectType/:objectId',
+}
+export interface RouteBlocking {
+    blockedRoutes?: (NavigationPath | string)[];
+    allowedRoutes?: (NavigationPath | string)[];
+    accessDeniedMessage?: string;
 }
 
 export type ApiInterceptFlags = {
