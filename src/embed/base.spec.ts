@@ -10,6 +10,8 @@ import * as index from '../index';
 import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
 import * as resetService from '../utils/resetServices';
+import * as processTrigger from '../utils/processTrigger';
+import { reloadIframe } from './base';
 
 import {
     executeAfterWait,
@@ -127,6 +129,32 @@ describe('Base TS Embed', () => {
             },
         );
     });
+
+    test('should call reload with the provided iframe', () => {
+        // Arrange
+        const iFrameElement = document.createElement('iframe');
+        const html = '<body>Foo</body>';
+        iFrameElement.src = `data:text/html;charset=utf-8,${encodeURI(html)}`;
+        const spyReload = jest.spyOn(processTrigger, 'reload');
+
+        // Act
+        reloadIframe(iFrameElement);
+
+        // Assert
+        expect(spyReload).toHaveBeenCalledWith(iFrameElement);
+    });
+
+    test('should warn when called without an iframe element', () => {
+        // Arrange
+        const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+        // Act
+        (reloadIframe as any)(undefined);
+
+        // Assert
+        expect(warnSpy).toHaveBeenCalledWith('reloadIframe called with no iFrame element.');
+    });
+    
 
     test('should call the executeTML API and import TML for cookiless auth', async () => {
         jest.spyOn(authTokenService, 'getAuthenticationToken').mockResolvedValue('mockAuthToken');
