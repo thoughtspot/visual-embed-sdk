@@ -4057,6 +4057,38 @@ describe('Unit test case for ts embed', () => {
                 expect(appInitData.allowedRoutes.length).toBeGreaterThan(0);
             });
         });
+        
+        test('should return error when blockedRoute conflicts with auto-generated route', async () => {
+            const mockHandleError = jest.fn();
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                pageId: 'home' as any,
+                blockedRoutes: ['/home'],
+            });
+
+            jest.spyOn(appEmbed as any, 'handleError').mockImplementation(mockHandleError);
+
+            appEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                expect(mockHandleError).toHaveBeenCalledWith(
+                    'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
+                );
+            });
+        });
     });
 });
 

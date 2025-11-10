@@ -93,22 +93,22 @@ const hasConflictingBlockedRoute = (
     blockedRoutes: (NavigationPath | string)[],
     autoAllowedRoutes: string[],
 ): boolean => {
-    for (const blockedRoute of blockedRoutes) {
-        for (const autoRoute of autoAllowedRoutes) {
-            const cleanAutoRoute = autoRoute.replace(/\/\*$/, '');
-            const cleanBlockedRoute = blockedRoute.replace(/\/\*$/, '');
-            if (
-                cleanAutoRoute === cleanBlockedRoute ||
-                cleanAutoRoute.startsWith(cleanBlockedRoute + '/') ||
-                cleanBlockedRoute.startsWith(cleanAutoRoute + '/')
-            ) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return blockedRoutes.some((blockedRoute) => {
+        const cleanBlocked = blockedRoute.replace(/\/\*$/, '');
+        return autoAllowedRoutes.some((autoRoute) => {
+            const cleanAuto = autoRoute.replace(/\/\*$/, '');
+            return (
+                cleanAuto === cleanBlocked ||
+                cleanAuto.startsWith(cleanBlocked + '/') ||
+                cleanBlocked.startsWith(cleanAuto + '/')
+            );
+        });
+    });
 };
 
+/**
+ * Get blocked and allowed routes
+ */
 export const getBlockedAndAllowedRoutes = (
     blockedRoutes: (NavigationPath | string)[],
     allowedRoutes: (NavigationPath | string)[],
