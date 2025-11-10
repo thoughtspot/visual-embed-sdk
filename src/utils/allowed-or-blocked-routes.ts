@@ -1,28 +1,124 @@
-import { NavigationPath } from 'src/types';
+import { NavigationPath } from '../types';
 
-const EMBED_COMPONENT_PATHS: Record<string, string[]> = {
+export interface RouteGenerationConfig {
+    embedComponentType: string;
+    liveboardId?: string;
+    vizId?: string;
+    activeTabId?: string;
+    pageId?: string;
+    path?: string;
+}
+
+const EMBED_COMPONENT_GENERIC_PATHS: Record<string, string[]> = {
     AppEmbed: [], // app embed - matches all paths
-    'bodyless-conversation': ['/embed/conv-assist-answer', '/conv-assist-answer'], // bodyless conversation embed
-    conversation: ['/embed/insights/conv-assist', '/insights/conv-assist'], // spotter embed
-    LiveboardEmbed: ['/embed/viz/*', '/insights/pinboard/*'], // liveboard embed - matches all paths
-    SageEmbed: ['/embed/eureka', '/eureka'], // sage embed
-    SearchBarEmbed: ['/embed/search-bar-embed', '/search-bar-embed'], // search bar embed
-    SearchEmbed: ['/embed/answer', '/insights/answer'], // search embed
+    'bodyless-conversation': ['/embed/conv-assist-answer', '/conv-assist-answer'],
+    conversation: ['/embed/insights/conv-assist', '/insights/conv-assist'],
+    LiveboardEmbed: [], // will be dynamically generated
+    SageEmbed: ['/embed/eureka', '/eureka'],
+    SearchBarEmbed: ['/embed/search-bar-embed', '/search-bar-embed'],
+    SearchEmbed: ['/embed/answer', '/insights/answer'],
+};
+
+/**
+ * Generate specific allowed routes based on the embed configuration
+ */
+export const generateAutoAllowedRoutes = (config: RouteGenerationConfig): string[] => {
+    const { embedComponentType, liveboardId, vizId, activeTabId, pageId, path } = config;
+
+    switch (embedComponentType) {
+        case 'LiveboardEmbed': {
+            const routes: string[] = [];
+
+            if (liveboardId) {
+                routes.push(`/embed/viz/${liveboardId}`);
+                routes.push(`/insights/pinboard/${liveboardId}`);
+                routes.push(`/embed/insights/viz/${liveboardId}`);
+
+                if (vizId) {
+                    if (activeTabId) {
+                        routes.push(`/embed/viz/${liveboardId}/tab/${activeTabId}/${vizId}`);
+                    } else {
+                        routes.push(`/embed/viz/${liveboardId}/${vizId}`);
+                    }
+                }
+                if (activeTabId && !vizId) {
+                    routes.push(`/embed/viz/${liveboardId}/tab/${activeTabId}`);
+                }
+            }
+            return routes;
+        }
+
+        case 'AppEmbed': {
+            const routes: string[] = [];
+
+            if (path) {
+                const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+                routes.push(`/${cleanPath}`);
+                routes.push(`/${cleanPath}/*`);
+            } else if (pageId) {
+                const pageRoutes = getPageRoutes(pageId);
+                routes.push(...pageRoutes);
+            }
+            return routes;
+        }
+
+        default: {
+            return EMBED_COMPONENT_GENERIC_PATHS[embedComponentType] || [];
+        }
+    }
+};
+
+/**
+ * Get routes for a specific page ID
+ */
+const getPageRoutes = (pageId: string): string[] => {
+    const pageRouteMap: Record<string, string[]> = {
+        answers: [NavigationPath.Answers, NavigationPath.HomeAnswers],
+        data: [NavigationPath.DataModelPage],
+        home: [NavigationPath.Home],
+        liveboards: [NavigationPath.HomeLiveboards],
+        monitor: [NavigationPath.HomeMonitorAlerts],
+        pinboards: [NavigationPath.HomeLiveboards],
+        search: [NavigationPath.Answer],
+        spotiq: [NavigationPath.HomeSpotIQAnalysis, NavigationPath.Insights],
+    };
+
+    return pageRouteMap[pageId] || [];
+};
+
+/**
+ * Check if a blocked route conflicts with the auto-generated routes for AppEmbed
+ */
+const hasConflictingBlockedRoute = (
+    blockedRoutes: (NavigationPath | string)[],
+    autoAllowedRoutes: string[],
+): boolean => {
+    for (const blockedRoute of blockedRoutes) {
+        for (const autoRoute of autoAllowedRoutes) {
+            const cleanAutoRoute = autoRoute.replace(/\/\*$/, '');
+            const cleanBlockedRoute = blockedRoute.replace(/\/\*$/, '');
+            if (
+                cleanAutoRoute === cleanBlockedRoute ||
+                cleanAutoRoute.startsWith(cleanBlockedRoute + '/') ||
+                cleanBlockedRoute.startsWith(cleanAutoRoute + '/')
+            ) {
+                return true;
+            }
+        }
+    }
+    return false;
 };
 
 export const getBlockedAndAllowedRoutes = (
     blockedRoutes: (NavigationPath | string)[],
     allowedRoutes: (NavigationPath | string)[],
-    embedComponentType: string,
+    config: RouteGenerationConfig,
 ): {
     allowedRoutes: (NavigationPath | string)[];
     blockedRoutes: (NavigationPath | string)[];
     error: boolean;
     message: string;
 } => {
-    const embedComponentPath = EMBED_COMPONENT_PATHS[embedComponentType];
-    const embedAllowedRoutes: string[] = embedComponentPath ? embedComponentPath : [];
-
     if (blockedRoutes && allowedRoutes) {
         return {
             allowedRoutes: [],
@@ -31,15 +127,26 @@ export const getBlockedAndAllowedRoutes = (
             message: 'You cannot have both blockedRoutes and allowedRoutes set at the same time',
         };
     }
+    const autoAllowedRoutes = generateAutoAllowedRoutes(config);
     if (allowedRoutes) {
         return {
-            allowedRoutes: [...embedAllowedRoutes, ...allowedRoutes],
+            allowedRoutes: [...autoAllowedRoutes, ...allowedRoutes, NavigationPath.Login],
             blockedRoutes: [],
             error: false,
             message: '',
         };
     }
     if (blockedRoutes) {
+        const autoAllowedRoutesForBlockedRoutes = generateAutoAllowedRoutes(config);
+        if (hasConflictingBlockedRoute(blockedRoutes, autoAllowedRoutesForBlockedRoutes)) {
+            return {
+                allowedRoutes: [],
+                blockedRoutes: [],
+                error: true,
+                message:
+                    'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
+            };
+        }
         return {
             allowedRoutes: [],
             blockedRoutes: blockedRoutes,
