@@ -195,6 +195,7 @@ describe('getBlockedAndAllowedRoutes', () => {
                 NavigationPath.Home,
                 NavigationPath.Answers,
                 NavigationPath.Login,
+                NavigationPath.EmbedAccessDeniedPage,
             ]);
             expect(result.blockedRoutes).toEqual([]);
             expect(result.error).toBe(false);
@@ -219,7 +220,7 @@ describe('getBlockedAndAllowedRoutes', () => {
     describe('when only blockedRoutes is provided', () => {
         it('should return empty allowedRoutes and blockedRoutes as-is when no conflicts', () => {
             const routeBlocking = {
-                blockedRoutes: [NavigationPath.AdminPage, NavigationPath.Login],
+                blockedRoutes: [NavigationPath.AdminPage],
             };
             const config: RouteGenerationConfig = {
                 embedComponentType: 'LiveboardEmbed',
@@ -229,7 +230,7 @@ describe('getBlockedAndAllowedRoutes', () => {
             const result = getBlockedAndAllowedRoutes(routeBlocking, config);
 
             expect(result.allowedRoutes).toEqual([]);
-            expect(result.blockedRoutes).toEqual([NavigationPath.AdminPage, NavigationPath.Login]);
+            expect(result.blockedRoutes).toEqual([NavigationPath.AdminPage]);
             expect(result.error).toBe(false);
             expect(result.message).toBe('');
         });
@@ -253,7 +254,6 @@ describe('getBlockedAndAllowedRoutes', () => {
             const routeBlocking = {
                 blockedRoutes: [
                     NavigationPath.AdminPage,
-                    NavigationPath.Login,
                     NavigationPath.ResetPassword,
                     NavigationPath.DataModelPage,
                 ],
@@ -698,6 +698,24 @@ describe('getBlockedAndAllowedRoutes', () => {
 
             const result = getBlockedAndAllowedRoutes(undefined, config);
             expect(result.allowedRoutes).toEqual([]);
+        });
+    });
+
+    describe('error cases', () => {
+        it('should return error when blockedRoutes is having login or embed access denied page', () => {
+            const routeBlocking = {
+                blockedRoutes: [NavigationPath.Login, NavigationPath.EmbedAccessDeniedPage],
+            };
+            const config: RouteGenerationConfig = {
+                embedComponentType: 'LiveboardEmbed',
+            };
+
+            const result = getBlockedAndAllowedRoutes(routeBlocking, config);
+
+            expect(result.error).toBe(true);
+            expect(result.message).toBe('You cannot block the login or embed access denied page');
+            expect(result.allowedRoutes).toEqual([]);
+            expect(result.blockedRoutes).toEqual([]);
         });
     });
 });

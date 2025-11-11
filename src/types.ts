@@ -6367,6 +6367,8 @@ export enum NavigationPath {
     Purchase = '/purchase',
     AutoAnswer = '/answer/create/auto/:dataSourceId',
     RequestAccessForObject = '/requestaccess/:objectType/:objectId',
+
+    EmbedAccessDeniedPage = '/embed-access-denied',
 }
 export interface RouteBlocking {
     blockedRoutes?: (NavigationPath | string)[];
