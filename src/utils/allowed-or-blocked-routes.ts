@@ -56,7 +56,7 @@ export const generateAutoAllowedRoutes = (config: RouteGenerationConfig): string
                 routes.push(`/${cleanPath}`);
                 routes.push(`/${cleanPath}/*`);
             } else if (pageId) {
-                const pageRoutes = getPageRoutes(pageId);
+                const pageRoutes = defaultWhiteListedPaths(pageId);
                 routes.push(...pageRoutes);
             }
             return routes;
@@ -71,11 +71,11 @@ export const generateAutoAllowedRoutes = (config: RouteGenerationConfig): string
 /**
  * Get routes for a specific page ID
  */
-const getPageRoutes = (pageId: string): string[] => {
+const defaultWhiteListedPaths = (pageId: string): string[] => {
     const pageRouteMap: Record<string, string[]> = {
         answers: [NavigationPath.Answers, NavigationPath.HomeAnswers],
         data: [NavigationPath.DataModelPage],
-        home: [NavigationPath.Home],
+        home: [NavigationPath.Home, NavigationPath.RootPage, NavigationPath.HomePage],
         liveboards: [NavigationPath.HomeLiveboards],
         monitor: [NavigationPath.HomeMonitorAlerts],
         pinboards: [NavigationPath.HomeLiveboards],
@@ -131,7 +131,9 @@ export const getBlockedAndAllowedRoutes = (
     }
     const autoAllowedRoutes = generateAutoAllowedRoutes(config);
     if (allowedRoutes) {
-        const filteredAllowedRoutes = allowedRoutes.filter((route) => route !== undefined && route !== null);
+        const filteredAllowedRoutes = allowedRoutes.filter(
+            (route) => route !== undefined && route !== null,
+        );
         return {
             allowedRoutes: [
                 ...autoAllowedRoutes,
@@ -145,7 +147,9 @@ export const getBlockedAndAllowedRoutes = (
         };
     }
     if (blockedRoutes) {
-        const filteredBlockedRoutes = blockedRoutes.filter((route) => route !== undefined && route !== null);
+        const filteredBlockedRoutes = blockedRoutes.filter(
+            (route) => route !== undefined && route !== null,
+        );
         if (
             hasConflictingBlockedRoute(filteredBlockedRoutes, [
                 NavigationPath.Login,

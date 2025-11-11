@@ -6247,6 +6247,7 @@ export enum InterceptedApiType {
  */
 export enum NavigationPath {
     All = '/*',
+    RootPage = '/',
     // Core navigation methods
     DataModelPage = '/data/*',
     AdminPage = '/admin',
@@ -6259,6 +6260,7 @@ export enum NavigationPath {
     Documents = '/insights/doc-search',
 
     // Home sub-pages
+    HomePage = '/insights/home',
     HomeAnswers = '/insights/home/answers',
     HomeLiveboards = '/insights/home/liveboards',
     HomeFavs = '/insights/home/favourites',
