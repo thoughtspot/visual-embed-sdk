@@ -132,13 +132,31 @@ export const getBlockedAndAllowedRoutes = (
     const autoAllowedRoutes = generateAutoAllowedRoutes(config);
     if (allowedRoutes) {
         return {
-            allowedRoutes: [...autoAllowedRoutes, ...allowedRoutes, NavigationPath.Login],
+            allowedRoutes: [
+                ...autoAllowedRoutes,
+                ...allowedRoutes,
+                NavigationPath.Login,
+                NavigationPath.EmbedAccessDeniedPage,
+            ],
             blockedRoutes: [],
             error: false,
             message: accessDeniedMessage,
         };
     }
     if (blockedRoutes) {
+        if (
+            hasConflictingBlockedRoute(blockedRoutes, [
+                NavigationPath.Login,
+                NavigationPath.EmbedAccessDeniedPage,
+            ])
+        ) {
+            return {
+                allowedRoutes: [],
+                blockedRoutes: [],
+                error: true,
+                message: 'You cannot block the login or embed access denied page',
+            };
+        }
         const autoAllowedRoutesForBlockedRoutes = generateAutoAllowedRoutes(config);
         if (hasConflictingBlockedRoute(blockedRoutes, autoAllowedRoutesForBlockedRoutes)) {
             return {
