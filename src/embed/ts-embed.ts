@@ -36,7 +36,7 @@ import {
     isUndefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
-import { getBlockedAndAllowedRoutes } from '../utils/allowed-or-blocked-routes';
+import { validateAndProcessRoutes } from '../utils/allowed-or-blocked-routes';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -461,7 +461,7 @@ export class TsEmbed {
                     error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
                 });
         }
-        const blockedAndAllowedRoutesResult = getBlockedAndAllowedRoutes(
+        const blockedAndAllowedRoutesResult = validateAndProcessRoutes(
             this.viewConfig?.routeBlocking,
             {
                 embedComponentType: (this.viewConfig as any).embedComponentType || '',
@@ -472,8 +472,8 @@ export class TsEmbed {
                 path: (this.viewConfig as any).path,
             },
         );
-        if (blockedAndAllowedRoutesResult.error) {
-            this.handleError(blockedAndAllowedRoutesResult.message);
+        if (blockedAndAllowedRoutesResult.hasError) {
+            this.handleError(blockedAndAllowedRoutesResult.errorMessage);
         }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
@@ -496,7 +496,7 @@ export class TsEmbed {
             customActions: customActionsResult.actions,
             allowedRoutes: blockedAndAllowedRoutesResult.allowedRoutes,
             blockedRoutes: blockedAndAllowedRoutesResult.blockedRoutes,
-            accessDeniedMessage: blockedAndAllowedRoutesResult.message || '',
+            accessDeniedMessage: blockedAndAllowedRoutesResult.errorMessage,
             ...getInterceptInitData(this.viewConfig),
         };
 
