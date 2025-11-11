@@ -131,10 +131,11 @@ export const getBlockedAndAllowedRoutes = (
     }
     const autoAllowedRoutes = generateAutoAllowedRoutes(config);
     if (allowedRoutes) {
+        const filteredAllowedRoutes = allowedRoutes.filter((route) => route !== undefined && route !== null);
         return {
             allowedRoutes: [
                 ...autoAllowedRoutes,
-                ...allowedRoutes,
+                ...filteredAllowedRoutes,
                 NavigationPath.Login,
                 NavigationPath.EmbedAccessDeniedPage,
             ],
@@ -144,8 +145,9 @@ export const getBlockedAndAllowedRoutes = (
         };
     }
     if (blockedRoutes) {
+        const filteredBlockedRoutes = blockedRoutes.filter((route) => route !== undefined && route !== null);
         if (
-            hasConflictingBlockedRoute(blockedRoutes, [
+            hasConflictingBlockedRoute(filteredBlockedRoutes, [
                 NavigationPath.Login,
                 NavigationPath.EmbedAccessDeniedPage,
             ])
@@ -158,7 +160,7 @@ export const getBlockedAndAllowedRoutes = (
             };
         }
         const autoAllowedRoutesForBlockedRoutes = generateAutoAllowedRoutes(config);
-        if (hasConflictingBlockedRoute(blockedRoutes, autoAllowedRoutesForBlockedRoutes)) {
+        if (hasConflictingBlockedRoute(filteredBlockedRoutes, autoAllowedRoutesForBlockedRoutes)) {
             return {
                 allowedRoutes: [],
                 blockedRoutes: [],
@@ -169,7 +171,7 @@ export const getBlockedAndAllowedRoutes = (
         }
         return {
             allowedRoutes: [],
-            blockedRoutes: blockedRoutes,
+            blockedRoutes: filteredBlockedRoutes,
             error: false,
             message: accessDeniedMessage,
         };
