@@ -9990,83 +9990,83 @@
 			},
 			"children": [
 				{
-					"id": 1888,
+					"id": 3111,
+					"name": "Actions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6343,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/develop/*/actionsCustomization\""
+				},
+				{
+					"id": 3044,
+					"name": "AdminPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6252,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/admin\""
+				},
+				{
+					"id": 3066,
+					"name": "AiAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6280,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/ai-answer/:eurekaAnswerSessionId\""
+				},
+				{
+					"id": 3042,
+					"name": "All",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6249,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/*\""
+				},
+				{
+					"id": 3059,
+					"name": "Answer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6271,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/answer\""
+				},
+				{
+					"id": 3046,
 					"name": "Answers",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6254,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/answers\""
-				},
-				{
-					"id": 3087,
-					"name": "AppConnections",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6311,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/app-connections\""
-				},
-				{
-					"id": 1891,
-					"name": "Data",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6368,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
-				},
-				{
-					"id": 3089,
-					"name": "AutoWorksheetWithConnectionId",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6313,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/data/worksheet/create/auto\""
-				},
-				{
-					"id": 1886,
-					"name": "Home",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6257,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"/insights/conv-assist\""
-				},
-				{
-					"id": 3047,
-					"name": "Copilot",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -10077,11 +10077,71 @@
 							"character": 4
 						}
 					],
-					"defaultValue": "\"/copilot\""
+					"defaultValue": "\"/insights/answers\""
 				},
 				{
-					"id": 1889,
-					"name": "Liveboards",
+					"id": 3089,
+					"name": "AppConnections",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6313,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/app-connections\""
+				},
+				{
+					"id": 3128,
+					"name": "AutoAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6370,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/answer/create/auto/:dataSourceId\""
+				},
+				{
+					"id": 3091,
+					"name": "AutoWorksheetWithConnectionId",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6315,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/worksheet/create/auto\""
+				},
+				{
+					"id": 3049,
+					"name": "ConvAssist",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6258,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/conv-assist\""
+				},
+				{
+					"id": 3048,
+					"name": "Copilot",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -10092,10 +10152,25 @@
 							"character": 4
 						}
 					],
+					"defaultValue": "\"/copilot\""
+				},
+				{
+					"id": 3048,
+					"name": "CopilotChat",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6257,
+							"character": 4
+						}
+					],
 					"defaultValue": "\"/copilot/chat\""
 				},
 				{
-					"id": 3064,
+					"id": 3066,
 					"name": "CreateAiAnswerWithQueryParams",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10103,29 +10178,29 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6278,
+							"line": 6280,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/insights/create-ai-answer\""
 				},
 				{
-					"id": 1893,
-					"name": "Monitor",
+					"id": 3115,
+					"name": "CustomCalendarRedirection",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6347,
+							"line": 6349,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/custom-calendar-test\""
 				},
 				{
-					"id": 3114,
+					"id": 3116,
 					"name": "CustomCalendarWizard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10133,29 +10208,29 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6346,
+							"line": 6348,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/custom-calendar\""
 				},
 				{
-					"id": 1887,
-					"name": "Search",
+					"id": 3083,
+					"name": "DataGovernance",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6307,
+							"line": 6309,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/data-governance\""
 				},
 				{
-					"id": 3043,
+					"id": 3044,
 					"name": "DataModelPage",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10163,29 +10238,29 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6251,
+							"line": 6252,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/*\""
 				},
 				{
-					"id": 1892,
-					"name": "SpotIQ",
+					"id": 3077,
+					"name": "Dataset",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6301,
+							"line": 6303,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dataset\""
 				},
 				{
-					"id": 3080,
+					"id": 3082,
 					"name": "Dbt",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10193,14 +10268,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6304,
+							"line": 6306,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dbt\""
 				},
 				{
-					"id": 3125,
+					"id": 3127,
 					"name": "DbtIntegration",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10208,24 +10283,1302 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6363,
+							"line": 6365,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"/data/dbt-integration\""
 				},
 				{
-					"id": 3073,
+					"id": 3075,
 					"name": "DeepLinkPage",
 					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6293,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/deeplink\""
+				},
+				{
+					"id": 3081,
+					"name": "Destination",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6305,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/destination\""
+				},
+				{
+					"id": 3078,
+					"name": "DestinationSync",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6302,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/destination-sync\""
+				},
+				{
+					"id": 3116,
+					"name": "DevelopTab",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6350,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/develop\""
+				},
+				{
+					"id": 3051,
+					"name": "Documents",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6259,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/doc-search\""
+				},
+				{
+					"id": 3062,
+					"name": "EditACopy",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6274,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/answer/edit/:editACopySessionKey\""
+				},
+				{
+					"id": 3130,
+					"name": "EmbedAccessDeniedPage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6371,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/embed-access-denied\""
+				},
+				{
+					"id": 3092,
+					"name": "Embrace",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6316,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/embrace\""
+				},
+				{
+					"id": 3091,
+					"name": "EmbraceConnections",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6315,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/embrace/connection\""
+				},
+				{
+					"id": 3093,
+					"name": "EmbraceCsvUploadWithDatasourceID",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6317,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/importcsv/loaddata\""
+				},
+				{
+					"id": 3063,
+					"name": "EurekaWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6277,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/eureka\""
+				},
+				{
+					"id": 3072,
+					"name": "ForgotPassword",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6292,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/requestresetpassword\""
+				},
+				{
+					"id": 3085,
+					"name": "FragmentFeedback",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6309,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/fragment-feedback\""
+				},
+				{
+					"id": 3117,
+					"name": "GetStarted",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6351,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/get-started\""
+				},
+				{
+					"id": 3045,
+					"name": "Home",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6253,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/home\""
+				},
+				{
+					"id": 3052,
+					"name": "HomeAnswers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6262,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/answers\""
+				},
+				{
+					"id": 3056,
+					"name": "HomeCreatedByMe",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6266,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/created-by-me\""
+				},
+				{
+					"id": 3054,
+					"name": "HomeFavs",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6264,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/favourites\""
+				},
+				{
+					"id": 3055,
+					"name": "HomeLiveboardSchedules",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6265,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/liveboard-schedules\""
+				},
+				{
+					"id": 3053,
+					"name": "HomeLiveboards",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6263,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/liveboards\""
+				},
+				{
+					"id": 3057,
+					"name": "HomeMonitorAlerts",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6267,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/monitor-alerts\""
+				},
+				{
+					"id": 3058,
+					"name": "HomeSpotIQAnalysis",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6268,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/home/spotiq-analysis\""
+				},
+				{
+					"id": 3118,
+					"name": "ImportTsl",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6354,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/import-tsl/:metadataType\""
+				},
+				{
+					"id": 3075,
+					"name": "Insight",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6297,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/insight/:analysisResultId\""
+				},
+				{
+					"id": 3074,
+					"name": "Insights",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6296,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights\""
+				},
+				{
+					"id": 3084,
+					"name": "LiveBoardVerification",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6308,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/liveboard-verification\""
+				},
+				{
+					"id": 3070,
+					"name": "Login",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6290,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/login\""
+				},
+				{
+					"id": 3109,
+					"name": "ManageSchedules",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6339,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/schedules\""
+				},
+				{
+					"id": 3069,
+					"name": "MonitorV2",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6287,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/monitor\""
+				},
+				{
+					"id": 3112,
+					"name": "OnBoarding",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6344,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/onboarding\""
+				},
+				{
+					"id": 3107,
+					"name": "OrgsContent",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6335,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/content\""
+				},
+				{
+					"id": 3108,
+					"name": "OrgsCreditConsumption",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6336,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/credit-consumption\""
+				},
+				{
+					"id": 3106,
+					"name": "OrgsGroups",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6334,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/groups\""
+				},
+				{
+					"id": 3104,
+					"name": "OrgsHome",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6332,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs\""
+				},
+				{
+					"id": 3105,
+					"name": "OrgsUsers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6333,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/orgs/users\""
+				},
+				{
+					"id": 3067,
+					"name": "Pinboard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6283,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/pinboard/:pinboardId\""
+				},
+				{
+					"id": 3127,
+					"name": "Purchase",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6367,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/purchase\""
+				},
+				{
+					"id": 3086,
+					"name": "QueryFeedback",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6310,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/query-feedback\""
+				},
+				{
+					"id": 3129,
+					"name": "RequestAccessForObject",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6369,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/requestaccess/:objectType/:objectId\""
+				},
+				{
+					"id": 3071,
+					"name": "ResetPassword",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6291,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/resetpassword\""
+				},
+				{
+					"id": 3060,
+					"name": "SavedAnswer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6272,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/saved-answer/:answerId\""
+				},
+				{
+					"id": 3126,
+					"name": "SchemaViewer",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6364,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/schema-viewer/table\""
+				},
+				{
+					"id": 3110,
+					"name": "Setup",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6342,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/setup\""
+				},
+				{
+					"id": 3124,
+					"name": "SpotAppDetailsAndAnalytics",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6362,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/spotapp\""
+				},
+				{
+					"id": 3123,
+					"name": "SpotAppsAdmin",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6361,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/spotapps-admin\""
+				},
+				{
+					"id": 3082,
+					"name": "SqlView",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6306,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/sql-view\""
+				},
+				{
+					"id": 3076,
+					"name": "Table",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6300,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/tables\""
+				},
+				{
+					"id": 3100,
+					"name": "TeamsAuthenticationOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6326,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/authentication\""
+				},
+				{
+					"id": 3102,
+					"name": "TeamsDataUsage",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6328,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/data-usage\""
+				},
+				{
+					"id": 3103,
+					"name": "TeamsManageSubscription",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6329,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/manage-subscription\""
+				},
+				{
+					"id": 3094,
+					"name": "TeamsMembers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6320,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/members\""
+				},
+				{
+					"id": 3095,
+					"name": "TeamsPendingInvitations",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6321,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/pending-invitations\""
+				},
+				{
+					"id": 3096,
+					"name": "TeamsPlanOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6322,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/plan-options\""
+				},
+				{
+					"id": 3097,
+					"name": "TeamsSpotIQOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6323,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/spotiq\""
+				},
+				{
+					"id": 3098,
+					"name": "TeamsStyleCustomizationOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6324,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/style-customization\""
+				},
+				{
+					"id": 3101,
+					"name": "TeamsSystemActivitiesOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6327,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/system-activities\""
+				},
+				{
+					"id": 3099,
+					"name": "TeamsUserManagementOptions",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6325,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/teams/user-management\""
+				},
+				{
+					"id": 3119,
+					"name": "TmlUtility",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6355,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/utilities/tml\""
+				},
+				{
+					"id": 3065,
+					"name": "TrainSageWithQueryParams",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6279,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/sage/train\""
+				},
+				{
+					"id": 3050,
+					"name": "TryEverywhere",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6258,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/everywhere\""
+				},
+				{
+					"id": 3120,
+					"name": "TslEditor",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6356,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/tsl-editor\""
+				},
+				{
+					"id": 3121,
+					"name": "TslEditorSingleFile",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6357,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/tsl-editor/:metadataType/:metadataGuid\""
+				},
+				{
+					"id": 3122,
+					"name": "UpdateTslFromFile",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6358,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/import-tsl/:metadataType/:metadataGuid\""
+				},
+				{
+					"id": 3113,
+					"name": "UserPreference",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6345,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/user-preference\""
+				},
+				{
+					"id": 3079,
+					"name": "Utilities",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6303,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/utilities\""
+				},
+				{
+					"id": 3061,
+					"name": "View",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6273,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/view/:answerId\""
+				},
+				{
+					"id": 3068,
+					"name": "VizBoard",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6284,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/insights/pinboard/:pinboardId/:vizId\""
+				},
+				{
+					"id": 3088,
+					"name": "WorksheetCreate",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6312,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/worksheet/create\""
+				},
+				{
+					"id": 3090,
+					"name": "csvUpload",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6314,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"/data/importcsv\""
+				}
+			],
+			"groups": [
+				{
+					"title": "Enumeration members",
+					"kind": 16,
 					"children": [
-						1888,
-						1891,
-						1886,
-						1889,
-						1893,
-						1887,
-						1892
+						3111,
+						3044,
+						3066,
+						3042,
+						3059,
+						3046,
+						3087,
+						3128,
+						3089,
+						3049,
+						3047,
+						3048,
+						3064,
+						3115,
+						3114,
+						3083,
+						3043,
+						3077,
+						3080,
+						3125,
+						3073,
+						3081,
+						3078,
+						3116,
+						3051,
+						3062,
+						3130,
+						3092,
+						3091,
+						3093,
+						3063,
+						3072,
+						3085,
+						3117,
+						3045,
+						3052,
+						3056,
+						3054,
+						3055,
+						3053,
+						3057,
+						3058,
+						3118,
+						3075,
+						3074,
+						3084,
+						3070,
+						3109,
+						3069,
+						3112,
+						3107,
+						3108,
+						3106,
+						3104,
+						3105,
+						3067,
+						3127,
+						3086,
+						3129,
+						3071,
+						3060,
+						3126,
+						3110,
+						3124,
+						3123,
+						3082,
+						3076,
+						3100,
+						3102,
+						3103,
+						3094,
+						3095,
+						3096,
+						3097,
+						3098,
+						3101,
+						3099,
+						3119,
+						3065,
+						3050,
+						3120,
+						3121,
+						3122,
+						3113,
+						3079,
+						3061,
+						3068,
+						3088,
+						3090
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "types.ts",
+					"line": 6248,
+					"character": 12
+				}
+			]
+		},
+		{
+			"id": 1973,
+			"name": "Page",
+			"kind": 4,
+			"kindString": "Enumeration",
+			"flags": {},
+			"comment": {
+				"shortText": "Pages within the ThoughtSpot app that can be embedded."
+			},
+			"children": [
+				{
+					"id": 1976,
+					"name": "Answers",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "Saved answers listing page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 39,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"answers\""
+				},
+				{
+					"id": 1979,
+					"name": "Data",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "Data management page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 51,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"data\""
+				},
+				{
+					"id": 1974,
+					"name": "Home",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "Home page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 31,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"home\""
+				},
+				{
+					"id": 1977,
+					"name": "Liveboards",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "Liveboards listing page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 43,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"liveboards\""
+				},
+				{
+					"id": 1981,
+					"name": "Monitor",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": " Monitor Alerts Page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 59,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"monitor\""
+				},
+				{
+					"id": 1975,
+					"name": "Search",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "Search page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 35,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"search\""
+				},
+				{
+					"id": 1980,
+					"name": "SpotIQ",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"comment": {
+						"shortText": "SpotIQ listing page"
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 55,
+							"character": 4
+						}
+					],
+					"defaultValue": "\"insights\""
+				}
+			],
+			"groups": [
+				{
+					"title": "Enumeration members",
+					"kind": 16,
+					"children": [
+						1976,
+						1979,
+						1974,
+						1977,
+						1981,
+						1975,
+						1980
 					]
 				}
 			],
@@ -23649,7 +25002,84 @@
 					}
 				},
 				{
-					"id": 2590,
+					"id": 2692,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "AllEmbedViewConfig.interceptTimeout"
+					}
+				},
+				{
+					"id": 2691,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "AllEmbedViewConfig.interceptUrls"
+					}
+				},
+				{
+					"id": 2717,
 					"name": "isCentralizedLiveboardFilterUXEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -23896,8 +25326,8 @@
 					},
 					"sources": [
 						{
-							"fileName": "embed/app.ts",
-							"line": 519,
+							"fileName": "types.ts",
+							"line": 6387,
 							"character": 4
 						}
 					],
@@ -26190,7 +27620,121 @@
 					}
 				},
 				{
-					"id": 1285,
+					"id": 1346,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1309,
+						"name": "SpotterAgentEmbedViewConfig.interceptTimeout"
+					}
+				},
+				{
+					"id": 1345,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1308,
+						"name": "SpotterAgentEmbedViewConfig.interceptUrls"
+					}
+				},
+				{
+					"id": 1344,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1307,
+						"name": "SpotterAgentEmbedViewConfig.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 1335,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27329,7 +28873,121 @@
 					}
 				},
 				{
-					"id": 1562,
+					"id": 1646,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1598,
+						"name": "SpotterEmbedViewConfig.interceptTimeout"
+					}
+				},
+				{
+					"id": 1645,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1597,
+						"name": "SpotterEmbedViewConfig.interceptUrls"
+					}
+				},
+				{
+					"id": 1644,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"id": 1596,
+						"name": "SpotterEmbedViewConfig.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 1635,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35066,7 +36724,84 @@
 					}
 				},
 				{
-					"id": 2459,
+					"id": 2550,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.interceptTimeout"
+					}
+				},
+				{
+					"id": 2549,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.interceptUrls"
+					}
+				},
+				{
+					"id": 2571,
 					"name": "isCentralizedLiveboardFilterUXEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35294,7 +37029,41 @@
 					}
 				},
 				{
-					"id": 2407,
+					"id": 2548,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 2511,
 					"name": "isPNGInScheduledEmailsEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36330,7 +38099,100 @@
 			]
 		},
 		{
-			"id": 1906,
+			"id": 3131,
+			"name": "RouteBlocking",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"children": [
+				{
+					"id": 3134,
+					"name": "accessDeniedMessage",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6376,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 3133,
+					"name": "allowedRoutes",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6375,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					}
+				},
+				{
+					"id": 3132,
+					"name": "blockedRoutes",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6374,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						3134,
+						3133,
+						3132
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "types.ts",
+					"line": 6373,
+					"character": 17
+				}
+			]
+		},
+		{
+			"id": 1994,
 			"name": "RuntimeFilter",
 			"kind": 256,
 			"kindString": "Interface",
@@ -37511,7 +39373,118 @@
 					}
 				},
 				{
-					"id": 2505,
+					"id": 2628,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptTimeout"
+					}
+				},
+				{
+					"id": 2627,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptUrls"
+					}
+				},
+				{
+					"id": 2626,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 2617,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38897,7 +40870,118 @@
 					}
 				},
 				{
-					"id": 2374,
+					"id": 2482,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.interceptTimeout"
+					}
+				},
+				{
+					"id": 2481,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.interceptUrls"
+					}
+				},
+				{
+					"id": 2480,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "BaseViewConfig.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 2470,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40643,7 +42727,84 @@
 					}
 				},
 				{
-					"id": 2307,
+					"id": 2440,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptTimeout"
+					}
+				},
+				{
+					"id": 2439,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptUrls"
+					}
+				},
+				{
+					"id": 2438,
 					"name": "isOnBeforeGetVizDataInterceptEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40662,8 +42823,8 @@
 					},
 					"sources": [
 						{
-							"fileName": "embed/search.ts",
-							"line": 285,
+							"fileName": "types.ts",
+							"line": 6387,
 							"character": 4
 						}
 					],
@@ -41833,7 +43994,118 @@
 					}
 				},
 				{
-					"id": 1256,
+					"id": 1309,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptTimeout"
+					}
+				},
+				{
+					"id": 1308,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptUrls"
+					}
+				},
+				{
+					"id": 1307,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 1298,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42926,7 +45198,118 @@
 					}
 				},
 				{
-					"id": 1522,
+					"id": 1598,
+					"name": "interceptTimeout",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "The timeout for the intercept, default is 30000ms\nthe api will error out if the timeout is reached",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.ALL],\n  interceptTimeout: 1000,\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6420,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptTimeout"
+					}
+				},
+				{
+					"id": 1597,
+					"name": "interceptUrls",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed', {\n  ...viewConfig,\n  enableApiIntercept: true,\n  interceptUrls: [InterceptedApiType.DATA],\n})\n```\n"
+							},
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6403,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.interceptUrls"
+					}
+				},
+				{
+					"id": 1596,
+					"name": "isOnBeforeGetVizDataInterceptEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
+						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6387,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					},
+					"inheritedFrom": {
+						"type": "reference",
+						"name": "Omit.isOnBeforeGetVizDataInterceptEnabled"
+					}
+				},
+				{
+					"id": 1587,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -45011,7 +47394,7 @@
 			]
 		},
 		{
-			"id": 2909,
+			"id": 3135,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -45027,7 +47410,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2910,
+					"id": 3136,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -45337,28 +47720,29 @@
 			"title": "Interfaces",
 			"kind": 256,
 			"children": [
-				2509,
-				1749,
-				1260,
-				1526,
-				2863,
-				2661,
-				2649,
-				2639,
-				2239,
-				2598,
-				2387,
-				1906,
-				2822,
-				2462,
-				2345,
-				2291,
-				1875,
-				1231,
-				1486,
-				1882,
-				2860,
-				2652,
+				2629,
+				1837,
+				1310,
+				1599,
+				2990,
+				2788,
+				2776,
+				2766,
+				2328,
+				2725,
+				2491,
+				3131,
+				1994,
+				2949,
+				2574,
+				2441,
+				2380,
+				1963,
+				1273,
+				1551,
+				1970,
+				2987,
+				2779,
 				21,
 				28
 			]
@@ -45386,7 +47770,7 @@
 				1,
 				4,
 				7,
-				2909,
+				3135,
 				37,
 				2832
 			]
