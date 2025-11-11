@@ -22,6 +22,7 @@ export {
     init,
     logout,
     prefetch,
+    reloadIframe,
     getInitConfig,
     getSessionInfo,
     uploadMixpanelEvent,
