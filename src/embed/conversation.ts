@@ -3,6 +3,8 @@ import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
+import { ContextType } from './hostEventClient/contracts';
+import { PageContextOptions } from 'visual-embed-sdk';
 
 /**
  * Configuration for search options
@@ -279,6 +281,11 @@ export class SpotterEmbed extends TsEmbed {
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
         return this;
+    }
+
+    public async getCurrentContext(): Promise<PageContextOptions> {
+        const context = await super.getCurrentContext();
+        return context;
     }
 }
 

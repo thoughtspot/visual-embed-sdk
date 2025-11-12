@@ -2,6 +2,7 @@ import { SearchLiveboardCommonViewConfig, BaseViewConfig, DefaultAppInitData, Pa
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
+import { PageContextOptions } from 'visual-embed-sdk';
 
 /**
  * @group Embed components
@@ -197,5 +198,10 @@ export class SearchBarEmbed extends TsEmbed {
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
         return { ...defaultAppInitData, ...this.getSearchInitData() };
+    }
+
+    public async getCurrentContext(): Promise<PageContextOptions> {
+        const context = await super.getCurrentContext();
+        return context;
     }
 }

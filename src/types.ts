@@ -4257,6 +4257,16 @@ export enum HostEvent {
      * ```
      */
     UpdateEmbedParams = 'updateEmbedParams',
+
+    /**
+     * @hidden
+     * Triggers the get of the page context.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetPageContext);
+     * ```
+     */
+    GetPageContext = 'GetPageContext',
 }
 
 /**

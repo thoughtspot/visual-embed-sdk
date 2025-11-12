@@ -3,6 +3,7 @@ import { HostEvent, MessagePayload } from '../types';
 import { logger } from '../utils/logger';
 import { handlePresentEvent } from '../utils';
 import { getEmbedConfig } from '../embed/embedConfig';
+import { ContextType } from 'src/embed/hostEventClient/contracts';
 
 /**
  * Reloads the ThoughtSpot iframe.
@@ -50,7 +51,7 @@ export function processTrigger(
     messageType: HostEvent,
     thoughtSpotHost: string,
     data: any,
-    context?: any,
+    context?: ContextType,
 ): Promise<any> {
     return new Promise<any>((res, rej) => {
         if (messageType === HostEvent.Reload) {

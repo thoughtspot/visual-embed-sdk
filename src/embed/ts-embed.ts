@@ -10,11 +10,13 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
+    ContextType,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
+    PageType,
 } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
@@ -71,6 +73,7 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { PageContextOptions } from '../../visual-embed-sdk';
 
 const { version } = pkgInfo;
 
@@ -1268,11 +1271,11 @@ export class TsEmbed {
      * @param {any} data The payload to send with the message
      * @returns A promise that resolves with the response from the embedded app
      */
-    public async trigger<HostEventT extends HostEvent, PayloadT>(
+    public async trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
-        context: any = {},
-    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        context?: ContextT,
+    ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -1335,6 +1338,13 @@ export class TsEmbed {
 
     protected handleRenderForPrerender() {
         return this.render();
+    }
+
+    public async getCurrentContext(): Promise<any> {
+        this.executeAfterEmbedContainerLoaded(async () => {
+            const context = await this.trigger(HostEvent.GetPageContext, {});
+            return context;
+        });
     }
 
     /**

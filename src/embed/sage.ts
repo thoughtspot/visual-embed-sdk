@@ -6,6 +6,7 @@
  * @author Mourya Balabhadra <mourya.balabhadra@thoughtspot.com>
  */
 
+import { PageContextOptions } from 'visual-embed-sdk';
 import { DOMSelector, Param, BaseViewConfig, SearchLiveboardCommonViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
@@ -228,5 +229,10 @@ export class SageEmbed extends V1Embed {
         await this.renderV1Embed(src);
 
         return this;
+    }
+
+    public async getCurrentContext(): Promise<PageContextOptions> {
+        const context = await super.getCurrentContext();
+        return context;
     }
 }

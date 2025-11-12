@@ -26,6 +26,8 @@ import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
+import { PageContextOptions } from 'visual-embed-sdk';
+import { ContextType, PageType } from './hostEventClient/contracts';
 
 /**
  * Configuration for search options.
@@ -535,5 +537,10 @@ export class SearchEmbed extends TsEmbed {
             }
         });
         return this;
+    }
+
+    public async getCurrentContext(): Promise<PageContextOptions> {
+        const context = await super.getCurrentContext();
+        return context;
     }
 }

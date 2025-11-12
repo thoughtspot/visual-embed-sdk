@@ -8,6 +8,7 @@ import {
     UIPassthroughResponse,
     TriggerPayload,
     TriggerResponse,
+    ContextType,
 } from './contracts';
 
 export class HostEventClient {
@@ -23,7 +24,7 @@ export class HostEventClient {
    * @param {any} data Data to send with the host event
    * @returns {Promise<any>} - the response from the process trigger
    */
-  protected async processTrigger(message: HostEvent, data: any, context?: any): Promise<any> {
+  protected async processTrigger(message: HostEvent, data: any, context?: ContextType): Promise<any> {
       if (!this.iFrame) {
           throw new Error('Iframe element is not set');
       }
@@ -66,7 +67,7 @@ export class HostEventClient {
   public async hostEventFallback(
       hostEvent: HostEvent,
       data: any,
-      context?: any,
+      context?: ContextType,
   ): Promise<any> {
       return this.processTrigger(hostEvent, data, context);
   }
@@ -93,7 +94,7 @@ export class HostEventClient {
 
   protected async handlePinEvent(
       payload: HostEventRequest<HostEvent.Pin>,
-  ): Promise<HostEventResponse<HostEvent.Pin>> {
+  ): Promise<HostEventResponse<HostEvent.Pin, ContextType>> {
       if (!payload || !('newVizName' in payload)) {
           return this.hostEventFallback(HostEvent.Pin, payload);
       }
@@ -134,12 +135,12 @@ export class HostEventClient {
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
-    ContextT,
+    ContextT extends ContextType,
   >(
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
-  ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+  ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       switch (hostEvent) {
           case HostEvent.Pin:
               return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>) as any;
@@ -148,7 +149,7 @@ export class HostEventClient {
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
               ) as any;
           default:
-              return this.hostEventFallback(hostEvent, payload, context as any);
+              return this.hostEventFallback(hostEvent, payload, context);
       }
   }
 }
