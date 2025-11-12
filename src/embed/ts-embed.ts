@@ -799,14 +799,23 @@ export class TsEmbed {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         iFrame.mozallowfullscreen = true;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
 
         const frameParams = this.viewConfig.frameParams;
-        const { height: frameHeight, width: frameWidth, ...restParams } = frameParams || {};
+        const { height: frameHeight, width: frameWidth, allow: userAllow, ...restParams } = frameParams || {};
         const width = getCssDimension(frameWidth || DEFAULT_EMBED_WIDTH);
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
+        
+        // Merge default allow permissions with user-provided allow permissions
+        // Default permissions: clipboard-read, clipboard-write, fullscreen
+        // User can add additional permissions like 'local-network-access' for internal clusters
+        const defaultAllow = 'clipboard-read; clipboard-write; fullscreen';
+        const mergedAllow = userAllow
+            ? `${defaultAllow}; ${userAllow}`.trim()
+            : `${defaultAllow};`;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        iFrame.allow = mergedAllow;
+        
         setAttributes(iFrame, restParams);
 
         iFrame.style.width = `${width}`;

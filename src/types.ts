@@ -730,6 +730,26 @@ export interface FrameParams {
      */
     loading?: 'lazy' | 'eager' | 'auto';
     /**
+     * Additional permissions for the iframe using the Permissions Policy API.
+     * This is merged with the default permissions: 'clipboard-read; clipboard-write; fullscreen;'
+     * 
+     * For embedding internal ThoughtSpot clusters (e.g., `*.internal.thoughtspot.dev`),
+     * you must include 'local-network-access' to allow the iframe to access private networks.
+     * 
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   liveboardId: '...',
+     *   frameParams: {
+     *     allow: 'local-network-access *', // Allows access to internal clusters
+     *   },
+     * });
+     * ```
+     * 
+     * @version SDK: 1.42.0 | ThoughtSpot: *
+     */
+    allow?: string;
+    /**
      * This parameters will be passed on the iframe
      * as is.
      */
