@@ -65,6 +65,8 @@ import {
     CustomActionsPosition,
     CustomActionTarget,
     InterceptedApiType,
+    NavigationPath,
+    RouteBlocking,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -154,6 +156,8 @@ export {
     CustomActionsPosition,
     CustomActionTarget,
     InterceptedApiType,
+    NavigationPath,
+    RouteBlocking,
 };
 
 export { resetCachedAuthToken } from './authToken';
