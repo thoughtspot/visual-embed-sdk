@@ -14022,7 +14022,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 325,
+							"line": 331,
 							"character": 4
 						}
 					],
@@ -14208,7 +14208,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 258,
+							"line": 264,
 							"character": 11
 						}
 					],
@@ -14848,7 +14848,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 298,
+							"line": 304,
 							"character": 17
 						}
 					],
@@ -15240,7 +15240,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 324,
+					"line": 330,
 					"character": 13
 				}
 			],
@@ -21007,7 +21007,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 258,
+							"line": 264,
 							"character": 11
 						}
 					],
@@ -21629,7 +21629,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 298,
+							"line": 304,
 							"character": 17
 						}
 					],
