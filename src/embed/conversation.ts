@@ -246,7 +246,13 @@ export class SpotterEmbed extends TsEmbed {
         } = this.viewConfig;
 
         if (!worksheetId) {
-            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND, { errorType: ErrorDetailsTypes.VALIDATION_ERROR, message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND, code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND, source: ErrorDetailsSources.SDK, details: {} } as EmbedErrorDetailsEvent);
+            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND, {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+                code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            } as EmbedErrorDetailsEvent);
         }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
