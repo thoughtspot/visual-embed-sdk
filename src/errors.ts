@@ -20,6 +20,25 @@ export const ERROR_MESSAGE = {
     RENDER_CALLED_BEFORE_INIT: 'Looks like render was called before calling init, the render won\'t start until init is called.\nFor more info check\n1. https://developers.thoughtspot.com/docs/Function_init#_init\n2.https://developers.thoughtspot.com/docs/getting-started#initSdk',
     SPOTTER_AGENT_NOT_INITIALIZED: 'SpotterAgent not initialized',
     OFFLINE_WARNING : 'Network not Detected. Embed is offline. Please reconnect and refresh',
+    INIT_SDK_REQUIRED: 'You need to init the ThoughtSpot SDK module first',
+    CONFLICTING_ACTIONS_CONFIG: 'You cannot have both hidden actions and visible actions',
+    CONFLICTING_TABS_CONFIG: 'You cannot have both hidden Tabs and visible Tabs',
+    RENDER_BEFORE_EVENTS_REQUIRED: 'Please call render before triggering events',
+    HOST_EVENT_TYPE_UNDEFINED: 'Host event type is undefined',
+    LOGIN_FAILED: 'Login failed',
+};
+
+export const ERROR_CODE = {
+    WORKSHEET_ID_NOT_FOUND: 'WORKSHEET_ID_NOT_FOUND',
+    LIVEBOARD_ID_MISSING: 'LIVEBOARD_ID_MISSING',
+    CONFLICTING_ACTIONS_CONFIG: 'CONFLICTING_ACTIONS_CONFIG',
+    CONFLICTING_TABS_CONFIG: 'CONFLICTING_TABS_CONFIG',
+    INIT_ERROR: 'INIT_ERROR',
+    NETWORK_ERROR: 'NETWORK_ERROR',
+    CUSTOM_ACTION_VALIDATION: 'CUSTOM_ACTION_VALIDATION',
+    LOGIN_FAILED: 'LOGIN_FAILED',
+    RENDER_NOT_CALLED: 'RENDER_NOT_CALLED',
+    HOST_EVENT_TYPE_UNDEFINED: 'HOST_EVENT_TYPE_UNDEFINED',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

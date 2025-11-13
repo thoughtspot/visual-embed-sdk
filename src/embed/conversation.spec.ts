@@ -2,7 +2,7 @@ import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed } from './conve
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
-import { AuthType, Param, RuntimeFilterOp } from '../types';
+import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, ErrorDetailsSources  } from '../types';
 import {
     getDocumentBody,
     getIFrameSrc,
@@ -10,7 +10,7 @@ import {
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
 } from '../test/test-utils';
-import { ERROR_MESSAGE } from '../errors';
+import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 
@@ -121,6 +121,13 @@ describe('ConversationEmbed', () => {
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
             ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+                code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            },
         );
     });
 

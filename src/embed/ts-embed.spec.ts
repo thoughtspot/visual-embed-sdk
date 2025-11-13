@@ -1,5 +1,5 @@
 import { resetValueFromWindow } from '../utils';
-import { ERROR_MESSAGE } from '../errors';
+import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
@@ -29,6 +29,8 @@ import {
     CustomActionTarget,
     CustomActionsPosition,
     DefaultAppInitData,
+    ErrorDetailsTypes,
+    ErrorDetailsSources
 } from '../types';
 import {
     executeAfterWait,
@@ -1613,9 +1615,13 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden actions and visible actions',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            });
         });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1645,9 +1651,13 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden actions and visible actions',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            });
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
             await testActionsForLiveboards([Action.DownloadAsCsv], [Action.DownloadAsCsv]);
@@ -1690,9 +1700,13 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await pinboardEmbed.render();
             expect(pinboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden Tabs and visible Tabs',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            });
         });
         test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
             const pinboardEmbed = new PinboardEmbed(getRootEl(), {
@@ -1722,9 +1736,13 @@ describe('Unit test case for ts embed', () => {
             } as LiveboardViewConfig);
             await liveboardEmbed.render();
             expect(liveboardEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You cannot have both hidden Tabs and visible Tabs',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            });
         }
         test('should throw error when there are both visible and hidden Tab arrays', async () => {
             await testTabsForLiveboards([tabId1], [tabId2]);
@@ -1770,9 +1788,13 @@ describe('Unit test case for ts embed', () => {
             const tsEmbed = new SearchEmbed(getRootEl(), {});
             await tsEmbed.render();
             expect(tsEmbed['isError']).toBe(true);
-            expect(logger.error).toHaveBeenCalledWith(
-                'You need to init the ThoughtSpot SDK module first',
-            );
+            expect(logger.error).toHaveBeenCalledWith({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
+                code: ERROR_CODE.INIT_ERROR,
+                source: ErrorDetailsSources.SDK,
+                details: {},
+            });
         });
     });
 
@@ -3827,5 +3849,80 @@ describe('Unit test case for ts embed', () => {
                 );
             });
         });
+    });
+});
+
+
+describe('Additional Coverage Tests', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    test('should handle getAuthTokenForCookielessInit with non-cookieless auth', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const token = await searchEmbed['getAuthTokenForCookielessInit']();
+        expect(token).toBe('');
+    });
+
+    test('should call setIFrameHeight', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        await executeAfterWait(() => {
+            searchEmbed['setIFrameHeight'](500);
+            expect(getIFrameEl().style.height).toBe('500px');
+        });
+    });
+
+    test('should test getIframeCenter calculation', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        await executeAfterWait(() => {
+            const center = searchEmbed['getIframeCenter']();
+            expect(center).toHaveProperty('iframeCenter');
+            expect(center).toHaveProperty('iframeHeight');
+            expect(center).toHaveProperty('viewPortHeight');
+        });
+    });
+
+    test('should handle preRender with replaceExistingPreRender=true', async () => {
+        createRootEleForEmbed();
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'test-replace',
+            liveboardId: 'lb1',
+        });
+        await embed1.preRender();
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'test-replace',
+            liveboardId: 'lb2',
+        });
+        await embed2.preRender(false, true);
+        expect(document.getElementById('tsEmbed-pre-render-wrapper-test-replace')).toBeTruthy();
+    });
+
+    test('should test getIframeSrc base implementation', () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        expect(searchEmbed.getIframeSrc()).toBe('');
+    });
+
+    test('should handle createEmbedEventResponder with OnBeforeGetVizDataIntercept', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const mockPort: any = { postMessage: jest.fn() };
+        const responder = searchEmbed['createEmbedEventResponder'](
+            mockPort,
+            EmbedEvent.OnBeforeGetVizDataIntercept,
+        );
+        responder({ data: 'test' });
+        expect(mockPort.postMessage).toHaveBeenCalled();
+    });
+
+    test('should clean up message event listeners', async () => {
+        const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        await searchEmbed.render();
+        searchEmbed['unsubscribeToMessageEvents']();
+        expect(removeEventListenerSpy).toHaveBeenCalledWith('message', expect.any(Function));
     });
 });
