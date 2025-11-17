@@ -167,7 +167,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * enablePastConversationsSidebar : Controls the visibility of the past conversations
      * sidebar.
-     *
+     * 
      * Supported embed types: `SpotterEmbed`
      * @default false
      * @example
@@ -180,6 +180,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      */
     enablePastConversationsSidebar?: boolean;
+    /**
+     * spotterChatWidth : Sets the width of the chat area in Spotter.
+     * Specify the value as a string (e.g., '400px', '50%').
+     * 
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatWidth : '500px',
+     * })
+     * ```
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
+     */
+    spotterChatWidth?: string;
 }
 
 /**
@@ -226,6 +241,7 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            spotterChatWidth,
         } = this.viewConfig;
 
         if (!worksheetId) {
@@ -252,6 +268,10 @@ export class SpotterEmbed extends TsEmbed {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
 
+        if (!isUndefined(spotterChatWidth)) {
+            queryParams[Param.SpotterChatWidth] = spotterChatWidth;
+        }
+
         return queryParams;
     }
 
@@ -263,7 +283,8 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
-            enablePastConversationsSidebar
+            enablePastConversationsSidebar,
+            spotterChatWidth,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();

@@ -480,6 +480,7 @@ export class LiveboardEmbed extends V1Embed {
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            spotterChatWidth,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -563,6 +564,10 @@ export class LiveboardEmbed extends V1Embed {
             params[
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
+        }
+
+        if (spotterChatWidth !== undefined) {
+            params[Param.SpotterChatWidth] = spotterChatWidth;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
