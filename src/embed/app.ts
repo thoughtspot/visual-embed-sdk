@@ -680,6 +680,7 @@ export class AppEmbed extends V1Embed {
             isPNGInScheduledEmailsEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            spotterChatWidth,
         } = this.viewConfig;
 
         let params: any = {};
@@ -773,6 +774,10 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
+        }
+
+        if (spotterChatWidth !== undefined) {
+            params[Param.SpotterChatWidth] = spotterChatWidth;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

@@ -1558,7 +1558,7 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLinkParametersEnabled?: boolean;
-
+    
     /**
      * This flag is used to enable or disable the enhanced filter interactivity in liveboard.
      *
@@ -1574,6 +1574,24 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isEnhancedFilterInteractivityEnabled?: boolean;
+    /**
+     * Sets the width of the chat area in Spotter when embedded in Liveboard or App.
+     * Specify the value as a string (e.g., '400px', '50%').
+     * Default width (also minimum width) is 936px
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    spotterChatWidth: '500px',
+     * })
+     * ```
+     * @version SDK: 1.43.1 | ThoughtSpot: 10.14.0.cl
+     */
+    spotterChatWidth?: string;
+    
 }
 
 export interface AllEmbedViewConfig
@@ -4566,6 +4584,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
+    SpotterChatWidth = 'spotterChatWidth',
 }
 
 /**

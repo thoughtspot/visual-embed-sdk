@@ -1497,4 +1497,19 @@ describe('App embed tests', () => {
             expect(mockIFrame.style.height).toBe('500px');
         });
     });
+
+    test('Should add spotterChatWidth flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatWidth: '600px',
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&spotterChatWidth=600px${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
 });

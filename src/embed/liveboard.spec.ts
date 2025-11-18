@@ -1546,4 +1546,19 @@ describe('Liveboard/viz embed tests', () => {
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, undefined, undefined);
         });
     });
+
+    test('Should add spotterChatWidth to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatWidth: '400px',
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&spotterChatWidth=400px${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
 });
