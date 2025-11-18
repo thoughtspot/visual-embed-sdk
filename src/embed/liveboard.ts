@@ -652,7 +652,6 @@ export class LiveboardEmbed extends V1Embed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
                 code: ERROR_CODE.LIVEBOARD_ID_MISSING,
-                details: {},
             } as EmbedErrorDetailsEvent);
         }
         return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(

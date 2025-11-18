@@ -250,7 +250,6 @@ export class SpotterEmbed extends TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
                 code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
-                details: {},
             } as EmbedErrorDetailsEvent);
         }
         const queryParams = this.getBaseQueryParams();

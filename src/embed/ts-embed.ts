@@ -224,7 +224,6 @@ export class TsEmbed {
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
             message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             code: ERROR_CODE.INIT_ERROR,
-            details: {},
         } as EmbedErrorDetailsEvent);
     }
 
@@ -465,7 +464,6 @@ export class TsEmbed {
                     errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                     message: customActionsResult.errors,
                     code: ERROR_CODE.CUSTOM_ACTION_VALIDATION,
-                    details: {},
                 } as EmbedErrorDetailsEvent,
             );
         }
@@ -683,7 +681,6 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                details: {},
             } as EmbedErrorDetailsEvent);
             return queryParams;
         }
@@ -693,7 +690,6 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                details: {},
             } as EmbedErrorDetailsEvent);
             return queryParams;
         }
@@ -951,7 +947,6 @@ export class TsEmbed {
                         errorType: ErrorDetailsTypes.API,
                         message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                         code: ERROR_CODE.LOGIN_FAILED,
-                        details: {},
                     } as EmbedErrorDetailsEvent);
                 });
         });
@@ -1363,7 +1358,6 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
                 code: ERROR_CODE.RENDER_NOT_CALLED,
-                details: {},
             } as EmbedErrorDetailsEvent);
             return null;
         }
@@ -1373,7 +1367,6 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
                 code: ERROR_CODE.HOST_EVENT_TYPE_UNDEFINED,
-                details: {},
             } as EmbedErrorDetailsEvent);
             return null;
         }

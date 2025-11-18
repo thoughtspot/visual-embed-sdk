@@ -1618,7 +1618,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                details: {},
             });
         });
         test('should not throw error when there are only visible or hidden actions - pinboard', async () => {
@@ -1653,7 +1652,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                details: {},
             });
         }
         test('should throw error when there are both visible and hidden action arrays', async () => {
@@ -1701,7 +1699,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                details: {},
             });
         });
         test('should not throw error when there are only visible or hidden Tabs - pinboard', async () => {
@@ -1736,7 +1733,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                details: {},
             });
         }
         test('should throw error when there are both visible and hidden Tab arrays', async () => {
@@ -1787,7 +1783,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
                 code: ERROR_CODE.INIT_ERROR,
-                details: {},
             });
         });
     });
