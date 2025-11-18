@@ -1,6 +1,6 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, EmbedErrorDetailsEvent, ErrorDetailsTypes, ErrorDetailsSources } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, EmbedErrorDetailsEvent, ErrorDetailsTypes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
 
@@ -250,7 +250,6 @@ export class SpotterEmbed extends TsEmbed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
                 code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             } as EmbedErrorDetailsEvent);
         }
