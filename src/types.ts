@@ -1577,6 +1577,7 @@ export interface LiveboardAppEmbedViewConfig {
     /**
      * Sets the width of the chat area in Spotter when embedded in Liveboard or App.
      * Specify the value as a string (e.g., '400px', '50%').
+     * Default width (also minimum width) is 936px
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @example
@@ -1587,7 +1588,7 @@ export interface LiveboardAppEmbedViewConfig {
      *    spotterChatWidth: '500px',
      * })
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
+     * @version SDK: 1.43.1 | ThoughtSpot: 10.15.0.cl
      */
     spotterChatWidth?: string;
     
