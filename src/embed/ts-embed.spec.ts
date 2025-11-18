@@ -30,7 +30,6 @@ import {
     CustomActionsPosition,
     DefaultAppInitData,
     ErrorDetailsTypes,
-    ErrorDetailsSources
 } from '../types';
 import {
     executeAfterWait,
@@ -1619,7 +1618,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
@@ -1655,7 +1653,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         }
@@ -1704,7 +1701,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
@@ -1740,7 +1736,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
                 code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         }
@@ -1792,7 +1787,6 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
                 code: ERROR_CODE.INIT_ERROR,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             });
         });
