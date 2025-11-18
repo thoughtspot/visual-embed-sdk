@@ -6258,16 +6258,6 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Error source for embed errors
- * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
- */
-export enum ErrorDetailsSources {
-    API = 'API',
-    NETWORK = 'NETWORK',
-    SDK = 'SDK',
-}
-
-/**
  * Error event object
  *
  * This object is used to represent an error that occurs within the embedded component.
@@ -6291,7 +6281,6 @@ export interface EmbedErrorDetailsEvent {
     errorType: ErrorDetailsTypes;
     message: string | string[];
     code: string;
-    source?: ErrorDetailsSources;
     details?: any;
 }
 export interface DefaultAppInitData {

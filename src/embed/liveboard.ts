@@ -22,7 +22,6 @@ import {
     LiveboardAppEmbedViewConfig,
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
-    ErrorDetailsSources
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -653,7 +652,6 @@ export class LiveboardEmbed extends V1Embed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
                 code: ERROR_CODE.LIVEBOARD_ID_MISSING,
-                source: ErrorDetailsSources.SDK,
                 details: {},
             } as EmbedErrorDetailsEvent);
         }
