@@ -5910,8 +5910,51 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
-}
+    
+    /**
+     * The **Move to Group** menu action on a Liveboard.
+     * Allows moving a visualization to a different group.
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    MoveToGroup = 'moveToGroup',
 
+    /**
+     * The **Move out of Group** menu action on a Liveboard.
+     * Allows moving a visualization out of a group.
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveOutOfGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    MoveOutOfGroup = 'moveOutOfGroup',
+
+    /**
+     * The **Create Group** menu action on a Liveboard.
+     * Allows creating a new group.
+     * @example
+     * ```js
+     * disabledActions: [Action.CreateGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    CreateGroup = 'createGroup',
+
+    /**
+     * The **Ungroup Tile** menu action on a Liveboard.
+     * Allows ungrouping a tile.
+     * @example
+     * ```js
+     * disabledActions: [Action.UngroupTile]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    UngroupTile = 'ungroupTile',
+}
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
