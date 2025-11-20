@@ -9,7 +9,7 @@
  */
 
 import { getPreview } from '../utils/graphql/preview-service';
-import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
+import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
     MessagePayload,
@@ -20,8 +20,8 @@ import {
     SearchLiveboardCommonViewConfig as LiveboardOtherViewConfig,
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
-    EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -651,7 +651,7 @@ export class LiveboardEmbed extends V1Embed {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
-                code: ERROR_CODE.LIVEBOARD_ID_MISSING,
+                code: EmbedErrorCodes.LIVEBOARD_ID_MISSING,
                 error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
             });
         }
