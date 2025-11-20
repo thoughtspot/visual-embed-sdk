@@ -123,14 +123,14 @@ function validateCSSVariables() {
         console.log('CSS variables are NOT consistent:');
         
         if (comparison.missingInImplementation.length > 0) {
-            console.log('Missing in implementation:');
+            console.log('Variables missing in Theme builder, please add them to the Theme builder:');
             comparison.missingInImplementation.forEach(varName => {
                 console.log(`  - ${varName}`);
             });
         }
         
         if (comparison.extraInImplementation.length > 0) {
-            console.log('Extra in implementation:');
+            console.log('Variables extra in Theme builder, please remove them from the Theme builder:');
             comparison.extraInImplementation.forEach(varName => {
                 console.log(`  - ${varName}`);
             });
