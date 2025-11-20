@@ -43,7 +43,7 @@ function extractVariablesFromInterface(filePath) {
 function extractVariablesFromImplementation(content) {
     try {
         // Extract variable names from object keys
-        const variableRegex = /'--ts-var-[^']+':/g;
+        const variableRegex = /'--ts-var-[^']+'\s*:/g;
         const matches = content.match(variableRegex);
         
         if (!matches) {
@@ -52,7 +52,7 @@ function extractVariablesFromImplementation(content) {
         }
         
         // Remove quotes and colon, then sort for consistent comparison
-        return matches.map(match => match.replace(/[':]/g, '')).sort();
+        return matches.map(match => match.replace(/[':]/g, '').trim()).sort();
     } catch (error) {
         console.error(`Error parsing implementation: ${error.message}`);
         return [];
@@ -66,8 +66,10 @@ function extractVariablesFromImplementation(content) {
  * @returns {object} Comparison result
  */
 function compareVariables(interfaceVars, implementationVars) {
-    const missingInImplementation = interfaceVars.filter(varName => !implementationVars.includes(varName));
-    const extraInImplementation = implementationVars.filter(varName => !interfaceVars.includes(varName));
+    const implementationSet = new Set(implementationVars);
+    const interfaceSet = new Set(interfaceVars);
+    const missingInImplementation = interfaceVars.filter(varName => !implementationSet.has(varName));
+    const extraInImplementation = implementationVars.filter(varName => !interfaceSet.has(varName));
     
     return {
         interfaceCount: interfaceVars.length,
@@ -87,32 +89,38 @@ function validateCSSVariables() {
     
     // Check if interface file exists
     if (!fs.existsSync(interfacePath)) {
-        console.error(`❌ Interface file not found: ${interfacePath}`);
+        console.error(`Interface file not found: ${interfacePath}`);
         process.exit(1);
     }
     
     // Extract variables from interface
     const interfaceVars = extractVariablesFromInterface(interfacePath);
-    
+    if (interfaceVars === null) {
+        console.error('Error extracting variables from interface');
+        process.exit(1);
+    }
     // Get implementation content from command line argument or environment
     const implementationContent = process.argv[2] || process.env.CSS_VARS_IMPLEMENTATION;
     
     if (!implementationContent) {
-        console.log('⚠️  No implementation content provided');
+        console.log('No implementation content provided');
         return;
     }
     
     // Extract variables from implementation
     const implementationVars = extractVariablesFromImplementation(implementationContent);
-    
+    if (implementationVars === null) {
+        console.error('Error extracting variables from implementation');
+        process.exit(1);
+    }
     // Compare variables
     const comparison = compareVariables(interfaceVars, implementationVars);
     
     if (comparison.isConsistent) {
-        console.log('✅ CSS variables are consistent');
+        console.log('CSS variables are consistent');
         process.exit(0);
     } else {
-        console.log('❌ CSS variables are NOT consistent:');
+        console.log('CSS variables are NOT consistent:');
         
         if (comparison.missingInImplementation.length > 0) {
             console.log('Missing in implementation:');
