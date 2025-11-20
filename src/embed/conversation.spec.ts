@@ -120,11 +120,11 @@ describe('ConversationEmbed', () => {
         (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
             {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
                 code: ERROR_CODE.WORKSHEET_ID_NOT_FOUND,
+                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
             },
         );
     });

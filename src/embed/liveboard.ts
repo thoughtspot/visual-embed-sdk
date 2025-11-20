@@ -648,11 +648,12 @@ export class LiveboardEmbed extends V1Embed {
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
-            this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION, {
+            this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
                 code: ERROR_CODE.LIVEBOARD_ID_MISSING,
-            } as EmbedErrorDetailsEvent);
+                error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
+            });
         }
         return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
             liveboardId,

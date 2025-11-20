@@ -2067,6 +2067,17 @@ export enum EmbedEvent {
      * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
      * `INVALID_DATE_VALUE` - Invalid date value error.
      * `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     * `VALIDATION_ERROR` - Validation error.
+     * `NETWORK` - Network error.
+     * `WRONG_VIZ_ID` - Wrong viz ID error.
+     * `NOT_A_WORKSHEET` - Not a worksheet error.
+     * `NO_FILTERABLE_COLUMN_PRESENT` - No filterable column present error.
+     * `FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN` - Filter exists or no attribute column error.
+     * `INVALID_COLUMN_ID` - Invalid column ID error.
+     * `CONV_ASSIST_ERROR` - Conversation assist error.
+     * `GENERIC_ERROR` - Generic error.
+     * `TIMEOUT_ERROR` - Timeout error.
+     * `CONVEX_ERROR` - Conversation error.
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      * @returns error - An error object or message
@@ -2077,6 +2088,7 @@ export enum EmbedEvent {
      * SearchEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
      *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
+     *  // { errorType: "API", message: '...', code: '...' } new format
      * });
      * ```
      * @example
@@ -2088,43 +2100,11 @@ export enum EmbedEvent {
      *   //   message: "Fullscreen API is not enabled",
      *   //   stack: "..."
      *   // } }}
+     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...' } new format
      * })
      * ```
      */
     Error = 'Error',
-    /**
-     * An error has occurred. This event is fired for the following error types:
-     *
-     * - `API` - API call failure error.
-     * - `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     * mode. 
-     * - `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
-     * filter. 
-     * - `NON_EXIST_FILTER` - Error due to a non-existent filter.
-     * - `INVALID_DATE_VALUE` - Invalid date value error.
-     * - `INVALID_OPERATOR` - Use of invalid operator during filter application.
-     *
-     * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
-     * @returns error - An error object {@link EmbedErrorDetailsEvent}
-     * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
-     * @example
-     * ```js
-     * // API error
-     * SearchEmbed.on(EmbedEvent.ErrorDetails, (error) => {
-     *   console.log(error);
-     *   // { errorType: "API", message: '...', code: '...', source: 'API', details: any, error: '...' }
-     * });
-     * ```
-     * @example
-     * ```js
-     * // Fullscreen error (Errors during presenting of a liveboard)
-     * LiveboardEmbed.on(EmbedEvent.ErrorDetails, (error) => {
-     *   console.log(error);
-     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...', source: 'FULLSCREEN', details: any, error: '...' }
-     * })
-     * ```
-     */
-    ErrorDetails = 'ErrorDetails',
     /**
      * The embedded object has sent an alert.
      * @returns alert - An alert object
@@ -6234,54 +6214,131 @@ export enum LogLevel {
 }
 
 /**
- * Error types for embed errors
+ * Error types emitted by embedded components.
+ * 
+ * These enum values categorize different types of errors that can occur during
+ * the lifecycle of an embedded ThoughtSpot component. Use these values to implement
+ * specific error handling logic based on the error category.
+ * 
+ * @see {@link EmbedErrorDetailsEvent} - The error event object structure
+ * @see {@link EmbedEvent.Error} - The event that emits these errors
  * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ * @group Error Handling
  */
 export enum ErrorDetailsTypes {
+    /** API call failure */
     API = 'API',
+    /** Error when presenting a Liveboard or visualization in full screen mode */
     FULLSCREEN = 'FULLSCREEN',
+    /** Multiple values provided for a single-value filter */
     SINGLE_VALUE_FILTER = 'SINGLE_VALUE_FILTER',
+    /** Attempting to apply a non-existent filter */
     NON_EXIST_FILTER = 'NON_EXIST_FILTER',
+    /** Invalid date format or value */
     INVALID_DATE_VALUE = 'INVALID_DATE_VALUE',
+    /** Invalid filter operator */
     INVALID_OPERATOR = 'INVALID_OPERATOR',
+    /** General validation error */
     VALIDATION_ERROR = 'VALIDATION_ERROR',
+    /** Network connectivity or request error */
     NETWORK = 'NETWORK',
+    /** Incorrect or non-existent visualization ID */
     WRONG_VIZ_ID = 'WRONG_VIZ_ID',
+    /** Attempting to use a non-worksheet object as a worksheet */
     NOT_A_WORKSHEET = 'NOT_A_WORKSHEET',
+    /** No filterable columns available */
     NO_FILTERABLE_COLUMN_PRESENT = 'NO_FILTERABLE_COLUMN_PRESENT',
+    /** Filter already exists or no attribute column available */
     FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN = 'FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN',
+    /** Invalid or non-existent column ID */
     INVALID_COLUMN_ID = 'INVALID_COLUMN_ID',
+    /** Error in conversation assist functionality */
     CONV_ASSIST_ERROR = 'CONV_ASSIST_ERROR',
+    /** Unspecified or general error */
     GENERIC_ERROR = 'GENERIC_ERROR',
+    /** Request timeout */
     TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+    /** Conversation execution error */
     CONVEX_ERROR = 'CONVEX_ERROR',
 }
 
 /**
- * Error event object
+ * Error event object emitted when an error occurs in an embedded component.
  *
- * This object is used to represent an error that occurs within the embedded component.
- * It is used to provide context about the error that occurred and to help with debugging.
+ * This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}
+ * event. It provides detailed information about what went wrong, including the error type,
+ * a human-readable message, and a machine-readable error code.
  *
- * This object is returned by the `on` method of the embed object.
+ * ## Properties
+ * 
+ * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
+ * - **message**: Human-readable error description (string or array of strings for multiple errors)
+ * - **code**: Machine-readable error identifier for programmatic handling
+ * - **[key: string]**: Additional context-specific for backward compatibility
  *
- * @param errorType - The type of error that occurred.
- * @param message - A human-readable error message describing what went wrong.
- * @param code - Error code providing a machine-readable identifier for the error.
- * @param source - The source system or component where the error originated.
- * @param details - Additional error details providing context-specific information.
+ * ## Usage
+ * 
+ * Listen to the {@link EmbedEvent.Error} event to receive instances of this object
+ * and implement appropriate error handling logic based on the `errorType`.
  *
- * @example
- * ```js
- * { errorType: 'API', message: 'API call failed', code: 'TS-001', source: 'API', details: { request: { url: '/api/rest/2.0/searchdata', method: 'GET' } } }
- * ```
  * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
- */
+ * @group Error Handling
+ * @see {@link ErrorDetailsTypes} - Available error type values
+ * @see {@link EmbedEvent.Error} - The event that emits this object
+ * 
+ * @example
+ * Handle specific error types
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   switch (error.errorType) {
+ *     case ErrorDetailsTypes.API:
+ *       console.error('API Error:', error.message, error.code);
+ *       break;
+ *     case ErrorDetailsTypes.NETWORK:
+ *       console.error('Network Error:', error.message);
+ *       // Retry logic
+ *       break;
+ *     case ErrorDetailsTypes.FULLSCREEN:
+ *       console.warn('Fullscreen not supported');
+ *       break;
+ *     default:
+ *       console.error('Unknown error:', error);
+ *   }
+ * });
+ *  * 
+ * @example
+ * Handle multiple error messages
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   const messages = Array.isArray(error.message) 
+ *     ? error.message 
+ *     : [error.message];
+ *   
+ *   messages.forEach(msg => console.error(msg));
+ * });
+ *  * 
+ * @example
+ * Access additional error context
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   console.error('Error Details:', {
+ *     type: error.errorType,
+ *     message: error.message,
+ *     code: error.code,
+ *     // Additional context fields vary by error type
+ *     ...error
+ *   });
+ * });
+ *  */
 export interface EmbedErrorDetailsEvent {
+    /** The type of error that occurred */
     errorType: ErrorDetailsTypes;
+    /** Human-readable error message(s) describing what went wrong */
     message: string | string[];
+    /** Machine-readable error code for programmatic error handling */
     code: string;
-    details?: any;
+    /** Additional context-specific for backward compatibility */
+    [key: string]: any;
 }
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;

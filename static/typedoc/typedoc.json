@@ -5481,7 +5481,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "An error has occurred. This event is fired for the following error types:",
-						"text": "`API` - API call failure error.\n`FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen\nmode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value\nfilter. `NON_EXIST_FILTER` - Error due to a non-existent filter.\n`INVALID_DATE_VALUE` - Invalid date value error.\n`INVALID_OPERATOR` - Use of invalid operator during filter application.\n\nFor more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType",
+						"text": "`API` - API call failure error.\n`FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen\nmode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value\nfilter. `NON_EXIST_FILTER` - Error due to a non-existent filter.\n`INVALID_DATE_VALUE` - Invalid date value error.\n`INVALID_OPERATOR` - Use of invalid operator during filter application.\n`VALIDATION_ERROR` - Validation error.\n`NETWORK` - Network error.\n`WRONG_VIZ_ID` - Wrong viz ID error.\n`NOT_A_WORKSHEET` - Not a worksheet error.\n`NO_FILTERABLE_COLUMN_PRESENT` - No filterable column present error.\n`FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN` - Filter exists or no attribute column error.\n`INVALID_COLUMN_ID` - Invalid column ID error.\n`CONV_ASSIST_ERROR` - Conversation assist error.\n`GENERIC_ERROR` - Generic error.\n`TIMEOUT_ERROR` - Timeout error.\n`CONVEX_ERROR` - Conversation error.\n\nFor more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType",
 						"tags": [
 							{
 								"tag": "returns",
@@ -5493,11 +5493,11 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// API error\nSearchEmbed.on(EmbedEvent.Error, (error) => {\n  console.log(error);\n // { type: \"Error\", data: { errorType: \"API\", error: { message: '...', error: '...' } } }\n});\n```"
+								"text": "\n```js\n// API error\nSearchEmbed.on(EmbedEvent.Error, (error) => {\n  console.log(error);\n // { type: \"Error\", data: { errorType: \"API\", error: { message: '...', error: '...' } } }\n // { errorType: \"API\", message: '...', code: '...' } new format\n});\n```"
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Fullscreen error (Errors during presenting of a liveboard)\nLiveboardEmbed.on(EmbedEvent.Error, (error) => {\n  console.log(error);\n  // { type: \"Error\", data: { errorType: \"FULLSCREEN\", error: {\n  //   message: \"Fullscreen API is not enabled\",\n  //   stack: \"...\"\n  // } }}\n})\n```\n"
+								"text": "\n```js\n// Fullscreen error (Errors during presenting of a liveboard)\nLiveboardEmbed.on(EmbedEvent.Error, (error) => {\n  console.log(error);\n  // { type: \"Error\", data: { errorType: \"FULLSCREEN\", error: {\n  //   message: \"Fullscreen API is not enabled\",\n  //   stack: \"...\"\n  // } }}\n  // { errorType: \"FULLSCREEN\", message: \"Fullscreen API is not enabled\", code: '...' } new format\n})\n```\n"
 							}
 						]
 					},
@@ -12387,7 +12387,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -12490,7 +12490,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1418,
+							"line": 1415,
 							"character": 11
 						}
 					],
@@ -12527,7 +12527,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -12620,7 +12620,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -12718,7 +12718,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -12755,7 +12755,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -12873,7 +12873,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -12951,7 +12951,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1792,
+							"line": 1789,
 							"character": 11
 						}
 					],
@@ -13043,7 +13043,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -13118,7 +13118,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -13218,7 +13218,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -13264,7 +13264,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -13310,7 +13310,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -13429,7 +13429,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -14203,7 +14203,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1483,
+							"line": 1480,
 							"character": 11
 						}
 					],
@@ -14251,7 +14251,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -14363,7 +14363,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -14458,7 +14458,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -14558,7 +14558,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -14597,7 +14597,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -14639,7 +14639,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -14719,7 +14719,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1211,
+							"line": 1206,
 							"character": 11
 						}
 					],
@@ -14832,7 +14832,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -14909,7 +14909,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -15010,7 +15010,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -15058,7 +15058,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -15106,7 +15106,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -15227,7 +15227,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -15369,7 +15369,7 @@
 			]
 		},
 		{
-			"id": 614,
+			"id": 611,
 			"name": "LiveboardEmbed",
 			"kind": 128,
 			"kindString": "Class",
@@ -15389,7 +15389,7 @@
 			},
 			"children": [
 				{
-					"id": 615,
+					"id": 612,
 					"name": "constructor",
 					"kind": 512,
 					"kindString": "Constructor",
@@ -15403,14 +15403,14 @@
 					],
 					"signatures": [
 						{
-							"id": 616,
+							"id": 613,
 							"name": "new LiveboardEmbed",
 							"kind": 16384,
 							"kindString": "Constructor signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 617,
+									"id": 614,
 									"name": "domSelector",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15422,7 +15422,7 @@
 									}
 								},
 								{
-									"id": 618,
+									"id": 615,
 									"name": "viewConfig",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15436,7 +15436,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 614,
+								"id": 611,
 								"name": "LiveboardEmbed"
 							},
 							"overwrites": {
@@ -15451,7 +15451,7 @@
 					}
 				},
 				{
-					"id": 670,
+					"id": 667,
 					"name": "destroy",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15467,7 +15467,7 @@
 					],
 					"signatures": [
 						{
-							"id": 671,
+							"id": 668,
 							"name": "destroy",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -15507,7 +15507,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -15578,7 +15578,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1418,
+							"line": 1415,
 							"character": 11
 						}
 					],
@@ -15605,7 +15605,7 @@
 					}
 				},
 				{
-					"id": 685,
+					"id": 682,
 					"name": "getLiveboardUrl",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15621,7 +15621,7 @@
 					],
 					"signatures": [
 						{
-							"id": 686,
+							"id": 683,
 							"name": "getLiveboardUrl",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -15648,7 +15648,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -15741,7 +15741,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -15839,7 +15839,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -15876,7 +15876,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -15906,7 +15906,7 @@
 					}
 				},
 				{
-					"id": 680,
+					"id": 677,
 					"name": "navigateToLiveboard",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15922,14 +15922,14 @@
 					],
 					"signatures": [
 						{
-							"id": 681,
+							"id": 678,
 							"name": "navigateToLiveboard",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 682,
+									"id": 679,
 									"name": "liveboardId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15940,7 +15940,7 @@
 									}
 								},
 								{
-									"id": 683,
+									"id": 680,
 									"name": "vizId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15953,7 +15953,7 @@
 									}
 								},
 								{
-									"id": 684,
+									"id": 681,
 									"name": "activeTabId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15984,7 +15984,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -16052,7 +16052,7 @@
 					}
 				},
 				{
-					"id": 692,
+					"id": 689,
 					"name": "on",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16062,13 +16062,13 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1792,
+							"line": 1789,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 693,
+							"id": 690,
 							"name": "on",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16091,7 +16091,7 @@
 							},
 							"parameters": [
 								{
-									"id": 694,
+									"id": 691,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16103,7 +16103,7 @@
 									}
 								},
 								{
-									"id": 695,
+									"id": 692,
 									"name": "callback",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16115,7 +16115,7 @@
 									}
 								},
 								{
-									"id": 696,
+									"id": 693,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16154,7 +16154,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -16229,7 +16229,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -16272,7 +16272,7 @@
 					}
 				},
 				{
-					"id": 678,
+					"id": 675,
 					"name": "render",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16288,7 +16288,7 @@
 					],
 					"signatures": [
 						{
-							"id": 679,
+							"id": 676,
 							"name": "render",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16301,7 +16301,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 614,
+										"id": 611,
 										"name": "LiveboardEmbed"
 									}
 								],
@@ -16329,7 +16329,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -16375,7 +16375,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -16411,7 +16411,7 @@
 					}
 				},
 				{
-					"id": 664,
+					"id": 661,
 					"name": "trigger",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16427,7 +16427,7 @@
 					],
 					"signatures": [
 						{
-							"id": 665,
+							"id": 662,
 							"name": "trigger",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16438,7 +16438,7 @@
 							},
 							"typeParameter": [
 								{
-									"id": 666,
+									"id": 663,
 									"name": "HostEventT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -16450,7 +16450,7 @@
 									}
 								},
 								{
-									"id": 667,
+									"id": 664,
 									"name": "PayloadT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -16459,7 +16459,7 @@
 							],
 							"parameters": [
 								{
-									"id": 668,
+									"id": 665,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16473,7 +16473,7 @@
 									}
 								},
 								{
-									"id": 669,
+									"id": 666,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16540,7 +16540,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -16638,7 +16638,7 @@
 					"title": "Constructors",
 					"kind": 512,
 					"children": [
-						615
+						612
 					]
 				},
 				{
@@ -16773,7 +16773,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1483,
+							"line": 1480,
 							"character": 11
 						}
 					],
@@ -16819,7 +16819,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -16923,7 +16923,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1418,
+							"line": 1415,
 							"character": 11
 						}
 					],
@@ -16960,7 +16960,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -17053,7 +17053,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -17151,7 +17151,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -17188,7 +17188,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -17228,7 +17228,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -17306,7 +17306,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1792,
+							"line": 1789,
 							"character": 11
 						}
 					],
@@ -17398,7 +17398,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -17473,7 +17473,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -17574,7 +17574,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -17620,7 +17620,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -17666,7 +17666,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -17785,7 +17785,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -18016,7 +18016,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1483,
+							"line": 1480,
 							"character": 11
 						}
 					],
@@ -18062,7 +18062,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -18133,7 +18133,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1418,
+							"line": 1415,
 							"character": 11
 						}
 					],
@@ -18170,7 +18170,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -18263,7 +18263,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -18361,7 +18361,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -18398,7 +18398,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -18438,7 +18438,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -18516,7 +18516,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1211,
+							"line": 1206,
 							"character": 11
 						}
 					],
@@ -18627,7 +18627,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -18702,7 +18702,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -18802,7 +18802,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -18848,7 +18848,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -18894,7 +18894,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -19013,7 +19013,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -19240,7 +19240,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1483,
+							"line": 1480,
 							"character": 11
 						}
 					],
@@ -19286,7 +19286,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -19389,7 +19389,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1418,
+							"line": 1415,
 							"character": 11
 						}
 					],
@@ -19426,7 +19426,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -19519,7 +19519,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -19617,7 +19617,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -19654,7 +19654,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -19694,7 +19694,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -19772,7 +19772,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1211,
+							"line": 1206,
 							"character": 11
 						}
 					],
@@ -19883,7 +19883,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -19958,7 +19958,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -20058,7 +20058,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -20104,7 +20104,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -20150,7 +20150,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -20269,7 +20269,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
@@ -21006,7 +21006,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1483,
+							"line": 1480,
 							"character": 11
 						}
 					],
@@ -21052,7 +21052,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1683,
+							"line": 1680,
 							"character": 17
 						}
 					],
@@ -21160,7 +21160,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1670,
+							"line": 1667,
 							"character": 11
 						}
 					],
@@ -21253,7 +21253,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1453,
+							"line": 1450,
 							"character": 11
 						}
 					],
@@ -21351,7 +21351,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1506,
+							"line": 1503,
 							"character": 11
 						}
 					],
@@ -21388,7 +21388,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1642,
+							"line": 1639,
 							"character": 11
 						}
 					],
@@ -21428,7 +21428,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1240,
+							"line": 1235,
 							"character": 11
 						}
 					],
@@ -21506,7 +21506,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1211,
+							"line": 1206,
 							"character": 11
 						}
 					],
@@ -21617,7 +21617,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1431,
+							"line": 1428,
 							"character": 17
 						}
 					],
@@ -21692,7 +21692,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1517,
+							"line": 1514,
 							"character": 17
 						}
 					],
@@ -21789,7 +21789,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1565,
+							"line": 1562,
 							"character": 17
 						}
 					],
@@ -21835,7 +21835,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1623,
+							"line": 1620,
 							"character": 11
 						}
 					],
@@ -21881,7 +21881,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1350,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -22000,7 +22000,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1394,
+							"line": 1391,
 							"character": 17
 						}
 					],
