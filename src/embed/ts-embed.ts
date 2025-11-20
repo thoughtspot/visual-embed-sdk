@@ -59,6 +59,7 @@ import {
     AllEmbedViewConfig as ViewConfig,
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -70,7 +71,7 @@ import {
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
-import { ERROR_MESSAGE , ERROR_CODE} from '../errors';
+import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
@@ -223,7 +224,7 @@ export class TsEmbed {
         this.handleError({
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
             message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
-            code: ERROR_CODE.INIT_ERROR,
+            code: EmbedErrorCodes.INIT_ERROR,
             error : ERROR_MESSAGE.INIT_SDK_REQUIRED,
         });
     }
@@ -334,7 +335,7 @@ export class TsEmbed {
             const errorDetails = {
                 errorType: ErrorDetailsTypes.NETWORK,
                 message: ERROR_MESSAGE.OFFLINE_WARNING,
-                code: ERROR_CODE.NETWORK_ERROR,
+                code: EmbedErrorCodes.NETWORK_ERROR,
                 offlineWarning : ERROR_MESSAGE.OFFLINE_WARNING,
             };
             this.executeCallbacks(EmbedEvent.Error, errorDetails);
@@ -455,8 +456,8 @@ export class TsEmbed {
             this.handleError({
                     errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                     message: customActionsResult.errors,
-                    code: ERROR_CODE.CUSTOM_ACTION_VALIDATION,
-                    error : { type: ERROR_CODE.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
+                    code: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION,
+                    error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
                 });
         }
         const baseInitData = {
@@ -672,7 +673,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
                 error : ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             });
             return queryParams;
@@ -682,7 +683,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_TABS_CONFIG,
                 error : ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             });
             return queryParams;
@@ -940,7 +941,7 @@ export class TsEmbed {
                     this.handleError({
                         errorType: ErrorDetailsTypes.API,
                         message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
-                        code: ERROR_CODE.LOGIN_FAILED,
+                        code: EmbedErrorCodes.LOGIN_FAILED,
                         error : ERROR_MESSAGE.LOGIN_FAILED,
                     });
                 });
@@ -1352,7 +1353,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
-                code: ERROR_CODE.RENDER_NOT_CALLED,
+                code: EmbedErrorCodes.RENDER_NOT_CALLED,
                 error: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
             });
             return null;
@@ -1362,7 +1363,7 @@ export class TsEmbed {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
-                code: ERROR_CODE.HOST_EVENT_TYPE_UNDEFINED,
+                code: EmbedErrorCodes.HOST_EVENT_TYPE_UNDEFINED,
                 error: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
             });
             return null;

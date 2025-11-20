@@ -1,5 +1,5 @@
 import { resetValueFromWindow } from '../utils';
-import { ERROR_MESSAGE, ERROR_CODE } from '../errors';
+import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
     AuthType,
@@ -30,6 +30,7 @@ import {
     CustomActionsPosition,
     DefaultAppInitData,
     ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import {
     executeAfterWait,
@@ -1617,7 +1618,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
                 error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             });
         });
@@ -1652,7 +1653,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_ACTIONS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
                 error: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
             });
         }
@@ -1700,7 +1701,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_TABS_CONFIG,
                 error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             });
         });
@@ -1735,7 +1736,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
-                code: ERROR_CODE.CONFLICTING_TABS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_TABS_CONFIG,
                 error: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
             });
         }
@@ -1786,7 +1787,7 @@ describe('Unit test case for ts embed', () => {
             expect(logger.error).toHaveBeenCalledWith({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
-                code: ERROR_CODE.INIT_ERROR,
+                code: EmbedErrorCodes.INIT_ERROR,
                 error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             });
         });

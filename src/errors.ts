@@ -28,19 +28,6 @@ export const ERROR_MESSAGE = {
     LOGIN_FAILED: 'Login failed',
 };
 
-export const ERROR_CODE = {
-    WORKSHEET_ID_NOT_FOUND: 'WORKSHEET_ID_NOT_FOUND',
-    LIVEBOARD_ID_MISSING: 'LIVEBOARD_ID_MISSING',
-    CONFLICTING_ACTIONS_CONFIG: 'CONFLICTING_ACTIONS_CONFIG',
-    CONFLICTING_TABS_CONFIG: 'CONFLICTING_TABS_CONFIG',
-    INIT_ERROR: 'INIT_ERROR',
-    NETWORK_ERROR: 'NETWORK_ERROR',
-    CUSTOM_ACTION_VALIDATION: 'CUSTOM_ACTION_VALIDATION',
-    LOGIN_FAILED: 'LOGIN_FAILED',
-    RENDER_NOT_CALLED: 'RENDER_NOT_CALLED',
-    HOST_EVENT_TYPE_UNDEFINED: 'HOST_EVENT_TYPE_UNDEFINED',
-};
-
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
     INVALID_ACTION_OBJECT: 'Custom Action Validation Error: Invalid action object provided',
     MISSING_REQUIRED_FIELDS: (id: string, missingFields: string[]) => `Custom Action Validation Error for '${id}': Missing required fields: ${missingFields.join(', ')}`,
