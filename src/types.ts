@@ -2963,6 +2963,17 @@ export enum EmbedEvent {
      */
     SpotterInit = 'spotterInit',
     /**
+     * Emitted when a *Spotter* conversation has been successfully created.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterLoadComplete, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+     */
+     SpotterLoadComplete = 'spotterLoadComplete',
+    /**
      * @hidden
      * Triggers when the embed listener is ready to receive events.
      * This is used to trigger events after the embed container is loaded.
