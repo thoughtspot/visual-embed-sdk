@@ -607,13 +607,6 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-group-tile-title-font-color'?: string;
 
     /**
-     * Font color of the description of the tiles inside the groups in the Liveboard.
-     * 
-     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
-     */
-    '--ts-var-liveboard-group-tile-description-font-color'?: string;
-
-    /**
      * Background color of the tiles inside the groups in the Liveboard.
      * 
      * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
@@ -847,9 +840,4 @@ export interface CustomCssVariables {
      * Background color of the summary header in the CCA modal.
      */
     '--ts-var-cca-modal-summary-header-background'?: string;
-
-    /**
-     * Background color of the summary header in the CCA modal.
-     */
-    '--ts-var-cca-modal-summary-header-background-color'?: string;
   }
