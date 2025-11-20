@@ -847,4 +847,9 @@ export interface CustomCssVariables {
      * Background color of the summary header in the CCA modal.
      */
     '--ts-var-cca-modal-summary-header-background'?: string;
+
+    /**
+     * Background color of the summary header in the CCA modal.
+     */
+    '--ts-var-cca-modal-summary-header-background-color'?: string;
   }
