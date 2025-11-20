@@ -26,6 +26,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
+import { getInterceptInitData } from '../api-intercept';
 
 /**
  * Configuration for search options.
@@ -277,13 +278,6 @@ export interface SearchViewConfig
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * Flag to enable onBeforeSearchExecute Embed Event
-     * 
-     * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
-     */
-    isOnBeforeGetVizDataInterceptEnabled?: boolean;
-    /**
      * This controls the initial behaviour of custom column groups accordion.
      * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
      * List of different enum values:-
@@ -331,7 +325,7 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 ];
 
 export interface SearchAppInitData extends DefaultAppInitData {
-  searchOptions?: SearchOptions;
+    searchOptions?: SearchOptions;
 }
 
 /**
@@ -381,7 +375,7 @@ export class SearchEmbed extends TsEmbed {
         return { ...defaultAppInitData, ...this.getSearchInitData() };
     }
 
-    protected getEmbedParams(): string {
+    protected getEmbedParamsObject() {
         const {
             hideResults,
             enableSearchAssist,
@@ -397,8 +391,6 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
-            isOnBeforeGetVizDataInterceptEnabled = false,
-            /* eslint-disable-next-line max-len */
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
@@ -442,11 +434,6 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.HideSearchBar] = true;
         }
 
-        if (isOnBeforeGetVizDataInterceptEnabled) {
-            /* eslint-disable-next-line max-len */
-            queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
-        }
-
         if (!focusSearchBarOnRender) {
             queryParams[Param.FocusSearchBarOnRender] = focusSearchBarOnRender;
         }
@@ -460,7 +447,7 @@ export class SearchEmbed extends TsEmbed {
         }
 
         queryParams[Param.searchEmbed] = true;
-        /* eslint-disable-next-line max-len */
+
         queryParams[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         queryParams[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -468,12 +455,23 @@ export class SearchEmbed extends TsEmbed {
             || dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-            /* eslint-disable-next-line max-len */
+
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            /* eslint-disable-next-line max-len */
+
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
+        return queryParams;
+    }
+
+    protected getEmbedParams() {
+        const {
+            runtimeParameters,
+            runtimeFilters,
+            excludeRuntimeParametersfromURL,
+            excludeRuntimeFiltersfromURL,
+        } = this.viewConfig;
+        const queryParams = this.getEmbedParamsObject();
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {

@@ -16,6 +16,7 @@ import {
     defaultParams,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     postMessageToParent,
     getIFrameEl,
     mockMessageChannel,
@@ -40,6 +41,16 @@ const vizId = '6e73f724-660e-11eb-ae93-0242ac130002';
 const thoughtSpotHost = 'tshost';
 const prefixParams = '&isLiveboardEmbed=true';
 const prefixParamsVizEmbed = '&isLiveboardEmbed=true&isVizEmbed=true';
+
+const mockGetSessionInfo = (mockSessionInfo?: any) => {
+    jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue(mockSessionInfo || {
+        releaseVersion: '1.0.0',
+        userGUID: '1234567890',
+        currentOrgId: 1,
+        privileges: [],
+        mixpanelToken: '1234567890',
+    })
+};
 
 beforeAll(() => {
     init({
@@ -128,6 +139,20 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set LiveboardStylePanel in visible actions', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            visibleActions: [Action.LiveboardStylePanel],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                visibleAction: JSON.stringify([Action.LiveboardStylePanel]),
+            });
+        });
+    });
+
     test('should set enable2ColumnLayout to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             enable2ColumnLayout: true,
@@ -158,6 +183,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLiveboardPermissionV2Enabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isEnhancedFilterInteractivityEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardPermissionV2Enabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isPNGInScheduledEmailsEnabled: true,
@@ -169,6 +209,36 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isPNGInScheduledEmailsEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLinkParametersEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLinkParametersEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLinkParametersEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLinkParametersEnabled to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLinkParametersEnabled: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLinkParametersEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -413,6 +483,36 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should add isCentralizedLiveboardFilterUXEnabled flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isCentralizedLiveboardFilterUXEnabled: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isCentralizedLiveboardFilterUXEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add isCentralizedLiveboardFilterUXEnabled flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isCentralizedLiveboardFilterUXEnabled: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isCentralizedLiveboardFilterUXEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -646,6 +746,9 @@ describe('Liveboard/viz embed tests', () => {
 
     test('navigateToLiveboard should trigger the navigate event with the correct path', async (done) => {
         mockMessageChannel();
+        // mock getSessionInfo
+
+        mockGetSessionInfo();
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as LiveboardViewConfig);
@@ -656,16 +759,31 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
-        });
-        executeAfterWait(() => {
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
+        });
+
+        executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
 
     test('navigateToLiveboard with preRender', async (done) => {
         mockMessageChannel();
+
+        // mock getSessionInfo
+        jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        });
+        mockGetSessionInfo();
+
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             preRenderId: 'test',
@@ -677,12 +795,15 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(iframe.contentWindow, {
                 type: EmbedEvent.APP_INIT,
             });
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.AuthInit,
+            });
         });
         executeAfterWait(() => {
             liveboardEmbed.navigateToLiveboard('lb1', 'viz1');
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
             done();
-        });
+        }, 1002);
     });
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -700,6 +821,21 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&param1=Integer%20Date%20Range&paramVal1=1#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set showSpotterLimitations parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showSpotterLimitations: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterLimitations=true#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -741,6 +877,12 @@ describe('Liveboard/viz embed tests', () => {
     });
 
     describe('PreRender flow for liveboard embed', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: "http://tshost",
+                authType: AuthType.None,
+            });
+        });
         test('it should preRender generic with liveboard id is not passed', async (done) => {
             const consoleSpy = jest.spyOn(console, 'error');
             const libEmbed = new LiveboardEmbed(getRootEl(), {
@@ -875,13 +1017,7 @@ describe('Liveboard/viz embed tests', () => {
                 preRenderId: testPreRenderId,
             });
 
-            jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue({
-                releaseVersion: '1.0.0',
-                userGUID: '1234567890',
-                currentOrgId: 1,
-                privileges: [],
-                mixpanelToken: '1234567890',
-            });
+            mockGetSessionInfo();
             let resizeObserverCb: any;
             (window as any).ResizeObserver =
                 window.ResizeObserver ||
@@ -929,6 +1065,60 @@ describe('Liveboard/viz embed tests', () => {
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
                 done();
             }, 1005);
+        });
+
+
+        test('should replace existing preRender when replaceExistingPreRender is true', async () => {
+            const testPreRenderId = 'testReplacePreRender';
+
+            // Stub ResizeObserver for JSDOM
+            (window as any).ResizeObserver = (window as any).ResizeObserver
+                || jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            // Create initial embed and show preRender (this will create the
+            // preRender wrapper/child)
+            const embedA = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+
+            await embedA.showPreRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const ids = embedA.getPreRenderIds();
+            const oldWrapper = document.getElementById(ids.wrapper);
+            const oldChild = document.getElementById(ids.child);
+
+            const tsKey = '__tsEmbed';
+            expect((oldWrapper as any)[tsKey]).toBe(embedA);
+
+            // Create a new embed instance and preRender with
+            // replaceExistingPreRender = true
+            const embedB = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+            });
+            const prerenderGenericSpy = jest.spyOn(embedB, 'prerenderGeneric');
+
+            await embedB.preRender(false, true);
+
+            await waitFor(() => (document.getElementById(ids.wrapper) as any)?.[tsKey] === embedB);
+
+            const newWrapper = document.getElementById(ids.wrapper);
+            const newChild = document.getElementById(ids.child);
+
+            // Should have called prerenderGeneric for the new embed instance
+            expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
+
+            // Wrapper should be replaced (new wrapper element), child iframe
+            // may be reused
+            expect(newWrapper).not.toBe(oldWrapper);
+
+            // __tsEmbed on wrapper should now point to the new embed instance
+            expect((newWrapper as any)[tsKey]).toBe(embedB);
         });
     });
 

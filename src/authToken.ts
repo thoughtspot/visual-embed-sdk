@@ -1,6 +1,6 @@
 import { ERROR_MESSAGE } from './errors';
 import { EmbedConfig } from './types';
-import { getValueFromWindow, storeValueInWindow } from './utils';
+import { getValueFromWindow, storeValueInWindow, formatTemplate } from './utils';
 import { fetchAuthTokenService, verifyTokenService } from './utils/authService/authService';
 import { logger } from './utils/logger';
 
@@ -53,12 +53,23 @@ export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<
     return authToken;
 }
 
-const validateAuthToken = async (
+export const validateAuthToken = async (
     embedConfig: EmbedConfig,
     authToken: string,
     suppressAlert?: boolean,
 ): Promise<boolean> => {
+    // even if token verification is disabled, we will still validate
+    // that the token is a string before proceeding.
+    if (typeof authToken !== 'string') {
+        const errorMessage = formatTemplate(ERROR_MESSAGE.INVALID_TOKEN_TYPE_ERROR, {
+            invalidType: typeof authToken,
+        });
+        logger.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+
     const cachedAuthToken = getCacheAuthToken();
+
     if (embedConfig.disableTokenVerification) {
         logger.info('Token verification is disabled. Assuming token is valid.');
         return true;

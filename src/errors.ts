@@ -1,6 +1,6 @@
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
-    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a worksheet to get started',
+    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
@@ -10,6 +10,7 @@ export const ERROR_MESSAGE = {
     SDK_NOT_INITIALIZED: 'SDK not initialized',
     SESSION_INFO_FAILED: 'Failed to get session information',
     INVALID_TOKEN_ERROR: 'Received invalid token from getAuthToken callback or authToken endpoint.',
+    INVALID_TOKEN_TYPE_ERROR: 'Expected getAuthToken to return a string, but received a {invalidType}.',
     MIXPANEL_TOKEN_NOT_FOUND: 'Mixpanel token not found in session info',
     PRERENDER_ID_MISSING: 'PreRender ID is required for preRender',
     SYNC_STYLE_CALLED_BEFORE_RENDER: 'PreRender should be called before using syncPreRenderStyle',
@@ -18,6 +19,7 @@ export const ERROR_MESSAGE = {
     MISSING_REPORTING_OBSERVER: 'ReportingObserver not supported',
     RENDER_CALLED_BEFORE_INIT: 'Looks like render was called before calling init, the render won\'t start until init is called.\nFor more info check\n1. https://developers.thoughtspot.com/docs/Function_init#_init\n2.https://developers.thoughtspot.com/docs/getting-started#initSdk',
     SPOTTER_AGENT_NOT_INITIALIZED: 'SpotterAgent not initialized',
+    OFFLINE_WARNING : 'Network not Detected. Embed is offline. Please reconnect and refresh',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

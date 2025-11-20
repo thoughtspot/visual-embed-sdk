@@ -62,7 +62,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default true
-     * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.14.0.cl
+     * @version SDK: 1.41.1 | ThoughtSpot Cloud: 10.14.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -164,6 +164,22 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
+    /**
+     * enablePastConversationsSidebar : Controls the visibility of the past conversations
+     * sidebar.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    enablePastConversationsSidebar : true,
+     * })
+     * ```
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
 }
 
 /**
@@ -196,7 +212,7 @@ export class SpotterEmbed extends TsEmbed {
         super(container, viewConfig);
     }
 
-    public getIframeSrc(): string {
+    protected getEmbedParamsObject() {
         const {
             worksheetId,
             searchOptions,
@@ -205,12 +221,13 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            enablePastConversationsSidebar,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
         } = this.viewConfig;
-        const path = 'insights/conv-assist';
+
         if (!worksheetId) {
             this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
         }
@@ -233,6 +250,26 @@ export class SpotterEmbed extends TsEmbed {
 
         if (!isUndefined(hideSampleQuestions)) {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
+        }
+
+        return queryParams;
+    }
+
+    public getIframeSrc(): string {
+        const {
+            worksheetId,
+            searchOptions,
+            runtimeFilters,
+            excludeRuntimeFiltersfromURL,
+            runtimeParameters,
+            excludeRuntimeParametersfromURL,
+            enablePastConversationsSidebar
+        } = this.viewConfig;
+        const path = 'insights/conv-assist';
+        const queryParams = this.getEmbedParamsObject();
+
+        if (!isUndefined(enablePastConversationsSidebar)) {
+            queryParams[Param.EnablePastConversationsSidebar] = !!enablePastConversationsSidebar;
         }
 
         let query = '';

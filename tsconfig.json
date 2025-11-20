@@ -19,7 +19,6 @@
         "strictNullChecks": false,
         "strictPropertyInitialization": false,
         "strictBindCallApply": true,
-        "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "esModuleInterop": true,

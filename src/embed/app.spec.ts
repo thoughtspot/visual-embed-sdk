@@ -358,6 +358,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isLinkParametersEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLinkParametersEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+    
+    test('should set isLinkParametersEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLinkParametersEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set liveboardXLSXCSVDownload to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -386,6 +414,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isCentralizedLiveboardFilterUXEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isCentralizedLiveboardFilterUXEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isCentralizedLiveboardFilterUXEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isCentralizedLiveboardFilterUXEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -398,6 +454,51 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add the hideTagFilterChips true to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            hideTagFilterChips: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+    
+    test('Should add the hideTagFilterChips false to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            hideTagFilterChips: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should not add hideTagFilterChips if it is undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -518,6 +619,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardVerifiedBadge=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add isLiveboardPermissionV2Enabled flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isEnhancedFilterInteractivityEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardPermissionV2Enabled=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });

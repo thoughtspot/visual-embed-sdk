@@ -499,3 +499,24 @@ export const calculateVisibleElementData = (element: HTMLElement) => {
 
     return data;
 }
+
+/**
+ * Replaces placeholders in a template string with provided values.
+ * Placeholders should be in the format {key}.
+ * @param template - The template string with placeholders
+ * @param values - An object containing key-value pairs to replace placeholders
+ * @returns The template string with placeholders replaced
+ * @example
+ * formatTemplate('Hello {name}, you are {age} years old', { name: 'John', age: 30 })
+ * // Returns: 'Hello John, you are 30 years old'
+ *
+ * formatTemplate('Expected {type}, but received {actual}', { type: 'string', actual: 'number' })
+ * // Returns: 'Expected string, but received number'
+ */
+export const formatTemplate = (template: string, values: Record<string, any>): string => {
+    // This regex /\{(\w+)\}/g finds all placeholders in the format {word} 
+    // and captures the word inside the braces for replacement.
+    return template.replace(/\{(\w+)\}/g, (match, key) => {
+        return values[key] !== undefined ? String(values[key]) : match;
+    });
+};

@@ -71,6 +71,7 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
 
 const { version } = pkgInfo;
 
@@ -199,11 +200,11 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
-        this.hostEventClient = new HostEventClient(this.iFrame);
+        const embedConfig = getEmbedConfig();
+        this.embedConfig = embedConfig;
 
+        this.hostEventClient = new HostEventClient(this.iFrame);
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
-            const embedConfig = getEmbedConfig();
-            this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
@@ -312,31 +313,11 @@ export class TsEmbed {
     private subscribedListeners: Record<string, any> = {};
 
     /**
-     * Adds a global event listener to window for "message" events.
-     * ThoughtSpot detects if a particular event is targeted to this
-     * embed instance through an identifier contained in the payload,
-     * and executes the registered callbacks accordingly.
+     * Subscribe to network events (online/offline) that should
+     * work regardless of auth status
      */
-    private subscribeToEvents() {
-        this.unsubscribeToEvents();
-        const messageEventListener = (event: MessageEvent<any>) => {
-            const eventType = this.getEventType(event);
-            const eventPort = this.getEventPort(event);
-            const eventData = this.formatEventData(event, eventType);
-            if (event.source === this.iFrame.contentWindow) {
-                this.executeCallbacks(
-                    eventType,
-                    processEventData(
-                        eventType,
-                        eventData,
-                        this.thoughtSpotHost,
-                        this.isPreRendered ? this.preRenderWrapper : this.el,
-                    ),
-                    eventPort,
-                );
-            }
-        };
-        window.addEventListener('message', messageEventListener);
+    private subscribeToNetworkEvents() {
+        this.unsubscribeToNetworkEvents();
 
         const onlineEventListener = (e: Event) => {
             this.trigger(HostEvent.Reload);
@@ -344,7 +325,7 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning = 'Network not Detected. Embed is offline. Please reconnect and refresh';
+            const offlineWarning = ERROR_MESSAGE.OFFLINE_WARNING;
             this.executeCallbacks(EmbedEvent.Error, {
                 offlineWarning,
             });
@@ -352,11 +333,87 @@ export class TsEmbed {
         };
         window.addEventListener('offline', offlineEventListener);
 
-        this.subscribedListeners = {
-            message: messageEventListener,
-            online: onlineEventListener,
-            offline: offlineEventListener,
-        };
+        this.subscribedListeners.online = onlineEventListener;
+        this.subscribedListeners.offline = offlineEventListener;
+    }
+
+    private handleApiInterceptEvent({ eventData, eventPort }: { eventData: any, eventPort: MessagePort | void }) {
+        const executeEvent = (_eventType: EmbedEvent, data: any) => {
+            this.executeCallbacks(_eventType, data, eventPort);
+        }
+        const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
+            const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
+            return response.filter((item) => item.value)?.[0]?.value;
+        }
+        handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+    }
+
+    private messageEventListener = (event: MessageEvent<any>) => {
+        const eventType = this.getEventType(event);
+        const eventPort = this.getEventPort(event);
+        const eventData = this.formatEventData(event, eventType);
+        if (event.source === this.iFrame.contentWindow) {
+            const processedEventData = processEventData(
+                eventType,
+                eventData,
+                this.thoughtSpotHost,
+                this.isPreRendered ? this.preRenderWrapper : this.el,
+            );
+
+            if (eventType === EmbedEvent.ApiIntercept) {
+                this.handleApiInterceptEvent({ eventData, eventPort });
+                return;
+            }
+
+            this.executeCallbacks(
+                eventType,
+                processedEventData,
+                eventPort,
+            );
+        }
+    };
+    /**
+     * Subscribe to message events that depend on successful iframe setup
+     */
+    private subscribeToMessageEvents() {
+        this.unsubscribeToMessageEvents();
+
+        window.addEventListener('message', this.messageEventListener);
+
+        this.subscribedListeners.message = this.messageEventListener;
+    }
+   
+
+    /**
+     * Adds event listeners for both network and message events.
+     * This maintains backward compatibility with the existing method.
+     * Adds a global event listener to window for "message" events.
+     * ThoughtSpot detects if a particular event is targeted to this
+     * embed instance through an identifier contained in the payload,
+     * and executes the registered callbacks accordingly.
+     */
+    private subscribeToEvents() {
+        this.subscribeToNetworkEvents();
+        this.subscribeToMessageEvents();
+    }
+
+
+    private unsubscribeToNetworkEvents() {
+        if (this.subscribedListeners.online) {
+            window.removeEventListener('online', this.subscribedListeners.online);
+            delete this.subscribedListeners.online;
+        }
+        if (this.subscribedListeners.offline) {
+            window.removeEventListener('offline', this.subscribedListeners.offline);
+            delete this.subscribedListeners.offline;
+        }
+    }
+
+    private unsubscribeToMessageEvents() {
+        if (this.subscribedListeners.message) {
+            window.removeEventListener('message', this.subscribedListeners.message);
+            delete this.subscribedListeners.message;
+        }
     }
 
     private unsubscribeToEvents() {
@@ -391,7 +448,7 @@ export class TsEmbed {
                 message: customActionsResult.errors,
             });
         }
-        return {
+        const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
             runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
@@ -410,7 +467,10 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            ...getInterceptInitData(this.viewConfig),
         };
+
+        return baseInitData;
     }
 
     protected async getAppInitData() {
@@ -494,10 +554,10 @@ export class TsEmbed {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
-        
-        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);  
+
+        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
-        
+
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
     };
@@ -518,6 +578,12 @@ export class TsEmbed {
             .join('/');
 
         return `${basePath}#`;
+    }
+
+    protected getUpdateEmbedParamsObject() {
+        let queryParams = this.getEmbedParamsObject();
+        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
+        return queryParams;
     }
 
     /**
@@ -702,8 +768,13 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getBaseQueryParams();
+        const queryParams = this.getEmbedParamsObject();
         return getQueryParamString(queryParams);
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        return params;
     }
 
     protected getRootIframeSrc() {
@@ -787,6 +858,9 @@ export class TsEmbed {
 
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
 
+            // Always subscribe to network events, regardless of auth status
+            this.subscribeToNetworkEvents();
+
             return getAuthPromise()
                 ?.then((isLoggedIn: boolean) => {
                     if (!isLoggedIn) {
@@ -832,7 +906,9 @@ export class TsEmbed {
                             el.remove();
                         });
                     }
-                    this.subscribeToEvents();
+                    // Subscribe to message events only after successful
+                    // auth and iframe setup
+                    this.subscribeToMessageEvents();
                 })
                 .catch((error) => {
                     nextInQueue();
@@ -973,6 +1049,30 @@ export class TsEmbed {
     }
 
     /**
+     * We can process the customer given payload before sending it to the embed port
+     * Embed event handler -> responder -> createEmbedEventResponder -> send response
+     * @param eventPort The event port for a specific MessageChannel
+     * @param eventType The event type
+     * @returns 
+     */
+    protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
+
+        const getPayloadToSend = (payload: any) => {
+            if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
+                return processLegacyInterceptResponse(payload);
+            }
+            if (eventType === EmbedEvent.ApiIntercept) {
+                return processApiInterceptResponse(payload);
+            }
+            return payload;
+        }   
+        return (payload: any) => {
+            const payloadToSend = getPayloadToSend(payload);
+            this.triggerEventOnPort(eventPort, payloadToSend);
+        }
+    }
+
+    /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
      * @param data The payload invoked with the event handler
@@ -996,9 +1096,8 @@ export class TsEmbed {
                 // payload
                 || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
-                callbackObj.callback(data, (payload) => {
-                    this.triggerEventOnPort(eventPort, payload);
-                });
+                const responder = this.createEmbedEventResponder(eventPort, eventType);
+                callbackObj.callback(data, responder);
             }
         });
     }
@@ -1141,10 +1240,10 @@ export class TsEmbed {
     }
 
     /**
-     * @hidden
-     * Internal state to track if the embed container is loaded.
-     * This is used to trigger events after the embed container is loaded.
-     */
+    * @hidden
+    * Internal state to track if the embed container is loaded.
+    * This is used to trigger events after the embed container is loaded.
+    */
     public isEmbedContainerLoaded = false;
 
     /**
@@ -1191,7 +1290,7 @@ export class TsEmbed {
         } else {
             logger.debug('pushing callback to embedContainerReadyCallbacks', callback);
             this.embedContainerReadyCallbacks.push(callback);
-          }
+        }
     }
 
     protected createEmbedContainerHandler = (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
@@ -1232,6 +1331,16 @@ export class TsEmbed {
             this.handleError('Host event type is undefined');
             return null;
         }
+
+        // Check if iframe exists before triggering - 
+        // this prevents the error when auth fails
+        if (!this.iFrame) {
+            logger.debug(
+                `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
+            );
+            return null;
+        }
+
         // send an empty object, this is needed for liveboard default handlers
         return this.hostEventClient.triggerHostEvent(messageType, data);
     }
@@ -1279,13 +1388,20 @@ export class TsEmbed {
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
-    public async preRender(showPreRenderByDefault = false): Promise<TsEmbed> {
+
+    public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
+
+        const isAlreadyRendered = this.connectPreRendered();
+        if (isAlreadyRendered && !replaceExistingPreRender) {
+            return this;
+        }
+
         return this.handleRenderForPrerender();
     }
 
@@ -1328,8 +1444,21 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            this.insertedDomEl?.parentNode.removeChild(this.insertedDomEl);
             this.unsubscribeToEvents();
+            if (!getEmbedConfig().waitForCleanupOnDestroy) {
+                this.trigger(HostEvent.DestroyEmbed)
+                this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+            } else {
+                const cleanupTimeout = getEmbedConfig().cleanupTimeout;
+                Promise.race([
+                    this.trigger(HostEvent.DestroyEmbed),
+                    new Promise((resolve) => setTimeout(resolve, cleanupTimeout)),
+                ]).then(() => {
+                    this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                }).catch((e) => {
+                    logger.log('Error destroying TS Embed', e);
+                });
+            }
         } catch (e) {
             logger.log('Error destroying TS Embed', e);
         }
@@ -1407,7 +1536,13 @@ export class TsEmbed {
                 return this.preRender(true);
             }
             this.validatePreRenderViewConfig(this.viewConfig);
+            logger.debug('triggering UpdateEmbedParams', this.viewConfig);
+            this.executeAfterEmbedContainerLoaded(() => {
+                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            });
         }
+
+        this.beforePrerenderVisible();
 
         if (this.el) {
             this.syncPreRenderStyle();
@@ -1425,8 +1560,6 @@ export class TsEmbed {
                 this.resizeObserver.observe(this.el);
             }
         }
-
-        this.beforePrerenderVisible();
 
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
 

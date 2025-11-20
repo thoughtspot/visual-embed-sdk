@@ -27,7 +27,8 @@ export interface CustomCssVariables {
      * Font color of the text on toggle buttons such as
      * **All**, **Answers**, and **Liveboards** on the Home page (Classic experience),
      * the text color of the chart and table tiles on Home page (New modular Homepage
-     * experience), and title text on the AI-generated charts and tables.
+     * experience), title text on the AI-generated charts and tables, and object titles on
+     * list pages such as *Liveboards* and *Answers*.
      * The default color code is #2770EF.
      *
      */
@@ -474,34 +475,14 @@ export interface CustomCssVariables {
     '--ts-var-checkbox-background-color'?: string;
 
     /**
-     * Height of the tiles in the Liveboard.
-     */
-    '--ts-var-viz-tile-height'?: string;
-
-    /**
      * Background color of the layout in the Liveboard.
      */
     '--ts-var-liveboard-layout-background'?: string;
 
     /**
-     * Font color of the title of the layout in the Liveboard.
-     */
-    '--ts-var-liveboard-layout-title-color'?: string;
-
-    /**
-     * Font size of the title of the layout in the Liveboard.
-     */
-    '--ts-var-liveboard-layout-title-fontsize'?: string;
-
-    /**
      * Background color of the header in the Liveboard.
      */
     '--ts-var-liveboard-header-background'?: string;
-
-    /**
-     * Font size of the header in the Liveboard.
-     */
-    '--ts-var-liveboard-header-fontsize'?: string;
 
     /**
      * Font color of the header in the Liveboard.
@@ -535,51 +516,43 @@ export interface CustomCssVariables {
 
     /**
      * Padding of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-padding'?: string;
 
     /**
-     * Padding of the title of the groups in the Liveboard.
-     */
-    '--ts-var-liveboard-group-title-padding'?: string;
-
-    /**
      * Font size of the title of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-title-font-size'?: string;
 
     /**
      * Font weight of the title of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-title-font-weight'?: string;
 
     /**
      * Font size of the title of the tiles inside the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-tile-title-font-size'?: string;
 
     /**
      * Font weight of the title of the tiles inside the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-tile-title-font-weight'?: string;
 
     /**
-     * Font size of the description of the groups in the Liveboard.
-     */
-    '--ts-var-liveboard-group-description-font-size'?: string;
-
-    /**
-     * Font weight of the description of the groups in the Liveboard.
-     */
-    '--ts-var-liveboard-group-description-font-weight'?: string;
-
-    /**
-     * Border of the tiles in the Liveboard.
-     */
-    '--ts-var-liveboard-group-tile-border'?: string;
-
-    /**
-     * Padding of the tiles in the Liveboard.
+     * Padding of the group tiles in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-tile-padding'?: string;
 
@@ -590,11 +563,15 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-background'?: string;
 
     /**
      * Border color of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-border-color'?: string;
 
@@ -610,53 +587,66 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the title of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-title-font-color'?: string;
 
     /**
      * Font color of the description of the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-description-font-color'?: string;
 
     /**
      * Font color of the title of the tiles inside the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-tile-title-font-color'?: string;
 
     /**
+     * Font color of the description of the tiles inside the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
+     */
+    '--ts-var-liveboard-group-tile-description-font-color'?: string;
+
+    /**
      * Background color of the tiles inside the groups in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-group-tile-background'?: string;
 
     /**
-     * Background color of the chips in the Liveboard.
+     * Background color of the filter chips in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip-background'?: string;
 
     /**
-     * Font color of the chips in the Liveboard.
+     * Font color of the filter chips in the Liveboard.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip-color'?: string;
 
     /**
-     * Background color of the chips in the Liveboard on hover.
+     * Background color of the filter chips in the Liveboard on hover.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip--hover-background'?: string;
 
     /**
-     * Font color of the chips in the Liveboard on hover.
-     */
-    '--ts-var-liveboard-chip--hover-color'?: string;
-
-    /**
-     * Background color of the chips in the Liveboard on active.
+     * Background color of the filter chips in the Liveboard on active.
+     * 
+     * Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.
      */
     '--ts-var-liveboard-chip--active-background'?: string;
-
-    /**
-     * Font color of the chips in the Liveboard on active.
-     */
-    '--ts-var-liveboard-chip--active-color'?: string;
 
     /**
      * Width of the side panel in the Liveboard.
@@ -702,16 +692,6 @@ export interface CustomCssVariables {
      * Font weight of the title of the tiles in the Liveboard.
      */
     '--ts-var-liveboard-tile-title-fontweight'?: string;
-
-    /**
-     * Font weight of the description of the tiles in the Liveboard.
-     */
-    '--ts-var-liveboard-tile-description-font-weight'?: string;
-
-    /**
-     * Opacity of the description of the tiles in the Liveboard.
-     */
-    '--ts-var-liveboard-tile-description-opacity'?: string;
 
     /**
      * Background color of the parameter chips in the Liveboard.

@@ -368,6 +368,26 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     tag?: string;
     /**
+     * Hide tag filter chips that appear when content is filtered by tags.
+     * When enabled, this automatically:
+     * - Hides tag filter indicators/chips from the UI
+     * 
+     * This provides a clean interface without tag-related UI elements.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
+     * @example
+     * ```js
+     * // Simple usage - automatically hides all tag-related UI
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    tag: 'Some Tag',
+     *    hideTagFilterChips: true, // This is all you need!
+     * });
+     * ```
+     */
+    hideTagFilterChips?: boolean;
+    /**
      * The array of GUIDs to be hidden
      * 
      * Supported embed types: `AppEmbed`
@@ -492,11 +512,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
-    /**
-     * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
-     * @version SDK : 1.29.0 | ThoughtSpot: 10.1.0.cl
-     */
-    isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * Flag to use home page search bar mode
      * 
@@ -625,6 +640,7 @@ export class AppEmbed extends V1Embed {
     protected getEmbedParams() {
         const {
             tag,
+            hideTagFilterChips,
             hideObjects,
             liveboardV2,
             showPrimaryNavbar,
@@ -647,14 +663,13 @@ export class AppEmbed extends V1Embed {
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
             enableCustomColumnGroups = false,
-            isOnBeforeGetVizDataInterceptEnabled = false,
-
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
             isLiveboardCompactHeaderEnabled = false,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
             hideIrrelevantChipsInLiveboardTabs = false,
+            isEnhancedFilterInteractivityEnabled = false,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
@@ -663,6 +678,8 @@ export class AppEmbed extends V1Embed {
             liveboardXLSXCSVDownload = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isCentralizedLiveboardFilterUXEnabled = false,
+            isLinkParametersEnabled,
         } = this.viewConfig;
 
         let params: any = {};
@@ -676,6 +693,7 @@ export class AppEmbed extends V1Embed {
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
@@ -727,13 +745,6 @@ export class AppEmbed extends V1Embed {
             params[Param.enableAskSage] = enableAskSage;
         }
 
-        if (isOnBeforeGetVizDataInterceptEnabled) {
-
-            params[
-                Param.IsOnBeforeGetVizDataInterceptEnabled
-            ] = isOnBeforeGetVizDataInterceptEnabled;
-        }
-
         if (homePageSearchBarMode) {
             params[Param.HomePageSearchBarMode] = homePageSearchBarMode;
         }
@@ -748,6 +759,20 @@ export class AppEmbed extends V1Embed {
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+        
+        if (hideTagFilterChips !== undefined) {
+            params[Param.HideTagFilterChips] = hideTagFilterChips;
+        }
+
+        if (isLinkParametersEnabled !== undefined) {
+            params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
+        }
+
+        if (isCentralizedLiveboardFilterUXEnabled != undefined) {
+            params[
+                Param.isCentralizedLiveboardFilterUXEnabled
+            ] = isCentralizedLiveboardFilterUXEnabled;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
