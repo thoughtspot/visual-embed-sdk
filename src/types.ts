@@ -2067,17 +2067,6 @@ export enum EmbedEvent {
      * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
      * `INVALID_DATE_VALUE` - Invalid date value error.
      * `INVALID_OPERATOR` - Use of invalid operator during filter application.
-     * `VALIDATION_ERROR` - Validation error.
-     * `NETWORK` - Network error.
-     * `WRONG_VIZ_ID` - Wrong viz ID error.
-     * `NOT_A_WORKSHEET` - Not a worksheet error.
-     * `NO_FILTERABLE_COLUMN_PRESENT` - No filterable column present error.
-     * `FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN` - Filter exists or no attribute column error.
-     * `INVALID_COLUMN_ID` - Invalid column ID error.
-     * `CONV_ASSIST_ERROR` - Conversation assist error.
-     * `GENERIC_ERROR` - Generic error.
-     * `TIMEOUT_ERROR` - Timeout error.
-     * `CONVEX_ERROR` - Conversation error.
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      * @returns error - An error object or message

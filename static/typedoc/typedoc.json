@@ -5481,7 +5481,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "An error has occurred. This event is fired for the following error types:",
-						"text": "`API` - API call failure error.\n`FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen\nmode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value\nfilter. `NON_EXIST_FILTER` - Error due to a non-existent filter.\n`INVALID_DATE_VALUE` - Invalid date value error.\n`INVALID_OPERATOR` - Use of invalid operator during filter application.\n`VALIDATION_ERROR` - Validation error.\n`NETWORK` - Network error.\n`WRONG_VIZ_ID` - Wrong viz ID error.\n`NOT_A_WORKSHEET` - Not a worksheet error.\n`NO_FILTERABLE_COLUMN_PRESENT` - No filterable column present error.\n`FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN` - Filter exists or no attribute column error.\n`INVALID_COLUMN_ID` - Invalid column ID error.\n`CONV_ASSIST_ERROR` - Conversation assist error.\n`GENERIC_ERROR` - Generic error.\n`TIMEOUT_ERROR` - Timeout error.\n`CONVEX_ERROR` - Conversation error.\n\nFor more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType",
+						"text": "`API` - API call failure error.\n`FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen\nmode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value\nfilter. `NON_EXIST_FILTER` - Error due to a non-existent filter.\n`INVALID_DATE_VALUE` - Invalid date value error.\n`INVALID_OPERATOR` - Use of invalid operator during filter application.\n\nFor more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType",
 						"tags": [
 							{
 								"tag": "returns",
