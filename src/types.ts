@@ -6228,38 +6228,10 @@ export enum LogLevel {
 export enum ErrorDetailsTypes {
     /** API call failure */
     API = 'API',
-    /** Error when presenting a Liveboard or visualization in full screen mode */
-    FULLSCREEN = 'FULLSCREEN',
-    /** Multiple values provided for a single-value filter */
-    SINGLE_VALUE_FILTER = 'SINGLE_VALUE_FILTER',
-    /** Attempting to apply a non-existent filter */
-    NON_EXIST_FILTER = 'NON_EXIST_FILTER',
-    /** Invalid date format or value */
-    INVALID_DATE_VALUE = 'INVALID_DATE_VALUE',
-    /** Invalid filter operator */
-    INVALID_OPERATOR = 'INVALID_OPERATOR',
     /** General validation error */
     VALIDATION_ERROR = 'VALIDATION_ERROR',
     /** Network connectivity or request error */
     NETWORK = 'NETWORK',
-    /** Incorrect or non-existent visualization ID */
-    WRONG_VIZ_ID = 'WRONG_VIZ_ID',
-    /** Attempting to use a non-worksheet object as a worksheet */
-    NOT_A_WORKSHEET = 'NOT_A_WORKSHEET',
-    /** No filterable columns available */
-    NO_FILTERABLE_COLUMN_PRESENT = 'NO_FILTERABLE_COLUMN_PRESENT',
-    /** Filter already exists or no attribute column available */
-    FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN = 'FILTER_EXISTS_OR_NO_ATTRIBUTE_COLUMN',
-    /** Invalid or non-existent column ID */
-    INVALID_COLUMN_ID = 'INVALID_COLUMN_ID',
-    /** Error in conversation assist functionality */
-    CONV_ASSIST_ERROR = 'CONV_ASSIST_ERROR',
-    /** Unspecified or general error */
-    GENERIC_ERROR = 'GENERIC_ERROR',
-    /** Request timeout */
-    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
-    /** Conversation execution error */
-    CONVEX_ERROR = 'CONVEX_ERROR',
 }
 
 /**
