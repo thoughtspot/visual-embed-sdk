@@ -6270,10 +6270,16 @@ export enum ErrorDetailsTypes {
  * precise error handling and debugging.
  * 
  * The codes are organized into categories:
- * - **Filter Validation**: Errors related to applying or updating filters
- * - **Presentation**: Errors related to display modes like fullscreen
- * - **API**: Errors from API communications
- * - **Conversation**: Errors specific to conversation/chat features
+ * - **Worksheet ID not found or does not exist**: Errors related to applying or updating filters
+ * - **Liveboard ID missing**: Errors related to missing liveboard ID
+ * - **Conflicting actions configuration**: Errors related to conflicting actions configuration
+ * - **Conflicting tabs configuration**: Errors related to conflicting tabs configuration
+ * - **Initialization error**: Errors related to initialization error
+ * - **Network error**: Errors related to network error
+ * - **Custom action validation**: Errors related to custom action validation
+ * - **Login failed**: Errors related to login failed
+ * - **Render not called**: Errors related to render not called
+ * - **Host event type undefined or invalid**: Errors related to host event type undefined or invalid
  * 
  * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
@@ -6284,79 +6290,12 @@ export enum ErrorDetailsTypes {
  * Handle specific error codes
  *
  * embed.on(EmbedEvent.Error, (error) => {
- *   if (error.code === EmbedErrorCodes.UPDATE_EMBED_FILTERS_VALIDATION) {
- *     console.error('Invalid filter configuration:', error.message);
+ *   if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {
+ *     console.error('Worksheet ID not found:', error.message);
  *   }
  * });
  *  */
 export enum EmbedErrorCodes {
-    // Filter Validation Errors
-    
-    /** Validation error when applying filters to a custom action */
-    CUSTOM_ACTION_FILTER_VALIDATION = 'CUSTOM_ACTION_FILTER_VALIDATION',
-    
-    /** Validation error when applying filters to an answer context action */
-    ANSWER_CONTEXT_ACTION_FILTER_VALIDATION = 'ANSWER_CONTEXT_ACTION_FILTER_VALIDATION',
-    
-    /** Validation error when applying filters to a pinboard (Liveboard) action */
-    PINBOARD_ACTION_FILTER_VALIDATION = 'PINBOARD_ACTION_FILTER_VALIDATION',
-    
-    /** Validation error when applying filters to a spotter action */
-    SPOTTER_ACTION_FILTER_VALIDATION = 'SPOTTER_ACTION_FILTER_VALIDATION',
-    
-    /** Validation error when applying filters to a visualization action */
-    VIZ_ACTION_FILTER_VALIDATION = 'VIZ_ACTION_FILTER_VALIDATION',
-    
-    /** Validation error when updating embed filters */
-    UPDATE_EMBED_FILTERS_VALIDATION = 'UPDATE_EMBED_FILTERS_VALIDATION',
-    
-    /** Validation error when updating embed cross-filters */
-    UPDATE_EMBED_CROSS_FILTERS_VALIDATION = 'UPDATE_EMBED_CROSS_FILTERS_VALIDATION',
-    
-    /** Validation error when updating search column configuration */
-    UPDATE_EMBED_SEARCH_COLUMN_VALIDATION = 'UPDATE_EMBED_SEARCH_COLUMN_VALIDATION',
-    
-    // Presentation Errors
-    
-    /** Error when attempting to enable fullscreen presentation mode */
-    PRESENT_MODE_FULLSCREEN_ERROR = 'PRESENT_MODE_FULLSCREEN_ERROR',
-    
-    // API Errors
-    
-    /** Error returned from GraphQL API calls */
-    GRAPHQL_API_ERRORS = 'GRAPHQL_API_ERRORS',
-    
-    // Conversation Errors
-    
-    /** Error in conversation assist functionality */
-    CONV_ASSIST_ERROR = 'CONV_ASSIST_ERROR',
-    
-    /** Error when creating a new conversation */
-    CREATE_CONVERSATION_ERROR = 'CREATE_CONVERSATION_ERROR',
-    
-    /** Error when updating conversation context */
-    UPDATE_CONVERSATION_CONTEXT_ERROR = 'UPDATE_CONVERSATION_CONTEXT_ERROR',
-    
-    /** Error when sending a message in a conversation */
-    SEND_CONVERSATION_MESSAGE_ERROR = 'SEND_CONVERSATION_MESSAGE_ERROR',
-    
-    /** Error when editing an existing conversation message */
-    EDIT_CONVERSATION_MESSAGE_ERROR = 'EDIT_CONVERSATION_MESSAGE_ERROR',
-    
-    /** Error when retrying a failed conversation message */
-    RETRY_CONVERSATION_MESSAGE_ERROR = 'RETRY_CONVERSATION_MESSAGE_ERROR',
-    
-    /** Error when deleting a conversation message */
-    DELETE_CONVERSATION_MESSAGE_ERROR = 'DELETE_CONVERSATION_MESSAGE_ERROR',
-    
-    /** Error when submitting feedback for a conversation message */
-    SEND_CONVERSATION_MESSAGE_FEEDBACK_ERROR = 'SEND_CONVERSATION_MESSAGE_FEEDBACK_ERROR',
-    
-    /** Error when updating a conversation message */
-    UPDATE_CONVERSATION_MESSAGE_ERROR = 'UPDATE_CONVERSATION_MESSAGE_ERROR',
-    
-    // Configuration and Initialization Errors
-    
     /** Worksheet ID not found or does not exist */
     WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
     
@@ -6417,8 +6356,8 @@ export enum EmbedErrorCodes {
  *
  * embed.on(EmbedEvent.Error, (error) => {
  *   switch (error.code) {
- *     case EmbedErrorCodes.GRAPHQL_API_ERRORS:
- *       console.error('API Error:', error.message, error.code);
+ *     case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:
+ *       console.error('Worksheet ID not found:', error.message, error.code);
  *       break;
  *     default:
  *       console.error('Unknown error:', error);
