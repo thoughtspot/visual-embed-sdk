@@ -1,6 +1,7 @@
 import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
-import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent } from "./types";
+import { ERROR_MESSAGE } from "./errors";
+import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent, EmbedErrorCodes, ErrorDetailsTypes, EmbedErrorDetailsEvent } from "./types";
 import { embedEventStatus } from "./utils";
 import { logger } from "./utils/logger";
 
@@ -129,10 +130,14 @@ export const handleInterceptEvent = async (params: {
     const [interceptData, bodyParseError] = parseInterceptData(eventData.data);
 
     if (bodyParseError) {
-        executeEvent(EmbedEvent.Error, {
-            error: 'Error parsing api intercept body',
-        });
-        logger.error('Error parsing request body', bodyParseError);
+        const errorDetails: EmbedErrorDetailsEvent = {
+            errorType: ErrorDetailsTypes.API,
+            message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+            code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+            error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+        };
+        executeEvent(EmbedEvent.Error, errorDetails);
+        logger.error(errorDetails);
         return;
     }
 
