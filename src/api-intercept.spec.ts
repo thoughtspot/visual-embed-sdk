@@ -1,7 +1,8 @@
 import * as apiIntercept from './api-intercept';
 import * as config from './config';
 import * as embedConfig from './embed/embedConfig';
-import { InterceptedApiType, EmbedEvent, BaseViewConfig } from './types';
+import { ERROR_MESSAGE } from './errors';
+import { InterceptedApiType, EmbedEvent, BaseViewConfig, EmbedErrorCodes, ErrorDetailsTypes } from './types';
 import { embedEventStatus } from './utils';
 import { logger } from './utils/logger';
 
@@ -354,9 +355,13 @@ describe('api-intercept', () => {
         getUnsavedAnswerTml
       });
 
-      expect(executeEvent).toHaveBeenCalledWith(
-        EmbedEvent.Error,
-        { error: 'Error parsing api intercept body' }
+      expect(executeEvent).toHaveBeenCalledWith(EmbedEvent.Error, 
+        expect.objectContaining({ 
+          errorType: ErrorDetailsTypes.API,
+          message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+          code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+          error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+        })
       );
       expect(mockLogger.error).toHaveBeenCalled();
     });
@@ -414,9 +419,13 @@ describe('api-intercept', () => {
         getUnsavedAnswerTml
       });
 
-      expect(executeEvent).toHaveBeenCalledWith(
-        EmbedEvent.Error,
-        { error: 'Error parsing api intercept body' }
+      expect(executeEvent).toHaveBeenCalledWith(EmbedEvent.Error,
+        expect.objectContaining({
+          errorType: ErrorDetailsTypes.API,
+          message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+          code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+          error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+        })
       );
       expect(mockLogger.error).toHaveBeenCalled();
 
@@ -485,9 +494,13 @@ describe('api-intercept', () => {
       });
 
       // When init is missing, accessing init.body throws an error
-      expect(executeEvent).toHaveBeenCalledWith(
-        EmbedEvent.Error,
-        { error: 'Error parsing api intercept body' }
+      expect(executeEvent).toHaveBeenCalledWith(EmbedEvent.Error,
+        expect.objectContaining({
+          errorType: ErrorDetailsTypes.API,
+          message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+          code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+          error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+        })
       );
     });
 

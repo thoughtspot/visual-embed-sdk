@@ -6286,6 +6286,9 @@ export enum EmbedErrorCodes {
     
     /** Host event type is undefined or invalid */
     HOST_EVENT_TYPE_UNDEFINED = 'HOST_EVENT_TYPE_UNDEFINED',
+
+    /** Error parsing api intercept body */
+    PARSING_API_INTERCEPT_BODY_ERROR = 'PARSING_API_INTERCEPT_BODY_ERROR',
 }
 
 /**
