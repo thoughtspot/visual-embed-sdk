@@ -137,7 +137,7 @@ export const handleInterceptEvent = async (params: {
             error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
         };
         executeEvent(EmbedEvent.Error, errorDetails);
-        logger.error(errorDetails);
+        logger.error('Error parsing request body', bodyParseError);
         return;
     }
 
