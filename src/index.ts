@@ -26,6 +26,7 @@ import {
     exportTML,
     executeTMLInput,
     exportTMLInput,
+    reloadIframe,
 } from './embed/base';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
@@ -83,6 +84,7 @@ export {
     executeTML,
     exportTML,
     executeTMLInput,
+    reloadIframe,
     exportTMLInput,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
