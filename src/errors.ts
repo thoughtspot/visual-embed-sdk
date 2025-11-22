@@ -26,6 +26,7 @@ export const ERROR_MESSAGE = {
     RENDER_BEFORE_EVENTS_REQUIRED: 'Please call render before triggering events',
     HOST_EVENT_TYPE_UNDEFINED: 'Host event type is undefined',
     LOGIN_FAILED: 'Login failed',
+    ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
