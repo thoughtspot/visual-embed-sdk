@@ -675,7 +675,7 @@ export class AppEmbed extends V1Embed {
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload = false,
+            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,

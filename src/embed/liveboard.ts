@@ -474,7 +474,7 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload = false,
+            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             showSpotterLimitations,
