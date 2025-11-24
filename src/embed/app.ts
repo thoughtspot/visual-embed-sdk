@@ -699,7 +699,6 @@ export class AppEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
-        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
 
         params = this.getBaseQueryParams(params);
 
@@ -755,6 +754,10 @@ export class AppEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (liveboardXLSXCSVDownload !== undefined) {
+            params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {

@@ -414,6 +414,17 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should not set liveboardXLSXCSVDownload in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).not.toContain('isLiveboardXLSXCSVDownloadEnabled');
+        });
+    });
+
     test('should set isCentralizedLiveboardFilterUXEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
