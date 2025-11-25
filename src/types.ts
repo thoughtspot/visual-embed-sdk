@@ -5945,15 +5945,15 @@ export enum Action {
     CreateGroup = 'createGroup',
 
     /**
-     * The **Ungroup Tile** menu action on a Liveboard.
-     * Allows ungrouping a tile.
+     * The **Ungroup Liveboard Group** menu action on a Liveboard.
+     * Allows ungrouping a liveboard group.
      * @example
      * ```js
-     * disabledActions: [Action.UngroupTile]
+     * disabledActions: [Action.UngroupLiveboardGroup]
      * ```
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
-    UngroupTile = 'ungroupTile',
+    UngroupLiveboardGroup = 'ungroupLiveboardGroup',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
