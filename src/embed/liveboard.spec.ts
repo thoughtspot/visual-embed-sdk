@@ -483,6 +483,18 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should not add liveboardXLSXCSVDownload flag when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).not.toContain('isLiveboardXLSXCSVDownloadEnabled');
+        });
+    });
+
     test('should add isCentralizedLiveboardFilterUXEnabled flag and set value to true to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

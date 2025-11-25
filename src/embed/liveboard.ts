@@ -474,7 +474,7 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload = false,
+            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             showSpotterLimitations,
@@ -574,7 +574,11 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+
+        if (liveboardXLSXCSVDownload !== undefined) {
+            params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+        }
+
         const queryParams = getQueryParamString(params, true);
 
         return params;
