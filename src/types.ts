@@ -1515,7 +1515,7 @@ export interface LiveboardAppEmbedViewConfig {
      * To enable this feature on your instance, contact ThoughtSpot Support.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
