@@ -316,6 +316,28 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with all boolean flags set', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            disableSourceSelection: true,
+            hideSourceSelection: true,
+            dataPanelV2: true,
+            showSpotterLimitations: true,
+            hideSampleQuestions: true,
+            enablePastConversationsSidebar: true,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableSourceSelection=true&hideSourceSelection=true&enableDataPanelV2=true&showSpotterLimitations=true&hideSampleQuestions=true&enablePastConversationsSidebar=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
