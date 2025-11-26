@@ -3912,7 +3912,7 @@
 			]
 		},
 		{
-			"id": 2986,
+			"id": 2987,
 			"name": "CustomActionTarget",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -3922,7 +3922,7 @@
 			},
 			"children": [
 				{
-					"id": 2989,
+					"id": 2990,
 					"name": "ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3937,7 +3937,7 @@
 					"defaultValue": "\"ANSWER\""
 				},
 				{
-					"id": 2987,
+					"id": 2988,
 					"name": "LIVEBOARD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3952,7 +3952,7 @@
 					"defaultValue": "\"LIVEBOARD\""
 				},
 				{
-					"id": 2990,
+					"id": 2991,
 					"name": "SPOTTER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3967,7 +3967,7 @@
 					"defaultValue": "\"SPOTTER\""
 				},
 				{
-					"id": 2988,
+					"id": 2989,
 					"name": "VIZ",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -3987,10 +3987,10 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2989,
-						2987,
 						2990,
-						2988
+						2988,
+						2991,
+						2989
 					]
 				}
 			],
@@ -4003,7 +4003,7 @@
 			]
 		},
 		{
-			"id": 2982,
+			"id": 2983,
 			"name": "CustomActionsPosition",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4013,7 +4013,7 @@
 			},
 			"children": [
 				{
-					"id": 2985,
+					"id": 2986,
 					"name": "CONTEXTMENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4028,7 +4028,7 @@
 					"defaultValue": "\"CONTEXTMENU\""
 				},
 				{
-					"id": 2984,
+					"id": 2985,
 					"name": "MENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4043,7 +4043,7 @@
 					"defaultValue": "\"MENU\""
 				},
 				{
-					"id": 2983,
+					"id": 2984,
 					"name": "PRIMARY",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4063,9 +4063,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						2986,
 						2985,
-						2984,
-						2983
+						2984
 					]
 				}
 			],
@@ -4078,7 +4078,7 @@
 			]
 		},
 		{
-			"id": 2978,
+			"id": 2979,
 			"name": "DataPanelCustomColumnGroupsAccordionState",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4088,7 +4088,7 @@
 			},
 			"children": [
 				{
-					"id": 2980,
+					"id": 2981,
 					"name": "COLLAPSE_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4106,7 +4106,7 @@
 					"defaultValue": "\"COLLAPSE_ALL\""
 				},
 				{
-					"id": 2979,
+					"id": 2980,
 					"name": "EXPAND_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4124,7 +4124,7 @@
 					"defaultValue": "\"EXPAND_ALL\""
 				},
 				{
-					"id": 2981,
+					"id": 2982,
 					"name": "EXPAND_FIRST",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4147,9 +4147,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						2981,
 						2980,
-						2979,
-						2981
+						2982
 					]
 				}
 			],
@@ -7013,7 +7013,7 @@
 			]
 		},
 		{
-			"id": 2935,
+			"id": 2936,
 			"name": "HomePage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -7029,7 +7029,7 @@
 			},
 			"children": [
 				{
-					"id": 2936,
+					"id": 2937,
 					"name": "Modular",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7047,7 +7047,7 @@
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2937,
+					"id": 2938,
 					"name": "ModularWithStylingChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7070,8 +7070,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2936,
-						2937
+						2937,
+						2938
 					]
 				}
 			],
@@ -7084,14 +7084,14 @@
 			]
 		},
 		{
-			"id": 2929,
+			"id": 2930,
 			"name": "HomePageSearchBarMode",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2931,
+					"id": 2932,
 					"name": "AI_ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7106,7 +7106,7 @@
 					"defaultValue": "\"aiAnswer\""
 				},
 				{
-					"id": 2932,
+					"id": 2933,
 					"name": "NONE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7121,7 +7121,7 @@
 					"defaultValue": "\"none\""
 				},
 				{
-					"id": 2930,
+					"id": 2931,
 					"name": "OBJECT_SEARCH",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7141,9 +7141,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2931,
 						2932,
-						2930
+						2933,
+						2931
 					]
 				}
 			],
@@ -9600,7 +9600,7 @@
 			]
 		},
 		{
-			"id": 2991,
+			"id": 2992,
 			"name": "InterceptedApiType",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9610,7 +9610,7 @@
 			},
 			"children": [
 				{
-					"id": 2993,
+					"id": 2994,
 					"name": "ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9628,7 +9628,7 @@
 					"defaultValue": "\"ALL\""
 				},
 				{
-					"id": 2992,
+					"id": 2993,
 					"name": "AnswerData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9646,7 +9646,7 @@
 					"defaultValue": "\"AnswerData\""
 				},
 				{
-					"id": 2994,
+					"id": 2995,
 					"name": "LiveboardData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9669,9 +9669,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						2994,
 						2993,
-						2992,
-						2994
+						2995
 					]
 				}
 			],
@@ -9684,7 +9684,7 @@
 			]
 		},
 		{
-			"id": 2938,
+			"id": 2939,
 			"name": "ListPage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9700,7 +9700,7 @@
 			},
 			"children": [
 				{
-					"id": 2939,
+					"id": 2940,
 					"name": "List",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9718,7 +9718,7 @@
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2940,
+					"id": 2941,
 					"name": "ListWithUXChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9741,8 +9741,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2939,
-						2940
+						2940,
+						2941
 					]
 				}
 			],
@@ -9755,7 +9755,7 @@
 			]
 		},
 		{
-			"id": 2972,
+			"id": 2973,
 			"name": "ListPageColumns",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9771,7 +9771,7 @@
 			},
 			"children": [
 				{
-					"id": 2975,
+					"id": 2976,
 					"name": "Author",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9789,7 +9789,7 @@
 					"defaultValue": "\"AUTHOR\""
 				},
 				{
-					"id": 2976,
+					"id": 2977,
 					"name": "DateSort",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9807,7 +9807,7 @@
 					"defaultValue": "\"DATE_SORT\""
 				},
 				{
-					"id": 2973,
+					"id": 2974,
 					"name": "Favourite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9825,7 +9825,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2977,
+					"id": 2978,
 					"name": "Share",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9843,7 +9843,7 @@
 					"defaultValue": "\"SHARE\""
 				},
 				{
-					"id": 2974,
+					"id": 2975,
 					"name": "Tags",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9866,11 +9866,11 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2975,
 						2976,
-						2973,
 						2977,
-						2974
+						2974,
+						2978,
+						2975
 					]
 				}
 			],
@@ -9883,7 +9883,7 @@
 			]
 		},
 		{
-			"id": 2906,
+			"id": 2907,
 			"name": "LogLevel",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9893,7 +9893,7 @@
 			},
 			"children": [
 				{
-					"id": 2911,
+					"id": 2912,
 					"name": "DEBUG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9921,7 +9921,7 @@
 					"defaultValue": "\"DEBUG\""
 				},
 				{
-					"id": 2908,
+					"id": 2909,
 					"name": "ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9949,7 +9949,7 @@
 					"defaultValue": "\"ERROR\""
 				},
 				{
-					"id": 2910,
+					"id": 2911,
 					"name": "INFO",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9977,7 +9977,7 @@
 					"defaultValue": "\"INFO\""
 				},
 				{
-					"id": 2907,
+					"id": 2908,
 					"name": "SILENT",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10005,7 +10005,7 @@
 					"defaultValue": "\"SILENT\""
 				},
 				{
-					"id": 2912,
+					"id": 2913,
 					"name": "TRACE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10033,7 +10033,7 @@
 					"defaultValue": "\"TRACE\""
 				},
 				{
-					"id": 2909,
+					"id": 2910,
 					"name": "WARN",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10066,12 +10066,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						2912,
+						2909,
 						2911,
 						2908,
-						2910,
-						2907,
-						2912,
-						2909
+						2913,
+						2910
 					]
 				}
 			],
@@ -10332,7 +10332,7 @@
 			]
 		},
 		{
-			"id": 2933,
+			"id": 2934,
 			"name": "PrimaryNavbarVersion",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -10348,7 +10348,7 @@
 			},
 			"children": [
 				{
-					"id": 2934,
+					"id": 2935,
 					"name": "Sliding",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10371,7 +10371,7 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2934
+						2935
 					]
 				}
 			],
@@ -10696,14 +10696,14 @@
 			]
 		},
 		{
-			"id": 2964,
+			"id": 2965,
 			"name": "UIPassthroughEvent",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2969,
+					"id": 2970,
 					"name": "GetAnswerConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10718,7 +10718,7 @@
 					"defaultValue": "\"getAnswerPageConfig\""
 				},
 				{
-					"id": 2968,
+					"id": 2969,
 					"name": "GetAvailableUIPassthroughs",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10733,7 +10733,7 @@
 					"defaultValue": "\"getAvailableUiPassthroughs\""
 				},
 				{
-					"id": 2967,
+					"id": 2968,
 					"name": "GetDiscoverabilityStatus",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10748,7 +10748,7 @@
 					"defaultValue": "\"getDiscoverabilityStatus\""
 				},
 				{
-					"id": 2970,
+					"id": 2971,
 					"name": "GetLiveboardConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10763,7 +10763,7 @@
 					"defaultValue": "\"getPinboardPageConfig\""
 				},
 				{
-					"id": 2971,
+					"id": 2972,
 					"name": "GetUnsavedAnswerTML",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10778,7 +10778,7 @@
 					"defaultValue": "\"getUnsavedAnswerTML\""
 				},
 				{
-					"id": 2965,
+					"id": 2966,
 					"name": "PinAnswerToLiveboard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10793,7 +10793,7 @@
 					"defaultValue": "\"addVizToPinboard\""
 				},
 				{
-					"id": 2966,
+					"id": 2967,
 					"name": "SaveAnswer",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10813,13 +10813,13 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						2970,
 						2969,
 						2968,
-						2967,
-						2970,
 						2971,
-						2965,
-						2966
+						2972,
+						2966,
+						2967
 					]
 				}
 			],
@@ -10939,7 +10939,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2941,
+											"id": 2942,
 											"name": "VizPoint"
 										}
 									}
@@ -13283,7 +13283,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -15081,7 +15081,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -16394,7 +16394,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -17639,7 +17639,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -18867,7 +18867,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -20123,7 +20123,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -21854,7 +21854,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2964,
+										"id": 2965,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -22341,7 +22341,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2978,
+						"id": 2979,
 						"name": "DataPanelCustomColumnGroupsAccordionState"
 					}
 				},
@@ -23209,7 +23209,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2972,
+							"id": 2973,
 							"name": "ListPageColumns"
 						}
 					},
@@ -23628,7 +23628,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2929,
+						"id": 2930,
 						"name": "HomePageSearchBarMode"
 					}
 				},
@@ -24604,7 +24604,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -27892,7 +27892,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -28138,7 +28138,7 @@
 			]
 		},
 		{
-			"id": 2944,
+			"id": 2945,
 			"name": "CustomActionPayload",
 			"kind": 256,
 			"kindString": "Interface",
@@ -28153,7 +28153,7 @@
 			},
 			"children": [
 				{
-					"id": 2945,
+					"id": 2946,
 					"name": "contextMenuPoints",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28170,14 +28170,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2946,
+							"id": 2947,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2947,
+									"id": 2948,
 									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28191,12 +28191,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 2941,
+										"id": 2942,
 										"name": "VizPoint"
 									}
 								},
 								{
-									"id": 2948,
+									"id": 2949,
 									"name": "selectedPoints",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28212,7 +28212,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2941,
+											"id": 2942,
 											"name": "VizPoint"
 										}
 									}
@@ -28223,8 +28223,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2947,
-										2948
+										2948,
+										2949
 									]
 								}
 							]
@@ -28232,7 +28232,7 @@
 					}
 				},
 				{
-					"id": 2949,
+					"id": 2950,
 					"name": "embedAnswerData",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28247,14 +28247,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2950,
+							"id": 2951,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2958,
+									"id": 2959,
 									"name": "columns",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28275,7 +28275,7 @@
 									}
 								},
 								{
-									"id": 2959,
+									"id": 2960,
 									"name": "data",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28296,7 +28296,7 @@
 									}
 								},
 								{
-									"id": 2952,
+									"id": 2953,
 									"name": "id",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28314,7 +28314,7 @@
 									}
 								},
 								{
-									"id": 2951,
+									"id": 2952,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28332,7 +28332,7 @@
 									}
 								},
 								{
-									"id": 2953,
+									"id": 2954,
 									"name": "sources",
 									"kind": 1024,
 									"kindString": "Property",
@@ -28347,14 +28347,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 2954,
+											"id": 2955,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 2955,
+													"id": 2956,
 													"name": "header",
 													"kind": 1024,
 													"kindString": "Property",
@@ -28369,14 +28369,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 2956,
+															"id": 2957,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 2957,
+																	"id": 2958,
 																	"name": "guid",
 																	"kind": 1024,
 																	"kindString": "Property",
@@ -28399,7 +28399,7 @@
 																	"title": "Properties",
 																	"kind": 1024,
 																	"children": [
-																		2957
+																		2958
 																	]
 																}
 															]
@@ -28412,7 +28412,7 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														2955
+														2956
 													]
 												}
 											]
@@ -28425,23 +28425,23 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2958,
 										2959,
+										2960,
+										2953,
 										2952,
-										2951,
-										2953
+										2954
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 2960,
+								"id": 2961,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2961,
+										"id": 2962,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -28460,7 +28460,7 @@
 					}
 				},
 				{
-					"id": 2962,
+					"id": 2963,
 					"name": "session",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28479,7 +28479,7 @@
 					}
 				},
 				{
-					"id": 2963,
+					"id": 2964,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28504,10 +28504,10 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2945,
-						2949,
-						2962,
-						2963
+						2946,
+						2950,
+						2963,
+						2964
 					]
 				}
 			],
@@ -29151,7 +29151,7 @@
 					}
 				},
 				{
-					"id": 2902,
+					"id": 2903,
 					"name": "--ts-var-cca-modal-summary-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29164,7 +29164,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 842,
+							"line": 849,
 							"character": 4
 						}
 					],
@@ -29174,7 +29174,7 @@
 					}
 				},
 				{
-					"id": 2897,
+					"id": 2898,
 					"name": "--ts-var-change-analysis-insights-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29187,7 +29187,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 817,
+							"line": 824,
 							"character": 4
 						}
 					],
@@ -29197,7 +29197,7 @@
 					}
 				},
 				{
-					"id": 2892,
+					"id": 2893,
 					"name": "--ts-var-chart-heatmap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29210,7 +29210,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 792,
+							"line": 799,
 							"character": 4
 						}
 					],
@@ -29220,7 +29220,7 @@
 					}
 				},
 				{
-					"id": 2891,
+					"id": 2892,
 					"name": "--ts-var-chart-heatmap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29233,7 +29233,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 787,
+							"line": 794,
 							"character": 4
 						}
 					],
@@ -29243,7 +29243,7 @@
 					}
 				},
 				{
-					"id": 2894,
+					"id": 2895,
 					"name": "--ts-var-chart-treemap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29256,7 +29256,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 802,
+							"line": 809,
 							"character": 4
 						}
 					],
@@ -29266,7 +29266,7 @@
 					}
 				},
 				{
-					"id": 2893,
+					"id": 2894,
 					"name": "--ts-var-chart-treemap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29279,7 +29279,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 797,
+							"line": 804,
 							"character": 4
 						}
 					],
@@ -29864,7 +29864,7 @@
 					}
 				},
 				{
-					"id": 2890,
+					"id": 2891,
 					"name": "--ts-var-kpi-analyze-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29877,7 +29877,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 782,
+							"line": 789,
 							"character": 4
 						}
 					],
@@ -29887,7 +29887,7 @@
 					}
 				},
 				{
-					"id": 2889,
+					"id": 2890,
 					"name": "--ts-var-kpi-comparison-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29900,7 +29900,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 777,
+							"line": 784,
 							"character": 4
 						}
 					],
@@ -29910,7 +29910,7 @@
 					}
 				},
 				{
-					"id": 2888,
+					"id": 2889,
 					"name": "--ts-var-kpi-hero-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29923,7 +29923,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 772,
+							"line": 779,
 							"character": 4
 						}
 					],
@@ -29933,7 +29933,7 @@
 					}
 				},
 				{
-					"id": 2896,
+					"id": 2897,
 					"name": "--ts-var-kpi-negative-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29946,7 +29946,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 812,
+							"line": 819,
 							"character": 4
 						}
 					],
@@ -29956,7 +29956,7 @@
 					}
 				},
 				{
-					"id": 2895,
+					"id": 2896,
 					"name": "--ts-var-kpi-positive-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29969,7 +29969,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 807,
+							"line": 814,
 							"character": 4
 						}
 					],
@@ -30048,7 +30048,7 @@
 					}
 				},
 				{
-					"id": 2862,
+					"id": 2863,
 					"name": "--ts-var-liveboard-chip--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30057,6 +30057,30 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard on active.",
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 649,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2862,
+					"name": "--ts-var-liveboard-chip--hover-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the filter chips in the Liveboard on hover.",
 						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
@@ -30072,31 +30096,7 @@
 					}
 				},
 				{
-					"id": 2861,
-					"name": "--ts-var-liveboard-chip--hover-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the filter chips in the Liveboard on hover.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 635,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2859,
+					"id": 2860,
 					"name": "--ts-var-liveboard-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30105,30 +30105,6 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 621,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 2860,
-					"name": "--ts-var-liveboard-chip-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Font color of the filter chips in the Liveboard.",
 						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
@@ -30144,7 +30120,31 @@
 					}
 				},
 				{
-					"id": 2867,
+					"id": 2861,
+					"name": "--ts-var-liveboard-chip-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the filter chips in the Liveboard.",
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 635,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2868,
 					"name": "--ts-var-liveboard-cross-filter-layout-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30157,7 +30157,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 667,
+							"line": 674,
 							"character": 4
 						}
 					],
@@ -30167,7 +30167,7 @@
 					}
 				},
 				{
-					"id": 2865,
+					"id": 2866,
 					"name": "--ts-var-liveboard-dual-column-breakpoint",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30180,7 +30180,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 657,
+							"line": 664,
 							"character": 4
 						}
 					],
@@ -30190,7 +30190,7 @@
 					}
 				},
 				{
-					"id": 2864,
+					"id": 2865,
 					"name": "--ts-var-liveboard-edit-bar-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30203,7 +30203,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 652,
+							"line": 659,
 							"character": 4
 						}
 					],
@@ -30309,7 +30309,7 @@
 					}
 				},
 				{
-					"id": 2858,
+					"id": 2859,
 					"name": "--ts-var-liveboard-group-tile-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30318,6 +30318,30 @@
 					},
 					"comment": {
 						"shortText": "Background color of the tiles inside the groups in the Liveboard.",
+						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 621,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2858,
+					"name": "--ts-var-liveboard-group-tile-description-font-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Font color of the description of the tiles inside the groups in the Liveboard.",
 						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
@@ -30501,7 +30525,7 @@
 					}
 				},
 				{
-					"id": 2881,
+					"id": 2882,
 					"name": "--ts-var-liveboard-header-action-button-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30514,7 +30538,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 737,
+							"line": 744,
 							"character": 4
 						}
 					],
@@ -30524,7 +30548,7 @@
 					}
 				},
 				{
-					"id": 2878,
+					"id": 2879,
 					"name": "--ts-var-liveboard-header-action-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30537,7 +30561,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 722,
+							"line": 729,
 							"character": 4
 						}
 					],
@@ -30547,7 +30571,7 @@
 					}
 				},
 				{
-					"id": 2879,
+					"id": 2880,
 					"name": "--ts-var-liveboard-header-action-button-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30560,7 +30584,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 727,
+							"line": 734,
 							"character": 4
 						}
 					],
@@ -30570,7 +30594,7 @@
 					}
 				},
 				{
-					"id": 2880,
+					"id": 2881,
 					"name": "--ts-var-liveboard-header-action-button-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30583,7 +30607,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 732,
+							"line": 739,
 							"character": 4
 						}
 					],
@@ -30616,7 +30640,7 @@
 					}
 				},
 				{
-					"id": 2887,
+					"id": 2888,
 					"name": "--ts-var-liveboard-header-badge-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30629,7 +30653,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 767,
+							"line": 774,
 							"character": 4
 						}
 					],
@@ -30639,7 +30663,7 @@
 					}
 				},
 				{
-					"id": 2882,
+					"id": 2883,
 					"name": "--ts-var-liveboard-header-badge-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30652,7 +30676,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 742,
+							"line": 749,
 							"character": 4
 						}
 					],
@@ -30662,7 +30686,7 @@
 					}
 				},
 				{
-					"id": 2883,
+					"id": 2884,
 					"name": "--ts-var-liveboard-header-badge-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30675,7 +30699,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 747,
+							"line": 754,
 							"character": 4
 						}
 					],
@@ -30685,7 +30709,7 @@
 					}
 				},
 				{
-					"id": 2886,
+					"id": 2887,
 					"name": "--ts-var-liveboard-header-badge-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30698,7 +30722,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 762,
+							"line": 769,
 							"character": 4
 						}
 					],
@@ -30708,7 +30732,7 @@
 					}
 				},
 				{
-					"id": 2884,
+					"id": 2885,
 					"name": "--ts-var-liveboard-header-badge-modified-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30721,7 +30745,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 752,
+							"line": 759,
 							"character": 4
 						}
 					],
@@ -30731,7 +30755,7 @@
 					}
 				},
 				{
-					"id": 2885,
+					"id": 2886,
 					"name": "--ts-var-liveboard-header-badge-modified-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30744,7 +30768,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 757,
+							"line": 764,
 							"character": 4
 						}
 					],
@@ -30846,7 +30870,7 @@
 					}
 				},
 				{
-					"id": 2866,
+					"id": 2867,
 					"name": "--ts-var-liveboard-single-column-breakpoint",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30859,7 +30883,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 662,
+							"line": 669,
 							"character": 4
 						}
 					],
@@ -30869,7 +30893,7 @@
 					}
 				},
 				{
-					"id": 2868,
+					"id": 2869,
 					"name": "--ts-var-liveboard-tab-active-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30882,7 +30906,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 672,
+							"line": 679,
 							"character": 4
 						}
 					],
@@ -30892,7 +30916,7 @@
 					}
 				},
 				{
-					"id": 2869,
+					"id": 2870,
 					"name": "--ts-var-liveboard-tab-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30905,7 +30929,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 677,
+							"line": 684,
 							"character": 4
 						}
 					],
@@ -31030,7 +31054,7 @@
 					}
 				},
 				{
-					"id": 2870,
+					"id": 2871,
 					"name": "--ts-var-liveboard-tile-title-fontsize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31043,7 +31067,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 682,
+							"line": 689,
 							"character": 4
 						}
 					],
@@ -31053,7 +31077,7 @@
 					}
 				},
 				{
-					"id": 2871,
+					"id": 2872,
 					"name": "--ts-var-liveboard-tile-title-fontweight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31066,7 +31090,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 687,
+							"line": 694,
 							"character": 4
 						}
 					],
@@ -31260,7 +31284,7 @@
 					}
 				},
 				{
-					"id": 2876,
+					"id": 2877,
 					"name": "--ts-var-parameter-chip-active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31273,7 +31297,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 712,
+							"line": 719,
 							"character": 4
 						}
 					],
@@ -31283,7 +31307,7 @@
 					}
 				},
 				{
-					"id": 2877,
+					"id": 2878,
 					"name": "--ts-var-parameter-chip-active-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31296,7 +31320,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 717,
+							"line": 724,
 							"character": 4
 						}
 					],
@@ -31306,7 +31330,7 @@
 					}
 				},
 				{
-					"id": 2872,
+					"id": 2873,
 					"name": "--ts-var-parameter-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31319,7 +31343,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 692,
+							"line": 699,
 							"character": 4
 						}
 					],
@@ -31329,7 +31353,7 @@
 					}
 				},
 				{
-					"id": 2874,
+					"id": 2875,
 					"name": "--ts-var-parameter-chip-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31342,7 +31366,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 702,
+							"line": 709,
 							"character": 4
 						}
 					],
@@ -31352,7 +31376,7 @@
 					}
 				},
 				{
-					"id": 2875,
+					"id": 2876,
 					"name": "--ts-var-parameter-chip-hover-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31365,7 +31389,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 707,
+							"line": 714,
 							"character": 4
 						}
 					],
@@ -31375,7 +31399,7 @@
 					}
 				},
 				{
-					"id": 2873,
+					"id": 2874,
 					"name": "--ts-var-parameter-chip-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31388,7 +31412,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 697,
+							"line": 704,
 							"character": 4
 						}
 					],
@@ -31812,7 +31836,7 @@
 					}
 				},
 				{
-					"id": 2863,
+					"id": 2864,
 					"name": "--ts-var-side-panel-width",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31825,7 +31849,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 647,
+							"line": 654,
 							"character": 4
 						}
 					],
@@ -31835,7 +31859,7 @@
 					}
 				},
 				{
-					"id": 2901,
+					"id": 2902,
 					"name": "--ts-var-spotiq-analyze-crosscorrelation-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31848,7 +31872,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 837,
+							"line": 844,
 							"character": 4
 						}
 					],
@@ -31858,7 +31882,7 @@
 					}
 				},
 				{
-					"id": 2898,
+					"id": 2899,
 					"name": "--ts-var-spotiq-analyze-forecasting-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31871,7 +31895,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 822,
+							"line": 829,
 							"character": 4
 						}
 					],
@@ -31881,7 +31905,7 @@
 					}
 				},
 				{
-					"id": 2899,
+					"id": 2900,
 					"name": "--ts-var-spotiq-analyze-outlier-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31894,7 +31918,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 827,
+							"line": 834,
 							"character": 4
 						}
 					],
@@ -31904,7 +31928,7 @@
 					}
 				},
 				{
-					"id": 2900,
+					"id": 2901,
 					"name": "--ts-var-spotiq-analyze-trend-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31917,7 +31941,7 @@
 					"sources": [
 						{
 							"fileName": "css-variables.ts",
-							"line": 832,
+							"line": 839,
 							"character": 4
 						}
 					],
@@ -32235,12 +32259,12 @@
 						2783,
 						2782,
 						2770,
-						2902,
-						2897,
-						2892,
-						2891,
-						2894,
+						2903,
+						2898,
 						2893,
+						2892,
+						2895,
+						2894,
 						2832,
 						2835,
 						2830,
@@ -32266,25 +32290,26 @@
 						2827,
 						2826,
 						2825,
+						2891,
 						2890,
 						2889,
-						2888,
+						2897,
 						2896,
-						2895,
 						2823,
 						2822,
 						2850,
+						2863,
 						2862,
-						2861,
-						2859,
 						2860,
-						2867,
+						2861,
+						2868,
+						2866,
 						2865,
-						2864,
 						2851,
 						2852,
 						2856,
 						2844,
+						2859,
 						2858,
 						2849,
 						2857,
@@ -32293,31 +32318,31 @@
 						2855,
 						2845,
 						2846,
-						2881,
-						2878,
+						2882,
 						2879,
 						2880,
+						2881,
 						2837,
-						2887,
-						2882,
+						2888,
 						2883,
-						2886,
 						2884,
+						2887,
 						2885,
+						2886,
 						2838,
 						2836,
 						2854,
 						2853,
-						2866,
-						2868,
+						2867,
 						2869,
+						2870,
 						2840,
 						2839,
 						2841,
 						2842,
 						2843,
-						2870,
 						2871,
+						2872,
 						2815,
 						2812,
 						2811,
@@ -32326,12 +32351,12 @@
 						2814,
 						2749,
 						2750,
-						2876,
 						2877,
-						2872,
-						2874,
-						2875,
+						2878,
 						2873,
+						2875,
+						2876,
+						2874,
 						2744,
 						2745,
 						2746,
@@ -32350,11 +32375,11 @@
 						2753,
 						2759,
 						2824,
-						2863,
-						2901,
-						2898,
+						2864,
+						2902,
 						2899,
 						2900,
+						2901,
 						2764,
 						2765,
 						2794,
@@ -33448,7 +33473,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2906,
+						"id": 2907,
 						"name": "LogLevel"
 					}
 				},
@@ -36220,7 +36245,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -36864,7 +36889,7 @@
 			]
 		},
 		{
-			"id": 2903,
+			"id": 2904,
 			"name": "RuntimeParameter",
 			"kind": 256,
 			"kindString": "Interface",
@@ -36874,7 +36899,7 @@
 			},
 			"children": [
 				{
-					"id": 2904,
+					"id": 2905,
 					"name": "name",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36895,7 +36920,7 @@
 					}
 				},
 				{
-					"id": 2905,
+					"id": 2906,
 					"name": "value",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36934,8 +36959,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2904,
-						2905
+						2905,
+						2906
 					]
 				}
 			],
@@ -38268,7 +38293,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -39806,7 +39831,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -41628,7 +41653,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -44100,7 +44125,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2903,
+							"id": 2904,
 							"name": "RuntimeParameter"
 						}
 					}
@@ -44402,14 +44427,14 @@
 			]
 		},
 		{
-			"id": 2941,
+			"id": 2942,
 			"name": "VizPoint",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 2942,
+					"id": 2943,
 					"name": "selectedAttributes",
 					"kind": 1024,
 					"kindString": "Property",
@@ -44430,7 +44455,7 @@
 					}
 				},
 				{
-					"id": 2943,
+					"id": 2944,
 					"name": "selectedMeasures",
 					"kind": 1024,
 					"kindString": "Property",
@@ -44456,8 +44481,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2942,
-						2943
+						2943,
+						2944
 					]
 				}
 			],
@@ -45966,7 +45991,7 @@
 			]
 		},
 		{
-			"id": 2995,
+			"id": 2996,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -45982,7 +46007,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2996,
+					"id": 2997,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -46176,7 +46201,7 @@
 			]
 		},
 		{
-			"id": 2913,
+			"id": 2914,
 			"name": "uploadMixpanelEvent",
 			"kind": 64,
 			"kindString": "Function",
@@ -46190,7 +46215,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2914,
+					"id": 2915,
 					"name": "uploadMixpanelEvent",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -46200,7 +46225,7 @@
 					},
 					"parameters": [
 						{
-							"id": 2915,
+							"id": 2916,
 							"name": "eventId",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -46212,7 +46237,7 @@
 							}
 						},
 						{
-							"id": 2916,
+							"id": 2917,
 							"name": "eventProps",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -46223,7 +46248,7 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 2917,
+									"id": 2918,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -46252,25 +46277,25 @@
 				1807,
 				1962,
 				2304,
-				2986,
-				2982,
-				2978,
+				2987,
+				2983,
+				2979,
 				2162,
 				1994,
 				2686,
-				2935,
-				2929,
+				2936,
+				2930,
 				2697,
 				2089,
-				2991,
-				2938,
-				2972,
-				2906,
+				2992,
+				2939,
+				2973,
+				2907,
 				1953,
 				2675,
-				2933,
+				2934,
 				1978,
-				2964
+				2965
 			]
 		},
 		{
@@ -46297,7 +46322,7 @@
 				1817,
 				1305,
 				1584,
-				2944,
+				2945,
 				2743,
 				2731,
 				2721,
@@ -46305,7 +46330,7 @@
 				2680,
 				2461,
 				1974,
-				2903,
+				2904,
 				2539,
 				2416,
 				2360,
@@ -46313,7 +46338,7 @@
 				1273,
 				1541,
 				1950,
-				2941,
+				2942,
 				2734,
 				21,
 				25
@@ -46342,9 +46367,9 @@
 				1,
 				4,
 				7,
-				2995,
+				2996,
 				37,
-				2913
+				2914
 			]
 		}
 	],
