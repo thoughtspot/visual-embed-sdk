@@ -849,7 +849,7 @@ export interface CustomCssVariables {
     '--ts-var-cca-modal-summary-header-background'?: string;
     
     /**
-     * spotter chat window width
+     * Width of the Spotter chat window.
      */
     '--ts-var-spotter-chat-width'?: string;
   }
