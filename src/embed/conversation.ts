@@ -177,7 +177,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    enablePastConversationsSidebar : true,
      * })
      * ```
-     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     enablePastConversationsSidebar?: boolean;
 }
@@ -263,7 +263,7 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
-            enablePastConversationsSidebar
+            enablePastConversationsSidebar,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();

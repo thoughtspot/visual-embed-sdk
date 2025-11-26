@@ -2973,7 +2973,7 @@ export enum EmbedEvent {
      *```
      * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
      */
-     SpotterLoadComplete = 'spotterLoadComplete',
+    SpotterLoadComplete = 'spotterLoadComplete',
     /**
      * @hidden
      * Triggers when the embed listener is ready to receive events.
@@ -4424,6 +4424,18 @@ export enum HostEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     DestroyEmbed = 'EmbedDestroyed',
+    /** Triggers a create new conversation operation in spotter embed.
+     * @example
+     * ```js
+     * This feature is available only when chat history is enabled on your ThoughtSpot instance.
+     * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.StartNewSpotterConversation);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    StartNewSpotterConversation = 'StartNewSpotterConversation',
 }
 
 /**
