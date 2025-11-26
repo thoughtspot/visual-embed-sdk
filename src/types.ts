@@ -4427,6 +4427,10 @@ export enum HostEvent {
     /** Triggers a create new conversation operation in spotter embed.
      * @example
      * ```js
+     * This feature is available only when chat history is enabled on your ThoughtSpot instance.
+     * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     * @example
+     * ```js
      * spotterEmbed.trigger(HostEvent.SpotterInit);
      * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
