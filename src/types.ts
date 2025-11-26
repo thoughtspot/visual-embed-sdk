@@ -4431,11 +4431,11 @@ export enum HostEvent {
      * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
      * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.SpotterInit);
+     * spotterEmbed.trigger(HostEvent.StartNewSpotterConversation);
      * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
-    SpotterInit = 'SpotterInit',
+    StartNewSpotterConversation = 'StartNewSpotterConversation',
 }
 
 /**
