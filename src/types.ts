@@ -2203,7 +2203,8 @@ export enum EmbedEvent {
      */
     ALL = '*',
     /**
-     * Emitted when an Answer is saved in the app
+     * Emitted when an Answer is saved in the app.
+     * Use start:true to subscribe to when save is initiated, or end:true to subscribe to when save is completed.
      * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
