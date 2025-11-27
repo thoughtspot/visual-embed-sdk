@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -56,7 +56,7 @@ export enum Page {
     /**
      *  Monitor Alerts Page
      */
-    Monitor = 'monitor'
+    Monitor = 'monitor',
 }
 
 /**
@@ -81,7 +81,7 @@ export enum DataPanelCustomColumnGroupsAccordionState {
 export enum HomePageSearchBarMode {
     OBJECT_SEARCH = 'objectSearch',
     AI_ANSWER = 'aiAnswer',
-    NONE = 'none'
+    NONE = 'none',
 }
 
 /**
@@ -158,7 +158,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
      * This flag also controls the homepage left navigation bar.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @default true
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
@@ -180,7 +180,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This option does not apply to the classic homepage.
      * To access the updated modular homepage, set
      * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -196,7 +196,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Control the visibility of the help (?) and profile buttons on the
      * Global nav-bar. By default, these buttons are visible on the nav-bar.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
@@ -214,7 +214,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @default true
      * Whether the help menu in the top nav bar should be served
      * from Pendo or ThoughtSpot's internal help items.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
@@ -224,7 +224,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * });
      * ```
      */
-    enablePendoHelp?: boolean
+    enablePendoHelp?: boolean;
     /**
      * Control the visibility of the hamburger icon on the top nav bar
      * available when new navigation V3 is enabled.
@@ -371,7 +371,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Hide tag filter chips that appear when content is filtered by tags.
      * When enabled, this automatically:
      * - Hides tag filter indicators/chips from the UI
-     * 
+     *
      * This provides a clean interface without tag-related UI elements.
      *
      * Supported embed types: `AppEmbed`
@@ -389,7 +389,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     hideTagFilterChips?: boolean;
     /**
      * The array of GUIDs to be hidden
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @example
@@ -407,7 +407,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Render liveboards using the new v2 rendering mode
      * This is a transient flag which is primarily meant for internal use
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1-sw
      * @hidden
@@ -415,7 +415,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     liveboardV2?: boolean;
     /**
      * If set to true, the Search Assist feature is enabled.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @default true
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
@@ -453,7 +453,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     fullHeight?: boolean;
     /**
      * Flag to control new Modular Home experience.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -498,10 +498,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * - EXPAND_ALL: Expand all the accordion initially in data panel v2.
      * - COLLAPSE_ALL: Collapse all the accordions initially in data panel v2.
      * - EXPAND_FIRST: Expand the first accordion and collapse the rest.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
-     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL    
+     * @default DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL
      * @example
      * ```js
      * const embed = new AppEmbed('#embed', {
@@ -514,14 +514,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     dataPanelCustomGroupsAccordionInitialState?: DataPanelCustomColumnGroupsAccordionState;
     /**
      * Flag to use home page search bar mode
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
      * This flag is used to enable unified search experience for full app embed.
-     * 
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
      * @default true
@@ -537,7 +537,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -554,7 +554,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
-     * 
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
@@ -571,7 +571,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable the full height lazy load data.
-     * 
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
@@ -580,7 +580,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     * 
+     *
      * @type {boolean}
      * @default false
      * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
@@ -589,13 +589,13 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * The margin to be used for lazy loading.
-     * 
+     *
      * For example, if the margin is set to '10px',
      * the visualization will be loaded 10px before the its top edge is visible in the
      * viewport.
-     * 
+     *
      * The format is similar to CSS margin.
-     * 
+     *
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
@@ -610,6 +610,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
+
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `AppEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -621,7 +637,6 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
-
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -629,7 +644,10 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            this.on(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                this.requestVisibleEmbedCoordinatesHandler,
+            );
         }
     }
 
@@ -680,6 +698,7 @@ export class AppEmbed extends V1Embed {
             isPNGInScheduledEmailsEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
         let params: any = {};
@@ -699,6 +718,10 @@ export class AppEmbed extends V1Embed {
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
 
         params = this.getBaseQueryParams(params);
 
@@ -753,7 +776,9 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+            params[
+                Param.IsLiveboardStylingAndGroupingEnabled
+            ] = isLiveboardStylingAndGroupingEnabled;
         }
 
         if (liveboardXLSXCSVDownload !== undefined) {
@@ -763,7 +788,7 @@ export class AppEmbed extends V1Embed {
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
-        
+
         if (hideTagFilterChips !== undefined) {
             params[Param.HideTagFilterChips] = hideTagFilterChips;
         }
@@ -783,18 +808,18 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (dataPanelCustomGroupsAccordionInitialState
-            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
-            || dataPanelCustomGroupsAccordionInitialState
-            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (
+            dataPanelCustomGroupsAccordionInitialState ===
+                DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
+            dataPanelCustomGroupsAccordionInitialState ===
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
-
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-
-            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+            params[Param.DataPanelCustomGroupsAccordionInitialState] =
+                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
         // Set navigation to v2 by default to avoid problems like the app
@@ -844,7 +869,7 @@ export class AppEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-    }
+    };
 
     /**
      * This is a handler for the RequestVisibleEmbedCoordinates event.
@@ -855,8 +880,11 @@ export class AppEmbed extends V1Embed {
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
         const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
-        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
-    }
+        responder({
+            type: EmbedEvent.RequestVisibleEmbedCoordinates,
+            data: visibleCoordinatesData,
+        });
+    };
 
     /**
      * Constructs the URL of the ThoughtSpot app page to be rendered.

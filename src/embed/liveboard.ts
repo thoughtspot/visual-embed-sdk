@@ -28,12 +28,14 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 
-
 /**
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
  */
-export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewConfig, LiveboardAppEmbedViewConfig {
+export interface LiveboardViewConfig
+    extends BaseViewConfig,
+        LiveboardOtherViewConfig,
+        LiveboardAppEmbedViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.
@@ -396,6 +398,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -418,20 +435,24 @@ export class LiveboardEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             if (this.viewConfig.vizId) {
-                logger.warn('Full height is currently only supported for Liveboard embeds.' +
-                    'Using full height with vizId might lead to unexpected behavior.');
+                logger.warn(
+                    'Full height is currently only supported for Liveboard embeds.' +
+                        'Using full height with vizId might lead to unexpected behavior.',
+                );
             }
 
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            this.on(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                this.requestVisibleEmbedCoordinatesHandler,
+            );
         }
     }
 
@@ -480,10 +501,12 @@ export class LiveboardEmbed extends V1Embed {
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
-        const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
-            || this.viewConfig.preventPinboardFilterRemoval;
+        const preventLiveboardFilterRemoval =
+            this.viewConfig.preventLiveboardFilterRemoval ||
+            this.viewConfig.preventPinboardFilterRemoval;
 
         if (fullHeight === true) {
             params[Param.fullHeight] = true;
@@ -500,6 +523,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (preventLiveboardFilterRemoval) {
             params[Param.preventLiveboardFilterRemoval] = true;
+        }
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
         if (visibleVizs) {
             params[Param.visibleVizs] = visibleVizs;
@@ -542,9 +568,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
-
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+            params[
+                Param.IsLiveboardStylingAndGroupingEnabled
+            ] = isLiveboardStylingAndGroupingEnabled;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
@@ -600,7 +627,7 @@ export class LiveboardEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-    }
+    };
 
     /**
      * This is a handler for the RequestVisibleEmbedCoordinates event.
@@ -611,8 +638,11 @@ export class LiveboardEmbed extends V1Embed {
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
         const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
-        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
-    }
+        responder({
+            type: EmbedEvent.RequestVisibleEmbedCoordinates,
+            data: visibleCoordinatesData,
+        });
+    };
 
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
@@ -727,7 +757,11 @@ export class LiveboardEmbed extends V1Embed {
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(() => {
-            this.navigateToLiveboard(this.viewConfig.liveboardId, this.viewConfig.vizId, this.viewConfig.activeTabId);
+            this.navigateToLiveboard(
+                this.viewConfig.liveboardId,
+                this.viewConfig.vizId,
+                this.viewConfig.activeTabId,
+            );
             if (embedObj) {
                 embedObj.currentLiveboardState = {
                     liveboardId: this.viewConfig.liveboardId,
@@ -753,7 +787,7 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger<HostEventT extends HostEvent, PayloadT>(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
     ): Promise<TriggerResponse<PayloadT, HostEventT>> {
         const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
@@ -845,4 +879,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed { }
+export class PinboardEmbed extends LiveboardEmbed {}

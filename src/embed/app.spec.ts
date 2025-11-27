@@ -131,7 +131,6 @@ describe('App embed tests', () => {
     });
 
     describe('should render the correct routes for pages', () => {
-
         const pageRouteMap = {
             [Page.Search]: 'answer',
             [Page.Answers]: 'answers',
@@ -181,7 +180,10 @@ describe('App embed tests', () => {
             const pageIdsForModularHome = pageIdsForModularHomes[i];
 
             test(`${pageIdsForModularHome}`, async () => {
-                const route = pageRouteMapForModularHome[pageIdsForModularHome as keyof typeof pageRouteMapForModularHome];
+                const route =
+                    pageRouteMapForModularHome[
+                        pageIdsForModularHome as keyof typeof pageRouteMapForModularHome
+                    ];
                 const appEmbed = new AppEmbed(getRootEl(), {
                     ...defaultViewConfig,
                     modularHomeExperience: true,
@@ -371,7 +373,7 @@ describe('App embed tests', () => {
             );
         });
     });
-    
+
     test('should set isLinkParametersEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -396,6 +398,34 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterChatPrompt to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterChatPrompt: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterChatPrompt to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterChatPrompt: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -484,7 +514,7 @@ describe('App embed tests', () => {
             );
         });
     });
-    
+
     test('Should add the hideTagFilterChips false to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -862,7 +892,6 @@ describe('App embed tests', () => {
         });
     });
 
-
     test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -894,7 +923,6 @@ describe('App embed tests', () => {
             );
         });
     });
-
 
     test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
@@ -1005,7 +1033,7 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
-        let embedHeightCallback: any = () => { };
+        let embedHeightCallback: any = () => {};
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
                 callback({ data: { currentPath: '/answers' } }, jest.fn());
@@ -1038,7 +1066,10 @@ describe('App embed tests', () => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                expect.anything(),
+            );
         }, 100);
     });
 
@@ -1184,9 +1215,11 @@ describe('App embed tests', () => {
             Object.defineProperty(mockIFrame, 'scrollHeight', { value: 500 });
 
             // Mock the event handlers
-            const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
-                return null;
-            });
+            const onSpy = jest
+                .spyOn(AppEmbed.prototype, 'on')
+                .mockImplementation((event, callback) => {
+                    return null;
+                });
             jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
             jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
 
@@ -1261,7 +1294,10 @@ describe('App embed tests', () => {
 
             await appEmbed.render();
 
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.any(Function));
+            expect(onSpy).toHaveBeenCalledWith(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                expect.any(Function),
+            );
 
             onSpy.mockRestore();
         });
@@ -1313,9 +1349,9 @@ describe('App embed tests', () => {
             (appEmbed as any).sendFullHeightLazyLoadData();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
-                top: 50,   // 50px clipped from top
+                top: 50, // 50px clipped from top
                 height: 700, // visible height (from 0 to 700)
-                left: 30,  // 30px clipped from left
+                left: 30, // 30px clipped from left
                 width: 1024, // visible width (from 0 to 1024)
             });
         });
@@ -1334,7 +1370,11 @@ describe('App embed tests', () => {
             // Wait for the post-render events to be registered
             await executeAfterWait(() => {
                 expect(addEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-                expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+                expect(addEventListenerSpy).toHaveBeenCalledWith(
+                    'scroll',
+                    expect.any(Function),
+                    true,
+                );
             }, 100);
 
             addEventListenerSpy.mockRestore();

@@ -43,13 +43,15 @@ const prefixParams = '&isLiveboardEmbed=true';
 const prefixParamsVizEmbed = '&isLiveboardEmbed=true&isVizEmbed=true';
 
 const mockGetSessionInfo = (mockSessionInfo?: any) => {
-    jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue(mockSessionInfo || {
-        releaseVersion: '1.0.0',
-        userGUID: '1234567890',
-        currentOrgId: 1,
-        privileges: [],
-        mixpanelToken: '1234567890',
-    })
+    jest.spyOn(SessionInfoService, 'getSessionInfo').mockResolvedValue(
+        mockSessionInfo || {
+            releaseVersion: '1.0.0',
+            userGUID: '1234567890',
+            currentOrgId: 1,
+            privileges: [],
+            mixpanelToken: '1234567890',
+        },
+    );
 };
 
 beforeAll(() => {
@@ -852,6 +854,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should render the liveboard embed with updatedSpotterChatPrompt', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+    test('should render the liveboard embed with updatedSpotterChatPrompt disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=false#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -891,7 +922,7 @@ describe('Liveboard/viz embed tests', () => {
     describe('PreRender flow for liveboard embed', () => {
         beforeAll(() => {
             init({
-                thoughtSpotHost: "http://tshost",
+                thoughtSpotHost: 'http://tshost',
                 authType: AuthType.None,
             });
         });
@@ -986,9 +1017,9 @@ describe('Liveboard/viz embed tests', () => {
             await waitFor(() => !!getIFrameEl());
 
             const ts = '__tsEmbed';
-            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
-                libEmbed,
-            );
+            expect(
+                (document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts],
+            ).toEqual(libEmbed);
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
                 postMessageToParent(iframe.contentWindow, {
@@ -1012,7 +1043,11 @@ describe('Liveboard/viz embed tests', () => {
                 ) as HTMLIFrameElement;
 
                 // should render the generic link
-                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                    testLiveboardId,
+                    'testVizId',
+                    'testActiveTabId',
+                );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
@@ -1044,9 +1079,9 @@ describe('Liveboard/viz embed tests', () => {
             await libEmbed.preRender();
             await waitFor(() => !!getIFrameEl());
             const ts = '__tsEmbed';
-            expect((document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts]).toEqual(
-                libEmbed,
-            );
+            expect(
+                (document.getElementById(libEmbed.getPreRenderIds().wrapper) as any)[ts],
+            ).toEqual(libEmbed);
             const testLiveboardId = 'testLiveboardId';
             const newLibEmbed = new LiveboardEmbed(getRootEl(), {
                 preRenderId: testPreRenderId,
@@ -1072,20 +1107,24 @@ describe('Liveboard/viz embed tests', () => {
                     libEmbed.getPreRenderIds().child,
                 ) as HTMLIFrameElement;
                 // should render the generic link
-                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                    testLiveboardId,
+                    'testVizId',
+                    'testActiveTabId',
+                );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
                 done();
             }, 1005);
         });
 
-
         test('should replace existing preRender when replaceExistingPreRender is true', async () => {
             const testPreRenderId = 'testReplacePreRender';
 
             // Stub ResizeObserver for JSDOM
-            (window as any).ResizeObserver = (window as any).ResizeObserver
-                || jest.fn().mockImplementation(() => ({
+            (window as any).ResizeObserver =
+                (window as any).ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
                     observe: jest.fn(),
                     unobserve: jest.fn(),
@@ -1245,7 +1284,10 @@ describe('Liveboard/viz embed tests', () => {
                 expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
                 expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
                 expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
-                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+                expect(onSpy).toHaveBeenCalledWith(
+                    EmbedEvent.RequestVisibleEmbedCoordinates,
+                    expect.anything(),
+                );
             }, 100);
         });
 
@@ -1419,7 +1461,9 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
-            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockResolvedValue(undefined);
 
             // Mock embed container as not loaded initially
             liveboardEmbed.isEmbedContainerLoaded = false;
@@ -1450,7 +1494,9 @@ describe('Liveboard/viz embed tests', () => {
                 currentLiveboardState: {},
             };
 
-            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(mockPreRenderObj as any);
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(
+                mockPreRenderObj as any,
+            );
             jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
 
             // Mock embed container as not loaded initially
@@ -1479,7 +1525,9 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
-            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockResolvedValue(undefined);
 
             // Mock embed container as already loaded
             liveboardEmbed.isEmbedContainerLoaded = true;
@@ -1500,7 +1548,9 @@ describe('Liveboard/viz embed tests', () => {
             });
 
             jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(null);
-            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockResolvedValue(undefined);
 
             // Mock embed container as not loaded initially
             liveboardEmbed.isEmbedContainerLoaded = false;
@@ -1528,7 +1578,9 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
-            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockResolvedValue(undefined);
 
             // Mock embed container as already loaded
             liveboardEmbed.isEmbedContainerLoaded = true;
@@ -1537,7 +1589,11 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
 
             // Check that all parameters are passed correctly
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(customLiveboardId, customVizId, customActiveTabId);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                customLiveboardId,
+                customVizId,
+                customActiveTabId,
+            );
         });
 
         test('should work with minimal liveboard parameters', async () => {
@@ -1546,7 +1602,9 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
-            const navigateToLiveboardSpy = jest.spyOn(liveboardEmbed, 'navigateToLiveboard').mockResolvedValue(undefined);
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockResolvedValue(undefined);
 
             // Mock embed container as already loaded
             liveboardEmbed.isEmbedContainerLoaded = true;

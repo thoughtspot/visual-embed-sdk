@@ -180,6 +180,22 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     enablePastConversationsSidebar?: boolean;
+
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -215,17 +231,12 @@ export class SpotterEmbed extends TsEmbed {
     protected getEmbedParamsObject() {
         const {
             worksheetId,
-            searchOptions,
             disableSourceSelection,
             hideSourceSelection,
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
-            enablePastConversationsSidebar,
-            runtimeFilters,
-            excludeRuntimeFiltersfromURL,
-            runtimeParameters,
-            excludeRuntimeParametersfromURL,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
         if (!worksheetId) {
@@ -250,6 +261,10 @@ export class SpotterEmbed extends TsEmbed {
 
         if (!isUndefined(hideSampleQuestions)) {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
+        }
+
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            queryParams[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
 
         return queryParams;
