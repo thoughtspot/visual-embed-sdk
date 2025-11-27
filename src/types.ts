@@ -5910,7 +5910,6 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
-    
     /**
      * The **Move to Group** menu action on a Liveboard.
      * Allows moving a visualization to a different group.
@@ -5921,7 +5920,6 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     MoveToGroup = 'moveToGroup',
-
     /**
      * The **Move out of Group** menu action on a Liveboard.
      * Allows moving a visualization out of a group.
@@ -5932,7 +5930,6 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     MoveOutOfGroup = 'moveOutOfGroup',
-
     /**
      * The **Create Group** menu action on a Liveboard.
      * Allows creating a new group.
@@ -5943,7 +5940,6 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     CreateGroup = 'createGroup',
-
     /**
      * The **Ungroup Liveboard Group** menu action on a Liveboard.
      * Allows ungrouping a liveboard group.
