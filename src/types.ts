@@ -5923,6 +5923,44 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
+    /**
+     * The **Publish** action for Liveboards, Answers and Models.
+     * Opens the publishing modal. It's a parent action for the
+     * **Manage Publishing** and **Unpublish** actions if the object
+     * is already published, otherwise appears standalone.
+     * @example
+     * ```js
+     * hiddenAction: [Action.Publish]
+     * disabledActions: [Action.Publish]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    Publish = 'publish',
+    /**
+     * The **Manage Publishing** action for Liveboards, Answers and Models.
+     * Opens the same publishing modal as the **Publish** action.
+     * Appears as a child action to the **Publish** action if the
+     * object is already published.
+     * @example
+     * ```js
+     * hiddenAction: [Action.ManagePublishing]
+     * disabledActions: [Action.ManagePublishing]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    ManagePublishing = 'managePublishing',
+    /**
+     * The **Unpublish** action for Liveboards, Answers and Models.
+     * Opens the unpublishing modal. Appears as a child action to
+     * the **Publish** action if the object is already published.
+     * @example
+     * ```js
+     * hiddenAction: [Action.Unpublish]
+     * disabledActions: [Action.Unpublish]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    Unpublish = 'unpublish',
 }
 
 export interface AnswerServiceType {
