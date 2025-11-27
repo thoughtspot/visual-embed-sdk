@@ -56,7 +56,7 @@ export enum Page {
     /**
      *  Monitor Alerts Page
      */
-    Monitor = 'monitor',
+    Monitor = 'monitor'
 }
 
 /**
@@ -81,7 +81,7 @@ export enum DataPanelCustomColumnGroupsAccordionState {
 export enum HomePageSearchBarMode {
     OBJECT_SEARCH = 'objectSearch',
     AI_ANSWER = 'aiAnswer',
-    NONE = 'none',
+    NONE = 'none'
 }
 
 /**
@@ -224,7 +224,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * });
      * ```
      */
-    enablePendoHelp?: boolean;
+    enablePendoHelp?: boolean
     /**
      * Control the visibility of the hamburger icon on the top nav bar
      * available when new navigation V3 is enabled.
@@ -637,6 +637,7 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = '100%';
 
+
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -644,10 +645,7 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(
-                EmbedEvent.RequestVisibleEmbedCoordinates,
-                this.requestVisibleEmbedCoordinatesHandler,
-            );
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
         }
     }
 
@@ -719,11 +717,11 @@ export class AppEmbed extends V1Embed {
         params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
+        params = this.getBaseQueryParams(params);
+
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
-
-        params = this.getBaseQueryParams(params);
 
         if (hideObjectSearch) {
             params[Param.HideObjectSearch] = !!hideObjectSearch;
@@ -776,9 +774,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[
-                Param.IsLiveboardStylingAndGroupingEnabled
-            ] = isLiveboardStylingAndGroupingEnabled;
+            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
         if (liveboardXLSXCSVDownload !== undefined) {
@@ -808,18 +804,18 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        if (
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL ||
-            dataPanelCustomGroupsAccordionInitialState ===
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
+        if (dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
+            || dataPanelCustomGroupsAccordionInitialState
+            === DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST
         ) {
+
             params[
                 Param.DataPanelCustomGroupsAccordionInitialState
             ] = dataPanelCustomGroupsAccordionInitialState;
         } else {
-            params[Param.DataPanelCustomGroupsAccordionInitialState] =
-                DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+
+            params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
         // Set navigation to v2 by default to avoid problems like the app
@@ -869,7 +865,7 @@ export class AppEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-    };
+    }
 
     /**
      * This is a handler for the RequestVisibleEmbedCoordinates event.
@@ -880,11 +876,8 @@ export class AppEmbed extends V1Embed {
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
         const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
-        responder({
-            type: EmbedEvent.RequestVisibleEmbedCoordinates,
-            data: visibleCoordinatesData,
-        });
-    };
+        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
+    }
 
     /**
      * Constructs the URL of the ThoughtSpot app page to be rendered.

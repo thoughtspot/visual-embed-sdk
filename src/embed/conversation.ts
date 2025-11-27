@@ -231,11 +231,17 @@ export class SpotterEmbed extends TsEmbed {
     protected getEmbedParamsObject() {
         const {
             worksheetId,
+            searchOptions,
             disableSourceSelection,
             hideSourceSelection,
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            enablePastConversationsSidebar,
+            runtimeFilters,
+            excludeRuntimeFiltersfromURL,
+            runtimeParameters,
+            excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
         } = this.viewConfig;
 
