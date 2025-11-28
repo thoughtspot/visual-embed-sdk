@@ -371,7 +371,7 @@ describe('App embed tests', () => {
             );
         });
     });
-    
+
     test('should set isLinkParametersEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -396,6 +396,34 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterChatPrompt to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterChatPrompt: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterChatPrompt to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterChatPrompt: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -484,7 +512,7 @@ describe('App embed tests', () => {
             );
         });
     });
-    
+
     test('Should add the hideTagFilterChips false to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

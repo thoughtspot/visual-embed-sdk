@@ -396,6 +396,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -480,6 +495,7 @@ export class LiveboardEmbed extends V1Embed {
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -500,6 +516,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (preventLiveboardFilterRemoval) {
             params[Param.preventLiveboardFilterRemoval] = true;
+        }
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
         if (visibleVizs) {
             params[Param.visibleVizs] = visibleVizs;

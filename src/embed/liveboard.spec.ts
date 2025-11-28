@@ -852,6 +852,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should render the liveboard embed with updatedSpotterChatPrompt', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+    test('should render the liveboard embed with updatedSpotterChatPrompt disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=false#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

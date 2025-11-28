@@ -4590,6 +4590,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
+    UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
 }
 
 /**
