@@ -6211,7 +6211,7 @@ export enum LogLevel {
  * 
  * @see {@link EmbedErrorDetailsEvent} - The error event object structure
  * @see {@link EmbedEvent.Error} - The event that emits these errors
- * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ * @version SDK: 1.44.1 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
  */
 export enum ErrorDetailsTypes {
@@ -6242,7 +6242,7 @@ export enum ErrorDetailsTypes {
  * - **Render not called**: Errors related to render not called
  * - **Host event type undefined or invalid**: Errors related to host event type undefined or invalid
  * 
- * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ * @version SDK: 1.44.1 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
  * @see {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
  * @see {@link ErrorDetailsTypes} - General error type categories
@@ -6310,7 +6310,7 @@ export enum EmbedErrorCodes {
  * Listen to the {@link EmbedEvent.Error} event to receive instances of this object
  * and implement appropriate error handling logic based on the `errorType`.
  *
- * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+ * @version SDK: 1.44.1 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
  * @see {@link ErrorDetailsTypes} - Available error type values
  * @see {@link EmbedEvent.Error} - The event that emits this object
