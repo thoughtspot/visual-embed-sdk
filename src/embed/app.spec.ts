@@ -542,6 +542,53 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add showMaskedFilterChip true to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            showMaskedFilterChip: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add showMaskedFilterChip false to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            showMaskedFilterChip: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add default showMaskedFilterChip false when not specified', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add enableSearchAssist flagto the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -672,6 +672,7 @@ export class AppEmbed extends V1Embed {
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,
+            showMaskedFilterChip = false,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
@@ -707,6 +708,7 @@ export class AppEmbed extends V1Embed {
         params[Param.HideLiveboardHeader] = hideLiveboardHeader;
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
+        params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;

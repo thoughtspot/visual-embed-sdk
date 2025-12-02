@@ -1575,6 +1575,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isEnhancedFilterInteractivityEnabled?: boolean;
+    /**
+     * Show or hide masked filter chips
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.43.0 | Thoughtspot: 26.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showMaskedFilterChip: true,
+     * })
+     * ```
+     */
+    showMaskedFilterChip?: boolean;
 }
 
 export interface AllEmbedViewConfig
@@ -4534,6 +4550,7 @@ export enum Param {
     HideLiveboardHeader = 'hideLiveboardHeader',
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
+    ShowMaskedFilterChip = 'showMaskedFilterChip',
     HiddenTabs = 'hideTabs',
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
