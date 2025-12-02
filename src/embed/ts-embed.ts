@@ -272,7 +272,7 @@ export class TsEmbed {
         const isDisabled = (
             this.viewConfig.overrideOrgId !== undefined
             || this.embedConfig.disablePreauthCache === true
-            || this.isFullAppEmbedWithVisiblePrimaryNavbar()
+            // || this.isFullAppEmbedWithVisiblePrimaryNavbar()
         );
         return !isDisabled;
     }
