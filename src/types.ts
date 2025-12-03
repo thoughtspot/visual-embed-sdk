@@ -1579,7 +1579,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide masked filter chips
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.43.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
      * @default false
      * @example
      * ```js
