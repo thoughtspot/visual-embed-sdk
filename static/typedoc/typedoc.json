@@ -14138,7 +14138,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 346,
+							"line": 351,
 							"character": 4
 						}
 					],
@@ -14324,7 +14324,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 279,
+							"line": 284,
 							"character": 11
 						}
 					],
@@ -14964,7 +14964,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 319,
+							"line": 324,
 							"character": 17
 						}
 					],
@@ -15356,7 +15356,7 @@
 			"sources": [
 				{
 					"fileName": "embed/conversation.ts",
-					"line": 345,
+					"line": 350,
 					"character": 13
 				}
 			],
@@ -15369,7 +15369,7 @@
 			]
 		},
 		{
-			"id": 611,
+			"id": 614,
 			"name": "LiveboardEmbed",
 			"kind": 128,
 			"kindString": "Class",
@@ -15389,7 +15389,7 @@
 			},
 			"children": [
 				{
-					"id": 612,
+					"id": 615,
 					"name": "constructor",
 					"kind": 512,
 					"kindString": "Constructor",
@@ -15397,20 +15397,20 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 437,
+							"line": 439,
 							"character": 4
 						}
 					],
 					"signatures": [
 						{
-							"id": 613,
+							"id": 616,
 							"name": "new LiveboardEmbed",
 							"kind": 16384,
 							"kindString": "Constructor signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 614,
+									"id": 617,
 									"name": "domSelector",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15422,7 +15422,7 @@
 									}
 								},
 								{
-									"id": 615,
+									"id": 618,
 									"name": "viewConfig",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15436,7 +15436,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 611,
+								"id": 614,
 								"name": "LiveboardEmbed"
 							},
 							"overwrites": {
@@ -15451,7 +15451,7 @@
 					}
 				},
 				{
-					"id": 667,
+					"id": 670,
 					"name": "destroy",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15467,7 +15467,7 @@
 					],
 					"signatures": [
 						{
-							"id": 668,
+							"id": 671,
 							"name": "destroy",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -15605,7 +15605,7 @@
 					}
 				},
 				{
-					"id": 682,
+					"id": 685,
 					"name": "getLiveboardUrl",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15621,7 +15621,7 @@
 					],
 					"signatures": [
 						{
-							"id": 683,
+							"id": 686,
 							"name": "getLiveboardUrl",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -15906,7 +15906,7 @@
 					}
 				},
 				{
-					"id": 677,
+					"id": 680,
 					"name": "navigateToLiveboard",
 					"kind": 2048,
 					"kindString": "Method",
@@ -15922,14 +15922,14 @@
 					],
 					"signatures": [
 						{
-							"id": 678,
+							"id": 681,
 							"name": "navigateToLiveboard",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 679,
+									"id": 682,
 									"name": "liveboardId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15940,7 +15940,7 @@
 									}
 								},
 								{
-									"id": 680,
+									"id": 683,
 									"name": "vizId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15953,7 +15953,7 @@
 									}
 								},
 								{
-									"id": 681,
+									"id": 684,
 									"name": "activeTabId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16052,7 +16052,7 @@
 					}
 				},
 				{
-					"id": 689,
+					"id": 692,
 					"name": "on",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16068,7 +16068,7 @@
 					],
 					"signatures": [
 						{
-							"id": 690,
+							"id": 693,
 							"name": "on",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16091,7 +16091,7 @@
 							},
 							"parameters": [
 								{
-									"id": 691,
+									"id": 694,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16103,7 +16103,7 @@
 									}
 								},
 								{
-									"id": 692,
+									"id": 695,
 									"name": "callback",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16115,7 +16115,7 @@
 									}
 								},
 								{
-									"id": 693,
+									"id": 696,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16272,7 +16272,7 @@
 					}
 				},
 				{
-					"id": 675,
+					"id": 678,
 					"name": "render",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16288,7 +16288,7 @@
 					],
 					"signatures": [
 						{
-							"id": 676,
+							"id": 679,
 							"name": "render",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16301,7 +16301,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 611,
+										"id": 614,
 										"name": "LiveboardEmbed"
 									}
 								],
@@ -16411,7 +16411,7 @@
 					}
 				},
 				{
-					"id": 661,
+					"id": 664,
 					"name": "trigger",
 					"kind": 2048,
 					"kindString": "Method",
@@ -16427,7 +16427,7 @@
 					],
 					"signatures": [
 						{
-							"id": 662,
+							"id": 665,
 							"name": "trigger",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -16438,7 +16438,7 @@
 							},
 							"typeParameter": [
 								{
-									"id": 663,
+									"id": 666,
 									"name": "HostEventT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -16450,7 +16450,7 @@
 									}
 								},
 								{
-									"id": 664,
+									"id": 667,
 									"name": "PayloadT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -16459,7 +16459,7 @@
 							],
 							"parameters": [
 								{
-									"id": 665,
+									"id": 668,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16473,7 +16473,7 @@
 									}
 								},
 								{
-									"id": 666,
+									"id": 669,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -16638,7 +16638,7 @@
 					"title": "Constructors",
 					"kind": 512,
 					"children": [
-						612
+						615
 					]
 				},
 				{
@@ -16669,7 +16669,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 431,
+					"line": 433,
 					"character": 13
 				}
 			],
@@ -21123,7 +21123,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 279,
+							"line": 284,
 							"character": 11
 						}
 					],
@@ -21745,7 +21745,7 @@
 					"sources": [
 						{
 							"fileName": "embed/conversation.ts",
-							"line": 319,
+							"line": 324,
 							"character": 17
 						}
 					],
@@ -34608,7 +34608,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 190,
+							"line": 192,
 							"character": 4
 						}
 					],
@@ -34966,7 +34966,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 77,
+							"line": 79,
 							"character": 4
 						}
 					],
@@ -35325,7 +35325,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 89,
+							"line": 91,
 							"character": 4
 						}
 					],
@@ -35511,7 +35511,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 59,
+							"line": 61,
 							"character": 4
 						}
 					],
@@ -35591,7 +35591,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 290,
+							"line": 292,
 							"character": 4
 						}
 					],
@@ -35712,7 +35712,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 204,
+							"line": 206,
 							"character": 4
 						}
 					],
@@ -36097,7 +36097,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 326,
+							"line": 328,
 							"character": 4
 						}
 					],
@@ -36165,7 +36165,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 342,
+							"line": 344,
 							"character": 4
 						}
 					],
@@ -36202,7 +36202,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 359,
+							"line": 361,
 							"character": 4
 						}
 					],
@@ -36236,7 +36236,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 382,
+							"line": 384,
 							"character": 4
 						}
 					],
@@ -36308,7 +36308,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 103,
+							"line": 105,
 							"character": 4
 						}
 					],
@@ -36342,7 +36342,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 175,
+							"line": 177,
 							"character": 4
 						}
 					],
@@ -36528,7 +36528,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 137,
+							"line": 139,
 							"character": 4
 						}
 					],
@@ -36931,7 +36931,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 227,
+							"line": 229,
 							"character": 4
 						}
 					],
@@ -36964,7 +36964,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 398,
+							"line": 400,
 							"character": 4
 						}
 					],
@@ -37002,7 +37002,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 413,
+							"line": 415,
 							"character": 4
 						}
 					],
@@ -37082,7 +37082,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 310,
+							"line": 312,
 							"character": 4
 						}
 					],
@@ -37119,7 +37119,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 155,
+							"line": 157,
 							"character": 4
 						}
 					],
@@ -37156,7 +37156,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 122,
+							"line": 124,
 							"character": 4
 						}
 					],
@@ -37243,7 +37243,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 36,
+					"line": 38,
 					"character": 17
 				}
 			],
