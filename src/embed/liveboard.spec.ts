@@ -407,6 +407,38 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add showMaskedFilterChip flag set to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showMaskedFilterChip: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showMaskedFilterChip=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add showMaskedFilterChip flag set to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showMaskedFilterChip: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showMaskedFilterChip=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
