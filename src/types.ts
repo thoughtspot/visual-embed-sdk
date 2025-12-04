@@ -683,7 +683,7 @@ export interface EmbedConfig {
      *     {
      *       name: 'customAction',
      *       id: 'customAction',
-     *       target: CustomActionTarget.VISUALIZATION,
+     *       target: CustomActionTarget.VIZ,
      *       position: CustomActionPosition.PRIMARY,
      *       }
      *     }
@@ -1079,8 +1079,12 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterEmbed`
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
-     * ```js
-     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * ```ts
+     * import {
+     *   CustomActionPayload,
+     *   CustomActionPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *   ... // other embed config options
@@ -1088,11 +1092,16 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *     {
      *       name: 'customAction',
      *       id: 'customAction',
-     *       target: CustomActionTarget.VISUALIZATION,
+     *       target: CustomActionTarget.VIZ,
      *       position: CustomActionPosition.PRIMARY,
      *       }
      *     }
      *   ]
+     * })
+     * 
+     * // to trigger a custom flow on custom action click listen to Custom action embed event
+     * embed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {
+     *   console.log('Custom Action event:', payload);
      * })
      * ```
      */
