@@ -6235,7 +6235,7 @@ export type ApiInterceptFlags = {
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
      *   enableApiIntercept: true,
-     *   interceptUrls: [InterceptedApiType.DATA],
+     *   interceptUrls: [InterceptedApiType.AnswerData],
      * })
      * ```
      *
