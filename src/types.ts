@@ -1600,6 +1600,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     showMaskedFilterChip?: boolean;
+    /**
+     * Enable or disable liveboard masterpieces
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardMasterpiecesEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardMasterpiecesEnabled?: boolean;
 }
 
 export interface AllEmbedViewConfig
@@ -4560,6 +4576,7 @@ export enum Param {
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
     ShowMaskedFilterChip = 'showMaskedFilterChip',
+    IsLiveboardMasterpiecesEnabled = 'isLiveboardMasterpiecesEnabled',
     HiddenTabs = 'hideTabs',
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
