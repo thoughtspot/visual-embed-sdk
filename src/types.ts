@@ -2743,7 +2743,7 @@ export enum EmbedEvent {
      *
      * This event can be emitted to intercept search execution initiated by
      * the users and implement the logic to allow or restrict search execution.
-     * You can can also show custom error text if the search query must be
+     * You can also show custom error text if the search query must be
      * restricted due to your application or business requirements.
 
      * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
@@ -6208,7 +6208,6 @@ export type ApiInterceptFlags = {
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
-     *   enableApiIntercept: true,
      *   interceptUrls: [InterceptedApiType.DATA],
      * })
      * ```
@@ -6224,7 +6223,6 @@ export type ApiInterceptFlags = {
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
-     *   enableApiIntercept: true,
      *   interceptUrls: [InterceptedApiType.ALL],
      *   interceptTimeout: 1000,
      * })
