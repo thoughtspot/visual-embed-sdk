@@ -1601,7 +1601,7 @@ export interface LiveboardAppEmbedViewConfig {
      */
     showMaskedFilterChip?: boolean;
     /**
-     * Enable or disable liveboard masterpieces
+     * Enable or disable Liveboard styling and grouping
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
