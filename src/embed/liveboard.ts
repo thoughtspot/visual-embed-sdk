@@ -481,6 +481,7 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardReverifyBanner = true,
             hideIrrelevantChipsInLiveboardTabs = false,
             showMaskedFilterChip = false,
+            isLiveboardMasterpiecesEnabled = false,
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
@@ -591,6 +592,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
+        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
         params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;

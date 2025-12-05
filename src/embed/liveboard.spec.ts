@@ -439,6 +439,38 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add isLiveboardMasterpiecesEnabled flag set to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardMasterpiecesEnabled: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardMasterpiecesEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add isLiveboardMasterpiecesEnabled flag set to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardMasterpiecesEnabled: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardMasterpiecesEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
