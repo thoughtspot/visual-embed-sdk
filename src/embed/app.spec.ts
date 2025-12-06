@@ -1527,12 +1527,12 @@ describe('App embed tests', () => {
 
             await appEmbed.render();
             const mockEvent = {
-                data: 0, // This will make it use the scrollHeight
+                data: 0, // This will make it use the default height
                 type: EmbedEvent.EmbedHeight,
             };
             appEmbed.updateIFrameHeight(mockEvent);
 
-            // Should use the scrollHeight
+            // Should use the default height
             expect(mockIFrame.style.height).toBe('500px');
         });
     });
