@@ -900,7 +900,7 @@ export class AppEmbed extends V1Embed {
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.iFrame?.scrollHeight));
+        this.setIFrameHeight(Math.max(data.data, 500));
         this.sendFullHeightLazyLoadData();
     };
 
