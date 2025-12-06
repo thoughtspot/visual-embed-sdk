@@ -635,7 +635,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
-    private defaultHeight = '100%';
+    private defaultHeight = 500;
 
 
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
@@ -900,7 +900,7 @@ export class AppEmbed extends V1Embed {
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, 500));
+        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
         this.sendFullHeightLazyLoadData();
     };
 
