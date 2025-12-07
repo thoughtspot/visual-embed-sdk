@@ -67,6 +67,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
+     * @deprecated Use `minimumHeight` instead.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -77,6 +78,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     defaultHeight?: number;
+    /**
+     * This is the minimum height (in pixels) for a full-height Liveboard.
+     * Setting this height helps resolve issues with empty Liveboards and
+     * other screens navigable from a Liveboard.
+     *
+     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @default 500
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   fullHeight: true,
+     *   minimumHeight: 600,
+     * });
+     * ```
+     */
+    minimumHeight?: number;
     /**
      * @Deprecated If set to true, the context menu in visualizations will be enabled.
      * @example
@@ -469,6 +487,7 @@ export class LiveboardEmbed extends V1Embed {
             enableVizTransformations,
             fullHeight,
             defaultHeight,
+            minimumHeight,
             visibleVizs,
             liveboardV2,
             vizId,
@@ -514,6 +533,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (defaultHeight) {
             this.defaultHeight = defaultHeight;
+        }
+        if (minimumHeight) {
+            this.defaultHeight = minimumHeight;
         }
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();
