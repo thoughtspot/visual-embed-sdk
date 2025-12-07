@@ -531,11 +531,10 @@ export class LiveboardEmbed extends V1Embed {
                 params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
             }
         }
-        if (defaultHeight) {
-            this.defaultHeight = defaultHeight;
-        }
         if (minimumHeight) {
             this.defaultHeight = minimumHeight;
+        } else if (defaultHeight) {
+            this.defaultHeight = defaultHeight;
         }
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();
