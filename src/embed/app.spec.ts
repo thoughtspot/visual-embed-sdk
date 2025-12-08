@@ -1631,3 +1631,23 @@ describe('App embed tests', () => {
         });
     });
 });
+
+describe('App Embed Default Height and Minimum Height Handling', () => {
+    test('should set default height to 500 when neither default height nor minimum height is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+        await appEmbed.render();
+        expect(appEmbed['defaultHeight']).toBe(500);
+    });
+    test('should set default height to 700 when default height is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            minimumHeight: 700,
+        } as AppViewConfig);
+        await appEmbed.render();
+        expect(appEmbed['defaultHeight']).toBe(700);
+    });
+});
