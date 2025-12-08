@@ -942,7 +942,7 @@ export class TsEmbed {
                         errorType: ErrorDetailsTypes.API,
                         message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                         code: EmbedErrorCodes.LOGIN_FAILED,
-                        error : ERROR_MESSAGE.LOGIN_FAILED,
+                        error : error,
                     });
                 });
         });
