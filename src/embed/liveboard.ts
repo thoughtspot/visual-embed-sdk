@@ -20,6 +20,8 @@ import {
     SearchLiveboardCommonViewConfig as LiveboardOtherViewConfig,
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
+    ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -646,7 +648,12 @@ export class LiveboardEmbed extends V1Embed {
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
-            this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION);
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
+                code: EmbedErrorCodes.LIVEBOARD_ID_MISSING,
+                error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
+            });
         }
         return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
             liveboardId,

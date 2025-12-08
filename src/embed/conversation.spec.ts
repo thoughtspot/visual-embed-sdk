@@ -2,7 +2,7 @@ import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed } from './conve
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
-import { AuthType, Param, RuntimeFilterOp } from '../types';
+import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, EmbedErrorCodes  } from '../types';
 import {
     getDocumentBody,
     getIFrameSrc,
@@ -120,7 +120,12 @@ describe('ConversationEmbed', () => {
         (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
         expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+                code: EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND,
+                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            },
         );
     });
 

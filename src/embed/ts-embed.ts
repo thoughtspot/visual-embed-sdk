@@ -57,6 +57,9 @@ import {
     ContextMenuTriggerOptions,
     DefaultAppInitData,
     AllEmbedViewConfig as ViewConfig,
+    EmbedErrorDetailsEvent,
+    ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -218,20 +221,24 @@ export class TsEmbed {
      * Throws error encountered during initialization.
      */
     private throwInitError() {
-        this.handleError('You need to init the ThoughtSpot SDK module first');
+        this.handleError({
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
+            code: EmbedErrorCodes.INIT_ERROR,
+            error : ERROR_MESSAGE.INIT_SDK_REQUIRED,
+        });
     }
 
     /**
      * Handles errors within the SDK
      * @param error The error message or object
+     * @param errorDetails The error details
      */
-    protected handleError(error: string | Record<string, unknown>) {
+    protected handleError(errorDetails: EmbedErrorDetailsEvent) {
         this.isError = true;
-        this.executeCallbacks(EmbedEvent.Error, {
-            error,
-        });
+        this.executeCallbacks(EmbedEvent.Error, errorDetails);
         // Log error
-        logger.error(error);
+        logger.error(errorDetails);
     }
 
     /**
@@ -325,11 +332,14 @@ export class TsEmbed {
         window.addEventListener('online', onlineEventListener);
 
         const offlineEventListener = (e: Event) => {
-            const offlineWarning = ERROR_MESSAGE.OFFLINE_WARNING;
-            this.executeCallbacks(EmbedEvent.Error, {
-                offlineWarning,
-            });
-            logger.warn(offlineWarning);
+            const errorDetails = {
+                errorType: ErrorDetailsTypes.NETWORK,
+                message: ERROR_MESSAGE.OFFLINE_WARNING,
+                code: EmbedErrorCodes.NETWORK_ERROR,
+                offlineWarning : ERROR_MESSAGE.OFFLINE_WARNING,
+            };
+            this.executeCallbacks(EmbedEvent.Error, errorDetails);
+            logger.warn(errorDetails);
         };
         window.addEventListener('offline', offlineEventListener);
 
@@ -444,9 +454,11 @@ export class TsEmbed {
         ]);
         if (customActionsResult.errors.length > 0) {
             this.handleError({
-                type: 'CUSTOM_ACTION_VALIDATION',
-                message: customActionsResult.errors,
-            });
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    message: customActionsResult.errors,
+                    code: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION,
+                    error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
+                });
         }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
@@ -658,12 +670,22 @@ export class TsEmbed {
         };
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
-            this.handleError('You cannot have both hidden actions and visible actions');
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
+                error : ERROR_MESSAGE.CONFLICTING_ACTIONS_CONFIG,
+            });
             return queryParams;
         }
 
         if (Array.isArray(visibleTabs) && Array.isArray(hiddenTabs)) {
-            this.handleError('You cannot have both hidden Tabs and visible Tabs');
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+                code: EmbedErrorCodes.CONFLICTING_TABS_CONFIG,
+                error : ERROR_MESSAGE.CONFLICTING_TABS_CONFIG,
+            });
             return queryParams;
         }
         if (primaryAction) {
@@ -916,7 +938,12 @@ export class TsEmbed {
                         error: JSON.stringify(error),
                     });
                     this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
-                    this.handleError(error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
+                        code: EmbedErrorCodes.LOGIN_FAILED,
+                        error : error,
+                    });
                 });
         });
     }
@@ -1323,12 +1350,22 @@ export class TsEmbed {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
-            this.handleError('Please call render before triggering events');
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
+                code: EmbedErrorCodes.RENDER_NOT_CALLED,
+                error: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
+            });
             return null;
         }
 
         if (!messageType) {
-            this.handleError('Host event type is undefined');
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
+                code: EmbedErrorCodes.HOST_EVENT_TYPE_UNDEFINED,
+                error: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
+            });
             return null;
         }
 
