@@ -27,6 +27,9 @@ export const ERROR_MESSAGE = {
     HOST_EVENT_TYPE_UNDEFINED: 'Host event type is undefined',
     LOGIN_FAILED: 'Login failed',
     ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
+    CONFLICTING_ROUTES_CONFIG: 'You cannot have both blockedRoutes and allowedRoutes set at the same time',
+    BLOCKING_PROTECTED_ROUTES: 'You cannot block the login or embed access denied page',
+    BLOCKING_COMPONENT_ROUTES: 'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

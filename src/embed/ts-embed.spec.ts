@@ -3968,9 +3968,13 @@ describe('Unit test case for ts embed', () => {
             });
 
             await executeAfterWait(() => {
-                expect(mockHandleError).toHaveBeenCalledWith(
-                    'You cannot have both blockedRoutes and allowedRoutes set at the same time',
-                );
+                expect(mockHandleError).toHaveBeenCalledWith(expect.objectContaining({
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        message: ERROR_MESSAGE.CONFLICTING_ROUTES_CONFIG,
+                        code: EmbedErrorCodes.CONFLICTING_ROUTES_CONFIG,
+                        error: ERROR_MESSAGE.CONFLICTING_ROUTES_CONFIG,
+                    }
+                ));
             });
         });
 
@@ -4071,8 +4075,13 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(() => {
                 expect(mockHandleError).toHaveBeenCalledWith(
-                    'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
-                );
+                    expect.objectContaining({
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        message: ERROR_MESSAGE.BLOCKING_COMPONENT_ROUTES,
+                        code: EmbedErrorCodes.CONFLICTING_ROUTES_CONFIG,
+                        error: ERROR_MESSAGE.BLOCKING_COMPONENT_ROUTES,
+                    }
+                ));
             });
         });
 

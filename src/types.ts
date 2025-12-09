@@ -6352,6 +6352,9 @@ export enum ErrorDetailsTypes {
  * });
  *  */
 export enum EmbedErrorCodes {
+    /** Conflicting routes configuration detected (e.g., both allowedRoutes and blockedRoutes specified) */
+    CONFLICTING_ROUTES_CONFIG = 'CONFLICTING_ROUTES_CONFIG',
+    
     /** Worksheet ID not found or does not exist */
     WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
     

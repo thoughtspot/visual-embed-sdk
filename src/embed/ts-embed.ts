@@ -473,7 +473,13 @@ export class TsEmbed {
             },
         );
         if (blockedAndAllowedRoutesResult.hasError) {
-            this.handleError(blockedAndAllowedRoutesResult.errorMessage);
+            const errorDetails = {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: blockedAndAllowedRoutesResult.errorMessage,
+                code: EmbedErrorCodes.CONFLICTING_ROUTES_CONFIG,
+                error : blockedAndAllowedRoutesResult.errorMessage,
+            };
+            this.handleError(errorDetails);
         }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),

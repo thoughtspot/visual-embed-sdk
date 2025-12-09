@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../errors';
 import { NavigationPath, RouteBlocking } from '../types';
 
 /**
@@ -200,8 +201,7 @@ export const validateAndProcessRoutes = (
             allowedRoutes: [],
             blockedRoutes: [],
             hasError: true,
-            errorMessage:
-                'You cannot have both blockedRoutes and allowedRoutes set at the same time',
+            errorMessage: ERROR_MESSAGE.CONFLICTING_ROUTES_CONFIG,
         };
     }
 
@@ -228,7 +228,7 @@ export const validateAndProcessRoutes = (
                 allowedRoutes: [],
                 blockedRoutes: [],
                 hasError: true,
-                errorMessage: 'You cannot block the login or embed access denied page',
+                errorMessage: ERROR_MESSAGE.BLOCKING_PROTECTED_ROUTES,
             };
         }
 
@@ -238,8 +238,7 @@ export const validateAndProcessRoutes = (
                 allowedRoutes: [],
                 blockedRoutes: [],
                 hasError: true,
-                errorMessage:
-                    'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
+                errorMessage: ERROR_MESSAGE.BLOCKING_COMPONENT_ROUTES,
             };
         }
 
