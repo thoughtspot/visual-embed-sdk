@@ -31,6 +31,7 @@ import {
     DefaultAppInitData,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    NavigationPath,
 } from '../types';
 import {
     executeAfterWait,
@@ -4072,6 +4073,36 @@ describe('Unit test case for ts embed', () => {
                 expect(mockHandleError).toHaveBeenCalledWith(
                     'You cannot block a route that is being embedded. The path specified in AppEmbed configuration conflicts with blockedRoutes.',
                 );
+            });
+        });
+
+        test('should handle empty routeBlocking object', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId: '33248a57-cc70-4e39-9199-fb5092283381',
+                routeBlocking: {},
+            });
+
+            liveboardEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+
+            await executeAfterWait(() => {
+                const appInitData = mockPort.postMessage.mock.calls[0][0].data;
+                expect(appInitData.allowedRoutes).toEqual([]);
+                expect(appInitData.blockedRoutes).toEqual([]);
+                expect(appInitData.accessDeniedMessage).toBe('');
             });
         });
     });
