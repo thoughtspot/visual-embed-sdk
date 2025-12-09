@@ -1651,4 +1651,47 @@ describe('Liveboard/viz embed tests', () => {
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, undefined, undefined);
         });
     });
+
+    describe('Liveboard Embed Default Height and Minimum Height Handling', () => {
+        test('should set default height to 800 when minimum height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                defaultHeight: 700,
+                minimumHeight: 800,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(800);
+        });
+        test('should set default height to 700 when default height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                defaultHeight: 700,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(700);
+        });
+        test('should set default height to 800 when minimum height is provided but default height is not', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                minimumHeight: 800,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(800);
+        });
+        test('should set default height to 500 when neither default height nor minimum height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(500);
+        });
+    });
 });

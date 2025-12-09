@@ -626,6 +626,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
+    /**
+     * This is the minimum height (in pixels) for a full-height App.
+     * Setting this height helps resolve issues with empty Apps and
+     * other screens navigable from an App.
+     *
+     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @default 500
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed', {
+     *   ... // other app view config
+     *   fullHeight: true,
+     *   minimumHeight: 600,
+     * });
+     * ```
+     */
+    minimumHeight?: number;
 }
 
 /**
@@ -699,6 +716,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            minimumHeight,
         } = this.viewConfig;
 
         let params: any = {};
@@ -802,6 +820,8 @@ export class AppEmbed extends V1Embed {
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
         }
+
+        this.defaultHeight = minimumHeight || this.defaultHeight;
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
