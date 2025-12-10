@@ -139,6 +139,7 @@ export const getCssDimension = (value: number | string): string => {
  */
 export const isValidCssMargin = (value: string): boolean => {
     if ( value === undefined || typeof value !== 'string' || value.trim() === '') {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
         return false;
     }
 
@@ -147,14 +148,19 @@ export const isValidCssMargin = (value: string): boolean => {
     const parts = value.trim().split(/\s+/);
 
     if (parts.length > 4) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
         return false;
     }
 
-    return parts.every(part => {
+    const isValid = parts.every(part => {
         const trimmedPart = part.trim();
-        // '0' and 'auto' are valid margin values that don't match the pattern.
         return trimmedPart.toLowerCase() === 'auto' || trimmedPart === '0' || cssUnitPattern.test(trimmedPart);
     });
+    if (!isValid) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+    return true;
 };
 
 export const getSSOMarker = (markerId: string) => {
