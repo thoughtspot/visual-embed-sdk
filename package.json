@@ -60,7 +60,6 @@
         "prepublishOnly": "npm run is-publish-allowed && npm run test && npm run tsc && npm run bundle-dts-file && npm run bundle-dts && npm run bundle-dts-react && npm run bundle-dts-react-full && npm run build",
         "check-size": "npm run build && size-limit",
         "publish-dev": "npm publish --tag dev",
-        "publish-prod": "npm publish --tag latest",
         "dev": "vite -c vite.local.config.ts"
     },
     "peerDependencies": {
