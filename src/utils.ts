@@ -138,7 +138,10 @@ export const getCssDimension = (value: number | string): string => {
  * @returns true if the value is a valid CSS margin value, false otherwise
  */
 export const isValidCssMargin = (value: string): boolean => {
-    if ( value === undefined || typeof value !== 'string' || value.trim() === '') {
+    if(isUndefined(value)) {
+        return false;
+    }
+    if (typeof value !== 'string') {
         logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
         return false;
     }
