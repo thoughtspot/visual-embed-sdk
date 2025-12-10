@@ -1146,6 +1146,7 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             fullHeight: true,
             lazyLoadingForFullHeight: true,
+            lazyLoadingMargin: '10px',
         } as AppViewConfig);
 
         // Set the iframe before render
@@ -1293,6 +1294,46 @@ describe('App embed tests', () => {
             }, 100);
         });
 
+        test('should default lazyLoadingMargin to 0px and log error when undefined', async () => {
+            const errorSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                // lazyLoadingMargin is undefined
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=0px');
+                expect(errorSpy).toHaveBeenCalledWith('Please provide a valid lazyLoadingMargin value (e.g., "10px"). Defaulting to "0px".');
+            }, 100);
+        });
+
+        test('should default lazyLoadingMargin to 0px and log error when invalid', async () => {
+            const errorSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: 'invalid-value',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=0px');
+                expect(errorSpy).toHaveBeenCalledWith('Please provide a valid lazyLoadingMargin value (e.g., "10px"). Defaulting to "0px".');
+            }, 100);
+        });
+
         test('should set isLazyLoadingForEmbedEnabled=true when both fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             // Mock the iframe element first
             mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
@@ -1317,6 +1358,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             // Set the iframe before render
@@ -1393,6 +1435,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
@@ -1425,6 +1468,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
@@ -1449,6 +1493,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             await appEmbed.render();
@@ -1469,6 +1514,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             await appEmbed.render();
@@ -1496,6 +1542,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             // Set the iframe before render
