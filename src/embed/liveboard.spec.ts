@@ -407,6 +407,70 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add showMaskedFilterChip flag set to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showMaskedFilterChip: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showMaskedFilterChip=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add showMaskedFilterChip flag set to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showMaskedFilterChip: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&showMaskedFilterChip=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add isLiveboardMasterpiecesEnabled flag set to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardMasterpiecesEnabled: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardMasterpiecesEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add isLiveboardMasterpiecesEnabled flag set to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardMasterpiecesEnabled: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardMasterpiecesEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -480,6 +544,18 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
+        });
+    });
+
+    test('should not add liveboardXLSXCSVDownload flag when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).not.toContain('isLiveboardXLSXCSVDownloadEnabled');
         });
     });
 
@@ -836,6 +912,35 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterLimitations=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should render the liveboard embed with updatedSpotterChatPrompt', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+    test('should render the liveboard embed with updatedSpotterChatPrompt disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterChatPrompt: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterChatPrompt=false#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -1544,6 +1649,49 @@ describe('Liveboard/viz embed tests', () => {
 
             // Check that undefined parameters are passed correctly
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, undefined, undefined);
+        });
+    });
+
+    describe('Liveboard Embed Default Height and Minimum Height Handling', () => {
+        test('should set default height to 800 when minimum height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                defaultHeight: 700,
+                minimumHeight: 800,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(800);
+        });
+        test('should set default height to 700 when default height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                defaultHeight: 700,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(700);
+        });
+        test('should set default height to 800 when minimum height is provided but default height is not', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                minimumHeight: 800,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(800);
+        });
+        test('should set default height to 500 when neither default height nor minimum height is provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+            });
+            await liveboardEmbed.render();
+            expect(liveboardEmbed['defaultHeight']).toBe(500);
         });
     });
 });

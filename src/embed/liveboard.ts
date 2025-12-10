@@ -20,6 +20,8 @@ import {
     SearchLiveboardCommonViewConfig as LiveboardOtherViewConfig,
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
+    ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -65,6 +67,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default 500
+     * @deprecated Use `minimumHeight` instead.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -75,6 +78,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     defaultHeight?: number;
+    /**
+     * This is the minimum height (in pixels) for a full-height Liveboard.
+     * Setting this height helps resolve issues with empty Liveboards and
+     * other screens navigable from a Liveboard.
+     *
+     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @default 500
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed', {
+     *   ... // other liveboard view config
+     *   fullHeight: true,
+     *   minimumHeight: 600,
+     * });
+     * ```
+     */
+    minimumHeight?: number;
     /**
      * @Deprecated If set to true, the context menu in visualizations will be enabled.
      * @example
@@ -396,6 +416,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -452,6 +487,7 @@ export class LiveboardEmbed extends V1Embed {
             enableVizTransformations,
             fullHeight,
             defaultHeight,
+            minimumHeight,
             visibleVizs,
             liveboardV2,
             vizId,
@@ -465,6 +501,8 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
             hideIrrelevantChipsInLiveboardTabs = false,
+            showMaskedFilterChip = false,
+            isLiveboardMasterpiecesEnabled = false,
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
@@ -474,12 +512,13 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload = false,
+            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -492,14 +531,15 @@ export class LiveboardEmbed extends V1Embed {
                 params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
             }
         }
-        if (defaultHeight) {
-            this.defaultHeight = defaultHeight;
-        }
+        this.defaultHeight = minimumHeight || defaultHeight || this.defaultHeight;
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();
         }
         if (preventLiveboardFilterRemoval) {
             params[Param.preventLiveboardFilterRemoval] = true;
+        }
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
         if (visibleVizs) {
             params[Param.visibleVizs] = visibleVizs;
@@ -570,11 +610,17 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
+        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
         params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+
+        if (liveboardXLSXCSVDownload !== undefined) {
+            params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
+        }
+
         const queryParams = getQueryParamString(params, true);
 
         return params;
@@ -619,7 +665,12 @@ export class LiveboardEmbed extends V1Embed {
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
-            this.handleError(ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION);
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
+                code: EmbedErrorCodes.LIVEBOARD_ID_MISSING,
+                error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
+            });
         }
         return `${this.getRootIframeSrc()}${this.getIframeSuffixSrc(
             liveboardId,

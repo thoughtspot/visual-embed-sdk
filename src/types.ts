@@ -683,7 +683,7 @@ export interface EmbedConfig {
      *     {
      *       name: 'customAction',
      *       id: 'customAction',
-     *       target: CustomActionTarget.VISUALIZATION,
+     *       target: CustomActionTarget.VIZ,
      *       position: CustomActionPosition.PRIMARY,
      *       }
      *     }
@@ -1079,8 +1079,12 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterEmbed`
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
-     * ```js
-     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * ```ts
+     * import {
+     *   CustomActionPayload,
+     *   CustomActionPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *   ... // other embed config options
@@ -1088,11 +1092,16 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *     {
      *       name: 'customAction',
      *       id: 'customAction',
-     *       target: CustomActionTarget.VISUALIZATION,
+     *       target: CustomActionTarget.VIZ,
      *       position: CustomActionPosition.PRIMARY,
      *       }
      *     }
      *   ]
+     * })
+     * 
+     * // to trigger a custom flow on custom action click listen to Custom action embed event
+     * embed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {
+     *   console.log('Custom Action event:', payload);
      * })
      * ```
      */
@@ -1512,9 +1521,10 @@ export interface LiveboardAppEmbedViewConfig {
     coverAndFilterOptionInPDF?: boolean;
     /**
      * This flag is used to enable or disable the XLSX/CSV download option for Liveboards.
+     * To enable this feature on your instance, contact ThoughtSpot Support.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.14.0.cl
+     * @version SDK: 1.41.0 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1574,6 +1584,38 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isEnhancedFilterInteractivityEnabled?: boolean;
+    /**
+     * Show or hide masked filter chips
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    showMaskedFilterChip: true,
+     * })
+     * ```
+     */
+    showMaskedFilterChip?: boolean;
+    /**
+     * Enable or disable Liveboard styling and grouping
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardMasterpiecesEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardMasterpiecesEnabled?: boolean;
 }
 
 export interface AllEmbedViewConfig
@@ -2035,6 +2077,7 @@ export enum EmbedEvent {
      * SearchEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
      *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
+     *  // { errorType: "API", message: '...', code: '...' } new format
      * });
      * ```
      * @example
@@ -2046,6 +2089,7 @@ export enum EmbedEvent {
      *   //   message: "Fullscreen API is not enabled",
      *   //   stack: "..."
      *   // } }}
+     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...' } new format
      * })
      * ```
      */
@@ -2971,6 +3015,17 @@ export enum EmbedEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterInit = 'spotterInit',
+    /**
+     * Emitted when a *Spotter* conversation has been successfully created.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterLoadComplete, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
+     */
+    SpotterLoadComplete = 'spotterLoadComplete',
     /**
      * @hidden
      * Triggers when the embed listener is ready to receive events.
@@ -4421,6 +4476,18 @@ export enum HostEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     DestroyEmbed = 'EmbedDestroyed',
+    /** Triggers a create new conversation operation in spotter embed.
+     * @example
+     * ```js
+     * This feature is available only when chat history is enabled on your ThoughtSpot instance.
+     * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.StartNewSpotterConversation);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    StartNewSpotterConversation = 'StartNewSpotterConversation',
 }
 
 /**
@@ -4519,6 +4586,8 @@ export enum Param {
     HideLiveboardHeader = 'hideLiveboardHeader',
     ShowLiveboardDescription = 'showLiveboardDescription',
     ShowLiveboardTitle = 'showLiveboardTitle',
+    ShowMaskedFilterChip = 'showMaskedFilterChip',
+    IsLiveboardMasterpiecesEnabled = 'isLiveboardMasterpiecesEnabled',
     HiddenTabs = 'hideTabs',
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
@@ -4575,6 +4644,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
+    UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
 }
 
 /**
@@ -5907,8 +5977,47 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
+    /**
+     * The **Move to Group** menu action on a Liveboard.
+     * Allows moving a visualization to a different group.
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveToGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    MoveToGroup = 'moveToGroup',
+    /**
+     * The **Move out of Group** menu action on a Liveboard.
+     * Allows moving a visualization out of a group.
+     * @example
+     * ```js
+     * disabledActions: [Action.MoveOutOfGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    MoveOutOfGroup = 'moveOutOfGroup',
+    /**
+     * The **Create Group** menu action on a Liveboard.
+     * Allows creating a new group.
+     * @example
+     * ```js
+     * disabledActions: [Action.CreateGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    CreateGroup = 'createGroup',
+    /**
+     * The **Ungroup Liveboard Group** menu action on a Liveboard.
+     * Allows ungrouping a liveboard group.
+     * @example
+     * ```js
+     * disabledActions: [Action.UngroupLiveboardGroup]
+     * ```
+     * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    UngroupLiveboardGroup = 'ungroupLiveboardGroup',
 }
-
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
@@ -6102,6 +6211,166 @@ export enum LogLevel {
     TRACE = 'TRACE',
 }
 
+/**
+ * Error types emitted by embedded components.
+ * 
+ * These enum values categorize different types of errors that can occur during
+ * the lifecycle of an embedded ThoughtSpot component. Use these values to implement
+ * specific error handling logic based on the error category.
+ * 
+ * @see {@link EmbedErrorDetailsEvent} - The error event object structure
+ * @see {@link EmbedEvent.Error} - The event that emits these errors
+ * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
+ * @group Error Handling
+ */
+export enum ErrorDetailsTypes {
+    /** API call failure */
+    API = 'API',
+    /** General validation error */
+    VALIDATION_ERROR = 'VALIDATION_ERROR',
+    /** Network connectivity or request error */
+    NETWORK = 'NETWORK',
+}
+
+/**
+ * Specific error codes for embedded component errors.
+ * 
+ * These codes provide granular identification of errors that occur in embedded components.
+ * They are returned in the {@link EmbedErrorDetailsEvent.code} property and allow for
+ * precise error handling and debugging.
+ * 
+ * The codes are organized into categories:
+ * - **Worksheet ID not found or does not exist**: Errors related to applying or updating filters
+ * - **Liveboard ID missing**: Errors related to missing liveboard ID
+ * - **Conflicting actions configuration**: Errors related to conflicting actions configuration
+ * - **Conflicting tabs configuration**: Errors related to conflicting tabs configuration
+ * - **Initialization error**: Errors related to initialization error
+ * - **Network error**: Errors related to network error
+ * - **Custom action validation**: Errors related to custom action validation
+ * - **Login failed**: Errors related to login failed
+ * - **Render not called**: Errors related to render not called
+ * - **Host event type undefined or invalid**: Errors related to host event type undefined or invalid
+ * 
+ * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
+ * @group Error Handling
+ * @see {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
+ * @see {@link ErrorDetailsTypes} - General error type categories
+ * 
+ * @example
+ * Handle specific error codes
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {
+ *     console.error('Worksheet ID not found:', error.message);
+ *   }
+ * });
+ *  */
+export enum EmbedErrorCodes {
+    /** Worksheet ID not found or does not exist */
+    WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
+    
+    /** Required Liveboard ID is missing from configuration */
+    LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
+    
+    /** Conflicting action configuration detected (e.g., both hiddenActions and visibleActions specified) */
+    CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
+    
+    /** Conflicting tab configuration detected (e.g., both hiddenTabs and visibleTabs specified) */
+    CONFLICTING_TABS_CONFIG = 'CONFLICTING_TABS_CONFIG',
+    
+    /** Error during component initialization */
+    INIT_ERROR = 'INIT_ERROR',
+    
+    /** Network connectivity or request error */
+    NETWORK_ERROR = 'NETWORK_ERROR',
+    
+    /** Custom action validation failed */
+    CUSTOM_ACTION_VALIDATION = 'CUSTOM_ACTION_VALIDATION',
+    
+    /** Authentication/login failed */
+    LOGIN_FAILED = 'LOGIN_FAILED',
+    
+    /** Render method was not called before attempting to use the component */
+    RENDER_NOT_CALLED = 'RENDER_NOT_CALLED',
+    
+    /** Host event type is undefined or invalid */
+    HOST_EVENT_TYPE_UNDEFINED = 'HOST_EVENT_TYPE_UNDEFINED',
+
+    /** Error parsing api intercept body */
+    PARSING_API_INTERCEPT_BODY_ERROR = 'PARSING_API_INTERCEPT_BODY_ERROR',
+}
+
+/**
+ * Error event object emitted when an error occurs in an embedded component.
+ *
+ * This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}
+ * event. It provides detailed information about what went wrong, including the error type,
+ * a human-readable message, and a machine-readable error code.
+ *
+ * ## Properties
+ * 
+ * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
+ * - **message**: Human-readable error description (string or array of strings for multiple errors)
+ * - **code**: Machine-readable error identifier for programmatic handling
+ * - **[key: string]**: Additional context-specific for backward compatibility
+ *
+ * ## Usage
+ * 
+ * Listen to the {@link EmbedEvent.Error} event to receive instances of this object
+ * and implement appropriate error handling logic based on the `errorType`.
+ *
+ * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
+ * @group Error Handling
+ * @see {@link ErrorDetailsTypes} - Available error type values
+ * @see {@link EmbedEvent.Error} - The event that emits this object
+ * 
+ * @example
+ * Handle specific error types
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   switch (error.code) {
+ *     case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:
+ *       console.error('Worksheet ID not found:', error.message, error.code);
+ *       break;
+ *     default:
+ *       console.error('Unknown error:', error);
+ *   }
+ * });
+ *  * 
+ * @example
+ * Handle multiple error messages
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   const messages = Array.isArray(error.message) 
+ *     ? error.message 
+ *     : [error.message];
+ *   
+ *   messages.forEach(msg => console.error(msg));
+ * });
+ *  * 
+ * @example
+ * Access additional error context
+ *
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   console.error('Error Details:', {
+ *     type: error.errorType,
+ *     message: error.message,
+ *     code: error.code,
+ *     // Additional context fields vary by error type
+ *     ...error
+ *   });
+ * });
+ *  */
+export interface EmbedErrorDetailsEvent {
+    /** The type of error that occurred */
+    errorType: ErrorDetailsTypes;
+    /** Human-readable error message(s) describing what went wrong */
+    message: string | string[];
+    /** Machine-readable error code for programmatic error handling */
+    code: EmbedErrorCodes;
+    /** Additional context-specific for backward compatibility */
+    [key: string]: any;
+}
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;

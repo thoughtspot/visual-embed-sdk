@@ -30,6 +30,17 @@ jobs:
             # Run npm install
             - name: Run npm install
               run: npm install --legacy-peer-deps
+            
+             # Verify lockfile is up to date
+            - name: Verify package-lock.json is up to date
+              run: |
+                if ! git diff --exit-code package-lock.json; then
+                  echo "::error::package-lock.json is out of sync!"
+                  echo "::error::Please run 'npm install --legacy-peer-deps' locally and commit the updated package-lock.json"
+                  echo "Changed files:"
+                  git diff --name-only
+                  exit 1
+                fi
 
             # Runs linter
             - name: Run linter
