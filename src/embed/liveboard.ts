@@ -528,9 +528,7 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                if (!isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
-                    logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px"). Defaulting to "0px".');
-                } else {
+                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
                     params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
                 }
             }
