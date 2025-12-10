@@ -132,6 +132,23 @@ export const getCssDimension = (value: number | string): string => {
     return value;
 };
 
+/**
+ * Validates if a string is a valid CSS margin value.
+ * @param value - The string to validate
+ * @returns true if the value is a valid CSS margin value, false otherwise
+ */
+export const isValidCssMargin = (value: string): boolean => {
+    if (typeof value !== 'string' || value.trim() === '') {
+        return false;
+    }
+
+    // Check for CSS length values (e.g., "10px", "1em", "50%")
+    const cssLengthPattern = /^\d+(\.\d+)?(px|em|rem|%|vh|vw)$/i;
+    const parts = value.trim().split(/\s+/);
+    
+    return parts.length <= 4 && parts.every(part => cssLengthPattern.test(part.trim()));
+};
+
 export const getSSOMarker = (markerId: string) => {
     const encStringToAppend = encodeURIComponent(markerId);
     return `tsSSOMarker=${encStringToAppend}`;

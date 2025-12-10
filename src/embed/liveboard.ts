@@ -23,7 +23,7 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -528,7 +528,13 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                if(typeof this.viewConfig.lazyLoadingMargin !== 'string' || !isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                    console.error('lazyLoadingMargin must be a valid CSS margin string value (e.g., "10px"). Defaulting to "0px".');
+                    params[Param.RootMarginForLazyLoad] = '0px';
+                }
+                else {
+                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                }
             }
         }
         this.defaultHeight = minimumHeight || defaultHeight || this.defaultHeight;
