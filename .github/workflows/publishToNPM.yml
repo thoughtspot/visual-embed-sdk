@@ -65,6 +65,14 @@ jobs:
             echo "Current branch: $BRANCH_NAME"
             exit 1
           else
+            CURRENT_VERSION=$(node -p "require('./package.json').version")
+            if [[ "$CURRENT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Error: Stable versions (X.Y.Z) can only be published from the main branch"
+              echo "Current version: $CURRENT_VERSION"
+              echo "Current branch: $BRANCH_NAME"
+              echo "Please use a pre-release version (e.g., X.Y.Z-beta.1, X.Y.Z-alpha.0) for non-main branches"
+              exit 1
+            fi
             echo "Publishing from $BRANCH_NAME branch with tag: $NPM_TAG"
             npm publish --tag $NPM_TAG
           fi
