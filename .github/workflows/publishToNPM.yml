@@ -60,9 +60,13 @@ jobs:
           if [ "$BRANCH_NAME" = "main" ]; then
             echo "publish prod with tag: $NPM_TAG"
             npm publish --tag $NPM_TAG
-          else
-            echo "Stopping workflow for branch $BRANCH_NAME"
+          elif [ "$NPM_TAG" = "latest" ]; then
+            echo "Error: 'latest' tag can only be used when publishing from the main branch"
+            echo "Current branch: $BRANCH_NAME"
             exit 1
+          else
+            echo "Publishing from $BRANCH_NAME branch with tag: $NPM_TAG"
+            npm publish --tag $NPM_TAG
           fi
 
       - name: Create Draft Release
