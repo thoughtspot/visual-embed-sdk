@@ -142,11 +142,19 @@ export const isValidCssMargin = (value: string): boolean => {
         return false;
     }
 
-    // Check for CSS length values (e.g., "10px", "1em", "50%")
-    const cssLengthPattern = /^\d+(\.\d+)?(px|em|rem|%|vh|vw)$/i;
+    // This pattern allows for an optional negative sign, and numbers that can be integers or decimals (including leading dot).
+    const cssUnitPattern = /^-?(\d+(\.\d*)?|\.\d+)(px|em|rem|%|vh|vw)$/i;
     const parts = value.trim().split(/\s+/);
-    
-    return parts.length <= 4 && parts.every(part => cssLengthPattern.test(part.trim()));
+
+    if (parts.length > 4) {
+        return false;
+    }
+
+    return parts.every(part => {
+        const trimmedPart = part.trim();
+        // '0' and 'auto' are valid margin values that don't match the pattern.
+        return trimmedPart.toLowerCase() === 'auto' || trimmedPart === '0' || cssUnitPattern.test(trimmedPart);
+    });
 };
 
 export const getSSOMarker = (markerId: string) => {

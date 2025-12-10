@@ -12341,7 +12341,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1049,
+							"line": 1046,
 							"character": 11
 						}
 					],
@@ -12458,7 +12458,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 918,
+							"line": 915,
 							"character": 11
 						}
 					],
@@ -12795,7 +12795,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1023,
+							"line": 1020,
 							"character": 11
 						}
 					],
@@ -13171,7 +13171,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1078,
+							"line": 1075,
 							"character": 17
 						}
 					],
@@ -15461,7 +15461,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 827,
+							"line": 824,
 							"character": 11
 						}
 					],
@@ -15615,7 +15615,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 886,
+							"line": 883,
 							"character": 11
 						}
 					],
@@ -15916,7 +15916,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 867,
+							"line": 864,
 							"character": 11
 						}
 					],
@@ -16282,7 +16282,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 856,
+							"line": 853,
 							"character": 17
 						}
 					],
@@ -16421,7 +16421,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 809,
+							"line": 806,
 							"character": 11
 						}
 					],
@@ -34497,15 +34497,15 @@
 						"types": [
 							{
 								"type": "literal",
+								"value": "auto"
+							},
+							{
+								"type": "literal",
 								"value": "lazy"
 							},
 							{
 								"type": "literal",
 								"value": "eager"
-							},
-							{
-								"type": "literal",
-								"value": "auto"
 							}
 						]
 					}
