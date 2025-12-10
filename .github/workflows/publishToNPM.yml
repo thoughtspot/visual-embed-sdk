@@ -4,7 +4,14 @@ name: publishToNPM
 
 # Controls when the action will run. Triggers the workflow on pull request
 # event
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'NPM tag for the release (e.g., latest, beta, alpha, next)'
+        required: false
+        default: 'latest'
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,7 +44,10 @@ jobs:
           
           # Get the latest Git tag and set it as an output variable
           echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
-          
+      
+      - name: Update npm
+        run: npm install -g npm@latest # latest version of npm for OIDC
+      
       # Run npm install
       - name: Run npm install
         run: npm install --legacy-peer-deps
@@ -46,16 +56,14 @@ jobs:
       - name: Publish
         run: |
           BRANCH_NAME="${{ steps.branch_name.outputs.BRANCH_NAME }}"
+          NPM_TAG="${{ github.event.inputs.tag }}"
           if [ "$BRANCH_NAME" = "main" ]; then
-            echo "publish prod"
-            npm run publish-prod
+            echo "publish prod with tag: $NPM_TAG"
+            npm publish --tag $NPM_TAG
           else
             echo "Stopping workflow for branch $BRANCH_NAME"
             exit 1
           fi
-          
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: Create Draft Release
         if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
