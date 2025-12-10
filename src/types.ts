@@ -2247,7 +2247,8 @@ export enum EmbedEvent {
      */
     ALL = '*',
     /**
-     * Emitted when an Answer is saved in the app
+     * Emitted when an Answer is saved in the app.
+     * Use start:true to subscribe to when save is initiated, or end:true to subscribe to when save is completed. Default is end:true.
      * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2282,6 +2283,7 @@ export enum EmbedEvent {
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an Answer.
+     *  Use start:true to subscribe to when download is initiated, or end:true to subscribe to when download is completed. Default is end:true.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
      *```js
@@ -2296,6 +2298,7 @@ export enum EmbedEvent {
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an Answer
+     *  Use start:true to subscribe to when download as PDF is initiated, or end:true to subscribe to when download as PDF is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2310,6 +2313,7 @@ export enum EmbedEvent {
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an Answer.
+     *  Use start:true to subscribe to when download as CSV is initiated, or end:true to subscribe to when download as CSV is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2324,6 +2328,7 @@ export enum EmbedEvent {
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an Answer.
+     *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to subscribe to when download as XLSX is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2338,6 +2343,7 @@ export enum EmbedEvent {
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
      * Emitted when an Answer is deleted in the app
+     *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe to when delete is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2364,6 +2370,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
+     *  Use start:true to subscribe to when pin is initiated, or end:true to subscribe to when pin is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2477,6 +2484,7 @@ export enum EmbedEvent {
     /**
      * Emitted when the **Export TML** action is triggered on an
      * an embedded object in the app
+     *  Use start:true to subscribe to when export is initiated, or end:true to subscribe to when export is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
@@ -2502,6 +2510,7 @@ export enum EmbedEvent {
     SaveAsView = 'saveAsView',
     /**
      * Emitted when the user creates a copy of an Answer.
+     *  Use start:true to subscribe to when copy and edit is initiated, or end:true to subscribe to when copy and edit is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
