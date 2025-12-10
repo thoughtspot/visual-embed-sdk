@@ -138,7 +138,7 @@ export const getCssDimension = (value: number | string): string => {
  * @returns true if the value is a valid CSS margin value, false otherwise
  */
 export const isValidCssMargin = (value: string): boolean => {
-    if (typeof value !== 'string' || value.trim() === '') {
+    if ( value === undefined || typeof value !== 'string' || value.trim() === '') {
         return false;
     }
 

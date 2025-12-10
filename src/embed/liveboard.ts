@@ -528,9 +528,8 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                if (this.viewConfig.lazyLoadingMargin === undefined || !isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                if (!isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
                     logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px"). Defaulting to "0px".');
-                    params[Param.RootMarginForLazyLoad] = '0px';
                 } else {
                     params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
                 }
