@@ -528,11 +528,13 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                if(typeof this.viewConfig.lazyLoadingMargin !== 'string' || !isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                if (this.viewConfig.lazyLoadingMargin === undefined) {
+                    console.warn('Please provide CSS margin string value (e.g., "10px"). Defaulting to "0px".');
+                    params[Param.RootMarginForLazyLoad] = '0px';
+                } else if (typeof this.viewConfig.lazyLoadingMargin !== 'string' || !isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
                     console.error('lazyLoadingMargin must be a valid CSS margin string value (e.g., "10px"). Defaulting to "0px".');
                     params[Param.RootMarginForLazyLoad] = '0px';
-                }
-                else {
+                } else {
                     params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
                 }
             }
