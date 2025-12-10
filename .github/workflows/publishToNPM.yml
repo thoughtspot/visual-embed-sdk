@@ -37,7 +37,10 @@ jobs:
           
           # Get the latest Git tag and set it as an output variable
           echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
-          
+      
+      - name: Update npm
+        run: npm install -g npm@11.5.1 # latest version of npm for OIDC
+      
       # Run npm install
       - name: Run npm install
         run: npm install --legacy-peer-deps
@@ -53,9 +56,6 @@ jobs:
             echo "Stopping workflow for branch $BRANCH_NAME"
             exit 1
           fi
-          
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: Create Draft Release
         if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
