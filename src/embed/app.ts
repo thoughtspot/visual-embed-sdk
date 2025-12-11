@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -761,7 +761,9 @@ export class AppEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                }
             }
         }
 

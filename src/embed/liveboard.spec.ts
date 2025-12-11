@@ -27,6 +27,7 @@ import * as processTriggerInstance from '../utils/processTrigger';
 import * as auth from '../auth';
 import * as previewService from '../utils/graphql/preview-service';
 import * as SessionInfoService from '../utils/sessionInfoService';
+import { logger } from '../utils/logger';
 
 const defaultViewConfig = {
     frameParams: {
@@ -1277,6 +1278,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             await liveboardEmbed.render();
@@ -1330,6 +1332,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             await liveboardEmbed.render();
@@ -1348,6 +1351,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
@@ -1380,6 +1384,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
@@ -1405,6 +1410,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             await liveboardEmbed.render();
@@ -1426,6 +1432,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             await liveboardEmbed.render();
@@ -1454,6 +1461,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as LiveboardViewConfig);
 
             // Set the iframe before render

@@ -132,6 +132,40 @@ export const getCssDimension = (value: number | string): string => {
     return value;
 };
 
+/**
+ * Validates if a string is a valid CSS margin value.
+ * @param value - The string to validate
+ * @returns true if the value is a valid CSS margin value, false otherwise
+ */
+export const isValidCssMargin = (value: string): boolean => {
+    if(isUndefined(value)) {
+        return false;
+    }
+    if (typeof value !== 'string') {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+
+    // This pattern allows for an optional negative sign, and numbers that can be integers or decimals (including leading dot).
+    const cssUnitPattern = /^-?(\d+(\.\d*)?|\.\d+)(px|em|rem|%|vh|vw)$/i;
+    const parts = value.trim().split(/\s+/);
+
+    if (parts.length > 4) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+
+    const isValid = parts.every(part => {
+        const trimmedPart = part.trim();
+        return trimmedPart.toLowerCase() === 'auto' || trimmedPart === '0' || cssUnitPattern.test(trimmedPart);
+    });
+    if (!isValid) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+    return true;
+};
+
 export const getSSOMarker = (markerId: string) => {
     const encStringToAppend = encodeURIComponent(markerId);
     return `tsSSOMarker=${encStringToAppend}`;

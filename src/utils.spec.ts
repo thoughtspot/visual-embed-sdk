@@ -19,6 +19,7 @@ import {
     arrayIncludesString,
     calculateVisibleElementData,
     formatTemplate,
+    isValidCssMargin,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -734,5 +735,21 @@ describe('formatTemplate', () => {
         expect(
             formatTemplate('Hello {name}, you are {age} years old', { name: 'John' }),
         ).toBe('Hello John, you are {age} years old');
+    });
+});
+
+describe('isValidCssMargin', () => {
+    it('should return true for valid CSS margin values', () => {
+        expect(isValidCssMargin('10px')).toBe(true);
+        expect(isValidCssMargin('0px')).toBe(true);
+        expect(isValidCssMargin('20%')).toBe(true);
+        expect(isValidCssMargin('0')).toBe(true);
+    });
+
+    it('should return false for invalid CSS margin values', () => {
+        expect(isValidCssMargin('')).toBe(false);
+        expect(isValidCssMargin('   ')).toBe(false);
+        expect(isValidCssMargin('invalid')).toBe(false);
+        expect(isValidCssMargin('10')).toBe(false); // missing unit
     });
 });

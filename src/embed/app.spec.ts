@@ -1146,6 +1146,7 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             fullHeight: true,
             lazyLoadingForFullHeight: true,
+            lazyLoadingMargin: '10px',
         } as AppViewConfig);
 
         // Set the iframe before render
@@ -1317,6 +1318,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             // Set the iframe before render
@@ -1393,6 +1395,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
@@ -1425,6 +1428,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             const mockTrigger = jest.spyOn(appEmbed, 'trigger');
@@ -1449,6 +1453,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             await appEmbed.render();
@@ -1469,6 +1474,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             await appEmbed.render();
@@ -1496,6 +1502,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
             } as AppViewConfig);
 
             // Set the iframe before render
