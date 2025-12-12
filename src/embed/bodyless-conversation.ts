@@ -10,7 +10,7 @@ import { getQueryParamString } from '../utils';
  */
 export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
-     * The ID of the worksheet to use for the conversation.
+     * The ID of the Model to use for the conversation.
      */
     worksheetId: string;
 }

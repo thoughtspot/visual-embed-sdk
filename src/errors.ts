@@ -1,6 +1,6 @@
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
-    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a worksheet to get started',
+    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
@@ -20,6 +20,13 @@ export const ERROR_MESSAGE = {
     RENDER_CALLED_BEFORE_INIT: 'Looks like render was called before calling init, the render won\'t start until init is called.\nFor more info check\n1. https://developers.thoughtspot.com/docs/Function_init#_init\n2.https://developers.thoughtspot.com/docs/getting-started#initSdk',
     SPOTTER_AGENT_NOT_INITIALIZED: 'SpotterAgent not initialized',
     OFFLINE_WARNING : 'Network not Detected. Embed is offline. Please reconnect and refresh',
+    INIT_SDK_REQUIRED: 'You need to init the ThoughtSpot SDK module first',
+    CONFLICTING_ACTIONS_CONFIG: 'You cannot have both hidden actions and visible actions',
+    CONFLICTING_TABS_CONFIG: 'You cannot have both hidden Tabs and visible Tabs',
+    RENDER_BEFORE_EVENTS_REQUIRED: 'Please call render before triggering events',
+    HOST_EVENT_TYPE_UNDEFINED: 'Host event type is undefined',
+    LOGIN_FAILED: 'Login failed',
+    ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

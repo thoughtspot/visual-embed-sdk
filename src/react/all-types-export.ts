@@ -22,6 +22,7 @@ export {
     init,
     logout,
     prefetch,
+    reloadIframe,
     getInitConfig,
     getSessionInfo,
     uploadMixpanelEvent,
@@ -59,4 +60,7 @@ export {
     resetCachedAuthToken,
     UIPassthroughEvent,
     DataPanelCustomColumnGroupsAccordionState,
+    InterceptedApiType,
+    CustomActionsPosition,
+    CustomActionTarget,
 } from '../index';

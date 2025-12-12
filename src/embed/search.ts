@@ -26,8 +26,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
-import { PageContextOptions } from 'visual-embed-sdk';
-import { ContextType, PageType } from './hostEventClient/contracts';
+import { getInterceptInitData } from '../api-intercept';
 
 /**
  * Configuration for search options.
@@ -279,13 +278,6 @@ export interface SearchViewConfig
      */
     collapseSearchBarInitially?: boolean;
     /**
-     * Flag to enable onBeforeSearchExecute Embed Event
-     * 
-     * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
-     */
-    isOnBeforeGetVizDataInterceptEnabled?: boolean;
-    /**
      * This controls the initial behaviour of custom column groups accordion.
      * It takes DataPanelCustomColumnGroupsAccordionState enum values as input.
      * List of different enum values:-
@@ -399,8 +391,6 @@ export class SearchEmbed extends TsEmbed {
             runtimeParameters,
             collapseSearchBarInitially = false,
             enableCustomColumnGroups = false,
-            isOnBeforeGetVizDataInterceptEnabled = false,
-
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             focusSearchBarOnRender = true,
             excludeRuntimeParametersfromURL,
@@ -442,11 +432,6 @@ export class SearchEmbed extends TsEmbed {
 
         if (hideSearchBar) {
             queryParams[Param.HideSearchBar] = true;
-        }
-
-        if (isOnBeforeGetVizDataInterceptEnabled) {
-
-            queryParams[Param.IsOnBeforeGetVizDataInterceptEnabled] = isOnBeforeGetVizDataInterceptEnabled;
         }
 
         if (!focusSearchBarOnRender) {

@@ -26,6 +26,7 @@ import {
     exportTML,
     executeTMLInput,
     exportTMLInput,
+    reloadIframe,
 } from './embed/base';
 import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
@@ -64,6 +65,7 @@ import {
     ListPageColumns,
     CustomActionsPosition,
     CustomActionTarget,
+    InterceptedApiType,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -82,6 +84,7 @@ export {
     executeTML,
     exportTML,
     executeTMLInput,
+    reloadIframe,
     exportTMLInput,
     getEmbedConfig as getInitConfig,
     getSessionInfo,
@@ -152,6 +155,7 @@ export {
     DataPanelCustomColumnGroupsAccordionState,
     CustomActionsPosition,
     CustomActionTarget,
+    InterceptedApiType,
 };
 
 export { resetCachedAuthToken } from './authToken';

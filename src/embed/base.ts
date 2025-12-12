@@ -35,12 +35,15 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
+import { reload } from '../utils/processTrigger';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
     authTriggerText: 'Authorize',
     authType: AuthType.None,
     logLevel: LogLevel.ERROR,
+    waitForCleanupOnDestroy: false,
+    cleanupTimeout: 5000,
 };
 
 export interface executeTMLInput {
@@ -457,3 +460,17 @@ export function reset(): void {
     setAuthEE(null);
     authPromise = null;
 }
+
+/**
+ * Reloads the ThoughtSpot iframe.
+ * @param iFrame
+ * @group Global methods
+ * @version SDK: 1.43.1
+ */
+export const reloadIframe = (iFrame: HTMLIFrameElement) => {
+    if (!iFrame) {
+        logger.warn('reloadIframe called with no iFrame element.');
+        return;
+    }
+    reload(iFrame);
+};

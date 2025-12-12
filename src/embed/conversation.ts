@@ -1,6 +1,6 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
 import { ContextType } from './hostEventClient/contracts';
@@ -64,7 +64,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default true
-     * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.14.0.cl
+     * @version SDK: 1.41.1 | ThoughtSpot Cloud: 10.14.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -166,6 +166,38 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
+    /**
+     * enablePastConversationsSidebar : Controls the visibility of the past conversations
+     * sidebar.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    enablePastConversationsSidebar : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
+
+    /**
+     * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterChatPrompt : true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    updatedSpotterChatPrompt?: boolean;
 }
 
 /**
@@ -207,14 +239,21 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
+            enablePastConversationsSidebar,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            updatedSpotterChatPrompt,
         } = this.viewConfig;
 
         if (!worksheetId) {
-            this.handleError(ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND);
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+                code: EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND,
+                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
+            });
         }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
@@ -237,6 +276,10 @@ export class SpotterEmbed extends TsEmbed {
             queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
         }
 
+        if (!isUndefined(updatedSpotterChatPrompt)) {
+            queryParams[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+
         return queryParams;
     }
 
@@ -248,9 +291,14 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            enablePastConversationsSidebar,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
+
+        if (!isUndefined(enablePastConversationsSidebar)) {
+            queryParams[Param.EnablePastConversationsSidebar] = !!enablePastConversationsSidebar;
+        }
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
