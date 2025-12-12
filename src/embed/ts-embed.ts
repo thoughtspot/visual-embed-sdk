@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
+    ContextType,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
@@ -1343,10 +1344,11 @@ export class TsEmbed {
      * @param {any} data The payload to send with the message
      * @returns A promise that resolves with the response from the embedded app
      */
-    public async trigger<HostEventT extends HostEvent, PayloadT>(
+    public async trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
-    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        context?: ContextT,
+    ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -1379,7 +1381,7 @@ export class TsEmbed {
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data);
+        return this.hostEventClient.triggerHostEvent(messageType, data, context);
     }
 
     /**
@@ -1419,6 +1421,15 @@ export class TsEmbed {
 
     protected handleRenderForPrerender() {
         return this.render();
+    }
+
+    public async getCurrentContext(): Promise<any> {
+        return new Promise((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                const context = await this.trigger(HostEvent.GetPageContext, {});
+                resolve(context);
+            });
+        });
     }
 
     /**
