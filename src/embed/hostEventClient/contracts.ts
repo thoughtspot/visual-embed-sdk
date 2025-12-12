@@ -105,11 +105,10 @@ export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT ext
   PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;
 
   export enum ContextType {
-    Search = 'search',
+    Search = 'search-answer',
     Liveboard = 'liveboard',
     Answer = 'answer',
     Spotter = 'spotter',
-    Default = 'default',
   }
 
   export enum PageType {

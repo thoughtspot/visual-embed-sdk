@@ -42,8 +42,9 @@ export class HostEventClient {
   public async handleHostEventWithParam<UIPassthroughEventT extends UIPassthroughEvent>(
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
+      context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
-      const response = (await this.triggerUIPassthroughApi(apiName, parameters))
+      const response = (await this.triggerUIPassthroughApi(apiName, parameters, context as ContextType))
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
@@ -83,20 +84,22 @@ export class HostEventClient {
   public async triggerUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
+      context?: ContextType,
   ): Promise<UIPassthroughArrayResponse<UIPassthroughEventT>> {
       const res = await this.processTrigger(HostEvent.UIPassthrough, {
           type: apiName,
           parameters,
-      });
+      }, context);
 
       return res;
   }
 
   protected async handlePinEvent(
       payload: HostEventRequest<HostEvent.Pin>,
+      context?: ContextType,
   ): Promise<HostEventResponse<HostEvent.Pin, ContextType>> {
       if (!payload || !('newVizName' in payload)) {
-          return this.hostEventFallback(HostEvent.Pin, payload);
+          return this.hostEventFallback(HostEvent.Pin, payload, context);
       }
 
       const formattedPayload = {
@@ -107,6 +110,7 @@ export class HostEventClient {
 
       const data = await this.handleHostEventWithParam(
           UIPassthroughEvent.PinAnswerToLiveboard, formattedPayload,
+          context as ContextType,
       );
 
       return {
@@ -117,14 +121,16 @@ export class HostEventClient {
 
   protected async handleSaveAnswerEvent(
       payload: HostEventRequest<HostEvent.SaveAnswer>,
+      context?: ContextType,
   ): Promise<any> {
       if (!payload || !('name' in payload) || !('description' in payload)) {
           // Save is the fallback for SaveAnswer
-          return this.hostEventFallback(HostEvent.Save, payload);
+          return this.hostEventFallback(HostEvent.Save, payload, context);
       }
 
       const data = await this.handleHostEventWithParam(
           UIPassthroughEvent.SaveAnswer, payload,
+          context as ContextType,
       );
       return {
           ...data,
@@ -143,10 +149,11 @@ export class HostEventClient {
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       switch (hostEvent) {
           case HostEvent.Pin:
-              return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>) as any;
+              return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>, context as ContextType) as any;
           case HostEvent.SaveAnswer:
               return this.handleSaveAnswerEvent(
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
+                  context as ContextType,
               ) as any;
           default:
               return this.hostEventFallback(hostEvent, payload, context);
