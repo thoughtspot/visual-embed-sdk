@@ -27,9 +27,8 @@ import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidC
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { ContextType, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { ContextType, TriggerPayload, TriggerResponse, PageContextOptions } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { PageContextOptions } from 'visual-embed-sdk';
 
 
 /**
@@ -892,6 +891,11 @@ export class LiveboardEmbed extends V1Embed {
         return url;
     }
 
+    /**
+     * Get the current context of the embedded liveboard.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
     public async getCurrentContext(): Promise<PageContextOptions> {
         const context = await super.getCurrentContext();
         return context;

@@ -27,6 +27,7 @@ import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { getInterceptInitData } from '../api-intercept';
+import { PageContextOptions } from './hostEventClient/contracts';
 
 /**
  * Configuration for search options.
@@ -524,6 +525,11 @@ export class SearchEmbed extends TsEmbed {
         return this;
     }
 
+    /**
+     * Get the current context of the embedded search.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
     public async getCurrentContext(): Promise<PageContextOptions> {
         const context = await super.getCurrentContext();
         return context;

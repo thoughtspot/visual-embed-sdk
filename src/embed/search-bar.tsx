@@ -2,7 +2,7 @@ import { SearchLiveboardCommonViewConfig, BaseViewConfig, DefaultAppInitData, Pa
 import { getQueryParamString } from '../utils';
 import { TsEmbed } from './ts-embed';
 import { SearchOptions } from './search';
-import { PageContextOptions } from 'visual-embed-sdk';
+import { PageContextOptions } from './hostEventClient/contracts';
 
 /**
  * @group Embed components
@@ -200,6 +200,11 @@ export class SearchBarEmbed extends TsEmbed {
         return { ...defaultAppInitData, ...this.getSearchInitData() };
     }
 
+    /**
+     * Get the current context of the embedded search bar.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
     public async getCurrentContext(): Promise<PageContextOptions> {
         const context = await super.getCurrentContext();
         return context;

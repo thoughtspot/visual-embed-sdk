@@ -16,7 +16,6 @@ import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
-    PageType,
 } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';

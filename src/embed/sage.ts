@@ -6,7 +6,7 @@
  * @author Mourya Balabhadra <mourya.balabhadra@thoughtspot.com>
  */
 
-import { PageContextOptions } from 'visual-embed-sdk';
+import { PageContextOptions } from './hostEventClient/contracts';
 import { DOMSelector, Param, BaseViewConfig, SearchLiveboardCommonViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';

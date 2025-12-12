@@ -114,14 +114,28 @@ export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
 export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT extends ContextType> =
   PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;
 
-  export enum ContextType {
-    Search = 'search-answer',
-    Liveboard = 'liveboard',
-    Answer = 'answer',
-    Spotter = 'spotter',
-  }
+export enum ContextType {
+  Search = 'search-answer',
+  Liveboard = 'liveboard',
+  Answer = 'answer',
+  Spotter = 'spotter',
+  Sage = 'sage',
+}
 
-  export enum PageType {
-    PAGE = 'page',
-    DIALOG = 'dialog',
-  }
+export enum PageType {
+  PAGE = 'page',
+  DIALOG = 'dialog',
+}
+
+interface ObjectIds {
+  answerId?: string;
+  liveboardId?: string;
+  vizIds?: string[];
+  dataModelIds?: string[];
+}
+
+export interface PageContextOptions {
+  page: ContextType;
+  pageType: PageType;
+  objectIds: ObjectIds;
+}

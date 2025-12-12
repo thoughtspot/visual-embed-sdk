@@ -4488,6 +4488,16 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     StartNewSpotterConversation = 'StartNewSpotterConversation',
+
+    /**
+     * Get the current context of the embedded page.
+     * @example
+     * ```js
+     * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    GetPageContext = 'GetPageContext',
 }
 
 /**
