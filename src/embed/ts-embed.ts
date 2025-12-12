@@ -1424,9 +1424,11 @@ export class TsEmbed {
     }
 
     public async getCurrentContext(): Promise<any> {
-        this.executeAfterEmbedContainerLoaded(async () => {
-            const context = await this.trigger(HostEvent.GetPageContext, {});
-            return context;
+        return new Promise((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                const context = await this.trigger(HostEvent.GetPageContext, {});
+                resolve(context);
+            });
         });
     }
 
