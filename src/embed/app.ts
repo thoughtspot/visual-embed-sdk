@@ -1079,15 +1079,4 @@ export class AppEmbed extends V1Embed {
         this.postRender();
         return this;
     }
-
-    /**
-     * Get the current context of the embedded application.
-     * @returns The current context object containing the page type and object ids.
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
-     */
-    public async getCurrentContext(): Promise<PageContextOptions> {
-        const context = await super.getCurrentContext();
-        return context;
-    }
-
 }
