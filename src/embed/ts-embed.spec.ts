@@ -204,6 +204,7 @@ describe('Unit test case for ts embed', () => {
                         parameters: payload,
                         type: UIPassthroughEvent.PinAnswerToLiveboard,
                     },
+                    undefined,
                 );
             });
         });
@@ -224,6 +225,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.Save,
                     'http://tshost',
                     {},
+                    undefined,
                 );
             });
         });
@@ -245,6 +247,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.Save,
                     'http://tshost',
                     false,
+                    undefined,
                 );
             });
         });
@@ -1341,6 +1344,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1477,6 +1481,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1491,6 +1496,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1505,6 +1511,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1519,6 +1526,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
