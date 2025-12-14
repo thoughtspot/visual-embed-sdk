@@ -14,6 +14,6 @@ describe('Source service tests', () => {
         }));
         await getSourceDetail('https://tshost', 'id');
         await getSourceDetail('https://tshost', 'id');
-        expect(fetchMock).toBeCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 });

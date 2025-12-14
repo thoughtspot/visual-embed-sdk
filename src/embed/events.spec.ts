@@ -36,8 +36,8 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    spyOn(window, 'alert');
-    jest.spyOn(authInstance, 'postLoginService').mockReturnValue(true);
+    jest.spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
 });
 
 describe('test communication between host app and ThoughtSpot', () => {

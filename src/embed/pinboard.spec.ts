@@ -31,7 +31,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
 });
 
 describe('Pinboard/viz embed tests', () => {

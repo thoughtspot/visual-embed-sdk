@@ -13,7 +13,7 @@ describe('tokenizedAuthService', () => {
     test('isActiveService if fetch returns ok', async () => {
         jest.spyOn(tokenizedFetchModule, 'tokenizedFetch').mockResolvedValueOnce({
             ok: true,
-        });
+        } as any);
 
         const isActiveResp = await isActiveService('http://thoughtspotHost');
 
@@ -22,7 +22,7 @@ describe('tokenizedAuthService', () => {
     test('isActiveService if fetch returns not ok', async () => {
         jest.spyOn(tokenizedFetchModule, 'tokenizedFetch').mockResolvedValueOnce({
             ok: false,
-        });
+        } as any);
 
         const isActiveResp = await isActiveService('http://thoughtspotHost');
 
@@ -68,7 +68,7 @@ describe('fetchPreauthInfoService', () => {
                         userGUID: 'userGUID',
                     },
                 }),
-            });
+            } as any);
 
         const result = await fetchPreauthInfoService(thoughtspotHost);
         const response = await result.json();
@@ -87,7 +87,7 @@ describe('fetchPreauthInfoService', () => {
             statusText: 'Internal Server Error',
             json: jest.fn().mockResolvedValue({}),
             text: jest.fn().mockResolvedValue('Internal Server Error'),
-        });
+        } as any);
 
         try {
             await fetchPreauthInfoService(thoughtspotHost);
