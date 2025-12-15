@@ -1106,6 +1106,101 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Route blocking configuration for the embedded app.
+     *
+     * Control which routes users can navigate to within the embedded application
+     * using either an allowlist (`allowedRoutes`) or a blocklist (`blockedRoutes`).
+     * 
+     * **Important:** 
+     * - `allowedRoutes` and `blockedRoutes` are mutually exclusive. Use only one at a time.
+     * - The path that the user initially embeds is always accessible, regardless of this configuration.
+     * 
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    routeBlocking: {
+     *       allowedRoutes: [Path.Home, Path.Search, Path.Liveboards] || blockedRoutes: [Path.Admin, Path.Settings],
+     *       accessDeniedMessage: 'You do not have access to this page'
+     *    }
+     * })
+     * ```
+     */
+    routeBlocking?: {
+        /**
+         * Array of routes that are allowed to be accessed in the embedded app.
+         * When specified, navigation will be restricted to only these routes.
+         * All other routes will be blocked.
+         * Use Path.All to allow all routes without restrictions.
+         *
+         * **Important:** The path that the user initially embeds is always unblocked
+         * and accessible, regardless of the 
+         * `allowedRoutes` or `blockedRoutes` configuration.
+         *
+         * Note: `allowedRoutes` and `blockedRoutes` are mutually exclusive.
+         * Use only one at a time.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         * // Allow only specific routes
+         *```js
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    ... // other embed view config
+         *    allowedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have access to this page'
+         * })
+         *```
+         **/
+        allowedRoutes?: (NavigationPath | string)[];
+
+        /**
+         * Array of routes that are blocked from being accessed in the embedded app.
+         * When specified, all routes except these will be accessible.
+         * Use Path.All to block all routes.
+         *
+         * **Important:** The path that the user initially embeds is always unblocked
+         * and accessible, regardless of the 
+         * `allowedRoutes` or `blockedRoutes` configuration.
+         *
+         * Note: `allowedRoutes` and `blockedRoutes` are mutually exclusive.
+         * Use only one at a time.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         * // Block specific routes
+         *```js
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    blockedRoutes: [Path.Home, Path.Search, Path.Liveboards],
+         * })
+         *```
+         **/
+        blockedRoutes?: (NavigationPath | string)[];
+
+        /**
+         * Custom message to display when a user tries to access a blocked route
+         * or a route that is not in the allowedRoutes list.
+         *
+         * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+         * @default 'Access Denied'
+         * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+         * @example
+         *
+         *
+         * const embed = new AppEmbed('#tsEmbed', {
+         *    allowedRoutes: [Path.Home, Path.Liveboards],
+         *    accessDeniedMessage: 'You do not have permission to access this page.'
+         * })
+         **/
+        accessDeniedMessage?: string;
+    };
 }
 
 /**
@@ -6266,6 +6361,9 @@ export enum ErrorDetailsTypes {
  * });
  *  */
 export enum EmbedErrorCodes {
+    /** Conflicting routes configuration detected (e.g., both allowedRoutes and blockedRoutes specified) */
+    CONFLICTING_ROUTES_CONFIG = 'CONFLICTING_ROUTES_CONFIG',
+    
     /** Worksheet ID not found or does not exist */
     WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
     
@@ -6385,6 +6483,9 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
+    allowedRoutes: ( NavigationPath | string)[];
+    blockedRoutes: (NavigationPath | string)[];
+    accessDeniedMessage: string;
 }
 
 /**
@@ -6403,6 +6504,163 @@ export enum InterceptedApiType {
      * The apis that are use to get the data for the liveboard
      */
     LiveboardData = 'LiveboardData',
+}
+
+/**
+ * Routes/paths within the ThoughtSpot embedded application that can be controlled
+ * for access restrictions.
+ * Use this enum with the `allowedRoutes` configuration 
+ * and `blockedRoutes` configuration to restrict navigation
+ * which routes users can access in the embedded view.
+ *
+ * @example
+ *
+ * ```js
+ * const embed = new AppEmbed('#tsEmbed', {
+ *     allowedRoutes: [Path.Home, Path.Search, Path.Liveboard],
+ *     accessDeniedMessage: 'You do not have access to this page'
+ * });
+ * ```
+ * 
+ * ```js
+ * const embed = new AppEmbed('#tsEmbed', {
+ *     blockedRoutes: [Path.Home, Path.Search, Path.Liveboard],
+ *     accessDeniedMessage: 'You do not have access to this page'
+ * });
+ * ```
+ * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+ */
+export enum NavigationPath {
+    All = '/*',
+    RootPage = '/',
+    // Core navigation methods
+    DataModelPage = '/data/*',
+    AdminPage = '/admin',
+    Home = '/home',
+    Answers = '/insights/answers',
+    Copilot = '/copilot',
+    CopilotChat = '/copilot/chat',
+    ConvAssist = '/insights/conv-assist',
+    TryEverywhere = '/everywhere',
+    Documents = '/insights/doc-search',
+
+    // Home sub-pages
+    HomePage = '/insights/home',
+    HomeAnswers = '/insights/home/answers',
+    HomeLiveboards = '/insights/home/liveboards',
+    HomeFavs = '/insights/home/favourites',
+    HomeLiveboardSchedules = '/insights/home/liveboard-schedules',
+    HomeCreatedByMe = '/insights/home/created-by-me',
+    HomeMonitorAlerts = '/insights/home/monitor-alerts',
+    HomeSpotIQAnalysis = '/insights/home/spotiq-analysis',
+
+    // Answer/Search related
+    Answer = '/insights/answer',
+    SavedAnswer = '/insights/saved-answer/:answerId',
+    View = '/insights/view/:answerId',
+    EditACopy = '/insights/answer/edit/:editACopySessionKey',
+
+    // Eureka/AI related
+    EurekaWithQueryParams = '/insights/eureka',
+    CreateAiAnswerWithQueryParams = '/insights/create-ai-answer',
+    TrainSageWithQueryParams = '/data/sage/train',
+    AiAnswer = '/insights/ai-answer/:eurekaAnswerSessionId',
+
+    // Pinboard/Liveboard
+    Pinboard = '/insights/pinboard/:pinboardId',
+    VizBoard = '/insights/pinboard/:pinboardId/:vizId',
+
+    // Monitor
+    MonitorV2 = '/monitor',
+
+    // Authentication
+    Login = '/login',
+    ResetPassword = '/resetpassword',
+    ForgotPassword = '/requestresetpassword',
+    DeepLinkPage = '/deeplink',
+
+    // Insights/SpotIQ
+    Insights = '/insights',
+    Insight = '/insights/insight/:analysisResultId',
+
+    // Data related
+    Table = '/data/tables',
+    Dataset = '/data/dataset',
+    DestinationSync = '/data/destination-sync',
+    Utilities = '/data/utilities',
+    Dbt = '/data/dbt',
+    Destination = '/data/destination',
+    SqlView = '/data/sql-view',
+    DataGovernance = '/data/data-governance',
+    LiveBoardVerification = '/data/liveboard-verification',
+    FragmentFeedback = '/data/fragment-feedback',
+    QueryFeedback = '/data/query-feedback',
+    AppConnections = '/data/app-connections',
+    WorksheetCreate = '/worksheet/create',
+    AutoWorksheetWithConnectionId = '/data/worksheet/create/auto',
+    csvUpload = '/data/importcsv',
+    EmbraceConnections = '/data/embrace/connection',
+    Embrace = '/data/embrace',
+    EmbraceCsvUploadWithDatasourceID = '/data/importcsv/loaddata',
+
+    // Teams/Admin related
+    TeamsMembers = '/teams/members',
+    TeamsPendingInvitations = '/teams/pending-invitations',
+    TeamsPlanOptions = '/teams/plan-options',
+    TeamsSpotIQOptions = '/teams/spotiq',
+    TeamsStyleCustomizationOptions = '/teams/style-customization',
+    TeamsUserManagementOptions = '/teams/user-management',
+    TeamsAuthenticationOptions = '/teams/authentication',
+    TeamsSystemActivitiesOptions = '/teams/system-activities',
+    TeamsDataUsage = '/teams/data-usage',
+    TeamsManageSubscription = '/teams/manage-subscription',
+
+    // Organizations
+    OrgsHome = '/orgs',
+    OrgsUsers = '/orgs/users',
+    OrgsGroups = '/orgs/groups',
+    OrgsContent = '/orgs/content',
+    OrgsCreditConsumption = '/orgs/credit-consumption',
+
+    // Schedules
+    ManageSchedules = '/schedules',
+
+    // Setup and Configuration
+    Setup = '/setup',
+    Actions = '/develop/*/actionsCustomization',
+    OnBoarding = '/onboarding',
+    UserPreference = '/user-preference',
+    CustomCalendarWizard = '/custom-calendar',
+    CustomCalendarRedirection = '/custom-calendar-test',
+
+    // Development
+    DevelopTab = '/develop',
+    GetStarted = '/get-started',
+
+    // TML/TSL related
+    ImportTsl = '/import-tsl/:metadataType',
+    TmlUtility = '/data/utilities/tml',
+    TslEditor = '/tsl-editor',
+    TslEditorSingleFile = '/tsl-editor/:metadataType/:metadataGuid',
+    UpdateTslFromFile = '/import-tsl/:metadataType/:metadataGuid',
+
+    // SpotApps
+    SpotAppsAdmin = '/data/spotapps-admin',
+    SpotAppDetailsAndAnalytics = '/spotapp',
+    DbtIntegration = '/data/dbt-integration',
+    SchemaViewer = '/schema-viewer/table',
+
+    // Other
+    Purchase = '/purchase',
+    AutoAnswer = '/answer/create/auto/:dataSourceId',
+    RequestAccessForObject = '/requestaccess/:objectType/:objectId',
+
+    EmbedAccessDeniedPage = '/embed-access-denied',
+}
+export interface RouteBlocking {
+    blockedRoutes?: (NavigationPath | string)[];
+    allowedRoutes?: (NavigationPath | string)[];
+    accessDeniedMessage?: string;
 }
 
 export type ApiInterceptFlags = {

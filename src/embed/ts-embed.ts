@@ -36,6 +36,7 @@ import {
     isUndefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
+import { validateAndProcessRoutes } from '../utils/allowed-or-blocked-routes';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -460,6 +461,26 @@ export class TsEmbed {
                     error : { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
                 });
         }
+        const blockedAndAllowedRoutesResult = validateAndProcessRoutes(
+            this.viewConfig?.routeBlocking,
+            {
+                embedComponentType: (this.viewConfig as any).embedComponentType || '',
+                liveboardId: (this.viewConfig as any).liveboardId,
+                vizId: (this.viewConfig as any).vizId,
+                activeTabId: (this.viewConfig as any).activeTabId,
+                pageId: (this.viewConfig as any).pageId,
+                path: (this.viewConfig as any).path,
+            },
+        );
+        if (blockedAndAllowedRoutesResult.hasError) {
+            const errorDetails = {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: blockedAndAllowedRoutesResult.errorMessage,
+                code: EmbedErrorCodes.CONFLICTING_ROUTES_CONFIG,
+                error : blockedAndAllowedRoutesResult.errorMessage,
+            };
+            this.handleError(errorDetails);
+        }
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
@@ -479,6 +500,9 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            allowedRoutes: blockedAndAllowedRoutesResult.allowedRoutes,
+            blockedRoutes: blockedAndAllowedRoutesResult.blockedRoutes,
+            accessDeniedMessage: blockedAndAllowedRoutesResult.errorMessage,
             ...getInterceptInitData(this.viewConfig),
         };
 
