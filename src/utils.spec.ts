@@ -143,12 +143,12 @@ describe('unit test for utils', () => {
     });
 
     describe('getRedirectURL', () => {
-        let windowSpy: any;
+        let originalLocation: Location;
         beforeEach(() => {
-            windowSpy = jest.spyOn(window, 'window', 'get');
+            originalLocation = window.location;
         });
         afterEach(() => {
-            windowSpy.mockRestore();
+            window.location.hash = '';
         });
 
         test('Should return correct value when path is undefined', () => {
@@ -159,18 +159,12 @@ describe('unit test for utils', () => {
         });
 
         test('Should return correct value when path is set', () => {
-            windowSpy.mockImplementation(() => ({
-                location: {
-                    origin: 'http://myhost:3000',
-                },
-            }));
-
             expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
-                'http://myhost:3000/bar#?tsSSOMarker=hashFrag',
+                'http://localhost/bar#?tsSSOMarker=hashFrag',
             );
 
             expect(getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar')).toBe(
-                'http://myhost:3000/#/bar?tsSSOMarker=hashFrag',
+                'http://localhost/#/bar?tsSSOMarker=hashFrag',
             );
         });
     });

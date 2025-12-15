@@ -34,11 +34,11 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(auth, 'postLoginService').mockReturnValue(true);
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
     jest.spyOn(sessionService, 'getSessionInfo').mockReturnValue({
         userGUID: 'abcd',
-    });
-    spyOn(window, 'alert');
+    } as any);
+    jest.spyOn(window, 'alert');
 });
 
 describe('React Components', () => {
@@ -60,7 +60,7 @@ describe('React Components', () => {
             );
         });
 
-        it('Should attach event listeners', async (done) => {
+        it('Should attach event listeners', async () => {
             const userGUID = 'absfdfgd';
             const { container } = render(
                 <SearchEmbed
@@ -69,7 +69,6 @@ describe('React Components', () => {
                     }}
                     onAuthInit={(e) => {
                         expect(e.data.userGUID).toEqual(userGUID);
-                        done();
                     }}
                 />,
             );

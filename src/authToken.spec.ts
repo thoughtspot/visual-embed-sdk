@@ -15,13 +15,13 @@ describe('AuthToken Unit tests', () => {
         } as EmbedConfig);
 
         expect(token).toBe('abc3');
-        expect(authServiceInstance.verifyTokenService).not.toBeCalled();
+        expect(authServiceInstance.verifyTokenService).not.toHaveBeenCalled();
     });
 
     test('getAuthenticationToken: When verification is enabled', async () => {
         resetCachedAuthToken();
         jest.clearAllMocks();
-        jest.spyOn(authServiceInstance, 'verifyTokenService').mockImplementation(() => true);
+        jest.spyOn(authServiceInstance, 'verifyTokenService').mockImplementation(() => Promise.resolve(true));
         const token = await getAuthenticationToken({
             thoughtSpotHost: 'test',
             getAuthToken: async () => 'abc2',
@@ -29,7 +29,7 @@ describe('AuthToken Unit tests', () => {
         } as EmbedConfig);
 
         expect(token).toBe('abc2');
-        expect(authServiceInstance.verifyTokenService).toBeCalledWith('test', 'abc2');
+        expect(authServiceInstance.verifyTokenService).toHaveBeenCalledWith('test', 'abc2');
     });
 
     test('validateAuthToken : When token is invalid by type number', async () => {

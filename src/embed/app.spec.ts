@@ -43,7 +43,7 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
+    jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
     (window as any).ResizeObserver =
         window.ResizeObserver ||
         jest.fn().mockImplementation(() => ({
@@ -1130,13 +1130,13 @@ describe('App embed tests', () => {
         let embedHeightCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
-                callback({ data: { currentPath: '/answers' } }, jest.fn());
+                callback({ type: EmbedEvent.RouteChange, data: { currentPath: '/answers' } } as any, jest.fn());
             }
             if (event === EmbedEvent.EmbedHeight) {
                 embedHeightCallback = callback;
             }
             if (event === EmbedEvent.EmbedIframeCenter) {
-                callback({}, jest.fn());
+                callback({ type: EmbedEvent.EmbedIframeCenter, data: {} } as any, jest.fn());
             }
             return null;
         });
@@ -1228,7 +1228,7 @@ describe('App embed tests', () => {
                 },
             });
             await appEmbed.render();
-            spyOn(logger, 'warn');
+            jest.spyOn(logger, 'warn').mockImplementation(() => {});
             appEmbed.navigateToPage(-1);
             expect(logger.warn).toHaveBeenCalledWith(
                 'Path can only by a string when triggered without noReload',
@@ -1236,7 +1236,7 @@ describe('App embed tests', () => {
         });
 
         test('navigateToPage function use before render', async () => {
-            spyOn(logger, 'log');
+            jest.spyOn(logger, 'log').mockImplementation(() => {});
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
