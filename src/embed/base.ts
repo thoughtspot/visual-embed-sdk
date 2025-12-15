@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable camelcase */
 /* eslint-disable import/no-mutable-exports */
 /**
