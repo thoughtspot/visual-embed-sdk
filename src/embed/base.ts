@@ -192,6 +192,7 @@ type InitFlagStore = {
 const initFlagKey = 'initFlagKey';
 
 export const createAndSetInitPromise = (): void => {
+    if (typeof window === 'undefined') return;
     const {
         promise: initPromise,
         resolve: initPromiseResolve,
@@ -238,7 +239,8 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
+    if (typeof window === 'undefined') return null;
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(

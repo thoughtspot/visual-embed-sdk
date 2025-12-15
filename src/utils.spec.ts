@@ -20,6 +20,7 @@ import {
     calculateVisibleElementData,
     formatTemplate,
     isValidCssMargin,
+    resetValueFromWindow,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -745,5 +746,38 @@ describe('isValidCssMargin', () => {
         expect(isValidCssMargin('   ')).toBe(false);
         expect(isValidCssMargin('invalid')).toBe(false);
         expect(isValidCssMargin('10')).toBe(false); // missing unit
+    });
+});
+
+describe('getValueFromWindow and storeValueInWindow', () => {
+    describe('resetValueFromWindow', () => {
+        beforeEach(() => {
+            (window as any)._tsEmbedSDK = {};
+        });
+
+        test('should reset existing key and return true', () => {
+            storeValueInWindow('keyToReset', 'someValue');
+            expect(getValueFromWindow('keyToReset')).toBe('someValue');
+
+            const result = resetValueFromWindow('keyToReset');
+
+            expect(result).toBe(true);
+            expect(getValueFromWindow('keyToReset')).toBe(undefined);
+        });
+
+        test('should return false when key does not exist', () => {
+            const result = resetValueFromWindow('nonExistentKey');
+            expect(result).toBe(false);
+        });
+
+        test('should only reset the specified key', () => {
+            storeValueInWindow('key1', 'value1');
+            storeValueInWindow('key2', 'value2');
+
+            resetValueFromWindow('key1');
+
+            expect(getValueFromWindow('key1')).toBe(undefined);
+            expect(getValueFromWindow('key2')).toBe('value2');
+        });
     });
 });

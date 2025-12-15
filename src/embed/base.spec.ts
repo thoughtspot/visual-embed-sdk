@@ -11,7 +11,7 @@ import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
 import * as resetService from '../utils/resetServices';
 import * as processTrigger from '../utils/processTrigger';
-import { reloadIframe } from './base';
+import { createAndSetInitPromise, getInitPromise, getIsInitCalled, reloadIframe } from './base';
 
 import {
     executeAfterWait,
@@ -529,5 +529,47 @@ describe('Init tests', () => {
             authType: index.AuthType.None,
         });
         expect(resetService.resetAllCachedServices).toHaveBeenCalled();
+    });
+});
+
+describe('Init Promise Functions', () => {
+    beforeEach(() => {
+        base.reset();
+        (window as any)._tsEmbedSDK = {};
+        createAndSetInitPromise();
+    });
+
+    test('getIsInitCalled should return false before init is called', () => {
+        expect(getIsInitCalled()).toBe(false);
+    });
+
+    test('getIsInitCalled should return true after init is called', () => {
+        base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        expect(getIsInitCalled()).toBe(true);
+    });
+
+    test('getInitPromise should return a promise', () => {
+        const promise = getInitPromise();
+        expect(promise).toBeInstanceOf(Promise);
+    });
+
+    test('getInitPromise should resolve with authEE after init is called', async () => {
+        const initPromise = getInitPromise();
+        const authEE = base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        const resolvedValue = await initPromise;
+        expect(resolvedValue).toBe(authEE);
+    });
+
+    test('createAndSetInitPromise should not override existing promise if ignoreIfAlreadyExists', () => {
+        const firstPromise = getInitPromise();
+        createAndSetInitPromise();
+        const secondPromise = getInitPromise();
+        expect(firstPromise).toBe(secondPromise);
     });
 });

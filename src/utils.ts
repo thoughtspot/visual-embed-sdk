@@ -393,6 +393,7 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
+    if (typeof window === 'undefined') return value;
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -406,13 +407,14 @@ export function storeValueInWindow<T>(
 }
 
 /**
- * Retrieves a stored value from the global `window` object under the `_tsEmbedSDK` namespace.
- * @param key - The key whose value needs to be retrieved.
- * @returns The stored value or `undefined` if the key is not found.
+ * Retrieves a stored value from the global 
+ * `window` object under the `_tsEmbedSDK` namespace.
+ * Returns undefined in SSR environment.
  */
-export const getValueFromWindow = <T = any>
-    (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
-
+export const getValueFromWindow = <T = any>(key: string): T | undefined => {
+    if (typeof window === 'undefined') return undefined;
+    return (window as any)?.[sdkWindowKey]?.[key];
+};
 /**
  * Check if an array includes a string value
  * @param arr - The array to check
@@ -430,6 +432,7 @@ export const arrayIncludesString = (arr: readonly unknown[], key: string): boole
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
+    if (typeof window === 'undefined') return false;
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
