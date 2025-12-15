@@ -17,6 +17,7 @@ import {
     AllEmbedViewConfig,
 } from './types';
 import { logger } from './utils/logger';
+import { ERROR_MESSAGE } from './errors';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -393,7 +394,10 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    if (typeof window === 'undefined') return value;
+    if (typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return value;
+    }
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -412,7 +416,10 @@ export function storeValueInWindow<T>(
  * Returns undefined in SSR environment.
  */
 export const getValueFromWindow = <T = any>(key: string): T | undefined => {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return undefined;
+    }
     return (window as any)?.[sdkWindowKey]?.[key];
 };
 /**
@@ -432,7 +439,10 @@ export const arrayIncludesString = (arr: readonly unknown[], key: string): boole
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return false;
+    }
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;

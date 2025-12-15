@@ -24,6 +24,7 @@ import {
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
+import { ERROR_MESSAGE } from './errors';
 
 // Mock logger
 jest.mock('./utils/logger', () => ({
@@ -750,6 +751,49 @@ describe('isValidCssMargin', () => {
 });
 
 describe('getValueFromWindow and storeValueInWindow', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+        beforeEach(() => {
+            originalWindow = global.window;
+        });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('storeValueInWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = storeValueInWindow('testKey', 'testValue');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe('testValue');
+        });
+
+        test('getValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = getValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeUndefined();
+        });
+
+        test('resetValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = resetValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe(false);
+        });
+    });
     describe('resetValueFromWindow', () => {
         beforeEach(() => {
             (window as any)._tsEmbedSDK = {};

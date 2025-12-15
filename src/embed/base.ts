@@ -36,6 +36,7 @@ import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
+import { ERROR_MESSAGE } from '../errors';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -192,7 +193,10 @@ type InitFlagStore = {
 const initFlagKey = 'initFlagKey';
 
 export const createAndSetInitPromise = (): void => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return;
+    }
     const {
         promise: initPromise,
         resolve: initPromiseResolve,
@@ -240,7 +244,10 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return null;
+    }
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(

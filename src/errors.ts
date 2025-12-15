@@ -27,6 +27,7 @@ export const ERROR_MESSAGE = {
     HOST_EVENT_TYPE_UNDEFINED: 'Host event type is undefined',
     LOGIN_FAILED: 'Login failed',
     ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
+    SSR_ENVIRONMENT_ERROR: 'SSR environment detected. This function cannot be called in SSR environment.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

@@ -22,6 +22,7 @@ import {
 } from '../test/test-utils';
 import * as tokenizedFetchInstance from '../tokenizedFetch';
 import { logger } from '../utils/logger';
+import { ERROR_MESSAGE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 let authEE: EventEmitter;
@@ -533,6 +534,41 @@ describe('Init tests', () => {
 });
 
 describe('Init Promise Functions', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+
+        beforeEach(() => {
+            originalWindow = global.window;
+            });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('createAndSetInitPromise should log error in SSR environment', () => {
+            delete global.window;
+            
+            createAndSetInitPromise();
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+        });
+
+        test('init should log error and return null in SSR environment', () => {
+            delete global.window;
+            
+            const result = base.init({
+                thoughtSpotHost: 'tshost',
+                authType: index.AuthType.None,
+            });
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeNull();
+        });
+    });
     beforeEach(() => {
         base.reset();
         (window as any)._tsEmbedSDK = {};
