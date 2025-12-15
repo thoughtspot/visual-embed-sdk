@@ -1207,7 +1207,7 @@ describe('Unit test case for ts embed', () => {
         const setup = async (isLoggedIn = false) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
-                    (handler as EventListener)({  // ✅ Fixed
+                    (handler as EventListener)({
                         data: { type: 'xyz' },
                         ports: [3000],
                         source: null,
@@ -1265,7 +1265,7 @@ describe('Unit test case for ts embed', () => {
         const setup = async (isLoggedIn = false, overrideOrgId: number | undefined = undefined) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
-                    (handler as EventListener)({  // ✅ Fixed
+                    (handler as EventListener)({
                         data: { type: 'xyz' },
                         ports: [3000],
                         source: null,
@@ -1367,7 +1367,7 @@ describe('Unit test case for ts embed', () => {
         ) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
-                    (handler as EventListener)({  // ✅ Fixed
+                    (handler as EventListener)({
                         data: { type: 'xyz' },
                         ports: [3000],
                         source: null,
@@ -3905,5 +3905,260 @@ describe('Additional Coverage Tests', () => {
         await searchEmbed.render();
         searchEmbed['unsubscribeToMessageEvents']();
         expect(removeEventListenerSpy).toHaveBeenCalledWith('message', expect.any(Function));
+    });
+});
+
+describe('Trigger method edge cases', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should handle error when trigger is called with undefined messageType', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        jest.spyOn(logger, 'error');
+        await searchEmbed.render();
+
+        await executeAfterWait(async () => {
+            const result = await searchEmbed.trigger(undefined as any);
+            expect(result).toBeNull();
+            expect(logger.error).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    code: EmbedErrorCodes.HOST_EVENT_TYPE_UNDEFINED,
+                }),
+            );
+        });
+    });
+
+    test('should return null when trigger is called before iframe is ready', async () => {
+        jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
+            new Error('Auth failed'),
+        );
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        jest.spyOn(logger, 'debug');
+        await searchEmbed.render();
+
+        await executeAfterWait(async () => {
+            const result = await searchEmbed.trigger(HostEvent.Reload);
+            expect(result).toBeNull();
+        });
+    });
+});
+
+describe('PreRender replaceExistingPreRender scenarios', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    afterEach(() => {
+        const rootEle = document.getElementById('myRoot');
+        rootEle?.remove();
+    });
+
+    test('should skip re-rendering when preRender already exists and replaceExistingPreRender is false', async () => {
+        createRootEleForEmbed();
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'no-replace-test',
+            liveboardId: 'lb1',
+        });
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'no-replace-test',
+            liveboardId: 'lb2',
+        });
+        
+        const result = await embed2.preRender(false, false);
+        
+        expect(result).toBe(embed2);
+        // The original iframe should still have lb1
+        const iframe = getIFrameEl();
+        expect(iframe.src).toContain('lb1');
+    });
+});
+
+describe('Destroy error handling', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should handle error gracefully when destroy fails', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            frameParams: { width: '100%', height: '100%' },
+        });
+        await appEmbed.render();
+        
+        const logSpy = jest.spyOn(logger, 'log').mockImplementation(() => {});
+        
+        jest.spyOn(Node.prototype, 'removeChild').mockImplementationOnce(() => {
+            throw new Error('Remove failed');
+        });
+        
+        expect(() => {
+            appEmbed.destroy();
+        }).not.toThrow();
+        
+        expect(logSpy).toHaveBeenCalledWith('Error destroying TS Embed', expect.any(Error));
+        logSpy.mockRestore();
+    });
+});
+
+describe('Fullscreen change handler behavior', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+            disableFullscreenPresentation: false,
+        });
+    });
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should trigger ExitPresentMode when exiting fullscreen', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'test-lb',
+        });
+        await liveboardEmbed.render();
+        
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            expect(iframe).toBeTruthy();
+        });
+
+        mockProcessTrigger.mockResolvedValue({});
+        
+        liveboardEmbed['setupFullscreenChangeHandler']();
+        
+        Object.defineProperty(document, 'fullscreenElement', {
+            value: null,
+            writable: true,
+            configurable: true,
+        });
+        
+        const event = new Event('fullscreenchange');
+        document.dispatchEvent(event);
+        
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.ExitPresentMode,
+                expect.any(String),
+                expect.any(Object),
+            );
+        });
+    });
+
+    test('should not trigger ExitPresentMode when entering fullscreen', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'test-lb-fullscreen',
+        });
+        await liveboardEmbed.render();
+        
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            expect(iframe).toBeTruthy();
+        });
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+        
+        liveboardEmbed['setupFullscreenChangeHandler']();
+        
+        Object.defineProperty(document, 'fullscreenElement', {
+            value: getIFrameEl(),
+            writable: true,
+            configurable: true,
+        });
+        
+        const event = new Event('fullscreenchange');
+        document.dispatchEvent(event);
+        
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).not.toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.ExitPresentMode,
+                expect.any(String),
+                expect.any(Object),
+            );
+        });
+    });
+});
+
+describe('ShowPreRender with UpdateEmbedParams', () => {
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    afterEach(() => {
+        const rootEle = document.getElementById('myRoot');
+        rootEle?.remove();
+    });
+
+    test('should trigger UpdateEmbedParams when showPreRender connects to existing prerendered component', async () => {
+        createRootEleForEmbed();
+        mockMessageChannel();
+
+        (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'update-params-test',
+            liveboardId: 'original-lb',
+        });
+        
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        embed1.isEmbedContainerLoaded = true;
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'update-params-test',
+            liveboardId: 'updated-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId: 'updated-lb',
+                }),
+            );
+        });
     });
 });
