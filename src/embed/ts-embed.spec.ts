@@ -2295,8 +2295,7 @@ describe('Unit test case for ts embed', () => {
         beforeAll(() => {
             delete window.location;
             (window as any).location = {
-                hash: '',
-                search: '',
+                assign: jest.fn(),
             };
         });
 
@@ -2308,7 +2307,7 @@ describe('Unit test case for ts embed', () => {
             (window.location as any) = location;
         });
 
-        it.skip('get url params for TS', () => {
+        it('get url params for TS', () => {
             const tsEmbed = new tsEmbedInstance.TsEmbed(getRootEl(), defaultViewConfig);
             const urlHash = '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
             window.location.hash = urlHash;
@@ -2316,9 +2315,7 @@ describe('Unit test case for ts embed', () => {
             expect(tsEmbed.getThoughtSpotPostUrlParams()).toBe(postHashParams);
         });
 
-        // TODO: Skip the search test since JSDOM 
-        // v26 doesn't allow mocking location.search
-        it.skip('validate query params and postHash params for TS', () => {
+        it('validate query params and postHash params for TS', () => {
             const tsEmbed = new tsEmbedInstance.TsEmbed(getRootEl(), defaultViewConfig);
             const urlHash = '#/analyze?ts-app=thoughtspot&ts-id=123&title=embed-sdk';
             window.location.hash = urlHash;
