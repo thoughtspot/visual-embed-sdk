@@ -33,7 +33,7 @@ import {
 import '../utils/with-resolvers-polyfill';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString, getValueFromWindow, isSSREnvironment, storeValueInWindow } from '../utils';
+import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
 import { ERROR_MESSAGE } from '../errors';
@@ -193,7 +193,7 @@ type InitFlagStore = {
 const initFlagKey = 'initFlagKey';
 
 export const createAndSetInitPromise = (): void => {
-    if (isSSREnvironment()) return;
+    if (isWindowUndefined()) return;
     const {
         promise: initPromise,
         resolve: initPromiseResolve,
@@ -241,7 +241,7 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @group Authentication / Init
  */
 export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
-    if (isSSREnvironment()) return null;
+    if (isWindowUndefined()) return null;
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(

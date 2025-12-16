@@ -394,7 +394,7 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    if (isSSREnvironment()) return value;
+    if (isWindowUndefined()) return value;
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -413,7 +413,7 @@ export function storeValueInWindow<T>(
  * Returns undefined in SSR environment.
  */
 export const getValueFromWindow = <T = any>(key: string): T | undefined => {
-    if (isSSREnvironment()) return undefined;
+    if (isWindowUndefined()) return undefined;
     return (window as any)?.[sdkWindowKey]?.[key];
 };
 /**
@@ -433,7 +433,7 @@ export const arrayIncludesString = (arr: readonly unknown[], key: string): boole
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
-    if (isSSREnvironment()) return false;
+    if (isWindowUndefined()) return false;
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
@@ -560,11 +560,12 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
 };
 
 /**
- * Check if the browser is supported for fullscreen API
- * @param value - The value to return if the browser is not supported
- * @returns The value if the browser is supported, undefined otherwise
+ * Check if the window is undefined
+ * If the window is undefined, it means the code is running in a SSR environment.
+ * @returns true if the window is undefined, false otherwise
+ * 
  */
-export const isSSREnvironment = (): boolean => {
+export const isWindowUndefined = (): boolean => {
     if(typeof window === 'undefined') {
         logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
         return true;
