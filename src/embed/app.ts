@@ -631,7 +631,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
      *
-     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
      * @default 500
      * @example
      * ```js
