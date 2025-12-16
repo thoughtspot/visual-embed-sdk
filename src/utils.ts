@@ -394,10 +394,7 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
-    if (typeof window === 'undefined') {
-        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
-        return value;
-    }
+    if (isSSREnvironment()) return value;
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -416,10 +413,7 @@ export function storeValueInWindow<T>(
  * Returns undefined in SSR environment.
  */
 export const getValueFromWindow = <T = any>(key: string): T | undefined => {
-    if (typeof window === 'undefined') {
-        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
-        return undefined;
-    }
+    if (isSSREnvironment()) return undefined;
     return (window as any)?.[sdkWindowKey]?.[key];
 };
 /**
@@ -439,10 +433,7 @@ export const arrayIncludesString = (arr: readonly unknown[], key: string): boole
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
-    if (typeof window === 'undefined') {
-        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
-        return false;
-    }
+    if (isSSREnvironment()) return false;
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
@@ -567,3 +558,16 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
         return values[key] !== undefined ? String(values[key]) : match;
     });
 };
+
+/**
+ * Check if the browser is supported for fullscreen API
+ * @param value - The value to return if the browser is not supported
+ * @returns The value if the browser is supported, undefined otherwise
+ */
+export const isSSREnvironment = (): boolean => {
+    if(typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return true;
+    }
+    return false;
+}
