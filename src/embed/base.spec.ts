@@ -11,7 +11,7 @@ import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
 import * as resetService from '../utils/resetServices';
 import * as processTrigger from '../utils/processTrigger';
-import { reloadIframe } from './base';
+import { createAndSetInitPromise, getInitPromise, getIsInitCalled, reloadIframe } from './base';
 
 import {
     executeAfterWait,
@@ -22,6 +22,7 @@ import {
 } from '../test/test-utils';
 import * as tokenizedFetchInstance from '../tokenizedFetch';
 import { logger } from '../utils/logger';
+import { ERROR_MESSAGE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 let authEE: EventEmitter;
@@ -529,5 +530,82 @@ describe('Init tests', () => {
             authType: index.AuthType.None,
         });
         expect(resetService.resetAllCachedServices).toHaveBeenCalled();
+    });
+});
+
+describe('Init Promise Functions', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+
+        beforeEach(() => {
+            originalWindow = global.window;
+            });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('createAndSetInitPromise should log error in SSR environment', () => {
+            delete global.window;
+            
+            createAndSetInitPromise();
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+        });
+
+        test('init should log error and return null in SSR environment', () => {
+            delete global.window;
+            
+            const result = base.init({
+                thoughtSpotHost: 'tshost',
+                authType: index.AuthType.None,
+            });
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeNull();
+        });
+    });
+    beforeEach(() => {
+        base.reset();
+        (window as any)._tsEmbedSDK = {};
+        createAndSetInitPromise();
+    });
+
+    test('getIsInitCalled should return false before init is called', () => {
+        expect(getIsInitCalled()).toBe(false);
+    });
+
+    test('getIsInitCalled should return true after init is called', () => {
+        base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        expect(getIsInitCalled()).toBe(true);
+    });
+
+    test('getInitPromise should return a promise', () => {
+        const promise = getInitPromise();
+        expect(promise).toBeInstanceOf(Promise);
+    });
+
+    test('getInitPromise should resolve with authEE after init is called', async () => {
+        const initPromise = getInitPromise();
+        const authEE = base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        const resolvedValue = await initPromise;
+        expect(resolvedValue).toBe(authEE);
+    });
+
+    test('createAndSetInitPromise should not override existing promise if ignoreIfAlreadyExists', () => {
+        const firstPromise = getInitPromise();
+        createAndSetInitPromise();
+        const secondPromise = getInitPromise();
+        expect(firstPromise).toBe(secondPromise);
     });
 });

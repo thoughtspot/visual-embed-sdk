@@ -20,9 +20,11 @@ import {
     calculateVisibleElementData,
     formatTemplate,
     isValidCssMargin,
+    resetValueFromWindow,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
+import { ERROR_MESSAGE } from './errors';
 
 // Mock logger
 jest.mock('./utils/logger', () => ({
@@ -745,5 +747,81 @@ describe('isValidCssMargin', () => {
         expect(isValidCssMargin('   ')).toBe(false);
         expect(isValidCssMargin('invalid')).toBe(false);
         expect(isValidCssMargin('10')).toBe(false); // missing unit
+    });
+});
+
+describe('getValueFromWindow and storeValueInWindow', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+        beforeEach(() => {
+            originalWindow = global.window;
+        });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('storeValueInWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = storeValueInWindow('testKey', 'testValue');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe('testValue');
+        });
+
+        test('getValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = getValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeUndefined();
+        });
+
+        test('resetValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = resetValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe(false);
+        });
+    });
+    describe('resetValueFromWindow', () => {
+        beforeEach(() => {
+            (window as any)._tsEmbedSDK = {};
+        });
+
+        test('should reset existing key and return true', () => {
+            storeValueInWindow('keyToReset', 'someValue');
+            expect(getValueFromWindow('keyToReset')).toBe('someValue');
+
+            const result = resetValueFromWindow('keyToReset');
+
+            expect(result).toBe(true);
+            expect(getValueFromWindow('keyToReset')).toBe(undefined);
+        });
+
+        test('should return false when key does not exist', () => {
+            const result = resetValueFromWindow('nonExistentKey');
+            expect(result).toBe(false);
+        });
+
+        test('should only reset the specified key', () => {
+            storeValueInWindow('key1', 'value1');
+            storeValueInWindow('key2', 'value2');
+
+            resetValueFromWindow('key1');
+
+            expect(getValueFromWindow('key1')).toBe(undefined);
+            expect(getValueFromWindow('key2')).toBe('value2');
+        });
     });
 });
