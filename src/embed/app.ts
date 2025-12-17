@@ -175,7 +175,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the left navigation panel on the home page
      * in the V2 and V3 navigation and home page experience.
      * If `showPrimaryNavbar` is true, that is, if the Global and Homepage
-     * navigation bars are visible, this flag will only hide the left nav bar
+     * navigation bars are visible, this flag will only hide the left navigation bar
      * on the home page.
      * The `showPrimaryNavbar` flag takes precedence over the `hideHomepageLeftNav`.
      *
@@ -197,7 +197,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the help (?) and profile
      * buttons on the top navigation bar.
      * These buttons are visible if the
-     * nav bar is not hidden via `showPrimaryNavbar`.
+     * navigation bar is not hidden via `showPrimaryNavbar`.
      *
      * Supported embed types: `AppEmbed`
      * @default false
@@ -214,7 +214,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
      * @default true
-     * Whether the help menu in the top nav bar should be served
+     * Whether the help menu in the top navigation bar should be served
      * from Pendo or ThoughtSpot's internal help items.
      *
      * Supported embed types: `AppEmbed`
@@ -264,8 +264,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideObjectSearch?: boolean;
     /**
-     * Control the visibility of the notification icon on
-     * on the top nav bar in V3 navigation experience.
+     * Control the visibility of the notification icon
+     * on the top navigation bar in V3 navigation experience.
      *
      * **Note**: This attribute is not supported
      * in the classic (V1) and V2 experience modes.
@@ -285,7 +285,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the application selection menu
      * in the top navigation bar in the V2 experience.
      * In the V3 experience, it shows or hides application selection
-     * on the left navigation panel.
+     * icons on the left navigation panel.
      * By default, the application selection menu and icons are
      * shown in the UI
      *
