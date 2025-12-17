@@ -1154,6 +1154,7 @@ export interface HomePageConfig {
      * For example: `hiddenHomepageModules = [HomepageModule.MyLibrary]`
      *
      * **Note**: This attribute is not supported in the classic (v1) experience.
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
@@ -1194,6 +1195,7 @@ export interface HomePageConfig {
      * To specify the menu items, import the `HomeLeftNavItem` enum.
      *
      * **Note**: This attribute is not supported in the classic (v1) homepage.
+     *
      * Supported embed types: `AppEmbed`
      * @example
      * ```js

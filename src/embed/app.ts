@@ -269,6 +269,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * **Note**: This attribute is not supported
      * in the classic (V1) and V2 experience modes.
+     *
      * Supported embed types: `AppEmbed`
      * @default true
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -290,6 +291,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * shown in the UI
      *
      * **Note**: This attribute is not supported in the classic (V1) experience.
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
@@ -307,6 +309,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * By default, the Org switcher button is shown.
      *
      * **Note**: This attribute is not supported in the classic (V1) experience.
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default true
