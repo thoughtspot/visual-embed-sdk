@@ -1065,6 +1065,14 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
+     * Hides the PreRender component and cleans up event listeners.
+     */
+    public hidePreRender(): void {
+        this.unregisterLazyLoadEvents();
+        super.hidePreRender();
+    }
+
+    /**
      * Renders the embedded application pages in the ThoughtSpot app.
      * @param renderOptions An object containing the page ID
      * to be embedded.
