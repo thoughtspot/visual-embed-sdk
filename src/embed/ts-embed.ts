@@ -17,7 +17,7 @@ import {
     UIPassthroughRequest,
 } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { getAuthenticationToken } from '../authToken';
+import { getAuthenticationToken, getAuthTokenWithoutCache } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
@@ -508,6 +508,31 @@ export class TsEmbed {
     };
 
     /**
+     * Refresh the auth token if the autoLogin is true and the authType is TrustedAuthTokenCookieless
+     * @param _
+     * @param responder
+     */
+    private tokenRefresh = async (_: any, responder: any) => {
+        const { authType, autoLogin } = this.embedConfig;
+        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
+            try {
+                const authToken = await getAuthTokenWithoutCache(this.embedConfig);
+                responder({
+                    type: EmbedEvent.RefreshAuthToken,
+                    data: { authToken },
+                });
+            } catch (e) {
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
+        } else if (isAutoLoginTrue) {
+            handleAuth();
+        }
+        notifyAuthFailure(AuthFailureType.EXPIRY);
+    }
+
+    /**
      * Sends updated auth token to the iFrame to avoid user logout
      * @param _
      * @param responder
@@ -566,12 +591,11 @@ export class TsEmbed {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
-
         const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
-
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
+        this.on(EmbedEvent.RefreshAuthToken, this.tokenRefresh, { start: false }, true);
     };
 
     /**
