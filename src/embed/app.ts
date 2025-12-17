@@ -658,11 +658,27 @@ export class AppEmbed extends V1Embed {
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
-        if (this.viewConfig.fullHeight === true) {
-            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
-            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
-            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+    }
+
+    /**
+     * Hook called before prerender becomes visible.
+     * Register event listeners here (AFTER isPreRendered is set)
+     * to ensure ownership check works correctly for prerender.
+     */
+    protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
+        
+        if (this.isPreRendered) {
+            if (this.viewConfig.fullHeight === true) {
+                // For fullHeight: only listen to height changes
+                // Don't register RouteChange - it causes feedback loop
+                this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+                this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+                this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            } else {
+                // For fixed height: listen to RouteChange to reset height
+                this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            }
         }
     }
 
@@ -1046,6 +1062,19 @@ export class AppEmbed extends V1Embed {
     }
 
     private postRender() {
+        // For non-prerender cases, register event listeners here
+        if (!this.isPreRendered) {
+            if (this.viewConfig.fullHeight === true) {
+                // For fullHeight: only listen to height changes
+                // Don't register RouteChange - it causes feedback loop
+                this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+                this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+                this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            } else {
+                // For fixed height: listen to RouteChange to reset height
+                this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            }
+        }
         this.registerLazyLoadEvents();
     }
 
@@ -1062,6 +1091,25 @@ export class AppEmbed extends V1Embed {
             window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
             window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
         }
+    }
+
+    /**
+     * Hides the PreRender component and cleans up event listeners.
+     */
+    public hidePreRender(): void {
+        // Clean up window scroll/resize listeners
+        this.unregisterLazyLoadEvents();
+        
+        // Clean up event listeners based on height mode
+        if (this.viewConfig.fullHeight) {
+            this.off(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.off(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.off(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+        } else {
+            this.off(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+        }
+        
+        super.hidePreRender();
     }
 
     /**

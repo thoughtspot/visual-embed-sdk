@@ -167,7 +167,7 @@ export class TsEmbed {
     /**
      * A flag that is set to true post preRender.
      */
-    private isPreRendered: boolean;
+    protected isPreRendered: boolean;
 
     /**
      * Should we encode URL Query Params using base64 encoding which thoughtspot
@@ -362,7 +362,23 @@ export class TsEmbed {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
-        if (event.source === this.iFrame.contentWindow) {
+        if (event.source === this.iFrame?.contentWindow) {
+            // CRITICAL FIX: When using prerender, check if THIS instance is the active owner
+            // This prevents multiple instances from processing the same iframe's messages
+            // when React creates a new instance before cleaning up the old one
+            if (this.isPreRendered && this.preRenderWrapper) {
+                const activeInstance = (this.preRenderWrapper as any)[this.embedNodeKey];
+                // Only skip if there IS an active instance AND it's not this one
+                if (activeInstance && activeInstance !== this) {
+                    // This instance is not the active owner, skip processing
+                    console.log(`[TsEmbed] Skipping message ${eventType} - not the active owner`);
+                    return;
+                }
+                console.log(`[TsEmbed] Processing message ${eventType} - active owner`);
+            } else {
+                console.log(`[TsEmbed] Processing message ${eventType} - no ownership check (isPreRendered=${this.isPreRendered}, hasWrapper=${!!this.preRenderWrapper})`);
+            }
+            
             const processedEventData = processEventData(
                 eventType,
                 eventData,
@@ -848,6 +864,8 @@ export class TsEmbed {
             this.insertIntoDOM(child);
         }
         if (this.insertedDomEl instanceof Node) {
+            // Store reference to this instance on the DOM element
+            // This is used to identify which instance "owns" the prerender wrapper
             (this.insertedDomEl as any)[this.embedNodeKey] = this;
         }
     }
@@ -957,6 +975,9 @@ export class TsEmbed {
         preRenderWrapper.id = preRenderIds.wrapper;
         const initialPreRenderWrapperStyle = {
             position: 'absolute',
+            // position: 'fixed',
+            // top: '0',
+            // left: '0',
             width: '100vw',
             height: '100vh',
         };
@@ -1577,6 +1598,12 @@ export class TsEmbed {
             this.executeAfterEmbedContainerLoaded(() => {
                 this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
             });
+        }
+
+        // Transfer ownership to this instance when showing prerender
+        // This ensures the active instance processes iframe messages
+        if (this.preRenderWrapper) {
+            (this.preRenderWrapper as any)[this.embedNodeKey] = this;
         }
 
         this.beforePrerenderVisible();
