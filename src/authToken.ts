@@ -11,6 +11,32 @@ const storeAuthTokenInCache = (token: string): void => {
     storeValueInWindow(cacheAuthTokenKey, token);
 };
 
+/**
+ *
+ * @param embedConfig
+ */
+export async function getAuthTokenWithoutCache(embedConfig: EmbedConfig): Promise<string> {
+    const { authEndpoint, getAuthToken } = embedConfig;
+
+    let authToken = null;
+    if (getAuthToken) {
+        authToken = await getAuthToken();
+    } else {
+        const response = await fetchAuthTokenService(authEndpoint);
+        authToken = await response.text();
+    }
+    try {
+        // this will throw error if the token is not valid
+        await validateAuthToken(embedConfig, authToken);
+    } catch (e) {
+        logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e.message}`);
+        throw e;
+    }
+
+    storeAuthTokenInCache(authToken);
+    return authToken;
+}
+
 // This method can be used to get the authToken using the embedConfig
 /**
  *

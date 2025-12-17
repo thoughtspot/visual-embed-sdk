@@ -17,7 +17,7 @@ import {
     UIPassthroughRequest,
 } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { getAuthenticationToken } from '../authToken';
+import { getAuthenticationToken, getAuthTokenWithoutCache } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
@@ -517,7 +517,7 @@ export class TsEmbed {
         const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
             try {
-                const authToken = await getAuthenticationToken(this.embedConfig, true);
+                const authToken = await getAuthTokenWithoutCache(this.embedConfig);
                 responder({
                     type: EmbedEvent.RefreshAuthToken,
                     data: { authToken },
