@@ -1090,6 +1090,13 @@ export class AppEmbed extends V1Embed {
             this.off(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.off(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
             this.off(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            
+            // Reset iframe height to default to prevent height accumulation
+            // on next navigation
+            console.log(`[AppEmbed ${this.viewConfig.preRenderId || 'no-id'}] Resetting iframe height to default:`, this.defaultHeight);
+            if (this.iFrame) {
+                this.setIFrameHeight(this.defaultHeight);
+            }
         }
         
         super.hidePreRender();
