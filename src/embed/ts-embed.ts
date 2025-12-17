@@ -1647,7 +1647,7 @@ export class TsEmbed {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: '-1000',
-            position: 'absolute ',
+            position: 'absolute',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
