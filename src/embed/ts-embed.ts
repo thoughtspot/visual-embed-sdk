@@ -517,7 +517,7 @@ export class TsEmbed {
         const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
             try {
-                const authToken = await getAuthenticationToken(this.embedConfig);
+                const authToken = await getAuthenticationToken(this.embedConfig, true);
                 responder({
                     type: EmbedEvent.RefreshAuthToken,
                     data: { authToken },
