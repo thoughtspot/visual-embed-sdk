@@ -3116,7 +3116,18 @@ export enum EmbedEvent {
      */
     ApiIntercept = 'ApiIntercept',
 
-    TokenExpiringSoon = 'TokenExpiringSoon',
+    /**
+     * @hidden
+     * Emitted when the auth token is about to get expired and needs to be refreshed.
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.RefreshAuthToken, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    RefreshAuthToken = 'RefreshAuthToken',
 }
 
 /**
