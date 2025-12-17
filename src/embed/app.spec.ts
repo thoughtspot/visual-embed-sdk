@@ -1157,9 +1157,10 @@ describe('App embed tests', () => {
         embedHeightCallback({ data: '100%' });
 
         // Verify event handlers were registered
+        // Note: RouteChange is NOT registered for fullHeight (causes feedback loop)
         await executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
+            expect(onSpy).not.toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
         }, 100);
