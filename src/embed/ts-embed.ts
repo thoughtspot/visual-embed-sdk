@@ -368,7 +368,8 @@ export class TsEmbed {
             // when React creates a new instance before cleaning up the old one
             if (this.isPreRendered && this.preRenderWrapper) {
                 const activeInstance = (this.preRenderWrapper as any)[this.embedNodeKey];
-                if (activeInstance !== this) {
+                // Only skip if there IS an active instance AND it's not this one
+                if (activeInstance && activeInstance !== this) {
                     // This instance is not the active owner, skip processing
                     return;
                 }
