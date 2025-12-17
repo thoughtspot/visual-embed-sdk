@@ -1068,7 +1068,17 @@ export class AppEmbed extends V1Embed {
      * Hides the PreRender component and cleans up event listeners.
      */
     public hidePreRender(): void {
+        // Clean up window scroll/resize listeners
         this.unregisterLazyLoadEvents();
+        
+        // Clean up fullHeight embed event listeners to prevent accumulation
+        if (this.viewConfig.fullHeight) {
+            this.off(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            this.off(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.off(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.off(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+        }
+        
         super.hidePreRender();
     }
 
