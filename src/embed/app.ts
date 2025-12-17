@@ -926,6 +926,13 @@ export class AppEmbed extends V1Embed {
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
+        console.log(`[AppEmbed ${this.viewConfig.preRenderId || 'no-id'}] updateIFrameHeight called:`, {
+            height: data.data,
+            isPreRendered: this.isPreRendered,
+            hasWrapper: !!this.preRenderWrapper,
+            currentOwner: this.preRenderWrapper ? (this.preRenderWrapper as any)[this.embedNodeKey] : 'none',
+            isThisInstance: this.preRenderWrapper ? (this.preRenderWrapper as any)[this.embedNodeKey] === this : 'n/a',
+        });
         this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
         this.sendFullHeightLazyLoadData();
     };
@@ -1068,11 +1075,17 @@ export class AppEmbed extends V1Embed {
      * Hides the PreRender component and cleans up event listeners.
      */
     public hidePreRender(): void {
+        console.log(`[AppEmbed ${this.viewConfig.preRenderId || 'no-id'}] hidePreRender called`, {
+            fullHeight: this.viewConfig.fullHeight,
+            isPreRendered: this.isPreRendered,
+        });
+        
         // Clean up window scroll/resize listeners
         this.unregisterLazyLoadEvents();
         
         // Clean up fullHeight embed event listeners to prevent accumulation
         if (this.viewConfig.fullHeight) {
+            console.log(`[AppEmbed ${this.viewConfig.preRenderId || 'no-id'}] Removing event listeners via .off()`);
             this.off(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.off(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.off(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);

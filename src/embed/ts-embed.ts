@@ -167,7 +167,7 @@ export class TsEmbed {
     /**
      * A flag that is set to true post preRender.
      */
-    private isPreRendered: boolean;
+    protected isPreRendered: boolean;
 
     /**
      * Should we encode URL Query Params using base64 encoding which thoughtspot
@@ -371,8 +371,12 @@ export class TsEmbed {
                 // Only skip if there IS an active instance AND it's not this one
                 if (activeInstance && activeInstance !== this) {
                     // This instance is not the active owner, skip processing
+                    console.log(`[TsEmbed] Skipping message ${eventType} - not the active owner`);
                     return;
                 }
+                console.log(`[TsEmbed] Processing message ${eventType} - active owner`);
+            } else {
+                console.log(`[TsEmbed] Processing message ${eventType} - no ownership check (isPreRendered=${this.isPreRendered}, hasWrapper=${!!this.preRenderWrapper})`);
             }
             
             const processedEventData = processEventData(
