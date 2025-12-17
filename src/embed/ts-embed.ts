@@ -358,7 +358,7 @@ export class TsEmbed {
         handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
     }
 
-    private messageEventListener = async (event: MessageEvent<any>) => {
+    private messageEventListener = (event: MessageEvent<any>) => {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
@@ -375,32 +375,11 @@ export class TsEmbed {
                 return;
             }
 
-            // For RefreshAuthToken event, wait for the handler to complete
-            if (eventType === EmbedEvent.RefreshAuthToken) {
-                const eventHandlers = this.eventHandlerMap.get(eventType) || [];
-                const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
-                const callbacks = [...eventHandlers, ...allHandlers];
-                const dataStatus = processedEventData?.status || embedEventStatus.END;
-                for (const callbackObj of callbacks) {
-                    if (
-                        (callbackObj.options.start && dataStatus === embedEventStatus.START)
-                        || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
-                    ) {
-                        const responder = this.createEmbedEventResponder(eventPort, eventType);
-                        const result = callbackObj.callback(processedEventData, responder);
-                        // Wait for the async callback to complete
-                        if (result != null && typeof result === 'object' && typeof (result as any).then === 'function') {
-                            await result;
-                        }
-                    }
-                }
-            } else {
-                this.executeCallbacks(
-                    eventType,
-                    processedEventData,
-                    eventPort,
-                );
-            }
+            this.executeCallbacks(
+                eventType,
+                processedEventData,
+                eventPort,
+            );
         }
     };
     /**
