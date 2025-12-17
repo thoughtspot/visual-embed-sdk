@@ -1596,6 +1596,12 @@ export class TsEmbed {
             });
         }
 
+        // Transfer ownership to this instance when showing prerender
+        // This ensures the active instance processes iframe messages
+        if (this.preRenderWrapper) {
+            (this.preRenderWrapper as any)[this.embedNodeKey] = this;
+        }
+
         this.beforePrerenderVisible();
 
         if (this.el) {
