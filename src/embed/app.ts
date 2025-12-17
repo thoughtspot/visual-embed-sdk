@@ -658,7 +658,18 @@ export class AppEmbed extends V1Embed {
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
-        if (this.viewConfig.fullHeight === true) {
+    }
+
+    /**
+     * Hook called before prerender becomes visible.
+     * Register fullHeight event listeners here (AFTER isPreRendered is set)
+     * to ensure ownership check works correctly.
+     */
+    protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
+        
+        // Only register listeners if using fullHeight and prerendering
+        if (this.viewConfig.fullHeight === true && this.isPreRendered) {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
@@ -1053,6 +1064,13 @@ export class AppEmbed extends V1Embed {
     }
 
     private postRender() {
+        // For non-prerender cases, register fullHeight event listeners here
+        if (this.viewConfig.fullHeight === true && !this.isPreRendered) {
+            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+        }
         this.registerLazyLoadEvents();
     }
 
