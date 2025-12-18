@@ -956,6 +956,44 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     doNotTrackPreRenderSize?: boolean;
     /**
+     * When set to true, excludes runtime filters and parameters from being
+     * sent in the UpdateEmbedParams event when calling `showPreRender()`.
+     * This prevents overwriting the original runtime filters/parameters
+     * that were set during prerender, while still allowing other
+     * configuration updates (like visibleVizs, hiddenActions, etc.).
+     * 
+     * Use this when you want to update other embed properties without
+     * affecting the runtime filters and parameters that are already
+     * applied from the URL or initial prerender.
+     * 
+     * @type {boolean}
+     * @default false
+     * @example
+     * ```js
+     * // Prerender with filters in URL
+     * const embed1 = new LiveboardEmbed('#div', {
+     *   preRenderId: 'my-lb',
+     *   liveboardId: 'lb-123',
+     *   runtimeFilters: [
+     *     { columnName: 'Color', operator: 'IN', values: ['red', 'blue'] }
+     *   ]
+     * });
+     * await embed1.preRender();
+     * 
+     * // Later, update other config but keep existing filters
+     * const embed2 = new LiveboardEmbed('#div', {
+     *   preRenderId: 'my-lb',
+     *   liveboardId: 'lb-123',  // Same liveboard
+     *   visibleVizs: ['viz-1', 'viz-2'],  // ← New config
+     *   excludeRuntimeParamsFromUpdate: true  // ← Keep existing filters
+     * });
+     * embed2.showPreRender();
+     * // Result: Updates visibleVizs but preserves Color filters from URL
+     * ```
+     * @version SDK: 1.36.0 | ThoughtSpot: TBD
+     */
+    excludeRuntimeParamsFromUpdate?: boolean;
+    /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighterweight shell.
      *

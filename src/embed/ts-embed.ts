@@ -463,10 +463,10 @@ export class TsEmbed {
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
-            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
+            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL || this.isPreRendered
                 ? getRuntimeFilters(this.viewConfig.runtimeFilters)
                 : null,
-            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
+            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL || this.isPreRendered
                 ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
                 : null,
             hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
@@ -592,9 +592,18 @@ export class TsEmbed {
         return `${basePath}#`;
     }
 
-    protected getUpdateEmbedParamsObject() {
+    protected async getUpdateEmbedParamsObject() {
         let queryParams = this.getEmbedParamsObject();
-        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
+        const appInitData = await this.getAppInitData();
+        queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
+        
+        // When excludeRuntimeParamsFromUpdate is true, exclude runtime
+        // filters/params to preserve the original values from URL/prerender
+        if (this.viewConfig.excludeRuntimeParamsFromUpdate) {
+            delete queryParams.runtimeFilterParams;
+            delete queryParams.runtimeParameterParams;
+        }
+        
         return queryParams;
     }
 
@@ -1575,7 +1584,9 @@ export class TsEmbed {
             this.validatePreRenderViewConfig(this.viewConfig);
             logger.debug('triggering UpdateEmbedParams', this.viewConfig);
             this.executeAfterEmbedContainerLoaded(() => {
-                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+                this.getUpdateEmbedParamsObject().then((params) => {
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                });
             });
         }
 

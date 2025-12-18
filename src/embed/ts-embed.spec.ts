@@ -543,7 +543,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
+        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined and not prerendered', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -560,6 +560,8 @@ describe('Unit test case for ts embed', () => {
                 ...defaultViewConfig,
                 runtimeFilters: mockRuntimeFilters,
             });
+            // Explicitly ensure isPreRendered is false for regular render
+            (searchEmbed as any).isPreRendered = false;
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -573,7 +575,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false', async () => {
+        test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false and not prerendered', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -591,6 +593,8 @@ describe('Unit test case for ts embed', () => {
                 excludeRuntimeFiltersfromURL: false,
                 runtimeFilters: mockRuntimeFilters,
             });
+            // Explicitly ensure isPreRendered is false for regular render
+            (searchEmbed as any).isPreRendered = false;
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -4159,6 +4163,77 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     liveboardId: 'updated-lb',
                 }),
             );
+        });
+    });
+
+    test('should trigger UpdateEmbedParams but exclude runtime filters/params when excludeRuntimeParamsFromUpdate is true', async () => {
+        createRootEleForEmbed();
+        mockMessageChannel();
+
+        (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'preserve-config-test',
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+        
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        embed1.isEmbedContainerLoaded = true;
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        // Create new instance with updated config but
+        // excludeRuntimeParamsFromUpdate flag
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'preserve-config-test',
+            liveboardId: 'original-lb',  // Same liveboard
+            visibleVizs: ['viz-1', 'viz-2'],  // New config
+            runtimeFilters: [
+                {
+                    columnName: 'Region',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['North'],
+                },
+            ],
+            excludeRuntimeParamsFromUpdate: true,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            // Verify UpdateEmbedParams WAS called
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId: 'original-lb',
+                }),
+            );
+            
+            // But verify runtime filters/params were NOT included
+            const callArgs = mockProcessTrigger.mock.calls.find(
+                call => call[1] === HostEvent.UpdateEmbedParams
+            );
+            expect(callArgs).toBeDefined();
+            const updateParams = callArgs[3];
+            expect(updateParams.runtimeFilterParams).toBeUndefined();
+            expect(updateParams.runtimeParameterParams).toBeUndefined();
         });
     });
 });
