@@ -17,7 +17,7 @@ import {
     UIPassthroughRequest,
 } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { getAuthenticationToken, getAuthTokenWithoutCache } from '../authToken';
+import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
@@ -517,7 +517,7 @@ export class TsEmbed {
         const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
             try {
-                const authToken = await getAuthTokenWithoutCache(this.embedConfig);
+                const authToken = await getAuthenticationToken(this.embedConfig, true);
                 responder({
                     type: EmbedEvent.RefreshAuthToken,
                     data: { authToken },
@@ -526,10 +526,7 @@ export class TsEmbed {
                 logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
                 processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
             }
-        } else if (isAutoLoginTrue) {
-            handleAuth();
         }
-        notifyAuthFailure(AuthFailureType.EXPIRY);
     }
 
     /**

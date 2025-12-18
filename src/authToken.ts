@@ -11,42 +11,16 @@ const storeAuthTokenInCache = (token: string): void => {
     storeValueInWindow(cacheAuthTokenKey, token);
 };
 
-/**
- *
- * @param embedConfig
- */
-export async function getAuthTokenWithoutCache(embedConfig: EmbedConfig): Promise<string> {
-    const { authEndpoint, getAuthToken } = embedConfig;
-
-    let authToken = null;
-    if (getAuthToken) {
-        authToken = await getAuthToken();
-    } else {
-        const response = await fetchAuthTokenService(authEndpoint);
-        authToken = await response.text();
-    }
-    try {
-        // this will throw error if the token is not valid
-        await validateAuthToken(embedConfig, authToken);
-    } catch (e) {
-        logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e.message}`);
-        throw e;
-    }
-
-    storeAuthTokenInCache(authToken);
-    return authToken;
-}
-
 // This method can be used to get the authToken using the embedConfig
 /**
  *
  * @param embedConfig
  */
-export async function getAuthenticationToken(embedConfig: EmbedConfig, skipvalidation: boolean = false): Promise<string> {
+export async function getAuthenticationToken(embedConfig: EmbedConfig, getFreshToken: boolean = false): Promise<string> {
     const cachedAuthToken = getCacheAuthToken();
     // Since we don't have token validation enabled , we cannot tell if the
     // cached token is valid or not. So we will always fetch a new token.
-    if (cachedAuthToken && !embedConfig.disableTokenVerification && !skipvalidation) {
+    if (cachedAuthToken && !embedConfig.disableTokenVerification && !getFreshToken) {
         let isCachedTokenStillValid;
         try {
             isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken, true);
