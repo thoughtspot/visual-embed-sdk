@@ -71,6 +71,36 @@ export const getRuntimeParameters = (runtimeParameters: RuntimeParameter[]): str
 };
 
 /**
+ * Parse a query string into an object, handling repeated keys as arrays
+ * @param queryString Query string (without leading ?)
+ * @returns Object with query parameters
+ */
+export const parseQueryString = (queryString: string): Record<string, any> => {
+    if (!queryString) return {};
+    
+    const params: Record<string, any> = {};
+    const pairs = queryString.split('&');
+    
+    pairs.forEach(pair => {
+        const [key, value] = pair.split('=').map(decodeURIComponent);
+        if (key) {
+            if (params[key]) {
+                // Key already exists, convert to array or append
+                if (Array.isArray(params[key])) {
+                    params[key].push(value);
+                } else {
+                    params[key] = [params[key], value];
+                }
+            } else {
+                params[key] = value;
+            }
+        }
+    });
+    
+    return params;
+};
+
+/**
  * Convert a value to a string representation to be sent as a query
  * parameter to the ThoughtSpot app.
  * @param value Any parameter value
@@ -147,7 +177,8 @@ export const isValidCssMargin = (value: string): boolean => {
         return false;
     }
 
-    // This pattern allows for an optional negative sign, and numbers that can be integers or decimals (including leading dot).
+    // This pattern allows for an optional negative sign, and numbers
+    // that can be integers or decimals (including leading dot).
     const cssUnitPattern = /^-?(\d+(\.\d*)?|\.\d+)(px|em|rem|%|vh|vw)$/i;
     const parts = value.trim().split(/\s+/);
 

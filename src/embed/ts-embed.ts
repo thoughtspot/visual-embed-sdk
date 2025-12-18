@@ -34,6 +34,7 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
+    parseQueryString,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -602,6 +603,23 @@ export class TsEmbed {
         if (this.viewConfig.excludeRuntimeParamsFromUpdate) {
             delete queryParams.runtimeFilterParams;
             delete queryParams.runtimeParameterParams;
+            if (this.viewConfig.runtimeFilters) {
+                const filterQuery = getFilterQuery(this.viewConfig.runtimeFilters);
+                if (filterQuery) {
+                    const filterParams = parseQueryString(filterQuery);
+                    queryParams = { ...queryParams, ...filterParams };
+                }
+            }
+            
+            if (this.viewConfig.runtimeParameters) {
+                const paramQuery = getRuntimeParameters(
+                    this.viewConfig.runtimeParameters,
+                );
+                if (paramQuery) {
+                    const paramParams = parseQueryString(paramQuery);
+                    queryParams = { ...queryParams, ...paramParams };
+                }
+            }
         }
         
         return queryParams;

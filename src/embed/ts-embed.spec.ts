@@ -4162,6 +4162,78 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    test('should trigger UpdateEmbedParams with filters in URL param format (col1, op1, val1)', async () => {
+        createRootEleForEmbed();
+        mockMessageChannel();
+
+        (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'url-param-test',
+            liveboardId: 'original-lb',
+        });
+        
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        embed1.isEmbedContainerLoaded = true;
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'url-param-test',
+            liveboardId: 'original-lb',
+            visibleVizs: ['viz-1'],
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+                {
+                    columnName: 'Region',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['North'],
+                },
+            ],
+            excludeRuntimeParamsFromUpdate: true,  // ← Enable conversion
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId: 'original-lb',
+                    col1: 'Color',
+                    op1: RuntimeFilterOp.IN,
+                    val1: ['red', 'blue'],
+                    col2: 'Region',
+                    op2: RuntimeFilterOp.EQ,
+                    val2: 'North',
+                }),
+            );
+            
+            // Verify string format is NOT included
+            const callArgs = mockProcessTrigger.mock.calls.find(
+                call => call[1] === HostEvent.UpdateEmbedParams
+            );
+            expect(callArgs).toBeDefined();
+            const updateParams = callArgs[3];
+            expect(updateParams.runtimeFilterParams).toBeUndefined();
+            expect(updateParams.runtimeParameterParams).toBeUndefined();
+        });
+    });
+
     test('should trigger UpdateEmbedParams but exclude runtime filters/params when excludeRuntimeParamsFromUpdate is true', async () => {
         createRootEleForEmbed();
         mockMessageChannel();
