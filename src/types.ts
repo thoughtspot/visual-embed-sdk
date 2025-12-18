@@ -5835,6 +5835,18 @@ export enum Action {
     PreviewDataSpotter = 'previewDataSpotter',
 
     /**
+     * The **Data model instructions** button on the Spotter interface.
+     * Allows opening the data model instructions modal.
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.DataModelInstructionsSpotter]
+     * ```
+     *  @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    DataModelInstructionsSpotter = 'dataModelInstructionsSpotter',
+
+    /**
      * The **Reset** link on the Spotter interface.
      * Resets the conversation with Spotter.
      *
