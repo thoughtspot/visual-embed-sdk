@@ -543,7 +543,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined and not prerendered', async () => {
+        test('Runtime filters from view Config should be not part of app_init payload when excludeRuntimeFiltersfromURL is undefined', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -560,8 +560,6 @@ describe('Unit test case for ts embed', () => {
                 ...defaultViewConfig,
                 runtimeFilters: mockRuntimeFilters,
             });
-            // Explicitly ensure isPreRendered is false for regular render
-            (searchEmbed as any).isPreRendered = false;
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -575,7 +573,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false and not prerendered', async () => {
+        test('Runtime filters from view Config should not be part of app_init payload when excludeRuntimeFiltersfromURL is false', async () => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.APP_INIT,
                 data: {},
@@ -593,8 +591,6 @@ describe('Unit test case for ts embed', () => {
                 excludeRuntimeFiltersfromURL: false,
                 runtimeFilters: mockRuntimeFilters,
             });
-            // Explicitly ensure isPreRendered is false for regular render
-            (searchEmbed as any).isPreRendered = false;
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),

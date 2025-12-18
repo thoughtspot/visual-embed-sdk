@@ -463,10 +463,10 @@ export class TsEmbed {
         const baseInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
-            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL || this.isPreRendered
+            runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
                 ? getRuntimeFilters(this.viewConfig.runtimeFilters)
                 : null,
-            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL || this.isPreRendered
+            runtimeParameterParams: this.viewConfig.excludeRuntimeParametersfromURL
                 ? getRuntimeParameters(this.viewConfig.runtimeParameters || [])
                 : null,
             hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
