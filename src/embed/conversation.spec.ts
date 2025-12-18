@@ -19,8 +19,8 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve({}));
-    spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
+    jest.spyOn(window, 'alert');
     document.body.innerHTML = getDocumentBody();
 });
 

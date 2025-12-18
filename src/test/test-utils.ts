@@ -8,8 +8,8 @@ import { Action, AuthType } from '../types';
 if (!(global.fetch as any).mockResponse) {
     console.log('mocking fetch');
     global.fetch = jest.fn(() => Promise.resolve({
-        json: () => ({ mixpanelAccessToken: '' }),
-    }));
+        json: () => Promise.resolve({ mixpanelAccessToken: '' }),
+    } as Response));
 }
 
 export const defaultParamsWithoutHiddenActions = `hostAppUrl=local-host&viewPortHeight=768&viewPortWidth=1024&sdkVersion=${version}&authType=${AuthType.None}&blockNonEmbedFullAppAccess=true`;

@@ -1,5 +1,5 @@
 import { getIFrameEl, getRootEl } from '../../test/test-utils';
-import { HostEvent } from '../../types';
+import { AuthType, HostEvent } from '../../types';
 import { processTrigger } from '../../utils/processTrigger';
 import * as EmbedConfigService from '../embedConfig';
 import {
@@ -23,7 +23,7 @@ const createHostEventClient = () => {
 describe('HostEventClient', () => {
     const mockThoughtSpotHost = 'http://localhost';
     beforeEach(() => {
-        jest.spyOn(EmbedConfigService, 'getEmbedConfig').mockReturnValue({ thoughtSpotHost: mockThoughtSpotHost });
+        jest.spyOn(EmbedConfigService, 'getEmbedConfig').mockReturnValue({ thoughtSpotHost: mockThoughtSpotHost, authType: AuthType.None } as any);
     });
 
     afterEach(() => {

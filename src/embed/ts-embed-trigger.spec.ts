@@ -13,9 +13,9 @@ import * as authInstance from '../auth';
 describe('Trigger', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
-        jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(true);
+        jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve(true as any));
     });
-    test('should trigger the event', async (done) => {
+    test('should trigger the event', async () => {
         init({
             thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
@@ -36,7 +36,6 @@ describe('Trigger', () => {
                 type: HostEvent.DownloadAsCsv,
                 data: { vizId: 'testId' },
             }), 'https://tshost', expect.anything());
-            done();
         });
     });
 });
