@@ -29,7 +29,7 @@ describe('Unit test for processTrigger', () => {
         const data = {};
         _processTriggerInstance.processTrigger(iFrameElement, messageType, thoughtSpotHost, data);
         jest.advanceTimersByTime(200);
-        expect(spyReload).toBeCalledWith(iFrameElement);
+        expect(spyReload).toHaveBeenCalledWith(iFrameElement);
     });
 
     test('when hostevent is search, postMessage should be called', async () => {
@@ -43,14 +43,14 @@ describe('Unit test for processTrigger', () => {
             thoughtSpotHost,
             data,
         );
-        expect(iFrame.contentWindow.postMessage).toBeCalled();
+        expect(iFrame.contentWindow.postMessage).toHaveBeenCalled();
         const res = {
             data: {
                 test: '123',
             },
         };
         messageChannelMock.port1.onmessage(res);
-        expect(messageChannelMock.port1.close).toBeCalled();
+        expect(messageChannelMock.port1.close).toHaveBeenCalled();
         expect(triggerPromise).resolves.toEqual(res.data);
     });
 
@@ -65,14 +65,14 @@ describe('Unit test for processTrigger', () => {
             thoughtSpotHost,
             data,
         );
-        expect(iFrame.contentWindow.postMessage).toBeCalled();
+        expect(iFrame.contentWindow.postMessage).toHaveBeenCalled();
         const res = {
             data: {
                 error: 'error',
             },
         };
         messageChannelMock.port1.onmessage(res);
-        expect(messageChannelMock.port1.close).toBeCalled();
+        expect(messageChannelMock.port1.close).toHaveBeenCalled();
         expect(triggerPromise).rejects.toEqual(res.data.error);
     });
 
@@ -91,7 +91,7 @@ describe('Unit test for processTrigger', () => {
 
         jest.advanceTimersByTime(_processTriggerInstance.TRIGGER_TIMEOUT);
 
-        expect(messageChannelMock.port1.close).toBeCalled();
+        expect(messageChannelMock.port1.close).toHaveBeenCalled();
         await expect(triggerPromise).resolves.toBeInstanceOf(Error);
     });
 
@@ -101,9 +101,9 @@ describe('Unit test for processTrigger', () => {
         let mockGetEmbedConfig: any;
 
         beforeEach(() => {
-            mockHandlePresentEvent = jest.spyOn(utilsModule, 'handlePresentEvent').mockImplementation(() => {});
+            mockHandlePresentEvent = jest.spyOn(utilsModule, 'handlePresentEvent').mockImplementation(() => Promise.resolve(undefined));
             mockLoggerWarn = jest.spyOn(logger, 'warn').mockImplementation(() => {});
-            mockGetEmbedConfig = jest.spyOn(embedConfigModule, 'getEmbedConfig').mockImplementation(() => ({}));
+            mockGetEmbedConfig = jest.spyOn(embedConfigModule, 'getEmbedConfig').mockImplementation(() => ({ disableFullscreenPresentation: false } as any));
         });
 
         afterEach(() => {

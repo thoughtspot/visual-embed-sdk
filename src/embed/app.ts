@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -172,14 +172,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     showPrimaryNavbar?: boolean;
     /**
-     * Control the visibility of the left navigation bar on the Homepage.
-     * If showPrimaryNavbar is true, that is, if the Global and Homepage
-     * nav-bars are visible, this flag will only hide the homepage left nav-bar.
-     * The showPrimaryNavbar flag takes precedence over the hideHomepageLeftNav.
+     * Control the visibility of the left navigation panel on the home page
+     * in the V2 and V3 navigation and home page experience.
+     * If `showPrimaryNavbar` is true, that is, if the Global and Homepage
+     * navigation bars are visible, this flag will only hide the left navigation bar
+     * on the home page.
+     * The `showPrimaryNavbar` flag takes precedence over the `hideHomepageLeftNav`.
      *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * **Note**: This attribute is not supported in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
      * @default false
@@ -194,8 +194,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideHomepageLeftNav?: boolean;
     /**
-     * Control the visibility of the help (?) and profile buttons on the
-     * Global nav-bar. By default, these buttons are visible on the nav-bar.
+     * Control the visibility of the help (?) and profile
+     * buttons on the top navigation bar.
+     * These buttons are visible if the
+     * navigation bar is not hidden via `showPrimaryNavbar`.
      *
      * Supported embed types: `AppEmbed`
      * @default false
@@ -212,7 +214,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
      * @default true
-     * Whether the help menu in the top nav bar should be served
+     * Whether the help menu in the top navigation bar should be served
      * from Pendo or ThoughtSpot's internal help items.
      *
      * Supported embed types: `AppEmbed`
@@ -226,8 +228,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     enablePendoHelp?: boolean
     /**
-     * Control the visibility of the hamburger icon on the top nav bar
-     * available when new navigation V3 is enabled.
+     * Control the visibility of the hamburger icon on
+     * the top navigation bar in the V3 navigation experience.
      *
      * Supported embed types: `AppEmbed`
      * @default false
@@ -242,8 +244,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideHamburger?: boolean;
     /**
-     * Control the visibility of the Eureka search on the top nav bar
-     * this will control for both new V2 and new navigation V3.
+     * Control the visibility of the object search
+     * on the top navigation bar in the
+     * V2 and V3 navigation experience.
+     *
+     * **Note**: This attribute is not supported
+     * in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
      * @default true
@@ -258,8 +264,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideObjectSearch?: boolean;
     /**
-     * Control the visibility of the notification on the top nav bar V3,
-     * available when new navigation V3 is enabled.
+     * Control the visibility of the notification icon
+     * on the top navigation bar in V3 navigation experience.
+     *
+     * **Note**: This attribute is not supported
+     * in the classic (V1) and V2 experience modes.
      *
      * Supported embed types: `AppEmbed`
      * @default true
@@ -274,12 +283,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideNotification?: boolean;
     /**
-     * Control the visibility of the application switcher button on the nav-bar.
-     * By default, the application switcher is shown.
+     * Control the visibility of the application selection menu
+     * in the top navigation bar in the V2 experience.
+     * In the V3 experience, it shows or hides application selection
+     * icons on the left navigation panel.
+     * By default, the application selection menu and icons are
+     * shown in the UI
      *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * **Note**: This attribute is not supported in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -297,9 +308,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the Org switcher button on the nav-bar.
      * By default, the Org switcher button is shown.
      *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+     * **Note**: This attribute is not supported in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -452,8 +461,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     fullHeight?: boolean;
     /**
-     * Flag to control new Modular Home experience.
-     *
+     * Enables the V2 navigation and modular home page experience.
+     * For more information,
+     * see link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -467,18 +477,20 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     modularHomeExperience?: boolean;
     /**
-     * To configure the top-left navigation and home page experience
-     *
+     * Configures the V3 navigation and home page experience.
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
      * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
+     *    // Enable V3 navigation and home page experience
      *    discoveryExperience : {
-     *      primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-     *      homePage: HomePage.Modular,
+     *      primaryNavbarVersion: PrimaryNavbarVersion.Sliding, // Enable V3 navigation
+     *      homePage: HomePage.ModularWithStylingChanges, // Enable V3 modular home page
+     *      ... // other embed view config
      *    },
      * })
      * ```
@@ -631,7 +643,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
      *
-     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
      * @default 500
      * @example
      * ```js
@@ -761,7 +773,9 @@ export class AppEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                }
             }
         }
 

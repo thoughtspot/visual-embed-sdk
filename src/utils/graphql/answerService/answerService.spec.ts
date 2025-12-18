@@ -66,7 +66,7 @@ describe('Answer service tests', () => {
             'query Bla {}',
             { a: 1 },
         );
-        expect(fetchMock).toBeCalledWith('https://tshost/prism/?op=Bla', expect.objectContaining({
+        expect(fetchMock).toHaveBeenCalledWith('https://tshost/prism/?op=Bla', expect.objectContaining({
             body: JSON.stringify({
                 operationName: 'Bla',
                 query: 'query Bla {}',
@@ -142,7 +142,7 @@ describe('Answer service tests', () => {
             thougthspotHost: '/test',
             authType: AuthType.TrustedAuthTokenCookieless,
         };
-        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig as any);
         jest.spyOn(authTokenInstance, 'getAuthenticationToken').mockReturnValueOnce(Promise.resolve('token'));
         const mockTokenizedFetch = jest.spyOn(tokenizedFetch, 'tokenizedFetch');
         answerService.fetchCSVBlob(undefined, true);
@@ -172,7 +172,7 @@ describe('Answer service tests', () => {
             thougthspotHost: '/test',
             authType: AuthType.TrustedAuthTokenCookieless,
         };
-        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig);
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValueOnce(mockEmbedConfig as any);
         jest.spyOn(authTokenInstance, 'getAuthenticationToken').mockReturnValueOnce(Promise.resolve('token'));
         const mockTokenizedFetch = jest.spyOn(tokenizedFetch, 'tokenizedFetch');
         answerService.fetchPNGBlob(undefined, true);

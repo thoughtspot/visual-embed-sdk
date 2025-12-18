@@ -11,7 +11,7 @@ import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
 import * as resetService from '../utils/resetServices';
 import * as processTrigger from '../utils/processTrigger';
-import { reloadIframe } from './base';
+import { createAndSetInitPromise, getInitPromise, getIsInitCalled, reloadIframe } from './base';
 
 import {
     executeAfterWait,
@@ -22,6 +22,7 @@ import {
 } from '../test/test-utils';
 import * as tokenizedFetchInstance from '../tokenizedFetch';
 import { logger } from '../utils/logger';
+import { ERROR_MESSAGE } from '../errors';
 
 const thoughtSpotHost = 'tshost';
 let authEE: EventEmitter;
@@ -32,14 +33,14 @@ describe('Base TS Embed', () => {
             thoughtSpotHost,
             authType: index.AuthType.None,
         }) as EventEmitter;
-        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
+        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
     });
 
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
 
-    test('Should show an alert when third party cookie access is blocked', (done) => {
+    test('Should show an alert when third party cookie access is blocked', () => {
         const tsEmbed = new index.SearchEmbed(getRootEl(), {});
         const iFrame: any = document.createElement('div');
         iFrame.contentWindow = null;
@@ -59,18 +60,17 @@ describe('Base TS Embed', () => {
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         authEE.on(auth.AuthStatus.FAILURE, (reason) => {
             expect(reason).toEqual(auth.AuthFailureType.NO_COOKIE_ACCESS);
-            expect(window.alert).toBeCalledWith(
+            expect(window.alert).toHaveBeenCalledWith(
                 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
             );
-            done();
         });
     });
 
-    test('Should ignore cookie blocked alert if ignoreNoCookieAccess is true', async (done) => {
+    test('Should ignore cookie blocked alert if ignoreNoCookieAccess is true', async () => {
         jest.spyOn(window, 'fetch').mockResolvedValue({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
-        });
+        } as any);
         const authEE = index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
@@ -96,7 +96,6 @@ describe('Base TS Embed', () => {
         authEE.on(auth.AuthStatus.FAILURE, (reason) => {
             expect(reason).toEqual(auth.AuthFailureType.NO_COOKIE_ACCESS);
             expect(window.alert).not.toHaveBeenCalled();
-            done();
         });
     });
 
@@ -104,7 +103,7 @@ describe('Base TS Embed', () => {
         jest.spyOn(window, 'fetch').mockResolvedValue({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
-        });
+        } as any);
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
@@ -161,7 +160,7 @@ describe('Base TS Embed', () => {
         jest.spyOn(tokenizedFetchInstance, 'tokenizedFetch').mockResolvedValueOnce({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
-        });
+        } as any);
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.TrustedAuthTokenCookieless,
@@ -229,7 +228,7 @@ describe('Base TS Embed', () => {
         jest.spyOn(tokenizedFetchInstance, 'tokenizedFetch').mockResolvedValueOnce({
             ok: true,
             json: jest.fn().mockResolvedValue({}),
-        });
+        } as any);
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
@@ -388,7 +387,7 @@ describe('Base TS Embed', () => {
         });
     });
 
-    test('handleAuth notifies for SDK auth failure', (done) => {
+    test('handleAuth notifies for SDK auth failure', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(false);
         const authEmitter = index.init({
             thoughtSpotHost,
@@ -398,11 +397,10 @@ describe('Base TS Embed', () => {
         });
         authEmitter.on(auth.AuthStatus.FAILURE, (reason) => {
             expect(reason).toBe(auth.AuthFailureType.SDK);
-            done();
         });
     });
 
-    test('handleAuth notifies for SDK auth success', (done) => {
+    test('handleAuth notifies for SDK auth success', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true);
         const failureCallback = jest.fn();
         const authEmitter = index.init({
@@ -414,16 +412,15 @@ describe('Base TS Embed', () => {
 
         authEmitter.on(auth.AuthStatus.FAILURE, failureCallback);
         authEmitter.on(auth.AuthStatus.SDK_SUCCESS, (...args) => {
-            expect(failureCallback).not.toBeCalled();
+            expect(failureCallback).not.toHaveBeenCalled();
             expect(args.length).toBe(0);
-            done();
         });
     });
 
     test('Logout method should disable autoLogin', () => {
         jest.spyOn(window, 'fetch').mockResolvedValueOnce({
             type: 'opaque',
-        });
+        } as any);
         index.init({
             thoughtSpotHost,
             authType: index.AuthType.None,
@@ -461,7 +458,7 @@ describe('Base TS Embed', () => {
             index.init({
                 authType: index.AuthType.None,
             } as EmbedConfig);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('config sanity, no username in trusted auth', () => {
@@ -470,7 +467,7 @@ describe('Base TS Embed', () => {
                 authType: index.AuthType.TrustedAuthToken,
                 thoughtSpotHost,
             } as EmbedConfig);
-        }).toThrowError();
+        }).toThrow();
     });
 
     test('config sanity, no authEndpoint and getAuthToken', () => {
@@ -480,7 +477,7 @@ describe('Base TS Embed', () => {
                 thoughtSpotHost,
                 username: 'test',
             });
-        }).toThrowError();
+        }).toThrow();
     });
     test('config backward compat, should assign inPopup when noRedirect is set', () => {
         index.init({
@@ -532,6 +529,83 @@ describe('Init tests', () => {
             thoughtSpotHost,
             authType: index.AuthType.None,
         });
-        expect(resetService.resetAllCachedServices).toBeCalled();
+        expect(resetService.resetAllCachedServices).toHaveBeenCalled();
+    });
+});
+
+describe('Init Promise Functions', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+
+        beforeEach(() => {
+            originalWindow = global.window;
+            });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('createAndSetInitPromise should log error in SSR environment', () => {
+            delete global.window;
+            
+            createAndSetInitPromise();
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+        });
+
+        test('init should log error and return null in SSR environment', () => {
+            delete global.window;
+            
+            const result = base.init({
+                thoughtSpotHost: 'tshost',
+                authType: index.AuthType.None,
+            });
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeNull();
+        });
+    });
+    beforeEach(() => {
+        base.reset();
+        (window as any)._tsEmbedSDK = {};
+        createAndSetInitPromise();
+    });
+
+    test('getIsInitCalled should return false before init is called', () => {
+        expect(getIsInitCalled()).toBe(false);
+    });
+
+    test('getIsInitCalled should return true after init is called', () => {
+        base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        expect(getIsInitCalled()).toBe(true);
+    });
+
+    test('getInitPromise should return a promise', () => {
+        const promise = getInitPromise();
+        expect(promise).toBeInstanceOf(Promise);
+    });
+
+    test('getInitPromise should resolve with authEE after init is called', async () => {
+        const initPromise = getInitPromise();
+        const authEE = base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        const resolvedValue = await initPromise;
+        expect(resolvedValue).toBe(authEE);
+    });
+
+    test('createAndSetInitPromise should not override existing promise if ignoreIfAlreadyExists', () => {
+        const firstPromise = getInitPromise();
+        createAndSetInitPromise();
+        const secondPromise = getInitPromise();
+        expect(firstPromise).toBe(secondPromise);
     });
 });

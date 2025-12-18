@@ -19,9 +19,12 @@ import {
     arrayIncludesString,
     calculateVisibleElementData,
     formatTemplate,
+    isValidCssMargin,
+    resetValueFromWindow,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
+import { ERROR_MESSAGE } from './errors';
 
 // Mock logger
 jest.mock('./utils/logger', () => ({
@@ -142,12 +145,12 @@ describe('unit test for utils', () => {
     });
 
     describe('getRedirectURL', () => {
-        let windowSpy: any;
+        let originalLocation: Location;
         beforeEach(() => {
-            windowSpy = jest.spyOn(window, 'window', 'get');
+            originalLocation = window.location;
         });
         afterEach(() => {
-            windowSpy.mockRestore();
+            window.location.hash = '';
         });
 
         test('Should return correct value when path is undefined', () => {
@@ -158,18 +161,12 @@ describe('unit test for utils', () => {
         });
 
         test('Should return correct value when path is set', () => {
-            windowSpy.mockImplementation(() => ({
-                location: {
-                    origin: 'http://myhost:3000',
-                },
-            }));
-
             expect(getRedirectUrl('http://myhost:3000/', 'hashFrag', '/bar')).toBe(
-                'http://myhost:3000/bar#?tsSSOMarker=hashFrag',
+                'http://localhost/bar#?tsSSOMarker=hashFrag',
             );
 
             expect(getRedirectUrl('http://myhost:3000/#/foo', 'hashFrag', '#/bar')).toBe(
-                'http://myhost:3000/#/bar?tsSSOMarker=hashFrag',
+                'http://localhost/#/bar?tsSSOMarker=hashFrag',
             );
         });
     });
@@ -734,5 +731,97 @@ describe('formatTemplate', () => {
         expect(
             formatTemplate('Hello {name}, you are {age} years old', { name: 'John' }),
         ).toBe('Hello John, you are {age} years old');
+    });
+});
+
+describe('isValidCssMargin', () => {
+    it('should return true for valid CSS margin values', () => {
+        expect(isValidCssMargin('10px')).toBe(true);
+        expect(isValidCssMargin('0px')).toBe(true);
+        expect(isValidCssMargin('20%')).toBe(true);
+        expect(isValidCssMargin('0')).toBe(true);
+    });
+
+    it('should return false for invalid CSS margin values', () => {
+        expect(isValidCssMargin('')).toBe(false);
+        expect(isValidCssMargin('   ')).toBe(false);
+        expect(isValidCssMargin('invalid')).toBe(false);
+        expect(isValidCssMargin('10')).toBe(false); // missing unit
+    });
+});
+
+describe('getValueFromWindow and storeValueInWindow', () => {
+    describe('SSR environment handling', () => {
+        let originalWindow: typeof globalThis.window;
+        beforeEach(() => {
+            originalWindow = global.window;
+        });
+
+        afterEach(() => {
+            global.window = originalWindow;
+        });
+
+        test('storeValueInWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = storeValueInWindow('testKey', 'testValue');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe('testValue');
+        });
+
+        test('getValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = getValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBeUndefined();
+        });
+
+        test('resetValueFromWindow should log error in SSR environment', () => {
+            delete global.window;
+            
+            const result = resetValueFromWindow('testKey');
+            
+            expect(logger.error).toHaveBeenCalledWith(
+                ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR
+            );
+            expect(result).toBe(false);
+        });
+    });
+    describe('resetValueFromWindow', () => {
+        beforeEach(() => {
+            (window as any)._tsEmbedSDK = {};
+        });
+
+        test('should reset existing key and return true', () => {
+            storeValueInWindow('keyToReset', 'someValue');
+            expect(getValueFromWindow('keyToReset')).toBe('someValue');
+
+            const result = resetValueFromWindow('keyToReset');
+
+            expect(result).toBe(true);
+            expect(getValueFromWindow('keyToReset')).toBe(undefined);
+        });
+
+        test('should return false when key does not exist', () => {
+            const result = resetValueFromWindow('nonExistentKey');
+            expect(result).toBe(false);
+        });
+
+        test('should only reset the specified key', () => {
+            storeValueInWindow('key1', 'value1');
+            storeValueInWindow('key2', 'value2');
+
+            resetValueFromWindow('key1');
+
+            expect(getValueFromWindow('key1')).toBe(undefined);
+            expect(getValueFromWindow('key2')).toBe('value2');
+        });
     });
 });

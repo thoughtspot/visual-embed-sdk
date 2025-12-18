@@ -17,6 +17,7 @@ import {
     AllEmbedViewConfig,
 } from './types';
 import { logger } from './utils/logger';
+import { ERROR_MESSAGE } from './errors';
 
 /**
  * Construct a runtime filters query string from the given filters.
@@ -130,6 +131,40 @@ export const getCssDimension = (value: number | string): string => {
     }
 
     return value;
+};
+
+/**
+ * Validates if a string is a valid CSS margin value.
+ * @param value - The string to validate
+ * @returns true if the value is a valid CSS margin value, false otherwise
+ */
+export const isValidCssMargin = (value: string): boolean => {
+    if(isUndefined(value)) {
+        return false;
+    }
+    if (typeof value !== 'string') {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+
+    // This pattern allows for an optional negative sign, and numbers that can be integers or decimals (including leading dot).
+    const cssUnitPattern = /^-?(\d+(\.\d*)?|\.\d+)(px|em|rem|%|vh|vw)$/i;
+    const parts = value.trim().split(/\s+/);
+
+    if (parts.length > 4) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+
+    const isValid = parts.every(part => {
+        const trimmedPart = part.trim();
+        return trimmedPart.toLowerCase() === 'auto' || trimmedPart === '0' || cssUnitPattern.test(trimmedPart);
+    });
+    if (!isValid) {
+        logger.error('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+        return false;
+    }
+    return true;
 };
 
 export const getSSOMarker = (markerId: string) => {
@@ -359,6 +394,7 @@ export function storeValueInWindow<T>(
     value: T,
     options: { ignoreIfAlreadyExists?: boolean } = {},
 ): T {
+    if (isWindowUndefined()) return value;
     if (!window[sdkWindowKey]) {
         (window as any)[sdkWindowKey] = {};
     }
@@ -372,13 +408,14 @@ export function storeValueInWindow<T>(
 }
 
 /**
- * Retrieves a stored value from the global `window` object under the `_tsEmbedSDK` namespace.
- * @param key - The key whose value needs to be retrieved.
- * @returns The stored value or `undefined` if the key is not found.
+ * Retrieves a stored value from the global 
+ * `window` object under the `_tsEmbedSDK` namespace.
+ * Returns undefined in SSR environment.
  */
-export const getValueFromWindow = <T = any>
-    (key: string): T => (window as any)?.[sdkWindowKey]?.[key];
-
+export const getValueFromWindow = <T = any>(key: string): T | undefined => {
+    if (isWindowUndefined()) return undefined;
+    return (window as any)?.[sdkWindowKey]?.[key];
+};
 /**
  * Check if an array includes a string value
  * @param arr - The array to check
@@ -396,6 +433,7 @@ export const arrayIncludesString = (arr: readonly unknown[], key: string): boole
  * @returns - boolean indicating if the key was reset
  */
 export function resetValueFromWindow(key: string): boolean {
+    if (isWindowUndefined()) return false;
     if (key in window[sdkWindowKey]) {
         delete (window as any)[sdkWindowKey][key];
         return true;
@@ -520,3 +558,17 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
         return values[key] !== undefined ? String(values[key]) : match;
     });
 };
+
+/**
+ * Check if the window is undefined
+ * If the window is undefined, it means the code is running in a SSR environment.
+ * @returns true if the window is undefined, false otherwise
+ * 
+ */
+export const isWindowUndefined = (): boolean => {
+    if(typeof window === 'undefined') {
+        logger.error(ERROR_MESSAGE.SSR_ENVIRONMENT_ERROR);
+        return true;
+    }
+    return false;
+}

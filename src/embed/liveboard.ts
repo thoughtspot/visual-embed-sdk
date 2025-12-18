@@ -23,7 +23,7 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -83,7 +83,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
      *
-     * @version SDK: 1.44.2 | ThoughtSpot: 26.0.2.cl
+     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
      * @default 500
      * @example
      * ```js
@@ -528,7 +528,9 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.fullHeight] = true;
             if (this.viewConfig.lazyLoadingForFullHeight) {
                 params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
+                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+                }
             }
         }
         this.defaultHeight = minimumHeight || defaultHeight || this.defaultHeight;
