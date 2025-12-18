@@ -1079,8 +1079,8 @@
 					"defaultValue": "\"context-menu-item-cross-filter\""
 				},
 				{
-					"id": 2297,
-					"name": "DataModelInstructionsSpotter",
+					"id": 2296,
+					"name": "DataModelInstructions",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -1100,11 +1100,11 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5847,
+							"line": 5835,
 							"character": 4
 						}
 					],
-					"defaultValue": "\"dataModelInstructionsSpotter\""
+					"defaultValue": "\"DataModelInstructions\""
 				},
 				{
 					"id": 2301,
@@ -2295,7 +2295,7 @@
 					"defaultValue": "\"present\""
 				},
 				{
-					"id": 2296,
+					"id": 2297,
 					"name": "PreviewDataSpotter",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -2316,7 +2316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5835,
+							"line": 5847,
 							"character": 4
 						}
 					],
@@ -3336,7 +3336,7 @@
 						2280,
 						2243,
 						2248,
-						2297,
+						2296,
 						2301,
 						2292,
 						2294,
@@ -3383,7 +3383,7 @@
 						2225,
 						2309,
 						2212,
-						2296,
+						2297,
 						2238,
 						2216,
 						2310,
