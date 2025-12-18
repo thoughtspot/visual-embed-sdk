@@ -602,8 +602,6 @@ export class TsEmbed {
         if (this.viewConfig.excludeRuntimeParamsFromUpdate) {
             delete queryParams.runtimeFilterParams;
             delete queryParams.runtimeParameterParams;
-            delete queryParams.runtimeFilters;
-            delete queryParams.runtimeParameters;
         }
         
         return queryParams;
