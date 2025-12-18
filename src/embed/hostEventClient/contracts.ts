@@ -103,7 +103,7 @@ export type HostEventRequest<HostEventT extends HostEvent> =
     ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
     : any;
 
-export type HostEventResponse<HostEventT extends HostEvent> =
+export type HostEventResponse<HostEventT extends HostEvent, ContextT extends ContextType> =
   HostEventT extends keyof EmbedApiHostEventMapping
     ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
     : any;
@@ -111,5 +111,31 @@ export type HostEventResponse<HostEventT extends HostEvent> =
 // trigger response and request
 export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
   PayloadT | HostEventRequest<HostEventT>;
-export type TriggerResponse<PayloadT, HostEventT extends HostEvent> =
-  PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT> : any;
+export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT extends ContextType> =
+  PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;
+
+export enum ContextType {
+  Search = 'search-answer',
+  Liveboard = 'liveboard',
+  Answer = 'answer',
+  Spotter = 'spotter',
+  Sage = 'sage',
+}
+
+export enum PageType {
+  PAGE = 'page',
+  DIALOG = 'dialog',
+}
+
+interface ObjectIds {
+  answerId?: string;
+  liveboardId?: string;
+  vizIds?: string[];
+  dataModelIds?: string[];
+}
+
+export interface PageContextOptions {
+  page: ContextType;
+  pageType: PageType;
+  objectIds: ObjectIds;
+}

@@ -1495,7 +1495,7 @@ describe('Liveboard/viz embed tests', () => {
                 await liveboardEmbed.trigger(HostEvent.Save);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(HostEvent.Save, {
                     vizId: 'testViz',
-                });
+                }, undefined);
             });
         });
     });

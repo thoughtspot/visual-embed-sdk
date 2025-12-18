@@ -3,6 +3,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
+import { PageContextOptions } from './hostEventClient/contracts';
 
 /**
  * Configuration for search options
@@ -327,6 +328,16 @@ export class SpotterEmbed extends TsEmbed {
         const src = this.getIframeSrc();
         await this.renderIFrame(src);
         return this;
+    }
+
+    /**
+     * Get the current context of the embedded conversation.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    public async getCurrentContext(): Promise<PageContextOptions> {
+        const context = await super.getCurrentContext();
+        return context;
     }
 }
 
