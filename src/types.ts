@@ -2973,6 +2973,17 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
+     * Emitted when the user clicks on Add to Coaching button in any Answer component of Spotter Conversation.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl
+     */
+     AddToCoaching = 'addToCoaching',
+    /**
      * Emitted when the Spotter query is triggered in Spotter embed.
      * @example
      * ```js
@@ -4397,6 +4408,16 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Opens the Add to coaching modal in an Answer component of Spotter Conversation.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AddToCoaching, {vizId:
+     * '730496d6-6903-4601-937e-2c691821af3c'});
+     *```
+     * @version SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl
+     */
+     AddToCoaching = 'addToCoaching',
     /**
      * Resets the Spotter Embed Conversation.
      * @example
