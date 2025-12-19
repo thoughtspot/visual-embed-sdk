@@ -2973,7 +2973,7 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
-     * Emitted when the user clicks on Add to Coaching button in any Answer component of Spotter Conversation.
+     * Emitted when the user clicks on Add to coaching button in any Answer component of Spotter Conversation.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
