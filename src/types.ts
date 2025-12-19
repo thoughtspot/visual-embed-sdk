@@ -4423,8 +4423,8 @@ export enum HostEvent {
      * Opens the Add to coaching modal in an Answer component of Spotter Conversation.
      * @example
      * ```js
-     * spotterEmbed.trigger(HostEvent.AddToCoaching, {vizId:
-     * '730496d6-6903-4601-937e-2c691821af3c'});
+     * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
+     * 
      *```
      * @version SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl
      */
