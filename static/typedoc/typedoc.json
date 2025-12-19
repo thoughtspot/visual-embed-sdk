@@ -4481,7 +4481,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when the user clicks on Add to Coaching button in any Answer component of Spotter Conversation.",
+						"shortText": "Emitted when the user clicks on Add to coaching button in any Answer component of Spotter Conversation.",
 						"tags": [
 							{
 								"tag": "example",
@@ -4489,7 +4489,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl\n"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl\n"
 							}
 						]
 					},
@@ -7614,11 +7614,11 @@
 						"tags": [
 							{
 								"tag": "example",
-								"text": "\n```js\nspotterEmbed.trigger(HostEvent.AddToCoaching, {vizId:\n'730496d6-6903-4601-937e-2c691821af3c'});\n```"
+								"text": "\n```js\nspotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });\n\n```"
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl\n"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl\n"
 							}
 						]
 					},

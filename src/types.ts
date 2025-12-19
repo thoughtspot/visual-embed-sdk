@@ -2980,7 +2980,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      *```
-     * @version SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     AddToCoaching = 'addToCoaching',
     /**
@@ -4426,7 +4426,7 @@ export enum HostEvent {
      * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
      * 
      *```
-     * @version SDK: 1.44.4 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     AddToCoaching = 'addToCoaching',
     /**
