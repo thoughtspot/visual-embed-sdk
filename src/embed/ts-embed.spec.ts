@@ -4162,7 +4162,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
-    test('should trigger UpdateEmbedParams with filters in URL param format (col1, op1, val1)', async () => {
+    test('should trigger UpdateEmbedParams with runtime filters and visible vizs', async () => {
         createRootEleForEmbed();
         mockMessageChannel();
 
@@ -4202,7 +4202,6 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     values: ['North'],
                 },
             ],
-            excludeRuntimeParamsFromUpdate: true,  // ← Enable conversion
         });
 
         embed2.showPreRender();
@@ -4214,27 +4213,25 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 expect.any(String),
                 expect.objectContaining({
                     liveboardId: 'original-lb',
-                    col1: 'Color',
-                    op1: RuntimeFilterOp.IN,
-                    val1: ['red', 'blue'],
-                    col2: 'Region',
-                    op2: RuntimeFilterOp.EQ,
-                    val2: 'North',
+                    visibleVizs: ['viz-1'],
+                    runtimeFilters: [
+                        {
+                            columnName: 'Color',
+                            operator: RuntimeFilterOp.IN,
+                            values: ['red', 'blue'],
+                        },
+                        {
+                            columnName: 'Region',
+                            operator: RuntimeFilterOp.EQ,
+                            values: ['North'],
+                        },
+                    ],
                 }),
             );
-            
-            // Verify string format is NOT included
-            const callArgs = mockProcessTrigger.mock.calls.find(
-                call => call[1] === HostEvent.UpdateEmbedParams
-            );
-            expect(callArgs).toBeDefined();
-            const updateParams = callArgs[3];
-            expect(updateParams.runtimeFilterParams).toBeUndefined();
-            expect(updateParams.runtimeParameterParams).toBeUndefined();
         });
     });
 
-    test('should trigger UpdateEmbedParams but exclude runtime filters/params when excludeRuntimeParamsFromUpdate is true', async () => {
+    test('should trigger UpdateEmbedParams with updated config', async () => {
         createRootEleForEmbed();
         mockMessageChannel();
 
@@ -4265,8 +4262,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         mockProcessTrigger.mockClear();
         mockProcessTrigger.mockResolvedValue({});
 
-        // Create new instance with updated config but
-        // excludeRuntimeParamsFromUpdate flag
+        // Create new instance with updated config
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'preserve-config-test',
             liveboardId: 'original-lb',  // Same liveboard
@@ -4278,30 +4274,28 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     values: ['North'],
                 },
             ],
-            excludeRuntimeParamsFromUpdate: true,
         });
 
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            // Verify UpdateEmbedParams WAS called
+            // Verify UpdateEmbedParams WAS called with updated config
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
                 expect.objectContaining({
                     liveboardId: 'original-lb',
+                    visibleVizs: ['viz-1', 'viz-2'],
+                    runtimeFilters: [
+                        {
+                            columnName: 'Region',
+                            operator: RuntimeFilterOp.EQ,
+                            values: ['North'],
+                        },
+                    ],
                 }),
             );
-            
-            // But verify runtime filters/params were NOT included
-            const callArgs = mockProcessTrigger.mock.calls.find(
-                call => call[1] === HostEvent.UpdateEmbedParams
-            );
-            expect(callArgs).toBeDefined();
-            const updateParams = callArgs[3];
-            expect(updateParams.runtimeFilterParams).toBeUndefined();
-            expect(updateParams.runtimeParameterParams).toBeUndefined();
         });
     });
 });

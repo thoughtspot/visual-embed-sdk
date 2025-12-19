@@ -34,7 +34,6 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
-    parseQueryString,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -597,30 +596,6 @@ export class TsEmbed {
         let queryParams = this.getEmbedParamsObject();
         const appInitData = await this.getAppInitData();
         queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
-        
-        // When excludeRuntimeParamsFromUpdate is true, exclude runtime
-        // filters/params to preserve the original values from URL/prerender
-        if (this.viewConfig.excludeRuntimeParamsFromUpdate) {
-            delete queryParams.runtimeFilterParams;
-            delete queryParams.runtimeParameterParams;
-            if (this.viewConfig.runtimeFilters) {
-                const filterQuery = getFilterQuery(this.viewConfig.runtimeFilters);
-                if (filterQuery) {
-                    const filterParams = parseQueryString(filterQuery);
-                    queryParams = { ...queryParams, ...filterParams };
-                }
-            }
-            
-            if (this.viewConfig.runtimeParameters) {
-                const paramQuery = getRuntimeParameters(
-                    this.viewConfig.runtimeParameters,
-                );
-                if (paramQuery) {
-                    const paramParams = parseQueryString(paramQuery);
-                    queryParams = { ...queryParams, ...paramParams };
-                }
-            }
-        }
         
         return queryParams;
     }
