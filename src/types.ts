@@ -5848,9 +5848,9 @@ export enum Action {
      *
      *  @example
      * ```js
-     * hiddenAction: [Action.DataModelInstructionsSpotter]
+     * hiddenAction: [Action.DataModelInstructions]
      * ```
-     *  @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.3.0.cl
+     *  @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
 
