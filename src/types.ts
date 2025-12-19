@@ -2973,6 +2973,17 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
+     * Emitted when user opens up the data model instructions modal in Spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.DataModelInstructions, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    DataModelInstructions = 'DataModelInstructions',
+    /**
      * Emitted when the Spotter query is triggered in Spotter embed.
      * @example
      * ```js
@@ -4397,6 +4408,15 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Opens the data model instructions modal in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DataModelInstructions);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    DataModelInstructions = 'DataModelInstructions',
     /**
      * Resets the Spotter Embed Conversation.
      * @example
