@@ -1576,10 +1576,19 @@ export class TsEmbed {
             }
             this.validatePreRenderViewConfig(this.viewConfig);
             logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-            this.executeAfterEmbedContainerLoaded(() => {
-                this.getUpdateEmbedParamsObject().then((params) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
                     this.trigger(HostEvent.UpdateEmbedParams, params);
-                });
+                } catch (error) {
+                    logger.error('Failed to get update embed params:', error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: `Failed to update embed parameters: ${error?.message || 'Unknown error'}`,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                }
             });
         }
 

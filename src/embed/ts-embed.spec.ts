@@ -4298,4 +4298,65 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             );
         });
     });
+
+    test('should handle error when getUpdateEmbedParamsObject fails during showPreRender', async () => {
+        createRootEleForEmbed();
+        mockMessageChannel();
+
+        (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'error-test',
+            liveboardId: 'original-lb',
+        });
+        
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        embed1.isEmbedContainerLoaded = true;
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        // Create a spy to track error handling
+        const handleErrorSpy = jest.spyOn(LiveboardEmbed.prototype as any, 'handleError');
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'error-test',
+            liveboardId: 'updated-lb',
+        });
+
+        // Mock getUpdateEmbedParamsObject to throw an error
+        const mockError = new Error('Failed to get params');
+        jest.spyOn(embed2 as any, 'getUpdateEmbedParamsObject').mockRejectedValue(mockError);
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            // Verify error was handled properly
+            expect(handleErrorSpy).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    errorType: ErrorDetailsTypes.API,
+                    message: expect.stringContaining('Failed to update embed parameters'),
+                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                    error: mockError.message,
+                }),
+            );
+
+            // Verify UpdateEmbedParams was NOT triggered due to error
+            expect(mockProcessTrigger).not.toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.any(Object),
+            );
+        });
+
+        handleErrorSpy.mockRestore();
+    });
 });
