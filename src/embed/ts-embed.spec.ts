@@ -2483,6 +2483,44 @@ describe('Unit test case for ts embed', () => {
             expect(libEmbed.preRender).toHaveBeenCalledTimes(0);
         });
 
+        it('should set overflow:hidden when hidePreRender and remove when showPreRender', async () => {
+            createRootEleForEmbed();
+
+            (window as any).ResizeObserver = window.ResizeObserver
+                || jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'overflow-test',
+                liveboardId: 'myLiveboardId',
+            });
+
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+
+            const preRenderIds = libEmbed.getPreRenderIds();
+            const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+            // After preRender (calls hidePreRender by default)
+            // should have overflow:hidden
+            expect(preRenderWrapper.style.overflow).toBe('hidden');
+            expect(preRenderWrapper.style.opacity).toBe('0');
+
+            // After showPreRender, overflow should be removed
+            // to inherit from CSS
+            libEmbed.showPreRender();
+            expect(preRenderWrapper.style.overflow).toBe('');
+            expect(preRenderWrapper.style.opacity).toBe('');
+
+            // After hidePreRender again, overflow should be hidden
+            libEmbed.hidePreRender();
+            expect(preRenderWrapper.style.overflow).toBe('hidden');
+            expect(preRenderWrapper.style.opacity).toBe('0');
+        });
+
         it('it should connect with another object', async () => {
             createRootEleForEmbed();
             mockMessageChannel();

@@ -1600,7 +1600,7 @@ export class TsEmbed {
             }
         }
 
-        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
 
         this.subscribeToEvents();
 
@@ -1652,6 +1652,7 @@ export class TsEmbed {
             position: 'absolute',
             top: '0',
             left: '0',
+            overflow: 'hidden',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
