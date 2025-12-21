@@ -2973,7 +2973,7 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
-     * Emitted when the user clicks on Add to coaching button in any Answer component of Spotter Conversation.
+     * Emitted when user opens up the Add to Coaching modal on any visualization in Spotter Embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
@@ -4420,7 +4420,8 @@ export enum HostEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
-     * Opens the Add to coaching modal in an Answer component of Spotter Conversation.
+     * Opens the Add to Coaching modal from a visualization in Spotter Embed.
+     * @param - `vizId ` refers to the Visualization ID in Spotter embed and is required.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
