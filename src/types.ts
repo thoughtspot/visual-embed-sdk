@@ -2973,6 +2973,17 @@ export enum EmbedEvent {
      */
     PreviewSpotterData = 'PreviewSpotterData',
     /**
+     * Emitted when user opens up the Add to Coaching modal on any visualization in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    AddToCoaching = 'addToCoaching',
+    /**
      * Emitted when user opens up the data model instructions modal in Spotter embed.
      * @example
      * ```js
@@ -4408,6 +4419,17 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Opens the Add to Coaching modal from a visualization in Spotter Embed.
+     * @param - `vizId ` refers to the Visualization ID in Spotter embed and is required.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
+     * 
+     *```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    AddToCoaching = 'addToCoaching',
     /**
      * Opens the data model instructions modal in Spotter Embed.
      * @example
