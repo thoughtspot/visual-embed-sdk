@@ -1120,6 +1120,20 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+
+    /**
+     * Refresh the auth token when the token is near expiry.
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    refreshAuthTokenOnNearExpiry: true,
+     * })
+     * ```
+     */
+    refreshAuthTokenOnNearExpiry?: boolean;
 }
 
 /**
