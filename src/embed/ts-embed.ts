@@ -959,6 +959,8 @@ export class TsEmbed {
         preRenderWrapper.id = preRenderIds.wrapper;
         const initialPreRenderWrapperStyle = {
             position: 'absolute',
+            top: '0',
+            left: '0',
             width: '100vw',
             height: '100vh',
         };
@@ -1611,7 +1613,7 @@ export class TsEmbed {
             }
         }
 
-        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
 
         this.subscribeToEvents();
 
@@ -1660,7 +1662,10 @@ export class TsEmbed {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: '-1000',
-            position: 'absolute ',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            overflow: 'hidden',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
