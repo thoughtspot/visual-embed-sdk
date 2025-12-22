@@ -4055,7 +4055,7 @@ describe('Destroy error handling', () => {
         }).not.toThrow();
         
         expect(logSpy).toHaveBeenCalledWith('Error destroying TS Embed', expect.any(Error));
-        logSpy.mockRestore();
+        logSpy.mockReset();
     });
 });
 

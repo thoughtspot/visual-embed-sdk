@@ -479,6 +479,7 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
+            embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry,
             ...getInterceptInitData(this.viewConfig),
         };
 
@@ -506,6 +507,28 @@ export class TsEmbed {
             logger.error(`AppInit failed, Error : ${e?.message}`);
         }
     };
+
+    /**
+     * Refresh the auth token if the autoLogin is true and the authType is TrustedAuthTokenCookieless
+     * @param _
+     * @param responder
+     */
+    private tokenRefresh = async (_: any, responder: any) => {
+        const { authType, autoLogin } = this.embedConfig;
+        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
+            try {
+                const authToken = await getAuthenticationToken(this.embedConfig, true);
+                responder({
+                    type: EmbedEvent.RefreshAuthToken,
+                    data: { authToken },
+                });
+            } catch (e) {
+                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
+                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+            }
+        }
+    }
 
     /**
      * Sends updated auth token to the iFrame to avoid user logout
@@ -569,9 +592,10 @@ export class TsEmbed {
 
         const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
-
+        
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
+        this.on(EmbedEvent.RefreshAuthToken, this.tokenRefresh, { start: false }, true);
     };
 
     /**

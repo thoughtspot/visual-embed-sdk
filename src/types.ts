@@ -1120,6 +1120,20 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+
+    /**
+     * Refresh the auth token when the token is near expiry.
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    refreshAuthTokenOnNearExpiry: true,
+     * })
+     * ```
+     */
+    refreshAuthTokenOnNearExpiry?: boolean;
 }
 
 /**
@@ -3149,6 +3163,19 @@ export enum EmbedEvent {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     ApiIntercept = 'ApiIntercept',
+
+    /**
+     * @hidden
+     * Emitted when the auth token is about to get expired and needs to be refreshed.
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.RefreshAuthToken, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    RefreshAuthToken = 'RefreshAuthToken',
 }
 
 /**
