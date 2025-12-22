@@ -1581,10 +1581,10 @@ export class TsEmbed {
                     const params = await this.getUpdateEmbedParamsObject();
                     this.trigger(HostEvent.UpdateEmbedParams, params);
                 } catch (error) {
-                    logger.error('Failed to get update embed params:', error);
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                     this.handleError({
                         errorType: ErrorDetailsTypes.API,
-                        message: `Failed to update embed parameters: ${error?.message || 'Unknown error'}`,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
                         code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
                         error: error?.message || error,
                     });
