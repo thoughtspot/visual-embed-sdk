@@ -147,7 +147,8 @@ export const isValidCssMargin = (value: string): boolean => {
         return false;
     }
 
-    // This pattern allows for an optional negative sign, and numbers that can be integers or decimals (including leading dot).
+    // This pattern allows for an optional negative sign, and numbers
+    // that can be integers or decimals (including leading dot).
     const cssUnitPattern = /^-?(\d+(\.\d*)?|\.\d+)(px|em|rem|%|vh|vw)$/i;
     const parts = value.trim().split(/\s+/);
 

@@ -28,6 +28,7 @@ export const ERROR_MESSAGE = {
     LOGIN_FAILED: 'Login failed',
     ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
     SSR_ENVIRONMENT_ERROR: 'SSR environment detected. This function cannot be called in SSR environment.',
+    UPDATE_PARAMS_FAILED: 'Failed to update embed parameters',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
