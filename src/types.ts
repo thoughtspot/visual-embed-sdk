@@ -6352,6 +6352,9 @@ export enum EmbedErrorCodes {
 
     /** Error parsing api intercept body */
     PARSING_API_INTERCEPT_BODY_ERROR = 'PARSING_API_INTERCEPT_BODY_ERROR',
+
+    /** Failed to update embed parameters during pre-render */
+    UPDATE_PARAMS_FAILED = 'UPDATE_PARAMS_FAILED',
 }
 
 /**

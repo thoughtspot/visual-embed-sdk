@@ -4107,6 +4107,33 @@ describe('Fullscreen change handler behavior', () => {
 });
 
 describe('ShowPreRender with UpdateEmbedParams', () => {
+    const setupPreRenderTest = async (preRenderId: string, initialConfig: Partial<LiveboardViewConfig>) => {
+        createRootEleForEmbed();
+        mockMessageChannel();
+
+        (window as any).ResizeObserver = window.ResizeObserver
+            || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId,
+            ...initialConfig,
+        });
+        
+        await embed1.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        embed1.isEmbedContainerLoaded = true;
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        return embed1;
+    };
+
     beforeAll(() => {
         init({
             thoughtSpotHost: 'tshost',
@@ -4120,28 +4147,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
     });
 
     test('should trigger UpdateEmbedParams when showPreRender connects to existing prerendered component', async () => {
-        createRootEleForEmbed();
-        mockMessageChannel();
-
-        (window as any).ResizeObserver = window.ResizeObserver
-            || jest.fn().mockImplementation(() => ({
-                disconnect: jest.fn(),
-                observe: jest.fn(),
-                unobserve: jest.fn(),
-            }));
-
-        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
-            preRenderId: 'update-params-test',
-            liveboardId: 'original-lb',
-        });
-        
-        await embed1.preRender();
-        await waitFor(() => !!getIFrameEl());
-
-        embed1.isEmbedContainerLoaded = true;
-
-        mockProcessTrigger.mockClear();
-        mockProcessTrigger.mockResolvedValue({});
+        await setupPreRenderTest('update-params-test', { liveboardId: 'original-lb' });
 
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'update-params-test',
@@ -4160,5 +4166,136 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 }),
             );
         });
+    });
+
+    test('should trigger UpdateEmbedParams with runtime filters and visible vizs', async () => {
+        await setupPreRenderTest('url-param-test', { liveboardId: 'original-lb' });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'url-param-test',
+            liveboardId: 'original-lb',
+            visibleVizs: ['viz-1'],
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+                {
+                    columnName: 'Region',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['North'],
+                },
+            ],
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId: 'original-lb',
+                    visibleVizs: ['viz-1'],
+                    runtimeFilters: [
+                        {
+                            columnName: 'Color',
+                            operator: RuntimeFilterOp.IN,
+                            values: ['red', 'blue'],
+                        },
+                        {
+                            columnName: 'Region',
+                            operator: RuntimeFilterOp.EQ,
+                            values: ['North'],
+                        },
+                    ],
+                }),
+            );
+        });
+    });
+
+    test('should trigger UpdateEmbedParams with updated config', async () => {
+        await setupPreRenderTest('preserve-config-test', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'preserve-config-test',
+            liveboardId: 'original-lb',
+            visibleVizs: ['viz-1', 'viz-2'],
+            runtimeFilters: [
+                {
+                    columnName: 'Region',
+                    operator: RuntimeFilterOp.EQ,
+                    values: ['North'],
+                },
+            ],
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId: 'original-lb',
+                    visibleVizs: ['viz-1', 'viz-2'],
+                    runtimeFilters: [
+                        {
+                            columnName: 'Region',
+                            operator: RuntimeFilterOp.EQ,
+                            values: ['North'],
+                        },
+                    ],
+                }),
+            );
+        });
+    });
+
+    test('should handle error when getUpdateEmbedParamsObject fails during showPreRender', async () => {
+        await setupPreRenderTest('error-test', { liveboardId: 'original-lb' });
+
+        const handleErrorSpy = jest.spyOn(LiveboardEmbed.prototype as any, 'handleError');
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'error-test',
+            liveboardId: 'updated-lb',
+        });
+
+        const mockError = new Error('Failed to get params');
+        jest.spyOn(embed2 as any, 'getUpdateEmbedParamsObject').mockRejectedValue(mockError);
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(handleErrorSpy).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    errorType: ErrorDetailsTypes.API,
+                    message: 'Failed to get params',
+                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                    error: 'Failed to get params',
+                }),
+            );
+
+            expect(mockProcessTrigger).not.toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.any(Object),
+            );
+        });
+
+        handleErrorSpy.mockRestore();
     });
 });

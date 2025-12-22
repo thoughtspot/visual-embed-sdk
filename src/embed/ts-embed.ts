@@ -592,9 +592,11 @@ export class TsEmbed {
         return `${basePath}#`;
     }
 
-    protected getUpdateEmbedParamsObject() {
+    protected async getUpdateEmbedParamsObject() {
         let queryParams = this.getEmbedParamsObject();
-        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
+        const appInitData = await this.getAppInitData();
+        queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
+        
         return queryParams;
     }
 
@@ -1574,8 +1576,19 @@ export class TsEmbed {
             }
             this.validatePreRenderViewConfig(this.viewConfig);
             logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-            this.executeAfterEmbedContainerLoaded(() => {
-                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                } catch (error) {
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                }
             });
         }
 
