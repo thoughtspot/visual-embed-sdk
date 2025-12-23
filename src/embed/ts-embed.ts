@@ -195,8 +195,8 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = {
-            excludeRuntimeFiltersfromURL: false,
-            excludeRuntimeParametersfromURL: false,
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
         this.registerAppInit();

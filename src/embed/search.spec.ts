@@ -287,6 +287,7 @@ describe('Search embed tests', () => {
                     values: ['berkeley'],
                 },
             ],
+            excludeRuntimeFiltersfromURL: false,
         });
         searchEmbed.render();
         const runtimeFilter = 'col1=city&op1=EQ&val1=berkeley';
@@ -485,6 +486,7 @@ describe('Search embed tests', () => {
                     value: 1,
                 },
             ],
+            excludeRuntimeParametersfromURL: false,
         });
         searchEmbed.render();
         await executeAfterWait(() => {

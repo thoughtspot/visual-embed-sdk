@@ -1281,7 +1281,7 @@ export interface SearchLiveboardCommonViewConfig {
      *
      * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
      * embedded view.
-     * @default false
+     * @default true
      * @version SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
@@ -1291,7 +1291,7 @@ export interface SearchLiveboardCommonViewConfig {
      *
      * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
      * embedded view.
-     * @default false
+     * @default true
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
