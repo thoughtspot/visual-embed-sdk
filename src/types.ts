@@ -1802,9 +1802,13 @@ export enum HomepageModule {
 
 export enum ListPageColumns {
     /**
-     * Favourite
+     * Favorites
      */
-    Favourite = 'FAVOURITE',
+    Favorites = 'FAVOURITE',
+    /**
+     * @deprecated Use {@link ListPageColumns.Favorites} instead.
+     */
+    Favourite = Favorites,
     /**
      * Tags
      */
@@ -1821,6 +1825,10 @@ export enum ListPageColumns {
      * Share
      */
     Share = 'SHARE',
+    /**
+     * Verified badge/column
+     */
+    Verified = 'VERIFIED',
 }
 
 /**
