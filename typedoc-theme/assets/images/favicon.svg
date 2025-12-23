@@ -1,1 +1,7 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297.22 299.56"><defs><style>.cls-1{fill:#0a0b09;fill-rule:evenodd;}@media(prefers-color-scheme:dark){.cls-1{fill:#ffffff;}}</style></defs><path class="cls-1" d="M222.33,262.11a37.45,37.45,0,1,1,37.44,37.45,37.44,37.44,0,0,1-37.44-37.45M0,93.61H100.63V297.22h18.72V93.61h18.73V297.22H156.8V93.61h18.72V297.22h18.73V93.61H294.88V74.89H0V93.61M0,56.16H294.88V37.44H0ZM0,18.72H294.88V0H0Z"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57 57">
+  <rect x="15.38" y="15.38" width="26.24" height="4.86"/>
+  <rect x="31.65" y="21.86" width="9.97" height="4.86"/>
+  <path d="M21.75,21.86h-6.37v4.86h6.37c2.38,0,4.32,1.94,4.32,4.32v10.58h4.86v-10.58c0-5.06-4.12-9.18-9.18-9.18Z"/>
+  <path d="M36.64,33.78c-2.25,0-4.08,1.83-4.08,4.08s1.83,4.08,4.08,4.08,4.08-1.83,4.08-4.08-1.83-4.08-4.08-4.08Z"/>
+</svg>
