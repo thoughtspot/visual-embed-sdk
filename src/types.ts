@@ -1277,7 +1277,9 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * Boolean to exclude runtimeFilters in the URL
      * By default it is true, this flag removes runtime filters from the URL
-     * when set to false, runtime filters will be included in the URL.
+     * (default behavior from SDK 1.45.0).
+     * when set to false, runtime filters will be included in the URL
+     * (default behavior before SDK 1.45.0).
      *
      * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
      * embedded view.
@@ -1287,7 +1289,10 @@ export interface SearchLiveboardCommonViewConfig {
     excludeRuntimeFiltersfromURL?: boolean;
     /**
      * Boolean to exclude runtimeParameters from the URL
-     * when set to true, this flag removes runtime parameters from the URL.
+     * when set to true, this flag removes runtime parameters from the URL
+     * (default behavior from SDK 1.45.0).
+     * when set to false, runtime parameters will be included in the URL
+     * (default behavior before SDK 1.45.0).
      *
      * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
      * embedded view.

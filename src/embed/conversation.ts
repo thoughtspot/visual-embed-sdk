@@ -127,8 +127,10 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     runtimeFilters?: RuntimeFilter[];
     /**
      * Flag to control whether runtime filters should be included in the URL.
-     * If true, filters will be passed via app initialization payload (default behavior.
+     * If true, filters will be passed via app initialization payload 
+     * (default behavior from SDK 1.45.0).
      * If false/undefined, filters are appended to the iframe URL instead.
+     * (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
      * @default true
@@ -157,9 +159,9 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Flag to control whether runtime parameters should be included in the URL.
      * If true, parameters will be passed via app 
-     * initialization payload (default behavior).
+     * initialization payload (default behavior from SDK 1.45.0).
      * If false/undefined, parameters are appended to 
-     * the iframe URL instead.
+     * the iframe URL instead (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
      * @default true
