@@ -1,1 +1,10 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297.22 299.56"><defs><style>.cls-1{fill:#0a0b09;fill-rule:evenodd;}@media(prefers-color-scheme:dark){.cls-1{fill:#ffffff;}}</style></defs><path class="cls-1" d="M222.33,262.11a37.45,37.45,0,1,1,37.44,37.45,37.44,37.44,0,0,1-37.44-37.45M0,93.61H100.63V297.22h18.72V93.61h18.73V297.22H156.8V93.61h18.72V297.22h18.73V93.61H294.88V74.89H0V93.61M0,56.16H294.88V37.44H0ZM0,18.72H294.88V0H0Z"/></svg>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .logo-path { fill: #0a0b09; }
+  @media (prefers-color-scheme: dark) { .logo-path { fill: #ffffff; } }
+</style>
+<path class="logo-path" d="M15.8072 0H0V2.9277H15.8072V0Z"/>
+<path class="logo-path" d="M15.8072 3.9036H9.80118V6.83131H15.8072V3.9036Z"/>
+<path class="logo-path" d="M3.83734 3.9036H0V6.83131H3.83734C5.27108 6.83131 6.43975 7.99998 6.43975 9.43371V15.8072H9.36745V9.43371C9.36745 6.38552 6.88553 3.9036 3.83734 3.9036Z"/>
+<path class="logo-path" d="M12.8072 11.0843C11.4518 11.0843 10.3494 12.1868 10.3494 13.5422C10.3494 14.8976 11.4518 16 12.8072 16C14.1626 16 15.265 14.8976 15.265 13.5422C15.265 12.1868 14.1626 11.0843 12.8072 11.0843Z"/>
+</svg>
