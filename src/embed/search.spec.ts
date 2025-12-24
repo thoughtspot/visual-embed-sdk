@@ -287,7 +287,7 @@ describe('Search embed tests', () => {
                     values: ['berkeley'],
                 },
             ],
-            excludeRuntimeFiltersfromURL: false,
+            excludeRuntimeFiltersfromURL: undefined,
         });
         searchEmbed.render();
         const runtimeFilter = 'col1=city&op1=EQ&val1=berkeley';
