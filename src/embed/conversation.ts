@@ -228,7 +228,12 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
  */
 export class SpotterEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
-        viewConfig.embedComponentType = 'conversation';
+        viewConfig = {
+            embedComponentType: 'conversation',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        }
         super(container, viewConfig);
     }
 
@@ -353,7 +358,12 @@ export class SpotterEmbed extends TsEmbed {
  */
 export class ConversationEmbed extends SpotterEmbed {
     constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
-        viewConfig.embedComponentType = 'conversation';
+        viewConfig = {
+            embedComponentType: 'conversation',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        }
         super(container, viewConfig);
     }
 }

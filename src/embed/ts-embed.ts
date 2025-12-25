@@ -1756,7 +1756,11 @@ export class V1Embed extends TsEmbed {
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = { excludeRuntimeFiltersfromURL: false, ...viewConfig };
+        this.viewConfig = {
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        };
     }
 
     /**

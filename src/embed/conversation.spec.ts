@@ -197,6 +197,7 @@ describe('ConversationEmbed', () => {
                     values: [1000],
                 },
             ],
+            excludeRuntimeFiltersfromURL: false,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -219,6 +220,7 @@ describe('ConversationEmbed', () => {
                     value: '30',
                 },
             ],
+            excludeRuntimeParametersfromURL: false,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -355,6 +357,7 @@ describe('ConversationEmbed', () => {
                     value: '30',
                 },
             ],
+            excludeRuntimeParametersfromURL: false,
         };
 
         // Test with deprecated class
