@@ -1802,9 +1802,14 @@ export enum HomepageModule {
 
 export enum ListPageColumns {
     /**
-     * Favourite
+     * Favorites
+     * @version SDK: 1.45.0 | Thoughtspot: 26.3.0.cl
      */
-    Favourite = 'FAVOURITE',
+    Favorites = 'FAVORITES',
+    /**
+     * @deprecated Use {@link ListPageColumns.Favorites} instead from v1.45.0.
+     */
+    Favourite = Favorites,
     /**
      * Tags
      */
@@ -1821,6 +1826,11 @@ export enum ListPageColumns {
      * Share
      */
     Share = 'SHARE',
+    /**
+     * Verified badge/column
+     * @version SDK: 1.45.0 | Thoughtspot: 26.3.0.cl
+     */
+    Verified = 'VERIFIED',
 }
 
 /**
