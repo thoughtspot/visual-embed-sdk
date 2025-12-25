@@ -162,6 +162,7 @@ describe('test view config', () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             runtimeFilters,
+            excludeRuntimeFiltersfromURL: false,
         });
         searchEmbed.render();
 

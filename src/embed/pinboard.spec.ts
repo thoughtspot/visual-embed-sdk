@@ -217,6 +217,7 @@ describe('Pinboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
+            excludeRuntimeFiltersfromURL: undefined,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         const runtimeFilter = 'col1=sales&op1=EQ&val1=1000';

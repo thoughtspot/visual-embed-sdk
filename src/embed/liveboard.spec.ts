@@ -646,6 +646,7 @@ describe('Liveboard/viz embed tests', () => {
                     values: [1000],
                 },
             ],
+            excludeRuntimeFiltersfromURL: undefined,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         const runtimeFilter = 'col1=sales&op1=EQ&val1=1000';
@@ -890,6 +891,7 @@ describe('Liveboard/viz embed tests', () => {
                     value: 1,
                 },
             ],
+            excludeRuntimeParametersfromURL: undefined,
         } as LiveboardViewConfig);
         await liveboardEmbed.render();
         await executeAfterWait(() => {

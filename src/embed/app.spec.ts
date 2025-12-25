@@ -271,6 +271,7 @@ describe('App embed tests', () => {
                     values: [1000],
                 },
             ],
+            excludeRuntimeFiltersfromURL: undefined,
         } as AppViewConfig);
 
         appEmbed.render();

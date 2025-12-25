@@ -195,8 +195,8 @@ export class TsEmbed {
         this.eventHandlerMap = new Map();
         this.isError = false;
         this.viewConfig = {
-            excludeRuntimeFiltersfromURL: false,
-            excludeRuntimeParametersfromURL: false,
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
         this.registerAppInit();
@@ -1756,7 +1756,11 @@ export class V1Embed extends TsEmbed {
 
     constructor(domSelector: DOMSelector, viewConfig: ViewConfig) {
         super(domSelector, viewConfig);
-        this.viewConfig = { excludeRuntimeFiltersfromURL: false, ...viewConfig };
+        this.viewConfig = {
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        };
     }
 
     /**
