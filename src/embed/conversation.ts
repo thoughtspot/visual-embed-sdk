@@ -127,11 +127,13 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     runtimeFilters?: RuntimeFilter[];
     /**
      * Flag to control whether runtime filters should be included in the URL.
-     * If true, filters will be passed via app initialization payload instead.
-     * If false/undefined, filters will be added to URL (default behavior).
+     * If true, filters will be passed via app initialization payload 
+     * (default behavior from SDK 1.45.0).
+     * If false/undefined, filters are appended to the iframe URL instead.
+     * (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
-     * @default false
+     * @default true
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeFiltersfromURL?: boolean;
@@ -156,11 +158,13 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     runtimeParameters?: RuntimeParameter[];
     /**
      * Flag to control whether runtime parameters should be included in the URL.
-     * If true, parameters will be passed via app initialization payload instead.
-     * If false/undefined, parameters will be added to URL (default behavior).
+     * If true, parameters will be passed via app 
+     * initialization payload (default behavior from SDK 1.45.0).
+     * If false/undefined, parameters are appended to 
+     * the iframe URL instead (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
-     * @default false
+     * @default true
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     excludeRuntimeParametersfromURL?: boolean;
@@ -224,7 +228,12 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
  */
 export class SpotterEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
-        viewConfig.embedComponentType = 'conversation';
+        viewConfig = {
+            embedComponentType: 'conversation',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        }
         super(container, viewConfig);
     }
 
@@ -349,7 +358,12 @@ export class SpotterEmbed extends TsEmbed {
  */
 export class ConversationEmbed extends SpotterEmbed {
     constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
-        viewConfig.embedComponentType = 'conversation';
+        viewConfig = {
+            embedComponentType: 'conversation',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        }
         super(container, viewConfig);
     }
 }

@@ -559,6 +559,7 @@ describe('Unit test case for ts embed', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 runtimeFilters: mockRuntimeFilters,
+                excludeRuntimeFiltersfromURL: undefined,
             });
             searchEmbed.render();
             const mockPort: any = {
