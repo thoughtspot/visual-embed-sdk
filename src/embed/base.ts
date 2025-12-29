@@ -33,9 +33,10 @@ import {
 import '../utils/with-resolvers-polyfill';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
-import { getQueryParamString, getValueFromWindow, storeValueInWindow } from '../utils';
+import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
+import { ERROR_MESSAGE } from '../errors';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -192,6 +193,7 @@ type InitFlagStore = {
 const initFlagKey = 'initFlagKey';
 
 export const createAndSetInitPromise = (): void => {
+    if (isWindowUndefined()) return;
     const {
         promise: initPromise,
         resolve: initPromiseResolve,
@@ -238,7 +240,8 @@ export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?
  * @version SDK: 1.0.0 | ThoughtSpot ts7.april.cl, 7.2.1
  * @group Authentication / Init
  */
-export const init = (embedConfig: EmbedConfig): AuthEventEmitter => {
+export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
+    if (isWindowUndefined()) return null;
     sanity(embedConfig);
     resetAllCachedServices();
     embedConfig = setEmbedConfig(

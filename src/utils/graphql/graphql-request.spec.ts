@@ -20,7 +20,7 @@ describe('graphQl tests', () => {
             json: jest.fn().mockResolvedValue({
                 data: {},
             }),
-        });
+        } as any);
 
         const details = await graphqlQuery({
             query: getSourceDetailQuery,
@@ -30,7 +30,7 @@ describe('graphQl tests', () => {
             thoughtSpotHost,
         });
 
-        expect(tokenizedFetchUtil.tokenizedFetch).toBeCalledWith('TSHOST/prism/?op=GetSourceDetail', {
+        expect(tokenizedFetchUtil.tokenizedFetch).toHaveBeenCalledWith('TSHOST/prism/?op=GetSourceDetail', {
             body: '{"operationName":"GetSourceDetail","query":"\\n    query GetSourceDetail($ids: [GUID!]!) {\\n        getSourceDetailById(ids: $ids, type: LOGICAL_TABLE) {\\n            id\\n            name\\n        }\\n    }  \\n","variables":{"ids":[2]}}',
             credentials: 'include',
             headers: {

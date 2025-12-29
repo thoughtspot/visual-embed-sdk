@@ -169,57 +169,71 @@ export enum AuthType {
 }
 /**
  *
- * This option does not apply to the classic homepage experience.
- * To access the updated modular homepage,
- * set `modularHomeExperience` to `true`
- * (available as Early Access feature in 9.12.5.cl).
+ * **Note**:  This attribute is not supported in the classic (V1) homepage experience.
  *
  */
 
 export enum HomeLeftNavItem {
     /**
+     * The *Search data* option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     SearchData = 'search-data',
     /**
+     * The *Home* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Home = 'insights-home',
     /**
+     * The *Liveboards* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Liveboards = 'liveboards',
     /**
+     * The *Answers* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     Answers = 'answers',
     /**
+     * The *Monitor subscriptions* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     MonitorSubscription = 'monitor-alerts',
     /**
+     * The *SpotIQ analysis* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
      */
     SpotIQAnalysis = 'spotiq-analysis',
     /**
+     * The *Liveboard schedules* menu option in
+     * the *Insights* left navigation panel.
      * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
      */
     LiveboardSchedules = 'liveboard-schedules',
     /**
-     * Create new options in the insights left navigation,
-     * available when new navigation V3 is enabled.
+     * The create option in the *Insights*
+     * left navigation panel.
+     * Available in the V3 navigation experience.
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     Create = 'create',
     /**
-     * Spotter option in the insights left navigation,
-     * available when new navigation V3 is enabled.
+     * The *Spotter* menu option in the *Insights*
+     * left navigation panel.
+     * Available in the V3 navigation experience.
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     Spotter = 'spotter',
     /**
-     * Favorites option in the insights left navigation,
-     * available when new navigation V3 is enabled.
+     * The *Favorites* section in the *Insights*
+     * left navigation panel.
+     * Available in the V3 navigation experience.
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     Favorites = 'favorites',
@@ -1156,11 +1170,13 @@ export interface BaseViewConfig extends ApiInterceptFlags {
  */
 export interface HomePageConfig {
     /**
-     * Hide list page columns
-     * For example: hiddenListColumns = [ListPageColumns.Author]
+     * Hide columns on list pages such as
+     * *Liveboards* and *Answers*.
+     * For example: `hiddenListColumns = [ListPageColumns.Author]`
      *
-     * **Note**: This option is currently available only in full app embedding and requires importing the ListPageColumns enum.
-     * At present, it can be used with Liveboard and Answer list pages, and starting with version 10.14.0.cl, it will also be supported for the Home page.
+     * **Note**: This option is available only in full app embedding and requires importing the `ListPageColumns` enum.
+     * Starting with version 10.14.0.cl, you can use this attribute to
+     * hide the columns on all list pages in the *Insights* section.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.38.0 | ThoughtSpot: 10.9.0.cl
@@ -1176,13 +1192,11 @@ export interface HomePageConfig {
      */
     hiddenListColumns?: ListPageColumns[];
     /**
-     * Hide the home page modules
-     * For example: hiddenHomepageModules = [HomepageModule.MyLibrary]
+     * Control the visibility of home page modules.
+     * To specify the modules, import the `HomepageModule` enum.
+     * For example: `hiddenHomepageModules = [HomepageModule.MyLibrary]`
      *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * To use it, you need to import `HomepageModule` enum.
+     * **Note**: This attribute is not supported in the classic (v1) experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1191,20 +1205,18 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    ... // V2/V3 navigation and home page experience attributes
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
+     *    //...other embed view configuration attributes
      * })
      * ```
      */
     hiddenHomepageModules?: HomepageModule[];
     /**
-     * reordering the home page modules
-     * eg: reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * To use it, you need to import `HomepageModule` enum.
+     * Reorder home page modules.
+     * To specify the modules, import the `HomepageModule` enum.
+     * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]`
+     * **Note**: This attribute is not supported in the classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1213,16 +1225,19 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    ...//V2/V3 navigation and home page experience attributes
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
+     *    //... other embed view configuration attributes
      * })
      * ```
      */
     reorderedHomepageModules?: HomepageModule[];
     /**
-     * homepageLeftNavItems : Show or hide the left navigation bar items.
-     * There are 8 eight home navigation list items.
-     * To hide these items, specify the string in the array.
+     * Controls the visibility of the menu items
+     * on the home page left navigation panel.
+     * To specify the menu items, import the `HomeLeftNavItem` enum.
+     *
+     * **Note**: This attribute is not supported in the classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
      * @example
@@ -1230,15 +1245,11 @@ export interface HomePageConfig {
      * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    //... V2/V3 experience attributes
      *    hiddenHomeLeftNavItems : [HomeLeftNavItem.Home,HomeLeftNavItem.Answers],
+     *    ... //other embed view configuration attributes
      * })
      * ```
-     *
-     * **Note**: This option does not apply to the classic homepage.
-     * To access the updated modular homepage, set
-     * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
-     * To use it, you need to import `HomeLeftNavItem` enum.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
@@ -1791,10 +1802,11 @@ export enum RuntimeFilterOp {
 }
 
 /**
- * Home page module that can be hidden.
- * **Note**: This option does not apply to the classic homepage.
- * To access the updated modular homepage, set
- * `modularHomeExperience` to `true` (available as Early Access feature in 9.12.5.cl).
+ * Home page modules that can be hidden
+ * via `hiddenHomepageModules` and reordered via
+ * `reorderedHomepageModules`.
+ *
+ * **Note**: This option is not supported in the classic (v1) experience.
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
 
@@ -1808,7 +1820,7 @@ export enum HomepageModule {
      */
     Watchlist = 'WATCHLIST',
     /**
-     * favorite objects
+     * Favorite module
      */
     Favorite = 'FAVORITE',
     /**
@@ -3003,6 +3015,28 @@ export enum EmbedEvent {
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Emitted when user opens up the Add to Coaching modal on any visualization in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     *```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    AddToCoaching = 'addToCoaching',
+    /**
+     * Emitted when user opens up the data model instructions modal in Spotter embed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.DataModelInstructions, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    DataModelInstructions = 'DataModelInstructions',
     /**
      * Emitted when the Spotter query is triggered in Spotter embed.
      * @example
@@ -4428,6 +4462,26 @@ export enum HostEvent {
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
+    /**
+     * Opens the Add to Coaching modal from a visualization in Spotter Embed.
+     * @param - `vizId ` refers to the Visualization ID in Spotter embed and is required.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
+     * 
+     *```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    AddToCoaching = 'addToCoaching',
+    /**
+     * Opens the data model instructions modal in Spotter Embed.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.DataModelInstructions);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    DataModelInstructions = 'DataModelInstructions',
     /**
      * Resets the Spotter Embed Conversation.
      * @example
@@ -6351,6 +6405,9 @@ export enum EmbedErrorCodes {
 
     /** Error parsing api intercept body */
     PARSING_API_INTERCEPT_BODY_ERROR = 'PARSING_API_INTERCEPT_BODY_ERROR',
+
+    /** Failed to update embed parameters during pre-render */
+    UPDATE_PARAMS_FAILED = 'UPDATE_PARAMS_FAILED',
 }
 
 /**

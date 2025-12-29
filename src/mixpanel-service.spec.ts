@@ -82,7 +82,7 @@ describe('Unit test for mixpanel', () => {
     });
 
     test('init mixpanel with no mixpanel token', () => {
-        jest.spyOn(logger, 'error').mockReturnValueOnce(true);
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
         initMixpanel({ test: 'dummy' } as any);
         expect(logger.error).toHaveBeenCalled();
         expect(mixpanel.register_once).not.toHaveBeenCalled();

@@ -10,7 +10,7 @@ import { logger } from './logger';
 
 describe('Unit test for process data', () => {
     beforeAll(() => {
-        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve({}));
+        jest.spyOn(auth, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
         base.init({
             thoughtSpotHost: 'https://tshost',
             authType: AuthType.None,
@@ -84,7 +84,7 @@ describe('Unit test for process data', () => {
         const processedData = { type: EmbedEvent.Data };
         jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
         processDataInstance.processEventData(EmbedEvent.Data, processedData, thoughtSpotHost, null);
-        expect(processDataInstance.processCustomAction).not.toBeCalled();
+        expect(processDataInstance.processCustomAction).not.toHaveBeenCalled();
     });
 
     test('AuthInit', () => {
@@ -95,14 +95,14 @@ describe('Unit test for process data', () => {
         };
         const e = { type: EmbedEvent.AuthInit, data: sessionInfo };
         jest.spyOn(base, 'notifyAuthSuccess');
-        jest.spyOn(sessionInfoService, 'getSessionInfo').mockReturnValue(sessionInfo);
+        jest.spyOn(sessionInfoService, 'getSessionInfo').mockImplementation(() => Promise.resolve(sessionInfo as any));
         expect(processDataInstance.processEventData(e.type, e, '', null)).toEqual({
             type: e.type,
             data: {
                 userGUID: sessionInfo.userGUID,
             },
         });
-        expect(base.notifyAuthSuccess).toBeCalled();
+        expect(base.notifyAuthSuccess).toHaveBeenCalled();
     });
 
     test('NoCookieAccess no suppress alert', () => {
@@ -111,14 +111,14 @@ describe('Unit test for process data', () => {
         jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             suppressNoCookieAccessAlert: false,
-        });
+        } as any);
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
-        expect(window.alert).toBeCalled();
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
+        expect(window.alert).toHaveBeenCalled();
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -128,15 +128,15 @@ describe('Unit test for process data', () => {
         jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             suppressNoCookieAccessAlert: true,
-        });
+        } as any);
         jest.spyOn(window, 'alert').mockReset();
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
-        expect(window.alert).not.toBeCalled();
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
+        expect(window.alert).not.toHaveBeenCalled();
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -146,15 +146,15 @@ describe('Unit test for process data', () => {
         jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             ignoreNoCookieAccess: true,
-        });
+        } as any);
         jest.spyOn(window, 'alert').mockReset();
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
-        expect(window.alert).not.toBeCalled();
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.NO_COOKIE_ACCESS);
+        expect(window.alert).not.toHaveBeenCalled();
         expect(el.innerHTML).not.toBe('Hello');
     });
 
@@ -163,12 +163,12 @@ describe('Unit test for process data', () => {
         jest.spyOn(base, 'notifyAuthFailure');
         jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
-        });
+        } as any);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.OTHER);
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.OTHER);
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -178,12 +178,12 @@ describe('Unit test for process data', () => {
         jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
             loginFailedMessage: 'Hello',
             authType: AuthType.None,
-        });
+        } as any);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).not.toBeCalled();
+        expect(base.notifyAuthFailure).not.toHaveBeenCalled();
         expect(el.innerHTML).not.toBe('Hello');
     });
 
@@ -201,7 +201,7 @@ describe('Unit test for process data', () => {
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyLogout).toBeCalled();
+        expect(base.notifyLogout).toHaveBeenCalled();
         expect(el.innerHTML).toBe('Hello');
         expect(embedConfigInstance.getEmbedConfig().autoLogin).toBe(false);
     });
@@ -212,12 +212,12 @@ describe('Unit test for process data', () => {
             loginFailedMessage: 'Hello',
             authType: AuthType.EmbeddedSSO,
             disableLoginFailurePage: true,
-        });
+        } as any);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).not.toBeCalled();
+        expect(base.notifyAuthFailure).not.toHaveBeenCalled();
         expect(el.innerHTML).not.toBe('Hello');
     });
 
@@ -228,12 +228,12 @@ describe('Unit test for process data', () => {
             loginFailedMessage: 'Hello',
             authType: AuthType.TrustedAuthToken,
             autoLogin: true,
-        });
+        } as any);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -244,12 +244,12 @@ describe('Unit test for process data', () => {
             loginFailedMessage: 'Hello',
             authType: AuthType.TrustedAuthTokenCookieless,
             autoLogin: true,
-        });
+        } as any);
         const el: any = {};
         expect(processDataInstance.processEventData(e.type, e, '', el)).toEqual({
             type: e.type,
         });
-        expect(base.notifyAuthFailure).toBeCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
+        expect(base.notifyAuthFailure).toHaveBeenCalledWith(auth.AuthFailureType.IDLE_SESSION_TIMEOUT);
         expect(el.innerHTML).toBe('Hello');
     });
 
@@ -258,9 +258,9 @@ describe('Unit test for process data', () => {
             disableFullscreenPresentation: false,
         };
         
-        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => {});
+        const mockHandleExitPresentMode = jest.spyOn(utilsModule, 'handleExitPresentMode').mockImplementation(() => Promise.resolve(undefined));
         
-        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue(mockConfig);
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue(mockConfig as any);
 
         const processedData = {
             type: EmbedEvent.ExitPresentMode,

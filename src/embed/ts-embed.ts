@@ -595,9 +595,11 @@ export class TsEmbed {
         return `${basePath}#`;
     }
 
-    protected getUpdateEmbedParamsObject() {
+    protected async getUpdateEmbedParamsObject() {
         let queryParams = this.getEmbedParamsObject();
-        queryParams = { ...this.viewConfig, ...queryParams, ...this.getAppInitData() };
+        const appInitData = await this.getAppInitData();
+        queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
+        
         return queryParams;
     }
 
@@ -960,6 +962,8 @@ export class TsEmbed {
         preRenderWrapper.id = preRenderIds.wrapper;
         const initialPreRenderWrapperStyle = {
             position: 'absolute',
+            top: '0',
+            left: '0',
             width: '100vw',
             height: '100vh',
         };
@@ -1587,8 +1591,19 @@ export class TsEmbed {
             }
             this.validatePreRenderViewConfig(this.viewConfig);
             logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-            this.executeAfterEmbedContainerLoaded(() => {
-                this.trigger(HostEvent.UpdateEmbedParams, this.getUpdateEmbedParamsObject());
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                } catch (error) {
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                }
             });
         }
 
@@ -1611,7 +1626,7 @@ export class TsEmbed {
             }
         }
 
-        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events']);
+        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
 
         this.subscribeToEvents();
 
@@ -1660,7 +1675,10 @@ export class TsEmbed {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: '-1000',
-            position: 'absolute ',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            overflow: 'hidden',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 

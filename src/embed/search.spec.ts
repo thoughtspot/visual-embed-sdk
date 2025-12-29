@@ -40,8 +40,8 @@ beforeAll(() => {
         thoughtSpotHost,
         authType: AuthType.None,
     });
-    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve({}));
-    spyOn(window, 'alert');
+    jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
 });
 
 describe('Search embed tests', () => {
@@ -664,5 +664,136 @@ describe('Search embed tests', () => {
         });
 
         expect(getIFrameSrc().includes('executeSearch')).toBeFalsy();
+    });
+});
+
+// Add these tests to src/embed/search.spec.ts
+
+// ============================================
+// SearchEmbed tests for uncovered lines 427, 430
+// ============================================
+
+// TEST 1: hideResults parameter (line 427)
+test('should pass hideResult parameter when hideResults is true', async () => {
+    const searchEmbed = new SearchEmbed(getRootEl(), {
+        ...defaultViewConfig,
+        hideResults: true,
+    });
+    searchEmbed.render();
+    await executeAfterWait(() => {
+        const iframeSrc = getIFrameSrc();
+        expect(iframeSrc).toContain('hideResult=true');
+    });
+});
+
+// TEST 2: forceTable parameter (line 430)
+test('should pass forceTable parameter when forceTable is true', async () => {
+    const searchEmbed = new SearchEmbed(getRootEl(), {
+        ...defaultViewConfig,
+        forceTable: true,
+    });
+    searchEmbed.render();
+    await executeAfterWait(() => {
+        const iframeSrc = getIFrameSrc();
+        expect(iframeSrc).toContain('forceTable=true');
+    });
+});
+
+describe('SearchBarEmbed tests', () => {
+    test('should pass dataSources parameter when dataSources array is provided', async () => {
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            dataSources: ['source-1', 'source-2'],
+        });
+        searchBarEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).toContain('dataSources');
+            expect(iframeSrc).toContain('source-1');
+        });
+    });
+
+    test('should pass dataSource parameter when single dataSource is provided', async () => {
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            dataSource: 'single-source-id',
+        });
+        searchBarEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).toContain('dataSources');
+            expect(iframeSrc).toContain('single-source-id');
+        });
+    });
+
+    test('should pass searchTokenString and executeSearch when searchOptions provided', async () => {
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            searchOptions: {
+                searchTokenString: '[revenue][region]',
+                executeSearch: true,
+            },
+        });
+        searchBarEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).toContain('searchTokenString');
+            expect(iframeSrc).toContain('executeSearch=true');
+        });
+    });
+
+    test('should set useLastSelectedSources to false when dataSource is provided', async () => {
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            dataSource: 'my-source',
+            useLastSelectedSources: true, // This should be overridden to false
+        });
+        searchBarEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+            expect(iframeSrc).toContain('useLastSelectedSources=false');
+        });
+    });
+
+    test('should include searchOptions in APP_INIT when excludeSearchTokenStringFromURL is true', async () => {
+        const searchOptions = {
+            searchTokenString: '[quantity][product]',
+            executeSearch: true,
+        };
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            searchOptions,
+            excludeSearchTokenStringFromURL: true,
+        });
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        searchBarEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        expect(getIFrameSrc().includes('searchTokenString')).toBeFalsy();
+
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    searchOptions: {
+                        searchTokenString: '[quantity][product]',
+                        executeSearch: true,
+                    },
+                }),
+            });
+        });
     });
 });

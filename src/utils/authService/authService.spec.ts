@@ -25,11 +25,11 @@ describe('Unit test for authService', () => {
             json: () => ({ success: true }),
             status: 200,
             ok: true,
-        }));
+        } as any));
         const response = await fetchSessionInfoService(thoughtSpotHost);
         expect(response.success).toBe(true);
         expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {
+        expect(fetch).toHaveBeenCalledWith(`${thoughtSpotHost}${EndPoints.SESSION_INFO}`, {
             credentials: 'include',
         });
     });
@@ -38,16 +38,16 @@ describe('Unit test for authService', () => {
         global.fetch = jest.fn(() => Promise.resolve({
             text: () => ({ success: true }),
             ok: true,
-        }));
+        } as any));
         const response = await fetchAuthTokenService(authEndpoint);
         expect(response.text()).toStrictEqual({ success: true });
-        expect(fetch).toBeCalled();
+        expect(fetch).toHaveBeenCalled();
     });
 
     test('fetchAuthService', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await fetchAuthService(thoughtSpotHost, username, authToken);
-        expect(fetch).toBeCalledWith(
+        expect(fetch).toHaveBeenCalledWith(
             `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?username=${username}&auth_token=${authToken}`,
             {
                 credentials: 'include',
@@ -57,9 +57,9 @@ describe('Unit test for authService', () => {
     });
 
     test('fetchAuthService without username', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await fetchAuthService(thoughtSpotHost, undefined, authToken);
-        expect(fetch).toBeCalledWith(
+        expect(fetch).toHaveBeenCalledWith(
             `${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}?auth_token=${authToken}`,
             {
                 credentials: 'include',
@@ -69,9 +69,9 @@ describe('Unit test for authService', () => {
     });
 
     test('fetchAuthPostService', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await fetchAuthPostService(thoughtSpotHost, username, authToken);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
+        expect(fetch).toHaveBeenCalledWith(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
             method: 'POST',
             credentials: 'include',
             redirect: 'manual',
@@ -84,9 +84,9 @@ describe('Unit test for authService', () => {
     });
 
     test('fetchAuthPostService without username', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await fetchAuthPostService(thoughtSpotHost, undefined, authToken);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
+        expect(fetch).toHaveBeenCalledWith(`${thoughtSpotHost}${EndPoints.TOKEN_LOGIN}`, {
             method: 'POST',
             credentials: 'include',
             redirect: 'manual',
@@ -99,9 +99,9 @@ describe('Unit test for authService', () => {
     });
 
     test('fetchBasicAuthService called with manual redirect', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await fetchBasicAuthService(thoughtSpotHost, username, password);
-        expect(fetch).toBeCalled();
+        expect(fetch).toHaveBeenCalled();
     });
 
     test('log error on API failures', async () => {
@@ -110,7 +110,7 @@ describe('Unit test for authService', () => {
             text: () => Promise.resolve('error'),
             status: 500,
             ok: false,
-        }));
+        } as any));
         try {
             await fetchSessionInfoService(authVerificationUrl);
         } catch (e) {
@@ -127,9 +127,9 @@ describe('Unit test for authService', () => {
     });
 
     test('verifyTokenService if token api works', async () => {
-        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true }));
+        global.fetch = jest.fn(() => Promise.resolve({ success: true, ok: true } as any));
         await verifyTokenService(thoughtSpotHost, authToken);
-        expect(fetch).toBeCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
+        expect(fetch).toHaveBeenCalledWith(`${thoughtSpotHost}${EndPoints.IS_ACTIVE}`, {
             credentials: 'omit',
             headers: {
                 Authorization: `Bearer ${authToken}`,
