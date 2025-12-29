@@ -15,6 +15,7 @@ import {
     DOMSelector,
     RuntimeParameter,
     AllEmbedViewConfig,
+    BaseViewConfig,
 } from './types';
 import { logger } from './utils/logger';
 
@@ -554,3 +555,12 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
         return values[key] !== undefined ? String(values[key]) : match;
     });
 };
+
+
+export const getHostEventsConfig = (viewConfig: BaseViewConfig) => {
+    return {
+        shouldBypassPayloadValidation: viewConfig.shouldBypassPayloadValidation,
+        shouldByPassContextCheck: viewConfig.shouldByPassContextCheck,
+        useHostEventsV2: viewConfig.useHostEventsV2,
+    };
+}

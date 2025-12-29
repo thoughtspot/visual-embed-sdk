@@ -76,6 +76,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
+import { getHostEventsConfig } from '../utils';
 
 const { version } = pkgInfo;
 
@@ -481,6 +482,7 @@ export class TsEmbed {
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
             ...getInterceptInitData(this.viewConfig),
+            ...getHostEventsConfig(this.viewConfig),
         };
 
         return baseInitData;
