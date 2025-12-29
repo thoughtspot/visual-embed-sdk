@@ -331,9 +331,9 @@ export class SpotterEmbed extends TsEmbed {
     }
 
     /**
-     * Get the current context of the embedded conversation.
+     * Get the current context of the embedded SpotterEmbed.
      * @returns The current context object containing the page type and object ids.
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     public async getCurrentContext(): Promise<PageContextOptions> {
         const context = await super.getCurrentContext();

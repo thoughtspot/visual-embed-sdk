@@ -1429,6 +1429,11 @@ export class TsEmbed {
         return this.render();
     }
 
+    /**
+     * Get the current context of the embedded TS component.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
     public async getCurrentContext(): Promise<any> {
         return new Promise((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {

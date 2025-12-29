@@ -894,7 +894,7 @@ export class LiveboardEmbed extends V1Embed {
     /**
      * Get the current context of the embedded liveboard.
      * @returns The current context object containing the page type and object ids.
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     public async getCurrentContext(): Promise<PageContextOptions> {
         const context = await super.getCurrentContext();
