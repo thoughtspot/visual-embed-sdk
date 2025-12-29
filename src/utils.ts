@@ -15,6 +15,7 @@ import {
     DOMSelector,
     RuntimeParameter,
     AllEmbedViewConfig,
+    BaseViewConfig,
 } from './types';
 import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
@@ -559,6 +560,13 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
         return values[key] !== undefined ? String(values[key]) : match;
     });
 };
+
+export const getHostEventsConfig = (viewConfig: BaseViewConfig) => {
+    return {
+        shouldBypassPayloadValidation: viewConfig.shouldBypassPayloadValidation,
+        useHostEventsV2: viewConfig.useHostEventsV2,
+    };
+}
 
 /**
  * Check if the window is undefined
