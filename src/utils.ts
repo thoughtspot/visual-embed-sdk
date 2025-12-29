@@ -564,7 +564,6 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
 export const getHostEventsConfig = (viewConfig: BaseViewConfig) => {
     return {
         shouldBypassPayloadValidation: viewConfig.shouldBypassPayloadValidation,
-        shouldByPassContextCheck: viewConfig.shouldByPassContextCheck,
         useHostEventsV2: viewConfig.useHostEventsV2,
     };
 }
