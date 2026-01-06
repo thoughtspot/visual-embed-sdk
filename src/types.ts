@@ -2996,7 +2996,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
@@ -4441,7 +4441,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.DataModelInstructions);
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
