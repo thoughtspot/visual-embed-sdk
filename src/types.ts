@@ -6300,31 +6300,19 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Specific error codes for embedded component errors.
- * 
- * These codes provide granular identification of errors that occur in embedded components.
- * They are returned in the {@link EmbedErrorDetailsEvent.code} property and allow for
- * precise error handling and debugging.
- * 
- * The codes are organized into categories:
- * - **Worksheet ID not found or does not exist**: Errors related to applying or updating filters
- * - **Liveboard ID missing**: Errors related to missing liveboard ID
- * - **Conflicting actions configuration**: Errors related to conflicting actions configuration
- * - **Conflicting tabs configuration**: Errors related to conflicting tabs configuration
- * - **Initialization error**: Errors related to initialization error
- * - **Network error**: Errors related to network error
- * - **Custom action validation**: Errors related to custom action validation
- * - **Login failed**: Errors related to login failed
- * - **Render not called**: Errors related to render not called
- * - **Host event type undefined or invalid**: Errors related to host event type undefined or invalid
- * 
+ * Error codes for identifying specific issues in embedded ThoughtSpot components.
+ *
+ * Use these codes for precise error handling and debugging. Each code maps to a
+ * distinct failure scenario, enabling targeted recovery strategies.
+ *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
+ *
  * @see {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
  * @see {@link ErrorDetailsTypes} - General error type categories
- * 
+ *
  * @example
- * Handle specific error codes
+ * Handle specific error codes in the error event handler
  *
  * embed.on(EmbedEvent.Error, (error) => {
  *   if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {
