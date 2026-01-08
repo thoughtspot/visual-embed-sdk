@@ -4368,8 +4368,8 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "Specific error codes for embedded component errors.",
-				"text": "These codes provide granular identification of errors that occur in embedded components.\nThey are returned in the {@link EmbedErrorDetailsEvent.code} property and allow for\nprecise error handling and debugging.\n\nThe codes are organized into categories:\n- **Worksheet ID not found or does not exist**: Errors related to applying or updating filters\n- **Liveboard ID missing**: Errors related to missing liveboard ID\n- **Conflicting actions configuration**: Errors related to conflicting actions configuration\n- **Conflicting tabs configuration**: Errors related to conflicting tabs configuration\n- **Initialization error**: Errors related to initialization error\n- **Network error**: Errors related to network error\n- **Custom action validation**: Errors related to custom action validation\n- **Login failed**: Errors related to login failed\n- **Render not called**: Errors related to render not called\n- **Host event type undefined or invalid**: Errors related to host event type undefined or invalid\n",
+				"shortText": "Error codes for identifying specific issues in embedded ThoughtSpot components.",
+				"text": "Use these codes for precise error handling and debugging. Each code maps to a\ndistinct failure scenario, enabling targeted recovery strategies.\n",
 				"tags": [
 					{
 						"tag": "version",
@@ -4377,7 +4377,7 @@
 					},
 					{
 						"tag": "group",
-						"text": "Error Handling"
+						"text": "Error Handling\n"
 					},
 					{
 						"tag": "see",
@@ -4389,7 +4389,7 @@
 					},
 					{
 						"tag": "example",
-						"text": "\nHandle specific error codes\n\nembed.on(EmbedEvent.Error, (error) => {\n  if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {\n    console.error('Worksheet ID not found:', error.message);\n  }\n});\n"
+						"text": "\nHandle specific error codes in the error event handler\n\nembed.on(EmbedEvent.Error, (error) => {\n  if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {\n    console.error('Worksheet ID not found:', error.message);\n  }\n});\n"
 					}
 				]
 			},
@@ -4406,7 +4406,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6343,
+							"line": 6331,
 							"character": 4
 						}
 					],
@@ -4424,7 +4424,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6346,
+							"line": 6334,
 							"character": 4
 						}
 					],
@@ -4442,7 +4442,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6355,
+							"line": 6343,
 							"character": 4
 						}
 					],
@@ -4460,7 +4460,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6364,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -4478,7 +4478,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6349,
+							"line": 6337,
 							"character": 4
 						}
 					],
@@ -4496,7 +4496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6340,
+							"line": 6328,
 							"character": 4
 						}
 					],
@@ -4514,7 +4514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6358,
+							"line": 6346,
 							"character": 4
 						}
 					],
@@ -4532,7 +4532,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6352,
+							"line": 6340,
 							"character": 4
 						}
 					],
@@ -4550,7 +4550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6367,
+							"line": 6355,
 							"character": 4
 						}
 					],
@@ -4568,7 +4568,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6361,
+							"line": 6349,
 							"character": 4
 						}
 					],
@@ -4586,7 +4586,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6370,
+							"line": 6358,
 							"character": 4
 						}
 					],
@@ -4604,7 +4604,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6337,
+							"line": 6325,
 							"character": 4
 						}
 					],
@@ -4634,7 +4634,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6335,
+					"line": 6323,
 					"character": 12
 				}
 			]
@@ -10682,7 +10682,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6471,
+							"line": 6459,
 							"character": 4
 						}
 					],
@@ -10700,7 +10700,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6467,
+							"line": 6455,
 							"character": 4
 						}
 					],
@@ -10718,7 +10718,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6475,
+							"line": 6463,
 							"character": 4
 						}
 					],
@@ -10739,7 +10739,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6463,
+					"line": 6451,
 					"character": 12
 				}
 			]
@@ -24797,7 +24797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -24834,7 +24834,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -25141,7 +25141,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -27617,7 +27617,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -27655,7 +27655,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -27693,7 +27693,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -28912,7 +28912,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -28950,7 +28950,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -28988,7 +28988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -36873,7 +36873,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -36910,7 +36910,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -37217,7 +37217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -39633,7 +39633,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -39670,7 +39670,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -39707,7 +39707,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -41171,7 +41171,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -41208,7 +41208,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -41245,7 +41245,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -43069,7 +43069,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -43106,7 +43106,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -43143,7 +43143,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -44376,7 +44376,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -44413,7 +44413,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -44450,7 +44450,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -45621,7 +45621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6507,
 							"character": 4
 						}
 					],
@@ -45658,7 +45658,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6502,
+							"line": 6490,
 							"character": 4
 						}
 					],
@@ -45695,7 +45695,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6486,
+							"line": 6474,
 							"character": 4
 						}
 					],
