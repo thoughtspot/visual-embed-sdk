@@ -54,6 +54,7 @@ describe('HostEventClient', () => {
                     type: apiName,
                     parameters,
                 },
+                undefined,
             );
             expect(result).toEqual(await triggerResponse);
         });
@@ -148,6 +149,7 @@ describe('HostEventClient', () => {
                 HostEvent.UIPassthrough,
                 'http://localhost',
                 { parameters: payload, type: UIPassthroughEvent.PinAnswerToLiveboard },
+                undefined,
             );
             expect(result).toEqual(mockResponse.value);
         });
@@ -185,6 +187,7 @@ describe('HostEventClient', () => {
                     parameters: payload,
                     type: 'saveAnswer',
                 },
+                undefined,
             );
             expect(result).toEqual({ answerId: 'newAnswer', ...mockResponse[0].value });
         });
@@ -198,7 +201,7 @@ describe('HostEventClient', () => {
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
-            expect(client.hostEventFallback).toHaveBeenCalledWith(hostEvent, payload);
+            expect(client.hostEventFallback).toHaveBeenCalledWith(hostEvent, payload, undefined);
             expect(result).toEqual(mockResponse);
         });
 
@@ -223,6 +226,7 @@ describe('HostEventClient', () => {
                 HostEvent.Pin,
                 mockThoughtSpotHost,
                 {},
+                undefined,
             );
             expect(result).toEqual([mockResponse]);
         });
@@ -248,6 +252,7 @@ describe('HostEventClient', () => {
                 HostEvent.Save,
                 mockThoughtSpotHost,
                 {},
+                undefined,
             );
             expect(result).toEqual([mockResponse]);
         });
@@ -303,6 +308,7 @@ describe('HostEventClient', () => {
                     parameters: { ...payload, pinboardId: 'test', newPinboardName: 'testLiveboard' },
                     type: 'addVizToPinboard',
                 },
+                undefined,
             );
             expect(result).toEqual({
                 pinboardId: 'testLiveboard',

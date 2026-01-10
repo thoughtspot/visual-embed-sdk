@@ -68,6 +68,7 @@ import {
     InterceptedApiType,
     EmbedErrorCodes,
     ErrorDetailsTypes,
+    ContextType,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -121,6 +122,7 @@ export {
     RuntimeFilterOp,
     EmbedEvent,
     HostEvent,
+    ContextType,
     DataSourceVisualMode,
     Action,
     ContextMenuTriggerOptions,

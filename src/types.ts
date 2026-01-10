@@ -1120,6 +1120,34 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+    /**
+     * Flag to bypass host events payload validation
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    shouldBypassPayloadValidation:true,
+     * })
+     * ```
+     */
+    shouldBypassPayloadValidation?: boolean;
+
+    /**
+     * Flag to use host events v2. This is used to enable the new host events v2 API.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    useHostEventsV2:true,
+     * })
+     * ```
+     */
+    useHostEventsV2?: boolean;
 }
 
 /**
@@ -4555,6 +4583,16 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     StartNewSpotterConversation = 'StartNewSpotterConversation',
+
+    /**
+     * Get the current context of the embedded page.
+     * @example
+     * ```js
+     * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    GetPageContext = 'GetPageContext',
 }
 
 /**
@@ -6429,6 +6467,14 @@ export interface EmbedErrorDetailsEvent {
     /** Additional context-specific for backward compatibility */
     [key: string]: any;
 }
+
+export enum ContextType {
+    Search = 'search-answer',
+    Liveboard = 'liveboard',
+    Answer = 'answer',
+    Spotter = 'spotter',
+}
+
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;

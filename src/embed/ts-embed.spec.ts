@@ -204,6 +204,7 @@ describe('Unit test case for ts embed', () => {
                         parameters: payload,
                         type: UIPassthroughEvent.PinAnswerToLiveboard,
                     },
+                    undefined,
                 );
             });
         });
@@ -224,6 +225,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.Save,
                     'http://tshost',
                     {},
+                    undefined,
                 );
             });
         });
@@ -245,6 +247,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.Save,
                     'http://tshost',
                     false,
+                    undefined,
                 );
             });
         });
@@ -1332,6 +1335,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1468,6 +1472,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1482,6 +1487,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1496,6 +1502,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -1510,6 +1517,7 @@ describe('Unit test case for ts embed', () => {
                     HostEvent.InfoSuccess,
                     'http://tshost',
                     expect.objectContaining({ info: expect.any(Object) }),
+                    undefined,
                 );
             });
         });
@@ -4056,7 +4064,7 @@ describe('Destroy error handling', () => {
         }).not.toThrow();
         
         expect(logSpy).toHaveBeenCalledWith('Error destroying TS Embed', expect.any(Error));
-        logSpy.mockRestore();
+        logSpy.mockReset();
     });
 });
 
@@ -4099,11 +4107,12 @@ describe('Fullscreen change handler behavior', () => {
         document.dispatchEvent(event);
         
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
                 expect.any(Object),
                 HostEvent.ExitPresentMode,
                 expect.any(String),
                 expect.any(Object),
+                undefined,
             );
         });
     });
@@ -4196,13 +4205,14 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
                 expect.objectContaining({
                     liveboardId: 'updated-lb',
                 }),
+                undefined,
             );
         });
     });
@@ -4231,7 +4241,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
@@ -4251,6 +4261,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                         },
                     ],
                 }),
+                undefined,
             );
         });
     });
@@ -4283,7 +4294,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
@@ -4298,6 +4309,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                         },
                     ],
                 }),
+                undefined,
             );
         });
     });
