@@ -6466,6 +6466,14 @@ export interface EmbedErrorDetailsEvent {
     /** Additional context-specific for backward compatibility */
     [key: string]: any;
 }
+
+export enum ContextType {
+    Search = 'search-answer',
+    Liveboard = 'liveboard',
+    Answer = 'answer',
+    Spotter = 'spotter',
+}
+
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;
