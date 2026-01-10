@@ -10,7 +10,6 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    ContextType,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
@@ -61,6 +60,7 @@ import {
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    ContextType,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';

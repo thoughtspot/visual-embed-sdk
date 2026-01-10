@@ -1,9 +1,8 @@
 import { ERROR_MESSAGE } from '../errors';
-import { HostEvent, MessagePayload } from '../types';
+import { ContextType, HostEvent, MessagePayload } from '../types';
 import { logger } from '../utils/logger';
 import { handlePresentEvent } from '../utils';
 import { getEmbedConfig } from '../embed/embedConfig';
-import { ContextType } from 'src/embed/hostEventClient/contracts';
 
 /**
  * Reloads the ThoughtSpot iframe.

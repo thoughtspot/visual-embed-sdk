@@ -22,12 +22,13 @@ import {
     LiveboardAppEmbedViewConfig,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    ContextType,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { ContextType, TriggerPayload, TriggerResponse, PageContextOptions } from './hostEventClient/contracts';
+import { TriggerPayload, TriggerResponse, PageContextOptions } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 
 
@@ -642,6 +643,7 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
+        console.log('sendFullHeightLazyLoadData', this.iFrame);
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }

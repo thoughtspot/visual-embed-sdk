@@ -1,4 +1,4 @@
-import { HostEvent } from '../../types';
+import { ContextType, HostEvent } from '../../types';
 import { processTrigger as processTriggerService } from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
@@ -8,7 +8,6 @@ import {
     UIPassthroughResponse,
     TriggerPayload,
     TriggerResponse,
-    ContextType,
 } from './contracts';
 
 export class HostEventClient {
