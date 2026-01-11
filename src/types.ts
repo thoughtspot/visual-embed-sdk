@@ -3343,14 +3343,12 @@ export enum HostEvent {
      * and `AppEmbed` only. In full application embedding, this event updates
      * the runtime filters applied on the Liveboard and saved Answer objects.
      *
-     * @param - Pass an array of {@link RuntimeFilter} with the following attributes:
-     * `columnName` - _String_. The name of the column to filter on.
-     *
-     * `operator` - {@link RuntimeFilterOp} to apply. For more information,
-     * see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
-     *
-     * `values` - List of operands. Some operators such as EQ and LE allow a
-     * single value, whereas BW and IN accept multiple values.
+     * @param - Array of {@link RuntimeFilter} objects. Each item includes:
+     * - `columnName`: Name of the column to filter on.
+     * - `operator`: {@link RuntimeFilterOp} to apply. For more information, see
+     *   [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     * - `values`: List of operands. Some operators such as EQ and LE allow a single
+     *   value, whereas BW and IN accept multiple values.
      *
      * **Note**: Updating runtime filters resets the ThoughtSpot
      * object to its original state and applies new filter conditions.
