@@ -214,6 +214,66 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardXLSXCSVDownloadEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardXLSXCSVDownloadEnabled: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isGranularXLSXCSVSchedulesEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isGranularXLSXCSVSchedulesEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isGranularXLSXCSVSchedulesEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isGranularXLSXCSVSchedulesEnabled to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isGranularXLSXCSVSchedulesEnabled: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isGranularXLSXCSVSchedulesEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isLinkParametersEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isLinkParametersEnabled: true,
@@ -515,48 +575,6 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&arePdfCoverFilterPageCheckboxesEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
             );
-        });
-    });
-
-    test('should add liveboardXLSXCSVDownload flag and set value to true to the iframe src', async () => {
-        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-            liveboardXLSXCSVDownload: true,
-        } as LiveboardViewConfig);
-        liveboardEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
-            );
-        });
-    });
-
-    test('should add liveboardXLSXCSVDownload flag and set value to false to the iframe src', async () => {
-        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-            liveboardXLSXCSVDownload: false,
-        } as LiveboardViewConfig);
-        liveboardEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardXLSXCSVDownloadEnabled=false&${prefixParams}#/embed/viz/${liveboardId}`,
-            );
-        });
-    });
-
-    test('should not add liveboardXLSXCSVDownload flag when undefined', async () => {
-        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-        } as LiveboardViewConfig);
-        liveboardEmbed.render();
-        await executeAfterWait(() => {
-            const iframeSrc = getIFrameSrc();
-            expect(iframeSrc).not.toContain('isLiveboardXLSXCSVDownloadEnabled');
         });
     });
 

@@ -582,6 +582,40 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
+     * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardXLSXCSVDownloadEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardXLSXCSVDownloadEnabled?: boolean;
+
+    /**
+     * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isGranularXLSXCSVSchedulesEnabled: true,
+     * })
+     * ```
+     */
+    isGranularXLSXCSVSchedulesEnabled?: boolean;
+
+    /**
      * This flag is used to enable the full height lazy load data.
      *
      * @example
@@ -722,9 +756,10 @@ export class AppEmbed extends V1Embed {
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled = false,
+            isGranularXLSXCSVSchedulesEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
@@ -813,12 +848,16 @@ export class AppEmbed extends V1Embed {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
-        if (liveboardXLSXCSVDownload !== undefined) {
-            params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
-        }
-
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+        }
+
+        if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
+            params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
+        }
+
+        if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
+            params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
         }
 
         if (hideTagFilterChips !== undefined) {
