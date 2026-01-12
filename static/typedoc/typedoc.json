@@ -7317,21 +7317,6 @@
 					"defaultValue": "\"TableVizRendered\""
 				},
 				{
-					"id": 2095,
-					"name": "TokenExpiringSoon",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 3119,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"TokenExpiringSoon\""
-				},
-				{
 					"id": 2068,
 					"name": "UpdateConnection",
 					"kind": 16,
@@ -7535,7 +7520,6 @@
 						2038,
 						2100,
 						2079,
-						2095,
 						2068,
 						2070,
 						2042,
@@ -13812,7 +13796,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1812,
+							"line": 1814,
 							"character": 11
 						}
 					],
@@ -16923,7 +16907,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1812,
+							"line": 1814,
 							"character": 11
 						}
 					],
@@ -18167,7 +18151,7 @@
 					"sources": [
 						{
 							"fileName": "embed/ts-embed.ts",
-							"line": 1812,
+							"line": 1814,
 							"character": 11
 						}
 					],
