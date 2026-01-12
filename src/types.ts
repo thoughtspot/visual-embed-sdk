@@ -355,7 +355,7 @@ export interface EmbedConfig {
     /**
      * [AuthServer] The trusted authentication endpoint to use to get the
      * authentication token. A `GET` request is made to the
-     * authentication API endpoint, which  returns the token
+     * authentication API endpoint, which returns the token
      * as a plaintext response. For trusted authentication,
      * the `authEndpoint` or `getAuthToken` attribute is required.
      */
@@ -478,13 +478,13 @@ export interface EmbedConfig {
      * When there are multiple objects embedded, queue the rendering of embedded objects
      * to start after the previous embed's render is complete. This helps improve
      * performance by decreasing the load on the browser.
-     *  @Version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @default false
      */
     queueMultiRenders?: boolean;
 
     /**
-     * [AuthServer|Basic] Detect if third-party party cookies are enabled by doing an
+     * [AuthServer|Basic] Detect if third-party cookies are enabled by doing an
      * additional call. This is slower and should be avoided. Listen to the
      * `NO_COOKIE_ACCESS` event to handle the situation.
      *
@@ -2086,7 +2086,7 @@ export enum EmbedEvent {
     /**
      * An error has occurred. This event is fired for the following error types:
      *
-     * `API` - API call failure error.
+     * `API` - API call failure.
      * `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
      * mode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
      * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
@@ -2819,20 +2819,20 @@ export enum EmbedEvent {
     /**
      *
      * This event can be emitted to intercept search execution initiated by
-     * the users and implement the logic to allow or restrict search execution.
-     * You can can also show custom error text if the search query must be
+     * users and implement logic to allow or restrict search execution.
+     * You can also show custom error text if the search query must be
      * restricted due to your application or business requirements.
 
      * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
      * for this embed event to get emitted.
-     * @param:payload The payload received from the embed related to the Data API call.
-     * @param:responder
-     * Contains elements that lets developers define whether ThoughtSpot
-     * should run the search, and if not, what error message
-     * should be shown to the user.
+     * @param - Includes the following event listener parameters:
+     * - `payload`: The payload received from the embed related to the Data API call.
+     * - `responder`: Contains elements that let developers define whether ThoughtSpot
+     *   should run the search, and if not, what error message
+     *   should be shown to the user.
      *
-     * `execute` - When execute returns `true`, the search will be run.
-     * When execute returns `false`, the search will not be executed.
+     * `execute` - When `execute` returns `true`, the search will be run.
+     * When `execute` returns `false`, the search will not be executed.
      *
      * `error` - Developers can customize the error message text when `execute`
      * is `false` using the `errorText` and `errorDescription` parameters in responder.
@@ -3224,14 +3224,14 @@ export enum HostEvent {
      * the search query string.
      * Supported in `AppEmbed` and `SearchEmbed` deployments.
      * Includes the following properties:
-     * @param - `searchQuery` - query string with search tokens
-     * @param - `dataSources` - Data source GUID to Search on
-     *                        - Although an array, only a single source
-     *                          is supported.
-     * @param - `execute` - executes search and updates the existing query
+     * @param - Includes the following keys:
+     * - `searchQuery`: Query string with search tokens.
+     * - `dataSources`: Data source GUID to search on.
+     *   Although an array, only a single source is supported.
+     * - `execute`: Executes search and updates the existing query.
      * @example
      * ```js
-     * searchembed.trigger(HostEvent.Search, {
+     * searchEmbed.trigger(HostEvent.Search, {
          searchQuery: "[sales] by [item type]",
          dataSources: ["cd252e5c-b552-49a8-821d-3eadaa049cca"],
          execute: true
@@ -3242,16 +3242,15 @@ export enum HostEvent {
     /**
      * Triggers a drill on certain points of the specified column
      * Includes the following properties:
-     * @param - points - an object containing selectedPoints/clickedPoints
-     * to drill to. For example, { selectedPoints: []}
-     * @param - columnGuid - Optional. GUID of the column to drill
-     * by. If not provided it will auto drill by the configured
-     *   column.
-     * @param - autoDrillDown - Optional. If true, the drill down will be
-     * done automatically on the most popular column.
-     * @param - vizId [TS >= 9.8.0] - Optional. The GUID of the visualization to drill
-     * in case of a Liveboard.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - Includes the following keys:
+     * - `points`: An object containing `selectedPoints` and/or `clickedPoint`
+     *   to drill to. For example, `{ selectedPoints: [] }`.
+     * - `columnGuid`: Optional. GUID of the column to drill by. If not provided,
+     *   it will auto drill by the configured column.
+     * - `autoDrillDown`: Optional. If `true`, the drill down will be done automatically
+     *   on the most popular column.
+     * - `vizId` (TS >= 9.8.0): Optional. The GUID of the visualization to drill in case
+     *   of a Liveboard. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3344,14 +3343,12 @@ export enum HostEvent {
      * and `AppEmbed` only. In full application embedding, this event updates
      * the runtime filters applied on the Liveboard and saved Answer objects.
      *
-     * @param - Pass an array of {@link RuntimeFilter} with the following attributes:
-     * `columnName` - _String_. The name of the column to filter on.
-     *
-     * `operator` - {@link RuntimeFilterOp} to apply. For more information,
-     * see link:https://developers.thoughtspot.com/docs/?pageid=runtime-filters#rtOperator[Developer Documentation].
-     *
-     * `values` - List of operands. Some operators such as EQ and LE allow a
-     * single value, whereas BW and IN accept multiple values.
+     * @param - Array of {@link RuntimeFilter} objects. Each item includes:
+     * - `columnName`: Name of the column to filter on.
+     * - `operator`: {@link RuntimeFilterOp} to apply. For more information, see
+     *   link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
+     * - `values`: List of operands. Some operators such as EQ and LE allow a single
+     *   value, whereas BW and IN accept multiple values.
      *
      * **Note**: Updating runtime filters resets the ThoughtSpot
      * object to its original state and applies new filter conditions.
@@ -3374,7 +3371,7 @@ export enum HostEvent {
     /**
      * Navigate to a specific page in the embedded ThoughtSpot application.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`.
-     * @param - `path` - the path to navigate to to go forward or back. The path value can
+     * @param - `path` - the path to navigate to go forward or back. The path value can
      * be a number; for example, `1`, `-1`.
      * @example
      * ```js
@@ -3445,30 +3442,25 @@ export enum HostEvent {
      * for the Answer that the user is currently on
      * and a modal opens for Liveboard selection.
      * To add an Answer or visualization to a Liveboard programmatically without
-     * showing requiring additional user input via *Pin to Liveboard* modal, define
+     * requiring additional user input via the *Pin to Liveboard* modal, define
      * the following parameters:
      *
-     * @param
-     * `vizId`-  GUID of the saved Answer or Spotter visualization ID to pin to a Liveboard.
-     *  Optional when pinning a new chart or table generated from a Search query.
-     *  **Required** in Spotter Embed.
-     * @param
-     * `liveboardID` - GUID of the Liveboard to pin an Answer. If there is no Liveboard,
-     *  specify the `newLiveboardName` parameter to create a new Liveboard.
-     * @param
-     * `tabId` - GUID of the Liveboard tab. Adds the Answer to the Liveboard tab
-     *  specified in the code.
-     * @param
-     * `newVizName` - Name string for the Answer or visualization. If defined,
-     *  this parameter adds a new visualization object or creates a copy of the
-     *  Answer or visualization specified in `vizId`.
-     *  Required attribute.
-     * @param
-     * `newLiveboardName` - Name string for the Liveboard.
-     *  Creates a new Liveboard object with the specified name.
-     * @param
-     * `newTabName` - Name of the tab. Adds a new tab Liveboard specified
-     *  in the code.
+     * @param - Includes the following keys:
+     * - `vizId`: GUID of the saved Answer or Spotter visualization ID to pin to a Liveboard.
+     *   Optional when pinning a new chart or table generated from a Search query.
+     *   **Required** in Spotter Embed.
+     * - `liveboardId`: GUID of the Liveboard to pin an Answer. If there is no Liveboard,
+     *   specify the `newLiveboardName` parameter to create a new Liveboard.
+     * - `tabId`: GUID of the Liveboard tab. Adds the Answer to the Liveboard tab
+     *   specified in the code.
+     * - `newVizName`: Name string for the Answer or visualization. If defined,
+     *   this parameter adds a new visualization object or creates a copy of the
+     *   Answer or visualization specified in `vizId`.
+     *   Required.
+     * - `newLiveboardName`: Name string for the Liveboard.
+     *   Creates a new Liveboard object with the specified name.
+     * - `newTabName`: Name of the tab. Adds a new tab Liveboard specified
+     *   in the code.
      *
      * @example
      * ```js
@@ -3708,9 +3700,9 @@ export enum HostEvent {
      * on a Liveboard.
      *
      * This event is not supported in visualization embed and search embed.
-     * @param - object - To trigger the action for a specific visualization
-     * in Liveboard embed, pass in `vizId` as a key.
-     * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
+     * @param - Object parameter. Includes the following keys:
+     * - `vizId`: To trigger the action for a specific visualization in Liveboard embed,
+     *   pass in `vizId` as a key. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
      *
      * @example
      * ```js
@@ -4077,10 +4069,9 @@ export enum HostEvent {
     GetFilters = 'getFilters',
     /**
      * Update one or several filters applied on a Liveboard.
-     * @param - `filter`: a single filter object containing column name,
-     * filter operator, and values.
-     * @param - `filters`: multiple filter objects with column name, filter operator,
-     * and values for each.
+     * @param - Includes the following keys:
+     * - `filter`: A single filter object containing column name, filter operator, and values.
+     * - `filters`: Multiple filter objects with column name, filter operator, and values for each.
      *
      * Each filter object must include the following attributes:
      *
@@ -4206,8 +4197,9 @@ export enum HostEvent {
     SetHiddenTabs = 'SetPinboardHiddenTabs',
     /**
      * Updates the search query string for Natural Language Search operations.
-     * @param - `queryString`: Text string in Natural Language format
-     * @param - `executeSearch`: Boolean to execute search and update search query
+     * @param - Includes the following keys:
+     * - `queryString`: Text string in Natural Language format.
+     * - `executeSearch`: Boolean to execute search and update search query.
      * @example
      * ```js
      * sageEmbed.trigger(HostEvent.UpdateSageQuery, {
@@ -4286,11 +4278,10 @@ export enum HostEvent {
     /**
      * Triggers an action to update Parameter values on embedded
      * Answers, Liveboard, and Spotter answer in Edit mode.
-     * @param - `name` - Name of the Parameter
-     * @param - `value` - The value to set for the Parameter.
-     *
-     * Optionally, to control the visibility of the Parameter chip,
-     * use the `isVisibleToUser` attribute when applying an override.
+     * @param - Includes the following keys for each item:
+     * - `name`: Name of the parameter.
+     * - `value`: The value to set for the parameter.
+     * - `isVisibleToUser`: Optional. To control the visibility of the parameter chip.
      *
      * @example
      * ```js
@@ -4348,11 +4339,10 @@ export enum HostEvent {
      * If no parameters are specified, the save action is
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
-     * @param - `vizId` refers to the Answer ID in Spotter embed
-     * and is required in Spotter embed.
-     * Optional attributes to set Answer properties include:
-     * @param - `name` - Name string for the Answer.
-     * @param - `description` - Description text for the Answer.
+     * @param - Includes the following keys:
+     * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter embed.
+     * - `name`: Optional. Name string for the Answer.
+     * - `description`: Optional. Description text for the Answer.
      * @example
      * ```js
      * const saveAnswerResponse = await searchEmbed.trigger(HostEvent.SaveAnswer, {
@@ -4401,8 +4391,9 @@ export enum HostEvent {
     /**
      * Triggers a search operation with the search tokens specified in
      * the search query string in spotter embed.
-     * @param - `query`: Text string in Natural Language format
-     * @param - `executeSearch`: Boolean to execute search and update search query
+     * @param - Includes the following keys:
+     * - `query`: Text string in Natural Language format.
+     * - `executeSearch`: Boolean to execute search and update search query.
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.SpotterSearch, {
@@ -4535,7 +4526,7 @@ export enum HostEvent {
      */
     UpdateEmbedParams = 'updateEmbedParams',
     /**
-     * Triggered when the embed is needed to be destroyed. This is used to clean up any embed related resources internally.
+     * Triggered when the embed needs to be destroyed. This is used to clean up any embed-related resources internally.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DestroyEmbed);
@@ -4543,11 +4534,12 @@ export enum HostEvent {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     DestroyEmbed = 'EmbedDestroyed',
-    /** Triggers a create new conversation operation in spotter embed.
-     * @example
-     * ```js
+    /**
+     * Triggers a new conversation in Spotter embed.
+     *
      * This feature is available only when chat history is enabled on your ThoughtSpot instance.
      * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     *
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.StartNewSpotterConversation);
@@ -4739,7 +4731,7 @@ export enum Param {
  *    hiddenActions: [Action.Edit, ActionAction.Explore],
  * })
  * ```
- * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
+ * See also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].
  */
 
 export enum Action {
@@ -5367,28 +5359,28 @@ export enum Action {
     CrossFilter = 'context-menu-item-cross-filter',
     /**
      * The **Sync to Slack** action on Liveboard visualizations.
-     * Allows sending data to third-party apps Slack
+     * Allows sending data to third-party apps like Slack.
      * @example
      * ```js
      * disabledActions: [Action.SyncToSlack]
      * ```
-     * @version @version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
      */
     SyncToSlack = 'syncToSlack',
     /**
      * The **Sync to Teams** action on Liveboard visualizations.
-     * Allows sending data to third-party apps Team
+     * Allows sending data to third-party apps like Microsoft Teams.
      * @example
      * ```js
      * disabledActions: [Action.SyncToTeams]
      * ```
-     * @version @version SDK : 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot Cloud: 10.1.0.cl
      */
     SyncToTeams = 'syncToTeams',
     /**
      * The **Remove** action that appears when cross filters are applied
      * on a Liveboard.
-     * Removes filters applied o a visualization.
+     * Removes filters applied to a visualization.
      * @example
      * ```js
      * disabledActions: [Action.RemoveCrossFilter]
@@ -5574,7 +5566,7 @@ export enum Action {
     AddTab = 'addTab',
     /**
      *
-     *Initiates contextual change analysis on KPI charts.
+     * Initiates contextual change analysis on KPI charts.
      * @example
      * ```js
      * disabledActions: [Action.EnableContextualChangeAnalysis]
@@ -5584,7 +5576,7 @@ export enum Action {
     EnableContextualChangeAnalysis = 'enableContextualChangeAnalysis',
     /**
      * Action ID to hide or disable Iterative Change Analysis option
-     * on contextual change analysis  Inisght charts context menu
+     * in the contextual change analysis Insight charts context menu.
      *
      * @example
      * ```js
@@ -5963,12 +5955,12 @@ export enum Action {
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     /**
-     * Action ID for hide or disable the
-     * Spotter in conversation training widget.
-     * The Add to Coaching feature is currently in beta
-     * and is disabled by default on embed deployments.
-     * To enable this feature on your instance,
-     * contact ThoughtSpot Support.
+     * Action ID to hide or disable the Spotter in the conversation training widget.
+     * When disabled, users cannot access **Add to Coaching**, which allows adding reference
+     * questions and business terms to improve Spotter’s responses.
+     * The **Add to Coaching** feature is generally available from version 26.2.0.cl and
+     * enabled by default on embed deployments.
+
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
