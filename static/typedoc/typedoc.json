@@ -1326,7 +1326,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl\n"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
 							}
 						]
 					},
@@ -24535,7 +24535,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "example",
@@ -24763,7 +24763,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "example",
@@ -36526,7 +36526,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "example",
@@ -36754,7 +36754,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "example",

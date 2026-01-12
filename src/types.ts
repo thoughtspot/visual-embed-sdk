@@ -5011,7 +5011,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DownloadLiveboard]
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DownloadLiveboard = 'downloadLiveboard',
     /**
