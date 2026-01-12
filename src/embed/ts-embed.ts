@@ -612,8 +612,10 @@ export class TsEmbed {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
+
         const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
+        
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
         this.on(EmbedEvent.TokenExpiringSoon, this.tokenExpiringSoon, { start: false }, true);
