@@ -729,6 +729,7 @@ export class AppEmbed extends V1Embed {
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             minimumHeight,
+            isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
         let params: any = {};
@@ -833,6 +834,10 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
+        }
+
+        if (isThisPeriodInDateFiltersEnabled !== undefined) {
+            params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
         this.defaultHeight = minimumHeight || this.defaultHeight;

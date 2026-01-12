@@ -1347,6 +1347,22 @@ export interface SearchLiveboardCommonViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * To enable **Include current period** checkbox for date filters.
+     * Controls the visibility of the option to include
+     * the current time period in filter results.
+     *
+     * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @example
+     * ```js
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isThisPeriodInDateFiltersEnabled: true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     */
+    isThisPeriodInDateFiltersEnabled?: boolean;
 }
 
 /**
@@ -4704,6 +4720,7 @@ export enum Param {
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
 }
 
 /**
@@ -6088,6 +6105,18 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     UngroupLiveboardGroup = 'ungroupLiveboardGroup',
+    /**
+     * The **Include current period** checkbox for date filters.
+     * Controls the visibility and availability of the option to include
+     * the current time period in filter results.
+     * @example
+     * ```js
+     * hiddenActions: [Action.IncludeCurrentPeriod]
+     * disabledActions: [Action.IncludeCurrentPeriod]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.3.0.cl
+     */
+    IncludeCurrentPeriod = 'includeCurrentPeriod',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
