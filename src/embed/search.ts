@@ -340,7 +340,12 @@ export class SearchEmbed extends TsEmbed {
     protected viewConfig: SearchViewConfig;
 
     constructor(domSelector: DOMSelector, viewConfig: SearchViewConfig) {
-        viewConfig.embedComponentType = 'SearchEmbed';
+        viewConfig = {
+            embedComponentType: 'SearchEmbed',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+            ...viewConfig,
+        }
         super(domSelector, viewConfig);
     }
 
