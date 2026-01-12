@@ -5897,6 +5897,18 @@ export enum Action {
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 
     /**
+     * The **Data model instructions** button on the Spotter interface.
+     * Allows opening the data model instructions modal.
+     *
+     *  @example
+     * ```js
+     * hiddenAction: [Action.DataModelInstructions]
+     * ```
+     *  @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    DataModelInstructions = 'DataModelInstructions',
+
+    /**
      * The **Preview data** button on the Spotter interface.
      * Allows previewing the data used for Spotter queries.
      *
