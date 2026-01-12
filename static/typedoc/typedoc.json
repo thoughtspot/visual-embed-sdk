@@ -1742,7 +1742,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Action ID for hide or disable the\nSpotter in conversation training widget.\nThe Add to Coaching feature is currently in beta\nand is disabled by default on embed deployments.\nTo enable this feature on your instance,\ncontact ThoughtSpot Support.",
+						"shortText": "Action ID to hide or disable the Spotter in the conversation training widget.\nWhen disabled, users cannot access **Add to Coaching**, which allows adding reference\nquestions and business terms to improve Spotter’s responses.\nThe **Add to Coaching** feature is generally available from version 26.2.0.cl and\nenabled by default on embed deployments.",
 						"tags": [
 							{
 								"tag": "example",

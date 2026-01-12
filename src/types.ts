@@ -5955,12 +5955,12 @@ export enum Action {
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     /**
-     * Action ID for hide or disable the
-     * Spotter in conversation training widget.
-     * The Add to Coaching feature is currently in beta
-     * and is disabled by default on embed deployments.
-     * To enable this feature on your instance,
-     * contact ThoughtSpot Support.
+     * Action ID to hide or disable the Spotter in the conversation training widget.
+     * When disabled, users cannot access **Add to Coaching**, which allows adding reference
+     * questions and business terms to improve Spotter’s responses.
+     * The **Add to Coaching** feature is generally available from version 26.2.0.cl and
+     * enabled by default on embed deployments.
+
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
