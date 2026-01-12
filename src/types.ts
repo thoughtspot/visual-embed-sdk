@@ -5967,12 +5967,11 @@ export enum Action {
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     /**
-     * Action ID to hide or disable the Spotter in the conversation training widget.
-     * When disabled, users cannot access **Add to Coaching**, which allows adding reference
-     * questions and business terms to improve Spotter’s responses.
-     * The **Add to Coaching** feature is generally available from version 26.2.0.cl and
-     * enabled by default on embed deployments.
-
+    * Action ID to hide or disable the Coaching workflow in Spotter conversation.
+    * When disabled, users cannot access **Add to Coaching** workflow in conversation.
+    * The **Add to Coaching** feature allows adding reference questions and
+    * business terms to improve Spotter’s responses. This feature is generally available
+    * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
