@@ -845,7 +845,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5946,
+							"line": 5958,
 							"character": 4
 						}
 					],
@@ -960,7 +960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5956,
+							"line": 5968,
 							"character": 4
 						}
 					],
@@ -988,7 +988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6068,
+							"line": 6080,
 							"character": 4
 						}
 					],
@@ -1100,7 +1100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5877,
+							"line": 5882,
 							"character": 4
 						}
 					],
@@ -1128,7 +1128,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5927,
+							"line": 5939,
 							"character": 4
 						}
 					],
@@ -1496,7 +1496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5916,
+							"line": 5928,
 							"character": 4
 						}
 					],
@@ -1628,7 +1628,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5937,
+							"line": 5949,
 							"character": 4
 						}
 					],
@@ -1785,7 +1785,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5972,
+							"line": 5984,
 							"character": 4
 						}
 					],
@@ -1865,7 +1865,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6038,
+							"line": 6050,
 							"character": 4
 						}
 					],
@@ -2080,7 +2080,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6058,
+							"line": 6070,
 							"character": 4
 						}
 					],
@@ -2108,7 +2108,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6048,
+							"line": 6060,
 							"character": 4
 						}
 					],
@@ -2264,7 +2264,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6016,
+							"line": 6028,
 							"character": 4
 						}
 					],
@@ -2316,7 +2316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5882,
+							"line": 5894,
 							"character": 4
 						}
 					],
@@ -2393,7 +2393,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6028,
+							"line": 6040,
 							"character": 4
 						}
 					],
@@ -2588,7 +2588,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5894,
+							"line": 5906,
 							"character": 4
 						}
 					],
@@ -2873,7 +2873,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5905,
+							"line": 5917,
 							"character": 4
 						}
 					],
@@ -2901,7 +2901,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6005,
+							"line": 6017,
 							"character": 4
 						}
 					],
@@ -2929,7 +2929,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5983,
+							"line": 5995,
 							"character": 4
 						}
 					],
@@ -2957,7 +2957,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5994,
+							"line": 6006,
 							"character": 4
 						}
 					],
@@ -3177,7 +3177,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6078,
+							"line": 6090,
 							"character": 4
 						}
 					],
@@ -4000,7 +4000,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6098,
+							"line": 6110,
 							"character": 4
 						}
 					],
@@ -4015,7 +4015,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6096,
+							"line": 6108,
 							"character": 4
 						}
 					],
@@ -4030,7 +4030,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6097,
+							"line": 6109,
 							"character": 4
 						}
 					],
@@ -4051,13 +4051,13 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6095,
+					"line": 6107,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 3013,
+			"id": 3014,
 			"name": "CustomActionTarget",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4067,7 +4067,7 @@
 			},
 			"children": [
 				{
-					"id": 3016,
+					"id": 3017,
 					"name": "ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4075,14 +4075,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6183,
+							"line": 6195,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"ANSWER\""
 				},
 				{
-					"id": 3014,
+					"id": 3015,
 					"name": "LIVEBOARD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4090,14 +4090,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6181,
+							"line": 6193,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"LIVEBOARD\""
 				},
 				{
-					"id": 3017,
+					"id": 3018,
 					"name": "SPOTTER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4105,14 +4105,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6184,
+							"line": 6196,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"SPOTTER\""
 				},
 				{
-					"id": 3015,
+					"id": 3016,
 					"name": "VIZ",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4120,7 +4120,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6182,
+							"line": 6194,
 							"character": 4
 						}
 					],
@@ -4132,23 +4132,23 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3016,
-						3014,
 						3017,
-						3015
+						3015,
+						3018,
+						3016
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6180,
+					"line": 6192,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 3009,
+			"id": 3010,
 			"name": "CustomActionsPosition",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4158,7 +4158,7 @@
 			},
 			"children": [
 				{
-					"id": 3012,
+					"id": 3013,
 					"name": "CONTEXTMENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4166,14 +4166,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6174,
+							"line": 6186,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"CONTEXTMENU\""
 				},
 				{
-					"id": 3011,
+					"id": 3012,
 					"name": "MENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4181,14 +4181,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6173,
+							"line": 6185,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"MENU\""
 				},
 				{
-					"id": 3010,
+					"id": 3011,
 					"name": "PRIMARY",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4196,7 +4196,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6172,
+							"line": 6184,
 							"character": 4
 						}
 					],
@@ -4208,22 +4208,22 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						3013,
 						3012,
-						3011,
-						3010
+						3011
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6171,
+					"line": 6183,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 3005,
+			"id": 3006,
 			"name": "DataPanelCustomColumnGroupsAccordionState",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4233,7 +4233,7 @@
 			},
 			"children": [
 				{
-					"id": 3007,
+					"id": 3008,
 					"name": "COLLAPSE_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4251,7 +4251,7 @@
 					"defaultValue": "\"COLLAPSE_ALL\""
 				},
 				{
-					"id": 3006,
+					"id": 3007,
 					"name": "EXPAND_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4269,7 +4269,7 @@
 					"defaultValue": "\"EXPAND_ALL\""
 				},
 				{
-					"id": 3008,
+					"id": 3009,
 					"name": "EXPAND_FIRST",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4292,9 +4292,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						3008,
 						3007,
-						3006,
-						3008
+						3009
 					]
 				}
 			],
@@ -4391,7 +4391,7 @@
 			]
 		},
 		{
-			"id": 3022,
+			"id": 3023,
 			"name": "EmbedErrorCodes",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4424,7 +4424,7 @@
 			},
 			"children": [
 				{
-					"id": 3025,
+					"id": 3026,
 					"name": "CONFLICTING_ACTIONS_CONFIG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4435,14 +4435,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6323,
+							"line": 6335,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"CONFLICTING_ACTIONS_CONFIG\""
 				},
 				{
-					"id": 3026,
+					"id": 3027,
 					"name": "CONFLICTING_TABS_CONFIG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4453,14 +4453,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6326,
+							"line": 6338,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"CONFLICTING_TABS_CONFIG\""
 				},
 				{
-					"id": 3029,
+					"id": 3030,
 					"name": "CUSTOM_ACTION_VALIDATION",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4471,14 +4471,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6335,
+							"line": 6347,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"CUSTOM_ACTION_VALIDATION\""
 				},
 				{
-					"id": 3032,
+					"id": 3033,
 					"name": "HOST_EVENT_TYPE_UNDEFINED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4489,14 +4489,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6344,
+							"line": 6356,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"HOST_EVENT_TYPE_UNDEFINED\""
 				},
 				{
-					"id": 3027,
+					"id": 3028,
 					"name": "INIT_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4507,14 +4507,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6329,
+							"line": 6341,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"INIT_ERROR\""
 				},
 				{
-					"id": 3024,
+					"id": 3025,
 					"name": "LIVEBOARD_ID_MISSING",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4525,14 +4525,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6320,
+							"line": 6332,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"LIVEBOARD_ID_MISSING\""
 				},
 				{
-					"id": 3030,
+					"id": 3031,
 					"name": "LOGIN_FAILED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4543,14 +4543,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6338,
+							"line": 6350,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"LOGIN_FAILED\""
 				},
 				{
-					"id": 3028,
+					"id": 3029,
 					"name": "NETWORK_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4561,14 +4561,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6332,
+							"line": 6344,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"NETWORK_ERROR\""
 				},
 				{
-					"id": 3033,
+					"id": 3034,
 					"name": "PARSING_API_INTERCEPT_BODY_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4579,14 +4579,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6347,
+							"line": 6359,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"PARSING_API_INTERCEPT_BODY_ERROR\""
 				},
 				{
-					"id": 3031,
+					"id": 3032,
 					"name": "RENDER_NOT_CALLED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4597,14 +4597,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6341,
+							"line": 6353,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"RENDER_NOT_CALLED\""
 				},
 				{
-					"id": 3034,
+					"id": 3035,
 					"name": "UPDATE_PARAMS_FAILED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4615,14 +4615,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6350,
+							"line": 6362,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"UPDATE_PARAMS_FAILED\""
 				},
 				{
-					"id": 3023,
+					"id": 3024,
 					"name": "WORKSHEET_ID_NOT_FOUND",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4633,7 +4633,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6317,
+							"line": 6329,
 							"character": 4
 						}
 					],
@@ -4645,25 +4645,25 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3025,
 						3026,
-						3029,
-						3032,
 						3027,
-						3024,
 						3030,
-						3028,
 						3033,
+						3028,
+						3025,
 						3031,
+						3029,
 						3034,
-						3023
+						3032,
+						3035,
+						3024
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6315,
+					"line": 6327,
 					"character": 12
 				}
 			]
@@ -7250,7 +7250,7 @@
 			]
 		},
 		{
-			"id": 3035,
+			"id": 3036,
 			"name": "ErrorDetailsTypes",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -7279,7 +7279,7 @@
 			},
 			"children": [
 				{
-					"id": 3036,
+					"id": 3037,
 					"name": "API",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7290,14 +7290,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6287,
+							"line": 6299,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"API\""
 				},
 				{
-					"id": 3038,
+					"id": 3039,
 					"name": "NETWORK",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7308,14 +7308,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6291,
+							"line": 6303,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"NETWORK\""
 				},
 				{
-					"id": 3037,
+					"id": 3038,
 					"name": "VALIDATION_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7326,7 +7326,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6289,
+							"line": 6301,
 							"character": 4
 						}
 					],
@@ -7338,16 +7338,16 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3036,
-						3038,
-						3037
+						3037,
+						3039,
+						3038
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6285,
+					"line": 6297,
 					"character": 12
 				}
 			]
@@ -10227,7 +10227,7 @@
 			]
 		},
 		{
-			"id": 3018,
+			"id": 3019,
 			"name": "InterceptedApiType",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -10237,7 +10237,7 @@
 			},
 			"children": [
 				{
-					"id": 3020,
+					"id": 3021,
 					"name": "ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10248,14 +10248,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6451,
+							"line": 6463,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"ALL\""
 				},
 				{
-					"id": 3019,
+					"id": 3020,
 					"name": "AnswerData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10266,14 +10266,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6447,
+							"line": 6459,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"AnswerData\""
 				},
 				{
-					"id": 3021,
+					"id": 3022,
 					"name": "LiveboardData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10284,7 +10284,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6455,
+							"line": 6467,
 							"character": 4
 						}
 					],
@@ -10296,16 +10296,16 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
+						3021,
 						3020,
-						3019,
-						3021
+						3022
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6443,
+					"line": 6455,
 					"character": 12
 				}
 			]
@@ -10398,7 +10398,7 @@
 			},
 			"children": [
 				{
-					"id": 3001,
+					"id": 3002,
 					"name": "Author",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10416,7 +10416,7 @@
 					"defaultValue": "\"AUTHOR\""
 				},
 				{
-					"id": 3002,
+					"id": 3003,
 					"name": "DateSort",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10434,7 +10434,7 @@
 					"defaultValue": "\"DATE_SORT\""
 				},
 				{
-					"id": 2998,
+					"id": 2999,
 					"name": "Favorites",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10452,7 +10452,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2999,
+					"id": 3000,
 					"name": "Favourite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10475,7 +10475,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 3003,
+					"id": 3004,
 					"name": "Share",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10493,7 +10493,7 @@
 					"defaultValue": "\"SHARE\""
 				},
 				{
-					"id": 3000,
+					"id": 3001,
 					"name": "Tags",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10511,7 +10511,7 @@
 					"defaultValue": "\"TAGS\""
 				},
 				{
-					"id": 3004,
+					"id": 3005,
 					"name": "Verified",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -10534,13 +10534,13 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3001,
 						3002,
-						2998,
-						2999,
 						3003,
+						2999,
 						3000,
-						3004
+						3004,
+						3001,
+						3005
 					]
 				}
 			],
@@ -10584,7 +10584,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6258,
+							"line": 6270,
 							"character": 4
 						}
 					],
@@ -10612,7 +10612,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6219,
+							"line": 6231,
 							"character": 4
 						}
 					],
@@ -10640,7 +10640,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6244,
+							"line": 6256,
 							"character": 4
 						}
 					],
@@ -10668,7 +10668,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6207,
+							"line": 6219,
 							"character": 4
 						}
 					],
@@ -10696,7 +10696,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6270,
+							"line": 6282,
 							"character": 4
 						}
 					],
@@ -10724,7 +10724,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6231,
+							"line": 6243,
 							"character": 4
 						}
 					],
@@ -10748,7 +10748,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6194,
+					"line": 6206,
 					"character": 12
 				}
 			]
@@ -10929,7 +10929,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6085,
+							"line": 6097,
 							"character": 4
 						}
 					],
@@ -10944,7 +10944,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6087,
+							"line": 6099,
 							"character": 4
 						}
 					],
@@ -10959,7 +10959,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6086,
+							"line": 6098,
 							"character": 4
 						}
 					],
@@ -10974,7 +10974,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6088,
+							"line": 6100,
 							"character": 4
 						}
 					],
@@ -10996,7 +10996,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6084,
+					"line": 6096,
 					"character": 12
 				}
 			]
@@ -23011,7 +23011,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 3005,
+						"id": 3006,
 						"name": "DataPanelCustomColumnGroupsAccordionState"
 					}
 				},
@@ -24363,7 +24363,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -24400,7 +24400,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -24707,7 +24707,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -27145,7 +27145,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -27183,7 +27183,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -27221,7 +27221,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -28401,7 +28401,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -28439,7 +28439,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -28477,7 +28477,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -29038,7 +29038,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6129,
+							"line": 6141,
 							"character": 4
 						}
 					],
@@ -29052,106 +29052,8 @@
 							"flags": {},
 							"children": [
 								{
-									"id": 2972,
-									"name": "clickedPoint",
-									"kind": 1024,
-									"kindString": "Property",
-									"flags": {},
-									"sources": [
-										{
-											"fileName": "types.ts",
-											"line": 6130,
-											"character": 8
-										}
-									],
-									"type": {
-										"type": "reference",
-										"id": 2966,
-										"name": "VizPoint"
-									}
-								},
-								{
 									"id": 2973,
-									"name": "selectedPoints",
-									"kind": 1024,
-									"kindString": "Property",
-									"flags": {},
-									"sources": [
-										{
-											"fileName": "types.ts",
-											"line": 6131,
-											"character": 8
-										}
-									],
-									"type": {
-										"type": "array",
-										"elementType": {
-											"type": "reference",
-											"id": 2966,
-											"name": "VizPoint"
-										}
-									}
-								}
-							],
-							"groups": [
-								{
-									"title": "Properties",
-									"kind": 1024,
-									"children": [
-										2972,
-										2973
-									]
-								}
-							]
-						}
-					}
-				},
-				{
-					"id": 2974,
-					"name": "embedAnswerData",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 6133,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "reflection",
-						"declaration": {
-							"id": 2975,
-							"name": "__type",
-							"kind": 65536,
-							"kindString": "Type literal",
-							"flags": {},
-							"children": [
-								{
-									"id": 2983,
-									"name": "columns",
-									"kind": 1024,
-									"kindString": "Property",
-									"flags": {},
-									"sources": [
-										{
-											"fileName": "types.ts",
-											"line": 6141,
-											"character": 8
-										}
-									],
-									"type": {
-										"type": "array",
-										"elementType": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								},
-								{
-									"id": 2984,
-									"name": "data",
+									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
 									"flags": {},
@@ -29177,7 +29079,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6138,
+											"line": 6143,
 											"character": 8
 										}
 									],
@@ -29213,7 +29115,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6140,
+							"line": 6145,
 							"character": 4
 						}
 					],
@@ -29235,7 +29137,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6148,
+											"line": 6153,
 											"character": 8
 										}
 									],
@@ -29256,7 +29158,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6149,
+											"line": 6154,
 											"character": 8
 										}
 									],
@@ -29277,7 +29179,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6135,
+											"line": 6147,
 											"character": 8
 										}
 									],
@@ -29295,7 +29197,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6134,
+											"line": 6146,
 											"character": 8
 										}
 									],
@@ -29313,7 +29215,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6136,
+											"line": 6148,
 											"character": 8
 										}
 									],
@@ -29335,7 +29237,7 @@
 													"sources": [
 														{
 															"fileName": "types.ts",
-															"line": 6137,
+															"line": 6149,
 															"character": 12
 														}
 													],
@@ -29357,7 +29259,7 @@
 																	"sources": [
 																		{
 																			"fileName": "types.ts",
-																			"line": 6138,
+																			"line": 6150,
 																			"character": 16
 																		}
 																	],
@@ -29441,7 +29343,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6145,
+							"line": 6157,
 							"character": 4
 						}
 					],
@@ -29462,7 +29364,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6146,
+							"line": 6158,
 							"character": 4
 						}
 					],
@@ -29487,7 +29389,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6128,
+					"line": 6140,
 					"character": 17
 				}
 			]
@@ -36421,7 +36323,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -36458,7 +36360,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -36765,7 +36667,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -39143,7 +39045,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -39180,7 +39082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -39217,7 +39119,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -40643,7 +40545,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -40680,7 +40582,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -40717,7 +40619,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -42503,7 +42405,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -42540,7 +42442,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -42577,7 +42479,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -43772,7 +43674,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -43809,7 +43711,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -43846,7 +43748,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -44979,7 +44881,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6511,
 							"character": 4
 						}
 					],
@@ -45016,7 +44918,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6482,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -45053,7 +44955,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6478,
 							"character": 4
 						}
 					],
@@ -45645,7 +45547,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6121,
+							"line": 6133,
 							"character": 4
 						}
 					],
@@ -45666,7 +45568,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6122,
+							"line": 6134,
 							"character": 4
 						}
 					],
@@ -45692,7 +45594,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6120,
+					"line": 6132,
 					"character": 17
 				}
 			]
@@ -47250,7 +47152,7 @@
 			]
 		},
 		{
-			"id": 3039,
+			"id": 3040,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -47266,7 +47168,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3040,
+					"id": 3041,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -47535,23 +47437,23 @@
 				1805,
 				1812,
 				1967,
-				2319,
-				3013,
-				3009,
-				3005,
+				2320,
+				3014,
+				3010,
+				3006,
 				2173,
-				3022,
+				3023,
 				1999,
-				3035,
-				2709,
-				2960,
-				2954,
-				2720,
+				3036,
+				2710,
+				2961,
+				2955,
+				2721,
 				2097,
-				3018,
-				2963,
-				2997,
-				2931,
+				3019,
+				2964,
+				2998,
+				2932,
 				1958,
 				2699,
 				2959,
@@ -47629,7 +47531,7 @@
 				4,
 				7,
 				25,
-				3039,
+				3040,
 				40,
 				2939
 			]
