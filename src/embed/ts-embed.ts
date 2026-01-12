@@ -582,29 +582,6 @@ export class TsEmbed {
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
-    private tokenExpiringSoon = async (_: any, responder: any) => {
-        const { authType } = this.embedConfig;
-        let { autoLogin } = this.embedConfig;
-        // Default autoLogin: true for cookieless if undefined/null, otherwise
-        // false
-        autoLogin = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
-        if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
-            try {
-                const authToken = await getAuthenticationToken(this.embedConfig, true);
-                responder({
-                    type: EmbedEvent.AuthExpire,
-                    data: { authToken },
-                });
-            } catch (e) {
-                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-            }
-        } else if (autoLogin) {
-            handleAuth();
-        }
-        notifyAuthFailure(AuthFailureType.EXPIRY);
-    }
-
     /**
      * Register APP_INIT event and sendback init payload
      */
@@ -618,7 +595,7 @@ export class TsEmbed {
         
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
-        this.on(EmbedEvent.TokenExpiringSoon, this.tokenExpiringSoon, { start: false }, true);
+        this.on(EmbedEvent.RefreshAuthToken, this.tokenRefresh, { start: false }, true);
     };
 
     /**
