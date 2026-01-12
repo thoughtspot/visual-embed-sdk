@@ -3346,7 +3346,7 @@ export enum HostEvent {
      * @param - Array of {@link RuntimeFilter} objects. Each item includes:
      * - `columnName`: Name of the column to filter on.
      * - `operator`: {@link RuntimeFilterOp} to apply. For more information, see
-     *   [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).
+     *   link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      * - `values`: List of operands. Some operators such as EQ and LE allow a single
      *   value, whereas BW and IN accept multiple values.
      *
@@ -4731,7 +4731,7 @@ export enum Param {
  *    hiddenActions: [Action.Edit, ActionAction.Explore],
  * })
  * ```
- * See also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]
+ * See also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].
  */
 
 export enum Action {

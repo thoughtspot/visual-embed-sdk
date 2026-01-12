@@ -21,7 +21,7 @@
 					},
 					{
 						"tag": "example",
-						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, ActionAction.Explore],\n})\n```\nSee also link:https://developers.thoughtspot.com/docs/actions[Action IDs in the SDK]\n"
+						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, ActionAction.Explore],\n})\n```\nSee also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].\n"
 					}
 				]
 			},
@@ -9997,7 +9997,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "Array of {@link RuntimeFilter} objects. Each item includes:\n- `columnName`: Name of the column to filter on.\n- `operator`: {@link RuntimeFilterOp} to apply. For more information, see\n  [Developer Documentation](https://developers.thoughtspot.com/docs/runtime-filters#rtOperator).\n- `values`: List of operands. Some operators such as EQ and LE allow a single\n  value, whereas BW and IN accept multiple values.\n\n**Note**: Updating runtime filters resets the ThoughtSpot\nobject to its original state and applies new filter conditions.\nAny user changes (like drilling into a visualization)\nwill be cleared, restoring the original visualization\nwith the updated filters.\n\n",
+								"text": "Array of {@link RuntimeFilter} objects. Each item includes:\n- `columnName`: Name of the column to filter on.\n- `operator`: {@link RuntimeFilterOp} to apply. For more information, see\n  link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].\n- `values`: List of operands. Some operators such as EQ and LE allow a single\n  value, whereas BW and IN accept multiple values.\n\n**Note**: Updating runtime filters resets the ThoughtSpot\nobject to its original state and applies new filter conditions.\nAny user changes (like drilling into a visualization)\nwill be cleared, restoring the original visualization\nwith the updated filters.\n\n",
 								"param": "-"
 							},
 							{
