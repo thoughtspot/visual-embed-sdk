@@ -1536,22 +1536,6 @@ export interface LiveboardAppEmbedViewConfig {
      */
     coverAndFilterOptionInPDF?: boolean;
     /**
-     * This flag is used to enable or disable the XLSX/CSV download option for Liveboards.
-     * To enable this feature on your instance, contact ThoughtSpot Support.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.41.0 | ThoughtSpot: 26.3.0.cl
-     * @example
-     * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
-     *    liveboardXLSXCSVDownload: true,
-     * })
-     * ```
-     */
-    liveboardXLSXCSVDownload?: boolean;
-    /**
      * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
      * When enabled, a unified modal is used to manage and update multiple filters at once,
      * replacing the older individual filter interactions.
@@ -3004,7 +2988,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
@@ -4440,7 +4424,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.DataModelInstructions);
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
@@ -4698,8 +4682,9 @@ export enum Param {
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
-    LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
+    isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
@@ -5019,6 +5004,16 @@ export enum Action {
      * ```
      */
     DownloadAsXlsx = 'downloadAsXLSX',
+    /**
+     * The **Download Liveboard** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboard]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    DownloadLiveboard = 'downloadLiveboard',
     /**
      * @hidden
      */
