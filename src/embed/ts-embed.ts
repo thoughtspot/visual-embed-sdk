@@ -657,6 +657,7 @@ export class TsEmbed {
             customizations,
             contextMenuTrigger,
             linkOverride,
+            enableLinkOverridesV2,
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
@@ -747,6 +748,9 @@ export class TsEmbed {
 
         if (linkOverride) {
             queryParams[Param.LinkOverride] = linkOverride;
+        }
+        if (enableLinkOverridesV2) {
+            queryParams[Param.EnableLinkOverridesV2] = enableLinkOverridesV2;
         }
         if (insertInToSlide) {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
