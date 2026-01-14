@@ -2803,7 +2803,7 @@ describe('Unit test case for ts embed', () => {
             jest.clearAllMocks();
             document.body.innerHTML = getDocumentBody();
             mockPort.postMessage.mockClear();
-            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('test-token');
+            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('mock-test-token-placeholder');
 
             jest.spyOn(baseInstance, 'handleAuth').mockImplementation(() => Promise.resolve(true));
             jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => { });
@@ -2832,7 +2832,7 @@ describe('Unit test case for ts embed', () => {
                 expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.AuthExpire,
-                    data: { authToken: 'test-token' },
+                    data: { authToken: 'mock-test-token-placeholder' },
                 });
             });
         });
@@ -2867,7 +2867,7 @@ describe('Unit test case for ts embed', () => {
                 expect(baseInstance.handleAuth).toHaveBeenCalledTimes(1);
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.AuthExpire,
-                    data: { authToken: 'test-token' },
+                    data: { authToken: 'mock-test-token-placeholder' },
                 });
             });
         });
@@ -2932,7 +2932,7 @@ describe('Unit test case for ts embed', () => {
             jest.clearAllMocks();
             document.body.innerHTML = getDocumentBody();
             mockPort.postMessage.mockClear();
-            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('test-token');
+            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('mock-test-token-placeholder');
             jest.spyOn(processData, 'processAuthFailure').mockImplementation(() => ({} as any));
             jest.spyOn(logger, 'error').mockImplementation(() => {});
         });
@@ -2967,7 +2967,7 @@ describe('Unit test case for ts embed', () => {
                 );
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.RefreshAuthToken,
-                    data: { authToken: 'test-token' },
+                    data: { authToken: 'mock-test-token-placeholder' },
                 });
             });
         });
@@ -2988,7 +2988,7 @@ describe('Unit test case for ts embed', () => {
                 );
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.RefreshAuthToken,
-                    data: { authToken: 'test-token' },
+                    data: { authToken: 'mock-test-token-placeholder' },
                 });
             });
         });
