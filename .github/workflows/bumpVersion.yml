@@ -73,12 +73,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           BRANCH="${{ steps.bump.outputs.new_version }}"
-          BODY="## Summary
-          - Bumped version to v${{ steps.bump.outputs.new_version }}"
+          BODY="## Summary: Bumped version to v${{ steps.bump.outputs.new_version }}"
           TITLE="chore: release v${{ steps.bump.outputs.new_version }}"
           gh pr create \
             --title "$TITLE" \
             --body "$BODY" \
             --base main \
             --head "$BRANCH" \
-            --fill
