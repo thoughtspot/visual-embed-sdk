@@ -60,6 +60,7 @@ import {
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    MessagePayload,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -509,24 +510,44 @@ export class TsEmbed {
     };
 
     /**
+     * Helper method to refresh/update auth token for TrustedAuthTokenCookieless auth type
+     * @param responder - Function to send response back
+     * @param eventType - The embed event type to send
+     * @param forceRefresh - Whether to force refresh the token
+     * @returns Promise that resolves if token was refreshed, rejects otherwise
+     */
+    private async refreshAuthTokenForCookieless(
+        responder: (data: any) => void,
+        eventType: EmbedEvent,
+        forceRefresh: boolean = false
+    ): Promise<void> {
+        const { authType, autoLogin } = this.embedConfig;
+        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        
+        if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
+            const authToken = await getAuthenticationToken(this.embedConfig, forceRefresh);
+            responder({
+                type: eventType,
+                data: { authToken },
+            });
+        }
+    }
+
+    private handleAuthFailure = (error: Error) => {
+        logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${error?.message}`);
+        processAuthFailure(error, this.isPreRendered ? this.preRenderWrapper : this.el);
+    }
+
+    /**
      * Refresh the auth token if the autoLogin is true and the authType is TrustedAuthTokenCookieless
      * @param _
      * @param responder
      */
-    private tokenRefresh = async (_: any, responder: any) => {
-        const { authType, autoLogin } = this.embedConfig;
-        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
-        if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
-            try {
-                const authToken = await getAuthenticationToken(this.embedConfig, true);
-                responder({
-                    type: EmbedEvent.RefreshAuthToken,
-                    data: { authToken },
-                });
-            } catch (e) {
-                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-            }
+    private tokenRefresh = async (_: MessagePayload, responder: (data: any) => void) => {
+        try {
+            await this.refreshAuthTokenForCookieless(responder, EmbedEvent.RefreshAuthToken, true);
+        } catch (e) {
+            this.handleAuthFailure(e);
         }
     }
 
@@ -535,24 +556,18 @@ export class TsEmbed {
      * @param _
      * @param responder
      */
-    private updateAuthToken = async (_: any, responder: any) => {
-        const { authType } = this.embedConfig;
-        let { autoLogin } = this.embedConfig;
-        // Default autoLogin: true for cookieless if undefined/null, otherwise
-        // false
-        autoLogin = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
-        if (autoLogin && authType === AuthType.TrustedAuthTokenCookieless) {
-            try {
-                const authToken = await getAuthenticationToken(this.embedConfig);
-                responder({
-                    type: EmbedEvent.AuthExpire,
-                    data: { authToken },
-                });
-            } catch (e) {
-                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
-            }
-        } else if (autoLogin) {
+    private updateAuthToken = async (_: MessagePayload, responder: any) => {
+        const { authType, autoLogin: autoLoginConfig } = this.embedConfig;
+        // Default autoLogin: true for cookieless if undefined/null, otherwise false
+        const autoLogin = autoLoginConfig ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        
+        try {
+            await this.refreshAuthTokenForCookieless(responder, EmbedEvent.AuthExpire, false);
+        } catch (e) {
+            this.handleAuthFailure(e);
+        }
+        
+        if (autoLogin && authType !== AuthType.TrustedAuthTokenCookieless) {
             handleAuth();
         }
         notifyAuthFailure(AuthFailureType.EXPIRY);
@@ -573,8 +588,7 @@ export class TsEmbed {
                     data: { authToken },
                 });
             } catch (e) {
-                logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${e?.message}`);
-                processAuthFailure(e, this.isPreRendered ? this.preRenderWrapper : this.el);
+                this.handleAuthFailure(e);
             }
         }).catch((e) => {
             logger.error(`Auto Login failed, Error : ${e?.message}`);
