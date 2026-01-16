@@ -6042,6 +6042,55 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
+     /**
+     * The **Publish** action for Liveboards, Answers and Models.
+     * Opens the publishing modal. It's a parent action for the
+     * **Manage Publishing** and **Unpublish** actions if the object
+     * is already published, otherwise appears standalone.
+     * @example
+     * ```js
+     * hiddenActions: [Action.Publish]
+     * disabledActions: [Action.Publish]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+     Publish = 'publish',
+     /**
+      * The **Manage Publishing** action for Liveboards, Answers and Models.
+      * Opens the same publishing modal as the **Publish** action.
+      * Appears as a child action to the **Publish** action if the
+      * object is already published.
+      * @example
+      * ```js
+      * hiddenActions: [Action.ManagePublishing]
+      * disabledActions: [Action.ManagePublishing]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     ManagePublishing = 'managePublishing',
+     /**
+      * The **Unpublish** action for Liveboards, Answers and Models.
+      * Opens the unpublishing modal. Appears as a child action to
+      * the **Publish** action if the object is already published.
+      * @example
+      * ```js
+      * hiddenActions: [Action.Unpublish]
+      * disabledActions: [Action.Unpublish]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     Unpublish = 'unpublish',
+     /**
+      * The **Parameterize** action for Tables and Connections.
+      * Opens the parameterization modal.
+      * @example
+      * ```js
+      * hiddenActions: [Action.Parameterize]
+      * disabledActions: [Action.Parameterize]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     Parameterize = 'parameterise',
     /**
      * The **Move to Group** menu action on a Liveboard.
      * Allows moving a visualization to a different group.
