@@ -900,7 +900,7 @@ export class AppEmbed extends V1Embed {
         // at the cluster level.
         // To use v3 navigation, we must manually set the discoveryExperience
         // settings.
-        params[Param.NavigationVersion] = 'v2';
+        params[Param.NavigationVersion] = 'v3';
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';

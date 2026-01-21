@@ -941,7 +941,7 @@ describe('App embed tests', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             // primaryNavbarVersion is not included under discoveryExperience,
-            // then it set navigationVersion=v2 and modularHomeExperience=false.
+            // then it set navigationVersion=v3 and modularHomeExperience=false.
             discoveryExperience: {
                 homePage: HomePage.ModularWithStylingChanges,
             },
@@ -951,12 +951,12 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
 
-    test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
+    test('Should add navigationVersion=v3 when primaryNavbarVersion is not added to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
@@ -965,7 +965,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1012,7 +1012,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v3&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
