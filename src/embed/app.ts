@@ -355,7 +355,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    pageId : Page.Answers | Page.Data,
+     *    pageId: Page.Answers, // or Page.Data
      * })
      * ```
      */
