@@ -1012,7 +1012,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1030,7 +1030,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1246,7 +1246,7 @@ describe('App embed tests', () => {
                 },
             });
             await appEmbed.render();
-            jest.spyOn(logger, 'warn').mockImplementation(() => {});
+            jest.spyOn(logger, 'warn').mockImplementation(() => { });
             appEmbed.navigateToPage(-1);
             expect(logger.warn).toHaveBeenCalledWith(
                 'Path can only by a string when triggered without noReload',
@@ -1254,7 +1254,7 @@ describe('App embed tests', () => {
         });
 
         test('navigateToPage function use before render', async () => {
-            jest.spyOn(logger, 'log').mockImplementation(() => {});
+            jest.spyOn(logger, 'log').mockImplementation(() => { });
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
