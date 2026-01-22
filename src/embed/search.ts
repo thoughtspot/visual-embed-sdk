@@ -157,6 +157,7 @@ export interface SearchViewConfig
      *    ... // other embed view config
      *    forceTable:true,
      * })
+     * ```
      */
     forceTable?: boolean;
     /**

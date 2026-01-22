@@ -1357,7 +1357,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1373,7 +1373,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard title
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1389,7 +1389,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard description
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1413,7 +1413,7 @@ export interface LiveboardAppEmbedViewConfig {
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
     /**
@@ -1507,7 +1507,7 @@ export interface LiveboardAppEmbedViewConfig {
      * enable or disable ask sage
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 9.12.0.cl
      * @default false
      * @example
      * ```js
@@ -1588,7 +1588,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide masked filter chips
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -1604,7 +1604,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Enable or disable Liveboard styling and grouping
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -4702,7 +4702,7 @@ export enum Param {
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
  *    ... //other embed view config
- *    visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],
+ *    visibleActions: [Action.Save, Action.Edit, Action.Present, Action.Explore],
  *    disabledActions: [Action.Download],
  *    //hiddenActions: [], // Set either this or visibleActions
  * })
@@ -4713,7 +4713,7 @@ export enum Param {
  *    ... //other embed view config
  *    //visibleActions: [],
  *    disabledActions: [Action.Download],
- *    hiddenActions: [Action.Edit, ActionAction.Explore],
+ *    hiddenActions: [Action.Edit, Action.Explore],
  * })
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].
@@ -5234,13 +5234,15 @@ export enum Action {
      */
     RequestAccess = 'requestAccess',
     /**
-     * The **Query visualizer** and **Query SQL** buttons in
-     * Query details panel of the Answer page.
+     * Controls the display and availability of the **Query visualizer** and
+     * **Query SQL** buttons in the Query details panel on the Answer page.
      *
-     * **Query visualizer** - Displays the tables
-     * and filters used in a search query.
-     * **Query SQL** - Displays the SQL statements used
-     * in a search query to fetch data.
+     * **Query visualizer** - Displays the tables and filters used in the search query.
+     * **Query SQL** - Displays the SQL statements used to retrieve data for the query.
+     *
+     * Note: This action ID only affects the visibility of the buttons within the
+     * Query details panel. It does not control the visibility
+     * of the query details icon on the Answer page.
      * @example
      * ```js
      * disabledActions: [Action.QueryDetailsButtons]
