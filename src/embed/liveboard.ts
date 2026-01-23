@@ -552,6 +552,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -646,6 +647,10 @@ export class LiveboardEmbed extends V1Embed {
             params[
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
+        }
+
+        if (isThisPeriodInDateFiltersEnabled !== undefined) {
+            params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
