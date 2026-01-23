@@ -402,6 +402,7 @@ export class SearchEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
+            isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -442,6 +443,10 @@ export class SearchEmbed extends TsEmbed {
 
         if (!focusSearchBarOnRender) {
             queryParams[Param.FocusSearchBarOnRender] = focusSearchBarOnRender;
+        }
+
+        if (isThisPeriodInDateFiltersEnabled !== undefined) {
+            queryParams[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
