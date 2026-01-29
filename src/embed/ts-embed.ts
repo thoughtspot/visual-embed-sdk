@@ -61,6 +61,7 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
     ContextType,
+    ContextObject,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -1434,7 +1435,7 @@ export class TsEmbed {
      * @returns The current context object containing the page type and object ids.
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
-    public async getCurrentContext(): Promise<any> {
+    public async getCurrentContext(): Promise<ContextObject> {
         return new Promise((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 const context = await this.trigger(HostEvent.GetPageContext, {});

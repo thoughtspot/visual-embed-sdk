@@ -6473,9 +6473,21 @@ export interface EmbedErrorDetailsEvent {
 }
 
 export enum ContextType {
+    /**
+     * Search answer context for search page or edit viz dialog on liveboard page.
+     */
     Search = 'search-answer',
+    /**
+     * Liveboard context for liveboard page.
+     */
     Liveboard = 'liveboard',
+    /**
+     * Answer context for explore modal/page on liveboard page.
+     */
     Answer = 'answer',
+    /**
+     * Spotter context for spotter modal/page.
+     */
     Spotter = 'spotter',
 }
 
@@ -6558,11 +6570,56 @@ export type ApiInterceptFlags = {
 };
 
 /**
+ * Object IDs for the embedded component.
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ObjectIds {
+    /**
+     * Liveboard ID.
+     */
+    liveboardId?: string;
+    /**
+     * Answer ID.
+     */
+    answerId?: string;
+    /**
+     * Viz IDs.
+     */
+    vizIds?: string[];
+    /**
+     * Data model IDs.
+     */
+    dataModelIds?: string[];
+    /**
+     * Modal title.
+     */
+    modalTitle?: string;
+}
+
+/**
  * Context object for the embedded component.
  * @example
  * ```js
  * const context = await embed.getCurrentContext();
  * console.log(context);
+ * {
+ *   stack: [
+ *     {
+ *       name: 'Liveboard',
+ *       type: ContextType.Liveboard,
+ *       objectIds: {
+ *         liveboardId: '123',
+ *       },
+ *     },
+ *   ],
+ *   currentContext: {
+ *     name: 'Liveboard',
+ *     type: ContextType.Liveboard,
+ *     objectIds: {
+ *       liveboardId: '123',
+ *     },
+ *   },
+ * }
  * ```
  * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
  */
@@ -6582,9 +6639,7 @@ export interface ContextObject {
     /**
      * Object IDs of the context object.
      */
-    objectIds: {
-        [key: string]: string[];
-    };
+    objectIds: ObjectIds;
    }>
    /**
     * Current context object.
@@ -6595,8 +6650,6 @@ export interface ContextObject {
      */
     name: string;
     type: ContextType;
-    objectIds: {
-        [key: string]: string[];
-    };
+    objectIds: ObjectIds;
    }
 }

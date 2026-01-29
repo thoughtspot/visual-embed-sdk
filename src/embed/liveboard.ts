@@ -28,7 +28,7 @@ import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidC
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { TriggerPayload, TriggerResponse, PageContextOptions } from './hostEventClient/contracts';
+import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 
 

@@ -113,31 +113,3 @@ export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
   PayloadT | HostEventRequest<HostEventT>;
 export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT extends ContextType> =
   PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;
-
-export enum PageType {
-  PAGE = 'page',
-  DIALOG = 'dialog',
-}
-
-/**
- * Objects is a map of object ids to their names.
- * @example
- * {
- *   answerId: '123',
- *   liveboardId: '456',
- *   vizIds: ['789', '101'],
- * }
- */
-interface Objects {
-  answerId?: string;
-  liveboardId?: string;
-  vizIds?: string[];
-  dataModelIds?: string[];
-  modalTitle?: string;
-}
-
-export interface PageContextOptions {
-  page: ContextType;
-  pageType: PageType;
-  objectIds: Objects;
-}
