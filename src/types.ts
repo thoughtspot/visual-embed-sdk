@@ -1112,7 +1112,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *     }
      *   ]
      * })
-     * 
+     *
      * // to trigger a custom flow on custom action click listen to Custom action embed event
      * embed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {
      *   console.log('Custom Action event:', payload);
@@ -1361,6 +1361,22 @@ export interface SearchLiveboardCommonViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * To enable **Include current period** checkbox for date filters.
+     * Controls the visibility of the option to include
+     * the current time period in filter results.
+     *
+     * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @example
+     * ```js
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isThisPeriodInDateFiltersEnabled: true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     */
+    isThisPeriodInDateFiltersEnabled?: boolean;
 }
 
 /**
@@ -1371,7 +1387,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1387,7 +1403,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard title
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1403,7 +1419,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard description
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1427,7 +1443,7 @@ export interface LiveboardAppEmbedViewConfig {
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
     /**
@@ -1521,7 +1537,7 @@ export interface LiveboardAppEmbedViewConfig {
      * enable or disable ask sage
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 9.12.0.cl
      * @default false
      * @example
      * ```js
@@ -1549,22 +1565,6 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     coverAndFilterOptionInPDF?: boolean;
-    /**
-     * This flag is used to enable or disable the XLSX/CSV download option for Liveboards.
-     * To enable this feature on your instance, contact ThoughtSpot Support.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.41.0 | ThoughtSpot: 26.3.0.cl
-     * @example
-     * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
-     *    liveboardXLSXCSVDownload: true,
-     * })
-     * ```
-     */
-    liveboardXLSXCSVDownload?: boolean;
     /**
      * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
      * When enabled, a unified modal is used to manage and update multiple filters at once,
@@ -1618,7 +1618,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide masked filter chips
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -1634,7 +1634,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Enable or disable Liveboard styling and grouping
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -2850,7 +2850,7 @@ export enum EmbedEvent {
      *
      * `error` - Developers can customize the error message text when `execute`
      * is `false` using the `errorText` and `errorDescription` parameters in responder.
-     * 
+     *
      * `errorText` - The error message text to be shown to the user.
      * `errorDescription (ThoughtSpot: 10.15.0.cl and above)` - The error description to be shown to the user.
      * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
@@ -3018,7 +3018,7 @@ export enum EmbedEvent {
      *     console.log('payload', payload);
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
@@ -3529,7 +3529,7 @@ export enum HostEvent {
     *
     * spotterEmbed.trigger(HostEvent.Pin, { vizId: latestSpotterVizId });
     * ```
-     * 
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     Pin = 'pin',
@@ -3595,7 +3595,7 @@ export enum HostEvent {
      * visualization or Answer.
      *
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
-     * 
+     *
      * **NOTE**: The **Download** > **PDF** action is available on
      * visualizations and Answers if the data is in tabular format.
      * @example
@@ -3613,7 +3613,7 @@ export enum HostEvent {
     *
     * spotterEmbed.trigger(HostEvent.DownloadAsPdf, { vizId: latestSpotterVizId });
     * ```
-     * 
+     *
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
@@ -4456,7 +4456,7 @@ export enum HostEvent {
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
-     * 
+     *
      *```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
@@ -4467,7 +4467,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.DataModelInstructions);
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DataModelInstructions = 'DataModelInstructions',
     /**
@@ -4725,12 +4725,14 @@ export enum Param {
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
-    LiveboardXLSXCSVDownload = 'isLiveboardXLSXCSVDownloadEnabled',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
+    isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
 }
 
 /**
@@ -4744,7 +4746,7 @@ export enum Param {
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
  *    ... //other embed view config
- *    visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],
+ *    visibleActions: [Action.Save, Action.Edit, Action.Present, Action.Explore],
  *    disabledActions: [Action.Download],
  *    //hiddenActions: [], // Set either this or visibleActions
  * })
@@ -4755,7 +4757,7 @@ export enum Param {
  *    ... //other embed view config
  *    //visibleActions: [],
  *    disabledActions: [Action.Download],
- *    hiddenActions: [Action.Edit, ActionAction.Explore],
+ *    hiddenActions: [Action.Edit, Action.Explore],
  * })
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].
@@ -5047,6 +5049,16 @@ export enum Action {
      */
     DownloadAsXlsx = 'downloadAsXLSX',
     /**
+     * The **Download Liveboard** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboard]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    DownloadLiveboard = 'downloadLiveboard',
+    /**
      * @hidden
      */
     DownloadTrace = 'downloadTrace',
@@ -5266,13 +5278,15 @@ export enum Action {
      */
     RequestAccess = 'requestAccess',
     /**
-     * The **Query visualizer** and **Query SQL** buttons in
-     * Query details panel of the Answer page.
+     * Controls the display and availability of the **Query visualizer** and
+     * **Query SQL** buttons in the Query details panel on the Answer page.
      *
-     * **Query visualizer** - Displays the tables
-     * and filters used in a search query.
-     * **Query SQL** - Displays the SQL statements used
-     * in a search query to fetch data.
+     * **Query visualizer** - Displays the tables and filters used in the search query.
+     * **Query SQL** - Displays the SQL statements used to retrieve data for the query.
+     *
+     * Note: This action ID only affects the visibility of the buttons within the
+     * Query details panel. It does not control the visibility
+     * of the query details icon on the Answer page.
      * @example
      * ```js
      * disabledActions: [Action.QueryDetailsButtons]
@@ -5994,12 +6008,11 @@ export enum Action {
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     /**
-     * Action ID to hide or disable the Spotter in the conversation training widget.
-     * When disabled, users cannot access **Add to Coaching**, which allows adding reference
-     * questions and business terms to improve Spotter’s responses.
-     * The **Add to Coaching** feature is generally available from version 26.2.0.cl and
-     * enabled by default on embed deployments.
-
+    * Action ID to hide or disable the Coaching workflow in Spotter conversations.
+    * When disabled, users cannot access **Add to Coaching** workflow in conversation.
+    * The **Add to Coaching** feature allows adding reference questions and
+    * business terms to improve Spotter’s responses. This feature is generally available
+    * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
@@ -6075,6 +6088,55 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
+     /**
+     * The **Publish** action for Liveboards, Answers and Models.
+     * Opens the publishing modal. It's a parent action for the
+     * **Manage Publishing** and **Unpublish** actions if the object
+     * is already published, otherwise appears standalone.
+     * @example
+     * ```js
+     * hiddenActions: [Action.Publish]
+     * disabledActions: [Action.Publish]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+     Publish = 'publish',
+     /**
+      * The **Manage Publishing** action for Liveboards, Answers and Models.
+      * Opens the same publishing modal as the **Publish** action.
+      * Appears as a child action to the **Publish** action if the
+      * object is already published.
+      * @example
+      * ```js
+      * hiddenActions: [Action.ManagePublishing]
+      * disabledActions: [Action.ManagePublishing]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     ManagePublishing = 'managePublishing',
+     /**
+      * The **Unpublish** action for Liveboards, Answers and Models.
+      * Opens the unpublishing modal. Appears as a child action to
+      * the **Publish** action if the object is already published.
+      * @example
+      * ```js
+      * hiddenActions: [Action.Unpublish]
+      * disabledActions: [Action.Unpublish]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     Unpublish = 'unpublish',
+     /**
+      * The **Parameterize** action for Tables and Connections.
+      * Opens the parameterization modal.
+      * @example
+      * ```js
+      * hiddenActions: [Action.Parameterize]
+      * disabledActions: [Action.Parameterize]
+      * ```
+      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+      */
+     Parameterize = 'parameterise',
     /**
      * The **Move to Group** menu action on a Liveboard.
      * Allows moving a visualization to a different group.
@@ -6115,6 +6177,18 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     UngroupLiveboardGroup = 'ungroupLiveboardGroup',
+    /**
+     * The **Include current period** checkbox for date filters.
+     * Controls the visibility and availability of the option to include
+     * the current time period in filter results.
+     * @example
+     * ```js
+     * hiddenActions: [Action.IncludeCurrentPeriod]
+     * disabledActions: [Action.IncludeCurrentPeriod]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     */
+    IncludeCurrentPeriod = 'includeCurrentPeriod',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -6311,11 +6385,11 @@ export enum LogLevel {
 
 /**
  * Error types emitted by embedded components.
- * 
+ *
  * These enum values categorize different types of errors that can occur during
  * the lifecycle of an embedded ThoughtSpot component. Use these values to implement
  * specific error handling logic based on the error category.
- * 
+ *
  * @see {@link EmbedErrorDetailsEvent} - The error event object structure
  * @see {@link EmbedEvent.Error} - The event that emits these errors
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
@@ -6354,31 +6428,31 @@ export enum ErrorDetailsTypes {
 export enum EmbedErrorCodes {
     /** Worksheet ID not found or does not exist */
     WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
-    
+
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
-    
+
     /** Conflicting action configuration detected (e.g., both hiddenActions and visibleActions specified) */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
-    
+
     /** Conflicting tab configuration detected (e.g., both hiddenTabs and visibleTabs specified) */
     CONFLICTING_TABS_CONFIG = 'CONFLICTING_TABS_CONFIG',
-    
+
     /** Error during component initialization */
     INIT_ERROR = 'INIT_ERROR',
-    
+
     /** Network connectivity or request error */
     NETWORK_ERROR = 'NETWORK_ERROR',
-    
+
     /** Custom action validation failed */
     CUSTOM_ACTION_VALIDATION = 'CUSTOM_ACTION_VALIDATION',
-    
+
     /** Authentication/login failed */
     LOGIN_FAILED = 'LOGIN_FAILED',
-    
+
     /** Render method was not called before attempting to use the component */
     RENDER_NOT_CALLED = 'RENDER_NOT_CALLED',
-    
+
     /** Host event type is undefined or invalid */
     HOST_EVENT_TYPE_UNDEFINED = 'HOST_EVENT_TYPE_UNDEFINED',
 
@@ -6397,14 +6471,14 @@ export enum EmbedErrorCodes {
  * a human-readable message, and a machine-readable error code.
  *
  * ## Properties
- * 
+ *
  * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
  * - **message**: Human-readable error description (string or array of strings for multiple errors)
  * - **code**: Machine-readable error identifier for programmatic handling
  * - **[key: string]**: Additional context-specific for backward compatibility
  *
  * ## Usage
- * 
+ *
  * Listen to the {@link EmbedEvent.Error} event to receive instances of this object
  * and implement appropriate error handling logic based on the `errorType`.
  *
@@ -6412,7 +6486,7 @@ export enum EmbedErrorCodes {
  * @group Error Handling
  * @see {@link ErrorDetailsTypes} - Available error type values
  * @see {@link EmbedEvent.Error} - The event that emits this object
- * 
+ *
  * @example
  * Handle specific error types
  *
@@ -6425,18 +6499,18 @@ export enum EmbedErrorCodes {
  *       console.error('Unknown error:', error);
  *   }
  * });
- *  * 
+ *  *
  * @example
  * Handle multiple error messages
  *
  * embed.on(EmbedEvent.Error, (error) => {
- *   const messages = Array.isArray(error.message) 
- *     ? error.message 
+ *   const messages = Array.isArray(error.message)
+ *     ? error.message
  *     : [error.message];
- *   
+ *
  *   messages.forEach(msg => console.error(msg));
  * });
- *  * 
+ *  *
  * @example
  * Access additional error context
  *

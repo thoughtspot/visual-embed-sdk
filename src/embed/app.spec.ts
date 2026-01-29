@@ -345,6 +345,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isThisPeriodInDateFiltersEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isThisPeriodInDateFiltersEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isThisPeriodInDateFiltersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -387,10 +401,10 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set liveboardXLSXCSVDownload to true in url', async () => {
+    test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            liveboardXLSXCSVDownload: true,
+            isLiveboardXLSXCSVDownloadEnabled: true,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
@@ -429,10 +443,10 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set liveboardXLSXCSVDownload to false in url', async () => {
+    test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            liveboardXLSXCSVDownload: false,
+            isLiveboardXLSXCSVDownloadEnabled: false,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
@@ -443,14 +457,31 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should not set liveboardXLSXCSVDownload in url when undefined', async () => {
+    test('should set isGranularXLSXCSVSchedulesEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
+            isGranularXLSXCSVSchedulesEnabled: true,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            const iframeSrc = getIFrameSrc();
-            expect(iframeSrc).not.toContain('isLiveboardXLSXCSVDownloadEnabled');
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isGranularXLSXCSVSchedulesEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isGranularXLSXCSVSchedulesEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=false${defaultParamsPost}#/home`,
+            );
         });
     });
 

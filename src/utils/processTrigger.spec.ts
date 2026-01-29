@@ -76,6 +76,24 @@ describe('Unit test for processTrigger', () => {
         expect(triggerPromise).rejects.toEqual(res.data.error);
     });
 
+    test('should handle null/undefined responseData without throwing', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        const data = {};
+        mockMessageChannel();
+        const triggerPromise = _processTriggerInstance.processTrigger(
+            iFrame,
+            messageType,
+            thoughtSpotHost,
+            data,
+        );
+        expect(iFrame.contentWindow.postMessage).toHaveBeenCalled();
+        // Simulate a message with null responseData
+        messageChannelMock.port1.onmessage({ data: null });
+        expect(messageChannelMock.port1.close).toHaveBeenCalled();
+        await expect(triggerPromise).resolves.toEqual(null);
+    });
+
     test('should close channel.port1 when timeout exceeds TRIGGER_TIMEOUT', async () => {
         const messageType = HostEvent.Search;
         const thoughtSpotHost = 'http://localhost:3000';

@@ -510,6 +510,20 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should set isThisPeriodInDateFiltersEnabled to true in url', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isThisPeriodInDateFiltersEnabled: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false&isThisPeriodInDateFiltersEnabled=true${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
