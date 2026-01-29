@@ -17,11 +17,11 @@
 				"tags": [
 					{
 						"tag": "example",
-						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],\n   disabledActions: [Action.Download],\n   //hiddenActions: [], // Set either this or visibleActions\n})\n```"
+						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   visibleActions: [Action.Save, Action.Edit, Action.Present, Action.Explore],\n   disabledActions: [Action.Download],\n   //hiddenActions: [], // Set either this or visibleActions\n})\n```"
 					},
 					{
 						"tag": "example",
-						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, ActionAction.Explore],\n})\n```\nSee also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].\n"
+						"text": "\n```js\nconst embed = new LiveboardEmbed('#tsEmbed', {\n   ... //other embed view config\n   //visibleActions: [],\n   disabledActions: [Action.Download],\n   hiddenActions: [Action.Edit, Action.Explore],\n})\n```\nSee also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].\n"
 					}
 				]
 			},
@@ -1770,7 +1770,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Action ID to hide or disable the Spotter in the conversation training widget.\nWhen disabled, users cannot access **Add to Coaching**, which allows adding reference\nquestions and business terms to improve Spotter’s responses.\nThe **Add to Coaching** feature is generally available from version 26.2.0.cl and\nenabled by default on embed deployments.",
+						"shortText": "Action ID to hide or disable the Coaching workflow in Spotter conversations.\nWhen disabled, users cannot access **Add to Coaching** workflow in conversation.\nThe **Add to Coaching** feature allows adding reference questions and\nbusiness terms to improve Spotter’s responses. This feature is generally available\n(GA) from version 26.2.0.cl and enabled by default on embed deployments.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2329,8 +2329,8 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Query visualizer** and **Query SQL** buttons in\nQuery details panel of the Answer page.",
-						"text": "**Query visualizer** - Displays the tables\nand filters used in a search query.\n**Query SQL** - Displays the SQL statements used\nin a search query to fetch data.",
+						"shortText": "Controls the display and availability of the **Query visualizer** and\n**Query SQL** buttons in the Query details panel on the Answer page.",
+						"text": "**Query visualizer** - Displays the tables and filters used in the search query.\n**Query SQL** - Displays the SQL statements used to retrieve data for the query.\n\nNote: This action ID only affects the visibility of the buttons within the\nQuery details panel. It does not control the visibility\nof the query details icon on the Answer page.",
 						"tags": [
 							{
 								"tag": "example",
@@ -5466,7 +5466,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl\n"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
 							}
 						]
 					},
@@ -8310,7 +8310,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl\n"
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
 							}
 						]
 					},
@@ -20211,6 +20211,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 342,
+							"line": 342,
 							"character": 4
 						}
 					],
@@ -21514,6 +21515,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
+					"line": 336,
 					"line": 336,
 					"character": 13
 				}
@@ -24047,7 +24049,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.29.0 | Thoughtspot: 9.12.0.cl"
+								"text": "SDK: 1.29.0 | ThoughtSpot: 9.12.0.cl"
 							},
 							{
 								"tag": "default",
@@ -24757,7 +24759,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -25290,7 +25292,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl\n"
 							}
 						]
 					},
@@ -25324,7 +25326,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | Thoughtspot: 26.2.0.cl"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl"
 							},
 							{
 								"tag": "default",
@@ -25807,7 +25809,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   pageId : Page.Answers | Page.Data,\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   ... // other embed view config\n   pageId: Page.Answers, // or Page.Data\n})\n```\n"
 							}
 						]
 					},
@@ -26152,7 +26154,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -26236,7 +26238,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -26320,7 +26322,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | Thoughtspot: 26.2.0.cl"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl"
 							},
 							{
 								"tag": "default",
@@ -36686,7 +36688,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.29.0 | Thoughtspot: 9.12.0.cl"
+								"text": "SDK: 1.29.0 | ThoughtSpot: 9.12.0.cl"
 							},
 							{
 								"tag": "default",
@@ -37155,7 +37157,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -37506,7 +37508,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl\n"
 							}
 						]
 					},
@@ -37540,7 +37542,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | Thoughtspot: 26.2.0.cl"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38284,7 +38286,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38368,7 +38370,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.26.0 | Thoughtspot: 9.7.0.cl"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38452,7 +38454,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.45.0 | Thoughtspot: 26.2.0.cl"
+								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl"
 							},
 							{
 								"tag": "default",
@@ -42449,6 +42451,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 251,
+							"line": 251,
 							"character": 4
 						}
 					],
@@ -42595,6 +42598,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
+							"line": 280,
 							"line": 280,
 							"character": 4
 						}
@@ -42752,6 +42756,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 301,
+							"line": 301,
 							"character": 4
 						}
 					],
@@ -42828,6 +42833,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 191,
+							"line": 191,
 							"character": 4
 						}
 					],
@@ -42860,6 +42866,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
+							"line": 177,
 							"line": 177,
 							"character": 4
 						}
@@ -43247,6 +43254,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 237,
+							"line": 237,
 							"character": 4
 						}
 					],
@@ -43322,6 +43330,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 317,
+							"line": 317,
 							"character": 4
 						}
 					],
@@ -43348,13 +43357,14 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   forceTable:true,\n})\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   forceTable:true,\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
+							"line": 162,
 							"line": 162,
 							"character": 4
 						}
@@ -43542,6 +43552,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
+							"line": 266,
 							"line": 266,
 							"character": 4
 						}
@@ -43958,6 +43969,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 219,
+							"line": 219,
 							"character": 4
 						}
 					],
@@ -43986,6 +43998,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
+							"line": 198,
 							"line": 198,
 							"character": 4
 						}
@@ -44136,6 +44149,7 @@
 						{
 							"fileName": "embed/search.ts",
 							"line": 273,
+							"line": 273,
 							"character": 4
 						}
 					],
@@ -44208,6 +44222,15 @@
 						2438,
 						2446,
 						2430,
+						2414,
+						2413,
+						2426,
+						2407,
+						2387,
+						2427,
+						2403,
+						2404,
+						2393,
 						2429,
 						2469,
 						2453,

@@ -452,7 +452,6 @@ describe('Answer service tests', () => {
         fetchMock.mockResponseOnce(JSON.stringify({
             data: {
                 Answer__getQuery: {
-                    id: {},
                     sql: 'SELECT * FROM table',
                 },
             },

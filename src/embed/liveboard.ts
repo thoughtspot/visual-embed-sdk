@@ -362,6 +362,38 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
+     * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardXLSXCSVDownloadEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardXLSXCSVDownloadEnabled?: boolean;
+    /**
+     * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isGranularXLSXCSVSchedulesEnabled: true,
+     * })
+     * ```
+     */
+    isGranularXLSXCSVSchedulesEnabled?: boolean;
+    /**
      * This flag is used to enable the full height lazy load data.
      *
      * @example
@@ -513,13 +545,15 @@ export class LiveboardEmbed extends V1Embed {
             isForceRedirect,
             dataSourceId,
             coverAndFilterOptionInPDF = false,
-            liveboardXLSXCSVDownload,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled = false,
+            isGranularXLSXCSVSchedulesEnabled = false,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -594,6 +628,14 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
+        if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
+            params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
+        }
+
+        if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
+            params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
+        }
+
         if (showSpotterLimitations !== undefined) {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
         }
@@ -608,6 +650,10 @@ export class LiveboardEmbed extends V1Embed {
             ] = isCentralizedLiveboardFilterUXEnabled;
         }
 
+        if (isThisPeriodInDateFiltersEnabled !== undefined) {
+            params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
@@ -619,10 +665,6 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-
-        if (liveboardXLSXCSVDownload !== undefined) {
-            params[Param.LiveboardXLSXCSVDownload] = !!liveboardXLSXCSVDownload;
-        }
 
         const queryParams = getQueryParamString(params, true);
 
