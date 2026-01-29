@@ -1122,7 +1122,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     customActions?: CustomAction[];
 
     /**
-     * Flag to bypass host events payload validation
+     * This flag skips payload validation so events can be processed even if the payload is old, incomplete, or from a trusted system.
      * @default false
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @example
@@ -6556,3 +6556,47 @@ export type ApiInterceptFlags = {
      */
     interceptTimeout?: number;
 };
+
+/**
+ * Context object for the embedded component.
+ * @example
+ * ```js
+ * const context = await embed.getCurrentContext();
+ * console.log(context);
+ * ```
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ContextObject {
+    /**
+     * Stack of context objects.
+     */
+   stack: Array<{
+    /**
+     * Name of the context object.
+     */
+    name: string;
+    /**
+     * Type of the context object.
+     */
+    type: ContextType;
+    /**
+     * Object IDs of the context object.
+     */
+    objectIds: {
+        [key: string]: string[];
+    };
+   }>
+   /**
+    * Current context object.
+    */
+   currentContext: {
+    /**
+     * Name of the current context object.
+     */
+    name: string;
+    type: ContextType;
+    objectIds: {
+        [key: string]: string[];
+    };
+   }
+}

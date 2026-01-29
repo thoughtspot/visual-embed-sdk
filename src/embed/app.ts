@@ -19,7 +19,6 @@ import {
     AllEmbedViewConfig,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { PageContextOptions } from './hostEventClient/contracts';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.

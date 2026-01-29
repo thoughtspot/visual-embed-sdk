@@ -643,7 +643,6 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
-        console.log('sendFullHeightLazyLoadData', this.iFrame);
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
     }
@@ -892,16 +891,6 @@ export class LiveboardEmbed extends V1Embed {
 
         return url;
     }
-
-    /**
-     * Get the current context of the embedded liveboard.
-     * @returns The current context object containing the page type and object ids.
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    public async getCurrentContext(): Promise<PageContextOptions> {
-        const context = await super.getCurrentContext();
-        return context;
-    } 
 }
 
 /**

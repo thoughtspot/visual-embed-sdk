@@ -119,6 +119,15 @@ export enum PageType {
   DIALOG = 'dialog',
 }
 
+/**
+ * Objects is a map of object ids to their names.
+ * @example
+ * {
+ *   answerId: '123',
+ *   liveboardId: '456',
+ *   vizIds: ['789', '101'],
+ * }
+ */
 interface Objects {
   answerId?: string;
   liveboardId?: string;
@@ -130,5 +139,5 @@ interface Objects {
 export interface PageContextOptions {
   page: ContextType;
   pageType: PageType;
-  objects: Objects;
+  objectIds: Objects;
 }

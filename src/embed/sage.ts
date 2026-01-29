@@ -6,7 +6,6 @@
  * @author Mourya Balabhadra <mourya.balabhadra@thoughtspot.com>
  */
 
-import { PageContextOptions } from './hostEventClient/contracts';
 import { DOMSelector, Param, BaseViewConfig, SearchLiveboardCommonViewConfig } from '../types';
 import { getQueryParamString } from '../utils';
 import { V1Embed } from './ts-embed';
@@ -229,15 +228,5 @@ export class SageEmbed extends V1Embed {
         await this.renderV1Embed(src);
 
         return this;
-    }
-
-    /**
-     * Get the current context of the embedded SageEmbed.
-     * @returns The current context object containing the page type and object ids.
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    public async getCurrentContext(): Promise<PageContextOptions> {
-        const context = await super.getCurrentContext();
-        return context;
     }
 }

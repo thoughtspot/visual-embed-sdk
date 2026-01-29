@@ -43,7 +43,7 @@ export class HostEventClient {
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
-      const response = (await this.triggerUIPassthroughApi(apiName, parameters, context as ContextType))
+      const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
           ?.filter?.((r) => r.error || r.value)[0];
 
       if (!response) {
