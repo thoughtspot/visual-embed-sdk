@@ -935,6 +935,12 @@ export class AppEmbed extends V1Embed {
             }
         }
 
+        // If modularHomeExperience is false, set listPageVersion to v2 to
+        // avoid homepage library loading issue
+        if (modularHomeExperience === false) {
+            params[Param.ListPageVersion] = ListPage.List;
+        }
+
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
