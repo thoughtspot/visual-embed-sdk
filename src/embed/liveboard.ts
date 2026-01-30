@@ -22,6 +22,7 @@ import {
     LiveboardAppEmbedViewConfig,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    ContextType,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
 import { getAuthPromise } from './base';
@@ -842,10 +843,11 @@ export class LiveboardEmbed extends V1Embed {
      * @param {any} data The payload to send with the message
      * @returns A promise that resolves with the response from the embedded app
      */
-    public trigger<HostEventT extends HostEvent, PayloadT>(
+    public trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
-    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        context?: ContextT,
+    ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         const dataWithVizId: any = data;
         if (messageType === HostEvent.SetActiveTab) {
             this.setActiveTab(data as { tabId: string });
@@ -854,7 +856,7 @@ export class LiveboardEmbed extends V1Embed {
         if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
-        return super.trigger(messageType, dataWithVizId);
+        return super.trigger(messageType, dataWithVizId, context);
     }
     /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
