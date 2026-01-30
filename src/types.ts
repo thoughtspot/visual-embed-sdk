@@ -1124,7 +1124,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * This flag skips payload validation so events can be processed even if the payload is old, incomplete, or from a trusted system.
      * @default false
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1138,7 +1138,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * Flag to use host events v2. This is used to enable the new host events v2 API.
      * @default false
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -6645,7 +6645,7 @@ export type ApiInterceptFlags = {
 
 /**
  * Object IDs for the embedded component.
- * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
  */
 export interface ObjectIds {
     /**
@@ -6695,7 +6695,7 @@ export interface ObjectIds {
  *   },
  * }
  * ```
- * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
  */
 export interface ContextObject {
     /**
