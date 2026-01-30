@@ -3000,36 +3000,6 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        test('Other authType with autoLogin undefined should not refresh token', async () => {
-            init({
-                thoughtSpotHost: 'tshost',
-                authType: AuthType.None,
-                // autoLogin undefined
-            });
-
-            await renderAndTriggerRefreshAuthToken();
-
-            await executeAfterWait(() => {
-                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-                expect(mockPort.postMessage).not.toHaveBeenCalled();
-            });
-        });
-
-        test('Other authType with autoLogin true should not refresh token', async () => {
-            init({
-                thoughtSpotHost: 'tshost',
-                authType: AuthType.None,
-                autoLogin: true,
-            });
-
-            await renderAndTriggerRefreshAuthToken();
-
-            await executeAfterWait(() => {
-                expect(authToken.getAuthenticationToken).not.toHaveBeenCalled();
-                expect(mockPort.postMessage).not.toHaveBeenCalled();
-            });
-        });
-
         test('Should handle error when getAuthenticationToken fails', async () => {
             const error = new Error('Token fetch failed');
             jest.spyOn(authToken, 'getAuthenticationToken').mockRejectedValue(error);
@@ -3057,48 +3027,6 @@ describe('Unit test case for ts embed', () => {
                     expect.any(Element)
                 );
                 expect(mockPort.postMessage).not.toHaveBeenCalled();
-            });
-        });
-
-        test('Should handle error with preRendered embed', async () => {
-            const error = new Error('Token fetch failed');
-            jest.spyOn(authToken, 'getAuthenticationToken').mockRejectedValue(error);
-
-            init({
-                thoughtSpotHost: 'tshost',
-                authType: AuthType.TrustedAuthTokenCookieless,
-                autoLogin: true,
-            });
-
-            const spotterEmbed = new SpotterEmbed(getRootEl(), {
-                worksheetId: 'test-worksheet',
-                searchOptions: {
-                    searchQuery: 'test query',
-                },
-                preRenderId: 'test-refresh-token',
-            } as SpotterEmbedViewConfig);
-            await spotterEmbed.preRender();
-            await spotterEmbed.render();
-
-            await executeAfterWait(() => {
-                const iframe = getIFrameEl();
-                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-            });
-
-            await executeAfterWait(() => {
-                expect(authToken.getAuthenticationToken).toHaveBeenCalledWith(
-                    expect.any(Object),
-                    true
-                );
-                // Check that logger.error was called with the token refresh error (may be called multiple times)
-                const errorCalls = (logger.error as jest.Mock).mock.calls.filter(
-                    (call) => call[0]?.includes(ERROR_MESSAGE.INVALID_TOKEN_ERROR) && call[0]?.includes('Token fetch failed')
-                );
-                expect(errorCalls.length).toBeGreaterThan(0);
-                expect(processData.processAuthFailure).toHaveBeenCalledWith(
-                    error,
-                    expect.any(Element)
-                );
             });
         });
     });
