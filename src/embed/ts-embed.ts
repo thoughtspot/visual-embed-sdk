@@ -543,7 +543,7 @@ export class TsEmbed {
      * @param _
      * @param responder
      */
-    private tokenRefresh = async (_: MessagePayload, responder: (data: any) => void) => {
+    private tokenRefresh = async (_: MessagePayload, responder: (data: {type: EmbedEvent, data: {authToken: string}}) => void) => {
         try {
             await this.refreshAuthTokenForCookieless(responder, EmbedEvent.RefreshAuthToken, true);
         } catch (e) {
