@@ -462,28 +462,33 @@ export class SpotterEmbed extends TsEmbed {
             queryParams[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
 
-        const sidebarParams: {
-            key: keyof SpotterEmbedViewConfig;
-            param: Param;
-            isBoolean?: boolean;
-        }[] = [
-            { key: 'spotterSidebarTitle', param: Param.SpotterSidebarTitle },
-            { key: 'spotterSidebarDefaultExpanded', param: Param.SpotterSidebarDefaultExpanded, isBoolean: true },
-            { key: 'spotterChatRenameLabel', param: Param.SpotterChatRenameLabel },
-            { key: 'spotterChatDeleteLabel', param: Param.SpotterChatDeleteLabel },
-            { key: 'spotterDeleteConversationModalTitle', param: Param.SpotterDeleteConversationModalTitle },
-            { key: 'spotterPastConversationAlertMessage', param: Param.SpotterPastConversationAlertMessage },
-            { key: 'spotterBestPracticesLabel', param: Param.SpotterBestPracticesLabel },
-            { key: 'spotterConversationsBatchSize', param: Param.SpotterConversationsBatchSize },
-            { key: 'spotterNewChatButtonTitle', param: Param.SpotterNewChatButtonTitle },
-        ];
-
-        sidebarParams.forEach(({ key, param, isBoolean }) => {
-            const value = this.viewConfig[key];
-            if (!isUndefined(value)) {
-                queryParams[param] = isBoolean ? !!value : value;
-            }
-        });
+        if (!isUndefined(spotterSidebarTitle)) {
+            queryParams[Param.SpotterSidebarTitle] = spotterSidebarTitle;
+        }
+        if (!isUndefined(spotterSidebarDefaultExpanded)) {
+            queryParams[Param.SpotterSidebarDefaultExpanded] = !!spotterSidebarDefaultExpanded;
+        }
+        if (!isUndefined(spotterChatRenameLabel)) {
+            queryParams[Param.SpotterChatRenameLabel] = spotterChatRenameLabel;
+        }
+        if (!isUndefined(spotterChatDeleteLabel)) {
+            queryParams[Param.SpotterChatDeleteLabel] = spotterChatDeleteLabel;
+        }
+        if (!isUndefined(spotterDeleteConversationModalTitle)) {
+            queryParams[Param.SpotterDeleteConversationModalTitle] = spotterDeleteConversationModalTitle;
+        }
+        if (!isUndefined(spotterPastConversationAlertMessage)) {
+            queryParams[Param.SpotterPastConversationAlertMessage] = spotterPastConversationAlertMessage;
+        }
+        if (!isUndefined(spotterBestPracticesLabel)) {
+            queryParams[Param.SpotterBestPracticesLabel] = spotterBestPracticesLabel;
+        }
+        if (!isUndefined(spotterConversationsBatchSize)) {
+            queryParams[Param.SpotterConversationsBatchSize] = spotterConversationsBatchSize;
+        }
+        if (!isUndefined(spotterNewChatButtonTitle)) {
+            queryParams[Param.SpotterNewChatButtonTitle] = spotterNewChatButtonTitle;
+        }
 
         if (!isUndefined(spotterDocumentationUrl)) {
             if (isValidHttpUrl(spotterDocumentationUrl)) {
