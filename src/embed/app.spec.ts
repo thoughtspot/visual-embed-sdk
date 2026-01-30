@@ -1051,6 +1051,16 @@ describe('App embed tests', () => {
         );
     });
 
+    test('Should add listpageVersion=v2 when modularHomeExperience is explicitly false', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                modularHomeExperience: false,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&listpageVersion=v2${defaultParams}${defaultParamsPost}#/home`
+        );
+    });
+
 
     test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
         await testUrlParams(
