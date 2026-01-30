@@ -1,7 +1,8 @@
 import { getAuthenticationToken, resetCachedAuthToken, validateAuthToken } from './authToken';
+import * as authTokenModule from './authToken';
 import * as authServiceInstance from './utils/authService/authService';
-import { EmbedConfig } from './types';
-import { formatTemplate } from './utils';
+import { EmbedConfig, AuthType } from './types';
+import { formatTemplate, storeValueInWindow } from './utils';
 import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
 
@@ -74,5 +75,93 @@ describe('AuthToken Unit tests', () => {
         expect(loggerSpy).toHaveBeenCalledWith(errorMessage);
 
         loggerSpy.mockRestore();
+    });
+
+    describe('getAuthenticationToken: cached token skip validation condition', () => {
+        beforeEach(() => {
+            resetCachedAuthToken();
+            jest.clearAllMocks();
+        });
+
+        test('should validate cached token when validation is not skipped', async () => {
+            const cachedToken = 'cached-token-123';
+            storeValueInWindow('cachedAuthToken', cachedToken);
+            
+            const validateAuthTokenSpy = jest.spyOn(authTokenModule, 'validateAuthToken')
+                .mockImplementation(() => Promise.resolve(true));
+
+            const getAuthTokenMock = jest.fn().mockResolvedValue('new-token-456');
+            const config: EmbedConfig = {
+                thoughtSpotHost: 'test',
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: getAuthTokenMock,
+                disableTokenVerification: false,
+            };
+
+            const token = await getAuthenticationToken(config, false);
+
+            expect(token).toBe(cachedToken);
+            // Should validate cached token (condition at line 23 is true)
+            expect(validateAuthTokenSpy).toHaveBeenCalledWith(config, cachedToken, true);
+            expect(getAuthTokenMock).not.toHaveBeenCalled();
+
+            validateAuthTokenSpy.mockReset();
+        });
+
+        test('should skip cached token validation when disableTokenVerification is true', async () => {
+            const cachedToken = 'cached-token-123';
+            storeValueInWindow('cachedAuthToken', cachedToken);
+            
+            const validateAuthTokenSpy = jest.spyOn(authTokenModule, 'validateAuthToken')
+                .mockImplementation(() => Promise.resolve(true));
+
+            const newToken = 'new-token-456';
+            const getAuthTokenMock = jest.fn().mockResolvedValue(newToken);
+            const config: EmbedConfig = {
+                thoughtSpotHost: 'test',
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: getAuthTokenMock,
+                disableTokenVerification: true,
+            };
+
+            const token = await getAuthenticationToken(config, false);
+
+            expect(token).toBe(newToken);
+            // Should not validate cached token (condition at line 23 is false)
+            expect(validateAuthTokenSpy).not.toHaveBeenCalledWith(config, cachedToken, true);
+            // But should validate new token (though it returns early when disableTokenVerification is true)
+            expect(validateAuthTokenSpy).toHaveBeenCalledWith(config, newToken);
+            expect(getAuthTokenMock).toHaveBeenCalled();
+
+            validateAuthTokenSpy.mockReset();
+        });
+
+        test('should skip cached token validation when skipvalidation is true', async () => {
+            const cachedToken = 'cached-token-123';
+            storeValueInWindow('cachedAuthToken', cachedToken);
+            
+            const validateAuthTokenSpy = jest.spyOn(authTokenModule, 'validateAuthToken')
+                .mockImplementation(() => Promise.resolve(true));
+
+            const newToken = 'new-token-456';
+            const getAuthTokenMock = jest.fn().mockResolvedValue(newToken);
+            const config: EmbedConfig = {
+                thoughtSpotHost: 'test',
+                authType: AuthType.TrustedAuthToken,
+                getAuthToken: getAuthTokenMock,
+                disableTokenVerification: false,
+            };
+
+            const token = await getAuthenticationToken(config, true);
+
+            expect(token).toBe(newToken);
+            // Should not validate cached token (condition at line 23 is false)
+            expect(validateAuthTokenSpy).not.toHaveBeenCalledWith(config, cachedToken, true);
+            // But should validate new token
+            expect(validateAuthTokenSpy).toHaveBeenCalledWith(config, newToken);
+            expect(getAuthTokenMock).toHaveBeenCalled();
+
+            validateAuthTokenSpy.mockReset();
+        });
     });
 });
