@@ -4577,7 +4577,9 @@ export enum HostEvent {
     StartNewSpotterConversation = 'StartNewSpotterConversation',
 
     /**
+     * @hidden
      * Get the current context of the embedded page.
+     * 
      * @example
      * ```js
      * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
