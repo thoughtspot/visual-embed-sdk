@@ -738,7 +738,7 @@ export class AppEmbed extends V1Embed {
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
             hideHomepageLeftNav = false,
-            modularHomeExperience = false,
+            modularHomeExperience,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -878,7 +878,6 @@ export class AppEmbed extends V1Embed {
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
-        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -893,6 +892,10 @@ export class AppEmbed extends V1Embed {
         } else {
 
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
+        }
+
+        if (modularHomeExperience !== undefined) {
+            params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         }
 
         // Set navigation to v2 by default to avoid problems like the app
@@ -925,8 +928,9 @@ export class AppEmbed extends V1Embed {
                 params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
             }
 
-            // listPageVersion v3 will enable the new list page
-            if (discoveryExperience.listPageVersion === ListPage.ListWithUXChanges) {
+            // listPageVersion can be changed to v2 or v3
+            if (discoveryExperience.listPageVersion !== undefined
+                && Object.values(ListPage).includes(discoveryExperience.listPageVersion)) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
@@ -1011,7 +1015,7 @@ export class AppEmbed extends V1Embed {
      * @param pageId The identifier for a page in the ThoughtSpot app.
      * @param modularHomeExperience
      */
-    private getPageRoute(pageId: Page, modularHomeExperience = false) {
+    private getPageRoute(pageId: Page, modularHomeExperience = true) {
         switch (pageId) {
             case Page.Search:
                 return 'answer';
