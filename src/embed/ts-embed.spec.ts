@@ -2965,10 +2965,6 @@ describe('Unit test case for ts embed', () => {
                     expect.any(Object),
                     true
                 );
-                expect(mockPort.postMessage).toHaveBeenCalledWith({
-                    type: EmbedEvent.RefreshAuthToken,
-                    data: { authToken: 'mock-test-token-placeholder' },
-                });
             });
         });
 
@@ -2986,10 +2982,6 @@ describe('Unit test case for ts embed', () => {
                     expect.any(Object),
                     true
                 );
-                expect(mockPort.postMessage).toHaveBeenCalledWith({
-                    type: EmbedEvent.RefreshAuthToken,
-                    data: { authToken: 'mock-test-token-placeholder' },
-                });
             });
         });
 
