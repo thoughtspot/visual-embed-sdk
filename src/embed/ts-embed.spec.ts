@@ -31,6 +31,7 @@ import {
     DefaultAppInitData,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    ContextObject,
 } from '../types';
 import {
     executeAfterWait,
@@ -3165,6 +3166,59 @@ describe('Unit test case for ts embed', () => {
             searchEmbed['executeAfterEmbedContainerLoaded'](callback3);
 
             expect(callback3).toHaveBeenCalledTimes(1);
+        });
+
+        describe('getCurrentContext', () => {
+            const mockContext: ContextObject = {
+                stack: [
+                    {
+                        name: 'Liveboard',
+                        type: 'Liveboard' as any,
+                        objectIds: { liveboardId: 'lb-123' },
+                    },
+                ],
+                currentContext: {
+                    name: 'Liveboard',
+                    type: 'Liveboard' as any,
+                    objectIds: { liveboardId: 'lb-123' },
+                },
+            };
+
+            test('should return context when embed container is already loaded', async () => {
+                const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+                searchEmbed.isEmbedContainerLoaded = true;
+
+                const triggerSpy = jest.spyOn(searchEmbed, 'trigger')
+                    .mockResolvedValue(mockContext);
+
+                const context = await searchEmbed.getCurrentContext();
+
+                expect(context).toEqual(mockContext);
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.GetPageContext, {});
+            });
+
+            test('should wait for embed container to load before returning context', async () => {
+                const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+                searchEmbed.isEmbedContainerLoaded = false;
+
+                const triggerSpy = jest.spyOn(searchEmbed, 'trigger')
+                    .mockResolvedValue(mockContext);
+
+                const contextPromise = searchEmbed.getCurrentContext();
+
+                // Context should not be resolved yet
+                await executeAfterWait(() => {
+                    expect(triggerSpy).not.toHaveBeenCalled();
+                }, 10);
+
+                // Simulate embed container becoming ready
+                searchEmbed['executeEmbedContainerReadyCallbacks']();
+
+                const context = await contextPromise;
+
+                expect(context).toEqual(mockContext);
+                expect(triggerSpy).toHaveBeenCalledWith(HostEvent.GetPageContext, {});
+            });
         });
 
         test('should register embed container event handlers during construction', () => {
