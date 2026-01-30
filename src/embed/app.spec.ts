@@ -37,6 +37,72 @@ const defaultViewConfig = {
 const thoughtSpotHost = 'tshost';
 const defaultParamsPost = '';
 
+// Helper function to create and render AppEmbed with config
+const createAndRenderAppEmbed = async (viewConfig: AppViewConfig) => {
+    const appEmbed = new AppEmbed(getRootEl(), viewConfig);
+    appEmbed.render();
+    return appEmbed;
+};
+
+// Helper function to test URL parameters
+const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => {
+    await createAndRenderAppEmbed(viewConfig);
+    await executeAfterWait(() => {
+        expectUrlMatchesWithParams(getIFrameSrc(), expectedUrl);
+    });
+};
+
+// Helper function to test setIframeHeightForNonEmbedLiveboard behavior
+const testSetIframeHeightBehavior = (
+    currentPath: string,
+    shouldBeCalled: boolean
+) => {
+    const appEmbed = new AppEmbed(getRootEl(), {
+        ...defaultViewConfig,
+        fullHeight: true,
+    } as AppViewConfig) as any;
+    
+    const spySetIFrameHeight = shouldBeCalled
+        ? jest.spyOn(appEmbed, 'setIFrameHeight').mockImplementation(jest.fn())
+        : jest.spyOn(appEmbed, 'setIFrameHeight');
+
+    appEmbed.render();
+    appEmbed.setIframeHeightForNonEmbedLiveboard({
+        data: { currentPath },
+        type: 'Route',
+    });
+
+    if (shouldBeCalled) {
+        expect(spySetIFrameHeight).toHaveBeenCalled();
+    } else {
+        expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    }
+};
+
+// Helper function to create mock iframe with default getBoundingClientRect
+const createMockIFrame = (rect = {
+    top: 100,
+    left: 150,
+    bottom: 600,
+    right: 800,
+    width: 650,
+    height: 500,
+}): HTMLIFrameElement => {
+    const mockIFrame = document.createElement('iframe');
+    mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue(rect);
+    return mockIFrame;
+};
+
+// Helper function to setup iframe creation spy
+const setupIFrameCreationSpy = (mockIFrame: HTMLIFrameElement) => {
+    jest.spyOn(document, 'createElement').mockImplementation((tagName) => {
+        if (tagName === 'iframe') {
+            return mockIFrame;
+        }
+        return document.createElement(tagName);
+    });
+};
+
 const originalResizeObserver = window.ResizeObserver;
 beforeAll(() => {
     init({
@@ -867,191 +933,137 @@ describe('App embed tests', () => {
     });
 
     test('Should add navigationVersion=v3 when primaryNavbarVersion is Sliding to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                homePage: HomePage.Modular,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                    homePage: HomePage.Modular,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should not add navigationVersion=v3 when primaryNavbarVersion is not added to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                homePage: HomePage.Modular,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Modular,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add navigationVersion=v3 & modularHomeExperience=true when primaryNavbarVersion is Sliding to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            // Not included the homePage v2 config under discoveryExperience.
-            discoveryExperience: {
-                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                // homePage v2 config not included under discoveryExperience
+                discoveryExperience: {
+                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when Sliding and ModularWithStylingChanges configured in the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                homePage: HomePage.ModularWithStylingChanges,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                    homePage: HomePage.ModularWithStylingChanges,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when homePage is ModularWithStylingChanges to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            // primaryNavbarVersion is not included under discoveryExperience,
-            // then it set navigationVersion=v2 and modularHomeExperience=false.
-            discoveryExperience: {
-                homePage: HomePage.ModularWithStylingChanges,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                // primaryNavbarVersion is not included under
+                // discoveryExperience, then it set navigationVersion=v2 and
+                // modularHomeExperience=false.
+                discoveryExperience: {
+                    homePage: HomePage.ModularWithStylingChanges,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add enableAskSage flag to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            enableAskSage: true,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                enableAskSage: true,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add listpageVersion=v3 when listPageVersion is ListWithUXChanges to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                listPageVersion: ListPage.ListWithUXChanges,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    listPageVersion: ListPage.ListWithUXChanges,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add listpageVersion=v2 by default when discoveryExperience is provided but listPageVersion is not specified', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                homePage: HomePage.Modular,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                    homePage: HomePage.Modular,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
 
     test('Should add listpageVersion=v3 combined with other discoveryExperience options to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                homePage: HomePage.Modular,
-                listPageVersion: ListPage.ListWithUXChanges,
-            },
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
+                    homePage: HomePage.Modular,
+                    listPageVersion: ListPage.ListWithUXChanges,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+        );
     });
 
     test('Should add enablePendoHelp flag to the iframe src conditional on navbar', async () => {
@@ -1144,7 +1156,7 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
-        let embedHeightCallback: any = () => {};
+        let embedHeightCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
                 callback({ type: EmbedEvent.RouteChange, data: { currentPath: '/answers' } } as any, jest.fn());
@@ -1272,21 +1284,8 @@ describe('App embed tests', () => {
         let mockIFrame: HTMLIFrameElement;
 
         beforeEach(() => {
-            mockIFrame = document.createElement('iframe');
-            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
-                top: 100,
-                left: 150,
-                bottom: 600,
-                right: 800,
-                width: 650,
-                height: 500,
-            });
-            jest.spyOn(document, 'createElement').mockImplementation((tagName) => {
-                if (tagName === 'iframe') {
-                    return mockIFrame;
-                }
-                return document.createElement(tagName);
-            });
+            mockIFrame = createMockIFrame();
+            setupIFrameCreationSpy(mockIFrame);
         });
 
         afterEach(() => {
@@ -1563,53 +1562,15 @@ describe('App embed tests', () => {
         });
 
         test('should not call setIFrameHeight if currentPath starts with "/embed/viz/"', () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                fullHeight: true,
-            } as AppViewConfig) as any;
-            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
-
-            appEmbed.render();
-            appEmbed.setIframeHeightForNonEmbedLiveboard({
-                data: { currentPath: '/embed/viz/' },
-                type: 'Route',
-            });
-
-            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+            testSetIframeHeightBehavior('/embed/viz/', false);
         });
 
         test('should not call setIFrameHeight if currentPath starts with "/embed/insights/viz/"', () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                fullHeight: true,
-            } as AppViewConfig) as any;
-            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
-
-            appEmbed.render();
-            appEmbed.setIframeHeightForNonEmbedLiveboard({
-                data: { currentPath: '/embed/insights/viz/' },
-                type: 'Route',
-            });
-
-            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+            testSetIframeHeightBehavior('/embed/insights/viz/', false);
         });
 
         test('should call setIFrameHeight if currentPath starts with "/some/other/path/"', () => {
-            const appEmbed = new AppEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                fullHeight: true,
-            } as AppViewConfig) as any;
-            const spySetIFrameHeight = jest
-                .spyOn(appEmbed, 'setIFrameHeight')
-                .mockImplementation(jest.fn());
-
-            appEmbed.render();
-            appEmbed.setIframeHeightForNonEmbedLiveboard({
-                data: { currentPath: '/some/other/path/' },
-                type: 'Route',
-            });
-
-            expect(spySetIFrameHeight).toHaveBeenCalled();
+            testSetIframeHeightBehavior('/some/other/path/', true);
         });
 
         test('should update iframe height correctly', async () => {
