@@ -2,7 +2,7 @@ import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { getQueryParamString, getFilterQuery, getRuntimeParameters } from '../utils';
+import { getQueryParamString, getFilterQuery, getRuntimeParameters, validateHttpUrl, setParamIfDefined } from '../utils';
 
 /**
  * Configuration for search options
@@ -200,6 +200,157 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
+    /**
+     * Custom title text for the sidebar header.
+     * Defaults to translated "Spotter" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterSidebarTitle: 'My Conversations',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterSidebarTitle?: string;
+    /**
+     * Boolean to set the default expanded state of the sidebar.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterSidebarDefaultExpanded: true,
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterSidebarDefaultExpanded?: boolean;
+    /**
+     * Custom label text for the rename action in the conversation edit menu.
+     * Defaults to translated "Rename" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatRenameLabel: 'Edit Name',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterChatRenameLabel?: string;
+    /**
+     * Custom label text for the delete action in the conversation edit menu.
+     * Defaults to translated "DELETE" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatDeleteLabel: 'Remove',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterChatDeleteLabel?: string;
+    /**
+     * Custom title text for the delete conversation confirmation modal.
+     * Defaults to translated "Delete chat" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterDeleteConversationModalTitle: 'Remove Conversation',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterDeleteConversationModalTitle?: string;
+    /**
+     * Custom message text for the past conversation banner alert.
+     * Defaults to translated alert message.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterPastConversationAlertMessage: 'You are viewing a past conversation',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterPastConversationAlertMessage?: string;
+    /**
+     * Custom URL for the documentation/best practices link.
+     * Defaults to ThoughtSpot docs URL based on release version.
+     * Note: URL must include the protocol (e.g., `https://www.example.com`).
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterDocumentationUrl: 'https://docs.example.com/spotter',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterDocumentationUrl?: string;
+    /**
+     * Custom label text for the best practices button in the footer.
+     * Defaults to translated "Best Practices" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterBestPracticesLabel: 'Help & Tips',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterBestPracticesLabel?: string;
+    /**
+     * Number of conversations to fetch per batch when loading conversation history.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default 30
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterConversationsBatchSize: 50,
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterConversationsBatchSize?: number;
+    /**
+     * Custom title text for the "New Chat" button in the sidebar.
+     * Defaults to translated "New Chat" text.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterNewChatButtonTitle: 'Start New Conversation',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterNewChatButtonTitle?: string;
 }
 
 /**
@@ -252,6 +403,16 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            spotterSidebarTitle,
+            spotterSidebarDefaultExpanded,
+            spotterChatRenameLabel,
+            spotterChatDeleteLabel,
+            spotterDeleteConversationModalTitle,
+            spotterPastConversationAlertMessage,
+            spotterDocumentationUrl,
+            spotterBestPracticesLabel,
+            spotterConversationsBatchSize,
+            spotterNewChatButtonTitle,
         } = this.viewConfig;
 
         if (!worksheetId) {
@@ -264,27 +425,39 @@ export class SpotterEmbed extends TsEmbed {
         }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
-        if (!isUndefined(disableSourceSelection)) {
-            queryParams[Param.DisableSourceSelection] = !!disableSourceSelection;
-        }
-        if (!isUndefined(hideSourceSelection)) {
-            queryParams[Param.HideSourceSelection] = !!hideSourceSelection;
-        }
 
-        if (!isUndefined(dataPanelV2)) {
-            queryParams[Param.DataPanelV2Enabled] = !!dataPanelV2;
-        }
+        // Boolean params
+        setParamIfDefined(queryParams, Param.DisableSourceSelection, disableSourceSelection, true);
+        setParamIfDefined(queryParams, Param.HideSourceSelection, hideSourceSelection, true);
+        setParamIfDefined(queryParams, Param.DataPanelV2Enabled, dataPanelV2, true);
+        setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
+        setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
+        setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
 
-        if (!isUndefined(showSpotterLimitations)) {
-            queryParams[Param.ShowSpotterLimitations] = !!showSpotterLimitations;
-        }
+        // String params
+        setParamIfDefined(queryParams, Param.SpotterSidebarTitle, spotterSidebarTitle);
+        setParamIfDefined(queryParams, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
+        setParamIfDefined(queryParams, Param.SpotterChatDeleteLabel, spotterChatDeleteLabel);
+        setParamIfDefined(queryParams, Param.SpotterDeleteConversationModalTitle, spotterDeleteConversationModalTitle);
+        setParamIfDefined(queryParams, Param.SpotterPastConversationAlertMessage, spotterPastConversationAlertMessage);
+        setParamIfDefined(queryParams, Param.SpotterBestPracticesLabel, spotterBestPracticesLabel);
+        setParamIfDefined(queryParams, Param.SpotterConversationsBatchSize, spotterConversationsBatchSize);
+        setParamIfDefined(queryParams, Param.SpotterNewChatButtonTitle, spotterNewChatButtonTitle);
 
-        if (!isUndefined(hideSampleQuestions)) {
-            queryParams[Param.HideSampleQuestions] = !!hideSampleQuestions;
-        }
-
-        if (!isUndefined(updatedSpotterChatPrompt)) {
-            queryParams[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        // URL param with validation
+        if (spotterDocumentationUrl !== undefined) {
+            const [isValid, validationError] = validateHttpUrl(spotterDocumentationUrl);
+            if (isValid) {
+                queryParams[Param.SpotterDocumentationUrl] = spotterDocumentationUrl;
+            } else {
+                this.handleError({
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                    code: EmbedErrorCodes.INVALID_URL,
+                    error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                });
+            }
         }
 
         return queryParams;

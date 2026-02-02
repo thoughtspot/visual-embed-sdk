@@ -29,6 +29,7 @@ export const ERROR_MESSAGE = {
     ERROR_PARSING_API_INTERCEPT_BODY: 'Error parsing api intercept body',
     SSR_ENVIRONMENT_ERROR: 'SSR environment detected. This function cannot be called in SSR environment.',
     UPDATE_PARAMS_FAILED: 'Failed to update embed parameters',
+    INVALID_SPOTTER_DOCUMENTATION_URL: 'Invalid spotterDocumentationUrl. Please provide a valid http or https URL.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
