@@ -16,11 +16,11 @@ const storeAuthTokenInCache = (token: string): void => {
  *
  * @param embedConfig
  */
-export async function getAuthenticationToken(embedConfig: EmbedConfig): Promise<string> {
+export async function getAuthenticationToken(embedConfig: EmbedConfig, skipvalidation: boolean = false): Promise<string> {
     const cachedAuthToken = getCacheAuthToken();
     // Since we don't have token validation enabled , we cannot tell if the
     // cached token is valid or not. So we will always fetch a new token.
-    if (cachedAuthToken && !embedConfig.disableTokenVerification) {
+    if (cachedAuthToken && !embedConfig.disableTokenVerification && !skipvalidation) {
         let isCachedTokenStillValid;
         try {
             isCachedTokenStillValid = await validateAuthToken(embedConfig, cachedAuthToken, true);
