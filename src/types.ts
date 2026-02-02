@@ -1134,6 +1134,33 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     refreshAuthTokenOnNearExpiry?: boolean;
+    /**
+     * This flag skips payload validation so events can be processed even if the payload is old, incomplete, or from a trusted system.
+     * @default false
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    shouldBypassPayloadValidation:true,
+     * })
+     * ```
+     */
+    shouldBypassPayloadValidation?: boolean;
+
+    /**
+     * Flag to use host events v2. This is used to enable the new host events v2 API.
+     * @default false
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    useHostEventsV2:true,
+     * })
+     * ```
+     */
+    useHostEventsV2?: boolean;
 }
 
 /**
@@ -4574,6 +4601,18 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     StartNewSpotterConversation = 'StartNewSpotterConversation',
+
+    /**
+     * @hidden
+     * Get the current context of the embedded page.
+     * 
+     * @example
+     * ```js
+     * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    GetPageContext = 'GetPageContext',
 }
 
 /**
@@ -6534,6 +6573,26 @@ export interface EmbedErrorDetailsEvent {
     /** Additional context-specific for backward compatibility */
     [key: string]: any;
 }
+
+export enum ContextType {
+    /**
+     * Search answer context for search page or edit viz dialog on liveboard page.
+     */
+    Search = 'search-answer',
+    /**
+     * Liveboard context for liveboard page.
+     */
+    Liveboard = 'liveboard',
+    /**
+     * Answer context for explore modal/page on liveboard page.
+     */
+    Answer = 'answer',
+    /**
+     * Spotter context for spotter modal/page.
+     */
+    Spotter = 'spotter',
+}
+
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;
@@ -6611,3 +6670,88 @@ export type ApiInterceptFlags = {
      */
     interceptTimeout?: number;
 };
+
+/**
+ * Object IDs for the embedded component.
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ObjectIds {
+    /**
+     * Liveboard ID.
+     */
+    liveboardId?: string;
+    /**
+     * Answer ID.
+     */
+    answerId?: string;
+    /**
+     * Viz IDs.
+     */
+    vizIds?: string[];
+    /**
+     * Data model IDs.
+     */
+    dataModelIds?: string[];
+    /**
+     * Modal title.
+     */
+    modalTitle?: string;
+}
+
+/**
+ * Context object for the embedded component.
+ * @example
+ * ```js
+ * const context = await embed.getCurrentContext();
+ * console.log(context);
+ * {
+ *   stack: [
+ *     {
+ *       name: 'Liveboard',
+ *       type: ContextType.Liveboard,
+ *       objectIds: {
+ *         liveboardId: '123',
+ *       },
+ *     },
+ *   ],
+ *   currentContext: {
+ *     name: 'Liveboard',
+ *     type: ContextType.Liveboard,
+ *     objectIds: {
+ *       liveboardId: '123',
+ *     },
+ *   },
+ * }
+ * ```
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ContextObject {
+    /**
+     * Stack of context objects.
+     */
+   stack: Array<{
+    /**
+     * Name of the context object.
+     */
+    name: string;
+    /**
+     * Type of the context object.
+     */
+    type: ContextType;
+    /**
+     * Object IDs of the context object.
+     */
+    objectIds: ObjectIds;
+   }>
+   /**
+    * Current context object.
+    */
+   currentContext: {
+    /**
+     * Name of the current context object.
+     */
+    name: string;
+    type: ContextType;
+    objectIds: ObjectIds;
+   }
+}

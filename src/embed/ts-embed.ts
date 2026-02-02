@@ -61,6 +61,8 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
     MessagePayload,
+    ContextType,
+    ContextObject,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -76,6 +78,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
+import { getHostEventsConfig } from '../utils';
 
 const { version } = pkgInfo;
 
@@ -482,6 +485,7 @@ export class TsEmbed {
             customActions: customActionsResult.actions,
             embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry,
             ...getInterceptInitData(this.viewConfig),
+            ...getHostEventsConfig(this.viewConfig),
         };
 
         return baseInitData;
@@ -1385,10 +1389,11 @@ export class TsEmbed {
      * @param {any} data The payload to send with the message
      * @returns A promise that resolves with the response from the embedded app
      */
-    public async trigger<HostEventT extends HostEvent, PayloadT>(
+    public async trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
-    ): Promise<TriggerResponse<PayloadT, HostEventT>> {
+        context?: ContextT,
+    ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
@@ -1421,7 +1426,7 @@ export class TsEmbed {
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data);
+        return this.hostEventClient.triggerHostEvent(messageType, data, context);
     }
 
     /**
@@ -1461,6 +1466,20 @@ export class TsEmbed {
 
     protected handleRenderForPrerender() {
         return this.render();
+    }
+
+    /**
+     * Get the current context of the embedded TS component.
+     * @returns The current context object containing the page type and object ids.
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     */
+    public async getCurrentContext(): Promise<ContextObject> {
+        return new Promise((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                const context = await this.trigger(HostEvent.GetPageContext, {});
+                resolve(context);
+            });
+        });
     }
 
     /**

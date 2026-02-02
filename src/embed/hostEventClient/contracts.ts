@@ -1,4 +1,4 @@
-import { HostEvent } from '../../types';
+import { ContextType, HostEvent } from '../../types';
 
 export enum UIPassthroughEvent {
   PinAnswerToLiveboard = 'addVizToPinboard',
@@ -103,7 +103,7 @@ export type HostEventRequest<HostEventT extends HostEvent> =
     ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
     : any;
 
-export type HostEventResponse<HostEventT extends HostEvent> =
+export type HostEventResponse<HostEventT extends HostEvent, ContextT extends ContextType> =
   HostEventT extends keyof EmbedApiHostEventMapping
     ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
     : any;
@@ -111,5 +111,5 @@ export type HostEventResponse<HostEventT extends HostEvent> =
 // trigger response and request
 export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
   PayloadT | HostEventRequest<HostEventT>;
-export type TriggerResponse<PayloadT, HostEventT extends HostEvent> =
-  PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT> : any;
+export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT extends ContextType> =
+  PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;

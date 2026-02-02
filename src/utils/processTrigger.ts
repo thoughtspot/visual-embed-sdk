@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from '../errors';
-import { HostEvent, MessagePayload } from '../types';
+import { ContextType, HostEvent, MessagePayload } from '../types';
 import { logger } from '../utils/logger';
 import { handlePresentEvent } from '../utils';
 import { getEmbedConfig } from '../embed/embedConfig';
@@ -22,12 +22,13 @@ export const reload = (iFrame: HTMLIFrameElement) => {
  * @param message
  * @param message.type
  * @param message.data
+ * @param message.context
  * @param thoughtSpotHost
  * @param channel
  */
 function postIframeMessage(
     iFrame: HTMLIFrameElement,
-    message: { type: HostEvent; data: any },
+    message: { type: HostEvent; data: any, context?: any },
     thoughtSpotHost: string,
     channel?: MessageChannel,
 ) {
@@ -42,12 +43,14 @@ export const TRIGGER_TIMEOUT = 30000;
  * @param messageType
  * @param thoughtSpotHost
  * @param data
+ * @param context
  */
 export function processTrigger(
     iFrame: HTMLIFrameElement,
     messageType: HostEvent,
     thoughtSpotHost: string,
     data: any,
+    context?: ContextType,
 ): Promise<any> {
     return new Promise<any>((res, rej) => {
         if (messageType === HostEvent.Reload) {
@@ -83,6 +86,6 @@ export function processTrigger(
             res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
         }, TRIGGER_TIMEOUT);
 
-        return postIframeMessage(iFrame, { type: messageType, data }, thoughtSpotHost, channel);
+        return postIframeMessage(iFrame, { type: messageType, data, context }, thoughtSpotHost, channel);
     });
 }
