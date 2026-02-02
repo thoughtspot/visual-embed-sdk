@@ -403,183 +403,65 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should render with spotterSidebarTitle', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterSidebarTitle: 'My Conversations',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterSidebarTitle=My%20Conversations#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
+    describe('spotter sidebar config params', () => {
+        it.each([
+            ['spotterSidebarTitle', 'My Conversations', 'spotterSidebarTitle=My%20Conversations'],
+            ['spotterSidebarDefaultExpanded', true, 'spotterSidebarDefaultExpanded=true'],
+            ['spotterChatRenameLabel', 'Edit Name', 'spotterChatRenameLabel=Edit%20Name'],
+            ['spotterChatDeleteLabel', 'Remove', 'spotterChatDeleteLabel=Remove'],
+            ['spotterDeleteConversationModalTitle', 'Remove Conversation', 'spotterDeleteConversationModalTitle=Remove%20Conversation'],
+            ['spotterPastConversationAlertMessage', 'Viewing past conversation', 'spotterPastConversationAlertMessage=Viewing%20past%20conversation'],
+            ['spotterBestPracticesLabel', 'Help Tips', 'spotterBestPracticesLabel=Help%20Tips'],
+            ['spotterConversationsBatchSize', 50, 'spotterConversationsBatchSize=50'],
+            ['spotterNewChatButtonTitle', 'Start New Conversation', 'spotterNewChatButtonTitle=Start%20New%20Conversation'],
+            ['spotterDocumentationUrl', 'https://docs.example.com/spotter', 'spotterDocumentationUrl=https%3A%2F%2Fdocs.example.com%2Fspotter'],
+        ])('should render with %s', async (configKey, configValue, expectedParam) => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                [configKey]: configValue,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&${expectedParam}#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
+            );
+        });
 
-    it('should render with spotterSidebarDefaultExpanded set to true', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterSidebarDefaultExpanded: true,
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterSidebarDefaultExpanded=true#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
+        it.each([
+            ['invalid URL format', 'invalid-url'],
+            ['invalid protocol (ftp)', 'ftp://docs.example.com/spotter'],
+        ])('should handle error for spotterDocumentationUrl with %s', async (_, invalidUrl) => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                spotterDocumentationUrl: invalidUrl,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            (conversationEmbed as any).handleError = jest.fn();
+            await conversationEmbed.render();
+            expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                    code: EmbedErrorCodes.INVALID_URL,
+                }),
+            );
+        });
 
-    it('should render with spotterChatRenameLabel', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterChatRenameLabel: 'Edit Name',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterChatRenameLabel=Edit%20Name#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterChatDeleteLabel', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterChatDeleteLabel: 'Remove',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterChatDeleteLabel=Remove#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterDeleteConversationModalTitle', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterDeleteConversationModalTitle: 'Remove Conversation',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterDeleteConversationModalTitle=Remove%20Conversation#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterPastConversationAlertMessage', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterPastConversationAlertMessage: 'Viewing past conversation',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterPastConversationAlertMessage=Viewing%20past%20conversation#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterBestPracticesLabel', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterBestPracticesLabel: 'Help Tips',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterBestPracticesLabel=Help%20Tips#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterConversationsBatchSize', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterConversationsBatchSize: 50,
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterConversationsBatchSize=50#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with spotterNewChatButtonTitle', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterNewChatButtonTitle: 'Start New Conversation',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterNewChatButtonTitle=Start%20New%20Conversation#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should render with valid spotterDocumentationUrl', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterDocumentationUrl: 'https://docs.example.com/spotter',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterDocumentationUrl=https%3A%2F%2Fdocs.example.com%2Fspotter#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
-    });
-
-    it('should handle error for invalid spotterDocumentationUrl', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterDocumentationUrl: 'invalid-url',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        (conversationEmbed as any).handleError = jest.fn();
-        await conversationEmbed.render();
-        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            expect.objectContaining({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                code: EmbedErrorCodes.INVALID_URL,
-            }),
-        );
-    });
-
-    it('should handle error for spotterDocumentationUrl with invalid protocol', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterDocumentationUrl: 'ftp://docs.example.com/spotter',
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        (conversationEmbed as any).handleError = jest.fn();
-        await conversationEmbed.render();
-        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            expect.objectContaining({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                code: EmbedErrorCodes.INVALID_URL,
-            }),
-        );
-    });
-
-    it('should render with multiple sidebar config options', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            spotterSidebarTitle: 'Chats',
-            spotterSidebarDefaultExpanded: true,
-            spotterNewChatButtonTitle: 'New',
-            spotterConversationsBatchSize: 25,
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterSidebarDefaultExpanded=true&spotterSidebarTitle=Chats&spotterConversationsBatchSize=25&spotterNewChatButtonTitle=New#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-        );
+        it('should render with multiple sidebar config options', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                spotterSidebarTitle: 'Chats',
+                spotterSidebarDefaultExpanded: true,
+                spotterNewChatButtonTitle: 'New',
+                spotterConversationsBatchSize: 25,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterSidebarDefaultExpanded=true&spotterSidebarTitle=Chats&spotterConversationsBatchSize=25&spotterNewChatButtonTitle=New#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
+            );
+        });
     });
 });

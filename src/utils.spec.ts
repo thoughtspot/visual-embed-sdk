@@ -828,100 +828,56 @@ describe('getValueFromWindow and storeValueInWindow', () => {
     });
 
     describe('validateHttpUrl', () => {
-        test('should return [true, null] for valid http URL', () => {
-            const [isValid, error] = validateHttpUrl('http://example.com');
+        test.each([
+            ['http URL', 'http://example.com'],
+            ['https URL', 'https://example.com'],
+            ['https URL with path', 'https://docs.example.com/spotter'],
+            ['https URL with query params', 'https://example.com/path?foo=bar'],
+        ])('should return [true, null] for valid %s', (_, url) => {
+            const [isValid, error] = validateHttpUrl(url);
             expect(isValid).toBe(true);
             expect(error).toBeNull();
         });
 
-        test('should return [true, null] for valid https URL', () => {
-            const [isValid, error] = validateHttpUrl('https://example.com');
-            expect(isValid).toBe(true);
-            expect(error).toBeNull();
-        });
-
-        test('should return [true, null] for https URL with path', () => {
-            const [isValid, error] = validateHttpUrl('https://docs.example.com/spotter');
-            expect(isValid).toBe(true);
-            expect(error).toBeNull();
-        });
-
-        test('should return [true, null] for https URL with query params', () => {
-            const [isValid, error] = validateHttpUrl('https://example.com/path?foo=bar');
-            expect(isValid).toBe(true);
-            expect(error).toBeNull();
-        });
-
-        test('should return [false, Error] for ftp protocol', () => {
-            const [isValid, error] = validateHttpUrl('ftp://example.com');
+        test.each([
+            ['ftp protocol', 'ftp://example.com', 'ftp:'],
+            ['file protocol', 'file:///path/to/file', 'file:'],
+            ['javascript protocol', 'javascript:alert(1)', 'javascript:'],
+        ])('should return [false, Error] for %s', (_, url, protocol) => {
+            const [isValid, error] = validateHttpUrl(url);
             expect(isValid).toBe(false);
             expect(error).toBeInstanceOf(Error);
             expect(error?.message).toContain('Invalid protocol');
-            expect(error?.message).toContain('ftp:');
+            expect(error?.message).toContain(protocol);
         });
 
-        test('should return [false, Error] for file protocol', () => {
-            const [isValid, error] = validateHttpUrl('file:///path/to/file');
-            expect(isValid).toBe(false);
-            expect(error).toBeInstanceOf(Error);
-            expect(error?.message).toContain('Invalid protocol');
-        });
-
-        test('should return [false, Error] for javascript protocol', () => {
-            const [isValid, error] = validateHttpUrl('javascript:alert(1)');
-            expect(isValid).toBe(false);
-            expect(error).toBeInstanceOf(Error);
-            expect(error?.message).toContain('Invalid protocol');
-        });
-
-        test('should return [false, Error] for invalid URL format', () => {
-            const [isValid, error] = validateHttpUrl('not-a-valid-url');
-            expect(isValid).toBe(false);
-            expect(error).toBeInstanceOf(Error);
-        });
-
-        test('should return [false, Error] for empty string', () => {
-            const [isValid, error] = validateHttpUrl('');
-            expect(isValid).toBe(false);
-            expect(error).toBeInstanceOf(Error);
-        });
-
-        test('should return [false, Error] for URL without protocol', () => {
-            const [isValid, error] = validateHttpUrl('example.com');
+        test.each([
+            ['invalid URL format', 'not-a-valid-url'],
+            ['empty string', ''],
+            ['URL without protocol', 'example.com'],
+        ])('should return [false, Error] for %s', (_, url) => {
+            const [isValid, error] = validateHttpUrl(url);
             expect(isValid).toBe(false);
             expect(error).toBeInstanceOf(Error);
         });
     });
 
     describe('setParamIfDefined', () => {
-        test('should set param when value is defined', () => {
+        test.each([
+            ['string value', 'testParam', 'testValue', false, 'testValue'],
+            ['number value', 'numParam', 42, false, 42],
+            ['truthy value as boolean', 'boolParam', 'truthy', true, true],
+            ['falsy value as boolean', 'boolParam', 0, true, false],
+        ])('should set %s correctly', (_, param, value, asBoolean, expected) => {
             const queryParams: Record<string, unknown> = {};
-            setParamIfDefined(queryParams, 'testParam', 'testValue');
-            expect(queryParams.testParam).toBe('testValue');
+            setParamIfDefined(queryParams, param, value, asBoolean);
+            expect(queryParams[param]).toBe(expected);
         });
 
         test('should not set param when value is undefined', () => {
             const queryParams: Record<string, unknown> = {};
             setParamIfDefined(queryParams, 'testParam', undefined);
             expect(queryParams.testParam).toBeUndefined();
-        });
-
-        test('should coerce value to boolean when asBoolean is true', () => {
-            const queryParams: Record<string, unknown> = {};
-            setParamIfDefined(queryParams, 'boolParam', 'truthy', true);
-            expect(queryParams.boolParam).toBe(true);
-        });
-
-        test('should coerce falsy value to false when asBoolean is true', () => {
-            const queryParams: Record<string, unknown> = {};
-            setParamIfDefined(queryParams, 'boolParam', 0, true);
-            expect(queryParams.boolParam).toBe(false);
-        });
-
-        test('should preserve original value when asBoolean is false', () => {
-            const queryParams: Record<string, unknown> = {};
-            setParamIfDefined(queryParams, 'numParam', 42);
-            expect(queryParams.numParam).toBe(42);
         });
     });
 });
