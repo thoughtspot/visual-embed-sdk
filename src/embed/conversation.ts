@@ -15,6 +15,82 @@ export interface SearchOptions {
 }
 
 /**
+ * Configuration for the Spotter sidebar.
+ * Can be used in SpotterEmbed and AppEmbed.
+ * @group Embed components
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ */
+export interface SpotterSidebarViewConfig {
+    /**
+     * Controls the visibility of the past conversations sidebar.
+     * @default false
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
+    /**
+     * Custom title text for the sidebar header.
+     * Defaults to translated "Spotter" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterSidebarTitle?: string;
+    /**
+     * Boolean to set the default expanded state of the sidebar.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterSidebarDefaultExpanded?: boolean;
+    /**
+     * Custom label text for the rename action in the conversation edit menu.
+     * Defaults to translated "Rename" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterChatRenameLabel?: string;
+    /**
+     * Custom label text for the delete action in the conversation edit menu.
+     * Defaults to translated "DELETE" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterChatDeleteLabel?: string;
+    /**
+     * Custom title text for the delete conversation confirmation modal.
+     * Defaults to translated "Delete chat" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterDeleteConversationModalTitle?: string;
+    /**
+     * Custom message text for the past conversation banner alert.
+     * Defaults to translated alert message.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterPastConversationAlertMessage?: string;
+    /**
+     * Custom URL for the documentation/best practices link.
+     * Defaults to ThoughtSpot docs URL based on release version.
+     * Note: URL must include the protocol (e.g., `https://www.example.com`).
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterDocumentationUrl?: string;
+    /**
+     * Custom label text for the best practices button in the footer.
+     * Defaults to translated "Best Practices" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterBestPracticesLabel?: string;
+    /**
+     * Number of conversations to fetch per batch when loading conversation history.
+     * @default 30
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterConversationsBatchSize?: number;
+    /**
+     * Custom title text for the "New Chat" button in the sidebar.
+     * Defaults to translated "New Chat" text.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterNewChatButtonTitle?: string;
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
@@ -169,23 +245,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     excludeRuntimeParametersfromURL?: boolean;
     /**
-     * enablePastConversationsSidebar : Controls the visibility of the past conversations
-     * sidebar.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @default false
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    enablePastConversationsSidebar : true,
-     * })
-     * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
-     */
-    enablePastConversationsSidebar?: boolean;
-
-    /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `SpotterEmbed`
@@ -201,156 +260,23 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
-     * Custom title text for the sidebar header.
-     * Defaults to translated "Spotter" text.
+     * Configuration for the Spotter sidebar UI customization.
      *
-     * Supported embed types: `SpotterEmbed`
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    spotterSidebarTitle: 'My Conversations',
+     *    spotterSidebarConfig: {
+     *        enablePastConversationsSidebar: true,
+     *        spotterSidebarTitle: 'My Conversations',
+     *        spotterSidebarDefaultExpanded: true,
+     *    },
      * })
      * ```
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
-    spotterSidebarTitle?: string;
-    /**
-     * Boolean to set the default expanded state of the sidebar.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @default false
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterSidebarDefaultExpanded: true,
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterSidebarDefaultExpanded?: boolean;
-    /**
-     * Custom label text for the rename action in the conversation edit menu.
-     * Defaults to translated "Rename" text.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterChatRenameLabel: 'Edit Name',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterChatRenameLabel?: string;
-    /**
-     * Custom label text for the delete action in the conversation edit menu.
-     * Defaults to translated "DELETE" text.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterChatDeleteLabel: 'Remove',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterChatDeleteLabel?: string;
-    /**
-     * Custom title text for the delete conversation confirmation modal.
-     * Defaults to translated "Delete chat" text.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterDeleteConversationModalTitle: 'Remove Conversation',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterDeleteConversationModalTitle?: string;
-    /**
-     * Custom message text for the past conversation banner alert.
-     * Defaults to translated alert message.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterPastConversationAlertMessage: 'You are viewing a past conversation',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterPastConversationAlertMessage?: string;
-    /**
-     * Custom URL for the documentation/best practices link.
-     * Defaults to ThoughtSpot docs URL based on release version.
-     * Note: URL must include the protocol (e.g., `https://www.example.com`).
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterDocumentationUrl: 'https://docs.example.com/spotter',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterDocumentationUrl?: string;
-    /**
-     * Custom label text for the best practices button in the footer.
-     * Defaults to translated "Best Practices" text.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterBestPracticesLabel: 'Help & Tips',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterBestPracticesLabel?: string;
-    /**
-     * Number of conversations to fetch per batch when loading conversation history.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @default 30
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterConversationsBatchSize: 50,
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterConversationsBatchSize?: number;
-    /**
-     * Custom title text for the "New Chat" button in the sidebar.
-     * Defaults to translated "New Chat" text.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterNewChatButtonTitle: 'Start New Conversation',
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    spotterNewChatButtonTitle?: string;
+    spotterSidebarConfig?: SpotterSidebarViewConfig;
 }
 
 /**
@@ -397,12 +323,17 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
-            enablePastConversationsSidebar,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            spotterSidebarConfig,
+        } = this.viewConfig;
+
+        // Extract sidebar config properties
+        const {
+            enablePastConversationsSidebar,
             spotterSidebarTitle,
             spotterSidebarDefaultExpanded,
             spotterChatRenameLabel,
@@ -413,7 +344,7 @@ export class SpotterEmbed extends TsEmbed {
             spotterBestPracticesLabel,
             spotterConversationsBatchSize,
             spotterNewChatButtonTitle,
-        } = this.viewConfig;
+        } = spotterSidebarConfig || {};
 
         if (!worksheetId) {
             this.handleError({
@@ -471,11 +402,12 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
-            enablePastConversationsSidebar,
+            spotterSidebarConfig,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
 
+        const enablePastConversationsSidebar = spotterSidebarConfig?.enablePastConversationsSidebar;
         if (!isUndefined(enablePastConversationsSidebar)) {
             queryParams[Param.EnablePastConversationsSidebar] = !!enablePastConversationsSidebar;
         }

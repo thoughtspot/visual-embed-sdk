@@ -295,7 +295,9 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            enablePastConversationsSidebar: true,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -312,7 +314,9 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            enablePastConversationsSidebar: false,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: false,
+            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -334,7 +338,9 @@ describe('ConversationEmbed', () => {
             dataPanelV2: true,
             showSpotterLimitations: true,
             hideSampleQuestions: true,
-            enablePastConversationsSidebar: true,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -405,6 +411,7 @@ describe('ConversationEmbed', () => {
 
     describe('spotter sidebar config params', () => {
         it.each([
+            ['enablePastConversationsSidebar', true, 'enablePastConversationsSidebar=true'],
             ['spotterSidebarTitle', 'My Conversations', 'spotterSidebarTitle=My%20Conversations'],
             ['spotterSidebarDefaultExpanded', true, 'spotterSidebarDefaultExpanded=true'],
             ['spotterChatRenameLabel', 'Edit Name', 'spotterChatRenameLabel=Edit%20Name'],
@@ -415,10 +422,12 @@ describe('ConversationEmbed', () => {
             ['spotterConversationsBatchSize', 50, 'spotterConversationsBatchSize=50'],
             ['spotterNewChatButtonTitle', 'Start New Conversation', 'spotterNewChatButtonTitle=Start%20New%20Conversation'],
             ['spotterDocumentationUrl', 'https://docs.example.com/spotter', 'spotterDocumentationUrl=https%3A%2F%2Fdocs.example.com%2Fspotter'],
-        ])('should render with %s', async (configKey, configValue, expectedParam) => {
+        ])('should render with spotterSidebarConfig.%s', async (configKey, configValue, expectedParam) => {
             const viewConfig: SpotterEmbedViewConfig = {
                 worksheetId: 'worksheetId',
-                [configKey]: configValue,
+                spotterSidebarConfig: {
+                    [configKey]: configValue,
+                },
             };
             const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
             await conversationEmbed.render();
@@ -431,10 +440,12 @@ describe('ConversationEmbed', () => {
         it.each([
             ['invalid URL format', 'invalid-url'],
             ['invalid protocol (ftp)', 'ftp://docs.example.com/spotter'],
-        ])('should handle error for spotterDocumentationUrl with %s', async (_, invalidUrl) => {
+        ])('should handle error for spotterSidebarConfig.spotterDocumentationUrl with %s', async (_, invalidUrl) => {
             const viewConfig: SpotterEmbedViewConfig = {
                 worksheetId: 'worksheetId',
-                spotterDocumentationUrl: invalidUrl,
+                spotterSidebarConfig: {
+                    spotterDocumentationUrl: invalidUrl,
+                },
             };
             const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
             (conversationEmbed as any).handleError = jest.fn();
@@ -448,19 +459,22 @@ describe('ConversationEmbed', () => {
             );
         });
 
-        it('should render with multiple sidebar config options', async () => {
+        it('should render with multiple spotterSidebarConfig options', async () => {
             const viewConfig: SpotterEmbedViewConfig = {
                 worksheetId: 'worksheetId',
-                spotterSidebarTitle: 'Chats',
-                spotterSidebarDefaultExpanded: true,
-                spotterNewChatButtonTitle: 'New',
-                spotterConversationsBatchSize: 25,
+                spotterSidebarConfig: {
+                    enablePastConversationsSidebar: true,
+                    spotterSidebarTitle: 'Chats',
+                    spotterSidebarDefaultExpanded: true,
+                    spotterNewChatButtonTitle: 'New',
+                    spotterConversationsBatchSize: 25,
+                },
             };
             const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
             await conversationEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterSidebarDefaultExpanded=true&spotterSidebarTitle=Chats&spotterConversationsBatchSize=25&spotterNewChatButtonTitle=New#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=true&spotterSidebarDefaultExpanded=true&spotterSidebarTitle=Chats&spotterConversationsBatchSize=25&spotterNewChatButtonTitle=New#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
             );
         });
     });
