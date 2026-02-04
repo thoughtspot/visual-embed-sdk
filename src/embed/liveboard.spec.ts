@@ -855,6 +855,187 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    describe('personalizedViewId functionality', () => {
+        const personalizedViewId = 'view-456-guid';
+
+        test('should render liveboard with personalizedViewId', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlToHaveParamsWithValues(getIFrameSrc(), { view: personalizedViewId });
+            });
+        });
+
+        test('should render liveboard with personalizedViewId and activeTabId together', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+                activeTabId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                // URL should be: #/embed/viz/{id}/tab/{tabId}?view={viewId}
+                expect(getIFrameSrc()).toMatch(
+                    new RegExp(
+                        `#/embed/viz/${liveboardId}/tab/${activeTabId}\\?view=${personalizedViewId}`,
+                    ),
+                );
+            });
+        });
+
+        test('should render liveboard with personalizedViewId and vizId together', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+                vizId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                // URL should be: #/embed/viz/{id}/{vizId}?view={viewId}
+                expect(getIFrameSrc()).toMatch(
+                    new RegExp(`#/embed/viz/${liveboardId}/${vizId}\\?view=${personalizedViewId}`),
+                );
+            });
+        });
+
+        test('should render liveboard with personalizedViewId, activeTabId, and vizId together', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+                activeTabId,
+                vizId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                // URL should be: #/embed/viz/{id}/tab/{tabId}/{vizId}?view={viewId}
+                expect(getIFrameSrc()).toMatch(
+                    new RegExp(
+                        `#/embed/viz/${liveboardId}/tab/${activeTabId}/${vizId}\\?view=${personalizedViewId}`,
+                    ),
+                );
+            });
+        });
+
+        test('should not include view param when personalizedViewId is not provided', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).not.toContain('view=');
+            });
+        });
+
+        test('should include personalizedViewId in getLiveboardUrl', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed.getLiveboardUrl()).toBe(
+                `http://${thoughtSpotHost}/#/pinboard/${liveboardId}?view=${personalizedViewId}`,
+            );
+        });
+
+        test('should include personalizedViewId with activeTabId in getLiveboardUrl', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+                activeTabId,
+            } as LiveboardViewConfig);
+            await liveboardEmbed.render();
+            expect(liveboardEmbed.getLiveboardUrl()).toBe(
+                `http://${thoughtSpotHost}/#/pinboard/${liveboardId}/tab/${activeTabId}?view=${personalizedViewId}`,
+            );
+        });
+
+        test('personalizedViewId should work with runtime filters', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                personalizedViewId,
+                runtimeFilters: [
+                    {
+                        columnName: 'sales',
+                        operator: RuntimeFilterOp.EQ,
+                        values: [1000],
+                    },
+                ],
+                excludeRuntimeFiltersfromURL: false,
+            } as LiveboardViewConfig);
+            liveboardEmbed.render();
+            await executeAfterWait(() => {
+                expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                    view: personalizedViewId,
+                    col1: 'sales',
+                    op1: 'EQ',
+                    val1: '1000',
+                });
+            });
+        });
+
+        describe('backward compatibility with liveboardId?view= workaround', () => {
+            const workaroundViewId = 'workaround-view-id';
+            const liveboardIdWithView = `${liveboardId}?view=${workaroundViewId}`;
+
+            test('should extract view from workaround and add at end of URL', async () => {
+                const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    liveboardId: liveboardIdWithView,
+                } as LiveboardViewConfig);
+                liveboardEmbed.render();
+                await executeAfterWait(() => {
+                    // URL: #/embed/viz/{cleanId}?view={workaroundViewId}
+                    expect(getIFrameSrc()).toMatch(
+                        new RegExp(`#/embed/viz/${liveboardId}\\?view=${workaroundViewId}`),
+                    );
+                });
+            });
+
+            test('should extract view and place after tab when activeTabId is provided', async () => {
+                const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    liveboardId: liveboardIdWithView,
+                    activeTabId,
+                } as LiveboardViewConfig);
+                liveboardEmbed.render();
+                await executeAfterWait(() => {
+                    // URL: #/embed/viz/{id}/tab/{tabId}?view={viewId} (view at END, not middle)
+                    expect(getIFrameSrc()).toMatch(
+                        new RegExp(
+                            `#/embed/viz/${liveboardId}/tab/${activeTabId}\\?view=${workaroundViewId}`,
+                        ),
+                    );
+                });
+            });
+
+            test('should use personalizedViewId over workaround when both provided', async () => {
+                const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    liveboardId: liveboardIdWithView,
+                    personalizedViewId,
+                } as LiveboardViewConfig);
+                liveboardEmbed.render();
+                await executeAfterWait(() => {
+                    // personalizedViewId wins, workaround stripped
+                    expect(getIFrameSrc()).toMatch(
+                        new RegExp(`#/embed/viz/${liveboardId}\\?view=${personalizedViewId}`),
+                    );
+                });
+            });
+        });
+    });
+
     test('navigateToLiveboard should trigger the navigate event with the correct path', async () => {
         mockMessageChannel();
         // mock getSessionInfo
@@ -1137,7 +1318,12 @@ describe('Liveboard/viz embed tests', () => {
                 ) as HTMLIFrameElement;
 
                 // should render the generic link
-                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                    testLiveboardId,
+                    'testVizId',
+                    'testActiveTabId',
+                    undefined,
+                );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
@@ -1195,7 +1381,12 @@ describe('Liveboard/viz embed tests', () => {
                     libEmbed.getPreRenderIds().child,
                 ) as HTMLIFrameElement;
                 // should render the generic link
-                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(testLiveboardId, 'testVizId', 'testActiveTabId');
+                expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                    testLiveboardId,
+                    'testVizId',
+                    'testActiveTabId',
+                    undefined,
+                );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
             }, 1005);
@@ -1528,9 +1719,13 @@ describe('Liveboard/viz embed tests', () => {
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
                 await liveboardEmbed.trigger(HostEvent.Save);
-                expect(mockProcessTrigger).toHaveBeenCalledWith(HostEvent.Save, {
-                    vizId: 'testViz',
-                }, undefined);
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    HostEvent.Save,
+                    {
+                        vizId: 'testViz',
+                    },
+                    undefined,
+                );
             });
         });
     });
@@ -1564,7 +1759,12 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
 
             // Now navigateToLiveboard should be called
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
         });
 
         test('should update currentLiveboardState for prerender object when embed container loads', async () => {
@@ -1617,7 +1817,12 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
 
             // navigateToLiveboard should be called immediately
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
         });
 
         test('should handle beforePrerenderVisible without prerender object', async () => {
@@ -1642,7 +1847,12 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
 
             // navigateToLiveboard should still be called
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, vizId, activeTabId);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
         });
 
         test('should work with all liveboard parameters', async () => {
@@ -1666,7 +1876,12 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
 
             // Check that all parameters are passed correctly
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(customLiveboardId, customVizId, customActiveTabId);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                customLiveboardId,
+                customVizId,
+                customActiveTabId,
+                undefined,
+            );
         });
 
         test('should work with minimal liveboard parameters', async () => {
@@ -1684,7 +1899,12 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
 
             // Check that undefined parameters are passed correctly
-            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(liveboardId, undefined, undefined);
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                undefined,
+                undefined,
+                undefined,
+            );
         });
     });
 

@@ -210,6 +210,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     activeTabId?: string;
     /**
+     * The GUID of a saved personalized view to load.
+     * A personalized view is a saved configuration of a Liveboard
+     * that includes specific filter selections.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    liveboardId: 'liveboard-guid',
+     *    personalizedViewId: 'view-guid',
+     *    activeTabId: 'tab-guid',
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     */
+    personalizedViewId?: string;
+    /**
      * Show or hide the tab panel of the embedded Liveboard.
      *
      * Supported embed types: `LiveboardEmbed`
@@ -619,7 +636,6 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.DataSourceId] = dataSourceId;
         }
 
-
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
@@ -671,15 +687,39 @@ export class LiveboardEmbed extends V1Embed {
         return params;
     }
 
-    private getIframeSuffixSrc(liveboardId: string, vizId: string, activeTabId: string) {
-        let suffix = `/embed/viz/${liveboardId}`;
+    private getIframeSuffixSrc(
+        liveboardId: string,
+        vizId: string,
+        activeTabId: string,
+        personalizedViewId?: string,
+    ) {
+        // Extract view from liveboardId if passed along with it (legacy approach)
+        // View must be appended as query param at the end, not embedded in path
+        let liveboardGuid = liveboardId;
+        let legacyViewId: string | undefined;
+
+        if (liveboardId?.includes('?')) {
+            const [id, query] = liveboardId.split('?');
+            liveboardGuid = id;
+            const params = new URLSearchParams(query);
+            legacyViewId = params.get('view') || undefined;
+        }
+
+        // personalizedViewId takes precedence over legacyViewId (when passed as part of liveboardId)
+        const effectiveViewId = personalizedViewId || legacyViewId;
+
+        let suffix = `/embed/viz/${liveboardGuid}`;
         if (activeTabId) {
-            suffix = `${suffix}/tab/${activeTabId} `;
+            suffix = `${suffix}/tab/${activeTabId}`;
         }
         if (vizId) {
             suffix = `${suffix}/${vizId}`;
         }
-        const tsPostHashParams = this.getThoughtSpotPostUrlParams();
+        const additionalParams: { [key: string]: string } = {};
+        if (effectiveViewId) {
+            additionalParams.view = effectiveViewId;
+        }
+        const tsPostHashParams = this.getThoughtSpotPostUrlParams(additionalParams);
         suffix = `${suffix}${tsPostHashParams}`;
         return suffix;
     }
@@ -687,7 +727,7 @@ export class LiveboardEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
         this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-    }
+    };
 
     /**
      * This is a handler for the RequestVisibleEmbedCoordinates event.
@@ -706,7 +746,7 @@ export class LiveboardEmbed extends V1Embed {
      * to be loaded within the iFrame.
      */
     private getIFrameSrc(): string {
-        const { vizId, activeTabId } = this.viewConfig;
+        const { vizId, activeTabId, personalizedViewId } = this.viewConfig;
         const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
 
         if (!liveboardId) {
@@ -721,6 +761,7 @@ export class LiveboardEmbed extends V1Embed {
             liveboardId,
             vizId,
             activeTabId,
+            personalizedViewId,
         )}`;
     }
 
@@ -813,18 +854,25 @@ export class LiveboardEmbed extends V1Embed {
         liveboardId: this.viewConfig.liveboardId,
         vizId: this.viewConfig.vizId,
         activeTabId: this.viewConfig.activeTabId,
+        personalizedViewId: this.viewConfig.personalizedViewId,
     };
 
     protected beforePrerenderVisible(): void {
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(() => {
-            this.navigateToLiveboard(this.viewConfig.liveboardId, this.viewConfig.vizId, this.viewConfig.activeTabId);
+            this.navigateToLiveboard(
+                this.viewConfig.liveboardId,
+                this.viewConfig.vizId,
+                this.viewConfig.activeTabId,
+                this.viewConfig.personalizedViewId,
+            );
             if (embedObj) {
                 embedObj.currentLiveboardState = {
                     liveboardId: this.viewConfig.liveboardId,
                     vizId: this.viewConfig.vizId,
                     activeTabId: this.viewConfig.activeTabId,
+                    personalizedViewId: this.viewConfig.personalizedViewId,
                 };
             }
         });
@@ -902,11 +950,17 @@ export class LiveboardEmbed extends V1Embed {
         return this;
     }
 
-    public navigateToLiveboard(liveboardId: string, vizId?: string, activeTabId?: string) {
-        const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId);
+    public navigateToLiveboard(
+        liveboardId: string,
+        vizId?: string,
+        activeTabId?: string,
+        personalizedViewId?: string,
+    ) {
+        const path = this.getIframeSuffixSrc(liveboardId, vizId, activeTabId, personalizedViewId);
         this.viewConfig.liveboardId = liveboardId;
         this.viewConfig.activeTabId = activeTabId;
         this.viewConfig.vizId = vizId;
+        this.viewConfig.personalizedViewId = personalizedViewId;
         if (this.isRendered) {
             this.trigger(HostEvent.Navigate, path.substring(1));
         } else if (this.viewConfig.preRenderId) {
@@ -929,6 +983,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (this.viewConfig.vizId) {
             url = `${url}/${this.viewConfig.vizId}`;
+        }
+
+        if (this.viewConfig.personalizedViewId) {
+            url = `${url}?view=${this.viewConfig.personalizedViewId}`;
         }
 
         return url;
