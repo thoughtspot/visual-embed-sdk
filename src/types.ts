@@ -6667,7 +6667,7 @@ export enum EmbedErrorCodes {
  *
  * @example
  * Handle specific error types
- *
+ * ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   switch (error.code) {
  *     case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:
@@ -6677,30 +6677,17 @@ export enum EmbedErrorCodes {
  *       console.error('Unknown error:', error);
  *   }
  * });
- *  *
+ * ```
  * @example
  * Handle multiple error messages
- *
+* ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   const messages = Array.isArray(error.message)
  *     ? error.message
  *     : [error.message];
- *
  *   messages.forEach(msg => console.error(msg));
  * });
- *  *
- * @example
- * Access additional error context
- *
- * embed.on(EmbedEvent.Error, (error) => {
- *   console.error('Error Details:', {
- *     type: error.errorType,
- *     message: error.message,
- *     code: error.code,
- *     // Additional context fields vary by error type
- *     ...error
- *   });
- * });
+ * ```
  *  */
 export interface EmbedErrorDetailsEvent {
     /** The type of error that occurred */

@@ -67,6 +67,7 @@ import {
     CustomActionTarget,
     InterceptedApiType,
     EmbedErrorCodes,
+    EmbedErrorDetailsEvent, 
     ErrorDetailsTypes,
     ContextType,
 } from './types';
@@ -162,6 +163,7 @@ export {
     CustomActionTarget,
     InterceptedApiType,
     EmbedErrorCodes,
+    EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
 };
 
