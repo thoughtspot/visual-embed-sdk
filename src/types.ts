@@ -6562,14 +6562,30 @@ export enum LogLevel {
  * Error types emitted by embedded components.
  *
  * These enum values categorize different types of errors that can occur during
- * the lifecycle of an embedded ThoughtSpot component. Use these values to implement
- * specific error handling logic based on the error category.
- *
+ * the lifecycle of an embedded ThoughtSpot component. 
+ * Use {@link EmbedErrorDetailsEvent} and {@link EmbedErrorCodes} to handle specific errors.
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- * {@link EmbedErrorDetailsEvent} - The error event object structure
  * 
- * {@link EmbedEvent.Error} - The event that emits these errors
+ * @example
+ * Handle specific error types
+ * ```js
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   switch (error.errorType) {
+ *     case ErrorDetailsTypes.API:
+ *       console.error('API error:', error.message);
+ *       break;
+ *     case ErrorDetailsTypes.VALIDATION_ERROR:
+ *       console.error('Validation error:', error.message);
+ *       break;
+ *     case ErrorDetailsTypes.NETWORK:
+ *       console.error('Network error:', error.message);
+ *       break;
+ *     default:
+ *       console.error('Unknown error:', error);
+ *   }
+ * });
+ * ```
  */
 export enum ErrorDetailsTypes {
     /** API call failure */
