@@ -9,7 +9,12 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
+import {
+    calculateVisibleElementData,
+    getQueryParamString,
+    isUndefined,
+    isValidCssMargin,
+} from '../utils';
 import {
     Param,
     DOMSelector,
@@ -56,7 +61,7 @@ export enum Page {
     /**
      *  Monitor Alerts Page
      */
-    Monitor = 'monitor'
+    Monitor = 'monitor',
 }
 
 /**
@@ -226,7 +231,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * });
      * ```
      */
-    enablePendoHelp?: boolean
+    enablePendoHelp?: boolean;
     /**
      * Control the visibility of the hamburger icon on
      * the top navigation bar in the V3 navigation experience.
@@ -700,7 +705,6 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -708,7 +712,10 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            this.on(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                this.requestVisibleEmbedCoordinatesHandler,
+            );
         }
     }
 
@@ -738,7 +745,7 @@ export class AppEmbed extends V1Embed {
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
             hideHomepageLeftNav = false,
-            modularHomeExperience,
+            modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -845,7 +852,9 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+            params[
+                Param.IsLiveboardStylingAndGroupingEnabled
+            ] = isLiveboardStylingAndGroupingEnabled;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
@@ -878,6 +887,7 @@ export class AppEmbed extends V1Embed {
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
+        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -929,16 +939,12 @@ export class AppEmbed extends V1Embed {
             }
 
             // listPageVersion can be changed to v2 or v3
-            if (discoveryExperience.listPageVersion !== undefined
-                && Object.values(ListPage).includes(discoveryExperience.listPageVersion)) {
+            if (
+                discoveryExperience.listPageVersion !== undefined &&
+                Object.values(ListPage).includes(discoveryExperience.listPageVersion)
+            ) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-        }
-
-        // If modularHomeExperience is false, set listPageVersion to v2 to
-        // avoid homepage library loading issue
-        if (modularHomeExperience === false) {
-            params[Param.ListPageVersion] = ListPage.List;
         }
 
         const queryParams = getQueryParamString(params, true);
@@ -1021,7 +1027,7 @@ export class AppEmbed extends V1Embed {
      * @param pageId The identifier for a page in the ThoughtSpot app.
      * @param modularHomeExperience
      */
-    private getPageRoute(pageId: Page, modularHomeExperience = true) {
+    private getPageRoute(pageId: Page, modularHomeExperience = false) {
         switch (pageId) {
             case Page.Search:
                 return 'answer';
