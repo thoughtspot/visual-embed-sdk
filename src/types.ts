@@ -1120,6 +1120,47 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
+
+
+    /**
+     * Refresh the auth token when the token is near expiry.
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    refreshAuthTokenOnNearExpiry: true,
+     * })
+     * ```
+     */
+    refreshAuthTokenOnNearExpiry?: boolean;
+    /**
+     * This flag skips payload validation so events can be processed even if the payload is old, incomplete, or from a trusted system.
+     * @default false
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    shouldBypassPayloadValidation:true,
+     * })
+     * ```
+     */
+    shouldBypassPayloadValidation?: boolean;
+
+    /**
+     * Flag to use host events v2. This is used to enable the new host events v2 API.
+     * @default false
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    useHostEventsV2:true,
+     * })
+     * ```
+     */
+    useHostEventsV2?: boolean;
 }
 
 /**
@@ -1347,6 +1388,22 @@ export interface SearchLiveboardCommonViewConfig {
      * ```
      */
     enableCustomColumnGroups?: boolean;
+    /**
+     * To enable **Include current period** checkbox for date filters.
+     * Controls the visibility of the option to include
+     * the current time period in filter results.
+     *
+     * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @example
+     * ```js
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isThisPeriodInDateFiltersEnabled: true,
+     * })
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     */
+    isThisPeriodInDateFiltersEnabled?: boolean;
 }
 
 /**
@@ -1357,7 +1414,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1373,7 +1430,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard title
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1389,7 +1446,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide Liveboard description
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @default false
      * @example
      * ```js
@@ -1413,7 +1470,7 @@ export interface LiveboardAppEmbedViewConfig {
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | Thoughtspot: 9.7.0.cl
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
     /**
@@ -1507,7 +1564,7 @@ export interface LiveboardAppEmbedViewConfig {
      * enable or disable ask sage
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.29.0 | Thoughtspot: 9.12.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot: 9.12.0.cl
      * @default false
      * @example
      * ```js
@@ -1588,7 +1645,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Show or hide masked filter chips
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -1604,7 +1661,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Enable or disable Liveboard styling and grouping
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.45.0 | Thoughtspot: 26.2.0.cl
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -3146,6 +3203,55 @@ export enum EmbedEvent {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     ApiIntercept = 'ApiIntercept',
+    /**
+     * Emitted when a Spotter conversation is renamed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationRenamed, (payload) => {
+     *     console.log('Conversation renamed', payload);
+     *     // payload: { convId: string, oldTitle: string, newTitle: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationRenamed = 'spotterConversationRenamed',
+    /**
+     * Emitted when a Spotter conversation is deleted.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationDeleted, (payload) => {
+     *     console.log('Conversation deleted', payload);
+     *     // payload: { convId: string, title: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationDeleted = 'spotterConversationDeleted',
+    /**
+     * Emitted when a Spotter conversation is selected/clicked.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationSelected, (payload) => {
+     *     console.log('Conversation selected', payload);
+     *     // payload: { convId: string, title: string, worksheetId: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationSelected = 'spotterConversationSelected',
+    
+    /**
+     * @hidden
+     * Emitted when the auth token is about to get expired and needs to be refreshed.
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.RefreshAuthToken, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     */
+    RefreshAuthToken = 'RefreshAuthToken',
 }
 
 /**
@@ -4531,6 +4637,18 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     StartNewSpotterConversation = 'StartNewSpotterConversation',
+
+    /**
+     * @hidden
+     * Get the current context of the embedded page.
+     * 
+     * @example
+     * ```js
+     * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     */
+    GetPageContext = 'GetPageContext',
 }
 
 /**
@@ -4689,6 +4807,17 @@ export enum Param {
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    SpotterSidebarTitle = 'spotterSidebarTitle',
+    SpotterSidebarDefaultExpanded = 'spotterSidebarDefaultExpanded',
+    SpotterChatRenameLabel = 'spotterChatRenameLabel',
+    SpotterChatDeleteLabel = 'spotterChatDeleteLabel',
+    SpotterDeleteConversationModalTitle = 'spotterDeleteConversationModalTitle',
+    SpotterPastConversationAlertMessage = 'spotterPastConversationAlertMessage',
+    SpotterDocumentationUrl = 'spotterDocumentationUrl',
+    SpotterBestPracticesLabel = 'spotterBestPracticesLabel',
+    SpotterConversationsBatchSize = 'spotterConversationsBatchSize',
+    SpotterNewChatButtonTitle = 'spotterNewChatButtonTitle',
+    IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
 }
 
 /**
@@ -4702,7 +4831,7 @@ export enum Param {
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
  *    ... //other embed view config
- *    visibleActions: [Action.Save, Action.Edit, Action.Present, ActionAction.Explore],
+ *    visibleActions: [Action.Save, Action.Edit, Action.Present, Action.Explore],
  *    disabledActions: [Action.Download],
  *    //hiddenActions: [], // Set either this or visibleActions
  * })
@@ -4713,7 +4842,7 @@ export enum Param {
  *    ... //other embed view config
  *    //visibleActions: [],
  *    disabledActions: [Action.Download],
- *    hiddenActions: [Action.Edit, ActionAction.Explore],
+ *    hiddenActions: [Action.Edit, Action.Explore],
  * })
  * ```
  * See also link:https://developers.thoughtspot.com/docs/actions[Developer Documentation].
@@ -5234,13 +5363,15 @@ export enum Action {
      */
     RequestAccess = 'requestAccess',
     /**
-     * The **Query visualizer** and **Query SQL** buttons in
-     * Query details panel of the Answer page.
+     * Controls the display and availability of the **Query visualizer** and
+     * **Query SQL** buttons in the Query details panel on the Answer page.
      *
-     * **Query visualizer** - Displays the tables
-     * and filters used in a search query.
-     * **Query SQL** - Displays the SQL statements used
-     * in a search query to fetch data.
+     * **Query visualizer** - Displays the tables and filters used in the search query.
+     * **Query SQL** - Displays the SQL statements used to retrieve data for the query.
+     *
+     * Note: This action ID only affects the visibility of the buttons within the
+     * Query details panel. It does not control the visibility
+     * of the query details icon on the Answer page.
      * @example
      * ```js
      * disabledActions: [Action.QueryDetailsButtons]
@@ -6131,6 +6262,108 @@ export enum Action {
      * @version SDK: 1.44.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
     UngroupLiveboardGroup = 'ungroupLiveboardGroup',
+    /**
+     * Controls visibility of the sidebar header (title and toggle button)
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSidebarHeader]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarHeader = 'spotterSidebarHeader',
+    /**
+     * Controls visibility of the sidebar footer (documentation link)
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSidebarFooter]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarFooter = 'spotterSidebarFooter',
+    /**
+     * Controls visibility and disable state of the sidebar toggle/expand button
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterSidebarToggle]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarToggle = 'spotterSidebarToggle',
+    /**
+     * Controls visibility and disable state of the "New Chat" button
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterNewChat]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterNewChat = 'spotterNewChat',
+    /**
+     * Controls visibility of the past conversation banner alert
+     * in the Spotter interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterPastChatBanner]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterPastChatBanner = 'spotterPastChatBanner',
+    /**
+     * Controls visibility and disable state of the conversation edit menu
+     * (three-dot menu) in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatMenu]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatMenu = 'spotterChatMenu',
+    /**
+     * Controls visibility and disable state of the rename action
+     * in the Spotter conversation edit menu.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatRename]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatRename = 'spotterChatRename',
+    /**
+     * Controls visibility and disable state of the delete action
+     * in the Spotter conversation edit menu.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatDelete]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatDelete = 'spotterChatDelete',
+    /**
+     * Controls visibility and disable state of the documentation/best practices
+     * link in the Spotter sidebar footer.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterDocs]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterDocs = 'spotterDocs',
+    /**
+     * The **Include current period** checkbox for date filters.
+     * Controls the visibility and availability of the option to include
+     * the current time period in filter results.
+     * @example
+     * ```js
+     * hiddenActions: [Action.IncludeCurrentPeriod]
+     * disabledActions: [Action.IncludeCurrentPeriod]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     */
+    IncludeCurrentPeriod = 'includeCurrentPeriod',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -6403,6 +6636,9 @@ export enum EmbedErrorCodes {
 
     /** Failed to update embed parameters during pre-render */
     UPDATE_PARAMS_FAILED = 'UPDATE_PARAMS_FAILED',
+
+    /** Invalid URL provided in configuration */
+    INVALID_URL = 'INVALID_URL',
 }
 
 /**
@@ -6476,6 +6712,26 @@ export interface EmbedErrorDetailsEvent {
     /** Additional context-specific for backward compatibility */
     [key: string]: any;
 }
+
+export enum ContextType {
+    /**
+     * Search answer context for search page or edit viz dialog on liveboard page.
+     */
+    Search = 'search-answer',
+    /**
+     * Liveboard context for liveboard page.
+     */
+    Liveboard = 'liveboard',
+    /**
+     * Answer context for explore modal/page on liveboard page.
+     */
+    Answer = 'answer',
+    /**
+     * Spotter context for spotter modal/page.
+     */
+    Spotter = 'spotter',
+}
+
 export interface DefaultAppInitData {
     customisations: CustomisationsInterface;
     authToken: string;
@@ -6553,3 +6809,88 @@ export type ApiInterceptFlags = {
      */
     interceptTimeout?: number;
 };
+
+/**
+ * Object IDs for the embedded component.
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ObjectIds {
+    /**
+     * Liveboard ID.
+     */
+    liveboardId?: string;
+    /**
+     * Answer ID.
+     */
+    answerId?: string;
+    /**
+     * Viz IDs.
+     */
+    vizIds?: string[];
+    /**
+     * Data model IDs.
+     */
+    dataModelIds?: string[];
+    /**
+     * Modal title.
+     */
+    modalTitle?: string;
+}
+
+/**
+ * Context object for the embedded component.
+ * @example
+ * ```js
+ * const context = await embed.getCurrentContext();
+ * console.log(context);
+ * {
+ *   stack: [
+ *     {
+ *       name: 'Liveboard',
+ *       type: ContextType.Liveboard,
+ *       objectIds: {
+ *         liveboardId: '123',
+ *       },
+ *     },
+ *   ],
+ *   currentContext: {
+ *     name: 'Liveboard',
+ *     type: ContextType.Liveboard,
+ *     objectIds: {
+ *       liveboardId: '123',
+ *     },
+ *   },
+ * }
+ * ```
+ * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+ */
+export interface ContextObject {
+    /**
+     * Stack of context objects.
+     */
+   stack: Array<{
+    /**
+     * Name of the context object.
+     */
+    name: string;
+    /**
+     * Type of the context object.
+     */
+    type: ContextType;
+    /**
+     * Object IDs of the context object.
+     */
+    objectIds: ObjectIds;
+   }>
+   /**
+    * Current context object.
+    */
+   currentContext: {
+    /**
+     * Name of the current context object.
+     */
+    name: string;
+    type: ContextType;
+    objectIds: ObjectIds;
+   }
+}

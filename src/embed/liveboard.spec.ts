@@ -184,6 +184,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isThisPeriodInDateFiltersEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isThisPeriodInDateFiltersEnabled: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isThisPeriodInDateFiltersEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isLiveboardPermissionV2Enabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isEnhancedFilterInteractivityEnabled: true,
@@ -1515,7 +1530,7 @@ describe('Liveboard/viz embed tests', () => {
                 await liveboardEmbed.trigger(HostEvent.Save);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(HostEvent.Save, {
                     vizId: 'testViz',
-                });
+                }, undefined);
             });
         });
     });

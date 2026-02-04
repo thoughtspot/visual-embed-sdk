@@ -32,7 +32,7 @@ import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/live
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
-import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterSidebarViewConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -68,6 +68,7 @@ import {
     InterceptedApiType,
     EmbedErrorCodes,
     ErrorDetailsTypes,
+    ContextType,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -105,6 +106,7 @@ export {
     BodylessConversation,
     SpotterEmbed,
     SpotterEmbedViewConfig,
+    SpotterSidebarViewConfig,
     ConversationViewConfig,
     ConversationEmbed,
     AuthFailureType,
@@ -121,6 +123,7 @@ export {
     RuntimeFilterOp,
     EmbedEvent,
     HostEvent,
+    ContextType,
     DataSourceVisualMode,
     Action,
     ContextMenuTriggerOptions,

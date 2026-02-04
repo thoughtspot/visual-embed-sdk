@@ -15,6 +15,7 @@ import {
     DOMSelector,
     RuntimeParameter,
     AllEmbedViewConfig,
+    BaseViewConfig,
 } from './types';
 import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
@@ -560,6 +561,13 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
     });
 };
 
+export const getHostEventsConfig = (viewConfig: BaseViewConfig) => {
+    return {
+        shouldBypassPayloadValidation: viewConfig.shouldBypassPayloadValidation,
+        useHostEventsV2: viewConfig.useHostEventsV2,
+    };
+}
+
 /**
  * Check if the window is undefined
  * If the window is undefined, it means the code is running in a SSR environment.
@@ -573,3 +581,39 @@ export const isWindowUndefined = (): boolean => {
     }
     return false;
 }
+
+/**
+ * Validates that a URL uses only http: or https: protocols.
+ * Returns a tuple of [isValid, error] so the caller can handle validation errors.
+ * @param url - The URL string to validate
+ * @returns [true, null] if valid, [false, Error] if invalid
+ */
+export const validateHttpUrl = (url: string): [boolean, Error | null] => {
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+            return [false, new Error(`Invalid protocol: ${parsedUrl.protocol}. Only http: and https: are allowed.`)];
+        }
+        return [true, null];
+    } catch (error) {
+        return [false, error instanceof Error ? error : new Error(String(error))];
+    }
+};
+
+/**
+ * Sets a query parameter if the value is defined.
+ * @param queryParams - The query params object to modify
+ * @param param - The parameter key
+ * @param value - The value to set
+ * @param asBoolean - If true, coerces value to boolean
+ */
+export const setParamIfDefined = <T>(
+    queryParams: Record<string, unknown>,
+    param: string,
+    value: T | undefined,
+    asBoolean = false,
+): void => {
+    if (value !== undefined) {
+        queryParams[param] = asBoolean ? !!value : value;
+    }
+};
