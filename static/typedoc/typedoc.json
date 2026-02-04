@@ -4510,7 +4510,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6738,
+							"line": 6740,
 							"character": 4
 						}
 					],
@@ -4528,7 +4528,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6734,
+							"line": 6736,
 							"character": 4
 						}
 					],
@@ -4546,7 +4546,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6730,
+							"line": 6732,
 							"character": 4
 						}
 					],
@@ -4564,7 +4564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6742,
+							"line": 6744,
 							"character": 4
 						}
 					],
@@ -4586,7 +4586,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6726,
+					"line": 6728,
 					"character": 12
 				}
 			]
@@ -10876,7 +10876,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6772,
+							"line": 6774,
 							"character": 4
 						}
 					],
@@ -10894,7 +10894,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6768,
+							"line": 6770,
 							"character": 4
 						}
 					],
@@ -10912,7 +10912,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6776,
+							"line": 6778,
 							"character": 4
 						}
 					],
@@ -10933,7 +10933,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6764,
+					"line": 6766,
 					"character": 12
 				}
 			]
@@ -25574,7 +25574,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -25611,7 +25611,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -25986,7 +25986,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -28584,7 +28584,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -28622,7 +28622,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -28660,7 +28660,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -29922,7 +29922,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -29960,7 +29960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -29998,7 +29998,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -36918,11 +36918,11 @@
 					},
 					{
 						"tag": "example",
-						"text": "\nHandle specific error types\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.code) {\n    case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:\n      console.error('Worksheet ID not found:', error.message, error.code);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```"
+						"text": "\nHandle specific error types\n\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.code) {\n    case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:\n      console.error('Worksheet ID not found:', error.message, error.code);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```"
 					},
 					{
 						"tag": "example",
-						"text": "\nHandle multiple error messages\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  const messages = Array.isArray(error.message)\n    ? error.message\n    : [error.message];\n  messages.forEach(msg => console.error(msg));\n});\n```\n"
+						"text": "\nHandle multiple error messages\n\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  const messages = Array.isArray(error.message)\n    ? error.message\n    : [error.message];\n  messages.forEach(msg => console.error(msg));\n});\n```\n"
 					}
 				]
 			},
@@ -36939,7 +36939,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6721,
+							"line": 6723,
 							"character": 4
 						}
 					],
@@ -36961,7 +36961,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6717,
+							"line": 6719,
 							"character": 4
 						}
 					],
@@ -36983,7 +36983,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6719,
+							"line": 6721,
 							"character": 4
 						}
 					],
@@ -37019,7 +37019,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6715,
+					"line": 6717,
 					"character": 17
 				}
 			],
@@ -38449,7 +38449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -38486,7 +38486,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -38861,7 +38861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -41363,7 +41363,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -41400,7 +41400,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -41437,7 +41437,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -43024,7 +43024,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -43061,7 +43061,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -43098,7 +43098,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -45045,7 +45045,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -45082,7 +45082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -45119,7 +45119,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -46475,7 +46475,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -46512,7 +46512,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -46549,7 +46549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -47766,7 +47766,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -47803,7 +47803,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6803,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -47840,7 +47840,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6787,
+							"line": 6789,
 							"character": 4
 						}
 					],

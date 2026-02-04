@@ -6690,6 +6690,7 @@ export enum EmbedErrorCodes {
  *
  * @example
  * Handle specific error types
+ * 
  * ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   switch (error.code) {
@@ -6703,7 +6704,8 @@ export enum EmbedErrorCodes {
  * ```
  * @example
  * Handle multiple error messages
-* ```js
+ * 
+ * ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   const messages = Array.isArray(error.message)
  *     ? error.message
