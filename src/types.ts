@@ -6687,9 +6687,6 @@ export enum EmbedErrorCodes {
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- * 
- * {@link ErrorDetailsTypes} - Available error type values
- * {@link EmbedEvent.Error} - The event that emits this object
  *
  * @example
  * Handle specific error types
