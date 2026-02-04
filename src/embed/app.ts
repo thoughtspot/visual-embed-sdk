@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -17,8 +17,12 @@ import {
     EmbedEvent,
     MessagePayload,
     AllEmbedViewConfig,
+    ErrorDetailsTypes,
+    EmbedErrorCodes,
 } from '../types';
 import { V1Embed } from './ts-embed';
+import { SpotterSidebarViewConfig } from './conversation';
+import { ERROR_MESSAGE } from '../errors';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -673,6 +677,24 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Configuration for the Spotter sidebar UI customization.
+     * Only applicable when navigating to Spotter within the app.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterSidebarConfig: {
+     *        enablePastConversationsSidebar: true,
+     *        spotterSidebarTitle: 'My Conversations',
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    spotterSidebarConfig?: SpotterSidebarViewConfig;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -763,6 +785,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            spotterSidebarConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
@@ -791,6 +814,49 @@ export class AppEmbed extends V1Embed {
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+
+        // Handle spotterSidebarConfig params
+        if (spotterSidebarConfig) {
+            const {
+                enablePastConversationsSidebar,
+                spotterSidebarTitle,
+                spotterSidebarDefaultExpanded,
+                spotterChatRenameLabel,
+                spotterChatDeleteLabel,
+                spotterDeleteConversationModalTitle,
+                spotterPastConversationAlertMessage,
+                spotterDocumentationUrl,
+                spotterBestPracticesLabel,
+                spotterConversationsBatchSize,
+                spotterNewChatButtonTitle,
+            } = spotterSidebarConfig;
+
+            setParamIfDefined(params, Param.EnablePastConversationsSidebar, enablePastConversationsSidebar, true);
+            setParamIfDefined(params, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
+            setParamIfDefined(params, Param.SpotterSidebarTitle, spotterSidebarTitle);
+            setParamIfDefined(params, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
+            setParamIfDefined(params, Param.SpotterChatDeleteLabel, spotterChatDeleteLabel);
+            setParamIfDefined(params, Param.SpotterDeleteConversationModalTitle, spotterDeleteConversationModalTitle);
+            setParamIfDefined(params, Param.SpotterPastConversationAlertMessage, spotterPastConversationAlertMessage);
+            setParamIfDefined(params, Param.SpotterBestPracticesLabel, spotterBestPracticesLabel);
+            setParamIfDefined(params, Param.SpotterConversationsBatchSize, spotterConversationsBatchSize);
+            setParamIfDefined(params, Param.SpotterNewChatButtonTitle, spotterNewChatButtonTitle);
+
+            // URL param with validation
+            if (spotterDocumentationUrl !== undefined) {
+                const [isValid, validationError] = validateHttpUrl(spotterDocumentationUrl);
+                if (isValid) {
+                    params[Param.SpotterDocumentationUrl] = spotterDocumentationUrl;
+                } else {
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                        code: EmbedErrorCodes.INVALID_URL,
+                        error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                    });
+                }
+            }
         }
 
         if (hideObjectSearch) {

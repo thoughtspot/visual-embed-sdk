@@ -852,4 +852,64 @@ export interface CustomCssVariables {
      * Width of the Spotter chat window.
      */
     '--ts-var-spotter-chat-width'?: string;
+
+    /**
+     * Border color for the saved chats sidebar container.
+     */
+    '--ts-var-saved-chats-border-color'?: string;
+
+    /**
+     * Background color for the saved chats sidebar container.
+     */
+    '--ts-var-saved-chats-bg'?: string;
+
+    /**
+     * Text color for the saved chats sidebar container.
+     */
+    '--ts-var-saved-chats-text-color'?: string;
+
+    /**
+     * Border color for the saved chats sidebar header.
+     */
+    '--ts-var-saved-chats-header-border'?: string;
+
+    /**
+     * Color for the saved chats sidebar title text.
+     */
+    '--ts-var-saved-chats-title-color'?: string;
+
+    /**
+     * Background color for buttons (new chat, toggle, footer) in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-btn-bg'?: string;
+
+    /**
+     * Hover background color for buttons in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-btn-hover-bg'?: string;
+
+    /**
+     * Text color for conversation items in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-conv-text-color'?: string;
+
+    /**
+     * Background color for conversation items on hover in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-conv-hover-bg'?: string;
+
+    /**
+     * Background color for the active/selected conversation in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-conv-active-bg'?: string;
+
+    /**
+     * Border color for the saved chats sidebar footer.
+     */
+    '--ts-var-saved-chats-footer-border'?: string;
+
+    /**
+     * Color for section title text (e.g., "Recent", "Older") in the saved chats sidebar.
+     */
+    '--ts-var-saved-chats-section-title-color'?: string;
   }

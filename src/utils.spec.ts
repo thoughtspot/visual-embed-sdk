@@ -21,6 +21,8 @@ import {
     formatTemplate,
     isValidCssMargin,
     resetValueFromWindow,
+    validateHttpUrl,
+    setParamIfDefined,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -822,6 +824,60 @@ describe('getValueFromWindow and storeValueInWindow', () => {
 
             expect(getValueFromWindow('key1')).toBe(undefined);
             expect(getValueFromWindow('key2')).toBe('value2');
+        });
+    });
+
+    describe('validateHttpUrl', () => {
+        test.each([
+            ['http URL', 'http://example.com'],
+            ['https URL', 'https://example.com'],
+            ['https URL with path', 'https://docs.example.com/spotter'],
+            ['https URL with query params', 'https://example.com/path?foo=bar'],
+        ])('should return [true, null] for valid %s', (_, url) => {
+            const [isValid, error] = validateHttpUrl(url);
+            expect(isValid).toBe(true);
+            expect(error).toBeNull();
+        });
+
+        test.each([
+            ['ftp protocol', 'ftp://example.com', 'ftp:'],
+            ['file protocol', 'file:///path/to/file', 'file:'],
+            ['javascript protocol', 'javascript:alert(1)', 'javascript:'],
+        ])('should return [false, Error] for %s', (_, url, protocol) => {
+            const [isValid, error] = validateHttpUrl(url);
+            expect(isValid).toBe(false);
+            expect(error).toBeInstanceOf(Error);
+            expect(error?.message).toContain('Invalid protocol');
+            expect(error?.message).toContain(protocol);
+        });
+
+        test.each([
+            ['invalid URL format', 'not-a-valid-url'],
+            ['empty string', ''],
+            ['URL without protocol', 'example.com'],
+        ])('should return [false, Error] for %s', (_, url) => {
+            const [isValid, error] = validateHttpUrl(url);
+            expect(isValid).toBe(false);
+            expect(error).toBeInstanceOf(Error);
+        });
+    });
+
+    describe('setParamIfDefined', () => {
+        test.each([
+            ['string value', 'testParam', 'testValue', false, 'testValue'],
+            ['number value', 'numParam', 42, false, 42],
+            ['truthy value as boolean', 'boolParam', 'truthy', true, true],
+            ['falsy value as boolean', 'boolParam', 0, true, false],
+        ])('should set %s correctly', (_, param, value, asBoolean, expected) => {
+            const queryParams: Record<string, unknown> = {};
+            setParamIfDefined(queryParams, param, value, asBoolean);
+            expect(queryParams[param]).toBe(expected);
+        });
+
+        test('should not set param when value is undefined', () => {
+            const queryParams: Record<string, unknown> = {};
+            setParamIfDefined(queryParams, 'testParam', undefined);
+            expect(queryParams.testParam).toBeUndefined();
         });
     });
 });

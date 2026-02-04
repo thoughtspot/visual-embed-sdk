@@ -3203,6 +3203,42 @@ export enum EmbedEvent {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     ApiIntercept = 'ApiIntercept',
+    /**
+     * Emitted when a Spotter conversation is renamed.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationRenamed, (payload) => {
+     *     console.log('Conversation renamed', payload);
+     *     // payload: { convId: string, oldTitle: string, newTitle: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationRenamed = 'spotterConversationRenamed',
+    /**
+     * Emitted when a Spotter conversation is deleted.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationDeleted, (payload) => {
+     *     console.log('Conversation deleted', payload);
+     *     // payload: { convId: string, title: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationDeleted = 'spotterConversationDeleted',
+    /**
+     * Emitted when a Spotter conversation is selected/clicked.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationSelected, (payload) => {
+     *     console.log('Conversation selected', payload);
+     *     // payload: { convId: string, title: string, worksheetId: string }
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    SpotterConversationSelected = 'spotterConversationSelected',
     
     /**
      * @hidden
@@ -4771,6 +4807,16 @@ export enum Param {
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    SpotterSidebarTitle = 'spotterSidebarTitle',
+    SpotterSidebarDefaultExpanded = 'spotterSidebarDefaultExpanded',
+    SpotterChatRenameLabel = 'spotterChatRenameLabel',
+    SpotterChatDeleteLabel = 'spotterChatDeleteLabel',
+    SpotterDeleteConversationModalTitle = 'spotterDeleteConversationModalTitle',
+    SpotterPastConversationAlertMessage = 'spotterPastConversationAlertMessage',
+    SpotterDocumentationUrl = 'spotterDocumentationUrl',
+    SpotterBestPracticesLabel = 'spotterBestPracticesLabel',
+    SpotterConversationsBatchSize = 'spotterConversationsBatchSize',
+    SpotterNewChatButtonTitle = 'spotterNewChatButtonTitle',
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
 }
 
@@ -6217,6 +6263,96 @@ export enum Action {
      */
     UngroupLiveboardGroup = 'ungroupLiveboardGroup',
     /**
+     * Controls visibility of the sidebar header (title and toggle button)
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSidebarHeader]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarHeader = 'spotterSidebarHeader',
+    /**
+     * Controls visibility of the sidebar footer (documentation link)
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSidebarFooter]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarFooter = 'spotterSidebarFooter',
+    /**
+     * Controls visibility and disable state of the sidebar toggle/expand button
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterSidebarToggle]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterSidebarToggle = 'spotterSidebarToggle',
+    /**
+     * Controls visibility and disable state of the "New Chat" button
+     * in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterNewChat]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterNewChat = 'spotterNewChat',
+    /**
+     * Controls visibility of the past conversation banner alert
+     * in the Spotter interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterPastChatBanner]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterPastChatBanner = 'spotterPastChatBanner',
+    /**
+     * Controls visibility and disable state of the conversation edit menu
+     * (three-dot menu) in the Spotter past conversations sidebar.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatMenu]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatMenu = 'spotterChatMenu',
+    /**
+     * Controls visibility and disable state of the rename action
+     * in the Spotter conversation edit menu.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatRename]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatRename = 'spotterChatRename',
+    /**
+     * Controls visibility and disable state of the delete action
+     * in the Spotter conversation edit menu.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatDelete]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterChatDelete = 'spotterChatDelete',
+    /**
+     * Controls visibility and disable state of the documentation/best practices
+     * link in the Spotter sidebar footer.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterDocs]
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     */
+    SpotterDocs = 'spotterDocs',
+    /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
      * the current time period in filter results.
@@ -6500,6 +6636,9 @@ export enum EmbedErrorCodes {
 
     /** Failed to update embed parameters during pre-render */
     UPDATE_PARAMS_FAILED = 'UPDATE_PARAMS_FAILED',
+
+    /** Invalid URL provided in configuration */
+    INVALID_URL = 'INVALID_URL',
 }
 
 /**
