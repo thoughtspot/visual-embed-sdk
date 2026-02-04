@@ -4510,7 +4510,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6728,
+							"line": 6715,
 							"character": 4
 						}
 					],
@@ -4528,7 +4528,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6724,
+							"line": 6711,
 							"character": 4
 						}
 					],
@@ -4546,7 +4546,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6720,
+							"line": 6707,
 							"character": 4
 						}
 					],
@@ -4564,7 +4564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6732,
+							"line": 6719,
 							"character": 4
 						}
 					],
@@ -4586,7 +4586,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6716,
+					"line": 6703,
 					"character": 12
 				}
 			]
@@ -7891,7 +7891,7 @@
 			]
 		},
 		{
-			"id": 3153,
+			"id": 3159,
 			"name": "ErrorDetailsTypes",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -7920,7 +7920,7 @@
 			},
 			"children": [
 				{
-					"id": 3154,
+					"id": 3160,
 					"name": "API",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7938,7 +7938,7 @@
 					"defaultValue": "\"API\""
 				},
 				{
-					"id": 3156,
+					"id": 3162,
 					"name": "NETWORK",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7956,7 +7956,7 @@
 					"defaultValue": "\"NETWORK\""
 				},
 				{
-					"id": 3155,
+					"id": 3161,
 					"name": "VALIDATION_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7979,9 +7979,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3154,
-						3156,
-						3155
+						3160,
+						3162,
+						3161
 					]
 				}
 			],
@@ -10889,7 +10889,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6762,
+							"line": 6749,
 							"character": 4
 						}
 					],
@@ -10907,7 +10907,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6758,
+							"line": 6745,
 							"character": 4
 						}
 					],
@@ -10925,7 +10925,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6766,
+							"line": 6753,
 							"character": 4
 						}
 					],
@@ -10946,7 +10946,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6754,
+					"line": 6741,
 					"character": 12
 				}
 			]
@@ -25587,7 +25587,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -25624,7 +25624,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -25999,7 +25999,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -28597,7 +28597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -28635,7 +28635,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -28673,7 +28673,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -29935,7 +29935,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -29973,7 +29973,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -30011,7 +30011,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -36912,6 +36912,166 @@
 			]
 		},
 		{
+			"id": 3153,
+			"name": "EmbedErrorDetailsEvent",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "Error event object emitted when an error occurs in an embedded component.",
+				"text": "This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}\nevent. It provides detailed information about what went wrong, including the error type,\na human-readable message, and a machine-readable error code.\n\n## Properties\n\n- **errorType**: One of the predefined {@link ErrorDetailsTypes} values\n- **message**: Human-readable error description (string or array of strings for multiple errors)\n- **code**: Machine-readable error identifier for programmatic handling\n- **[key: string]**: Additional context-specific for backward compatibility\n\n## Usage\n\nListen to the {@link EmbedEvent.Error} event to receive instances of this object\nand implement appropriate error handling logic based on the `errorType`.\n",
+				"tags": [
+					{
+						"tag": "version",
+						"text": "SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl"
+					},
+					{
+						"tag": "group",
+						"text": "Error Handling"
+					},
+					{
+						"tag": "see",
+						"text": "{@link ErrorDetailsTypes} - Available error type values"
+					},
+					{
+						"tag": "see",
+						"text": "{@link EmbedEvent.Error} - The event that emits this object\n"
+					},
+					{
+						"tag": "example",
+						"text": "\nHandle specific error types\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.code) {\n    case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:\n      console.error('Worksheet ID not found:', error.message, error.code);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```"
+					},
+					{
+						"tag": "example",
+						"text": "\nHandle multiple error messages\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  const messages = Array.isArray(error.message)\n    ? error.message\n    : [error.message];\n  messages.forEach(msg => console.error(msg));\n});\n```\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 3156,
+					"name": "code",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Machine-readable error code for programmatic error handling"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6698,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 3139,
+						"name": "EmbedErrorCodes"
+					}
+				},
+				{
+					"id": 3154,
+					"name": "errorType",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "The type of error that occurred"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6694,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 3159,
+						"name": "ErrorDetailsTypes"
+					}
+				},
+				{
+					"id": 3155,
+					"name": "message",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Human-readable error message(s) describing what went wrong"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6696,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "intrinsic",
+								"name": "string"
+							},
+							{
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						]
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						3156,
+						3154,
+						3155
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "types.ts",
+					"line": 6692,
+					"character": 17
+				}
+			],
+			"indexSignature": {
+				"id": 3157,
+				"name": "__index",
+				"kind": 8192,
+				"kindString": "Index signature",
+				"flags": {},
+				"comment": {
+					"shortText": "Additional context-specific for backward compatibility"
+				},
+				"parameters": [
+					{
+						"id": 3158,
+						"name": "key",
+						"kind": 32768,
+						"flags": {},
+						"type": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					}
+				],
+				"type": {
+					"type": "intrinsic",
+					"name": "any"
+				}
+			}
+		},
+		{
 			"id": 2808,
 			"name": "FrameParams",
 			"kind": 256,
@@ -38310,7 +38470,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -38347,7 +38507,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -38722,7 +38882,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -41224,7 +41384,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -41261,7 +41421,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -41298,7 +41458,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -42885,7 +43045,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -42922,7 +43082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -42959,7 +43119,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -44906,7 +45066,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -44943,7 +45103,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -44980,7 +45140,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -46336,7 +46496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -46373,7 +46533,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -46410,7 +46570,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -47627,7 +47787,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6797,
 							"character": 4
 						}
 					],
@@ -47664,7 +47824,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6780,
 							"character": 4
 						}
 					],
@@ -47701,7 +47861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6764,
 							"character": 4
 						}
 					],
@@ -50434,7 +50594,7 @@
 			]
 		},
 		{
-			"id": 3157,
+			"id": 3163,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -50450,7 +50610,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3158,
+					"id": 3164,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -50727,7 +50887,7 @@
 				2239,
 				3139,
 				2055,
-				3153,
+				3159,
 				2814,
 				3077,
 				3071,
@@ -50773,6 +50933,7 @@
 				2859,
 				2849,
 				2405,
+				3153,
 				2808,
 				2566,
 				2035,
@@ -50815,7 +50976,7 @@
 				4,
 				7,
 				25,
-				3157,
+				3163,
 				40,
 				3055
 			]
