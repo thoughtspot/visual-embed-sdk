@@ -6581,14 +6581,11 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Error codes for identifying specific issues in embedded ThoughtSpot components. Use these codes for precise error handling and debugging.
+ * Error codes for identifying specific issues in embedded ThoughtSpot components. Use {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error handling and debugging.
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- * {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
- * 
- * {@link ErrorDetailsTypes} - General error type categories
- * 
+
  * @example
  * Handle specific error codes in the error event handler
  * ```js
