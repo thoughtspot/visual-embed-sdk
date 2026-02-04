@@ -36906,7 +36906,7 @@
 			"flags": {},
 			"comment": {
 				"shortText": "Error event object emitted when an error occurs in an embedded component.",
-				"text": "This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}\nevent. It provides detailed information about what went wrong, including the error type,\na human-readable message, and a machine-readable error code.\n\n## Properties\n\n- **errorType**: One of the predefined {@link ErrorDetailsTypes} values\n- **message**: Human-readable error description (string or array of strings for multiple errors)\n- **code**: Machine-readable error identifier for programmatic handling\n- **[key: string]**: Additional context-specific for backward compatibility\n\n## Usage\n\nListen to the {@link EmbedEvent.Error} event to receive instances of this object\nand implement appropriate error handling logic based on the `errorType`.\n",
+				"text": "This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}\nevent. It provides detailed information about what went wrong, including the error type,\na human-readable message, and a machine-readable error code.\n\n## Properties\n\n- **errorType**: One of the predefined {@link ErrorDetailsTypes} values\n- **message**: Human-readable error description (string or array of strings for multiple errors)\n- **code**: Machine-readable error identifier {@link EmbedErrorCodes} values\n- **[key: string]**: Additional context-specific for backward compatibility\n\n## Usage\n\nListen to the {@link EmbedEvent.Error} event to receive instances of this object\nand implement appropriate error handling logic based on the `errorType`.\n",
 				"tags": [
 					{
 						"tag": "version",

@@ -6677,7 +6677,7 @@ export enum EmbedErrorCodes {
  *
  * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
  * - **message**: Human-readable error description (string or array of strings for multiple errors)
- * - **code**: Machine-readable error identifier for programmatic handling
+ * - **code**: Machine-readable error identifier {@link EmbedErrorCodes} values
  * - **[key: string]**: Additional context-specific for backward compatibility
  *
  * ## Usage
