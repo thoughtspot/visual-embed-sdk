@@ -6565,10 +6565,11 @@ export enum LogLevel {
  * the lifecycle of an embedded ThoughtSpot component. Use these values to implement
  * specific error handling logic based on the error category.
  *
- * @see {@link EmbedErrorDetailsEvent} - The error event object structure
- * @see {@link EmbedEvent.Error} - The event that emits these errors
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
+ * {@link EmbedErrorDetailsEvent} - The error event object structure
+ * 
+ * {@link EmbedEvent.Error} - The event that emits these errors
  */
 export enum ErrorDetailsTypes {
     /** API call failure */
@@ -6580,26 +6581,37 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Error codes for identifying specific issues in embedded ThoughtSpot components.
- *
- * Use these codes for precise error handling and debugging. Each code maps to a
- * distinct failure scenario, enabling targeted recovery strategies.
+ * Error codes for identifying specific issues in embedded ThoughtSpot components. Use these codes for precise error handling and debugging.
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- *
- * @see {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
- * @see {@link ErrorDetailsTypes} - General error type categories
- *
+ * {@link EmbedErrorDetailsEvent} - The error event object that includes these codes
+ * 
+ * {@link ErrorDetailsTypes} - General error type categories
+ * 
  * @example
  * Handle specific error codes in the error event handler
- *
+ * ```js
  * embed.on(EmbedEvent.Error, (error) => {
- *   if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {
- *     console.error('Worksheet ID not found:', error.message);
+ *   switch (error.code) {
+ *     case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:
+ *       console.error('Worksheet ID not found:', error.message);
+ *       break;
+ *     case EmbedErrorCodes.LIVEBOARD_ID_MISSING:
+ *       console.error('Liveboard ID is missing:', error.message);
+ *       break;
+ *     case EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG:
+ *       console.error('Conflicting actions configuration:', error.message);
+ *       break;
+ *     case EmbedErrorCodes.CONFLICTING_TABS_CONFIG:
+ *       console.error('Conflicting tabs configuration:', error.message);
+ *       break;
+ *     default:
+ *       console.error('Unknown error:', error);
  *   }
  * });
- *  */
+ * ```
+ * */
 export enum EmbedErrorCodes {
     /** Worksheet ID not found or does not exist */
     WORKSHEET_ID_NOT_FOUND = 'WORKSHEET_ID_NOT_FOUND',
@@ -6607,10 +6619,10 @@ export enum EmbedErrorCodes {
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
 
-    /** Conflicting action configuration detected (e.g., both hiddenActions and visibleActions specified) */
+    /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
 
-    /** Conflicting tab configuration detected (e.g., both hiddenTabs and visibleTabs specified) */
+    /** Conflicting tab configuration detected  */
     CONFLICTING_TABS_CONFIG = 'CONFLICTING_TABS_CONFIG',
 
     /** Error during component initialization */
@@ -6662,8 +6674,8 @@ export enum EmbedErrorCodes {
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- * @see {@link ErrorDetailsTypes} - Available error type values
- * @see {@link EmbedEvent.Error} - The event that emits this object
+ * {@link ErrorDetailsTypes} - Available error type values
+ * {@link EmbedEvent.Error} - The event that emits this object
  *
  * @example
  * Handle specific error types
