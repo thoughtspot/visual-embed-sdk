@@ -539,7 +539,6 @@ export class LiveboardEmbed extends V1Embed {
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
-            dataPanelV2 = true,
             enableCustomColumnGroups = false,
             oAuthPollingInterval,
             isForceRedirect,
@@ -662,7 +661,6 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
         params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
         params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
-        params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
 

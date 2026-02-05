@@ -421,7 +421,7 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('should set enableDataPanelV2 to false if data panel v2 flag is false', async () => {
+    test('should ignore dataPanelV2 and keep enableDataPanelV2=true by default', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             dataPanelV2: false,
@@ -430,8 +430,41 @@ describe('Search embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should ignore additionalFlags.enableDataPanelV2 and keep enableDataPanelV2=true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            additionalFlags: {
+                enableDataPanelV2: false,
+            },
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=true&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
+    test('should set enableDataPanelV2=false when enableDeprecatedDataPanelV1 additional flag is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            additionalFlags: {
+                enableDeprecatedDataPanelV1: true,
+            },
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
+            expect(getIFrameSrc()).not.toContain('enableDeprecatedDataPanelV1');
         });
     });
     test('should set useLastSelectedSources to true if useLastSelectedSources flag is true', async () => {

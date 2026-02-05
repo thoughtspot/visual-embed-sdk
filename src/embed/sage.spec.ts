@@ -123,7 +123,7 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
         });
     });
@@ -190,7 +190,7 @@ describe('Sage  embed tests', () => {
         });
     });
 
-    test('should set enableDataPanelV2 to false if data panel v2 flag is false', async () => {
+    test('should ignore dataPanelV2 and keep enableDataPanelV2=true by default', async () => {
         const sageEmbed = new SageEmbed(getRootEl(), {
             ...defaultConfig,
             dataPanelV2: false,
@@ -199,8 +199,41 @@ describe('Sage  embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatch(
                 getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+            );
+        });
+    });
+
+    test('should ignore additionalFlags.enableDataPanelV2 and keep enableDataPanelV2=true', async () => {
+        const sageEmbed = new SageEmbed(getRootEl(), {
+            ...defaultConfig,
+            additionalFlags: {
+                enableDataPanelV2: false,
+            },
+        });
+        await sageEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatch(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=true&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
+            );
+        });
+    });
+
+    test('should set enableDataPanelV2=false when enableDeprecatedDataPanelV1 additional flag is true', async () => {
+        const sageEmbed = new SageEmbed(getRootEl(), {
+            ...defaultConfig,
+            additionalFlags: {
+                enableDeprecatedDataPanelV1: true,
+            },
+        });
+        await sageEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatch(
+                getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
+            expect(getIFrameSrc()).not.toContain('enableDeprecatedDataPanelV1');
         });
     });
 });

@@ -392,7 +392,6 @@ export class SearchEmbed extends TsEmbed {
             dataSources,
             excludeRuntimeFiltersfromURL,
             hideSearchBar,
-            dataPanelV2 = true,
             useLastSelectedSources = false,
             runtimeParameters,
             collapseSearchBarInitially = false,
@@ -449,7 +448,6 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
-        queryParams[Param.DataPanelV2Enabled] = dataPanelV2;
         queryParams[Param.DataSourceMode] = this.getDataSourceMode();
 
         queryParams[Param.UseLastSelectedDataSource] = useLastSelectedSources;
