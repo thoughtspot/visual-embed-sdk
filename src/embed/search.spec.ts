@@ -451,11 +451,11 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('should set enableDataPanelV2=false when __enableDataPanelV1 additional flag is true', async () => {
+    test('should set enableDataPanelV2=false when enableDeprecatedDataPanelV1 additional flag is true', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
             additionalFlags: {
-                __enableDataPanelV1: true,
+                enableDeprecatedDataPanelV1: true,
             },
         });
         searchEmbed.render();
@@ -464,7 +464,7 @@ describe('Search embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&dataSourceMode=expand&enableDataPanelV2=false&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
             );
-            expect(getIFrameSrc()).not.toContain('__enableDataPanelV1');
+            expect(getIFrameSrc()).not.toContain('enableDeprecatedDataPanelV1');
         });
     });
     test('should set useLastSelectedSources to true if useLastSelectedSources flag is true', async () => {

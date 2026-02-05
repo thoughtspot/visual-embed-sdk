@@ -220,11 +220,11 @@ describe('Sage  embed tests', () => {
         });
     });
 
-    test('should set enableDataPanelV2=false when __enableDataPanelV1 additional flag is true', async () => {
+    test('should set enableDataPanelV2=false when enableDeprecatedDataPanelV1 additional flag is true', async () => {
         const sageEmbed = new SageEmbed(getRootEl(), {
             ...defaultConfig,
             additionalFlags: {
-                __enableDataPanelV1: true,
+                enableDeprecatedDataPanelV1: true,
             },
         });
         await sageEmbed.render();
@@ -233,7 +233,7 @@ describe('Sage  embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
             );
-            expect(getIFrameSrc()).not.toContain('__enableDataPanelV1');
+            expect(getIFrameSrc()).not.toContain('enableDeprecatedDataPanelV1');
         });
     });
 });
