@@ -4818,6 +4818,8 @@ export enum Param {
     SpotterConversationsBatchSize = 'spotterConversationsBatchSize',
     SpotterNewChatButtonTitle = 'spotterNewChatButtonTitle',
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
+    HideToolResponseCardBranding = 'hideToolResponseCardBranding',
+    ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
 }
 
 /**
