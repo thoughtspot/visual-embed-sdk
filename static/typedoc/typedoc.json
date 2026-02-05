@@ -4510,7 +4510,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6728,
+							"line": 6740,
 							"character": 4
 						}
 					],
@@ -4528,7 +4528,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6724,
+							"line": 6736,
 							"character": 4
 						}
 					],
@@ -4546,7 +4546,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6720,
+							"line": 6732,
 							"character": 4
 						}
 					],
@@ -4564,7 +4564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6732,
+							"line": 6744,
 							"character": 4
 						}
 					],
@@ -4586,7 +4586,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6716,
+					"line": 6728,
 					"character": 12
 				}
 			]
@@ -4932,8 +4932,7 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "Error codes for identifying specific issues in embedded ThoughtSpot components.",
-				"text": "Use these codes for precise error handling and debugging. Each code maps to a\ndistinct failure scenario, enabling targeted recovery strategies.\n",
+				"shortText": "Error codes for identifying specific issues in embedded ThoughtSpot components. Use {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error handling and debugging.",
 				"tags": [
 					{
 						"tag": "version",
@@ -4944,16 +4943,8 @@
 						"text": "Error Handling\n"
 					},
 					{
-						"tag": "see",
-						"text": "{@link EmbedErrorDetailsEvent} - The error event object that includes these codes"
-					},
-					{
-						"tag": "see",
-						"text": "{@link ErrorDetailsTypes} - General error type categories\n"
-					},
-					{
 						"tag": "example",
-						"text": "\nHandle specific error codes in the error event handler\n\nembed.on(EmbedEvent.Error, (error) => {\n  if (error.code === EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND) {\n    console.error('Worksheet ID not found:', error.message);\n  }\n});\n"
+						"text": "\nHandle specific error codes in the error event handler\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.code) {\n    case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:\n      console.error('Worksheet ID not found:', error.message);\n      break;\n    case EmbedErrorCodes.LIVEBOARD_ID_MISSING:\n      console.error('Liveboard ID is missing:', error.message);\n      break;\n    case EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG:\n      console.error('Conflicting actions configuration:', error.message);\n      break;\n    case EmbedErrorCodes.CONFLICTING_TABS_CONFIG:\n      console.error('Conflicting tabs configuration:', error.message);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```\n"
 					}
 				]
 			},
@@ -4965,12 +4956,12 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Conflicting action configuration detected (e.g., both hiddenActions and visibleActions specified)"
+						"shortText": "Conflicting action configuration detected"
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6611,
+							"line": 6636,
 							"character": 4
 						}
 					],
@@ -4983,12 +4974,12 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Conflicting tab configuration detected (e.g., both hiddenTabs and visibleTabs specified)"
+						"shortText": "Conflicting tab configuration detected"
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6614,
+							"line": 6639,
 							"character": 4
 						}
 					],
@@ -5006,7 +4997,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6623,
+							"line": 6648,
 							"character": 4
 						}
 					],
@@ -5024,7 +5015,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6632,
+							"line": 6657,
 							"character": 4
 						}
 					],
@@ -5042,7 +5033,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6617,
+							"line": 6642,
 							"character": 4
 						}
 					],
@@ -5060,7 +5051,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6641,
+							"line": 6666,
 							"character": 4
 						}
 					],
@@ -5078,7 +5069,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6608,
+							"line": 6633,
 							"character": 4
 						}
 					],
@@ -5096,7 +5087,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6626,
+							"line": 6651,
 							"character": 4
 						}
 					],
@@ -5114,7 +5105,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6620,
+							"line": 6645,
 							"character": 4
 						}
 					],
@@ -5132,7 +5123,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6635,
+							"line": 6660,
 							"character": 4
 						}
 					],
@@ -5150,7 +5141,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6629,
+							"line": 6654,
 							"character": 4
 						}
 					],
@@ -5168,7 +5159,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6638,
+							"line": 6663,
 							"character": 4
 						}
 					],
@@ -5186,7 +5177,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6605,
+							"line": 6630,
 							"character": 4
 						}
 					],
@@ -5217,7 +5208,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6603,
+					"line": 6628,
 					"character": 12
 				}
 			]
@@ -7891,23 +7882,15 @@
 			]
 		},
 		{
-			"id": 3153,
+			"id": 3159,
 			"name": "ErrorDetailsTypes",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
 				"shortText": "Error types emitted by embedded components.",
-				"text": "These enum values categorize different types of errors that can occur during\nthe lifecycle of an embedded ThoughtSpot component. Use these values to implement\nspecific error handling logic based on the error category.\n",
+				"text": "These enum values categorize different types of errors that can occur during\nthe lifecycle of an embedded ThoughtSpot component.\nUse {@link EmbedErrorDetailsEvent} and {@link EmbedErrorCodes} to handle specific errors.",
 				"tags": [
-					{
-						"tag": "see",
-						"text": "{@link EmbedErrorDetailsEvent} - The error event object structure"
-					},
-					{
-						"tag": "see",
-						"text": "{@link EmbedEvent.Error} - The event that emits these errors"
-					},
 					{
 						"tag": "version",
 						"text": "SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl"
@@ -7915,12 +7898,16 @@
 					{
 						"tag": "group",
 						"text": "Error Handling\n"
+					},
+					{
+						"tag": "example",
+						"text": "\nHandle specific error types\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.errorType) {\n    case ErrorDetailsTypes.API:\n      console.error('API error:', error.message);\n      break;\n    case ErrorDetailsTypes.VALIDATION_ERROR:\n      console.error('Validation error:', error.message);\n      break;\n    case ErrorDetailsTypes.NETWORK:\n      console.error('Network error:', error.message);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```\n"
 					}
 				]
 			},
 			"children": [
 				{
-					"id": 3154,
+					"id": 3160,
 					"name": "API",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7931,14 +7918,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6575,
+							"line": 6592,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"API\""
 				},
 				{
-					"id": 3156,
+					"id": 3162,
 					"name": "NETWORK",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7949,14 +7936,14 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6579,
+							"line": 6596,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"NETWORK\""
 				},
 				{
-					"id": 3155,
+					"id": 3161,
 					"name": "VALIDATION_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -7967,7 +7954,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6577,
+							"line": 6594,
 							"character": 4
 						}
 					],
@@ -7979,16 +7966,16 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3154,
-						3156,
-						3155
+						3160,
+						3162,
+						3161
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6573,
+					"line": 6590,
 					"character": 12
 				}
 			]
@@ -10889,7 +10876,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6762,
+							"line": 6774,
 							"character": 4
 						}
 					],
@@ -10907,7 +10894,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6758,
+							"line": 6770,
 							"character": 4
 						}
 					],
@@ -10925,7 +10912,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6766,
+							"line": 6778,
 							"character": 4
 						}
 					],
@@ -10946,7 +10933,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6754,
+					"line": 6766,
 					"character": 12
 				}
 			]
@@ -25587,7 +25574,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -25624,7 +25611,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -25999,7 +25986,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -28597,7 +28584,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -28635,7 +28622,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -28673,7 +28660,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -29935,7 +29922,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -29973,7 +29960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -30011,7 +29998,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -36912,6 +36899,158 @@
 			]
 		},
 		{
+			"id": 3153,
+			"name": "EmbedErrorDetailsEvent",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "Error event object emitted when an error occurs in an embedded component.",
+				"text": "This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}\nevent. It provides detailed information about what went wrong, including the error type,\na human-readable message, and a machine-readable error code.\n\n## Properties\n\n- **errorType**: One of the predefined {@link ErrorDetailsTypes} values\n- **message**: Human-readable error description (string or array of strings for multiple errors)\n- **code**: Machine-readable error identifier {@link EmbedErrorCodes} values\n- **[key: string]**: Additional context-specific for backward compatibility\n\n## Usage\n\nListen to the {@link EmbedEvent.Error} event to receive instances of this object\nand implement appropriate error handling logic based on the `errorType`.\n",
+				"tags": [
+					{
+						"tag": "version",
+						"text": "SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl"
+					},
+					{
+						"tag": "group",
+						"text": "Error Handling\n"
+					},
+					{
+						"tag": "example",
+						"text": "\nHandle specific error types\n\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  switch (error.code) {\n    case EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND:\n      console.error('Worksheet ID not found:', error.message, error.code);\n      break;\n    default:\n      console.error('Unknown error:', error);\n  }\n});\n```"
+					},
+					{
+						"tag": "example",
+						"text": "\nHandle multiple error messages\n\n```js\nembed.on(EmbedEvent.Error, (error) => {\n  const messages = Array.isArray(error.message)\n    ? error.message\n    : [error.message];\n  messages.forEach(msg => console.error(msg));\n});\n```\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 3156,
+					"name": "code",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Machine-readable error code for programmatic error handling"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6723,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 3139,
+						"name": "EmbedErrorCodes"
+					}
+				},
+				{
+					"id": 3154,
+					"name": "errorType",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "The type of error that occurred"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6719,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 3159,
+						"name": "ErrorDetailsTypes"
+					}
+				},
+				{
+					"id": 3155,
+					"name": "message",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Human-readable error message(s) describing what went wrong"
+					},
+					"sources": [
+						{
+							"fileName": "types.ts",
+							"line": 6721,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "intrinsic",
+								"name": "string"
+							},
+							{
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						]
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						3156,
+						3154,
+						3155
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "types.ts",
+					"line": 6717,
+					"character": 17
+				}
+			],
+			"indexSignature": {
+				"id": 3157,
+				"name": "__index",
+				"kind": 8192,
+				"kindString": "Index signature",
+				"flags": {},
+				"comment": {
+					"shortText": "Additional context-specific for backward compatibility"
+				},
+				"parameters": [
+					{
+						"id": 3158,
+						"name": "key",
+						"kind": 32768,
+						"flags": {},
+						"type": {
+							"type": "intrinsic",
+							"name": "string"
+						}
+					}
+				],
+				"type": {
+					"type": "intrinsic",
+					"name": "any"
+				}
+			}
+		},
+		{
 			"id": 2808,
 			"name": "FrameParams",
 			"kind": 256,
@@ -38310,7 +38449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -38347,7 +38486,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -38722,7 +38861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -41224,7 +41363,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -41261,7 +41400,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -41298,7 +41437,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -42885,7 +43024,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -42922,7 +43061,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -42959,7 +43098,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -44906,7 +45045,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -44943,7 +45082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -44980,7 +45119,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -46336,7 +46475,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -46373,7 +46512,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -46410,7 +46549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -47627,7 +47766,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6810,
+							"line": 6822,
 							"character": 4
 						}
 					],
@@ -47664,7 +47803,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -47701,7 +47840,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6777,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -50434,7 +50573,7 @@
 			]
 		},
 		{
-			"id": 3157,
+			"id": 3163,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -50450,7 +50589,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3158,
+					"id": 3164,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -50727,7 +50866,7 @@
 				2239,
 				3139,
 				2055,
-				3153,
+				3159,
 				2814,
 				3077,
 				3071,
@@ -50773,6 +50912,7 @@
 				2859,
 				2849,
 				2405,
+				3153,
 				2808,
 				2566,
 				2035,
@@ -50815,7 +50955,7 @@
 				4,
 				7,
 				25,
-				3157,
+				3163,
 				40,
 				3055
 			]
