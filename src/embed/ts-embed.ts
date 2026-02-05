@@ -807,9 +807,20 @@ export class TsEmbed {
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
+        const internalForceDataPanelV1Flag = additionalFlags?.enableDeprecatedDataPanelV1 as boolean;
+        const forceDataPanelV1 = internalForceDataPanelV1Flag === true;
+
         if (isObject(additionalFlags) && !isEmpty(additionalFlags)) {
-            Object.assign(queryParams, additionalFlags);
+            const sanitizedAdditionalFlags = { ...additionalFlags };
+            // Internal escape hatch - should not be forwarded as a URL flag.
+            delete sanitizedAdditionalFlags.enableDeprecatedDataPanelV1;
+            Object.assign(queryParams, sanitizedAdditionalFlags);
         }
+
+        // NOTE: Intentionally set after additionalFlags to prevent consumers from
+        // forcing the v1 data panel experience via URL flags (including via
+        // `additionalFlags: { enableDataPanelV2: false }`).
+        queryParams[Param.DataPanelV2Enabled] = !forceDataPanelV1;
 
         // Do not add any flags below this, as we want additional flags to
         // override other flags

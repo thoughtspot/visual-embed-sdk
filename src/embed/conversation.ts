@@ -136,9 +136,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Flag to control Data panel experience
      *
-     * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @default true
-     * @version SDK: 1.41.1 | ThoughtSpot Cloud: 10.14.0.cl
+     * @deprecated from SDK 1.45.0 | Thoughtspot Cloud: 26.4.0.cl
+     * @hidden
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -320,7 +319,6 @@ export class SpotterEmbed extends TsEmbed {
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
-            dataPanelV2,
             showSpotterLimitations,
             hideSampleQuestions,
             runtimeFilters,
@@ -360,7 +358,6 @@ export class SpotterEmbed extends TsEmbed {
         // Boolean params
         setParamIfDefined(queryParams, Param.DisableSourceSelection, disableSourceSelection, true);
         setParamIfDefined(queryParams, Param.HideSourceSelection, hideSourceSelection, true);
-        setParamIfDefined(queryParams, Param.DataPanelV2Enabled, dataPanelV2, true);
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);

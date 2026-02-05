@@ -37,7 +37,7 @@ describe('ConversationEmbed', () => {
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enableDataPanelV2=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
 
