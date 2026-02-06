@@ -223,7 +223,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    activeTabId: 'tab-guid',
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     personalizedViewId?: string;
     /**
