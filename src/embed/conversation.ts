@@ -278,9 +278,12 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
-     * hideToolResponseCardBranding: Hides the ThoughtSpot logo and branding
-     * prefix in tool response cards (collapsible items showing query results,
-     * code blocks, etc.). External MCP tool branding is not affected.
+     * Hides the ThoughtSpot logo/icon in tool response
+     * cards (collapsible items showing query results,
+     * code blocks, etc.). The branding label prefix is
+     * controlled separately via
+     * `toolResponseCardBrandingLabel`.
+     * External MCP tool branding is not affected.
      *
      * Supported embed types: `SpotterEmbed`
      * @default false
@@ -295,8 +298,10 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     hideToolResponseCardBranding?: boolean;
     /**
-     * toolResponseCardBrandingLabel: Custom label to replace "ThoughtSpot" prefix
-     * in tool response cards. Only applies when hideToolResponseCardBranding is false.
+     * Custom label to replace the "ThoughtSpot" prefix
+     * in tool response cards. Set to an empty string
+     * `''` to hide the prefix entirely. Works
+     * independently of `hideToolResponseCardBranding`.
      * External MCP tool branding is not affected.
      *
      * Supported embed types: `SpotterEmbed`
