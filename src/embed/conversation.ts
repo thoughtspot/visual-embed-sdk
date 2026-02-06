@@ -277,6 +277,44 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
+    /**
+     * Hides the ThoughtSpot logo/icon in tool response
+     * cards (collapsible items showing query results,
+     * code blocks, etc.). The branding label prefix is
+     * controlled separately via
+     * `toolResponseCardBrandingLabel`.
+     * External MCP tool branding is not affected.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    hideToolResponseCardBranding: true,
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    hideToolResponseCardBranding?: boolean;
+    /**
+     * Custom label to replace the "ThoughtSpot" prefix
+     * in tool response cards. Set to an empty string
+     * `''` to hide the prefix entirely. Works
+     * independently of `hideToolResponseCardBranding`.
+     * External MCP tool branding is not affected.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    toolResponseCardBrandingLabel: 'MyBrand',
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    toolResponseCardBrandingLabel?: string;
 }
 
 /**
@@ -329,6 +367,8 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
+            hideToolResponseCardBranding,
+            toolResponseCardBrandingLabel,
         } = this.viewConfig;
 
         // Extract sidebar config properties
@@ -389,6 +429,14 @@ export class SpotterEmbed extends TsEmbed {
                     error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
                 });
             }
+        }
+
+        if (!isUndefined(hideToolResponseCardBranding)) {
+            queryParams[Param.HideToolResponseCardBranding] = !!hideToolResponseCardBranding;
+        }
+
+        if (!isUndefined(toolResponseCardBrandingLabel)) {
+            queryParams[Param.ToolResponseCardBrandingLabel] = toolResponseCardBrandingLabel;
         }
 
         return queryParams;

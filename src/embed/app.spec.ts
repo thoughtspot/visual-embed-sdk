@@ -443,6 +443,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set hideToolResponseCardBranding to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideToolResponseCardBranding: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&hideToolResponseCardBranding=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set toolResponseCardBrandingLabel in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            toolResponseCardBrandingLabel: 'MyBrand',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&toolResponseCardBrandingLabel=MyBrand${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
