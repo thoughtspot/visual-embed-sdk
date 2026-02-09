@@ -807,8 +807,7 @@ export class TsEmbed {
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
-        const internalForceDataPanelV1Flag = additionalFlags?.enableDeprecatedDataPanelV1 as boolean;
-        const forceDataPanelV1 = internalForceDataPanelV1Flag === true;
+        const forceDataPanelV1 = additionalFlags?.enableDeprecatedDataPanelV1 === true;
 
         if (isObject(additionalFlags) && !isEmpty(additionalFlags)) {
             const sanitizedAdditionalFlags = { ...additionalFlags };

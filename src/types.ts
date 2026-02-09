@@ -1359,7 +1359,7 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * Flag to control Data panel experience
      *
-     * @deprecated from SDK 1.45.0 | Thoughtspot Cloud: 26.4.0.cl
+     * @deprecated from SDK 1.46.0 | Thoughtspot Cloud: 26.4.0.cl
      * @hidden
      * @example
      * ```js
