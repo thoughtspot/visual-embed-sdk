@@ -24,12 +24,13 @@ import {
     EmbedErrorCodes,
     ContextType,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
+import { SpotterChatViewConfig } from './conversation';
 
 
 /**
@@ -465,43 +466,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     updatedSpotterChatPrompt?: boolean;
     /**
-     * Hides the ThoughtSpot logo/icon in tool response
-     * cards within Spotter. The branding label prefix
-     * is controlled separately via
-     * `toolResponseCardBrandingLabel`.
-     * External MCP tool branding is not affected.
-     *
-     * Supported embed types: `LiveboardEmbed`
-     * @default false
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    hideToolResponseCardBranding: true,
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    hideToolResponseCardBranding?: boolean;
-    /**
-     * Custom label to replace the "ThoughtSpot" prefix
-     * in tool response cards within Spotter. Set to an
-     * empty string `''` to hide the prefix entirely.
-     * Works independently of
-     * `hideToolResponseCardBranding`.
-     * External MCP tool branding is not affected.
+     * Configuration for customizing Spotter chat UI
+     * branding in tool response cards.
      *
      * Supported embed types: `LiveboardEmbed`
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    toolResponseCardBrandingLabel: 'MyBrand',
+     *    spotterChatConfig: {
+     *        hideToolResponseCardBranding: true,
+     *        toolResponseCardBrandingLabel: 'MyBrand',
+     *    },
      * })
      * ```
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
-    toolResponseCardBrandingLabel?: string;
+    spotterChatConfig?: SpotterChatViewConfig;
 }
 
 /**
@@ -591,8 +572,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
-            hideToolResponseCardBranding,
-            toolResponseCardBrandingLabel,
+            spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
@@ -680,12 +660,15 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
         }
 
-        if (!isUndefined(hideToolResponseCardBranding)) {
-            params[Param.HideToolResponseCardBranding] = !!hideToolResponseCardBranding;
-        }
+        // Handle spotterChatConfig params
+        if (spotterChatConfig) {
+            const {
+                hideToolResponseCardBranding,
+                toolResponseCardBrandingLabel,
+            } = spotterChatConfig;
 
-        if (!isUndefined(toolResponseCardBrandingLabel)) {
-            params[Param.ToolResponseCardBrandingLabel] = toolResponseCardBrandingLabel;
+            setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
+            setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
 
         if (isLinkParametersEnabled !== undefined) {

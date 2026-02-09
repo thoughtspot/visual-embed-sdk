@@ -979,11 +979,13 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should set hideToolResponseCardBranding parameter in url params', async () => {
+    test('should set hideToolResponseCardBranding parameter in url params via spotterChatConfig', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            hideToolResponseCardBranding: true,
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
         } as LiveboardViewConfig);
         await liveboardEmbed.render();
         await executeAfterWait(() => {
@@ -994,11 +996,13 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should set toolResponseCardBrandingLabel parameter in url params', async () => {
+    test('should set toolResponseCardBrandingLabel parameter in url params via spotterChatConfig', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            toolResponseCardBrandingLabel: 'MyBrand',
+            spotterChatConfig: {
+                toolResponseCardBrandingLabel: 'MyBrand',
+            },
         } as LiveboardViewConfig);
         await liveboardEmbed.render();
         await executeAfterWait(() => {

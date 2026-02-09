@@ -443,10 +443,12 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set hideToolResponseCardBranding to true in url', async () => {
+    test('should set hideToolResponseCardBranding to true in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            hideToolResponseCardBranding: true,
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
@@ -457,10 +459,12 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set toolResponseCardBrandingLabel in url', async () => {
+    test('should set toolResponseCardBrandingLabel in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            toolResponseCardBrandingLabel: 'MyBrand',
+            spotterChatConfig: {
+                toolResponseCardBrandingLabel: 'MyBrand',
+            },
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {

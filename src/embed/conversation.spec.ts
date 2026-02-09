@@ -357,7 +357,9 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            hideToolResponseCardBranding: true,
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -374,7 +376,9 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            toolResponseCardBrandingLabel: 'MyBrand',
+            spotterChatConfig: {
+                toolResponseCardBrandingLabel: 'MyBrand',
+            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);

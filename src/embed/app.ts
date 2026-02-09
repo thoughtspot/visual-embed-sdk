@@ -21,7 +21,7 @@ import {
     EmbedErrorCodes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
 import { ERROR_MESSAGE } from '../errors';
 
 /**
@@ -695,43 +695,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
-     * Hides the ThoughtSpot logo/icon in tool response
-     * cards within Spotter. The branding label prefix
-     * is controlled separately via
-     * `toolResponseCardBrandingLabel`.
-     * External MCP tool branding is not affected.
-     *
-     * Supported embed types: `AppEmbed`
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    hideToolResponseCardBranding: true,
-     * })
-     * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
-     */
-    hideToolResponseCardBranding?: boolean;
-    /**
-     * Custom label to replace the "ThoughtSpot" prefix
-     * in tool response cards within Spotter. Set to an
-     * empty string `''` to hide the prefix entirely.
-     * Works independently of
-     * `hideToolResponseCardBranding`.
-     * External MCP tool branding is not affected.
+     * Configuration for customizing Spotter chat UI
+     * branding in tool response cards.
      *
      * Supported embed types: `AppEmbed`
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    toolResponseCardBrandingLabel: 'MyBrand',
+     *    spotterChatConfig: {
+     *        hideToolResponseCardBranding: true,
+     *        toolResponseCardBrandingLabel: 'MyBrand',
+     *    },
      * })
      * ```
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
-    toolResponseCardBrandingLabel?: string;
+    spotterChatConfig?: SpotterChatViewConfig;
     /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
@@ -824,8 +804,7 @@ export class AppEmbed extends V1Embed {
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
-            hideToolResponseCardBranding,
-            toolResponseCardBrandingLabel,
+            spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
@@ -899,12 +878,15 @@ export class AppEmbed extends V1Embed {
             }
         }
 
-        if (!isUndefined(hideToolResponseCardBranding)) {
-            params[Param.HideToolResponseCardBranding] = !!hideToolResponseCardBranding;
-        }
+        // Handle spotterChatConfig params
+        if (spotterChatConfig) {
+            const {
+                hideToolResponseCardBranding,
+                toolResponseCardBrandingLabel,
+            } = spotterChatConfig;
 
-        if (!isUndefined(toolResponseCardBrandingLabel)) {
-            params[Param.ToolResponseCardBrandingLabel] = toolResponseCardBrandingLabel;
+            setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
+            setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
 
         if (hideObjectSearch) {
