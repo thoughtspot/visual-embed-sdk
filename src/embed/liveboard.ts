@@ -480,7 +480,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
 }

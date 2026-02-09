@@ -93,7 +93,7 @@ export interface SpotterSidebarViewConfig {
 /**
  * Configuration for customizing Spotter chat UI branding.
  * @group Embed components
- * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
  */
 export interface SpotterChatViewConfig {
     /**
@@ -316,7 +316,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
 }
