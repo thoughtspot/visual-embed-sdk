@@ -21,7 +21,7 @@ import {
     EmbedErrorCodes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
 import { ERROR_MESSAGE } from '../errors';
 
 /**
@@ -695,6 +695,24 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
+     * Configuration for customizing Spotter chat UI
+     * branding in tool response cards.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatConfig: {
+     *        hideToolResponseCardBranding: true,
+     *        toolResponseCardBrandingLabel: 'MyBrand',
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatConfig?: SpotterChatViewConfig;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -786,6 +804,7 @@ export class AppEmbed extends V1Embed {
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
+            spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
@@ -857,6 +876,17 @@ export class AppEmbed extends V1Embed {
                     });
                 }
             }
+        }
+
+        // Handle spotterChatConfig params
+        if (spotterChatConfig) {
+            const {
+                hideToolResponseCardBranding,
+                toolResponseCardBrandingLabel,
+            } = spotterChatConfig;
+
+            setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
+            setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
 
         if (hideObjectSearch) {

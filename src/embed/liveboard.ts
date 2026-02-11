@@ -24,12 +24,13 @@ import {
     EmbedErrorCodes,
     ContextType,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
+import { SpotterChatViewConfig } from './conversation';
 
 
 /**
@@ -481,6 +482,24 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
+    /**
+     * Configuration for customizing Spotter chat UI
+     * branding in tool response cards.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatConfig: {
+     *        hideToolResponseCardBranding: true,
+     *        toolResponseCardBrandingLabel: 'MyBrand',
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatConfig?: SpotterChatViewConfig;
 }
 
 /**
@@ -570,6 +589,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
@@ -654,6 +674,17 @@ export class LiveboardEmbed extends V1Embed {
 
         if (showSpotterLimitations !== undefined) {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
+        }
+
+        // Handle spotterChatConfig params
+        if (spotterChatConfig) {
+            const {
+                hideToolResponseCardBranding,
+                toolResponseCardBrandingLabel,
+            } = spotterChatConfig;
+
+            setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
+            setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
 
         if (isLinkParametersEnabled !== undefined) {

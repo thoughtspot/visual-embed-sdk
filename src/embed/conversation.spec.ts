@@ -351,6 +351,44 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with tool response card branding hidden', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&hideToolResponseCardBranding=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with custom tool response card branding label', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterChatConfig: {
+                toolResponseCardBrandingLabel: 'MyBrand',
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&toolResponseCardBrandingLabel=MyBrand#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',

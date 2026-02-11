@@ -1160,6 +1160,40 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set hideToolResponseCardBranding parameter in url params via spotterChatConfig', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&hideToolResponseCardBranding=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set toolResponseCardBrandingLabel parameter in url params via spotterChatConfig', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: {
+                toolResponseCardBrandingLabel: 'MyBrand',
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&toolResponseCardBrandingLabel=MyBrand#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

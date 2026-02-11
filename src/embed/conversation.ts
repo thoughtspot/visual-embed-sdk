@@ -91,6 +91,30 @@ export interface SpotterSidebarViewConfig {
 }
 
 /**
+ * Configuration for customizing Spotter chat UI branding.
+ * @group Embed components
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+ */
+export interface SpotterChatViewConfig {
+    /**
+     * Hides the ThoughtSpot logo/icon in tool response
+     * cards. The branding label prefix is controlled
+     * separately via `toolResponseCardBrandingLabel`.
+     * External MCP tool branding is not affected.
+     * @default false
+     */
+    hideToolResponseCardBranding?: boolean;
+    /**
+     * Custom label to replace the "ThoughtSpot" prefix
+     * in tool response cards. Set to an empty string
+     * `''` to hide the prefix entirely. Works
+     * independently of `hideToolResponseCardBranding`.
+     * External MCP tool branding is not affected.
+     */
+    toolResponseCardBrandingLabel?: string;
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
@@ -277,6 +301,24 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
+    /**
+     * Configuration for customizing Spotter chat UI
+     * branding in tool response cards.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatConfig: {
+     *        hideToolResponseCardBranding: true,
+     *        toolResponseCardBrandingLabel: 'MyBrand',
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatConfig?: SpotterChatViewConfig;
 }
 
 /**
@@ -329,6 +371,7 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
+            spotterChatConfig,
         } = this.viewConfig;
 
         // Extract sidebar config properties
@@ -389,6 +432,17 @@ export class SpotterEmbed extends TsEmbed {
                     error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
                 });
             }
+        }
+
+        // Handle spotterChatConfig params
+        if (spotterChatConfig) {
+            const {
+                hideToolResponseCardBranding,
+                toolResponseCardBrandingLabel,
+            } = spotterChatConfig;
+
+            setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
+            setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
 
         return queryParams;
