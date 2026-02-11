@@ -198,7 +198,7 @@ export class AnswerService {
         return sql;
     }
 
-    public async updateFisplayMode(displayMode = "TABLE_MODE") {
+    public async updateDisplayMode(displayMode = "TABLE_MODE") {
         return this.executeQuery(
             queries.updateDisplayMode,
             {
