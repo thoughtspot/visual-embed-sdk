@@ -115,6 +115,97 @@ export interface SpotterChatViewConfig {
 }
 
 /**
+ * Configuration for customizing Spotter chat input controls.
+ * @group Embed components
+ * @example
+ * ```js
+ * const embed = new SpotterEmbed('#tsEmbed', {
+ *    ... //other embed view config
+ *    spotterChatInputConfig: {
+ *        hideChatConnectors: true,
+ *        disableChatModeSwitcher: true,
+ *    },
+ * })
+ * ```
+ * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+ */
+export interface SpotterChatInputViewConfig {
+    /**
+     * Control the interactivity of connector resources
+     * in the chat input area. When set to `true`,
+     * connector resources are visible but not interactive.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatConnectorResources?: boolean;
+    /**
+     * Control the interactivity of connectors
+     * in the chat input area. When set to `true`,
+     * connectors are visible but not interactive.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatConnectors?: boolean;
+    /**
+     * Control the interactivity of the mode switcher
+     * in the chat input area. When set to `true`,
+     * the mode switcher is visible but not interactive.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatModeSwitcher?: boolean;
+    /**
+     * Control the visibility of connector resources
+     * in the chat input area. When set to `true`,
+     * connector resources are hidden entirely.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatConnectorResources?: boolean;
+    /**
+     * Control the visibility of connectors
+     * in the chat input area. When set to `true`,
+     * connectors are hidden entirely.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatConnectors?: boolean;
+    /**
+     * Control the visibility of the mode switcher
+     * in the chat input area. When set to `true`,
+     * the mode switcher is hidden entirely.
+     * @default false
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatModeSwitcher?: boolean;
+}
+
+/**
+ * Applies SpotterChatInputViewConfig params to the given query params object.
+ * Shared across SpotterEmbed, LiveboardEmbed, and AppEmbed.
+ */
+export const applySpotterChatInputConfigParams = (
+    params: Record<string, unknown>,
+    config?: SpotterChatInputViewConfig,
+): void => {
+    if (!config) return;
+    const {
+        disableChatConnectorResources,
+        disableChatConnectors,
+        disableChatModeSwitcher,
+        hideChatConnectorResources,
+        hideChatConnectors,
+        hideChatModeSwitcher,
+    } = config;
+    setParamIfDefined(params, Param.DisableChatConnectorResources, disableChatConnectorResources, true);
+    setParamIfDefined(params, Param.DisableChatConnectors, disableChatConnectors, true);
+    setParamIfDefined(params, Param.DisableChatModeSwitcher, disableChatModeSwitcher, true);
+    setParamIfDefined(params, Param.HideChatConnectorResources, hideChatConnectorResources, true);
+    setParamIfDefined(params, Param.HideChatConnectors, hideChatConnectors, true);
+    setParamIfDefined(params, Param.HideChatModeSwitcher, hideChatModeSwitcher, true);
+};
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
@@ -332,6 +423,23 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
 }
 
 /**
@@ -385,6 +493,7 @@ export class SpotterEmbed extends TsEmbed {
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
             spotterChatConfig,
+            spotterChatInputConfig,
         } = this.viewConfig;
 
         // Extract sidebar config properties
@@ -467,6 +576,8 @@ export class SpotterEmbed extends TsEmbed {
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
+
+        applySpotterChatInputConfigParams(queryParams, spotterChatInputConfig);
 
         return queryParams;
     }
