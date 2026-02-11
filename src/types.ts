@@ -1048,6 +1048,11 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     linkOverride?: boolean;
     /**
+     * Enable link overrides V2 functionality
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.2.0.cl
+     */
+    enableLinkOverridesV2?: boolean;
+    /**
      * The primary action to display on top of the viz for Liveboard and App Embed.
      * Use this to set the primary action.
      *
@@ -4726,6 +4731,7 @@ export enum Param {
     // 'both' clicks in `contextMenuTrigger` configuration.
     ContextMenuTrigger = 'contextMenuEnabledOnWhichClick',
     LinkOverride = 'linkOverride',
+    EnableLinkOverridesV2 = 'enableLinkOverridesV2',
     blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',

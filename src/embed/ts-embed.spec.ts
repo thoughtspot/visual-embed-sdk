@@ -2034,6 +2034,21 @@ describe('Unit test case for ts embed', () => {
                 + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
+        it('Sets the enableLinkOverridesV2 param', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                enableLinkOverridesV2: true,
+            });
+            await liveboardEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&enableLinkOverridesV2=true${defaultParamsPost}#/embed/viz/test-lb`,
+            );
+        });
         it('Sets the iconSprite url', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
