@@ -198,6 +198,15 @@ export class AnswerService {
         return sql;
     }
 
+    public async updateFisplayMode(displayMode = "TABLE_MODE") {
+        return this.executeQuery(
+            queries.updateDisplayMode,
+            {
+                displayMode,
+            },
+        );
+    }
+
     /**
      * Fetch data from the answer.
      * @param offset

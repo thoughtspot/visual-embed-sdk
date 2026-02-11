@@ -176,6 +176,14 @@ export const getSQLQuery = `
     }
 `;
 
+export const updateDisplayMode = `
+    mutation UpdateDisplayMode($session: BachSessionIdInput!, $displayMode: DisplayMode!) {
+        Answer__updateDisplayMode(session: $session, displayMode: $displayMode) {
+            ${bachSessionId}
+        }
+    }
+`;
+
 export const getAnswerTML = `
 mutation GetUnsavedAnswerTML($session: BachSessionIdInput!, $exportDependencies: Boolean, $formatType:  EDocFormatType, $exportPermissions: Boolean, $exportFqn: Boolean) {
   UnsavedAnswer_getTML(
