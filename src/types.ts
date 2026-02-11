@@ -1049,7 +1049,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     linkOverride?: boolean;
     /**
      * Enable link overrides V2 functionality
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.2.0.cl
      */
     enableLinkOverridesV2?: boolean;
     /**
