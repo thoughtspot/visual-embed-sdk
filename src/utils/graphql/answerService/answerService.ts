@@ -190,14 +190,6 @@ export class AnswerService {
         );
     }
 
-    public async getSQLQuery(): Promise<string> {
-        const { sql } = await this.executeQuery(
-            queries.getSQLQuery,
-            {},
-        );
-        return sql;
-    }
-
     public async updateDisplayMode(displayMode = "TABLE_MODE") {
         return this.executeQuery(
             queries.updateDisplayMode,
@@ -205,6 +197,17 @@ export class AnswerService {
                 displayMode,
             },
         );
+    }
+
+    public async getSQLQuery(fetchSQLWithAllColumns = false): Promise<string> {
+        if (fetchSQLWithAllColumns) {
+            await this.updateDisplayMode("TABLE_MODE");
+        }
+        const { sql } = await this.executeQuery(
+            queries.getSQLQuery,
+            {},
+        );
+        return sql;
     }
 
     /**

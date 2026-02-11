@@ -177,11 +177,26 @@ export const getSQLQuery = `
 `;
 
 export const updateDisplayMode = `
-    mutation UpdateDisplayMode($session: BachSessionIdInput!, $displayMode: DisplayMode!) {
-        Answer__updateDisplayMode(session: $session, displayMode: $displayMode) {
-            ${bachSessionId}
+   mutation UpdateDisplayMode(
+    $session: BachSessionIdInput!
+    $displayMode: DisplayMode
+) {
+    Answer__updateProperties(session: $session, displayMode: $displayMode) {
+        id {
+            sessionId
+            genNo
+            acSession {
+                sessionId
+                genNo
+            }
+        }
+        answer {
+            id
+            displayMode
+            suggestedDisplayMode
         }
     }
+}
 `;
 
 export const getAnswerTML = `
