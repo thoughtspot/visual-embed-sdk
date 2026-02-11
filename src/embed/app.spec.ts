@@ -475,6 +475,29 @@ describe('App embed tests', () => {
         });
     });
 
+    test.each([
+        ['disableChatConnectorResources'],
+        ['disableChatConnectors'],
+        ['disableChatModeSwitcher'],
+        ['hideChatConnectorResources'],
+        ['hideChatConnectors'],
+        ['hideChatModeSwitcher'],
+    ])('should set %s to true in url via spotterChatInputConfig', async (configKey) => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatInputConfig: {
+                [configKey]: true,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&${configKey}=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

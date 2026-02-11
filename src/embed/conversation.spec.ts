@@ -389,6 +389,47 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    describe('spotter chat input config params', () => {
+        it.each([
+            ['disableChatConnectorResources', true, 'disableChatConnectorResources=true'],
+            ['disableChatConnectors', true, 'disableChatConnectors=true'],
+            ['disableChatModeSwitcher', true, 'disableChatModeSwitcher=true'],
+            ['hideChatConnectorResources', true, 'hideChatConnectorResources=true'],
+            ['hideChatConnectors', true, 'hideChatConnectors=true'],
+            ['hideChatModeSwitcher', true, 'hideChatModeSwitcher=true'],
+        ])('should render with spotterChatInputConfig.%s', async (configKey, configValue, expectedParam) => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                spotterChatInputConfig: {
+                    [configKey]: configValue,
+                },
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&${expectedParam}#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
+            );
+        });
+
+        it('should render with multiple spotterChatInputConfig options', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                spotterChatInputConfig: {
+                    disableChatConnectors: true,
+                    hideChatModeSwitcher: true,
+                    hideChatConnectorResources: true,
+                },
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableChatConnectors=true&hideChatConnectorResources=true&hideChatModeSwitcher=true#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
+            );
+        });
+    });
+
     it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',

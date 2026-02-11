@@ -1194,6 +1194,30 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test.each([
+        ['disableChatConnectorResources'],
+        ['disableChatConnectors'],
+        ['disableChatModeSwitcher'],
+        ['hideChatConnectorResources'],
+        ['hideChatConnectors'],
+        ['hideChatModeSwitcher'],
+    ])('should set %s parameter in url params via spotterChatInputConfig', async (configKey) => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatInputConfig: {
+                [configKey]: true,
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&${configKey}=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

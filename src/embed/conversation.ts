@@ -115,6 +115,53 @@ export interface SpotterChatViewConfig {
 }
 
 /**
+ * Configuration for customizing Spotter chat input controls.
+ * @group Embed components
+ * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+ */
+export interface SpotterChatInputViewConfig {
+    /**
+     * Disables interaction with chat connector resources
+     * but still displays them.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatConnectorResources?: boolean;
+    /**
+     * Disables interaction with chat connectors
+     * but still displays them.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatConnectors?: boolean;
+    /**
+     * Disables interaction with the chat mode switcher
+     * but still displays it.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    disableChatModeSwitcher?: boolean;
+    /**
+     * Hides chat connector resources from the UI entirely.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatConnectorResources?: boolean;
+    /**
+     * Hides chat connectors from the UI entirely.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatConnectors?: boolean;
+    /**
+     * Hides the chat mode switcher from the UI entirely.
+     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    hideChatModeSwitcher?: boolean;
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
@@ -319,6 +366,23 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
 }
 
 /**
@@ -372,6 +436,7 @@ export class SpotterEmbed extends TsEmbed {
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
             spotterChatConfig,
+            spotterChatInputConfig,
         } = this.viewConfig;
 
         // Extract sidebar config properties
@@ -443,6 +508,25 @@ export class SpotterEmbed extends TsEmbed {
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+        }
+
+        // Handle spotterChatInputConfig params
+        if (spotterChatInputConfig) {
+            const {
+                disableChatConnectorResources,
+                disableChatConnectors,
+                disableChatModeSwitcher,
+                hideChatConnectorResources,
+                hideChatConnectors,
+                hideChatModeSwitcher,
+            } = spotterChatInputConfig;
+
+            setParamIfDefined(queryParams, Param.DisableChatConnectorResources, disableChatConnectorResources, true);
+            setParamIfDefined(queryParams, Param.DisableChatConnectors, disableChatConnectors, true);
+            setParamIfDefined(queryParams, Param.DisableChatModeSwitcher, disableChatModeSwitcher, true);
+            setParamIfDefined(queryParams, Param.HideChatConnectorResources, hideChatConnectorResources, true);
+            setParamIfDefined(queryParams, Param.HideChatConnectors, hideChatConnectors, true);
+            setParamIfDefined(queryParams, Param.HideChatModeSwitcher, hideChatModeSwitcher, true);
         }
 
         return queryParams;

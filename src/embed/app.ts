@@ -21,7 +21,7 @@ import {
     EmbedErrorCodes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterChatInputViewConfig, SpotterSidebarViewConfig } from './conversation';
 import { ERROR_MESSAGE } from '../errors';
 
 /**
@@ -713,6 +713,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -805,6 +822,7 @@ export class AppEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
             spotterChatConfig,
+            spotterChatInputConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
@@ -887,6 +905,25 @@ export class AppEmbed extends V1Embed {
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+        }
+
+        // Handle spotterChatInputConfig params
+        if (spotterChatInputConfig) {
+            const {
+                disableChatConnectorResources,
+                disableChatConnectors,
+                disableChatModeSwitcher,
+                hideChatConnectorResources,
+                hideChatConnectors,
+                hideChatModeSwitcher,
+            } = spotterChatInputConfig;
+
+            setParamIfDefined(params, Param.DisableChatConnectorResources, disableChatConnectorResources, true);
+            setParamIfDefined(params, Param.DisableChatConnectors, disableChatConnectors, true);
+            setParamIfDefined(params, Param.DisableChatModeSwitcher, disableChatModeSwitcher, true);
+            setParamIfDefined(params, Param.HideChatConnectorResources, hideChatConnectorResources, true);
+            setParamIfDefined(params, Param.HideChatConnectors, hideChatConnectors, true);
+            setParamIfDefined(params, Param.HideChatModeSwitcher, hideChatModeSwitcher, true);
         }
 
         if (hideObjectSearch) {

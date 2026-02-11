@@ -30,7 +30,7 @@ import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { SpotterChatViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterChatInputViewConfig } from './conversation';
 
 
 /**
@@ -500,6 +500,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
 }
 
 /**
@@ -590,6 +607,7 @@ export class LiveboardEmbed extends V1Embed {
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             spotterChatConfig,
+            spotterChatInputConfig,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
@@ -685,6 +703,25 @@ export class LiveboardEmbed extends V1Embed {
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+        }
+
+        // Handle spotterChatInputConfig params
+        if (spotterChatInputConfig) {
+            const {
+                disableChatConnectorResources,
+                disableChatConnectors,
+                disableChatModeSwitcher,
+                hideChatConnectorResources,
+                hideChatConnectors,
+                hideChatModeSwitcher,
+            } = spotterChatInputConfig;
+
+            setParamIfDefined(params, Param.DisableChatConnectorResources, disableChatConnectorResources, true);
+            setParamIfDefined(params, Param.DisableChatConnectors, disableChatConnectors, true);
+            setParamIfDefined(params, Param.DisableChatModeSwitcher, disableChatModeSwitcher, true);
+            setParamIfDefined(params, Param.HideChatConnectorResources, hideChatConnectorResources, true);
+            setParamIfDefined(params, Param.HideChatConnectors, hideChatConnectors, true);
+            setParamIfDefined(params, Param.HideChatModeSwitcher, hideChatModeSwitcher, true);
         }
 
         if (isLinkParametersEnabled !== undefined) {
