@@ -473,6 +473,93 @@ describe('Answer service tests', () => {
         expect(sql).toBe('SELECT * FROM table');
     });
 
+    test('Get SQL query with all columns should update display mode', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    Answer__updateProperties: {
+                        id: {
+                            ...defaultSession,
+                        },
+                        answer: {
+                            id: 'answer1',
+                            displayMode: 'TABLE_MODE',
+                            suggestedDisplayMode: 'CHART_MODE',
+                        },
+                    },
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__getQuery: {
+                        sql: 'SELECT * FROM table',
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService();
+        const sql = await answerService.getSQLQuery(true);
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=UpdateDisplayMode',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'UpdateDisplayMode',
+                    query: queries.updateDisplayMode,
+                    variables: {
+                        session: defaultSession,
+                        displayMode: 'TABLE_MODE',
+                    },
+                }),
+            }),
+        );
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=GetSQLQuery',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'GetSQLQuery',
+                    query: getSQLQuery,
+                    variables: {
+                        session: defaultSession,
+                    },
+                }),
+            }),
+        );
+        expect(sql).toBe('SELECT * FROM table');
+    });
+
+    test('Update display mode should call the right API', async () => {
+        fetchMock.mockResponseOnce(JSON.stringify({
+            data: {
+                Answer__updateProperties: {
+                    id: {
+                        ...defaultSession,
+                    },
+                    answer: {
+                        id: 'answer1',
+                        displayMode: 'CHART_MODE',
+                        suggestedDisplayMode: 'TABLE_MODE',
+                    },
+                },
+            },
+        }));
+        const answerService = createAnswerService();
+        const response = await answerService.updateDisplayMode('CHART_MODE');
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=UpdateDisplayMode',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'UpdateDisplayMode',
+                    query: queries.updateDisplayMode,
+                    variables: {
+                        session: defaultSession,
+                        displayMode: 'CHART_MODE',
+                    },
+                }),
+            }),
+        );
+        expect(response.answer.displayMode).toBe('CHART_MODE');
+    });
+
     test('Add displayed Viz should call the right API', async () => {
         fetchMock.mockResponseOnce(JSON.stringify({
             data: {
