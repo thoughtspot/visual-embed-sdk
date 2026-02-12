@@ -1359,9 +1359,8 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * Flag to control Data panel experience
      *
-     * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @default true
-     * @version SDK: 1.41.1 | ThoughtSpot Cloud: 10.14.0.cl
+     * @deprecated from SDK 1.46.0 | Thoughtspot Cloud: 26.4.0.cl
+     * @hidden
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
