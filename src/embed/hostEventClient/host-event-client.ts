@@ -73,6 +73,35 @@ export class HostEventClient {
   }
 
   /**
+   * For getter events that return data. Tries UI passthrough first;
+   * if the app doesn't support it (no response data), falls back to
+   * the legacy host event channel. Real errors are thrown as-is.
+   */
+  private async getDataWithPassthroughFallback<UIPassthroughEventT extends UIPassthroughEvent>(
+      passthroughEvent: UIPassthroughEventT,
+      hostEvent: HostEvent,
+      payload: any,
+      context?: ContextType,
+  ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
+      const response = await this.triggerUIPassthroughApi(
+          passthroughEvent, payload || {}, context,
+      );
+      const matched = response?.filter?.((r) => r.error || r.value)[0];
+      if (!matched) {
+          return this.hostEventFallback(hostEvent, payload, context);
+      }
+
+      const errors = matched.error
+          || (matched.value as any)?.errors
+          || (matched.value as any)?.error;
+      if (errors) {
+          throw new Error(matched.error || errors);
+      }
+
+      return { ...matched.value };
+  }
+
+  /**
    * Setter for the iframe element used for host events
    * @param {HTMLIFrameElement} iFrame - the iframe element to set
    */
@@ -153,6 +182,34 @@ export class HostEventClient {
               return this.handleSaveAnswerEvent(
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
                   context as ContextType,
+              ) as any;
+          case HostEvent.GetAnswerSession:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetAnswerSession, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetFilters:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetFilters, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetIframeUrl:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetIframeUrl, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetParameters:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetParameters, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetTML:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetTML, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetTabs:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetTabs, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.getExportRequestForCurrentPinboard:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetExportRequestForCurrentPinboard, hostEvent, payload, context as ContextType,
               ) as any;
           default:
               return this.hostEventFallback(hostEvent, payload, context);
