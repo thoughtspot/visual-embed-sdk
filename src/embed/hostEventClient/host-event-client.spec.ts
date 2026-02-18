@@ -505,7 +505,7 @@ describe('HostEventClient', () => {
             const { client } = createHostEventClient();
             const legacyResponse = { v2Content: 'data' };
             mockProcessTrigger
-                .mockResolvedValueOnce([{ redId: 'r1' }])
+                .mockResolvedValueOnce([{ refId: 'r1' }])
                 .mockResolvedValueOnce(legacyResponse);
 
             const result = await callMethod(
@@ -544,6 +544,17 @@ describe('HostEventClient', () => {
             await expect(callMethod(
                 client, UIPassthroughEvent.GetTabs, HostEvent.GetTabs, {},
             )).rejects.toThrow('Not found');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should stringify object errors instead of producing [object Object]', async () => {
+            const { client } = createHostEventClient();
+            const errorObj = { code: 403, reason: 'Forbidden' };
+            mockProcessTrigger.mockResolvedValue([{ error: errorObj }]);
+
+            await expect(callMethod(
+                client, UIPassthroughEvent.GetFilters, HostEvent.GetFilters, {},
+            )).rejects.toThrow(JSON.stringify(errorObj));
             expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
         });
 
