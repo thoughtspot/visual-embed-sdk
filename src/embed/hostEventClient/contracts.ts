@@ -8,6 +8,13 @@ export enum UIPassthroughEvent {
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
   GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
+  GetAnswerSession = 'getAnswerSession',
+  GetFilters = 'getFilters',
+  GetIframeUrl = 'getIframeUrl',
+  GetParameters = 'getParameters',
+  GetTML = 'getTML',
+  GetTabs = 'getTabs',
+  GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
 }
 
 // UI Passthrough Contract
@@ -73,6 +80,57 @@ export type UIPassthroughContractBase = {
       tml: string;
     };
   };
+  [UIPassthroughEvent.GetAnswerSession]: {
+    request: {
+      vizId?: string;
+    };
+    response: {
+      session: any;
+      embedAnswerData?: any;
+    };
+  };
+  [UIPassthroughEvent.GetFilters]: {
+    request: {
+      vizId?: string;
+    };
+    response: {
+      liveboardFilters: any[];
+      runtimeFilters: any[];
+    };
+  };
+  [UIPassthroughEvent.GetIframeUrl]: {
+    request: any;
+    response: {
+      iframeUrl: string;
+    };
+  };
+  [UIPassthroughEvent.GetParameters]: {
+    request: any;
+    response: {
+      parameters: any[];
+    };
+  };
+  [UIPassthroughEvent.GetTML]: {
+    request: {
+      vizId?: string;
+      includeNonExecutedSearchTokens?: boolean;
+    };
+    response: any;
+  };
+  [UIPassthroughEvent.GetTabs]: {
+    request: any;
+    response: {
+      orderedTabIds: string[];
+      numberOfTabs: number;
+      Tabs: any[];
+    };
+  };
+  [UIPassthroughEvent.GetExportRequestForCurrentPinboard]: {
+    request: any;
+    response: {
+      v2Content: string;
+    };
+  };
 };
 
 // UI Passthrough Request and Response
@@ -95,6 +153,13 @@ export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContra
 export type EmbedApiHostEventMapping = {
   [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard;
   [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer;
+  [HostEvent.GetAnswerSession]: UIPassthroughEvent.GetAnswerSession;
+  [HostEvent.GetFilters]: UIPassthroughEvent.GetFilters;
+  [HostEvent.GetIframeUrl]: UIPassthroughEvent.GetIframeUrl;
+  [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters;
+  [HostEvent.GetTML]: UIPassthroughEvent.GetTML;
+  [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs;
+  [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
 }
 
 // Host Event Request and Response
