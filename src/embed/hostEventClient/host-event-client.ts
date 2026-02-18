@@ -44,7 +44,7 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
       const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
-          ?.filter?.((r) => r.error || r.value)[0];
+          ?.find?.((r) => r.error || r.value);
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
@@ -84,7 +84,7 @@ export class HostEventClient {
       const response = await this.triggerUIPassthroughApi(
           passthroughEvent, payload || {}, context,
       );
-      const matched = response?.filter?.((r) => r.error || r.value)[0];
+      const matched = response?.find?.((r) => r.error || r.value);
       if (!matched) {
           return this.hostEventFallback(hostEvent, payload, context);
       }
@@ -93,7 +93,8 @@ export class HostEventClient {
           || (matched.value as any)?.errors
           || (matched.value as any)?.error;
       if (errors) {
-          throw new Error(matched.error || errors);
+          const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
+          throw new Error(message);
       }
 
       return { ...matched.value };

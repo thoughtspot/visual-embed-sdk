@@ -1,4 +1,16 @@
-import { ContextType, HostEvent } from '../../types';
+import { ContextType, HostEvent, RuntimeFilter } from '../../types';
+
+export interface BachSessionId {
+  sessionId: string;
+  genNo?: number;
+  acSession?: { sessionId: string; genNo?: number };
+}
+
+export interface LiveboardTab {
+  id: string;
+  name: string;
+  [key: string]: any;
+}
 
 export enum UIPassthroughEvent {
   PinAnswerToLiveboard = 'addVizToPinboard',
@@ -85,8 +97,8 @@ export type UIPassthroughContractBase = {
       vizId?: string;
     };
     response: {
-      session: any;
-      embedAnswerData?: any;
+      session: BachSessionId;
+      embedAnswerData?: Record<string, any>;
     };
   };
   [UIPassthroughEvent.GetFilters]: {
@@ -94,20 +106,20 @@ export type UIPassthroughContractBase = {
       vizId?: string;
     };
     response: {
-      liveboardFilters: any[];
-      runtimeFilters: any[];
+      liveboardFilters: Record<string, any>[];
+      runtimeFilters: RuntimeFilter[];
     };
   };
   [UIPassthroughEvent.GetIframeUrl]: {
-    request: any;
+    request: Record<string, never>;
     response: {
       iframeUrl: string;
     };
   };
   [UIPassthroughEvent.GetParameters]: {
-    request: any;
+    request: Record<string, never>;
     response: {
-      parameters: any[];
+      parameters: Record<string, any>[];
     };
   };
   [UIPassthroughEvent.GetTML]: {
@@ -115,18 +127,18 @@ export type UIPassthroughContractBase = {
       vizId?: string;
       includeNonExecutedSearchTokens?: boolean;
     };
-    response: any;
+    response: Record<string, any>;
   };
   [UIPassthroughEvent.GetTabs]: {
-    request: any;
+    request: Record<string, never>;
     response: {
       orderedTabIds: string[];
       numberOfTabs: number;
-      Tabs: any[];
+      Tabs: LiveboardTab[];
     };
   };
   [UIPassthroughEvent.GetExportRequestForCurrentPinboard]: {
-    request: any;
+    request: Record<string, never>;
     response: {
       v2Content: string;
     };
@@ -144,7 +156,7 @@ export type UIPassthroughResponse<
 
 export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContractBase> =
   Array<{
-    redId?: string;
+    refId?: string;
     value?: UIPassthroughResponse<ApiName>;
     error?: any;
   }>
