@@ -1,10 +1,5 @@
 import { ContextType, HostEvent, RuntimeFilter } from '../../types';
-
-export interface BachSessionId {
-  sessionId: string;
-  genNo?: number;
-  acSession?: { sessionId: string; genNo?: number };
-}
+import { SessionInterface } from '../../utils/graphql/answerService/answerService';
 
 export interface LiveboardTab {
   id: string;
@@ -97,7 +92,7 @@ export type UIPassthroughContractBase = {
       vizId?: string;
     };
     response: {
-      session: BachSessionId;
+      session: SessionInterface;
       embedAnswerData?: Record<string, any>;
     };
   };
