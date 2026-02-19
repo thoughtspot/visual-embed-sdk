@@ -86,7 +86,6 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             });
             handleRendering(tsEmbed);
             if (forwardedRef) {
-                 
                 forwardedRef.current = tsEmbed;
             }
             return () => {

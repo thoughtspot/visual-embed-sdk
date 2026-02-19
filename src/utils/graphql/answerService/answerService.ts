@@ -14,7 +14,6 @@ export interface SessionInterface {
     acSession: { sessionId: string; genNo: number };
 }
 
- 
 export enum OperationType {
     GetChartWithData = 'GetChartWithData',
     GetTableWithHeadlineData = 'GetTableWithHeadlineData',
@@ -37,9 +36,11 @@ export const DATA_TYPES = ['DATE', 'DATE_TIME', 'TIME'];
  * You can use this service to:
  *
  * - Add or remove columns from Answers (`addColumns`, `removeColumns`,
- * `addColumnsByName`) - Apply filters to Answers (`addFilter`)
+ * `addColumnsByName`)
+ * - Apply filters to Answers (`addFilter`)
  * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`,
- * `fetchCSVBlob`, `fetchPNGBlob`) - Get data for specific points in visualizations
+ * `fetchCSVBlob`, `fetchPNGBlob`)
+ * - Get data for specific points in visualizations
  * (`getUnderlyingDataForPoint`)
  * - Run custom queries (`executeQuery`)
  * - Add visualizations to Liveboards (`addDisplayedVizToLiveboard`)
@@ -508,12 +509,10 @@ function getSelectedPointsForUnderlyingDataQuery(
 function getDisplayedViz(visualizations: any[], displayMode: string) {
     if (displayMode === 'CHART_MODE') {
         return visualizations.find(
-             
             (viz: any) => viz.__typename === 'ChartViz',
         );
     }
     return visualizations.find(
-         
         (viz: any) => viz.__typename === 'TableViz',
     );
 }

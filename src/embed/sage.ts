@@ -147,7 +147,6 @@ export class SageEmbed extends V1Embed {
      */
     protected viewConfig: SageViewConfig;
 
-     
     constructor(domSelector: DOMSelector, viewConfig: SageViewConfig) {
         viewConfig.embedComponentType = 'SageEmbed';
         super(domSelector, viewConfig);
