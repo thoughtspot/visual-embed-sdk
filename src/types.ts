@@ -3206,6 +3206,27 @@ export enum EmbedEvent {
      */
     DeletePersonalizedView = DeletePersonalisedView,
     /**
+     * Emitted when a user selects a different Personalized View or
+     * resets to the original/default view on a Liveboard.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.ChangePersonalizedView, (data) => {
+     *   console.log(data.viewName);    // 'Q4 Revenue' or 'Original View'
+     *   console.log(data.viewId);      // '2a021a12-...' or null (default)
+     *   console.log(data.liveboardId); // 'abc123...'
+     *   console.log(data.isPublic);    // true | false
+     * })
+     * ```
+     * @returns viewName: string - Name of the selected view,
+     *   or 'Original View' when reset to default.
+     * @returns viewId: string | null - GUID of the selected view,
+     *   or null when reset to default.
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    ChangePersonalizedView = 'changePersonalisedView',
+    /**
      * Emitted when a user creates a Worksheet.
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
@@ -4810,6 +4831,39 @@ export enum HostEvent {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     UpdatePersonalizedView = UpdatePersonalisedView,    
+    /**
+     * Triggers selection of a specific Personalized View on a
+     * Liveboard without reloading the embed. Pass either a
+     * `viewId` (GUID) or `viewName`. If neither is provided,
+     * the Liveboard resets to the original/default view.
+     * When a `viewName` is provided and multiple views share
+     * the same name, the first match is selected.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   { viewId: '2a021a12-1aed-425d-984b-141ee916ce72' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Select by name
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   { viewName: 'Dr Smith Cardiology' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Reset to default view
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   {},
+     * )
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    SelectPersonalizedView = 'SelectPersonalisedView',
     /**
      * @hidden
      * Notify when info call is completed successfully
