@@ -2879,8 +2879,8 @@ export enum EmbedEvent {
      * `errorText` - The error message text shown to the user.
      * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
-     * Example of a developer deciding to prevent all searches
-     * from running and providing a custom error message:
+     *
+     * This example blocks search operation and returns a custom error message:
      * ```js
      * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept, (payload, responder) => {
      *   responder({
@@ -2895,9 +2895,10 @@ export enum EmbedEvent {
      * });
      * ```
      * @example
-     * Example of a developer deciding to run all searches as long as the query does
-     * not contain both the `sales` and `county` columns, and
-     * customizing the error message if the query is rejected:
+     *
+     * This example allows the search operation to run
+     * unless the query contains both `sales` and `county`,
+     * and returns a custom error message if the query is rejected:
      * ```js
      * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept, (payload, responder) => {
      *   // Record the search query submitted by the end user.
