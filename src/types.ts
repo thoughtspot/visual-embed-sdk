@@ -3792,9 +3792,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Export TML from answer context
+     * // Export TML from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.ExportTML, {}, ContextType.Answer);
+     * appEmbed.trigger(HostEvent.ExportTML, {}, ContextType.Search);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3814,9 +3814,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Edit TML from answer context
+     * // Edit TML from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.EditTML, {}, ContextType.Answer);
+     * appEmbed.trigger(HostEvent.EditTML, {}, ContextType.Search);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -3861,9 +3861,9 @@ export enum HostEvent {
     * ```
      * @example
      * ```js
-     * // Download as PDF from answer context
+     * // Download as PDF from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.DownloadAsPdf, {}, ContextType.Answer);
+     * appEmbed.trigger(HostEvent.DownloadAsPdf, {}, ContextType.Search);
      * ```
      * @example
      * ```js
@@ -4051,17 +4051,23 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Using context parameter to edit from answer context
+     * // Using context parameter to edit liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.Edit, {
-     *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
-     * }, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.Edit, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js
      * // Edit from search context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * appEmbed.trigger(HostEvent.Edit, {}, ContextType.Search);
+     * ```
+     * * @example
+     * ```js
+     * // Edit from spotter context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * appEmbed.trigger(HostEvent.Edit, {
+     *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }, ContextType.Spotter);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -4082,13 +4088,13 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Copy link from answer context
+     * // Copy link from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.CopyLink, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js
-     * // Copy link from liveboard context
+     * // Copy link from liveboard visualization context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.CopyLink, {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
@@ -4113,7 +4119,7 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Present from liveboard context
+     * // Present from liveboard visualization context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.Present, {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
@@ -4121,9 +4127,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Present from answer context
+     * // Present from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.Present, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.Present, {}, ContextType.Liveboard);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -4165,9 +4171,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Get TML from answer context
+     * // Get TML from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.GetTML, {}, ContextType.Answer).then((tml) => {
+     * appEmbed.trigger(HostEvent.GetTML, {}, ContextType.Search).then((tml) => {
      *   console.log(tml.answer);
      * });
      * ```
@@ -4193,11 +4199,11 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Show underlying data from answer context
+     * // Show underlying data from liveboard visualization context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * appEmbed.trigger(HostEvent.ShowUnderlyingData, {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
-     * }, ContextType.Answer);
+     * }, ContextType.Liveboard);
      * ```
      * @example
      * ```js
@@ -4224,9 +4230,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Delete from answer context
+     * // Delete from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.Delete, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.Delete, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js
@@ -4256,15 +4262,17 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // SpotIQ analyze from answer context
+     * // SpotIQ analyze from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.SpotIQAnalyze, {}, ContextType.Answer);
+     * appEmbed.trigger(HostEvent.SpotIQAnalyze, { vizId: '730496d6-6903-4601-937e-2c691821af3c' }, ContextType.Search);
      * ```
      * @example
      * ```js
      * // SpotIQ analyze from search context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.SpotIQAnalyze, {}, ContextType.Search);
+     * liveboardEmbed.trigger(HostEvent.SpotIQAnalyze, {
+     *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }, ContextType.Liveboard);
      * ```
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
@@ -4317,15 +4325,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Download as PNG from answer context
+     * // Download as PNG from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.DownloadAsPng, {}, ContextType.Answer);
-     * ```
-     * @example
-     * ```js
-     * // Download as PNG from search context
-     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * searchEmbed.trigger(HostEvent.DownloadAsPng, {}, ContextType.Search);
+     * appEmbed.trigger(HostEvent.DownloadAsPng, {}, ContextType.Search);
      * ```
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
@@ -4357,9 +4359,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Download as CSV from answer context
+     * // Download as CSV from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.DownloadAsCsv, {}, ContextType.Answer);
+     * appEmbed.trigger(HostEvent.DownloadAsCsv, {}, ContextType.Search);
      * ```
      * @example
      * ```js
@@ -4421,13 +4423,13 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Share from answer context
+     * // Share from Liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.Share, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.Share, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js
-     * // Share from search context
+     * // Share from search-answer context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * appEmbed.trigger(HostEvent.Share, {}, ContextType.Search);
      * ```
