@@ -1387,7 +1387,21 @@ export class TsEmbed {
      * Triggers an event to the embedded app
      * @param {HostEvent} messageType The event type
      * @param {any} data The payload to send with the message
+     * @param {ContextType} context Optional context type to specify the context from which the event is triggered.
+     * Use ContextType.Search for search answer context, ContextType.Answer for answer/explore context,
+     * ContextType.Liveboard for liveboard context, or ContextType.Spotter for spotter context.
+     * Available from SDK version 1.45.2 | ThoughtSpot: 26.3.0.cl
      * @returns A promise that resolves with the response from the embedded app
+     * @example
+     * ```js
+     * // Trigger Pin event with context (SDK: 1.45.2+)
+     * import { HostEvent, ContextType } from '@thoughtspot/visual-embed-sdk';
+     * embed.trigger(HostEvent.Pin, {
+     *   vizId: "123",
+     *   liveboardId: "456"
+     * }, ContextType.Search);
+     * ```
+     * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl (for context parameter)
      */
     public async trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
         messageType: HostEventT,
