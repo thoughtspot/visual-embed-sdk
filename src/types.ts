@@ -2859,65 +2859,66 @@ export enum EmbedEvent {
     Rename = 'rename',
     /**
      *
-     * This event can be emitted to intercept search execution initiated by
-     * users and implement logic to allow or restrict search execution.
-     * You can also show custom error text if the search query must be
-     * restricted due to your application or business requirements.
-
-     * Prerequisite: Set `isOnBeforeGetVizDataInterceptEnabled` to `true`
-     * for this embed event to get emitted.
-     * @param - Includes the following event listener parameters:
+     * This event is emitted when a user wants to intercept search execution
+     * and implement logic to decide whether to run or block the search operation.
+     * **Prerequisite**: Enable `isOnBeforeGetVizDataInterceptEnabled` to
+     * allow developers to implement logic that decides when Search Data should return
+     * data to end users. This parameter must be set to `true` for
+     * `EmbedEvent.OnBeforeGetVizDataIntercept` to be emitted.
+     * This framework applies only to `AppEmbed` and `SearchEmbed`.
+     * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
      * - `responder`: Contains elements that let developers define whether ThoughtSpot
-     *   should run the search, and if not, what error message
-     *   should be shown to the user.
+     *   will run or block the search operation, and if blocked, which error message to provide.
      *
-     * `execute` - When `execute` returns `true`, the search will be run.
-     * When `execute` returns `false`, the search will not be executed.
+     * `execute` - When `execute` returns `true`, the search is run.
+     * When `execute` returns `false`, the search is not executed.
      *
-     * `error` - Developers can customize the error message text when `execute`
-     * is `false` using the `errorText` and `errorDescription` parameters in responder.
-     *
-     * `errorText` - The error message text to be shown to the user.
-     * `errorDescription (ThoughtSpot: 10.15.0.cl and above)` - The error description to be shown to the user.
+     * `error` - Developers can customize the user-facing error message when `execute`
+     * is `false` by using the `error` parameters in `responder`.
+     * `errorText` - The error message text shown to the user.
      * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
-     *```js
-     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
-     * (payload, responder) => {
-     *  responder({
-     *      data: {
-     *          execute:false,
-     *          error: {
-     *          //Provide a custom error message to explain to your end user
-     *          //why their search did not run
-     *          errorText: "This search query cannot be run.
-     *          Please contact your administrator for more details."
-     *          }
-     *  }})
-     * })
+     * Example of a developer deciding to prevent all searches
+     * from running and providing a custom error message:
+     * ```js
+     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept, (payload, responder) => {
+     *   responder({
+     *     data: {
+     *       execute: false,
+     *       error: {
+     *         // Provide a custom error message to explain why the search did not run.
+     *         errorText: 'This search query cannot be run. Please contact your administrator for more details.',
+     *       },
+     *     },
+     *   });
+     * });
      * ```
+     * @example
+     * Example of a developer deciding to run all searches as long as the query does
+     * not contain both the `sales` and `county` columns, and
+     * customizing the error message if the query is rejected:
+     * ```js
+     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept, (payload, responder) => {
+     *   // Record the search query submitted by the end user.
+     *   const query = payload.data.data.answer.search_query;
      *
-     *```js
-     * embed.on(EmbedEvent.OnBeforeGetVizDataIntercept,
-     * (payload, responder) => {
-     * const query = payload.data.data.answer.search_query
-     * responder({
-     *  data: {
-     *      // returns true as long as the query does not include
-     *      // both the 'sales' AND the 'county' column
-     *      execute: !(query.includes("sales")&&query.includes("county")),
-     *      error: {
-     *      //Provide a custom error message to explain to your end user
-     *      // why their search did not run, and which searches are accepted by your custom logic.
-     *      errorText: "Error Occurred",
-     *      errorDescription: "You can't use this query :" + query + ".
-     *      The 'sales' measures can never be used at the 'county' level.
-     *      Please try another measure, or remove 'county' from your search."
-     *      }
-     *  }})
-     * })
-     *```
+     *   responder({
+     *     data: {
+     *       // Returns true as long as the query does not include both `sales` and `county`.
+     *       execute: !(query.includes('sales') && query.includes('county')),
+     *       error: {
+     *         // Provide a custom error message when the query is blocked by your logic.
+     *         errorText:
+     *           "You can't use this query: "
+     *           + query
+     *           + ". The 'sales' measure can never be used at the 'county' level. "
+     *           + "Please try another measure or remove 'county' from your search.",
+     *       },
+     *     },
+     *   });
+     * });
+     * ```
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
     /**
