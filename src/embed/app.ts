@@ -1005,10 +1005,7 @@ export class AppEmbed extends V1Embed {
             }
 
             // listPageVersion can be changed to v2 or v3
-            if (
-                discoveryExperience.listPageVersion !== undefined &&
-                Object.values(ListPage).includes(discoveryExperience.listPageVersion)
-            ) {
+            if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
