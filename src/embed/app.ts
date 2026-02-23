@@ -60,7 +60,7 @@ export enum Page {
     /**
      *  Monitor Alerts Page
      */
-    Monitor = 'monitor'
+    Monitor = 'monitor',
 }
 
 /**
@@ -230,7 +230,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * });
      * ```
      */
-    enablePendoHelp?: boolean
+    enablePendoHelp?: boolean;
     /**
      * Control the visibility of the hamburger icon on
      * the top navigation bar in the V3 navigation experience.
@@ -740,7 +740,6 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -748,7 +747,10 @@ export class AppEmbed extends V1Embed {
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            this.on(
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                this.requestVisibleEmbedCoordinatesHandler,
+            );
         }
     }
 
@@ -942,7 +944,9 @@ export class AppEmbed extends V1Embed {
         }
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
-            params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+            params[
+                Param.IsLiveboardStylingAndGroupingEnabled
+            ] = isLiveboardStylingAndGroupingEnabled;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
@@ -996,6 +1000,10 @@ export class AppEmbed extends V1Embed {
             params[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
 
+        if (modularHomeExperience !== undefined) {
+            params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
+        }
+
         // Set navigation to v2 by default to avoid problems like the app
         // switcher (9-dot menu) not showing when v3 navigation is turned on
         // at the cluster level.
@@ -1005,9 +1013,6 @@ export class AppEmbed extends V1Embed {
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';
-        // Set listpageVersion to v2 by default to reset the LD flag value
-        // for the listpageVersion.
-        params[Param.ListPageVersion] = ListPage.List;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
@@ -1029,8 +1034,8 @@ export class AppEmbed extends V1Embed {
                 params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
             }
 
-            // listPageVersion v3 will enable the new list page
-            if (discoveryExperience.listPageVersion === ListPage.ListWithUXChanges) {
+            // listPageVersion can be changed to v2 or v3
+            if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
         }
