@@ -4496,13 +4496,13 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Copy link from answer context
+     * // Copy link from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.CopyLink, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js
-     * // Copy link from liveboard context
+     * // Copy link from liveboard visualization context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.CopyLink, {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
@@ -4541,7 +4541,7 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Present from liveboard context
+     * // Present from liveboard visualization context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.Present, {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
@@ -4549,9 +4549,9 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
-     * // Present from answer context
+     * // Present from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * appEmbed.trigger(HostEvent.Present, {}, ContextType.Answer);
+     * liveboardEmbed.trigger(HostEvent.Present, {}, ContextType.Liveboard);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
