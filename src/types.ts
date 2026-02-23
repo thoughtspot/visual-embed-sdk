@@ -2859,12 +2859,14 @@ export enum EmbedEvent {
     Rename = 'rename',
     /**
      *
-     * This event is emitted when a user wants to intercept search execution
-     * and implement logic to decide whether to run or block the search operation.
-     * **Prerequisite**: Enable `isOnBeforeGetVizDataInterceptEnabled` to
-     * allow developers to implement logic that decides when Search Data should return
-     * data to end users. This parameter must be set to `true` for
-     * `EmbedEvent.OnBeforeGetVizDataIntercept` to be emitted.
+     * This event allows developers to intercept search execution
+     * and implement logic that decides whether Search Data should return
+     * data or block the search operation.
+     *
+     * **Prerequisite**: Set`isOnBeforeGetVizDataInterceptEnabled` to `true`
+     * to ensure that `EmbedEvent.OnBeforeGetVizDataIntercept` is emitted
+     * when the embedding application user tries to run a search query.
+     * 
      * This framework applies only to `AppEmbed` and `SearchEmbed`.
      * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
