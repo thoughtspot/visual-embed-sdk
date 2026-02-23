@@ -36,11 +36,36 @@ export const SSO_REDIRECTION_MARKER_GUID = '5e16222e-ef02-43e9-9fbd-24226bf3ce5b
  * @group Authentication / Init
  */
 export enum AuthFailureType {
+    /**
+     * Authentication failed in the SDK authentication flow.
+     * Emitted when `init()` or auto-authentication cannot establish a logged-in session
+     * For example, invalid token, auth request failure, or auth promise rejection.
+     */
     SDK = 'SDK',
+    /**
+     * Browser cookie access is blocked for the embedded app.
+     * Emitted when the iframe reports that required cookies
+     * cannot be read or sent, commonly due to third-party cookie restrictions.
+     */
     NO_COOKIE_ACCESS = 'NO_COOKIE_ACCESS',
+    /**
+     * The current authentication token or session has expired.
+     * Emitted when the embed receives an auth-expiry signal and starts auth refresh handling.
+     */
     EXPIRY = 'EXPIRY',
+    /**
+     * A generic authentication failure that does not match a more specific type.
+     * Emitted as a fallback for app-reported auth failures in standard auth flows.
+     */
     OTHER = 'OTHER',
+    /**
+     * The user session timed out due to inactivity.
+     * Emitted when the app reports an idle-session timeout.
+     */
     IDLE_SESSION_TIMEOUT = 'IDLE_SESSION_TIMEOUT',
+    /**
+     * The app reports that the user is unauthenticated.
+     */
     UNAUTHENTICATED_FAILURE = 'UNAUTHENTICATED_FAILURE',
 }
 
