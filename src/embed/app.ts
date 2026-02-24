@@ -741,6 +741,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     minimumHeight?: number;
+    /**
+     * To enable the homepage announcement banner.
+     * Controls the visibility of the announcement section
+     * on the homepage.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableHomepageAnnouncement: true,
+     * })
+     * ```
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.5.0.cl
+     */
+    enableHomepageAnnouncement?: boolean;
 }
 
 /**
@@ -821,6 +837,7 @@ export class AppEmbed extends V1Embed {
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
+            enableHomepageAnnouncement,
         } = this.viewConfig;
 
         let params: any = {};
@@ -993,6 +1010,10 @@ export class AppEmbed extends V1Embed {
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
+        if (enableHomepageAnnouncement !== undefined) {
+            params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
         this.defaultHeight = minimumHeight || this.defaultHeight;

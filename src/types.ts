@@ -5139,6 +5139,7 @@ export enum Param {
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
+    EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
 }
 
 /**
