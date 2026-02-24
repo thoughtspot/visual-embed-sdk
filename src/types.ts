@@ -2872,13 +2872,11 @@ export enum EmbedEvent {
      * - `payload`: The payload received from the embed related to the Data API call.
      * - `responder`: Contains elements that let developers define whether ThoughtSpot
      *   will run or block the search operation, and if blocked, which error message to provide.
-     *
-     * `execute` - When `execute` returns `true`, the search is run.
+     * - `execute` - When `execute` returns `true`, the search is run.
      * When `execute` returns `false`, the search is not executed.
-     *
-     * `error` - Developers can customize the user-facing error message when `execute`
+     * - `error` - Developers can customize the user-facing error message when `execute`
      * is `false` by using the `error` parameters in `responder`.
-     * `errorText` - The error message text shown to the user.
+     * - `errorText` - The error message text shown to the user.
      * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
      *
@@ -2894,7 +2892,7 @@ export enum EmbedEvent {
      *       },
      *     },
      *   });
-     * });
+     * })
      * ```
      * @example
      *
@@ -2920,7 +2918,7 @@ export enum EmbedEvent {
      *       },
      *     },
      *   });
-     * });
+     * })
      * ```
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',

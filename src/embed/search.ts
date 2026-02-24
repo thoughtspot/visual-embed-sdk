@@ -1,7 +1,8 @@
 /**
  * Copyright (c) 2022
  *
- * Embed ThoughtSpot search or a saved answer
+ * Embed ThoughtSpot search or a saved answer.
+ * https://developers.thoughtspot.com/docs/search-embed
  * @summary Search embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -47,7 +48,7 @@ export interface SearchOptions {
 }
 
 /**
- * Define the initial state os column custom group accordions
+ * Define the initial state of column custom group accordions
  * in data panel v2.
  */
 export enum DataPanelCustomColumnGroupsAccordionState {

@@ -83,7 +83,7 @@ import { getHostEventsConfig } from '../utils';
 const { version } = pkgInfo;
 
 /**
- * Global prefix for all Thoughtspot postHash Params.
+ * Global prefix for all ThoughtSpot postHash Params.
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const TS_EMBED_ID = '_thoughtspot-embed';

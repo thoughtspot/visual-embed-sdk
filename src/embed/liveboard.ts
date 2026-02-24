@@ -2,8 +2,8 @@
  * Copyright (c) 2022
  *
  * Embed a ThoughtSpot Liveboard or visualization
- * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard
- * https://developers.thoughtspot.com/docs/?pageid=embed-a-viz
+ * https://developers.thoughtspot.com/docs/embed-liveboard
+ * https://developers.thoughtspot.com/docs/embed-a-viz
  * @summary Liveboard & visualization embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
