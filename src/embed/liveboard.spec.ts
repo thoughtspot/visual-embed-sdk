@@ -914,7 +914,8 @@ describe('Liveboard/viz embed tests', () => {
             } as LiveboardViewConfig);
             liveboardEmbed.render();
             await executeAfterWait(() => {
-                // URL should be: #/embed/viz/{id}/tab/{tabId}/{vizId}?view={viewId}
+                // URL should be:
+                // #/embed/viz/{id}/tab/{tabId}/{vizId}?view={viewId}
                 expect(getIFrameSrc()).toMatch(
                     new RegExp(
                         `#/embed/viz/${liveboardId}/tab/${activeTabId}/${vizId}\\?view=${personalizedViewId}`,
@@ -1010,7 +1011,8 @@ describe('Liveboard/viz embed tests', () => {
                 } as LiveboardViewConfig);
                 liveboardEmbed.render();
                 await executeAfterWait(() => {
-                    // URL: #/embed/viz/{id}/tab/{tabId}?view={viewId} (view at END, not middle)
+                    // URL: #/embed/viz/{id}/tab/{tabId}?view={viewId} (view at
+                    // END, not middle)
                     expect(getIFrameSrc()).toMatch(
                         new RegExp(
                             `#/embed/viz/${liveboardId}/tab/${activeTabId}\\?view=${workaroundViewId}`,

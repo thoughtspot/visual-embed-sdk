@@ -1,4 +1,4 @@
-/* eslint-disable quotes */
+ 
 import { graphqlQuery } from "./graphql-request";
 
 export const getPreviewQuery = `

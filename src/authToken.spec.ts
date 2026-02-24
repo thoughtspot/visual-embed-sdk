@@ -129,7 +129,8 @@ describe('AuthToken Unit tests', () => {
             expect(token).toBe(newToken);
             // Should not validate cached token (condition at line 23 is false)
             expect(validateAuthTokenSpy).not.toHaveBeenCalledWith(config, cachedToken, true);
-            // But should validate new token (though it returns early when disableTokenVerification is true)
+            // But should validate new token (though it returns early when
+            // disableTokenVerification is true)
             expect(validateAuthTokenSpy).toHaveBeenCalledWith(config, newToken);
             expect(getAuthTokenMock).toHaveBeenCalled();
 

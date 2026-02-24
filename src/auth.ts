@@ -19,11 +19,11 @@ import { getSessionInfo, getPreauthInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
 import { resetAllCachedServices } from './utils/resetServices';
 
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let loggedInStatus = false;
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let samlAuthWindow: Window = null;
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let samlCompletionPromise: Promise<void> = null;
 
 let releaseVersion = '';

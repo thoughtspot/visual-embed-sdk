@@ -71,8 +71,13 @@ export function startAutoMCPFrameRenderer(viewConfig: AutoMCPFrameRendererViewCo
 }
 
 function isTSMCPIframe(iframe: HTMLIFrameElement) {
-    const src = iframe.src;
-    return src.includes(`${Param.Tsmcp}=true`);
+    try {
+        const url = new URL(iframe.src);
+        return url.searchParams.get(Param.Tsmcp) === 'true';
+    } catch (e) {
+        // The iframe src might not be a valid URL (e.g., 'about:blank').
+        return false;
+    }
 }
 
 /**
@@ -111,7 +116,7 @@ class AutoFrameRenderer extends TsEmbed {
 
         const mergedQueryParams = { ...queryParams, ...existingQueryParamsObject };
         const mergedQueryParamsString = getQueryParamString(mergedQueryParams);
-        const frameSrc = `${sourceURL.origin}${sourceURL.pathname}?${mergedQueryParamsString}/${sourceURL.hash}`;
+        const frameSrc = `${this.getEmbedBasePath(mergedQueryParamsString)}${sourceURL.hash.replace('#', '')}`;
         return frameSrc;
     }
 

@@ -239,7 +239,7 @@ describe('startAutoMCPFrameRenderer', () => {
 
             await new Promise((r) => setTimeout(r, 50));
 
-            expect(capturedSrc).toContain('#/embed/viz/lb123');
+            expect(capturedSrc).toBe('#/embed/viz/lb123');
             observer.disconnect();
         });
     });

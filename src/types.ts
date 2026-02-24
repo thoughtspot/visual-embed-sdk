@@ -1476,6 +1476,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
 
 /**
@@ -1487,8 +1488,9 @@ export interface HomePageConfig {
      * *Liveboards* and *Answers*.
      * For example: `hiddenListColumns = [ListPageColumns.Author]`
      *
-     * **Note**: This option is available only in full app embedding and requires importing the `ListPageColumns` enum.
-     * Starting with version 10.14.0.cl, you can use this attribute to
+     * **Note**: This option is available only in full app embedding and requires
+     * importing the `ListPageColumns` enum. Starting with version 10.14.0.cl, you can
+     * use this attribute to
      * hide the columns on all list pages in the *Insights* section.
      *
      * Supported embed types: `AppEmbed`
@@ -1528,8 +1530,9 @@ export interface HomePageConfig {
     /**
      * Reorder home page modules.
      * To specify the modules, import the `HomepageModule` enum.
-     * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]`
-     * **Note**: This attribute is not supported in the classic (v1) homepage.
+     * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary,
+     * HomepageModule.Watchlist]` **Note**: This attribute is not supported in the
+     * classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1843,7 +1846,9 @@ export interface LiveboardAppEmbedViewConfig {
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
      *
-     * **Note**: This feature is supported only if compact header is enabled on your Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled` attribute.
+     * **Note**: This feature is supported only if compact header is enabled on your
+     * Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled`
+     * attribute.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
@@ -1909,9 +1914,9 @@ export interface LiveboardAppEmbedViewConfig {
      */
     coverAndFilterOptionInPDF?: boolean;
     /**
-     * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
-     * When enabled, a unified modal is used to manage and update multiple filters at once,
-     * replacing the older individual filter interactions.
+     * This flag is used to enable or disable the new centralized Liveboard filter UX
+     * (v2). When enabled, a unified modal is used to manage and update multiple filters
+     * at once, replacing the older individual filter interactions.
      * To enable this feature on your instance, contact ThoughtSpot Support.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -1943,7 +1948,8 @@ export interface LiveboardAppEmbedViewConfig {
     isLinkParametersEnabled?: boolean;
 
     /**
-     * This flag is used to enable or disable the enhanced filter interactivity in liveboard.
+     * This flag is used to enable or disable the enhanced filter interactivity in
+     * liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
@@ -2666,7 +2672,8 @@ export enum EmbedEvent {
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an Answer.
-     *  Use start:true to subscribe to when download is initiated, or end:true to subscribe to when download is completed. Default is end:true.
+     *  Use start:true to subscribe to when download is initiated, or end:true to
+     *  subscribe to when download is completed. Default is end:true.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
      * ```js
@@ -2681,7 +2688,8 @@ export enum EmbedEvent {
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an Answer
-     *  Use start:true to subscribe to when download as PDF is initiated, or end:true to subscribe to when download as PDF is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as PDF is initiated, or end:true to
+     *  subscribe to when download as PDF is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2696,7 +2704,8 @@ export enum EmbedEvent {
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an Answer.
-     *  Use start:true to subscribe to when download as CSV is initiated, or end:true to subscribe to when download as CSV is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as CSV is initiated, or end:true to
+     *  subscribe to when download as CSV is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2711,7 +2720,8 @@ export enum EmbedEvent {
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an Answer.
-     *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to subscribe to when download as XLSX is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to
+     *  subscribe to when download as XLSX is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2726,7 +2736,8 @@ export enum EmbedEvent {
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
      * Emitted when an Answer is deleted in the app
-     *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe to when delete is completed. Default is end:true.
+     *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe
+     *  to when delete is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2753,7 +2764,8 @@ export enum EmbedEvent {
     /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
-     *  Use start:true to subscribe to when pin is initiated, or end:true to subscribe to when pin is completed. Default is end:true.
+     *  Use start:true to subscribe to when pin is initiated, or end:true to subscribe to
+     *  when pin is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2867,7 +2879,8 @@ export enum EmbedEvent {
     /**
      * Emitted when the **Export TML** action is triggered on an
      * an embedded object in the app
-     *  Use start:true to subscribe to when export is initiated, or end:true to subscribe to when export is completed. Default is end:true.
+     *  Use start:true to subscribe to when export is initiated, or end:true to subscribe
+     *  to when export is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2893,7 +2906,8 @@ export enum EmbedEvent {
     SaveAsView = 'saveAsView',
     /**
      * Emitted when the user creates a copy of an Answer.
-     *  Use start:true to subscribe to when copy and edit is initiated, or end:true to subscribe to when copy and edit is completed. Default is end:true.
+     *  Use start:true to subscribe to when copy and edit is initiated, or end:true to
+     *  subscribe to when copy and edit is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3659,7 +3673,8 @@ export enum HostEvent {
      * - `autoDrillDown`: Optional. If `true`, the drill down will be done automatically
      *   on the most popular column.
      * - `vizId` (TS >= 9.8.0): Optional. The GUID of the visualization to drill in case
-     *   of a Liveboard. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
+     *   of a Liveboard. In Spotter embed, `vizId` refers to the Answer ID and is
+     *   **required**.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3855,7 +3870,8 @@ export enum HostEvent {
      * the following parameters:
      *
      * @param - Includes the following keys:
-     * - `vizId`: GUID of the saved Answer or Spotter visualization ID to pin to a Liveboard.
+     * - `vizId`: GUID of the saved Answer or Spotter visualization ID to pin to a
+     * Liveboard.
      *   Optional when pinning a new chart or table generated from a Search query.
      *   **Required** in Spotter Embed.
      * - `liveboardId`: GUID of the Liveboard to pin an Answer. If there is no Liveboard,
@@ -4111,7 +4127,8 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - Object parameter. Includes the following keys:
      * - `vizId`: To trigger the action for a specific visualization in Liveboard embed,
-     *   pass in `vizId` as a key. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
+     *   pass in `vizId` as a key. In Spotter embed, `vizId` refers to the Answer ID and
+     *   is **required**.
      *
      * @example
      * ```js
@@ -4480,8 +4497,9 @@ export enum HostEvent {
     /**
      * Update one or several filters applied on a Liveboard.
      * @param - Includes the following keys:
-     * - `filter`: A single filter object containing column name, filter operator, and values.
-     * - `filters`: Multiple filter objects with column name, filter operator, and values for each.
+     * - `filter`: A single filter object containing column name, filter operator, and
+     * values. - `filters`: Multiple filter objects with column name, filter operator,
+     * and values for each.
      *
      * Each filter object must include the following attributes:
      *
@@ -4750,8 +4768,8 @@ export enum HostEvent {
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
      * @param - Includes the following keys:
-     * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter embed.
-     * - `name`: Optional. Name string for the Answer.
+     * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter
+     * embed. - `name`: Optional. Name string for the Answer.
      * - `description`: Optional. Description text for the Answer.
      * @example
      * ```js
@@ -4947,8 +4965,9 @@ export enum HostEvent {
     /**
      * Triggers a new conversation in Spotter embed.
      *
-     * This feature is available only when chat history is enabled on your ThoughtSpot instance.
-     * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
      *
      * @example
      * ```js
@@ -6983,7 +7002,9 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Error codes for identifying specific issues in embedded ThoughtSpot components. Use {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error handling and debugging.
+ * Error codes for identifying specific issues in embedded ThoughtSpot components. Use
+ * {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error
+ * handling and debugging.
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
@@ -7055,15 +7076,16 @@ export enum EmbedErrorCodes {
 /**
  * Error event object emitted when an error occurs in an embedded component.
  *
- * This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}
- * event. It provides detailed information about what went wrong, including the error type,
- * a human-readable message, and a machine-readable error code.
+ * This interface defines the structure of error objects returned by the {@link
+ * EmbedEvent.Error} event. It provides detailed information about what went wrong,
+ * including the error type, a human-readable message, and a machine-readable error code.
  *
  * ## Properties
  *
  * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
- * - **message**: Human-readable error description (string or array of strings for multiple errors)
- * - **code**: Machine-readable error identifier {@link EmbedErrorCodes} values
+ * - **message**: Human-readable error description (string or array of strings for
+ * multiple errors) - **code**: Machine-readable error identifier {@link EmbedErrorCodes}
+ * values
  * - **[key: string]**: Additional context-specific for backward compatibility
  *
  * ## Usage

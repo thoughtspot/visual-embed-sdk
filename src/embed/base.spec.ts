@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 /* eslint-disable @typescript-eslint/no-shadow */
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
