@@ -37,6 +37,7 @@ import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueI
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
 import { ERROR_MESSAGE } from '../errors';
+import { startAutoMCPFrameRenderer } from './auto-frame-renderer';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',

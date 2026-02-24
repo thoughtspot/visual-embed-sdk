@@ -1476,6 +1476,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
+export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
+
 /**
  * The configuration object for Home page embeds configs.
  */
@@ -4995,6 +4997,7 @@ export enum DataSourceVisualMode {
  */
 
 export enum Param {
+    Tsmcp = 'tsmcp',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',

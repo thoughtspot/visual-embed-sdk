@@ -12,7 +12,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
 
-import pkg from './package.json' assert {type: "json"};
+import pkg from './package.json' with {type: "json"};
 
 const plugins = [
     typescript(),
