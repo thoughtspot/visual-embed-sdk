@@ -131,7 +131,7 @@ interface PreRenderProps {
      *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
      * }
      * ```
-     * @version SDK: 1.25.0 | Thoughtspot: 9.6.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
      */
     preRenderId: string;
 }

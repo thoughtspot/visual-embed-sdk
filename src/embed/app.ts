@@ -64,7 +64,7 @@ export enum Page {
 }
 
 /**
- * Define the initial state os column custom group accordions
+ * Define the initial state of column custom group accordions
  * in data panel v2.
  */
 export enum DataPanelCustomColumnGroupsAccordionState {
