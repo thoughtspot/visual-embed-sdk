@@ -1483,8 +1483,33 @@ export class TsEmbed {
     }
 
     /**
-     * Get the current context of the embedded TS component.
-     * @returns The current context object containing the page type and object ids.
+    * Context object for the embedded component.
+    * @returns {ContextObject} The current context object containing the page type and object ids.
+    * @example
+    * ```js
+    * const context = await embed.getCurrentContext();
+    * console.log(context);
+    * 
+    * // Example output
+    * {
+    *   stack: [
+    *     {
+    *       name: 'Liveboard',
+    *       type: ContextType.Liveboard,
+    *       objectIds: {
+    *         liveboardId: '123',
+    *       },
+    *     },
+    *   ],
+    *   currentContext: {
+    *     name: 'Liveboard',
+    *     type: ContextType.Liveboard,
+    *     objectIds: {
+    *       liveboardId: '123',
+    *     },
+    *   },
+    * }
+    * ```
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      */
     public async getCurrentContext(): Promise<ContextObject> {

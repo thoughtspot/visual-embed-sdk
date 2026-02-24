@@ -7329,6 +7329,11 @@ export enum ContextType {
      * Spotter context for spotter modal/page.
      */
     Spotter = 'spotter',
+
+    /**
+     * Other context for any other generic page.
+     */
+    Other = 'other',
 }
 
 export interface DefaultAppInitData {
@@ -7436,33 +7441,7 @@ export interface ObjectIds {
     modalTitle?: string;
 }
 
-/**
- * Context object for the embedded component.
- * @example
- * ```js
- * const context = await embed.getCurrentContext();
- * console.log(context);
- * {
- *   stack: [
- *     {
- *       name: 'Liveboard',
- *       type: ContextType.Liveboard,
- *       objectIds: {
- *         liveboardId: '123',
- *       },
- *     },
- *   ],
- *   currentContext: {
- *     name: 'Liveboard',
- *     type: ContextType.Liveboard,
- *     objectIds: {
- *       liveboardId: '123',
- *     },
- *   },
- * }
- * ```
- * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
- */
+
 export interface ContextObject {
     /**
      * Stack of context objects.
