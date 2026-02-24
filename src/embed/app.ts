@@ -1151,13 +1151,13 @@ export class AppEmbed extends V1Embed {
         if (!path) {
             return null;
         }
-
-        // remove leading slash
-        if (path.indexOf('/') === 0) {
-            return path.substring(1);
+        const formattedPath = path.replace(/^\/+/, '');
+        const basePath = formattedPath.split(/[?#]/)[0].toLowerCase();
+        if (basePath === 'admin' || basePath.startsWith('admin/')) {
+            return 'home';
         }
 
-        return path;
+        return formattedPath;
     }
 
     /**

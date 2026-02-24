@@ -280,6 +280,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should redirect to home when path is /admin', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            path: '/admin',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should apply runtime filters', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
