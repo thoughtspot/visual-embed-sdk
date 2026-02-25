@@ -754,7 +754,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    enableHomepageAnnouncement: true,
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.5.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     enableHomepageAnnouncement?: boolean;
 }
