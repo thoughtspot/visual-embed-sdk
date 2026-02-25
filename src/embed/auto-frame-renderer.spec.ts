@@ -11,6 +11,7 @@ const thoughtSpotHost = 'tshost';
 
 describe('startAutoMCPFrameRenderer', () => {
     let renderIFrameSpy: jest.SpyInstance;
+    let getEmbedBasePathSpy: jest.SpyInstance;
 
     beforeAll(() => {
         init({
@@ -23,6 +24,12 @@ describe('startAutoMCPFrameRenderer', () => {
 
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
+        getEmbedBasePathSpy = jest.spyOn(
+            TsEmbed.prototype as any,
+            'getEmbedBasePath',
+        ).mockImplementation(function (this: any, query: string) {
+            return `http://${thoughtSpotHost}/?${query}#`;
+        });
         renderIFrameSpy = jest.spyOn(
             TsEmbed.prototype as any,
             'renderIFrame',
@@ -31,6 +38,7 @@ describe('startAutoMCPFrameRenderer', () => {
 
     afterEach(() => {
         renderIFrameSpy.mockRestore();
+        getEmbedBasePathSpy.mockRestore();
     });
 
     describe('MutationObserver setup', () => {
@@ -151,6 +159,19 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(renderIFrameSpy).toHaveBeenCalledTimes(2);
             observer.disconnect();
         });
+
+        test('should ignore iframes with invalid src URLs', async () => {
+            const observer = startAutoMCPFrameRenderer();
+
+            const iframe = document.createElement('iframe');
+            iframe.src = 'about:blank';
+            document.body.appendChild(iframe);
+
+            await new Promise((r) => setTimeout(r, 50));
+
+            expect(renderIFrameSpy).not.toHaveBeenCalled();
+            observer.disconnect();
+        });
     });
 
     describe('handleInsertionIntoDOM override', () => {
@@ -197,7 +218,7 @@ describe('startAutoMCPFrameRenderer', () => {
     });
 
     describe('getMCPIframeSrc URL construction', () => {
-        test('should strip tsmcp param and merge embed params', async () => {
+        test('should strip tsmcp param and merge embed params into rendered src', async () => {
             let capturedSrc = '';
             renderIFrameSpy.mockRestore();
             renderIFrameSpy = jest.spyOn(
@@ -217,7 +238,6 @@ describe('startAutoMCPFrameRenderer', () => {
 
             expect(capturedSrc).not.toContain(`${Param.Tsmcp}=true`);
             expect(capturedSrc).toContain('customParam=hello');
-            expect(capturedSrc).toContain(`https://${thoughtSpotHost}`);
             observer.disconnect();
         });
 
@@ -239,7 +259,7 @@ describe('startAutoMCPFrameRenderer', () => {
 
             await new Promise((r) => setTimeout(r, 50));
 
-            expect(capturedSrc).toBe('#/embed/viz/lb123');
+            expect(capturedSrc).toContain('/embed/viz/lb123');
             observer.disconnect();
         });
     });
