@@ -158,6 +158,7 @@ export enum AuthType {
      *      .then((response) => response.json())
      *      .then((data) => data.token);
      *  }
+     * });
      * ```
      */
     TrustedAuthTokenCookieless = 'AuthServerCookieless',
@@ -497,7 +498,7 @@ export interface EmbedConfig {
     detectCookieAccessSlow?: boolean;
     /**
      * Hide the `beta` alert warning message for SearchEmbed.
-     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw*
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
@@ -539,9 +540,8 @@ export interface EmbedConfig {
      */
     authTriggerText?: string;
     /**
-     * Prevent users from accessing the full application or ThoughtSpot application pages
-     * access to the embedded application users
-     * outside of the iframe.
+     * Prevent embedded application users from accessing ThoughtSpot
+     * application pages outside of the iframe.
      * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1.sw
      * @default true
      */
@@ -1209,7 +1209,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     insertInToSlide?: boolean;
     /**
      * Show alert messages and toast messages in the embed.
-     * Supported embed in all embed types.
+     * Supported in all embed types.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -1560,7 +1560,7 @@ export interface SearchLiveboardCommonViewConfig {
      */
     runtimeFilters?: RuntimeFilter[];
     /**
-     * The list of parameter override to apply to a search Answer,
+     * The list of parameter overrides to apply to a search Answer,
      * visualization, or Liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
@@ -1615,7 +1615,7 @@ export interface SearchLiveboardCommonViewConfig {
      * when set to false, runtime parameters will be included in the URL
      * (default behavior before SDK 1.45.0).
      *
-     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * Irrespective of this flag, runtime parameters (if passed) will be applied to the
      * embedded view.
      * @default true
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
@@ -1634,6 +1634,7 @@ export interface SearchLiveboardCommonViewConfig {
      *    ... // other embed view config
      *   collapseSearchBar: true,
      * });
+     * ```
      */
     collapseSearchBar?: boolean;
     /**
@@ -2523,8 +2524,8 @@ export enum EmbedEvent {
     V1Data = 'exportVizDataToParent',
     /**
      * Emitted when the embed does not have cookie access. This happens
-     * when Safari and other Web browsers block third-party cookies
-     * are blocked by default. `NoCookieAccess` can trigger.
+     * when third-party cookies are blocked by Safari or other
+     * web browsers. `NoCookieAccess` can trigger.
      * @example
      *```js
      * appEmbed.on(EmbedEvent.NoCookieAccess)
@@ -2584,7 +2585,7 @@ export enum EmbedEvent {
     LiveboardRendered = 'PinboardRendered',
     /**
      * Emits all events.
-     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
+     * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
      *```js
      * appEmbed.on(EmbedEvent.ALL, payload => {
@@ -2596,7 +2597,7 @@ export enum EmbedEvent {
     /**
      * Emitted when an Answer is saved in the app.
      * Use start:true to subscribe to when save is initiated, or end:true to subscribe to when save is completed. Default is end:true.
-     * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
      * //Emit when action starts
@@ -2799,7 +2800,7 @@ export enum EmbedEvent {
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      *```js
-     * seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
+     * searchEmbed.on(EmbedEvent.CopyToClipboard, payload => {
      *    console.log('copy to clipboard', payload);
      * })
      *```
@@ -2930,7 +2931,7 @@ export enum EmbedEvent {
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Schedule, payload => {
-     *    console.log(`Liveboard schedule', payload);
+     *    console.log('Liveboard schedule', payload);
      * })
      *```
      */
@@ -2941,7 +2942,7 @@ export enum EmbedEvent {
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.Edit, payload => {
-     *    console.log(`Liveboard edit', payload);
+     *    console.log('Liveboard edit', payload);
      * })
      *```
      */
@@ -2952,7 +2953,7 @@ export enum EmbedEvent {
      * @example
      *```js
      * liveboardEmbed.on(EmbedEvent.MakeACopy, payload => {
-     *    console.log(`Copy', payload);
+     *    console.log('Copy', payload);
      * })
      *```
      */
@@ -3057,7 +3058,7 @@ export enum EmbedEvent {
      * LiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
      *    console.log('payload', payload);
      * })
-     *
+     *```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      */
     FilterChanged = 'filterChanged',
@@ -3365,7 +3366,7 @@ export enum EmbedEvent {
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
-     * Emitted when the coversation is reset in spotter embed.
+     * Emitted when the conversation is reset in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.ResetSpotterConversation, (payload) => {
@@ -4013,7 +4014,7 @@ export enum HostEvent {
      * appEmbed.trigger(HostEvent.Remove)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     * * @example
+     * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Remove)
      * ```
@@ -4104,7 +4105,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * ```js
-     * vizEmbed.trigger((HostEvent.CopyLink)
+     * vizEmbed.trigger(HostEvent.CopyLink)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -4121,7 +4122,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * ```js
-     * vizEmbed.trigger((HostEvent.Present)
+     * vizEmbed.trigger(HostEvent.Present)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -4136,23 +4137,22 @@ export enum HostEvent {
      *   );
      * })
      * ```
-     * * @example
+     * @example
      * ```js
-
-    * // You can use the Data event dispatched on each answer creation to get the vizId and use in Pin host event.
-    * let latestSpotterVizId = '';
-    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
-    *   latestSpotterVizId = payload.data.id;
-    * });
-    *
-    * spotterEmbed.trigger(HostEvent.GetTML, {
+     * // You can use the Data event dispatched on each answer creation to get the vizId and use in GetTML host event.
+     * let latestSpotterVizId = '';
+     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     *   latestSpotterVizId = payload.data.id;
+     * });
+     *
+     * spotterEmbed.trigger(HostEvent.GetTML, {
      *   vizId: latestSpotterVizId
      * }).then((tml) => {
      *   console.log(
      *      tml.answer.search_query // TML representation of the search query
      *   );
      * })
-    * ```
+     * ```
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      * @important
      */

@@ -164,7 +164,7 @@ interface AppProps extends EmbedProps, AppViewConfig { }
  * React component for Full app Embed.
  * @example
  * ```tsx
- * function Search() {
+ * function App() {
  *  return <AppEmbed
  *      showPrimaryNavbar={false}
  *      pageId={Page.Liveboards}
@@ -231,7 +231,7 @@ export const PinboardEmbed = LiveboardEmbed;
  * LiveboardEmbed with preRenderId passed will call showPreRender on the embed.
  *
  * If LiveboardEmbed is rendered before PreRenderedLiveboardEmbed is rendered it
- * tries to preRender the LiveboardEmbed, so it is recommended to use pass the
+ * tries to preRender the LiveboardEmbed, so it is recommended to pass the
  * liveboardId to both the components.
  * @example
  * ```tsx

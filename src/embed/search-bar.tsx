@@ -84,7 +84,7 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
      * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
-     * const embed = new SearchEmbed('#tsEmbed', {
+     * const embed = new SearchBarEmbed('#tsEmbed', {
      *  searchOptions: {
      *    searchTokenString: '[quantity purchased] [region]',
      *    executeSearch: true,

@@ -178,7 +178,7 @@ export interface SearchViewConfig
      */
     dataSources?: string[];
     /**
-     * The array of data source GUIDs to set on load.
+     * The data source GUID to set on load.
      * 
      * Supported embed types: `SearchEmbed`
      * @version: SDK: 1.19.0

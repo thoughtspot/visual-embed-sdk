@@ -140,7 +140,7 @@ export enum ListPage {
  */
 export interface DiscoveryExperience {
     /**
-     * primaryNavbarVersion determines the version of the navigation version.
+     * primaryNavbarVersion determines the version of the primary navigation bar.
      */
     primaryNavbarVersion?: PrimaryNavbarVersion;
     /**
@@ -292,7 +292,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * In the V3 experience, it shows or hides application selection
      * icons on the left navigation panel.
      * By default, the application selection menu and icons are
-     * shown in the UI
+     * shown in the UI.
      *
      * **Note**: This attribute is not supported in the classic (V1) experience.
      *

@@ -120,8 +120,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    liveboardId:id of liveboard,
+     *    liveboardId:'id of liveboard',
      * })
+     * ```
      */
     liveboardId?: string;
     /**
@@ -174,6 +175,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *       'f547ec54-2a37-4516-a222-2b06719af726'
      *     ]
      * })
+     * ```
      */
     visibleVizs?: string[];
     /**
@@ -275,8 +277,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    oAuthPollingInterval: value in milliseconds,
+     *    oAuthPollingInterval: 30000,
      * })
+     * ```
      */
     oAuthPollingInterval?: number;
 
@@ -292,6 +295,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    ... //other embed view config
      *    isForceRedirect: false,
      * })
+     * ```
      */
     isForceRedirect?: boolean;
 
@@ -307,6 +311,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    ... //other embed view config
      *    dataSourceId: '',
      * })
+     * ```
      */
     dataSourceId?: string;
     /**
