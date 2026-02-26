@@ -552,6 +552,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isUnifiedSearchExperienceEnabled?: boolean;
 
     /**
+     * @deprecated Use {@link isLiveboardMasterpiecesEnabled} instead.
      * This flag is used to enable/disable the styling and grouping in a Liveboard
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
