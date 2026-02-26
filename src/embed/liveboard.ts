@@ -99,7 +99,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     minimumHeight?: number;
     /**
      * If set to true, the context menu in visualizations will be enabled.
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @deprecated this option is deprecated.
      * @example
      * ```js
@@ -272,7 +272,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -288,7 +288,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -304,7 +304,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -422,7 +422,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * This flag is used to enable the full height lazy load data.
      *
      * @type {boolean}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @default false
      * @example
      * ```js
@@ -444,7 +444,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * The format is similar to CSS margin.
      *
      * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {

@@ -1751,7 +1751,7 @@ export class TsEmbed {
      * Returns the answerService which can be used to make arbitrary graphql calls on top
      * session.
      * @param vizId [Optional] to get for a specific viz in case of a Liveboard.
-     * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});

@@ -281,7 +281,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.9 | ThoughtSpot Cloud: 9.12.5.cl\n"
+								"text": "SDK: 1.27.9 | ThoughtSpot Cloud: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -777,7 +777,7 @@
 						"shortText": "The **Collapse data panel** icon on the Search page.\nCollapses the data panel view.",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl\n"
 							},
 							{
@@ -809,7 +809,7 @@
 								"text": "\n```js\ndisabledActions: [Action.CollapseDataPanel]\n```"
 							},
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw\n"
 							}
 						]
@@ -1942,7 +1942,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
@@ -2018,7 +2018,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
+								"text": "SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
 							}
 						]
 					},
@@ -2074,7 +2074,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl\n"
 							}
 						]
 					},
@@ -2237,7 +2237,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.32.0 | ThoughtSpot: 10.0.0.cl\n"
+								"text": "SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl\n"
 							}
 						]
 					},
@@ -2321,7 +2321,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
@@ -2582,7 +2582,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.9 | ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.27.9 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -3394,7 +3394,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
+								"text": "SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
 							}
 						]
 					},
@@ -3422,7 +3422,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
+								"text": "SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw\n"
 							}
 						]
 					},
@@ -3510,7 +3510,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw\n"
+								"text": "SDK: 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
@@ -4271,7 +4271,7 @@
 						"text": "To use this:\nYour SAML or OpenID provider must allow iframe redirects.\nFor example, if you are using Okta as IdP, you can enable iframe embedding.",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl"
 							},
 							{
@@ -5571,7 +5571,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl\n"
+								"text": "SDK: 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl\n"
 							}
 						]
 					},
@@ -5767,7 +5767,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -5792,7 +5792,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -5816,7 +5816,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl\n"
 							}
 						]
 					},
@@ -5840,7 +5840,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -6060,7 +6060,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -6824,7 +6824,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl"
+								"text": "SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl"
 							},
 							{
 								"tag": "example",
@@ -6884,7 +6884,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl\n"
+								"text": "SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl\n"
 							}
 						]
 					},
@@ -7024,7 +7024,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw\n"
 							}
 						]
 					},
@@ -7064,7 +7064,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -7144,7 +7144,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -7168,7 +7168,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -7264,7 +7264,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -7653,7 +7653,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -7693,7 +7693,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw\n"
 							}
 						]
 					},
@@ -8054,7 +8054,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -8126,7 +8126,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -8150,7 +8150,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0| ThoughtSpot: 10.3.0.cl\n"
+								"text": "SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl\n"
 							}
 						]
 					},
@@ -8174,7 +8174,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -8198,7 +8198,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -8222,7 +8222,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -8246,7 +8246,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl\n"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl\n"
 							}
 						]
 					},
@@ -9718,7 +9718,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw\n"
 							}
 						]
 					},
@@ -12211,7 +12211,7 @@
 					},
 					{
 						"tag": "version",
-						"text": "SDK: 1.25.0| ThoughtSpot: 9.10.0.cl"
+						"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl"
 					},
 					{
 						"tag": "group",
@@ -12380,7 +12380,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 153,
+							"line": 154,
 							"character": 17
 						}
 					],
@@ -12396,7 +12396,7 @@
 								"tags": [
 									{
 										"tag": "example",
-										"text": "\n```js\nembed.on(EmbedEvent.Data, async (e) => {\n   const service = await embed.getAnswerService();\n   await service.addColumnsByName([\n     \"col name 1\",\n     \"col name 2\"\n   ]);\n   console.log(await service.fetchData());\n});\n"
+										"text": "\n```js\nembed.on(EmbedEvent.Data, async (e) => {\n   const service = await embed.getAnswerService();\n   await service.addColumnsByName([\n     \"col name 1\",\n     \"col name 2\"\n   ]);\n   console.log(await service.fetchData());\n});\n```\n"
 									}
 								]
 							},
@@ -12441,7 +12441,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 418,
+							"line": 419,
 							"character": 17
 						}
 					],
@@ -12489,7 +12489,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 166,
+							"line": 167,
 							"character": 17
 						}
 					],
@@ -12587,7 +12587,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 368,
+							"line": 369,
 							"character": 17
 						}
 					],
@@ -12656,7 +12656,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 247,
+							"line": 248,
 							"character": 17
 						}
 					],
@@ -12725,7 +12725,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 219,
+							"line": 220,
 							"character": 17
 						}
 					],
@@ -12832,7 +12832,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 263,
+							"line": 264,
 							"character": 17
 						}
 					],
@@ -12916,7 +12916,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 391,
+							"line": 392,
 							"character": 17
 						}
 					],
@@ -12951,7 +12951,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 281,
+							"line": 282,
 							"character": 11
 						}
 					],
@@ -13012,7 +13012,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 292,
+							"line": 293,
 							"character": 11
 						}
 					],
@@ -13087,7 +13087,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 202,
+							"line": 203,
 							"character": 17
 						}
 					],
@@ -13136,7 +13136,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 387,
+							"line": 388,
 							"character": 11
 						}
 					],
@@ -13208,7 +13208,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 402,
+							"line": 403,
 							"character": 17
 						}
 					],
@@ -13243,7 +13243,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 313,
+							"line": 314,
 							"character": 17
 						}
 					],
@@ -13263,7 +13263,7 @@
 									},
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0| ThoughtSpot: 9.10.0.cl\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl\n"
 									}
 								]
 							},
@@ -13383,7 +13383,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 430,
+							"line": 431,
 							"character": 11
 						}
 					],
@@ -13425,7 +13425,7 @@
 					"sources": [
 						{
 							"fileName": "utils/graphql/answerService/answerService.ts",
-							"line": 193,
+							"line": 194,
 							"character": 17
 						}
 					],
@@ -13657,7 +13657,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -15604,7 +15604,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -16945,7 +16945,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -18208,7 +18208,7 @@
 				"shortText": "Embed ThoughtSpot LLM and GPT-based Natural Language Search component.",
 				"tags": [
 					{
-						"tag": "version:",
+						"tag": "version",
 						"text": "SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.1-sw\n\nNote: This embed will be deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
@@ -18353,7 +18353,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -19535,7 +19535,7 @@
 				"shortText": "Embed ThoughtSpot search bar",
 				"tags": [
 					{
-						"tag": "version:",
+						"tag": "version",
 						"text": "SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1-sw"
 					},
 					{
@@ -19679,7 +19679,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -20986,7 +20986,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -22835,7 +22835,7 @@
 								"tags": [
 									{
 										"tag": "version",
-										"text": "SDK: 1.25.0 / ThoughtSpot 9.10.0\n"
+										"text": "SDK: 1.25.0 | ThoughtSpot: 9.10.0\n"
 									}
 								]
 							},
@@ -24223,7 +24223,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.8.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.8.0.cl"
 							},
 							{
 								"tag": "example",
@@ -24387,7 +24387,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -24625,7 +24625,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -24663,7 +24663,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.32.0 | ThoughtSpot:10.1.0.cl"
+								"text": "SDK: 1.32.0 | ThoughtSpot: 10.1.0.cl"
 							},
 							{
 								"tag": "default",
@@ -25413,7 +25413,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.36.0 | ThoughtSpot:10.6.0.cl"
+								"text": "SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl"
 							},
 							{
 								"tag": "default",
@@ -25682,7 +25682,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl\n"
+								"text": "SDK: 1.33.0 | ThoughtSpot: 10.3.0.cl\n"
 							}
 						]
 					},
@@ -25754,7 +25754,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -25783,7 +25783,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -25791,7 +25791,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -25976,7 +25976,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.3.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -26164,11 +26164,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -26274,7 +26274,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.34.0 | ThoughtSpot:10.5.0.cl"
+								"text": "SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl"
 							},
 							{
 								"tag": "default",
@@ -26311,7 +26311,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.12.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl"
 							},
 							{
 								"tag": "default",
@@ -26349,7 +26349,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.12.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl"
 							},
 							{
 								"tag": "example",
@@ -26421,7 +26421,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -26753,7 +26753,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
+								"text": "SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw"
 							},
 							{
 								"tag": "example",
@@ -26795,7 +26795,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -26837,7 +26837,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -26999,7 +26999,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.4.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl"
 							},
 							{
 								"tag": "default",
@@ -27083,7 +27083,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.4.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl"
 							},
 							{
 								"tag": "default",
@@ -28566,7 +28566,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -28811,7 +28811,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -28841,7 +28841,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -28849,7 +28849,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -28883,11 +28883,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -28961,7 +28961,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -29550,7 +29550,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -29756,7 +29756,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -30200,7 +30200,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -30230,7 +30230,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -30238,7 +30238,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -30272,11 +30272,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -30350,7 +30350,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -36317,7 +36317,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK 1.37.0 | ThoughtSpot: 10.8.0.cl"
+								"text": "SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl"
 							},
 							{
 								"tag": "example",
@@ -36486,7 +36486,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK 1.32.3 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
+								"text": "SDK: 1.32.3 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw\n"
 							}
 						]
 					},
@@ -36876,7 +36876,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.10.2 | ThoughtSpot 8.2.0.cl, 8.4.1.sw\n"
+								"text": "SDK: 1.10.2 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw\n"
 							}
 						]
 					},
@@ -37789,7 +37789,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.8.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.8.0.cl"
 							},
 							{
 								"tag": "example",
@@ -37914,7 +37914,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38119,7 +38119,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -38157,7 +38157,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.32.0 | ThoughtSpot:10.1.0.cl"
+								"text": "SDK: 1.32.0 | ThoughtSpot: 10.1.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38319,7 +38319,7 @@
 						"shortText": "If set to true, the context menu in visualizations will be enabled.",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw"
 							},
 							{
@@ -38627,7 +38627,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.36.0 | ThoughtSpot:10.6.0.cl"
+								"text": "SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl"
 							},
 							{
 								"tag": "default",
@@ -38786,7 +38786,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -38815,7 +38815,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -38823,7 +38823,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -39008,7 +39008,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.3.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -39196,11 +39196,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -39305,7 +39305,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.12.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl"
 							},
 							{
 								"tag": "default",
@@ -39343,7 +39343,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.40.0 | ThoughtSpot:10.12.0.cl"
+								"text": "SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl"
 							},
 							{
 								"tag": "example",
@@ -39483,7 +39483,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -39777,7 +39777,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -39819,7 +39819,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -39981,7 +39981,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.4.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl"
 							},
 							{
 								"tag": "default",
@@ -40065,7 +40065,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.35.0 | ThoughtSpot:10.4.0.cl"
+								"text": "SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl"
 							},
 							{
 								"tag": "default",
@@ -40783,7 +40783,7 @@
 				"shortText": "The configuration attributes for the embedded Natural language search view. Based on\nGPT and LLM.",
 				"tags": [
 					{
-						"tag": "version:",
+						"tag": "version",
 						"text": "SDK: 1.23.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw\n\nNote: This embed will be deprecated from SDK: 1.40.0 | ThoughtSpot: 10.13.0.cl"
 					},
 					{
@@ -41055,7 +41055,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -41270,7 +41270,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -41781,7 +41781,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -41810,7 +41810,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -41818,7 +41818,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -41851,11 +41851,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -41965,7 +41965,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -42116,7 +42116,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -42158,7 +42158,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -42821,7 +42821,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -42862,8 +42862,8 @@
 						"text": "Supported embed types: `SearchBarEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
-								"text": "SDK: 1.19.0, ThoughtSpot 9.0.0.cl, 9.0.1.sw"
+								"tag": "version",
+								"text": "SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw"
 							},
 							{
 								"tag": "example",
@@ -42896,7 +42896,7 @@
 						"text": "Supported embed types: `SearchBarEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw"
 							},
 							{
@@ -43059,7 +43059,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -43252,7 +43252,7 @@
 						"text": "Supported embed types: `SearchBarEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl"
 							},
 							{
@@ -43450,7 +43450,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -43479,7 +43479,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -43487,7 +43487,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -43520,11 +43520,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -43634,7 +43634,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -43823,7 +43823,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -43865,7 +43865,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -43906,7 +43906,7 @@
 						"text": "`searchTokenString`: Search tokens to pass in the query.\n\n`executeSearch`: Boolean to define if the search should be executed or not.\nIf it is executed, the focus is placed on the results.\nIf it’s not executed, the focus is placed at the end of\nthe token string in the search bar.\n\nSupported embed types: `SearchBarEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.2.0 | ThoughtSpot: 9.4.0.sw"
 							},
 							{
@@ -44059,8 +44059,8 @@
 						"text": "Supported embed types: `SearchBarEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
-								"text": "SDK: 1.24.0, ThoughtSpot 9.5.0.cl, 9.5.0.sw"
+								"tag": "version",
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.5.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -44301,7 +44301,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw"
 							},
 							{
@@ -44335,7 +44335,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl"
 							},
 							{
@@ -44369,7 +44369,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw"
 							},
 							{
@@ -44647,7 +44647,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -44688,7 +44688,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.19.0"
 							},
 							{
@@ -44880,7 +44880,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -45107,7 +45107,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl"
 							},
 							{
@@ -45216,7 +45216,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw"
 							},
 							{
@@ -45335,7 +45335,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw"
 							},
 							{
@@ -45369,7 +45369,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw"
 							},
 							{
@@ -45479,7 +45479,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -45508,7 +45508,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -45516,7 +45516,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -45549,11 +45549,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -45663,7 +45663,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -45814,7 +45814,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -45856,7 +45856,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
+								"text": "SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw"
 							},
 							{
 								"tag": "example",
@@ -46075,7 +46075,7 @@
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
-								"tag": "version:",
+								"tag": "version",
 								"text": "SDK: 1.24.0\n"
 							}
 						]
@@ -46678,7 +46678,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -46917,7 +46917,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -46946,7 +46946,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -46954,7 +46954,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -46987,11 +46987,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -47063,7 +47063,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",
@@ -47739,7 +47739,7 @@
 						"tags": [
 							{
 								"tag": "deprecated",
-								"text": "from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
+								"text": "from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl"
 							},
 							{
 								"tag": "default",
@@ -47932,7 +47932,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw"
+								"text": "SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw"
 							},
 							{
 								"tag": "example",
@@ -48345,7 +48345,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -48374,7 +48374,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the reponse from the responder of ApiIntercept event.",
+						"shortText": "This allows to intercept the urls passed, once intercepted the api will only\nrun based on the response from the responder of ApiIntercept event.",
 						"tags": [
 							{
 								"tag": "example",
@@ -48382,7 +48382,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -48415,11 +48415,11 @@
 					},
 					"comment": {
 						"shortText": "Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.",
-						"text": "Can be used for Serach and App Embed from SDK 1.29.0\n",
+						"text": "Can be used for Search and App Embed from SDK 1.29.0\n",
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
+								"text": "SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl\n"
 							}
 						]
 					},
@@ -48491,7 +48491,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw"
+								"text": "SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw"
 							},
 							{
 								"tag": "example",

@@ -77,7 +77,7 @@ export interface SearchViewConfig
      * but can be expanded manually.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -92,7 +92,7 @@ export interface SearchViewConfig
      * but can be expanded manually.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -106,7 +106,7 @@ export interface SearchViewConfig
      * Show or hide the data sources panel.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
+     * @version SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -122,7 +122,7 @@ export interface SearchViewConfig
      * using raw answer data.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
+     * @version SDK: 1.2.0 | ThoughtSpot: 9.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -151,7 +151,7 @@ export interface SearchViewConfig
      * format for presenting search data.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -181,7 +181,7 @@ export interface SearchViewConfig
      * The data source GUID to set on load.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.19.0
+     * @version SDK: 1.19.0
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -224,7 +224,7 @@ export interface SearchViewConfig
      * If set to true, the search token string is not appended to the URL.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.35.7 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -241,7 +241,7 @@ export interface SearchViewConfig
      * The GUID of a saved answer to load initially.
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
@@ -270,7 +270,7 @@ export interface SearchViewConfig
      * Flag to set if last selected dataSource should be used
      * 
      * Supported embed types: `SearchEmbed`
-     * @version: SDK: 1.24.0
+     * @version SDK: 1.24.0
      */
     useLastSelectedSources?: boolean;
     /**

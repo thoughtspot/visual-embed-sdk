@@ -70,7 +70,7 @@ export interface UnderlyingDataPoint {
  * });
  * ```
  * 
- * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
+ * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl
  * @group Events
  */
 export class AnswerService {
@@ -149,6 +149,7 @@ export class AnswerService {
      *    ]);
      *    console.log(await service.fetchData());
      * });
+     * ```
      */
     public async addColumnsByName(columnNames: string[]) {
         const sourceDetail = await this.getSourceDetail();
@@ -308,7 +309,7 @@ export class AnswerService {
      *     const data = await underlying.fetchData(0, 100);
      *  })
      * ```
-     * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl
      */
     public async getUnderlyingDataForPoint(
         outputColumnNames: string[],

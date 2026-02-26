@@ -532,14 +532,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Flag to use home page search bar mode
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.33.0 | ThoughtSpot: 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
      * This flag is used to enable unified search experience for full app embed.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
      * @default true
      * @example
      * ```js
@@ -624,7 +624,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This flag is used to enable the full height lazy load data.
      *
      * @type {boolean}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @default false
      * @example
      * ```js
@@ -647,7 +647,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The format is similar to CSS margin.
      *
      * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
