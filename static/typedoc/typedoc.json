@@ -48,7 +48,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5902,
+							"line": 6180,
 							"character": 4
 						}
 					],
@@ -76,7 +76,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5036,
+							"line": 5314,
 							"character": 4
 						}
 					],
@@ -104,7 +104,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4965,
+							"line": 5243,
 							"character": 4
 						}
 					],
@@ -128,7 +128,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4954,
+							"line": 5232,
 							"character": 4
 						}
 					],
@@ -152,7 +152,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5017,
+							"line": 5295,
 							"character": 4
 						}
 					],
@@ -176,7 +176,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5026,
+							"line": 5304,
 							"character": 4
 						}
 					],
@@ -204,7 +204,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5046,
+							"line": 5324,
 							"character": 4
 						}
 					],
@@ -232,7 +232,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5696,
+							"line": 5974,
 							"character": 4
 						}
 					],
@@ -260,7 +260,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5418,
+							"line": 5696,
 							"character": 4
 						}
 					],
@@ -288,7 +288,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5869,
+							"line": 6147,
 							"character": 4
 						}
 					],
@@ -316,7 +316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5406,
+							"line": 5684,
 							"character": 4
 						}
 					],
@@ -344,7 +344,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5394,
+							"line": 5672,
 							"character": 4
 						}
 					],
@@ -373,7 +373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5858,
+							"line": 6136,
 							"character": 4
 						}
 					],
@@ -401,7 +401,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5531,
+							"line": 5809,
 							"character": 4
 						}
 					],
@@ -429,7 +429,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5565,
+							"line": 5843,
 							"character": 4
 						}
 					],
@@ -457,7 +457,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5620,
+							"line": 5898,
 							"character": 4
 						}
 					],
@@ -485,7 +485,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5554,
+							"line": 5832,
 							"character": 4
 						}
 					],
@@ -513,7 +513,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5588,
+							"line": 5866,
 							"character": 4
 						}
 					],
@@ -541,7 +541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5630,
+							"line": 5908,
 							"character": 4
 						}
 					],
@@ -569,7 +569,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5599,
+							"line": 5877,
 							"character": 4
 						}
 					],
@@ -597,7 +597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5652,
+							"line": 5930,
 							"character": 4
 						}
 					],
@@ -625,7 +625,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5609,
+							"line": 5887,
 							"character": 4
 						}
 					],
@@ -653,7 +653,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5576,
+							"line": 5854,
 							"character": 4
 						}
 					],
@@ -681,7 +681,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5640,
+							"line": 5918,
 							"character": 4
 						}
 					],
@@ -709,7 +709,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5542,
+							"line": 5820,
 							"character": 4
 						}
 					],
@@ -737,7 +737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6000,
+							"line": 6278,
 							"character": 4
 						}
 					],
@@ -761,7 +761,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5008,
+							"line": 5286,
 							"character": 4
 						}
 					],
@@ -789,7 +789,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4999,
+							"line": 5277,
 							"character": 4
 						}
 					],
@@ -817,7 +817,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4987,
+							"line": 5265,
 							"character": 4
 						}
 					],
@@ -845,7 +845,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6088,
+							"line": 6366,
 							"character": 4
 						}
 					],
@@ -869,7 +869,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4976,
+							"line": 5254,
 							"character": 4
 						}
 					],
@@ -884,7 +884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5343,
+							"line": 5621,
 							"character": 4
 						}
 					],
@@ -908,7 +908,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4913,
+							"line": 5191,
 							"character": 4
 						}
 					],
@@ -932,7 +932,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5342,
+							"line": 5620,
 							"character": 4
 						}
 					],
@@ -960,7 +960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6098,
+							"line": 6376,
 							"character": 4
 						}
 					],
@@ -988,7 +988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6258,
+							"line": 6536,
 							"character": 4
 						}
 					],
@@ -1016,7 +1016,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5833,
+							"line": 6111,
 							"character": 4
 						}
 					],
@@ -1044,7 +1044,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5438,
+							"line": 5716,
 							"character": 4
 						}
 					],
@@ -1072,7 +1072,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5489,
+							"line": 5767,
 							"character": 4
 						}
 					],
@@ -1100,7 +1100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6012,
+							"line": 6290,
 							"character": 4
 						}
 					],
@@ -1128,7 +1128,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6069,
+							"line": 6347,
 							"character": 4
 						}
 					],
@@ -1156,7 +1156,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5969,
+							"line": 6247,
 							"character": 4
 						}
 					],
@@ -1184,7 +1184,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5988,
+							"line": 6266,
 							"character": 4
 						}
 					],
@@ -1208,7 +1208,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5096,
+							"line": 5374,
 							"character": 4
 						}
 					],
@@ -1232,7 +1232,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5129,
+							"line": 5407,
 							"character": 4
 						}
 					],
@@ -1257,7 +1257,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5119,
+							"line": 5397,
 							"character": 4
 						}
 					],
@@ -1281,7 +1281,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5106,
+							"line": 5384,
 							"character": 4
 						}
 					],
@@ -1305,7 +1305,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5139,
+							"line": 5417,
 							"character": 4
 						}
 					],
@@ -1333,7 +1333,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5149,
+							"line": 5427,
 							"character": 4
 						}
 					],
@@ -1357,7 +1357,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5359,
+							"line": 5637,
 							"character": 4
 						}
 					],
@@ -1381,7 +1381,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5332,
+							"line": 5610,
 							"character": 4
 						}
 					],
@@ -1405,7 +1405,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5323,
+							"line": 5601,
 							"character": 4
 						}
 					],
@@ -1429,7 +1429,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5225,
+							"line": 5503,
 							"character": 4
 						}
 					],
@@ -1453,7 +1453,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4904,
+							"line": 5182,
 							"character": 4
 						}
 					],
@@ -1481,7 +1481,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5427,
+							"line": 5705,
 							"character": 4
 						}
 					],
@@ -1496,7 +1496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5348,
+							"line": 5626,
 							"character": 4
 						}
 					],
@@ -1524,7 +1524,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6058,
+							"line": 6336,
 							"character": 4
 						}
 					],
@@ -1552,7 +1552,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5740,
+							"line": 6018,
 							"character": 4
 						}
 					],
@@ -1580,7 +1580,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5915,
+							"line": 6193,
 							"character": 4
 						}
 					],
@@ -1604,7 +1604,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5193,
+							"line": 5471,
 							"character": 4
 						}
 					],
@@ -1628,7 +1628,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5233,
+							"line": 5511,
 							"character": 4
 						}
 					],
@@ -1656,7 +1656,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6079,
+							"line": 6357,
 							"character": 4
 						}
 					],
@@ -1684,7 +1684,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5706,
+							"line": 5984,
 							"character": 4
 						}
 					],
@@ -1712,7 +1712,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5717,
+							"line": 5995,
 							"character": 4
 						}
 					],
@@ -1736,7 +1736,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5312,
+							"line": 5590,
 							"character": 4
 						}
 					],
@@ -1761,7 +1761,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5165,
+							"line": 5443,
 							"character": 4
 						}
 					],
@@ -1785,7 +1785,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5175,
+							"line": 5453,
 							"character": 4
 						}
 					],
@@ -1813,7 +1813,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6113,
+							"line": 6391,
 							"character": 4
 						}
 					],
@@ -1841,7 +1841,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6370,
+							"line": 6648,
 							"character": 4
 						}
 					],
@@ -1869,7 +1869,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5979,
+							"line": 6257,
 							"character": 4
 						}
 					],
@@ -1893,7 +1893,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5274,
+							"line": 5552,
 							"character": 4
 						}
 					],
@@ -1921,7 +1921,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6179,
+							"line": 6457,
 							"character": 4
 						}
 					],
@@ -1949,7 +1949,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5801,
+							"line": 6079,
 							"character": 4
 						}
 					],
@@ -1973,7 +1973,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4895,
+							"line": 5173,
 							"character": 4
 						}
 					],
@@ -1997,7 +1997,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5781,
+							"line": 6059,
 							"character": 4
 						}
 					],
@@ -2025,7 +2025,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5479,
+							"line": 5757,
 							"character": 4
 						}
 					],
@@ -2053,7 +2053,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6205,
+							"line": 6483,
 							"character": 5
 						}
 					],
@@ -2081,7 +2081,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5958,
+							"line": 6236,
 							"character": 4
 						}
 					],
@@ -2109,7 +2109,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5686,
+							"line": 5964,
 							"character": 4
 						}
 					],
@@ -2136,7 +2136,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5761,
+							"line": 6039,
 							"character": 4
 						}
 					],
@@ -2164,7 +2164,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6248,
+							"line": 6526,
 							"character": 4
 						}
 					],
@@ -2192,7 +2192,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6238,
+							"line": 6516,
 							"character": 4
 						}
 					],
@@ -2216,7 +2216,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5770,
+							"line": 6048,
 							"character": 4
 						}
 					],
@@ -2244,7 +2244,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5891,
+							"line": 6169,
 							"character": 4
 						}
 					],
@@ -2272,7 +2272,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6228,
+							"line": 6506,
 							"character": 5
 						}
 					],
@@ -2300,7 +2300,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5926,
+							"line": 6204,
 							"character": 4
 						}
 					],
@@ -2328,7 +2328,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5791,
+							"line": 6069,
 							"character": 4
 						}
 					],
@@ -2352,7 +2352,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5291,
+							"line": 5569,
 							"character": 4
 						}
 					],
@@ -2376,7 +2376,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6157,
+							"line": 6435,
 							"character": 4
 						}
 					],
@@ -2400,7 +2400,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5203,
+							"line": 5481,
 							"character": 4
 						}
 					],
@@ -2428,7 +2428,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6024,
+							"line": 6302,
 							"character": 4
 						}
 					],
@@ -2456,7 +2456,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6192,
+							"line": 6470,
 							"character": 5
 						}
 					],
@@ -2481,7 +2481,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5384,
+							"line": 5662,
 							"character": 4
 						}
 					],
@@ -2505,7 +2505,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5243,
+							"line": 5521,
 							"character": 4
 						}
 					],
@@ -2533,7 +2533,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6169,
+							"line": 6447,
 							"character": 4
 						}
 					],
@@ -2561,7 +2561,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5520,
+							"line": 5798,
 							"character": 4
 						}
 					],
@@ -2589,7 +2589,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5880,
+							"line": 6158,
 							"character": 4
 						}
 					],
@@ -2617,7 +2617,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5666,
+							"line": 5944,
 							"character": 4
 						}
 					],
@@ -2648,7 +2648,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5448,
+							"line": 5726,
 							"character": 4
 						}
 					],
@@ -2672,7 +2672,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5368,
+							"line": 5646,
 							"character": 4
 						}
 					],
@@ -2700,7 +2700,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5676,
+							"line": 5954,
 							"character": 4
 						}
 					],
@@ -2728,7 +2728,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6036,
+							"line": 6314,
 							"character": 4
 						}
 					],
@@ -2756,7 +2756,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5752,
+							"line": 6030,
 							"character": 4
 						}
 					],
@@ -2780,7 +2780,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4864,
+							"line": 5142,
 							"character": 4
 						}
 					],
@@ -2804,7 +2804,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4882,
+							"line": 5160,
 							"character": 4
 						}
 					],
@@ -2828,7 +2828,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4927,
+							"line": 5205,
 							"character": 4
 						}
 					],
@@ -2852,7 +2852,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4936,
+							"line": 5214,
 							"character": 4
 						}
 					],
@@ -2867,7 +2867,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5349,
+							"line": 5627,
 							"character": 4
 						}
 					],
@@ -2891,7 +2891,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4945,
+							"line": 5223,
 							"character": 4
 						}
 					],
@@ -2909,7 +2909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5071,
+							"line": 5349,
 							"character": 4
 						}
 					],
@@ -2937,7 +2937,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5727,
+							"line": 6005,
 							"character": 4
 						}
 					],
@@ -2961,7 +2961,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5086,
+							"line": 5364,
 							"character": 4
 						}
 					],
@@ -2985,7 +2985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5059,
+							"line": 5337,
 							"character": 4
 						}
 					],
@@ -3013,7 +3013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6348,
+							"line": 6626,
 							"character": 4
 						}
 					],
@@ -3041,7 +3041,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6328,
+							"line": 6606,
 							"character": 4
 						}
 					],
@@ -3069,7 +3069,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6338,
+							"line": 6616,
 							"character": 4
 						}
 					],
@@ -3097,7 +3097,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6358,
+							"line": 6636,
 							"character": 4
 						}
 					],
@@ -3125,7 +3125,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6047,
+							"line": 6325,
 							"character": 4
 						}
 					],
@@ -3153,7 +3153,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6308,
+							"line": 6586,
 							"character": 4
 						}
 					],
@@ -3181,7 +3181,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6318,
+							"line": 6596,
 							"character": 4
 						}
 					],
@@ -3209,7 +3209,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6288,
+							"line": 6566,
 							"character": 4
 						}
 					],
@@ -3237,7 +3237,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6278,
+							"line": 6556,
 							"character": 4
 						}
 					],
@@ -3265,7 +3265,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6298,
+							"line": 6576,
 							"character": 4
 						}
 					],
@@ -3293,7 +3293,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6146,
+							"line": 6424,
 							"character": 4
 						}
 					],
@@ -3321,7 +3321,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6124,
+							"line": 6402,
 							"character": 4
 						}
 					],
@@ -3349,7 +3349,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6135,
+							"line": 6413,
 							"character": 4
 						}
 					],
@@ -3373,7 +3373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5304,
+							"line": 5582,
 							"character": 4
 						}
 					],
@@ -3401,7 +3401,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5469,
+							"line": 5747,
 							"character": 4
 						}
 					],
@@ -3429,7 +3429,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5458,
+							"line": 5736,
 							"character": 4
 						}
 					],
@@ -3457,7 +3457,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5499,
+							"line": 5777,
 							"character": 4
 						}
 					],
@@ -3485,7 +3485,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5509,
+							"line": 5787,
 							"character": 4
 						}
 					],
@@ -3517,7 +3517,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5820,
+							"line": 6098,
 							"character": 4
 						}
 					],
@@ -3541,7 +3541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5215,
+							"line": 5493,
 							"character": 4
 						}
 					],
@@ -3569,7 +3569,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6268,
+							"line": 6546,
 							"character": 4
 						}
 					],
@@ -3597,7 +3597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6217,
+							"line": 6495,
 							"character": 5
 						}
 					],
@@ -3625,7 +3625,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5948,
+							"line": 6226,
 							"character": 4
 						}
 					],
@@ -3649,7 +3649,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5184,
+							"line": 5462,
 							"character": 4
 						}
 					],
@@ -3677,7 +3677,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5844,
+							"line": 6122,
 							"character": 4
 						}
 					],
@@ -3705,7 +3705,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5937,
+							"line": 6215,
 							"character": 4
 						}
 					],
@@ -3862,7 +3862,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4855,
+					"line": 5133,
 					"character": 12
 				}
 			]
@@ -4459,7 +4459,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6390,
+							"line": 6668,
 							"character": 4
 						}
 					],
@@ -4474,7 +4474,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6388,
+							"line": 6666,
 							"character": 4
 						}
 					],
@@ -4489,7 +4489,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6389,
+							"line": 6667,
 							"character": 4
 						}
 					],
@@ -4510,7 +4510,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6387,
+					"line": 6665,
 					"character": 12
 				}
 			]
@@ -4534,7 +4534,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6744,
+							"line": 7084,
 							"character": 4
 						}
 					],
@@ -4552,7 +4552,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6740,
+							"line": 7080,
 							"character": 4
 						}
 					],
@@ -4570,7 +4570,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6736,
+							"line": 7076,
 							"character": 4
 						}
 					],
@@ -4588,7 +4588,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6748,
+							"line": 7088,
 							"character": 4
 						}
 					],
@@ -4610,7 +4610,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6732,
+					"line": 7072,
 					"character": 12
 				}
 			]
@@ -4622,7 +4622,7 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "Enum options to mention the target of the custom action."
+				"shortText": "Enum options to mention the target of the code-based custom action.\nThe target determines which type of ThoughtSpot object the action is\nassociated with, and also controls which positions and scoping options\nare available."
 			},
 			"children": [
 				{
@@ -4631,10 +4631,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Action applies to saved or unsaved\nAnswers. Supported positions:\n{@link CustomActionsPosition.PRIMARY},\n{@link CustomActionsPosition.MENU},\n{@link CustomActionsPosition.CONTEXTMENU}.\nCan be scoped with\n`metadataIds.answerIds`,\n`dataModelIds` (modelIds,\nmodelColumnNames), `orgIds`,\nand `groupIds`."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6475,
+							"line": 6805,
 							"character": 4
 						}
 					],
@@ -4646,10 +4649,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Action applies at the Liveboard level.\nSupported positions:\n{@link CustomActionsPosition.PRIMARY},\n{@link CustomActionsPosition.MENU}.\nCan be scoped with\n`metadataIds.liveboardIds`,\n`orgIds`, and `groupIds`."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6473,
+							"line": 6778,
 							"character": 4
 						}
 					],
@@ -4661,10 +4667,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Action applies to Spotter\n(AI-powered search).\nSupported positions:\n{@link CustomActionsPosition.MENU},\n{@link CustomActionsPosition.CONTEXTMENU}.\nCan be scoped with\n`dataModelIds.modelIds`,\n`orgIds`, and `groupIds`."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6476,
+							"line": 6816,
 							"character": 4
 						}
 					],
@@ -4676,10 +4685,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Action applies to individual\nvisualizations (charts/tables).\nSupported positions:\n{@link CustomActionsPosition.PRIMARY},\n{@link CustomActionsPosition.MENU},\n{@link CustomActionsPosition.CONTEXTMENU}.\nCan be scoped with `metadataIds`\n(answerIds, liveboardIds, vizIds),\n`dataModelIds` (modelIds,\nmodelColumnNames), `orgIds`,\nand `groupIds`."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6474,
+							"line": 6792,
 							"character": 4
 						}
 					],
@@ -4701,7 +4713,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6472,
+					"line": 6768,
 					"character": 12
 				}
 			]
@@ -4722,10 +4734,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Shows the action in the right-click\ncontext menu. Only supported for\n{@link CustomActionTarget.VIZ},\n{@link CustomActionTarget.ANSWER}, and\n{@link CustomActionTarget.SPOTTER} targets."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6466,
+							"line": 6759,
 							"character": 4
 						}
 					],
@@ -4737,10 +4752,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Shows the action inside the \"More\" menu\n(three-dot overflow menu)."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6465,
+							"line": 6751,
 							"character": 4
 						}
 					],
@@ -4752,10 +4770,13 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Shows the action as a primary button\nin the toolbar area of the embed."
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6464,
+							"line": 6746,
 							"character": 4
 						}
 					],
@@ -4776,7 +4797,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6463,
+					"line": 6741,
 					"character": 12
 				}
 			]
@@ -4887,7 +4908,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4669,
+							"line": 4947,
 							"character": 4
 						}
 					],
@@ -4905,7 +4926,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4673,
+							"line": 4951,
 							"character": 4
 						}
 					],
@@ -4923,7 +4944,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4665,
+							"line": 4943,
 							"character": 4
 						}
 					],
@@ -4944,7 +4965,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 4661,
+					"line": 4939,
 					"character": 12
 				}
 			]
@@ -4985,7 +5006,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6640,
+							"line": 6980,
 							"character": 4
 						}
 					],
@@ -5003,7 +5024,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6643,
+							"line": 6983,
 							"character": 4
 						}
 					],
@@ -5021,7 +5042,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6652,
+							"line": 6992,
 							"character": 4
 						}
 					],
@@ -5039,7 +5060,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6661,
+							"line": 7001,
 							"character": 4
 						}
 					],
@@ -5057,7 +5078,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6646,
+							"line": 6986,
 							"character": 4
 						}
 					],
@@ -5075,7 +5096,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6670,
+							"line": 7010,
 							"character": 4
 						}
 					],
@@ -5093,7 +5114,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6637,
+							"line": 6977,
 							"character": 4
 						}
 					],
@@ -5111,7 +5132,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6655,
+							"line": 6995,
 							"character": 4
 						}
 					],
@@ -5129,7 +5150,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6649,
+							"line": 6989,
 							"character": 4
 						}
 					],
@@ -5147,7 +5168,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6664,
+							"line": 7004,
 							"character": 4
 						}
 					],
@@ -5165,7 +5186,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6658,
+							"line": 6998,
 							"character": 4
 						}
 					],
@@ -5183,7 +5204,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6667,
+							"line": 7007,
 							"character": 4
 						}
 					],
@@ -5201,7 +5222,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6634,
+							"line": 6974,
 							"character": 4
 						}
 					],
@@ -5232,7 +5253,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6632,
+					"line": 6972,
 					"character": 12
 				}
 			]
@@ -5284,7 +5305,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2435,
+							"line": 2713,
 							"character": 4
 						}
 					],
@@ -5312,7 +5333,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2314,
+							"line": 2592,
 							"character": 4
 						}
 					],
@@ -5344,7 +5365,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2078,
+							"line": 2356,
 							"character": 4
 						}
 					],
@@ -5372,7 +5393,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3041,
+							"line": 3319,
 							"character": 4
 						}
 					],
@@ -5400,7 +5421,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2645,
+							"line": 2923,
 							"character": 4
 						}
 					],
@@ -5432,7 +5453,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2172,
+							"line": 2450,
 							"character": 4
 						}
 					],
@@ -5460,7 +5481,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2613,
+							"line": 2891,
 							"character": 4
 						}
 					],
@@ -5488,7 +5509,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2424,
+							"line": 2702,
 							"character": 4
 						}
 					],
@@ -5517,7 +5538,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3207,
+							"line": 3485,
 							"character": 4
 						}
 					],
@@ -5557,7 +5578,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2854,
+							"line": 3132,
 							"character": 4
 						}
 					],
@@ -5585,7 +5606,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2185,
+							"line": 2463,
 							"character": 4
 						}
 					],
@@ -5617,7 +5638,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1980,
+							"line": 2258,
 							"character": 4
 						}
 					],
@@ -5645,7 +5666,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2721,
+							"line": 2999,
 							"character": 4
 						}
 					],
@@ -5673,7 +5694,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2591,
+							"line": 2869,
 							"character": 4
 						}
 					],
@@ -5701,7 +5722,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2741,
+							"line": 3019,
 							"character": 4
 						}
 					],
@@ -5729,7 +5750,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2526,
+							"line": 2804,
 							"character": 4
 						}
 					],
@@ -5753,7 +5774,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2805,
+							"line": 3083,
 							"character": 4
 						}
 					],
@@ -5778,7 +5799,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2991,
+							"line": 3269,
 							"character": 4
 						}
 					],
@@ -5802,7 +5823,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2996,
+							"line": 3274,
 							"character": 4
 						}
 					],
@@ -5826,7 +5847,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2845,
+							"line": 3123,
 							"character": 4
 						}
 					],
@@ -5854,7 +5875,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2752,
+							"line": 3030,
 							"character": 4
 						}
 					],
@@ -5890,7 +5911,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2095,
+							"line": 2373,
 							"character": 4
 						}
 					],
@@ -5926,7 +5947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2008,
+							"line": 2286,
 							"character": 4
 						}
 					],
@@ -5954,7 +5975,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3052,
+							"line": 3330,
 							"character": 4
 						}
 					],
@@ -5986,7 +6007,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2066,
+							"line": 2344,
 							"character": 4
 						}
 					],
@@ -6014,7 +6035,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2703,
+							"line": 2981,
 							"character": 4
 						}
 					],
@@ -6046,7 +6067,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2840,
+							"line": 3118,
 							"character": 4
 						}
 					],
@@ -6074,7 +6095,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2281,
+							"line": 2559,
 							"character": 4
 						}
 					],
@@ -6102,7 +6123,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2270,
+							"line": 2548,
 							"character": 4
 						}
 					],
@@ -6131,7 +6152,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2349,
+							"line": 2627,
 							"character": 4
 						}
 					],
@@ -6159,7 +6180,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2394,
+							"line": 2672,
 							"character": 4
 						}
 					],
@@ -6187,7 +6208,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2379,
+							"line": 2657,
 							"character": 4
 						}
 					],
@@ -6215,7 +6236,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2364,
+							"line": 2642,
 							"character": 4
 						}
 					],
@@ -6243,7 +6264,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2409,
+							"line": 2687,
 							"character": 4
 						}
 					],
@@ -6271,7 +6292,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2515,
+							"line": 2793,
 							"character": 4
 						}
 					],
@@ -6299,7 +6320,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2503,
+							"line": 2781,
 							"character": 4
 						}
 					],
@@ -6343,7 +6364,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2054,
+							"line": 2332,
 							"character": 4
 						}
 					],
@@ -6371,7 +6392,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2667,
+							"line": 2945,
 							"character": 4
 						}
 					],
@@ -6399,7 +6420,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2549,
+							"line": 2827,
 							"character": 4
 						}
 					],
@@ -6436,7 +6457,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2162,
+							"line": 2440,
 							"character": 4
 						}
 					],
@@ -6464,7 +6485,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2731,
+							"line": 3009,
 							"character": 4
 						}
 					],
@@ -6492,7 +6513,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2565,
+							"line": 2843,
 							"character": 4
 						}
 					],
@@ -6516,7 +6537,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2782,
+							"line": 3060,
 							"character": 4
 						}
 					],
@@ -6544,7 +6565,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2227,
+							"line": 2505,
 							"character": 4
 						}
 					],
@@ -6572,7 +6593,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1968,
+							"line": 2246,
 							"character": 4
 						}
 					],
@@ -6600,7 +6621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3085,
+							"line": 3363,
 							"character": 4
 						}
 					],
@@ -6628,7 +6649,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3074,
+							"line": 3352,
 							"character": 4
 						}
 					],
@@ -6656,7 +6677,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2634,
+							"line": 2912,
 							"character": 4
 						}
 					],
@@ -6688,7 +6709,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2303,
+							"line": 2581,
 							"character": 4
 						}
 					],
@@ -6720,7 +6741,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1994,
+							"line": 2272,
 							"character": 4
 						}
 					],
@@ -6748,7 +6769,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2678,
+							"line": 2956,
 							"character": 4
 						}
 					],
@@ -6776,7 +6797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2253,
+							"line": 2531,
 							"character": 4
 						}
 					],
@@ -6814,7 +6835,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2924,
+							"line": 3202,
 							"character": 4
 						}
 					],
@@ -6842,7 +6863,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3141,
+							"line": 3419,
 							"character": 4
 						}
 					],
@@ -6866,7 +6887,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2935,
+							"line": 3213,
 							"character": 4
 						}
 					],
@@ -6894,7 +6915,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2455,
+							"line": 2733,
 							"character": 4
 						}
 					],
@@ -6926,7 +6947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2693,
+							"line": 2971,
 							"character": 4
 						}
 					],
@@ -6954,7 +6975,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3030,
+							"line": 3308,
 							"character": 4
 						}
 					],
@@ -6982,7 +7003,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2017,
+							"line": 2295,
 							"character": 4
 						}
 					],
@@ -7006,7 +7027,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2859,
+							"line": 3137,
 							"character": 4
 						}
 					],
@@ -7046,7 +7067,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2833,
+							"line": 3111,
 							"character": 4
 						}
 					],
@@ -7074,7 +7095,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3096,
+							"line": 3374,
 							"character": 4
 						}
 					],
@@ -7102,7 +7123,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2237,
+							"line": 2515,
 							"character": 4
 						}
 					],
@@ -7126,7 +7147,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2788,
+							"line": 3066,
 							"character": 4
 						}
 					],
@@ -7150,7 +7171,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2795,
+							"line": 3073,
 							"character": 4
 						}
 					],
@@ -7178,7 +7199,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2333,
+							"line": 2611,
 							"character": 4
 						}
 					],
@@ -7206,7 +7227,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2576,
+							"line": 2854,
 							"character": 4
 						}
 					],
@@ -7246,7 +7267,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2824,
+							"line": 3102,
 							"character": 4
 						}
 					],
@@ -7274,7 +7295,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2656,
+							"line": 2934,
 							"character": 4
 						}
 					],
@@ -7302,7 +7323,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2712,
+							"line": 2990,
 							"character": 4
 						}
 					],
@@ -7330,7 +7351,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2491,
+							"line": 2769,
 							"character": 4
 						}
 					],
@@ -7358,7 +7379,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2602,
+							"line": 2880,
 							"character": 4
 						}
 					],
@@ -7386,7 +7407,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2473,
+							"line": 2751,
 							"character": 4
 						}
 					],
@@ -7414,7 +7435,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3231,
+							"line": 3509,
 							"character": 4
 						}
 					],
@@ -7442,7 +7463,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3219,
+							"line": 3497,
 							"character": 4
 						}
 					],
@@ -7470,7 +7491,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3243,
+							"line": 3521,
 							"character": 4
 						}
 					],
@@ -7498,7 +7519,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3019,
+							"line": 3297,
 							"character": 4
 						}
 					],
@@ -7526,7 +7547,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3107,
+							"line": 3385,
 							"character": 4
 						}
 					],
@@ -7554,7 +7575,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3118,
+							"line": 3396,
 							"character": 4
 						}
 					],
@@ -7582,7 +7603,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3063,
+							"line": 3341,
 							"character": 4
 						}
 					],
@@ -7611,7 +7632,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2978,
+							"line": 3256,
 							"character": 4
 						}
 					],
@@ -7635,7 +7656,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2800,
+							"line": 3078,
 							"character": 4
 						}
 					],
@@ -7675,7 +7696,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2815,
+							"line": 3093,
 							"character": 4
 						}
 					],
@@ -7703,7 +7724,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2537,
+							"line": 2815,
 							"character": 4
 						}
 					],
@@ -7739,7 +7760,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2126,
+							"line": 2404,
 							"character": 4
 						}
 					],
@@ -7771,7 +7792,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2107,
+							"line": 2385,
 							"character": 4
 						}
 					],
@@ -7799,7 +7820,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2763,
+							"line": 3041,
 							"character": 4
 						}
 					],
@@ -7904,7 +7925,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1955,
+					"line": 2233,
 					"character": 12
 				}
 			]
@@ -7946,7 +7967,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6596,
+							"line": 6936,
 							"character": 4
 						}
 					],
@@ -7964,7 +7985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6600,
+							"line": 6940,
 							"character": 4
 						}
 					],
@@ -7982,7 +8003,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6598,
+							"line": 6938,
 							"character": 4
 						}
 					],
@@ -8003,7 +8024,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6594,
+					"line": 6934,
 					"character": 12
 				}
 			]
@@ -8457,7 +8478,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1828,
+							"line": 2106,
 							"character": 4
 						}
 					],
@@ -8475,7 +8496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1840,
+							"line": 2118,
 							"character": 4
 						}
 					],
@@ -8493,7 +8514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1832,
+							"line": 2110,
 							"character": 4
 						}
 					],
@@ -8511,7 +8532,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1820,
+							"line": 2098,
 							"character": 4
 						}
 					],
@@ -8529,7 +8550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1836,
+							"line": 2114,
 							"character": 4
 						}
 					],
@@ -8547,7 +8568,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1824,
+							"line": 2102,
 							"character": 4
 						}
 					],
@@ -8571,7 +8592,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1816,
+					"line": 2094,
 					"character": 12
 				}
 			]
@@ -8627,7 +8648,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3694,
+							"line": 3972,
 							"character": 4
 						}
 					],
@@ -8660,7 +8681,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3504,
+							"line": 3782,
 							"character": 4
 						}
 					],
@@ -8693,7 +8714,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4528,
+							"line": 4806,
 							"character": 4
 						}
 					],
@@ -8726,7 +8747,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4570,
+							"line": 4848,
 							"character": 4
 						}
 					],
@@ -8754,7 +8775,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4344,
+							"line": 4622,
 							"character": 4
 						}
 					],
@@ -8787,7 +8808,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4608,
+							"line": 4886,
 							"character": 4
 						}
 					],
@@ -8820,7 +8841,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3830,
+							"line": 4108,
 							"character": 4
 						}
 					],
@@ -8857,7 +8878,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3768,
+							"line": 4046,
 							"character": 4
 						}
 					],
@@ -8885,7 +8906,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4537,
+							"line": 4815,
 							"character": 4
 						}
 					],
@@ -8918,7 +8939,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3914,
+							"line": 4192,
 							"character": 4
 						}
 					],
@@ -8946,7 +8967,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4555,
+							"line": 4833,
 							"character": 4
 						}
 					],
@@ -8974,7 +8995,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4628,
+							"line": 4906,
 							"character": 4
 						}
 					],
@@ -9011,7 +9032,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3960,
+							"line": 4238,
 							"character": 4
 						}
 					],
@@ -9044,7 +9065,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4011,
+							"line": 4289,
 							"character": 4
 						}
 					],
@@ -9081,7 +9102,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3684,
+							"line": 3962,
 							"character": 4
 						}
 					],
@@ -9109,7 +9130,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3984,
+							"line": 4262,
 							"character": 4
 						}
 					],
@@ -9142,7 +9163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4038,
+							"line": 4316,
 							"character": 4
 						}
 					],
@@ -9179,7 +9200,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3383,
+							"line": 3661,
 							"character": 4
 						}
 					],
@@ -9217,7 +9238,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3813,
+							"line": 4091,
 							"character": 4
 						}
 					],
@@ -9250,7 +9271,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4508,
+							"line": 4786,
 							"character": 4
 						}
 					],
@@ -9278,7 +9299,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3648,
+							"line": 3926,
 							"character": 4
 						}
 					],
@@ -9311,7 +9332,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3751,
+							"line": 4029,
 							"character": 4
 						}
 					],
@@ -9339,7 +9360,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3638,
+							"line": 3916,
 							"character": 4
 						}
 					],
@@ -9372,7 +9393,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4334,
+							"line": 4612,
 							"character": 4
 						}
 					],
@@ -9400,7 +9421,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4161,
+							"line": 4439,
 							"character": 4
 						}
 					],
@@ -9428,7 +9449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3403,
+							"line": 3681,
 							"character": 4
 						}
 					],
@@ -9457,7 +9478,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4408,
+							"line": 4686,
 							"character": 4
 						}
 					],
@@ -9489,7 +9510,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3878,
+							"line": 4156,
 							"character": 4
 						}
 					],
@@ -9517,7 +9538,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4263,
+							"line": 4541,
 							"character": 4
 						}
 					],
@@ -9545,7 +9566,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3610,
+							"line": 3888,
 							"character": 4
 						}
 					],
@@ -9589,7 +9610,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3727,
+							"line": 4005,
 							"character": 4
 						}
 					],
@@ -9630,7 +9651,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3789,
+							"line": 4067,
 							"character": 4
 						}
 					],
@@ -9663,7 +9684,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4138,
+							"line": 4416,
 							"character": 4
 						}
 					],
@@ -9696,7 +9717,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3474,
+							"line": 3752,
 							"character": 4
 						}
 					],
@@ -9733,7 +9754,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3494,
+							"line": 3772,
 							"character": 4
 						}
 					],
@@ -9782,7 +9803,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3600,
+							"line": 3878,
 							"character": 4
 						}
 					],
@@ -9815,7 +9836,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3847,
+							"line": 4125,
 							"character": 4
 						}
 					],
@@ -9843,7 +9864,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4517,
+							"line": 4795,
 							"character": 4
 						}
 					],
@@ -9875,7 +9896,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3741,
+							"line": 4019,
 							"character": 4
 						}
 					],
@@ -9908,7 +9929,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3514,
+							"line": 3792,
 							"character": 4
 						}
 					],
@@ -9936,7 +9957,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4369,
+							"line": 4647,
 							"character": 4
 						}
 					],
@@ -9964,7 +9985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4150,
+							"line": 4428,
 							"character": 4
 						}
 					],
@@ -9992,7 +10013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4546,
+							"line": 4824,
 							"character": 4
 						}
 					],
@@ -10025,7 +10046,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4091,
+							"line": 4369,
 							"character": 4
 						}
 					],
@@ -10062,7 +10083,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4457,
+							"line": 4735,
 							"character": 4
 						}
 					],
@@ -10090,7 +10111,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3619,
+							"line": 3897,
 							"character": 4
 						}
 					],
@@ -10118,7 +10139,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3628,
+							"line": 3906,
 							"character": 4
 						}
 					],
@@ -10147,7 +10168,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3333,
+							"line": 3611,
 							"character": 4
 						}
 					],
@@ -10180,7 +10201,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3428,
+							"line": 3706,
 							"character": 4
 						}
 					],
@@ -10213,7 +10234,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4289,
+							"line": 4567,
 							"character": 4
 						}
 					],
@@ -10246,7 +10267,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4276,
+							"line": 4554,
 							"character": 4
 						}
 					],
@@ -10279,7 +10300,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3416,
+							"line": 3694,
 							"character": 4
 						}
 					],
@@ -10307,7 +10328,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4051,
+							"line": 4329,
 							"character": 4
 						}
 					],
@@ -10340,7 +10361,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3897,
+							"line": 4175,
 							"character": 4
 						}
 					],
@@ -10373,7 +10394,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3934,
+							"line": 4212,
 							"character": 4
 						}
 					],
@@ -10406,7 +10427,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4498,
+							"line": 4776,
 							"character": 4
 						}
 					],
@@ -10435,7 +10456,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4641,
+							"line": 4919,
 							"character": 4
 						}
 					],
@@ -10468,7 +10489,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4122,
+							"line": 4400,
 							"character": 4
 						}
 					],
@@ -10501,7 +10522,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4106,
+							"line": 4384,
 							"character": 4
 						}
 					],
@@ -10534,7 +10555,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4482,
+							"line": 4760,
 							"character": 4
 						}
 					],
@@ -10562,7 +10583,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4360,
+							"line": 4638,
 							"character": 4
 						}
 					],
@@ -10607,7 +10628,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4250,
+							"line": 4528,
 							"character": 4
 						}
 					],
@@ -10640,7 +10661,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4388,
+							"line": 4666,
 							"character": 4
 						}
 					],
@@ -10664,7 +10685,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4416,
+							"line": 4694,
 							"character": 4
 						}
 					],
@@ -10702,7 +10723,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3462,
+							"line": 3740,
 							"character": 4
 						}
 					],
@@ -10735,7 +10756,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4304,
+							"line": 4582,
 							"character": 4
 						}
 					],
@@ -10763,7 +10784,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3657,
+							"line": 3935,
 							"character": 4
 						}
 					],
@@ -10791,7 +10812,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3530,
+							"line": 3808,
 							"character": 4
 						}
 					],
@@ -10877,7 +10898,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3313,
+					"line": 3591,
 					"character": 12
 				}
 			]
@@ -10904,7 +10925,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6778,
+							"line": 7118,
 							"character": 4
 						}
 					],
@@ -10922,7 +10943,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6774,
+							"line": 7114,
 							"character": 4
 						}
 					],
@@ -10940,7 +10961,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6782,
+							"line": 7122,
 							"character": 4
 						}
 					],
@@ -10961,7 +10982,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6770,
+					"line": 7110,
 					"character": 12
 				}
 			]
@@ -11065,7 +11086,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1865,
+							"line": 2143,
 							"character": 4
 						}
 					],
@@ -11083,7 +11104,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1869,
+							"line": 2147,
 							"character": 4
 						}
 					],
@@ -11101,7 +11122,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1853,
+							"line": 2131,
 							"character": 4
 						}
 					],
@@ -11124,7 +11145,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1857,
+							"line": 2135,
 							"character": 4
 						}
 					],
@@ -11142,7 +11163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1873,
+							"line": 2151,
 							"character": 4
 						}
 					],
@@ -11160,7 +11181,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1861,
+							"line": 2139,
 							"character": 4
 						}
 					],
@@ -11178,7 +11199,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1877,
+							"line": 2155,
 							"character": 4
 						}
 					],
@@ -11203,7 +11224,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1849,
+					"line": 2127,
 					"character": 12
 				}
 			]
@@ -11240,7 +11261,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6550,
+							"line": 6890,
 							"character": 4
 						}
 					],
@@ -11268,7 +11289,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6511,
+							"line": 6851,
 							"character": 4
 						}
 					],
@@ -11296,7 +11317,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6536,
+							"line": 6876,
 							"character": 4
 						}
 					],
@@ -11324,7 +11345,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6499,
+							"line": 6839,
 							"character": 4
 						}
 					],
@@ -11352,7 +11373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6562,
+							"line": 6902,
 							"character": 4
 						}
 					],
@@ -11380,7 +11401,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6523,
+							"line": 6863,
 							"character": 4
 						}
 					],
@@ -11404,7 +11425,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6486,
+					"line": 6826,
 					"character": 12
 				}
 			]
@@ -11585,7 +11606,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6377,
+							"line": 6655,
 							"character": 4
 						}
 					],
@@ -11600,7 +11621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6379,
+							"line": 6657,
 							"character": 4
 						}
 					],
@@ -11615,7 +11636,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6378,
+							"line": 6656,
 							"character": 4
 						}
 					],
@@ -11630,7 +11651,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6380,
+							"line": 6658,
 							"character": 4
 						}
 					],
@@ -11652,7 +11673,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6376,
+					"line": 6654,
 					"character": 12
 				}
 			]
@@ -11731,7 +11752,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1776,
+							"line": 2054,
 							"character": 4
 						}
 					],
@@ -11749,7 +11770,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1796,
+							"line": 2074,
 							"character": 4
 						}
 					],
@@ -11767,7 +11788,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1792,
+							"line": 2070,
 							"character": 4
 						}
 					],
@@ -11785,7 +11806,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1784,
+							"line": 2062,
 							"character": 4
 						}
 					],
@@ -11803,7 +11824,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1788,
+							"line": 2066,
 							"character": 4
 						}
 					],
@@ -11821,7 +11842,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1772,
+							"line": 2050,
 							"character": 4
 						}
 					],
@@ -11839,7 +11860,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1780,
+							"line": 2058,
 							"character": 4
 						}
 					],
@@ -11857,7 +11878,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1748,
+							"line": 2026,
 							"character": 4
 						}
 					],
@@ -11875,7 +11896,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1768,
+							"line": 2046,
 							"character": 4
 						}
 					],
@@ -11893,7 +11914,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1764,
+							"line": 2042,
 							"character": 4
 						}
 					],
@@ -11911,7 +11932,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1800,
+							"line": 2078,
 							"character": 4
 						}
 					],
@@ -11929,7 +11950,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1760,
+							"line": 2038,
 							"character": 4
 						}
 					],
@@ -11947,7 +11968,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1756,
+							"line": 2034,
 							"character": 4
 						}
 					],
@@ -11965,7 +11986,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1752,
+							"line": 2030,
 							"character": 4
 						}
 					],
@@ -11983,7 +12004,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1804,
+							"line": 2082,
 							"character": 4
 						}
 					],
@@ -12016,7 +12037,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1744,
+					"line": 2022,
 					"character": 12
 				}
 			]
@@ -24002,7 +24023,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -24086,7 +24107,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1358,
+							"line": 1636,
 							"character": 4
 						}
 					],
@@ -24161,7 +24182,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1317,
+							"line": 1595,
 							"character": 4
 						}
 					],
@@ -24200,7 +24221,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1594,
+							"line": 1872,
 							"character": 4
 						}
 					],
@@ -24231,14 +24252,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -24278,7 +24307,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -24360,7 +24389,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1374,
+							"line": 1652,
 							"character": 4
 						}
 					],
@@ -24436,7 +24465,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -24474,7 +24503,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -24512,7 +24541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -24594,7 +24623,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -24636,7 +24665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1492,
+							"line": 1770,
 							"character": 4
 						}
 					],
@@ -24678,7 +24707,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1578,
+							"line": 1856,
 							"character": 4
 						}
 					],
@@ -24720,7 +24749,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1668,
 							"character": 4
 						}
 					],
@@ -24832,7 +24861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -24870,7 +24899,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1608,
 							"character": 4
 						}
 					],
@@ -24908,7 +24937,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1343,
+							"line": 1621,
 							"character": 4
 						}
 					],
@@ -24945,7 +24974,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -24983,7 +25012,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -25060,7 +25089,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -25102,7 +25131,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1253,
+							"line": 1531,
 							"character": 4
 						}
 					],
@@ -25144,7 +25173,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1212,
+							"line": 1490,
 							"character": 4
 						}
 					],
@@ -25186,7 +25215,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1191,
+							"line": 1469,
 							"character": 4
 						}
 					],
@@ -25346,7 +25375,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1545,
+							"line": 1823,
 							"character": 4
 						}
 					],
@@ -25388,7 +25417,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1428,
+							"line": 1706,
 							"character": 4
 						}
 					],
@@ -25642,7 +25671,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -25679,7 +25708,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -25716,7 +25745,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -25757,7 +25786,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1612,
+							"line": 1890,
 							"character": 4
 						}
 					],
@@ -25795,7 +25824,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1643,
+							"line": 1921,
 							"character": 4
 						}
 					],
@@ -25867,7 +25896,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1627,
+							"line": 1905,
 							"character": 4
 						}
 					],
@@ -25909,7 +25938,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1509,
+							"line": 1787,
 							"character": 4
 						}
 					],
@@ -25947,7 +25976,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1753,
 							"character": 4
 						}
 					],
@@ -25989,7 +26018,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1675,
+							"line": 1953,
 							"character": 4
 						}
 					],
@@ -26091,7 +26120,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -26163,7 +26192,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1406,
+							"line": 1684,
 							"character": 4
 						}
 					],
@@ -26310,7 +26339,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -26348,7 +26377,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -26460,7 +26489,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -26567,7 +26596,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -26605,7 +26634,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1065,
+							"line": 1201,
 							"character": 4
 						}
 					],
@@ -26642,7 +26671,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -26680,7 +26709,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1232,
+							"line": 1510,
 							"character": 4
 						}
 					],
@@ -26722,7 +26751,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1281,
+							"line": 1559,
 							"character": 4
 						}
 					],
@@ -26764,7 +26793,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1302,
+							"line": 1580,
 							"character": 4
 						}
 					],
@@ -26809,7 +26838,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -26846,7 +26875,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -26888,7 +26917,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1460,
+							"line": 1738,
 							"character": 4
 						}
 					],
@@ -26930,7 +26959,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1562,
+							"line": 1840,
 							"character": 4
 						}
 					],
@@ -26972,7 +27001,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1444,
+							"line": 1722,
 							"character": 4
 						}
 					],
@@ -27014,7 +27043,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1526,
+							"line": 1804,
 							"character": 4
 						}
 					],
@@ -27056,7 +27085,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1659,
+							"line": 1937,
 							"character": 4
 						}
 					],
@@ -27277,7 +27306,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -27319,7 +27348,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -28198,7 +28227,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -28272,14 +28301,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -28320,7 +28357,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -28360,7 +28397,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -28399,7 +28436,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -28438,7 +28475,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -28484,7 +28521,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -28523,7 +28560,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -28561,7 +28598,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -28600,7 +28637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -28644,7 +28681,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -28687,7 +28724,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -28725,7 +28762,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -28763,7 +28800,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -28801,7 +28838,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -28840,7 +28877,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -28879,7 +28916,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -28918,7 +28955,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -28957,7 +28994,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -28995,7 +29032,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -29037,7 +29074,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -29075,7 +29112,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -29117,7 +29154,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -29160,7 +29197,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -29298,7 +29335,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -29372,14 +29409,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -29420,7 +29465,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -29503,7 +29548,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -29581,7 +29626,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -29620,7 +29665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -29666,7 +29711,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -29705,7 +29750,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -29821,7 +29866,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -29860,7 +29905,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -29904,7 +29949,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -30025,7 +30070,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -30063,7 +30108,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -30101,7 +30146,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -30139,7 +30184,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -30178,7 +30223,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -30217,7 +30262,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -30256,7 +30301,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -30295,7 +30340,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -30333,7 +30378,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -30489,7 +30534,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -30527,7 +30572,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -30731,7 +30776,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -30774,7 +30819,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -30906,7 +30951,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6421,
+							"line": 6699,
 							"character": 4
 						}
 					],
@@ -30928,7 +30973,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6422,
+											"line": 6700,
 											"character": 8
 										}
 									],
@@ -30947,7 +30992,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6423,
+											"line": 6701,
 											"character": 8
 										}
 									],
@@ -30983,7 +31028,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6425,
+							"line": 6703,
 							"character": 4
 						}
 					],
@@ -31005,7 +31050,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6433,
+											"line": 6711,
 											"character": 8
 										}
 									],
@@ -31026,7 +31071,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6434,
+											"line": 6712,
 											"character": 8
 										}
 									],
@@ -31047,7 +31092,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6427,
+											"line": 6705,
 											"character": 8
 										}
 									],
@@ -31065,7 +31110,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6426,
+											"line": 6704,
 											"character": 8
 										}
 									],
@@ -31083,7 +31128,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6428,
+											"line": 6706,
 											"character": 8
 										}
 									],
@@ -31105,7 +31150,7 @@
 													"sources": [
 														{
 															"fileName": "types.ts",
-															"line": 6429,
+															"line": 6707,
 															"character": 12
 														}
 													],
@@ -31127,7 +31172,7 @@
 																	"sources": [
 																		{
 																			"fileName": "types.ts",
-																			"line": 6430,
+																			"line": 6708,
 																			"character": 16
 																		}
 																	],
@@ -31211,7 +31256,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6437,
+							"line": 6715,
 							"character": 4
 						}
 					],
@@ -31232,7 +31277,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6438,
+							"line": 6716,
 							"character": 4
 						}
 					],
@@ -31257,7 +31302,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6420,
+					"line": 6698,
 					"character": 17
 				}
 			]
@@ -36077,7 +36122,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 721,
+							"line": 857,
 							"character": 4
 						}
 					],
@@ -36132,14 +36177,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nimport { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';\ninit({\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n```\n"
+								"text": "\n```js\nimport { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';\ninit({\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nimport { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';\ninit({\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nimport { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';\ninit({\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 708,
+							"line": 844,
 							"character": 4
 						}
 					],
@@ -36969,7 +37022,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 715,
+							"line": 851,
 							"character": 4
 						}
 					],
@@ -37121,7 +37174,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6727,
+							"line": 7067,
 							"character": 4
 						}
 					],
@@ -37143,7 +37196,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6723,
+							"line": 7063,
 							"character": 4
 						}
 					],
@@ -37165,7 +37218,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6725,
+							"line": 7065,
 							"character": 4
 						}
 					],
@@ -37201,7 +37254,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6721,
+					"line": 7061,
 					"character": 17
 				}
 			],
@@ -37262,7 +37315,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 739,
+							"line": 875,
 							"character": 4
 						}
 					],
@@ -37294,7 +37347,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 745,
+							"line": 881,
 							"character": 4
 						}
 					],
@@ -37330,7 +37383,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 735,
+							"line": 871,
 							"character": 4
 						}
 					],
@@ -37363,7 +37416,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 731,
+					"line": 867,
 					"character": 17
 				}
 			],
@@ -37486,7 +37539,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -37570,7 +37623,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1358,
+							"line": 1636,
 							"character": 4
 						}
 					],
@@ -37608,7 +37661,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1317,
+							"line": 1595,
 							"character": 4
 						}
 					],
@@ -37647,7 +37700,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1594,
+							"line": 1872,
 							"character": 4
 						}
 					],
@@ -37678,14 +37731,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -37725,7 +37786,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -37768,7 +37829,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1374,
+							"line": 1652,
 							"character": 4
 						}
 					],
@@ -37848,7 +37909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -37886,7 +37947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -37924,7 +37985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -37969,7 +38030,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -38011,7 +38072,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1492,
+							"line": 1770,
 							"character": 4
 						}
 					],
@@ -38053,7 +38114,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1578,
+							"line": 1856,
 							"character": 4
 						}
 					],
@@ -38095,7 +38156,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1668,
 							"character": 4
 						}
 					],
@@ -38133,7 +38194,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -38207,7 +38268,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1608,
 							"character": 4
 						}
 					],
@@ -38245,7 +38306,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1343,
+							"line": 1621,
 							"character": 4
 						}
 					],
@@ -38282,7 +38343,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -38320,7 +38381,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -38397,7 +38458,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -38480,7 +38541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1545,
+							"line": 1823,
 							"character": 4
 						}
 					],
@@ -38522,7 +38583,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1428,
+							"line": 1706,
 							"character": 4
 						}
 					],
@@ -38594,7 +38655,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -38631,7 +38692,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -38668,7 +38729,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -38709,7 +38770,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1612,
+							"line": 1890,
 							"character": 4
 						}
 					],
@@ -38747,7 +38808,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1643,
+							"line": 1921,
 							"character": 4
 						}
 					],
@@ -38819,7 +38880,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1627,
+							"line": 1905,
 							"character": 4
 						}
 					],
@@ -38861,7 +38922,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1509,
+							"line": 1787,
 							"character": 4
 						}
 					],
@@ -38899,7 +38960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1753,
 							"character": 4
 						}
 					],
@@ -38941,7 +39002,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1675,
+							"line": 1953,
 							"character": 4
 						}
 					],
@@ -39043,7 +39104,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -39115,7 +39176,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1406,
+							"line": 1684,
 							"character": 4
 						}
 					],
@@ -39224,7 +39285,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -39330,7 +39391,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -39405,7 +39466,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -39477,7 +39538,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -39549,7 +39610,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1065,
+							"line": 1201,
 							"character": 4
 						}
 					],
@@ -39586,7 +39647,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -39624,7 +39685,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1281,
+							"line": 1559,
 							"character": 4
 						}
 					],
@@ -39666,7 +39727,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1302,
+							"line": 1580,
 							"character": 4
 						}
 					],
@@ -39711,7 +39772,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -39748,7 +39809,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -39790,7 +39851,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1460,
+							"line": 1738,
 							"character": 4
 						}
 					],
@@ -39832,7 +39893,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1562,
+							"line": 1840,
 							"character": 4
 						}
 					],
@@ -39874,7 +39935,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1444,
+							"line": 1722,
 							"character": 4
 						}
 					],
@@ -39916,7 +39977,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1526,
+							"line": 1804,
 							"character": 4
 						}
 					],
@@ -39958,7 +40019,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1659,
+							"line": 1937,
 							"character": 4
 						}
 					],
@@ -40139,7 +40200,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -40181,7 +40242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -40433,7 +40494,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1888,
+							"line": 2166,
 							"character": 4
 						}
 					],
@@ -40454,7 +40515,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1892,
+							"line": 2170,
 							"character": 4
 						}
 					],
@@ -40476,7 +40537,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1898,
+							"line": 2176,
 							"character": 4
 						}
 					],
@@ -40520,7 +40581,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1884,
+					"line": 2162,
 					"character": 17
 				}
 			]
@@ -40547,7 +40608,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1908,
+							"line": 2186,
 							"character": 4
 						}
 					],
@@ -40568,7 +40629,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1912,
+							"line": 2190,
 							"character": 4
 						}
 					],
@@ -40604,7 +40665,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1904,
+					"line": 2182,
 					"character": 17
 				}
 			]
@@ -40654,7 +40715,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -40738,7 +40799,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1358,
+							"line": 1636,
 							"character": 4
 						}
 					],
@@ -40776,7 +40837,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1317,
+							"line": 1595,
 							"character": 4
 						}
 					],
@@ -40808,14 +40869,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -40855,7 +40924,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -40898,7 +40967,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1374,
+							"line": 1652,
 							"character": 4
 						}
 					],
@@ -40959,7 +41028,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -41026,7 +41095,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -41064,7 +41133,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -41109,7 +41178,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -41151,7 +41220,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1668,
 							"character": 4
 						}
 					],
@@ -41189,7 +41258,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -41227,7 +41296,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1608,
 							"character": 4
 						}
 					],
@@ -41265,7 +41334,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1343,
+							"line": 1621,
 							"character": 4
 						}
 					],
@@ -41302,7 +41371,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -41340,7 +41409,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -41383,7 +41452,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -41579,7 +41648,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -41616,7 +41685,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -41653,7 +41722,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -41690,7 +41759,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -41728,7 +41797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1406,
+							"line": 1684,
 							"character": 4
 						}
 					],
@@ -41766,7 +41835,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -41804,7 +41873,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -41842,7 +41911,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -41880,7 +41949,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -41917,7 +41986,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -41955,7 +42024,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1281,
+							"line": 1559,
 							"character": 4
 						}
 					],
@@ -41997,7 +42066,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1302,
+							"line": 1580,
 							"character": 4
 						}
 					],
@@ -42076,7 +42145,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -42113,7 +42182,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -42212,7 +42281,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -42254,7 +42323,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -42412,7 +42481,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -42496,7 +42565,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1358,
+							"line": 1636,
 							"character": 4
 						}
 					],
@@ -42534,7 +42603,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1317,
+							"line": 1595,
 							"character": 4
 						}
 					],
@@ -42566,14 +42635,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -42613,7 +42690,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -42656,7 +42733,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1374,
+							"line": 1652,
 							"character": 4
 						}
 					],
@@ -42769,7 +42846,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -42807,7 +42884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -42845,7 +42922,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -42890,7 +42967,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -42932,7 +43009,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1668,
 							"character": 4
 						}
 					],
@@ -42970,7 +43047,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -43008,7 +43085,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1608,
 							"character": 4
 						}
 					],
@@ -43046,7 +43123,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1343,
+							"line": 1621,
 							"character": 4
 						}
 					],
@@ -43117,7 +43194,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -43155,7 +43232,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -43198,7 +43275,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -43240,7 +43317,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -43277,7 +43354,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -43314,7 +43391,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -43351,7 +43428,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -43389,7 +43466,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1406,
+							"line": 1684,
 							"character": 4
 						}
 					],
@@ -43427,7 +43504,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -43465,7 +43542,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -43503,7 +43580,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -43541,7 +43618,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -43579,7 +43656,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1065,
+							"line": 1201,
 							"character": 4
 						}
 					],
@@ -43616,7 +43693,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -43654,7 +43731,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1281,
+							"line": 1559,
 							"character": 4
 						}
 					],
@@ -43696,7 +43773,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1302,
+							"line": 1580,
 							"character": 4
 						}
 					],
@@ -43775,7 +43852,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -43812,7 +43889,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -43853,7 +43930,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -43929,7 +44006,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -44053,7 +44130,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -44239,7 +44316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1358,
+							"line": 1636,
 							"character": 4
 						}
 					],
@@ -44314,7 +44391,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1317,
+							"line": 1595,
 							"character": 4
 						}
 					],
@@ -44346,14 +44423,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -44393,7 +44478,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -44474,7 +44559,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1374,
+							"line": 1652,
 							"character": 4
 						}
 					],
@@ -44582,7 +44667,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -44620,7 +44705,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -44658,7 +44743,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -44703,7 +44788,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -44745,7 +44830,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1390,
+							"line": 1668,
 							"character": 4
 						}
 					],
@@ -44817,7 +44902,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -44855,7 +44940,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1330,
+							"line": 1608,
 							"character": 4
 						}
 					],
@@ -44893,7 +44978,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1343,
+							"line": 1621,
 							"character": 4
 						}
 					],
@@ -44964,7 +45049,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -45074,7 +45159,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -45117,7 +45202,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -45261,7 +45346,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -45298,7 +45383,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -45335,7 +45420,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -45372,7 +45457,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -45410,7 +45495,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1406,
+							"line": 1684,
 							"character": 4
 						}
 					],
@@ -45448,7 +45533,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -45486,7 +45571,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -45524,7 +45609,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -45562,7 +45647,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -45599,7 +45684,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -45637,7 +45722,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1281,
+							"line": 1559,
 							"character": 4
 						}
 					],
@@ -45679,7 +45764,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1302,
+							"line": 1580,
 							"character": 4
 						}
 					],
@@ -45783,7 +45868,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -45820,7 +45905,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -45861,7 +45946,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -45933,7 +46018,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -46213,7 +46298,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -46286,14 +46371,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -46333,7 +46426,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -46372,7 +46465,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -46410,7 +46503,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -46448,7 +46541,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -46493,7 +46586,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -46531,7 +46624,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -46568,7 +46661,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -46606,7 +46699,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -46649,7 +46742,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -46691,7 +46784,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -46728,7 +46821,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -46765,7 +46858,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -46802,7 +46895,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -46840,7 +46933,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -46878,7 +46971,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -46916,7 +47009,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -46954,7 +47047,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -46991,7 +47084,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -47032,7 +47125,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -47069,7 +47162,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -47110,7 +47203,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -47152,7 +47245,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -47387,7 +47480,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 900,
+							"line": 1036,
 							"character": 4
 						}
 					],
@@ -47460,14 +47553,22 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      name: 'customAction',\n      id: 'customAction',\n      target: CustomActionTarget.VIZ,\n      position: CustomActionPosition.PRIMARY,\n      }\n    }\n  ]\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```\n"
+								"text": "\n```ts\nimport {\n  CustomActionPayload,\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\n// Use supported embed types such as AppEmbed or LiveboardEmbed\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // ANSWER: Available on answer pages\n      target: CustomActionTarget.ANSWER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n\n// to trigger a custom flow on custom action click listen to Custom action embed event\nembed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {\n  console.log('Custom Action event:', payload);\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Custom Action',\n\n      // Where the action appears in the UI\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.MENU,\n\n      // What type of content this action applies to\n      // SPOTTER: Available in Spotter (AI-powered search)\n      target: CustomActionTarget.SPOTTER,\n\n      // Optional: Restrict where this action appears based on data models\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1'],\n    }\n  ],\n})\n```"
+							},
+							{
+								"tag": "example",
+								"text": "\n```ts\nimport {\n  CustomActionsPosition,\n  CustomActionTarget,\n} from '@thoughtspot/visual-embed-sdk';\nconst embed = new LiveboardEmbed('#tsEmbed', {\n  ... // other embed config options\n  customActions: [\n    {\n      // Unique identifier for the custom action\n      id: 'my-liveboard-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Liveboard Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // LIVEBOARD: Available on liveboard pages\n      target: CustomActionTarget.LIVEBOARD,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific liveboards\n      //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    },\n    {\n      // Unique identifier for the custom action\n      id: 'my-viz-custom-action',\n\n      // Display name shown to users in the UI\n      name: 'My Viz Custom Action',\n\n      // Where the action appears in the UI\n      // PRIMARY: Shows as a primary button (e.g., in the toolbar)\n      // MENU: Shows in the \"More\" menu (three dots menu)\n      // CONTEXTMENU: Shows in the right-click context menu\n      position: CustomActionsPosition.PRIMARY,\n\n      // What type of content this action applies to\n      // VIZ: Available on individual visualizations\n      target: CustomActionTarget.VIZ,\n\n      // Optional: Restrict where this action appears based on metadata\n      // metadataIds: {\n      //     // Restrict to specific answers\n      //     answerIds: ['answer-id-1', 'answer-id-2'],\n      //     // Restrict to specific liveboard. If liveboardId is\n      //     // passed, custom actions will appear on all vizzes of liveboard\n      //     liveboardIds: ['liveboard-id-1'],\n      //     // Restrict to specific vizIds\n      //     vizIds: ['viz-id-1']\n      // },\n      // dataModelIds: {\n      //     // Restrict to specific data models\n      //     modelIds: ['model-id-1', 'model-id-2'],\n      //     // Restrict to specific columns within models\n      //     modelColumnNames: ['model-id::column-name']\n      // },\n      //     // Restrict to specific groups (for group-based access control)\n      //     groupIds: ['group-id-1', 'group-id-2'],\n      //     // Restrict to specific organizations (for multi-org deployments)\n      //     orgIds: ['org-id-1', 'org-id-2'],\n    }\n  ],\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1122,
+							"line": 1400,
 							"character": 4
 						}
 					],
@@ -47507,7 +47608,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 907,
+							"line": 1043,
 							"character": 4
 						}
 					],
@@ -47584,7 +47685,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1015,
+							"line": 1151,
 							"character": 4
 						}
 					],
@@ -47656,7 +47757,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 822,
+							"line": 958,
 							"character": 4
 						}
 					],
@@ -47694,7 +47795,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 806,
+							"line": 942,
 							"character": 4
 						}
 					],
@@ -47739,7 +47840,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 971,
+							"line": 1107,
 							"character": 4
 						}
 					],
@@ -47777,7 +47878,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 988,
+							"line": 1124,
 							"character": 4
 						}
 					],
@@ -47882,7 +47983,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1135,
 							"character": 4
 						}
 					],
@@ -47920,7 +48021,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 779,
+							"line": 915,
 							"character": 4
 						}
 					],
@@ -47963,7 +48064,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 840,
+							"line": 976,
 							"character": 4
 						}
 					],
@@ -48073,7 +48174,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 923,
+							"line": 1059,
 							"character": 4
 						}
 					],
@@ -48110,7 +48211,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6826,
+							"line": 7166,
 							"character": 4
 						}
 					],
@@ -48147,7 +48248,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 7149,
 							"character": 4
 						}
 					],
@@ -48184,7 +48285,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6793,
+							"line": 7133,
 							"character": 4
 						}
 					],
@@ -48222,7 +48323,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1049,
+							"line": 1185,
 							"character": 4
 						}
 					],
@@ -48260,7 +48361,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 876,
+							"line": 1012,
 							"character": 4
 						}
 					],
@@ -48298,7 +48399,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1034,
+							"line": 1170,
 							"character": 4
 						}
 					],
@@ -48336,7 +48437,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 950,
+							"line": 1086,
 							"character": 4
 						}
 					],
@@ -48373,7 +48474,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1136,
+							"line": 1414,
 							"character": 4
 						}
 					],
@@ -48513,7 +48614,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1149,
+							"line": 1427,
 							"character": 4
 						}
 					],
@@ -48550,7 +48651,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1085,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -48733,7 +48834,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1163,
+							"line": 1441,
 							"character": 4
 						}
 					],
@@ -48775,7 +48876,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 861,
+							"line": 997,
 							"character": 4
 						}
 					],
@@ -49348,7 +49449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6413,
+							"line": 6691,
 							"character": 4
 						}
 					],
@@ -49369,7 +49470,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6414,
+							"line": 6692,
 							"character": 4
 						}
 					],
@@ -49395,7 +49496,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6412,
+					"line": 6690,
 					"character": 17
 				}
 			]
@@ -49879,7 +49980,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1712,
+					"line": 1990,
 					"character": 12
 				}
 			],
@@ -49903,7 +50004,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1712,
+							"line": 1990,
 							"character": 30
 						}
 					],
@@ -49949,7 +50050,7 @@
 											"sources": [
 												{
 													"fileName": "types.ts",
-													"line": 1719,
+													"line": 1997,
 													"character": 16
 												}
 											],
@@ -50013,7 +50114,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1701,
+					"line": 1979,
 					"character": 12
 				}
 			],
@@ -50040,7 +50141,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 1706,
+									"line": 1984,
 									"character": 4
 								}
 							],
@@ -50062,7 +50163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1701,
+							"line": 1979,
 							"character": 29
 						}
 					]
@@ -50087,7 +50188,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1688,
+					"line": 1966,
 					"character": 12
 				}
 			],
@@ -50109,7 +50210,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 1692,
+									"line": 1970,
 									"character": 4
 								}
 							],
@@ -50129,7 +50230,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 1694,
+									"line": 1972,
 									"character": 4
 								}
 							],
@@ -50147,7 +50248,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 1690,
+									"line": 1968,
 									"character": 4
 								}
 							],
@@ -50171,7 +50272,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1688,
+							"line": 1966,
 							"character": 29
 						}
 					]
