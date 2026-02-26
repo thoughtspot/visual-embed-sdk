@@ -174,9 +174,9 @@ export class TsEmbed {
     private isPreRendered: boolean;
 
     /**
-     * Should we encode URL Query Params using base64 encoding which thoughtspot
+     * Should we encode URL Query Params using base64 encoding which ThoughtSpot
      * will generate for embedding. This provides additional security to
-     * thoughtspot clusters against Cross site scripting attacks.
+     * ThoughtSpot clusters against Cross site scripting attacks.
      * @default false
      */
     private shouldEncodeUrlQueryParams = false;
