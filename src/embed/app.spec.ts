@@ -397,7 +397,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isLiveboardStylingAndGroupingEnabled to true in url', async () => {
+    test('should set isLiveboardStylingAndGroupingEnabled to true in url (deprecated, use isLiveboardMasterpiecesEnabled)', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             isLiveboardStylingAndGroupingEnabled: true,
