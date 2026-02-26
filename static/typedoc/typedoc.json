@@ -13518,7 +13518,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 743,
+							"line": 744,
 							"character": 4
 						}
 					],
@@ -13582,7 +13582,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1200,
+							"line": 1201,
 							"character": 11
 						}
 					],
@@ -13752,7 +13752,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1069,
+							"line": 1070,
 							"character": 11
 						}
 					],
@@ -14089,7 +14089,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1174,
+							"line": 1175,
 							"character": 11
 						}
 					],
@@ -14465,7 +14465,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1229,
+							"line": 1230,
 							"character": 17
 						}
 					],
@@ -14882,7 +14882,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 738,
+					"line": 739,
 					"character": 13
 				}
 			],
@@ -16806,7 +16806,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 526,
+							"line": 527,
 							"character": 4
 						}
 					],
@@ -16870,7 +16870,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 944,
+							"line": 945,
 							"character": 11
 						}
 					],
@@ -17077,7 +17077,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1009,
+							"line": 1010,
 							"character": 11
 						}
 					],
@@ -17378,7 +17378,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 984,
+							"line": 985,
 							"character": 11
 						}
 					],
@@ -17757,7 +17757,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 973,
+							"line": 974,
 							"character": 17
 						}
 					],
@@ -17896,7 +17896,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 925,
+							"line": 926,
 							"character": 11
 						}
 					],
@@ -18174,7 +18174,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 520,
+					"line": 521,
 					"character": 13
 				}
 			],
@@ -25862,7 +25862,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 620,
+							"line": 621,
 							"character": 4
 						}
 					],
@@ -26040,9 +26040,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the styling and grouping in a Liveboard",
-						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "Use {@link isLiveboardMasterpiecesEnabled} instead.\nThis flag is used to enable/disable the styling and grouping in a Liveboard\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`"
+							},
 							{
 								"tag": "version",
 								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
@@ -26056,7 +26058,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 569,
+							"line": 570,
 							"character": 4
 						}
 					],
@@ -26090,7 +26092,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 603,
+							"line": 604,
 							"character": 4
 						}
 					],
@@ -26158,7 +26160,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 586,
+							"line": 587,
 							"character": 4
 						}
 					],
@@ -26271,7 +26273,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 638,
+							"line": 639,
 							"character": 4
 						}
 					],
@@ -26305,7 +26307,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 662,
+							"line": 663,
 							"character": 4
 						}
 					],
@@ -26418,7 +26420,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 731,
+							"line": 732,
 							"character": 4
 						}
 					],
@@ -27161,7 +27163,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 714,
+							"line": 715,
 							"character": 4
 						}
 					],
@@ -27196,7 +27198,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 696,
+							"line": 697,
 							"character": 4
 						}
 					],
@@ -27269,7 +27271,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 678,
+							"line": 679,
 							"character": 4
 						}
 					],
@@ -32845,7 +32847,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard on active.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -32869,7 +32871,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard on hover.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -32893,7 +32895,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the filter chips in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -32917,7 +32919,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the filter chips in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33010,7 +33012,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33034,7 +33036,7 @@
 					},
 					"comment": {
 						"shortText": "Border color of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33058,7 +33060,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the description of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33082,7 +33084,7 @@
 					},
 					"comment": {
 						"shortText": "Padding of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33106,7 +33108,7 @@
 					},
 					"comment": {
 						"shortText": "Background color of the tiles inside the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33130,7 +33132,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the description of the tiles inside the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33154,7 +33156,7 @@
 					},
 					"comment": {
 						"shortText": "Padding of the group tiles in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33178,7 +33180,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the title of the tiles inside the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33202,7 +33204,7 @@
 					},
 					"comment": {
 						"shortText": "Font size of the title of the tiles inside the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33226,7 +33228,7 @@
 					},
 					"comment": {
 						"shortText": "Font weight of the title of the tiles inside the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33250,7 +33252,7 @@
 					},
 					"comment": {
 						"shortText": "Font color of the title of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33274,7 +33276,7 @@
 					},
 					"comment": {
 						"shortText": "Font size of the title of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -33298,7 +33300,7 @@
 					},
 					"comment": {
 						"shortText": "Font weight of the title of the groups in the Liveboard.",
-						"text": "Please enable the Liveboard styling and grouping feature in your ThoughtSpot instance and then set the isLiveboardStylingAndGrouping SDK flag to true to start modifying this CSS variable.\n"
+						"text": "Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying this CSS variable.\n"
 					},
 					"sources": [
 						{
@@ -38846,7 +38848,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 413,
+							"line": 414,
 							"character": 4
 						}
 					],
@@ -39024,9 +39026,11 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the styling and grouping in a Liveboard",
-						"text": "Supported embed types: `LiveboardEmbed`, `AppEmbed`",
 						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "Use {@link isLiveboardMasterpiecesEnabled} instead.\nThis flag is used to enable/disable the styling and grouping in a Liveboard\n\nSupported embed types: `LiveboardEmbed`, `AppEmbed`"
+							},
 							{
 								"tag": "version",
 								"text": "SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl"
@@ -39040,7 +39044,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 365,
+							"line": 366,
 							"character": 4
 						}
 					],
@@ -39074,7 +39078,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 397,
+							"line": 398,
 							"character": 4
 						}
 					],
@@ -39142,7 +39146,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 381,
+							"line": 382,
 							"character": 4
 						}
 					],
@@ -39217,7 +39221,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 430,
+							"line": 431,
 							"character": 4
 						}
 					],
@@ -39251,7 +39255,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 453,
+							"line": 454,
 							"character": 4
 						}
 					],
@@ -40090,7 +40094,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 469,
+							"line": 470,
 							"character": 4
 						}
 					],
@@ -40124,7 +40128,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 502,
+							"line": 503,
 							"character": 4
 						}
 					],
@@ -40163,7 +40167,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 484,
+							"line": 485,
 							"character": 4
 						}
 					],
