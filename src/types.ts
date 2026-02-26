@@ -690,18 +690,154 @@ export interface EmbedConfig {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
-     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
      * init({
      *   ... // other embed config options
      *   customActions: [
      *     {
-     *       name: 'customAction',
-     *       id: 'customAction',
-     *       target: CustomActionTarget.VIZ,
-     *       position: CustomActionPosition.PRIMARY,
-     *       }
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // ANSWER: Available on answer pages
+     *       target: CustomActionTarget.ANSWER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
      *     }
-     *   ]
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```js
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.MENU,
+     *
+     *       // What type of content this action applies to
+     *       // SPOTTER: Available in Spotter (AI-powered search)
+     *       target: CustomActionTarget.SPOTTER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1'],
+     *     }
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```js
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-liveboard-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Liveboard Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // LIVEBOARD: Available on liveboard pages
+     *       target: CustomActionTarget.LIVEBOARD,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific liveboards
+     *       //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     },
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-viz-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Viz Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // VIZ: Available on individual visualizations
+     *       target: CustomActionTarget.VIZ,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       //     // Restrict to specific liveboard. If liveboardId is
+     *       //     // passed, custom actions will appear on all vizzes of liveboard
+     *       //     liveboardIds: ['liveboard-id-1'],
+     *       //     // Restrict to specific vizIds
+     *       //     vizIds: ['viz-id-1']
+     *       // },
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     }
+     *   ],
      * })
      * ```
      */
@@ -1096,7 +1232,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```ts
      * import {
      *   CustomActionPayload,
-     *   CustomActionPosition,
+     *   CustomActionsPosition,
      *   CustomActionTarget,
      * } from '@thoughtspot/visual-embed-sdk';
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
@@ -1104,18 +1240,160 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   ... // other embed config options
      *   customActions: [
      *     {
-     *       name: 'customAction',
-     *       id: 'customAction',
-     *       target: CustomActionTarget.VIZ,
-     *       position: CustomActionPosition.PRIMARY,
-     *       }
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // ANSWER: Available on answer pages
+     *       target: CustomActionTarget.ANSWER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
      *     }
-     *   ]
+     *   ],
      * })
      *
      * // to trigger a custom flow on custom action click listen to Custom action embed event
      * embed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {
      *   console.log('Custom Action event:', payload);
+     * })
+     * ```
+     * @example
+     * ```ts
+     * import {
+     *   CustomActionsPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.MENU,
+     *
+     *       // What type of content this action applies to
+     *       // SPOTTER: Available in Spotter (AI-powered search)
+     *       target: CustomActionTarget.SPOTTER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1'],
+     *     }
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```ts
+     * import {
+     *   CustomActionsPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-liveboard-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Liveboard Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // LIVEBOARD: Available on liveboard pages
+     *       target: CustomActionTarget.LIVEBOARD,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific liveboards
+     *       //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     },
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-viz-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Viz Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // VIZ: Available on individual visualizations
+     *       target: CustomActionTarget.VIZ,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       //     // Restrict to specific liveboard. If liveboardId is
+     *       //     // passed, custom actions will appear on all vizzes of liveboard
+     *       //     liveboardIds: ['liveboard-id-1'],
+     *       //     // Restrict to specific vizIds
+     *       //     vizIds: ['viz-id-1']
+     *       // },
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     }
+     *   ],
      * })
      * ```
      */
@@ -7030,18 +7308,80 @@ export interface CustomAction {
  * positions in the application.
  */
 export enum CustomActionsPosition {
+    /**
+     * Shows the action as a primary button
+     * in the toolbar area of the embed.
+     */
     PRIMARY = 'PRIMARY',
+    /**
+     * Shows the action inside the "More" menu
+     * (three-dot overflow menu).
+     */
     MENU = 'MENU',
+    /**
+     * Shows the action in the right-click
+     * context menu. Only supported for
+     * {@link CustomActionTarget.VIZ},
+     * {@link CustomActionTarget.ANSWER}, and
+     * {@link CustomActionTarget.SPOTTER} targets.
+     */
     CONTEXTMENU = 'CONTEXTMENU',
 }
 
 /**
- * Enum options to mention the target of the custom action.
+ * Enum options to mention the target of the code-based custom action.
+ * The target determines which type of ThoughtSpot object the action is
+ * associated with, and also controls which positions and scoping options
+ * are available.
  */
 export enum CustomActionTarget {
+    /**
+     * Action applies at the Liveboard level.
+     * Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU}.
+     * Can be scoped with
+     * `metadataIds.liveboardIds`,
+     * `orgIds`, and `groupIds`.
+     */
     LIVEBOARD = 'LIVEBOARD',
+    /**
+     * Action applies to individual
+     * visualizations (charts/tables).
+     * Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with `metadataIds`
+     * (answerIds, liveboardIds, vizIds),
+     * `dataModelIds` (modelIds,
+     * modelColumnNames), `orgIds`,
+     * and `groupIds`.
+     */
     VIZ = 'VIZ',
+    /**
+     * Action applies to saved or unsaved
+     * Answers. Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with
+     * `metadataIds.answerIds`,
+     * `dataModelIds` (modelIds,
+     * modelColumnNames), `orgIds`,
+     * and `groupIds`.
+     */
     ANSWER = 'ANSWER',
+    /**
+     * Action applies to Spotter
+     * (AI-powered search).
+     * Supported positions:
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with
+     * `dataModelIds.modelIds`,
+     * `orgIds`, and `groupIds`.
+     */
     SPOTTER = 'SPOTTER',
 }
 
