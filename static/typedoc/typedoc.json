@@ -2637,7 +2637,7 @@
 							},
 							{
 								"tag": "deprecated",
-								"text": "Reports errors"
+								"text": "This action is deprecated. It was used for reporting errors."
 							},
 							{
 								"tag": "example",
@@ -4232,7 +4232,7 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "The authentication mechanism for allowing access to the\nthe embedded app",
+				"shortText": "The authentication mechanism for allowing access to\nthe embedded app",
 				"tags": [
 					{
 						"tag": "group",
@@ -8563,7 +8563,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "kPI watchlist module"
+						"shortText": "KPI watchlist module"
 					},
 					"sources": [
 						{
@@ -24008,7 +24008,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -24886,7 +24886,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -25110,7 +25110,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -26333,7 +26333,7 @@
 					},
 					"comment": {
 						"shortText": "The margin to be used for lazy loading.",
-						"text": "For example, if the margin is set to '10px',\nthe visualization will be loaded 10px before the its top edge is visible in the\nviewport.\n\nThe format is similar to CSS margin.\n",
+						"text": "For example, if the margin is set to '10px',\nthe visualization will be loaded 10px before its top edge is visible in the\nviewport.\n\nThe format is similar to CSS margin.\n",
 						"tags": [
 							{
 								"tag": "version",
@@ -26341,7 +26341,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   // ...other options\n   fullHeight: true,\n   lazyLoadingForFullHeight: true,\n  // Using 0px, the visualization will be only loaded when its visible in the viewport.\n   lazyLoadingMargin: '0px',\n})\n```\n"
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   // ...other options\n   fullHeight: true,\n   lazyLoadingForFullHeight: true,\n  // Using 0px, the visualization will be only loaded when it's visible in the viewport.\n   lazyLoadingMargin: '0px',\n})\n```\n"
 							}
 						]
 					},
@@ -26555,7 +26555,7 @@
 					},
 					"comment": {
 						"shortText": "The application page to set as the start page\nin the embedded view.",
-						"text": "Use this to open to particular page in the app. To open to a specific\npath within the app, use the `path` attribute which is more flexible.\n\nSupported embed types: `AppEmbed`",
+						"text": "Use this to open to a particular page in the app. To open to a specific\npath within the app, use the `path` attribute which is more flexible.\n\nSupported embed types: `AppEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -26590,7 +26590,7 @@
 					},
 					"comment": {
 						"shortText": "A URL path to the embedded application page\nIf both path and pageId attributes are defined, the path definition\ntakes precedence. This is the path post the `#/` in the URL of the standalone\nThoughtSpot app. Use this to open the embedded view to a specific path.",
-						"text": "For eg, if you want the component to open to a specific Liveboard\nyou could set the path to `pinboard/<liveboardId>/tab/<tabId>`.\n\nSupported embed types: `AppEmbed`",
+						"text": "For example, if you want the component to open to a specific Liveboard\nyou could set the path to `pinboard/<liveboardId>/tab/<tabId>`.\n\nSupported embed types: `AppEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -28255,7 +28255,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -28588,7 +28588,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -28705,7 +28705,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -29363,7 +29363,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -29821,7 +29821,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30016,7 +30016,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -37515,7 +37515,7 @@
 				"kindString": "Index signature",
 				"flags": {},
 				"comment": {
-					"shortText": "This parameters will be passed on the iframe\nas is."
+					"shortText": "These parameters will be passed to the iframe\nas is."
 				},
 				"parameters": [
 					{
@@ -37611,7 +37611,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -37939,7 +37939,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is the minimum height(in pixels) for a full-height Liveboard.\nSetting this height helps resolve issues with empty Liveboards and\nother screens navigable from a Liveboard.",
+						"shortText": "This is the minimum height (in pixels) for a full-height Liveboard.\nSetting this height helps resolve issues with empty Liveboards and\nother screens navigable from a Liveboard.",
 						"text": "Supported embed types: `LiveboardEmbed`",
 						"tags": [
 							{
@@ -38266,7 +38266,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -38527,7 +38527,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -38573,7 +38573,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of tab IDs to hide from the embedded.\nThis Tabs will be hidden from their respective LBs.\nUse this to hide an tabID.",
+						"shortText": "The list of tab IDs to hide from the embedded Liveboard.\nThese tabs will be hidden from their respective Liveboards.\nUse this to hide a tab ID.",
 						"text": "Supported embed types: `LiveboardEmbed`",
 						"tags": [
 							{
@@ -39327,7 +39327,7 @@
 					},
 					"comment": {
 						"shortText": "The margin to be used for lazy loading.",
-						"text": "For example, if the margin is set to '10px',\nthe visualization will be loaded 10px before the its top edge is visible in the\nviewport.\n\nThe format is similar to CSS margin.\n",
+						"text": "For example, if the margin is set to '10px',\nthe visualization will be loaded 10px before its top edge is visible in the\nviewport.\n\nThe format is similar to CSS margin.\n",
 						"tags": [
 							{
 								"tag": "version",
@@ -39335,7 +39335,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   // ...other options\n   fullHeight: true,\n   lazyLoadingForFullHeight: true,\n  // Using 0px, the visualization will be only loaded when its visible in the viewport.\n   lazyLoadingMargin: '0px',\n})\n```\n"
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   // ...other options\n   fullHeight: true,\n   lazyLoadingForFullHeight: true,\n  // Using 0px, the visualization will be only loaded when it's visible in the viewport.\n   lazyLoadingMargin: '0px',\n})\n```\n"
 							}
 						]
 					},
@@ -40133,7 +40133,7 @@
 					},
 					"comment": {
 						"shortText": "Show a preview image of the visualization before the visualization loads.\nOnly works for visualizations embeds with a viz id.",
-						"text": "Also, viz snashot should be enabled in the ThoughtSpot instance.\nContact ThoughtSpot support to enable this feature.\n\nSince, this will show preview images, be careful that it may show\nundesired data to the user when using row level security.\n\nSupported embed types: `LiveboardEmbed`",
+						"text": "Also, viz snapshot should be enabled in the ThoughtSpot instance.\nContact ThoughtSpot support to enable this feature.\n\nSince this will show preview images, be careful that it may show\nundesired data to the user when using row level security.\n\nSupported embed types: `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -40790,7 +40790,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41333,7 +41333,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41523,7 +41523,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41627,7 +41627,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Show or hide sample questions.\nThe sample questions are autogenerated based on the data Model.\nselected for the search operation.",
+						"shortText": "Show or hide sample questions.\nThe sample questions are autogenerated based on the data model\nselected for the search operation.",
 						"text": "Supported embed types: `SageEmbed`",
 						"tags": [
 							{
@@ -42556,7 +42556,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -43122,7 +43122,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -43346,7 +43346,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44205,7 +44205,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44977,7 +44977,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -45273,7 +45273,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46373,7 +46373,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46699,7 +46699,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46813,7 +46813,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -47555,7 +47555,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overriden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
+						"shortText": "This is an object (key/val) of override flags which will be applied\nto the internal embedded object. This can be used to add any\nURL flag.\nIf the same flags are passed in init, they will be overridden by the values here.\nWarning: This option is for advanced use only and is used internally\nto control embed behavior in non-regular ways. We do not publish the\nlist of supported keys and values associated with each.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -47991,7 +47991,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighterweight shell.",
+						"shortText": "Enable the V2 shell. This can provide performance benefits\ndue to a lighter-weight shell.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48173,7 +48173,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded.\nThis actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{

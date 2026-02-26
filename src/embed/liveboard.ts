@@ -100,7 +100,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * If set to true, the context menu in visualizations will be enabled.
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
-     * @Deprecated this option is deprecated.
+     * @deprecated this option is deprecated.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {

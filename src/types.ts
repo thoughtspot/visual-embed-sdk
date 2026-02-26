@@ -5721,7 +5721,7 @@ export enum Action {
     CreateMonitor = 'createMonitor',
     /**
      * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
-     * @deprecated Reports errors
+     * @deprecated This action is deprecated. It was used for reporting errors.
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
