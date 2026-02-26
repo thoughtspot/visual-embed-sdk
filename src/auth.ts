@@ -78,9 +78,9 @@ export enum AuthStatus {
     /**
      * Emits when the ThoughtSpot app inside the
      * embedded iframe confirms its session is active.
-     * This fires after the iframe loads and sends
-     * back an `AuthInit` event. The callback receives
-     * `sessionInfo` with details like `userGUID`.
+     * This fires after the iframe loads and sends back an `AuthInit` event.
+     * @param sessionInfo Information about the user session, with details like `userGUID`.
+     * @see EmbedEvent.AuthInit
      * @example
      * ```js
      * const authEE = init({ ... });
