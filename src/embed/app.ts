@@ -332,7 +332,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * takes precedence. This is the path post the `#/` in the URL of the standalone
      * ThoughtSpot app. Use this to open the embedded view to a specific path.
      *
-     * For eg, if you want the component to open to a specific Liveboard
+     * For example, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
      * Supported embed types: `AppEmbed`
@@ -350,7 +350,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The application page to set as the start page
      * in the embedded view.
      *
-     * Use this to open to particular page in the app. To open to a specific
+     * Use this to open to a particular page in the app. To open to a specific
      * path within the app, use the `path` attribute which is more flexible.
      *
      * Supported embed types: `AppEmbed`
@@ -641,7 +641,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before the its top edge is visible in the
+     * the visualization will be loaded 10px before its top edge is visible in the
      * viewport.
      *
      * The format is similar to CSS margin.
@@ -654,7 +654,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
      *    lazyLoadingMargin: '0px',
      * })
      * ```

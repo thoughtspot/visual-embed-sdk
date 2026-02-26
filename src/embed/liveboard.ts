@@ -62,7 +62,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     fullHeight?: boolean;
     /**
-     * This is the minimum height(in pixels) for a full-height Liveboard.
+     * This is the minimum height (in pixels) for a full-height Liveboard.
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
      *
@@ -246,10 +246,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Show a preview image of the visualization before the visualization loads.
      * Only works for visualizations embeds with a viz id.
      *
-     * Also, viz snashot should be enabled in the ThoughtSpot instance.
+     * Also, viz snapshot should be enabled in the ThoughtSpot instance.
      * Contact ThoughtSpot support to enable this feature.
      *
-     * Since, this will show preview images, be careful that it may show
+     * Since this will show preview images, be careful that it may show
      * undesired data to the user when using row level security.
      *
      * Supported embed types: `LiveboardEmbed`
@@ -310,9 +310,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     dataSourceId?: string;
     /**
-     * The list of tab IDs to hide from the embedded.
-     * This Tabs will be hidden from their respective LBs.
-     * Use this to hide an tabID.
+     * The list of tab IDs to hide from the embedded Liveboard.
+     * These tabs will be hidden from their respective Liveboards.
+     * Use this to hide a tab ID.
      *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
@@ -433,7 +433,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before the its top edge is visible in the
+     * the visualization will be loaded 10px before its top edge is visible in the
      * viewport.
      *
      * The format is similar to CSS margin.
@@ -446,7 +446,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
      *    lazyLoadingMargin: '0px',
      * })
      * ```

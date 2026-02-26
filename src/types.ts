@@ -10,7 +10,7 @@ import { CustomCssVariables } from './css-variables';
 import type { SessionInterface } from './utils/graphql/answerService/answerService';
 
 /**
- * The authentication mechanism for allowing access to the
+ * The authentication mechanism for allowing access to
  * the embedded app
  * @group Authentication / Init
  */
@@ -882,7 +882,7 @@ export interface FrameParams {
      */
     loading?: 'lazy' | 'eager' | 'auto';
     /**
-     * This parameters will be passed on the iframe
+     * These parameters will be passed to the iframe
      * as is.
      */
     [key: string]: string | number | boolean | undefined;
@@ -959,8 +959,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the embedded.
-     * This actions will be hidden from the user.
+     * The list of actions to hide from the embedded view.
+     * These actions will be hidden from the user.
      * Use this to hide an action.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
@@ -1016,7 +1016,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
-     * If the same flags are passed in init, they will be overriden by the values here.
+     * If the same flags are passed in init, they will be overridden by the values here.
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
@@ -1109,7 +1109,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     doNotTrackPreRenderSize?: boolean;
     /**
      * Enable the V2 shell. This can provide performance benefits
-     * due to a lighterweight shell.
+     * due to a lighter-weight shell.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
@@ -2099,7 +2099,7 @@ export enum HomepageModule {
      */
     Search = 'SEARCH',
     /**
-     * kPI watchlist module
+     * KPI watchlist module
      */
     Watchlist = 'WATCHLIST',
     /**

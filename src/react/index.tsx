@@ -176,9 +176,9 @@ interface AppProps extends EmbedProps, AppViewConfig { }
 export const AppEmbed = componentFactory<typeof _AppEmbed, AppProps, AppViewConfig>(_AppEmbed);
 
 /**
- * React component for PreRendered Liveboard embed.
+ * React component for PreRendered App embed.
  *
- * PreRenderedAppEmbed will preRender the SearchBarEmbed and will be hidden by
+ * PreRenderedAppEmbed will preRender the AppEmbed and will be hidden by
  * default.
  *
  * AppEmbed with preRenderId passed will call showPreRender on the embed.
@@ -273,7 +273,7 @@ export const SearchBarEmbed = componentFactory<
 >(_SearchBarEmbed);
 
 /**
- * React component for PreRendered Liveboard embed.
+ * React component for PreRendered SearchBar embed.
  *
  * PreRenderedSearchBarEmbed will preRender the SearchBarEmbed and will be hidden by
  * default.
@@ -315,9 +315,9 @@ export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, Sag
 );
 
 /**
- * React component for PreRendered Liveboard embed.
+ * React component for PreRendered Sage embed.
  *
- * PreRenderedSageEmbed will preRender the SearchBarEmbed and will be hidden by
+ * PreRenderedSageEmbed will preRender the SageEmbed and will be hidden by
  * default.
  *
  * SageEmbed with preRenderId passed will call showPreRender on the embed.
@@ -449,7 +449,7 @@ export const SpotterMessage = React.forwardRef<
  * PreRenderedConversationEmbed will preRender the SpotterEmbed and will be hidden by
  * default.
  *
- * SageEmbed with preRenderId passed will call showPreRender on the embed.
+ * SpotterEmbed with preRenderId passed will call showPreRender on the embed.
  * @example
  * ```tsx
  * function LandingPageComponent() {
