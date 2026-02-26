@@ -111,6 +111,9 @@ interface PreRenderProps {
      * PreRender id to be used for PreRendering the embed.
      * Use PreRender to render the embed in the background and then
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+     *
+     * Use PreRendered react component for pre rendering embed components.
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -119,8 +122,6 @@ interface PreRenderProps {
      * });
      * embed.showPreRender();
      * ```
-     *
-     * Use PreRendered react component for pre rendering embed components.
      * @example
      * ```tsx
      * function LandingPageComponent() {
@@ -131,7 +132,6 @@ interface PreRenderProps {
      *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
      * }
      * ```
-     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
      */
     preRenderId: string;
 }
@@ -365,8 +365,8 @@ export const SpotterEmbed = componentFactory<
 
 /**
  * React component for LLM based conversation BI.
- * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbed} instead
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * @example
  * ```tsx
  * function Sage() {
@@ -410,6 +410,7 @@ type SpotterMessageProps = {
  * This component renders a single message response from your ThoughtSpot conversation,
  * showing charts, visualizations, or text responses based on the user's query.
  * 
+ * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
@@ -426,7 +427,6 @@ type SpotterMessageProps = {
  *   />
  * }
  * ```
- * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  */
 export const SpotterMessage = React.forwardRef<
     React.ComponentRef<typeof ConversationMessage>,
@@ -500,6 +500,7 @@ export function useEmbedRef<T extends EmbedComponent>():
 
 /**
  *
+ * @version SDK: 1.36.2 | ThoughtSpot: *
  * @param config - EmbedConfig
  * @returns AuthEventEmitter
  * @example
@@ -509,7 +510,6 @@ export function useEmbedRef<T extends EmbedComponent>():
  *  return <LiveboardEmbed ref={ref} liveboardId={<id>} />
  * }
  * ```
- * @version SDK: 1.36.2 | ThoughtSpot: *
  */
 export function useInit(config: EmbedConfig) {
     const ref = useRef<AuthEventEmitter | null>(null);
@@ -527,6 +527,7 @@ export function useInit(config: EmbedConfig) {
  * This hook provides a sendMessage function that allows you to send natural language
  * queries to your data and get back AI-generated responses with visualizations.
  * 
+ * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  * @param config - Configuration object containing worksheetId and other options
  * @returns Object with sendMessage function that returns conversation results
  * @example
@@ -544,7 +545,6 @@ export function useInit(config: EmbedConfig) {
  *   }
  * };
  * ```
- * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  */
 export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
     const serviceRef = useRef<_SpotterAgentEmbed | null>(null);

@@ -12,8 +12,8 @@ export interface SearchBarViewConfig extends BaseViewConfig, SearchLiveboardComm
      * Only a single data source is supported currently.
      * 
      * Supported embed types: `SearchBarEmbed`
-     * @deprecated Use `dataSource` instead
      * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.1-sw
+     * @deprecated Use `dataSource` instead
      * @example
      * ```js
      * const embed = new SearchBarEmbed('#tsEmbed', {

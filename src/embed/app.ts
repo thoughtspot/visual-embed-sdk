@@ -164,8 +164,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This flag also controls the homepage left navigation bar.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -186,8 +186,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This attribute is not supported in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -204,8 +204,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * navigation bar is not hidden via `showPrimaryNavbar`.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -216,12 +216,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     disableProfileAndHelp?: boolean;
     /**
-     * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
-     * @default true
      * Whether the help menu in the top navigation bar should be served
      * from Pendo or ThoughtSpot's internal help items.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -236,8 +236,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * the top navigation bar in the V3 navigation experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -256,8 +256,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -275,8 +275,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * in the classic (V1) and V2 experience modes.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -430,8 +430,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * If set to true, the Search Assist feature is enabled.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -469,8 +469,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * For more information,
      * see link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -485,8 +485,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * For more information, see
      * link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -503,8 +503,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * To set the initial state of the search bar in case of saved-answers.
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
-     * @default false
      * @deprecated Use {@link collapseSearchBar} instead
+     * @default false
      */
     collapseSearchBarInitially?: boolean;
     /**
@@ -623,6 +623,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * This flag is used to enable the full height lazy load data.
      *
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
@@ -631,10 +634,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     *
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
 
@@ -647,6 +646,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *
      * The format is similar to CSS margin.
      *
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
@@ -657,8 +658,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    lazyLoadingMargin: '0px',
      * })
      * ```
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
 
@@ -666,6 +665,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -674,7 +674,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    updatedSpotterChatPrompt : true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
     /**
@@ -692,6 +691,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Only applicable when navigating to Spotter within the app.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -712,6 +712,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * branding in tool response cards.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -722,7 +723,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**

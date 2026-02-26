@@ -164,6 +164,7 @@ export interface SearchViewConfig
     /**
      * The array of data source GUIDs to set on load.
      * Only a single data source is supported currently.
+     * Use {@link dataSource} instead.
      * @deprecated Use `dataSource` instead.
      * 
      * Supported embed types: `SearchEmbed`
@@ -192,9 +193,9 @@ export interface SearchViewConfig
     dataSource?: string;
     /**
      * The initial search query to load the answer with.
+     * Use {@link searchOptions} instead.
      * @deprecated
      *
-     * Use {@link searchOptions} instead.
      */
     searchQuery?: string;
     /**
@@ -274,9 +275,9 @@ export interface SearchViewConfig
     useLastSelectedSources?: boolean;
     /**
      * To set the initial state of the search bar in case of saved-answers.
-     * @default false
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @deprecated Use {@link collapseSearchBar} instead
+     * @default false
      */
     collapseSearchBarInitially?: boolean;
     /**

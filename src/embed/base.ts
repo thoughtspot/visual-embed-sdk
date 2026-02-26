@@ -466,9 +466,9 @@ export function reset(): void {
 
 /**
  * Reloads the ThoughtSpot iframe.
+ * @version SDK: 1.43.1
  * @param iFrame
  * @group Global methods
- * @version SDK: 1.43.1
  */
 export const reloadIframe = (iFrame: HTMLIFrameElement) => {
     if (!iFrame) {

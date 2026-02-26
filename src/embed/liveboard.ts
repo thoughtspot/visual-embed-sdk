@@ -49,9 +49,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
      *
-     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -68,8 +68,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
-     * @default 500
      * @deprecated Use `minimumHeight` instead.
+     * @default 500
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -98,7 +98,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     minimumHeight?: number;
     /**
-     * @Deprecated If set to true, the context menu in visualizations will be enabled.
+     * If set to true, the context menu in visualizations will be enabled.
+     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @Deprecated this option is deprecated.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -106,7 +108,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    enableVizTransformations:true,
      * })
      * ```
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      */
     enableVizTransformations?: boolean;
     /**
@@ -200,6 +201,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Specify the tab ID.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -207,7 +209,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    activeTabId:'id-1234',
      * })
      * ```
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
     /**
@@ -216,6 +217,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * that includes specific filter selections.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -224,7 +226,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    activeTabId: 'tab-guid',
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     personalizedViewId?: string;
     /**
@@ -252,6 +253,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * undesired data to the user when using row level security.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -261,7 +263,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * });
      * embed.render();
      * ```
-     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
     /**
@@ -296,10 +297,10 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
 
     /**
      * The source connection ID for authentication.
-     * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      *
      * Supported embed types: `LiveboardEmbed`
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -314,6 +315,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Use this to hide an tabID.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -324,7 +326,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *   ]
      * });
      * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     hiddenTabs?: string[];
     /**
@@ -415,6 +416,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * This flag is used to enable the full height lazy load data.
      *
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -423,10 +427,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     *
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
     /**
@@ -438,6 +438,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * The format is similar to CSS margin.
      *
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -448,8 +450,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    lazyLoadingMargin: '0px',
      * })
      * ```
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
     /**
@@ -457,6 +457,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * of the spotter underneath the chat input.
      * default is false.
      *
+     * @type {boolean}
+     * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -464,14 +466,13 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    showSpotterLimitations: true,
      * })
      * ```
-     * @type {boolean}
-     * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -480,7 +481,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    updatedSpotterChatPrompt : true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
     /**
@@ -488,6 +488,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * branding in tool response cards.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -498,7 +499,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
 }
@@ -507,6 +507,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
  * Embed a ThoughtSpot Liveboard or visualization. When rendered it already
  * waits for the authentication to complete, so you need not wait for
  * `AuthStatus.SUCCESS`.
+ * @group Embed components
  * @example
  * ```js
  * import { .. } from '@thoughtspot/visual-embed-sdk';
@@ -516,7 +517,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
  * // .. other params here.
  * })
  * ```
- * @group Embed components
  */
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;

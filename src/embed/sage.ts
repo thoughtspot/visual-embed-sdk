@@ -85,9 +85,9 @@ export interface SageViewConfig
     hideAutocompleteSuggestions?: boolean;
     /**
      * Show or hide autocomplete suggestions for the search query string.
+     * You can use {@link hideAutocompleteSuggestions} instead.
      * @deprecated
      * Currently, the object suggestions will not be shown for Natural Language Search.
-     * You can use {@link hideAutocompleteSuggestions} instead.
      */
     showObjectSuggestions?: boolean;
     /**
@@ -122,6 +122,7 @@ export interface SageViewConfig
      * the token string in the search bar.
      * 
      * Supported embed types: `SageEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      * @example
      * ```js
      * searchOptions: {
@@ -129,7 +130,6 @@ export interface SageViewConfig
      *    executeSearch: true,
      * }
      * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     searchOptions?: SearchOptions;
 }

@@ -36,6 +36,7 @@ export enum AuthType {
      * To use this:
      * Your SAML or OpenID provider must allow iframe redirects.
      * For example, if you are using Okta as IdP, you can enable iframe embedding.
+     * @version: SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl
      * @example
      * ```js
      * init({
@@ -43,18 +44,17 @@ export enum AuthType {
      *   authType: AuthType.EmbeddedSSO,
      *  });
      * ```
-     * @version: SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl
      */
     EmbeddedSSO = 'EmbeddedSSO',
     /**
-     * SSO using SAML
-     * @deprecated Use {@link SAMLRedirect} instead
+     * SSO using SAML, Use {@link SAMLRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
      */
     SSO = 'SSO_SAML',
     /**
-     * SSO using SAML
-     * @deprecated Use {@link SAMLRedirect} instead
+     * SSO using SAML, Use {@link SAMLRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
      */
     SAML = 'SSO_SAML',
@@ -105,8 +105,9 @@ export enum AuthType {
     SAMLRedirect = 'SSO_SAML',
     /**
      * SSO using OIDC
+     * SSO using OIDC, Use {@link OIDCRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
-     * @deprecated Use {@link OIDCRedirect} instead
      */
     OIDC = 'SSO_OIDC',
     /**
@@ -117,8 +118,9 @@ export enum AuthType {
     OIDCRedirect = 'SSO_OIDC',
     /**
      * Trusted authentication server
+     * Use {@link TrustedAuth} instead
+     * @deprecated This option is deprecated.
      * @hidden
-     * @deprecated Use {@link TrustedAuth} instead
      */
     AuthServer = 'AuthServer',
     /**
@@ -145,6 +147,7 @@ export enum AuthType {
      * obtained from ThoughtSpot. This uses a cookieless authentication
      * approach, recommended to bypass the third-party cookie-blocking restriction
      * implemented by some browsers.
+     * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1.sw
      * @example
      * ```js
      * init({
@@ -156,7 +159,6 @@ export enum AuthType {
      *      .then((data) => data.token);
      *  }
      * ```
-     * @version SDK: 1.22.0| ThoughtSpot: 9.3.0.cl, 9.5.1.sw
      */
     TrustedAuthTokenCookieless = 'AuthServerCookieless',
     /**
@@ -390,8 +392,8 @@ export interface EmbedConfig {
      * [SSO] For SSO Authentication, if `noRedirect` is set to true, it will
      * open the SAML auth flow in a popup, instead of redirecting the browser in
      * place.
+     * @deprecated This option is deprecated.
      * @default false
-     * @deprecated
      */
     noRedirect?: boolean;
 
@@ -401,8 +403,8 @@ export interface EmbedConfig {
      *
      * Need to use this with `authTriggerContainer`. Or manually trigger
      * the `AuthEvent.TRIGGER_SSO_POPUP` event on a user interaction.
-     * @default false
      * @version SDK: 1.18.0
+     * @default false
      */
     inPopup?: boolean;
 
@@ -512,6 +514,7 @@ export interface EmbedConfig {
      * For `inPopup` SAMLRedirect or OIDCRedirect authentication, we need a
      * button that the user can click to trigger the flow.
      * This attribute sets a containing element for that button.
+     * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      * @example
      * ```js
      * init({
@@ -520,7 +523,6 @@ export interface EmbedConfig {
      *   authTriggerContainer: '#auth-trigger-container'
      * })
      * ```
-     * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      */
     authTriggerContainer?: string | HTMLElement;
     /**
@@ -540,8 +542,8 @@ export interface EmbedConfig {
      * Prevent users from accessing the full application or ThoughtSpot application pages
      * access to the embedded application users
      * outside of the iframe.
-     * @default true
      * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1.sw
+     * @default true
      */
     blockNonEmbedFullAppAccess?: boolean;
 
@@ -575,6 +577,7 @@ export interface EmbedConfig {
      * other logs such as warnings, information alerts,
      * and debug messages in the console output.
      *
+     * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      * @default LogLevel.ERROR
      * @example
      * ```js
@@ -583,7 +586,6 @@ export interface EmbedConfig {
      *   logLevel: LogLevel.SILENT
      * })
      * ```
-     * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      */
     logLevel?: LogLevel;
     /**
@@ -611,6 +613,7 @@ export interface EmbedConfig {
      * This flag is used to disable the token verification in the SDK.
      * Enabling this flag will also disable the caching of the token.
      * @hidden
+     * @version SDK: 1.28.5 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      * @example
      * ```js
      * init({
@@ -618,7 +621,6 @@ export interface EmbedConfig {
      *   disableTokenVerification : true
      * })
      * ```
-     * @version SDK: 1.28.5 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     disableTokenVerification?: boolean;
 
@@ -634,6 +636,7 @@ export interface EmbedConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
+     * @version SDK: 1.33.5 | ThoughtSpot: *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -644,12 +647,12 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     * @version SDK: 1.33.5 | ThoughtSpot: *
      */
     additionalFlags?: { [key: string]: string | number | boolean };
     /**
      * This is an object (key/val) for customVariables being
      * used by the third party tool's script.
+     * @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -660,7 +663,6 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     *  @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     customVariablesForThirdPartyTools?: Record<string, any>;
 
@@ -669,8 +671,8 @@ export interface EmbedConfig {
     /**
      * Disable fullscreen presentation mode functionality. When enabled, prevents entering
      * and exiting fullscreen mode for embedded visualizations during presentations.
-     * @default true (feature is disabled by default)
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true (feature is disabled by default)
      * @example
      * ```js
      * init({
@@ -1020,6 +1022,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * list of supported keys and values associated with each.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1031,7 +1034,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *     },
      * });
      * ```
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      */
     additionalFlags?: { [key: string]: string | number | boolean };
     /**
@@ -1072,6 +1074,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1081,7 +1084,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
@@ -1110,6 +1112,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * due to a lighterweight shell.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1118,7 +1121,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   enableV2Shell_experimental: true,
      * });
      * ```
-     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      */
 
     enableV2Shell_experimental?: boolean;
@@ -1138,6 +1140,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * and disable redirection of links in a new tab.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1146,7 +1149,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   disableRedirectionLinksInNewTab: true,
      * });
      * ```
-     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      */
     disableRedirectionLinksInNewTab?: boolean;
     /**
@@ -1157,6 +1159,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Per Org URL feature is enabled on your ThoughtSpot instance.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1165,7 +1168,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   overrideOrgId: 142536,
      * });
      * ```
-     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
     /**
@@ -1516,6 +1518,7 @@ export interface HomePageConfig {
      * **Note**: This attribute is not supported in the classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
      * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
@@ -1526,7 +1529,6 @@ export interface HomePageConfig {
      *    ... //other embed view configuration attributes
      * })
      * ```
-     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
@@ -1582,6 +1584,7 @@ export interface SearchLiveboardCommonViewConfig {
      * flag to set ContextMenu Trigger to either left or right click.
      *
      * Supported embed types: `AppEmbed`, `SageEmbed`, `SearchEmbed`
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SageEmbed, or SearchEmbed
@@ -1590,7 +1593,6 @@ export interface SearchLiveboardCommonViewConfig {
      *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
      * })
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
     /**
@@ -1638,8 +1640,8 @@ export interface SearchLiveboardCommonViewConfig {
      * Flag to control Data panel experience
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @default true
      * @deprecated from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -1672,6 +1674,7 @@ export interface SearchLiveboardCommonViewConfig {
      * the current time period in filter results.
      *
      * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new <EmbedComponent>('#tsEmbed', {
@@ -1679,7 +1682,6 @@ export interface SearchLiveboardCommonViewConfig {
      *    isThisPeriodInDateFiltersEnabled: true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      */
     isThisPeriodInDateFiltersEnabled?: boolean;
 }
@@ -1740,6 +1742,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Boolean to control if Liveboard header is sticky or not.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1748,7 +1751,6 @@ export interface LiveboardAppEmbedViewConfig {
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
     /**
@@ -1756,8 +1758,8 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
-     * @default false
      * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1773,8 +1775,8 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
-     * @default false
      * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
+     * @default false
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -2130,7 +2132,8 @@ export enum ListPageColumns {
      */
     Favorites = 'FAVOURITE',
     /**
-     * @deprecated Use {@link ListPageColumns.Favorites} instead.
+     * Favourite Use {@link ListPageColumns.Favorites} instead.
+     * @deprecated This option is deprecated.
      */
     Favourite = Favorites,
     /**
@@ -4213,6 +4216,11 @@ export enum HostEvent {
     /**
      * Trigger the **Download** action on charts in
      * the embedded view.
+     * Use {@link HostEvent.DownloadAsPng} instead.
+     * 
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
+     * 
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
      * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
@@ -4231,9 +4239,6 @@ export enum HostEvent {
      *
      * spotterEmbed.trigger(HostEvent.Download, { vizId: latestSpotterVizId });
      * ```
-     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
-     * Use {@link DownloadAsPng}
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     Download = 'downloadAsPng',
     /**
@@ -5715,13 +5720,12 @@ export enum Action {
      */
     CreateMonitor = 'createMonitor',
     /**
-     * @deprecated
-     * Reports errors
+     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @deprecated Reports errors
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
      * ```
-     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
     ReportError = 'reportError',
     /**
