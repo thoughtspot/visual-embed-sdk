@@ -509,6 +509,37 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set deprecated standalone enablePastConversationsSidebar in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePastConversationsSidebar: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePastConversationsSidebar=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should prefer spotterSidebarConfig.enablePastConversationsSidebar over deprecated standalone flag in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePastConversationsSidebar: false,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePastConversationsSidebar=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set hideToolResponseCardBranding to true in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
