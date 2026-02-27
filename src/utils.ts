@@ -601,6 +601,20 @@ export const validateHttpUrl = (url: string): [boolean, Error | null] => {
 };
 
 /**
+ * Resolves enablePastConversationsSidebar with
+ * spotterSidebarConfig taking precedence over the
+ * standalone flag.
+ */
+export const resolveEnablePastConversationsSidebar = (params: {
+    spotterSidebarConfigValue?: boolean;
+    standaloneValue?: boolean;
+}): boolean | undefined => (
+    params.spotterSidebarConfigValue !== undefined
+        ? params.spotterSidebarConfigValue
+        : params.standaloneValue
+);
+
+/**
  * Sets a query parameter if the value is defined.
  * @param queryParams - The query params object to modify
  * @param param - The parameter key

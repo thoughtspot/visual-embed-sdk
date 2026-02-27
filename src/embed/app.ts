@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl, resolveEnablePastConversationsSidebar } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -678,6 +678,16 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Controls the visibility of the past conversations sidebar.
+     *
+     * Supported embed types: `AppEmbed`
+     * @default false
+     * @deprecated from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
+     * Use `spotterSidebarConfig.enablePastConversationsSidebar`.
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     */
+    enablePastConversationsSidebar?: boolean;
+    /**
      * Configuration for the Spotter sidebar UI customization.
      * Only applicable when navigating to Spotter within the app.
      *
@@ -685,14 +695,16 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    // Deprecated standalone flag (backward compatibility)
+     *    enablePastConversationsSidebar: false,
+     *    // Recommended config; this value takes precedence
      *    spotterSidebarConfig: {
      *        enablePastConversationsSidebar: true,
      *        spotterSidebarTitle: 'My Conversations',
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
@@ -838,10 +850,15 @@ export class AppEmbed extends V1Embed {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
 
+        const resolvedEnablePastConversationsSidebar = resolveEnablePastConversationsSidebar({
+            spotterSidebarConfigValue: spotterSidebarConfig?.enablePastConversationsSidebar,
+            standaloneValue: this.viewConfig.enablePastConversationsSidebar,
+        });
+        setParamIfDefined(params, Param.EnablePastConversationsSidebar, resolvedEnablePastConversationsSidebar, true);
+
         // Handle spotterSidebarConfig params
         if (spotterSidebarConfig) {
             const {
-                enablePastConversationsSidebar,
                 spotterSidebarTitle,
                 spotterSidebarDefaultExpanded,
                 spotterChatRenameLabel,
@@ -854,7 +871,6 @@ export class AppEmbed extends V1Embed {
                 spotterNewChatButtonTitle,
             } = spotterSidebarConfig;
 
-            setParamIfDefined(params, Param.EnablePastConversationsSidebar, enablePastConversationsSidebar, true);
             setParamIfDefined(params, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
             setParamIfDefined(params, Param.SpotterSidebarTitle, spotterSidebarTitle);
             setParamIfDefined(params, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
