@@ -13531,7 +13531,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 756,
+							"line": 755,
 							"character": 4
 						}
 					],
@@ -13595,7 +13595,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1217,
+							"line": 1216,
 							"character": 11
 						}
 					],
@@ -13765,7 +13765,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1086,
+							"line": 1085,
 							"character": 11
 						}
 					],
@@ -14102,7 +14102,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1191,
+							"line": 1190,
 							"character": 11
 						}
 					],
@@ -14478,7 +14478,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1246,
+							"line": 1245,
 							"character": 17
 						}
 					],
@@ -14895,7 +14895,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 751,
+					"line": 750,
 					"character": 13
 				}
 			],
@@ -24788,23 +24788,23 @@
 						"text": "Supported embed types: `AppEmbed`",
 						"tags": [
 							{
-								"tag": "default",
-								"text": "false"
+								"tag": "version",
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "deprecated",
 								"text": "from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\nUse `spotterSidebarConfig.enablePastConversationsSidebar`."
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
+								"tag": "default",
+								"text": "false\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 689,
+							"line": 688,
 							"character": 4
 						}
 					],
@@ -26473,7 +26473,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 744,
+							"line": 743,
 							"character": 4
 						}
 					],
@@ -27216,7 +27216,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 727,
+							"line": 726,
 							"character": 4
 						}
 					],
@@ -27239,19 +27239,19 @@
 						"text": "Supported embed types: `AppEmbed`",
 						"tags": [
 							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n   },\n})\n```"
+								"tag": "version",
+								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl"
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\n"
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#tsEmbed', {\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n   },\n})\n```\n"
 							}
 						]
 					},
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 709,
+							"line": 708,
 							"character": 4
 						}
 					],
@@ -29794,16 +29794,16 @@
 						"text": "Supported embed types: `SpotterEmbed`",
 						"tags": [
 							{
-								"tag": "default",
-								"text": "false"
+								"tag": "version",
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "deprecated",
 								"text": "from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\nUse `spotterSidebarConfig.enablePastConversationsSidebar`."
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
+								"tag": "default",
+								"text": "false\n"
 							}
 						]
 					},
@@ -30777,12 +30777,12 @@
 						"text": "Supported embed types: `SpotterEmbed`, `AppEmbed`",
 						"tags": [
 							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   worksheetId: 'worksheet-id',\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n       spotterSidebarDefaultExpanded: true,\n   },\n})\n```"
+								"tag": "version",
+								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl"
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\n"
+								"tag": "example",
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   worksheetId: 'worksheet-id',\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n       spotterSidebarDefaultExpanded: true,\n   },\n})\n```\n"
 							}
 						]
 					},
@@ -47969,16 +47969,16 @@
 						"text": "Supported embed types: `SpotterEmbed`",
 						"tags": [
 							{
-								"tag": "default",
-								"text": "false"
+								"tag": "version",
+								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
 							},
 							{
 								"tag": "deprecated",
 								"text": "from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\nUse `spotterSidebarConfig.enablePastConversationsSidebar`."
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl\n"
+								"tag": "default",
+								"text": "false\n"
 							}
 						]
 					},
@@ -48887,12 +48887,12 @@
 						"text": "Supported embed types: `SpotterEmbed`, `AppEmbed`",
 						"tags": [
 							{
-								"tag": "example",
-								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   worksheetId: 'worksheet-id',\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n       spotterSidebarDefaultExpanded: true,\n   },\n})\n```"
+								"tag": "version",
+								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl"
 							},
 							{
-								"tag": "version",
-								"text": "SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl\n"
+								"tag": "example",
+								"text": "\n```js\nconst embed = new SpotterEmbed('#tsEmbed', {\n   worksheetId: 'worksheet-id',\n   // Deprecated standalone flag (backward compatibility)\n   enablePastConversationsSidebar: false,\n   // Recommended config; this value takes precedence\n   spotterSidebarConfig: {\n       enablePastConversationsSidebar: true,\n       spotterSidebarTitle: 'My Conversations',\n       spotterSidebarDefaultExpanded: true,\n   },\n})\n```\n"
 							}
 						]
 					},
@@ -49144,8 +49144,8 @@
 				"shortText": "Configuration for the Spotter sidebar.\nCan be used in SpotterEmbed and AppEmbed.",
 				"tags": [
 					{
-						"tag": "version",
-						"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+						"tag": "group",
+						"text": "Embed components"
 					},
 					{
 						"tag": "version",
@@ -49166,8 +49166,8 @@
 						"shortText": "Controls the visibility of the past conversations sidebar.",
 						"tags": [
 							{
-								"tag": "version",
-								"text": "SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl"
+								"tag": "default",
+								"text": "false"
 							},
 							{
 								"tag": "version",
@@ -49286,8 +49286,8 @@
 						"shortText": "Number of conversations to fetch per batch when loading conversation history.",
 						"tags": [
 							{
-								"tag": "version",
-								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+								"tag": "default",
+								"text": "30"
 							},
 							{
 								"tag": "version",
@@ -49435,8 +49435,8 @@
 						"shortText": "Boolean to set the default expanded state of the sidebar.",
 						"tags": [
 							{
-								"tag": "version",
-								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+								"tag": "default",
+								"text": "false"
 							},
 							{
 								"tag": "version",

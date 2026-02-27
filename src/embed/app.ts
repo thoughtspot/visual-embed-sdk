@@ -680,10 +680,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @deprecated from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * Use `spotterSidebarConfig.enablePastConversationsSidebar`.
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default false
      */
     enablePastConversationsSidebar?: boolean;
     /**
@@ -691,7 +691,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Only applicable when navigating to Spotter within the app.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -704,7 +704,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    },
      * })
      * ```
-     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
