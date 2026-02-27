@@ -25,6 +25,8 @@ export interface UnderlyingDataPoint {
     dataValue: any;
 }
 
+export const DATA_TYPES = ['DATE', 'DATE_TIME', 'TIME'];
+
 /**
  * AnswerService provides a simple way to work with ThoughtSpot Answers.
  *
@@ -465,7 +467,7 @@ function getSelectedPointsForUnderlyingDataQuery(
         const dataType = colVal.column.dataType;
         const id = colVal.column.id;
         let dataValue;
-        if (dataType === 'DATE') {
+        if (DATA_TYPES.includes(dataType)) {
             if (Number.isFinite(colVal.value)) {
                 dataValue = [{
                     epochRange: {
