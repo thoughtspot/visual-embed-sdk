@@ -2034,6 +2034,36 @@ describe('Unit test case for ts embed', () => {
                 + `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
+        it('Sets both params when enableLinkOverridesV2 is set', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                enableLinkOverridesV2: true,
+            });
+            await liveboardEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&enableLinkOverridesV2=true&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
+            );
+        });
+        it('Sets only linkOverride when enableLinkOverridesV2 is not set', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                linkOverride: true,
+            });
+            await liveboardEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
+            );
+        });
         it('Sets the iconSprite url', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {

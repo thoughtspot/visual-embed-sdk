@@ -699,6 +699,7 @@ export class TsEmbed {
             customizations,
             contextMenuTrigger,
             linkOverride,
+            enableLinkOverridesV2,
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
@@ -786,8 +787,12 @@ export class TsEmbed {
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
         }
-
-        if (linkOverride) {
+        // TODO: Once V2 is stable, send both flags when
+        // linkOverride is true (remove the else-if).
+        if (enableLinkOverridesV2) {
+            queryParams[Param.EnableLinkOverridesV2] = true;
+            queryParams[Param.LinkOverride] = true;
+        } else if (linkOverride) {
             queryParams[Param.LinkOverride] = linkOverride;
         }
         if (insertInToSlide) {

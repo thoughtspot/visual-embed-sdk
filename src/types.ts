@@ -1169,20 +1169,53 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     overrideOrgId?: number;
     /**
-     * Flag to override the *Open Link in New Tab* context menu option.
+     * Flag to override the *Open Link in New Tab* context
+     * menu option.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * For improved link override handling, use
+     * {@link enableLinkOverridesV2} instead.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
+     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
+     * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    linkOverride:false,
+     *    linkOverride: true,
      * })
      * ```
      */
     linkOverride?: boolean;
+    /**
+     * Enables the V2 link override mechanism with improved
+     * handling. When enabled, navigation links within the
+     * embedded ThoughtSpot app are intercepted and routed
+     * through the SDK via the `EmbedEvent.DialogOpen`
+     * event.
+     *
+     * The SDK automatically sends {@link linkOverride}
+     * alongside this flag for backward compatibility with
+     * older ThoughtSpot versions.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
+     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.2.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableLinkOverridesV2: true,
+     * });
+     *
+     * embed.on(EmbedEvent.DialogOpen, (payload) => {
+     *    console.log('Link clicked:', payload);
+     * });
+     * ```
+     */
+    enableLinkOverridesV2?: boolean;
     /**
      * The primary action to display on top of the viz for Liveboard and App Embed.
      * Use this to set the primary action.
@@ -5575,6 +5608,7 @@ export enum Param {
     // 'both' clicks in `contextMenuTrigger` configuration.
     ContextMenuTrigger = 'contextMenuEnabledOnWhichClick',
     LinkOverride = 'linkOverride',
+    EnableLinkOverridesV2 = 'enableLinkOverridesV2',
     blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
