@@ -71,8 +71,8 @@ export enum AuthStatus {
     SDK_SUCCESS = 'SDK_SUCCESS',
     /**
      * @hidden
-     * Emits when iframe is loaded and session info is
-     * available.
+     * Emits when iframe is loaded and session
+     * information is available.
      */
     SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
     /**
