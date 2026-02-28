@@ -312,6 +312,68 @@ describe('Answer service tests', () => {
         await expect(answerService.getUnderlyingDataForPoint(['col2'])).rejects.toThrow();
     });
 
+    test.each([
+        ['DATE', 12345, 'epoch-date'],
+        ['DATE_TIME', 98765, 'epoch-datetime'],
+        ['TIME', 55555, 'epoch-time'],
+    ])('getUnderlyingDataForPoint should pass epochRange with startEpoch for %s type with numeric value %d', async (dataType, value, sourceId) => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    getSourceDetailById: [{
+                        columns: [{ id: 'id1', name: 'col1' }],
+                    }],
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__getUnaggregatedAnswer: {
+                        id: { ...defaultSession },
+                        answer: {
+                            visualizations: [{
+                                columns: [{
+                                    column: {
+                                        id: 'oid1',
+                                        name: 'col1',
+                                        referencedColumns: [{ guid: 'id1' }],
+                                    },
+                                }],
+                            }],
+                        },
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService({
+            sources: [{ header: { guid: sourceId } }],
+        }, [{
+            selectedAttributes: [{
+                column: { id: 'oid1', name: 'col1', dataType },
+                value,
+            }],
+            selectedMeasures: [],
+        }]);
+        await answerService.getUnderlyingDataForPoint(['col1']);
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=GetUnAggregatedAnswerSession',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'GetUnAggregatedAnswerSession',
+                    query: queries.getUnaggregatedAnswerSession,
+                    variables: {
+                        session: defaultSession,
+                        columns: [{
+                            columnId: 'oid1',
+                            dataValue: [{
+                                epochRange: { startEpoch: value },
+                            }],
+                        }],
+                    },
+                }),
+            }),
+        );
+    });
+
     test('addFilter should call the right API', async () => {
         fetchMock.mockResponses(
             JSON.stringify({
