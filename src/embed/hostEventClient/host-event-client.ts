@@ -44,7 +44,7 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
       const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
-          ?.filter?.((r) => r.error || r.value)[0];
+          ?.find?.((r) => r.error || r.value);
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
@@ -70,6 +70,36 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<any> {
       return this.processTrigger(hostEvent, data, context);
+  }
+
+  /**
+   * For getter events that return data. Tries UI passthrough first;
+   * if the app doesn't support it (no response data), falls back to
+   * the legacy host event channel. Real errors are thrown as-is.
+   */
+  private async getDataWithPassthroughFallback<UIPassthroughEventT extends UIPassthroughEvent>(
+      passthroughEvent: UIPassthroughEventT,
+      hostEvent: HostEvent,
+      payload: any,
+      context?: ContextType,
+  ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
+      const response = await this.triggerUIPassthroughApi(
+          passthroughEvent, payload || {}, context,
+      );
+      const matched = response?.find?.((r) => r.error || r.value);
+      if (!matched) {
+          return this.hostEventFallback(hostEvent, payload, context);
+      }
+
+      const errors = matched.error
+          || (matched.value as any)?.errors
+          || (matched.value as any)?.error;
+      if (errors) {
+          const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
+          throw new Error(message);
+      }
+
+      return { ...matched.value };
   }
 
   /**
@@ -153,6 +183,34 @@ export class HostEventClient {
               return this.handleSaveAnswerEvent(
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
                   context as ContextType,
+              ) as any;
+          case HostEvent.GetAnswerSession:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetAnswerSession, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetFilters:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetFilters, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetIframeUrl:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetIframeUrl, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetParameters:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetParameters, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetTML:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetTML, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.GetTabs:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetTabs, hostEvent, payload, context as ContextType,
+              ) as any;
+          case HostEvent.getExportRequestForCurrentPinboard:
+              return this.getDataWithPassthroughFallback(
+                  UIPassthroughEvent.GetExportRequestForCurrentPinboard, hostEvent, payload, context as ContextType,
               ) as any;
           default:
               return this.hostEventFallback(hostEvent, payload, context);
