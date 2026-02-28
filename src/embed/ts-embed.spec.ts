@@ -4543,4 +4543,16 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         handleErrorSpy.mockRestore();
     });
+
+    test('should set allow "local-network-access" correctly on the iframe', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            frameParams: { width: '100%', height: '100%' },
+        });
+        await appEmbed.render();
+        const iframe = getIFrameEl();
+        expect(iframe.allow).toContain('local-network-access');
+        expect(iframe.allow).toContain('fullscreen');
+        expect(iframe.allow).toContain('clipboard-read');
+        expect(iframe.allow).toContain('clipboard-write');
+    });
 });
