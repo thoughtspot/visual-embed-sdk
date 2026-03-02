@@ -14,7 +14,7 @@ import { AuthType } from './types';
  * tokenizedFetch("<TS_ORIGIN>/api/rest/2.0/auth/session/user", {
  *   // .. fetch options ..
  * });
- *```
+ * ```
  * @version SDK: 1.28.0
  * @group Global methods
  */

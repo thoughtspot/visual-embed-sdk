@@ -17,8 +17,8 @@ export interface SpotterAgentEmbedViewConfig extends Omit<BaseViewConfig, 'prima
 
 /**
  * Configuration for conversation options.
- * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbedViewConfig} instead
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * @group Embed components
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -87,6 +87,8 @@ export class ConversationMessage extends TsEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+ * @group Embed components
  * @example
  * ```js
  * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
@@ -100,8 +102,6 @@ export class ConversationMessage extends TsEmbed {
  * // append the container to the DOM
  * document.body.appendChild(container); // or to any other element
  * ```
- * @group Embed components
- * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterAgentEmbed {
     private conversationService: ConversationService;
@@ -164,8 +164,9 @@ export class SpotterAgentEmbed {
 /**
  * Create a conversation embed, which can be integrated inside
  * chatbots or other conversational interfaces.
- * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterAgentEmbed} instead
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
+ * @group Embed components
  * @example
  * ```js
  * import { SpotterAgentEmbed } from '@thoughtspot/visual-embed-sdk';
@@ -179,7 +180,6 @@ export class SpotterAgentEmbed {
  * // append the container to the DOM
  * document.body.appendChild(container); // or to any other element
  * ```
- * @group Embed components
  */
 export class BodylessConversation extends SpotterAgentEmbed {
     constructor(viewConfig: BodylessConversationViewConfig) {
