@@ -9,7 +9,7 @@ export enum UIPassthroughEvent {
   GetLiveboardConfig = 'getPinboardPageConfig',
   GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
   UpdateFilters = 'updateFilters',
-  Drilldown = 'drilldown',
+  Drilldown = 'drillDown',
 }
 
 // UI Passthrough Contract
