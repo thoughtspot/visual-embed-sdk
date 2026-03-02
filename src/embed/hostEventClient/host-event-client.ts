@@ -38,6 +38,8 @@ export class HostEventClient {
       this.customHandlers = {
           [HostEvent.Pin]: (p, c) => this.handlePinEvent(p, c),
           [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
+          [HostEvent.UpdateFilters]: (p, c) => this.handleUpdateFiltersEvent(p, c),
+          [HostEvent.DrillDown]: (p, c) => this.handleDrillDownEvent(p, c),
       };
   }
 

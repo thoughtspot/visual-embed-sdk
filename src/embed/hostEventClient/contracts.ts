@@ -24,6 +24,8 @@ export enum UIPassthroughEvent {
   GetTML = 'getTML',
   GetTabs = 'getTabs',
   GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
+  UpdateFilters = 'updateFilters',
+  Drilldown = 'drilldown',
 }
 
 // UI Passthrough Contract
@@ -150,6 +152,17 @@ export type UIPassthroughContractBase = {
     response: {
       v2Content: string;
     };
+  };
+  [UIPassthroughEvent.UpdateFilters]: {
+    request: {
+      filter: any;
+      filters: any;
+    };
+    response: any;
+  };
+  [UIPassthroughEvent.Drilldown]: {
+    request: any;
+    response: any;
   };
 };
 
