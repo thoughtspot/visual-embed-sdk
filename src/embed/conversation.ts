@@ -92,8 +92,8 @@ export interface SpotterSidebarViewConfig {
 
 /**
  * Configuration for customizing Spotter chat UI branding.
- * @group Embed components
  * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
+ * @group Embed components
  */
 export interface SpotterChatViewConfig {
     /**
@@ -133,6 +133,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * but still display the selected data source.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -140,13 +141,13 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    disableSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     disableSourceSelection?: boolean;
     /**
      * hideSourceSelection : Hide data source selection
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -154,15 +155,14 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    hideSourceSelection : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSourceSelection?: boolean;
     /**
      * Flag to control Data panel experience
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @deprecated from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      * @default true
-     * @deprecated from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -179,6 +179,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * default is false.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -186,7 +187,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    showSpotterLimitations : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
     /**
@@ -194,6 +194,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * the initial screen of the conversation.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -201,7 +202,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    hideSampleQuestions : true,
      * })
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     hideSampleQuestions?: boolean;
     /**
@@ -209,6 +209,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * visualization, or Liveboard.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -222,7 +223,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *       ],
      * })
      * ```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     runtimeFilters?: RuntimeFilter[];
     /**
@@ -233,14 +233,15 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
-     * @default true
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     * @default true
      */
     excludeRuntimeFiltersfromURL?: boolean;
     /**
      * The list of runtime parameters to apply to the conversation.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -253,7 +254,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *       ],
      * })
      * ```
-     * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      */
     runtimeParameters?: RuntimeParameter[];
     /**
@@ -264,14 +264,15 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * the iframe URL instead (default behavior before SDK 1.45.0).
      *
      * Supported embed types: `SpotterEmbed`
-     * @default true
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
+     * @default true
      */
     excludeRuntimeParametersfromURL?: boolean;
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -280,23 +281,23 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    updatedSpotterChatPrompt : true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
     /**
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `SpotterEmbed`
-     * @default false
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @deprecated from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * Use `spotterSidebarConfig.enablePastConversationsSidebar`.
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default false
      */
     enablePastConversationsSidebar?: boolean;
     /**
      * Configuration for the Spotter sidebar UI customization.
      *
      * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -311,7 +312,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    },
      * })
      * ```
-     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
@@ -319,6 +319,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * branding in tool response cards.
      *
      * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -329,15 +330,14 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
 }
 
 /**
  * The configuration for the embedded spotterEmbed options.
- * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbedViewConfig} instead
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * @group Embed components
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -345,6 +345,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 
 /**
  * Embed ThoughtSpot AI Conversation.
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  * @group Embed components
  * @example
  * ```js
@@ -356,7 +357,6 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class SpotterEmbed extends TsEmbed {
     constructor(container: HTMLElement, protected viewConfig: SpotterEmbedViewConfig) {
@@ -517,8 +517,9 @@ export class SpotterEmbed extends TsEmbed {
 
 /**
  * Embed ThoughtSpot AI Conversation.
- * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * Use {@link SpotterEmbed} instead
+ * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
+ * @deprecated from SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
  * @group Embed components
  * @example
  * ```js
@@ -530,7 +531,6 @@ export class SpotterEmbed extends TsEmbed {
  * });
  * conversation.render();
  * ```
- * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  */
 export class ConversationEmbed extends SpotterEmbed {
     constructor(container: HTMLElement, protected viewConfig: ConversationViewConfig) {
