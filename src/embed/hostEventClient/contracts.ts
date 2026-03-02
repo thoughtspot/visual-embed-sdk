@@ -25,7 +25,7 @@ export enum UIPassthroughEvent {
   GetTabs = 'getTabs',
   GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
   UpdateFilters = 'updateFilters',
-  Drilldown = 'drilldown',
+  Drilldown = 'drillDown',
 }
 
 // UI Passthrough Contract
