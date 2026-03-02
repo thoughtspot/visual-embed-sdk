@@ -8,6 +8,8 @@ export enum UIPassthroughEvent {
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
   GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
+  UpdateFilters = 'updateFilters',
+  Drilldown = 'drilldown',
 }
 
 // UI Passthrough Contract
@@ -72,6 +74,17 @@ export type UIPassthroughContractBase = {
     response: {
       tml: string;
     };
+  };
+  [UIPassthroughEvent.UpdateFilters]: {
+    request: {
+      filter: any;
+      filters: any;
+    };
+    response: any;
+  };
+  [UIPassthroughEvent.Drilldown]: {
+    request: any;
+    response: any;
   };
 };
 

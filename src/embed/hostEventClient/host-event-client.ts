@@ -137,6 +137,22 @@ export class HostEventClient {
       };
   }
 
+  protected async handleUpdateFiltersEvent(
+    payload: HostEventRequest<HostEvent.UpdateFilters>,
+    context?: ContextType,
+  ): Promise<any> {
+    const data = await this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+    return data;
+  }
+
+  protected async handleDrillDownEvent(
+    payload: HostEventRequest<HostEvent.DrillDown>,
+    context?: ContextType,
+  ): Promise<any> {
+    const data = await this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
+    return data;
+  }
+
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
@@ -147,6 +163,7 @@ export class HostEventClient {
       context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       switch (hostEvent) {
+
           case HostEvent.Pin:
               return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>, context as ContextType) as any;
           case HostEvent.SaveAnswer:
@@ -154,6 +171,12 @@ export class HostEventClient {
                   payload as HostEventRequest<HostEvent.SaveAnswer>,
                   context as ContextType,
               ) as any;
+            case HostEvent.UpdateFilters:{
+                return this.handleUpdateFiltersEvent(payload as HostEventRequest<HostEvent.UpdateFilters>, context as ContextType) as any;
+            }
+            case HostEvent.DrillDown:{
+                return this.handleDrillDownEvent(payload as HostEventRequest<HostEvent.DrillDown>, context as ContextType) as any;
+            }
           default:
               return this.hostEventFallback(hostEvent, payload, context);
       }
