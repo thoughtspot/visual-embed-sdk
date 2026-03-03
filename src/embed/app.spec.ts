@@ -425,6 +425,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enableHomepageAnnouncement to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableHomepageAnnouncement: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
