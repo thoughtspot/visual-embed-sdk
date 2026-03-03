@@ -354,8 +354,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     visibleTabs?: string[];
     /**
-     * @deprecated Use {@link isLiveboardMasterpiecesEnabled} instead.
-     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
+     * @deprecated This flag is deprecated.
      *
      * Supported embed types: `LiveboardEmbed`, `AppEmbed`
      * @type {boolean}

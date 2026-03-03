@@ -501,9 +501,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     discoveryExperience?: DiscoveryExperience;
     /**
-     * To set the initial state of the search bar in case of saved-answers.
+     * To set the initial state of the search bar in case of saved-answers. Use {@link collapseSearchBar} instead.
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
-     * @deprecated Use {@link collapseSearchBar} instead
+     * @deprecated This flag is deprecated.
      * @default false
      */
     collapseSearchBarInitially?: boolean;
@@ -552,8 +552,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isUnifiedSearchExperienceEnabled?: boolean;
 
     /**
-     * @deprecated Use {@link isLiveboardMasterpiecesEnabled} instead.
-     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
+     * @deprecated This flag is deprecated.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
