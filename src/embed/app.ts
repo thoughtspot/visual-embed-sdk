@@ -21,7 +21,7 @@ import {
     EmbedErrorCodes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterChatInputViewConfig, SpotterSidebarViewConfig, applySpotterChatInputConfigParams } from './conversation';
 import { ERROR_MESSAGE } from '../errors';
 
 /**
@@ -725,6 +725,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -835,6 +852,7 @@ export class AppEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             spotterSidebarConfig,
             spotterChatConfig,
+            spotterChatInputConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement,
@@ -923,6 +941,8 @@ export class AppEmbed extends V1Embed {
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
+
+        applySpotterChatInputConfigParams(params, spotterChatInputConfig);
 
         if (hideObjectSearch) {
             params[Param.HideObjectSearch] = !!hideObjectSearch;

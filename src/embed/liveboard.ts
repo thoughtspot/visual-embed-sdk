@@ -30,7 +30,7 @@ import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { SpotterChatViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterChatInputViewConfig, applySpotterChatInputConfigParams } from './conversation';
 
 
 /**
@@ -506,6 +506,23 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for customizing Spotter chat input controls.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterChatInputConfig: {
+     *        hideChatConnectors: true,
+     *        disableChatModeSwitcher: true,
+     *    },
+     * })
+     * ```
+     * @version SDK: 1.46.2 | ThoughtSpot: 26.4.0.cl
+     */
+    spotterChatInputConfig?: SpotterChatInputViewConfig;
 }
 
 /**
@@ -596,6 +613,7 @@ export class LiveboardEmbed extends V1Embed {
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             spotterChatConfig,
+            spotterChatInputConfig,
             isThisPeriodInDateFiltersEnabled,
         } = this.viewConfig;
 
@@ -692,6 +710,8 @@ export class LiveboardEmbed extends V1Embed {
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
         }
+
+        applySpotterChatInputConfigParams(params, spotterChatInputConfig);
 
         if (isLinkParametersEnabled !== undefined) {
             params[Param.isLinkParametersEnabled] = isLinkParametersEnabled;
