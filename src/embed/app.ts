@@ -1005,7 +1005,6 @@ export class AppEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-
         if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
             params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
         }
