@@ -1005,9 +1005,6 @@ export class AppEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
-            params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
-        }
 
         if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
             params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
@@ -1046,6 +1043,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
             || dataPanelCustomGroupsAccordionInitialState
