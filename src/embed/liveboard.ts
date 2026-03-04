@@ -687,9 +687,6 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
-            params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
-        }
 
         if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
             params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
@@ -739,6 +736,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
 
         const queryParams = getQueryParamString(params, true);
 
