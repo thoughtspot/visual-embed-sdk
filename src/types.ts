@@ -3206,7 +3206,8 @@ export enum EmbedEvent {
      * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
      * - `responder`: Contains elements that let developers define whether ThoughtSpot
-     *   will run or block the search operation, and if blocked, which error message to provide.
+     *   will run or block the search operation, and if blocked, which error message to
+     *   provide.
      * - `execute` - When `execute` returns `true`, the search is run.
      * When `execute` returns `false`, the search is not executed.
      * - `error` - Developers can customize the user-facing error message when `execute`

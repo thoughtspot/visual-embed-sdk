@@ -54,7 +54,8 @@ export enum AuthFailureType {
     /**
      * The current authentication token or session has expired.
      *
-     * Emitted when the embed receives an auth-expiry signal and starts auth refresh handling.
+     * Emitted when the embed receives an auth-expiry signal and starts auth refresh
+     * handling.
      */
     EXPIRY = 'EXPIRY',
     /**
