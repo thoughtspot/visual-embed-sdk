@@ -4728,7 +4728,7 @@ export enum HostEvent {
     UpdateCrossFilter = 'UpdateCrossFilter',
     /**
      * Trigger reset action for a personalized Liveboard view.
-     * This event is deprecated. Use {@link EmbedEvent.ResetLiveboardPersonalizedView} instead.
+     * This event is deprecated. Use {@link HostEvent.ResetLiveboardPersonalizedView} instead.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
@@ -4787,7 +4787,7 @@ export enum HostEvent {
     GetParameters = 'GetParameters',
     /**
      * Triggers an event to update a personalized view of a Liveboard.
-     * This event is deprecated. Use {@link EmbedEvent.UpdatePersonalizedView} instead.
+     * This event is deprecated. Use {@link HostEvent.UpdatePersonalizedView} instead.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
@@ -4800,10 +4800,10 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
-     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
-     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
-    UpdatePersonalizedView = UpdatePersonalisedView,    /**
+    UpdatePersonalizedView = UpdatePersonalisedView,    
+    /**
      * @hidden
      * Notify when info call is completed successfully
      * ```js
@@ -6192,7 +6192,8 @@ export enum Action {
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
-    PersonalizedViewsDropdown = PersonalisedViewsDropdown,    /**
+    PersonalizedViewsDropdown = PersonalisedViewsDropdown,    
+    /**
      * Action ID for show or hide the user details on a
      * Liveboard (Recently visited / social proof)
      *  @example
@@ -6284,7 +6285,7 @@ export enum Action {
     /**
      * The **Organize Favourites** action on Homepage
      * *Favorites* module.
-     * This action is deprecated. Use {@link Action.OrganizeFavourites} instead.
+     * This action is deprecated. Use {@link Action.OrganizeFavorites} instead.
      *
      * @example
      * ```js
