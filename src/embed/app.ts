@@ -587,6 +587,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
+     * This flag is used to enable/disable the WYSIWYG liveboard PDF
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isWYSIWYGLiveboardPDFEnabled: true,
+     * })
+     * ```
+     */
+    isWYSIWYGLiveboardPDFEnabled?: boolean;
+
+    /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -828,6 +845,7 @@ export class AppEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
+            isWYSIWYGLiveboardPDFEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled = false,
             isGranularXLSXCSVSchedulesEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,
@@ -1023,6 +1041,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
+        params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
             || dataPanelCustomGroupsAccordionInitialState
