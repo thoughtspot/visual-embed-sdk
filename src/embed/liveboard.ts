@@ -392,7 +392,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
-     * @version SDK: 1.46.2 | ThoughtSpot: 26.5.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
