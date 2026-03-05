@@ -48,7 +48,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6297,
+							"line": 6298,
 							"character": 4
 						}
 					],
@@ -288,7 +288,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6250,
+							"line": 6251,
 							"character": 4
 						}
 					],
@@ -373,7 +373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6239,
+							"line": 6240,
 							"character": 4
 						}
 					],
@@ -737,7 +737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6395,
+							"line": 6396,
 							"character": 4
 						}
 					],
@@ -845,7 +845,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6483,
+							"line": 6484,
 							"character": 4
 						}
 					],
@@ -960,7 +960,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6493,
+							"line": 6494,
 							"character": 4
 						}
 					],
@@ -988,7 +988,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6653,
+							"line": 6654,
 							"character": 4
 						}
 					],
@@ -1016,7 +1016,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6214,
+							"line": 6215,
 							"character": 4
 						}
 					],
@@ -1100,7 +1100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6407,
+							"line": 6408,
 							"character": 4
 						}
 					],
@@ -1128,7 +1128,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6464,
+							"line": 6465,
 							"character": 4
 						}
 					],
@@ -1156,7 +1156,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6364,
+							"line": 6365,
 							"character": 4
 						}
 					],
@@ -1184,7 +1184,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6383,
+							"line": 6384,
 							"character": 4
 						}
 					],
@@ -1524,7 +1524,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6453,
+							"line": 6454,
 							"character": 4
 						}
 					],
@@ -1580,7 +1580,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6310,
+							"line": 6311,
 							"character": 4
 						}
 					],
@@ -1656,7 +1656,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6474,
+							"line": 6475,
 							"character": 4
 						}
 					],
@@ -1813,7 +1813,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6508,
+							"line": 6509,
 							"character": 4
 						}
 					],
@@ -1841,7 +1841,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6765,
+							"line": 6766,
 							"character": 4
 						}
 					],
@@ -1869,7 +1869,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6374,
+							"line": 6375,
 							"character": 4
 						}
 					],
@@ -1921,7 +1921,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6574,
+							"line": 6575,
 							"character": 4
 						}
 					],
@@ -1933,10 +1933,23 @@
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
+					"comment": {
+						"shortText": "Action ID for show or hide the user details on a\nLiveboard (Recently visited / social proof)",
+						"tags": [
+							{
+								"tag": "example",
+								"text": "\n```js\ndisabledActions: [Action.LiveboardUsers]\n```"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw\n"
+							}
+						]
+					},
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6182,
+							"line": 6183,
 							"character": 4
 						}
 					],
@@ -2040,7 +2053,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6600,
+							"line": 6601,
 							"character": 5
 						}
 					],
@@ -2068,7 +2081,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6353,
+							"line": 6354,
 							"character": 4
 						}
 					],
@@ -2151,7 +2164,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6643,
+							"line": 6644,
 							"character": 4
 						}
 					],
@@ -2179,7 +2192,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6633,
+							"line": 6634,
 							"character": 4
 						}
 					],
@@ -2216,7 +2229,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "The **Organize Favourites** action on Homepage\n*Favorites* module.\nThis action is deprecated. Use {@link Action.OrganizeFavourites} instead.",
+						"shortText": "The **Organize Favourites** action on Homepage\n*Favorites* module.\nThis action is deprecated. Use {@link Action.OrganizeFavorites} instead.",
 						"tags": [
 							{
 								"tag": "example",
@@ -2235,7 +2248,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6274,
+							"line": 6275,
 							"character": 4
 						}
 					],
@@ -2263,7 +2276,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6286,
+							"line": 6287,
 							"character": 4
 						}
 					],
@@ -2291,7 +2304,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6623,
+							"line": 6624,
 							"character": 5
 						}
 					],
@@ -2319,7 +2332,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6321,
+							"line": 6322,
 							"character": 4
 						}
 					],
@@ -2427,7 +2440,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6552,
+							"line": 6553,
 							"character": 4
 						}
 					],
@@ -2479,7 +2492,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6419,
+							"line": 6420,
 							"character": 4
 						}
 					],
@@ -2507,7 +2520,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6587,
+							"line": 6588,
 							"character": 5
 						}
 					],
@@ -2584,7 +2597,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6564,
+							"line": 6565,
 							"character": 4
 						}
 					],
@@ -2640,7 +2653,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6261,
+							"line": 6262,
 							"character": 4
 						}
 					],
@@ -2779,7 +2792,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6431,
+							"line": 6432,
 							"character": 4
 						}
 					],
@@ -3064,7 +3077,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6743,
+							"line": 6744,
 							"character": 4
 						}
 					],
@@ -3092,7 +3105,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6723,
+							"line": 6724,
 							"character": 4
 						}
 					],
@@ -3120,7 +3133,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6733,
+							"line": 6734,
 							"character": 4
 						}
 					],
@@ -3148,7 +3161,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6753,
+							"line": 6754,
 							"character": 4
 						}
 					],
@@ -3176,7 +3189,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6442,
+							"line": 6443,
 							"character": 4
 						}
 					],
@@ -3204,7 +3217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6703,
+							"line": 6704,
 							"character": 4
 						}
 					],
@@ -3232,7 +3245,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6713,
+							"line": 6714,
 							"character": 4
 						}
 					],
@@ -3260,7 +3273,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6683,
+							"line": 6684,
 							"character": 4
 						}
 					],
@@ -3288,7 +3301,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6673,
+							"line": 6674,
 							"character": 4
 						}
 					],
@@ -3316,7 +3329,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6693,
+							"line": 6694,
 							"character": 4
 						}
 					],
@@ -3344,7 +3357,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6541,
+							"line": 6542,
 							"character": 4
 						}
 					],
@@ -3372,7 +3385,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6519,
+							"line": 6520,
 							"character": 4
 						}
 					],
@@ -3400,7 +3413,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6530,
+							"line": 6531,
 							"character": 4
 						}
 					],
@@ -3568,7 +3581,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6201,
+							"line": 6202,
 							"character": 4
 						}
 					],
@@ -3620,7 +3633,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6663,
+							"line": 6664,
 							"character": 4
 						}
 					],
@@ -3648,7 +3661,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6612,
+							"line": 6613,
 							"character": 5
 						}
 					],
@@ -3676,7 +3689,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6343,
+							"line": 6344,
 							"character": 4
 						}
 					],
@@ -3728,7 +3741,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6225,
+							"line": 6226,
 							"character": 4
 						}
 					],
@@ -3756,7 +3769,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6332,
+							"line": 6333,
 							"character": 4
 						}
 					],
@@ -4533,7 +4546,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6785,
+							"line": 6786,
 							"character": 4
 						}
 					],
@@ -4548,7 +4561,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6783,
+							"line": 6784,
 							"character": 4
 						}
 					],
@@ -4563,7 +4576,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6784,
+							"line": 6785,
 							"character": 4
 						}
 					],
@@ -4584,7 +4597,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6782,
+					"line": 6783,
 					"character": 12
 				}
 			]
@@ -4608,7 +4621,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7201,
+							"line": 7202,
 							"character": 4
 						}
 					],
@@ -4626,7 +4639,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7197,
+							"line": 7198,
 							"character": 4
 						}
 					],
@@ -4644,7 +4657,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7193,
+							"line": 7194,
 							"character": 4
 						}
 					],
@@ -4662,7 +4675,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7205,
+							"line": 7206,
 							"character": 4
 						}
 					],
@@ -4684,7 +4697,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7189,
+					"line": 7190,
 					"character": 12
 				}
 			]
@@ -4711,7 +4724,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6922,
+							"line": 6923,
 							"character": 4
 						}
 					],
@@ -4729,7 +4742,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6895,
+							"line": 6896,
 							"character": 4
 						}
 					],
@@ -4747,7 +4760,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6933,
+							"line": 6934,
 							"character": 4
 						}
 					],
@@ -4765,7 +4778,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6909,
+							"line": 6910,
 							"character": 4
 						}
 					],
@@ -4787,7 +4800,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6885,
+					"line": 6886,
 					"character": 12
 				}
 			]
@@ -4814,7 +4827,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6876,
+							"line": 6877,
 							"character": 4
 						}
 					],
@@ -4832,7 +4845,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6868,
+							"line": 6869,
 							"character": 4
 						}
 					],
@@ -4850,7 +4863,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6863,
+							"line": 6864,
 							"character": 4
 						}
 					],
@@ -4871,7 +4884,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6858,
+					"line": 6859,
 					"character": 12
 				}
 			]
@@ -5080,7 +5093,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7097,
+							"line": 7098,
 							"character": 4
 						}
 					],
@@ -5098,7 +5111,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7100,
+							"line": 7101,
 							"character": 4
 						}
 					],
@@ -5116,7 +5129,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7109,
+							"line": 7110,
 							"character": 4
 						}
 					],
@@ -5134,7 +5147,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7118,
+							"line": 7119,
 							"character": 4
 						}
 					],
@@ -5152,7 +5165,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7103,
+							"line": 7104,
 							"character": 4
 						}
 					],
@@ -5170,7 +5183,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7127,
+							"line": 7128,
 							"character": 4
 						}
 					],
@@ -5188,7 +5201,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7094,
+							"line": 7095,
 							"character": 4
 						}
 					],
@@ -5206,7 +5219,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7112,
+							"line": 7113,
 							"character": 4
 						}
 					],
@@ -5224,7 +5237,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7106,
+							"line": 7107,
 							"character": 4
 						}
 					],
@@ -5242,7 +5255,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7121,
+							"line": 7122,
 							"character": 4
 						}
 					],
@@ -5260,7 +5273,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7115,
+							"line": 7116,
 							"character": 4
 						}
 					],
@@ -5278,7 +5291,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7124,
+							"line": 7125,
 							"character": 4
 						}
 					],
@@ -5296,7 +5309,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7091,
+							"line": 7092,
 							"character": 4
 						}
 					],
@@ -5327,7 +5340,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7089,
+					"line": 7090,
 					"character": 12
 				}
 			]
@@ -8172,7 +8185,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7053,
+							"line": 7054,
 							"character": 4
 						}
 					],
@@ -8190,7 +8203,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7057,
+							"line": 7058,
 							"character": 4
 						}
 					],
@@ -8208,7 +8221,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7055,
+							"line": 7056,
 							"character": 4
 						}
 					],
@@ -8229,7 +8242,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7051,
+					"line": 7052,
 					"character": 12
 				}
 			]
@@ -9754,21 +9767,6 @@
 					"defaultValue": "\"getTabs\""
 				},
 				{
-					"id": 2240,
-					"name": "InfoSuccess",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "types.ts",
-							"line": 4794,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"InfoSuccess\""
-				},
-				{
 					"id": 2195,
 					"name": "LiveboardInfo",
 					"kind": 16,
@@ -10170,7 +10168,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Trigger reset action for a personalized Liveboard view.\nThis event is deprecated. Use {@link EmbedEvent.ResetLiveboardPersonalizedView} instead.",
+						"shortText": "Trigger reset action for a personalized Liveboard view.\nThis event is deprecated. Use {@link HostEvent.ResetLiveboardPersonalizedView} instead.",
 						"tags": [
 							{
 								"tag": "example",
@@ -10934,7 +10932,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Triggers an event to update a personalized view of a Liveboard.\nThis event is deprecated. Use {@link EmbedEvent.UpdatePersonalizedView} instead.\n```js\nliveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})\n```",
+						"shortText": "Triggers an event to update a personalized view of a Liveboard.\nThis event is deprecated. Use {@link HostEvent.UpdatePersonalizedView} instead.\n```js\nliveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})\n```",
 						"tags": [
 							{
 								"tag": "version",
@@ -10966,10 +10964,6 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl"
-							},
-							{
-								"tag": "deprecated",
 								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl\n"
 							}
 						]
@@ -10977,7 +10971,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4786,
+							"line": 4785,
 							"character": 4
 						}
 					],
@@ -11145,7 +11139,6 @@
 						2237,
 						2211,
 						2227,
-						2240,
 						2195,
 						2203,
 						2207,
@@ -11220,7 +11213,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7235,
+							"line": 7236,
 							"character": 4
 						}
 					],
@@ -11238,7 +11231,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7231,
+							"line": 7232,
 							"character": 4
 						}
 					],
@@ -11256,7 +11249,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7239,
+							"line": 7240,
 							"character": 4
 						}
 					],
@@ -11277,7 +11270,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7227,
+					"line": 7228,
 					"character": 12
 				}
 			]
@@ -11557,7 +11550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7007,
+							"line": 7008,
 							"character": 4
 						}
 					],
@@ -11585,7 +11578,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6968,
+							"line": 6969,
 							"character": 4
 						}
 					],
@@ -11613,7 +11606,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6993,
+							"line": 6994,
 							"character": 4
 						}
 					],
@@ -11641,7 +11634,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6956,
+							"line": 6957,
 							"character": 4
 						}
 					],
@@ -11669,7 +11662,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7019,
+							"line": 7020,
 							"character": 4
 						}
 					],
@@ -11697,7 +11690,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6980,
+							"line": 6981,
 							"character": 4
 						}
 					],
@@ -11721,7 +11714,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6943,
+					"line": 6944,
 					"character": 12
 				}
 			]
@@ -11902,7 +11895,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6772,
+							"line": 6773,
 							"character": 4
 						}
 					],
@@ -11917,7 +11910,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6774,
+							"line": 6775,
 							"character": 4
 						}
 					],
@@ -11932,7 +11925,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6773,
+							"line": 6774,
 							"character": 4
 						}
 					],
@@ -11947,7 +11940,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6775,
+							"line": 6776,
 							"character": 4
 						}
 					],
@@ -11969,7 +11962,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6771,
+					"line": 6772,
 					"character": 12
 				}
 			]
@@ -26116,7 +26109,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -26153,7 +26146,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -26531,7 +26524,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -29215,7 +29208,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -29253,7 +29246,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -29291,7 +29284,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -30644,7 +30637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -30682,7 +30675,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -30720,7 +30713,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -31489,7 +31482,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6816,
+							"line": 6817,
 							"character": 4
 						}
 					],
@@ -31511,7 +31504,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6817,
+											"line": 6818,
 											"character": 8
 										}
 									],
@@ -31530,7 +31523,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6818,
+											"line": 6819,
 											"character": 8
 										}
 									],
@@ -31566,7 +31559,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6820,
+							"line": 6821,
 							"character": 4
 						}
 					],
@@ -31588,7 +31581,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6828,
+											"line": 6829,
 											"character": 8
 										}
 									],
@@ -31609,7 +31602,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6829,
+											"line": 6830,
 											"character": 8
 										}
 									],
@@ -31630,7 +31623,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6822,
+											"line": 6823,
 											"character": 8
 										}
 									],
@@ -31648,7 +31641,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6821,
+											"line": 6822,
 											"character": 8
 										}
 									],
@@ -31666,7 +31659,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 6823,
+											"line": 6824,
 											"character": 8
 										}
 									],
@@ -31688,7 +31681,7 @@
 													"sources": [
 														{
 															"fileName": "types.ts",
-															"line": 6824,
+															"line": 6825,
 															"character": 12
 														}
 													],
@@ -31710,7 +31703,7 @@
 																	"sources": [
 																		{
 																			"fileName": "types.ts",
-																			"line": 6825,
+																			"line": 6826,
 																			"character": 16
 																		}
 																	],
@@ -31794,7 +31787,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6832,
+							"line": 6833,
 							"character": 4
 						}
 					],
@@ -31815,7 +31808,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6833,
+							"line": 6834,
 							"character": 4
 						}
 					],
@@ -31840,7 +31833,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6815,
+					"line": 6816,
 					"character": 17
 				}
 			]
@@ -37712,7 +37705,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7184,
+							"line": 7185,
 							"character": 4
 						}
 					],
@@ -37734,7 +37727,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7180,
+							"line": 7181,
 							"character": 4
 						}
 					],
@@ -37756,7 +37749,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7182,
+							"line": 7183,
 							"character": 4
 						}
 					],
@@ -37792,7 +37785,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7178,
+					"line": 7179,
 					"character": 17
 				}
 			],
@@ -39269,7 +39262,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -39306,7 +39299,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -39684,7 +39677,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -42304,7 +42297,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -42341,7 +42334,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -42378,7 +42371,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -44012,7 +44005,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -44049,7 +44042,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -44086,7 +44079,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -46080,7 +46073,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -46117,7 +46110,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -46154,7 +46147,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -47557,7 +47550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -47594,7 +47587,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -47631,7 +47624,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -49024,7 +49017,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7283,
+							"line": 7284,
 							"character": 4
 						}
 					],
@@ -49061,7 +49054,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7266,
+							"line": 7267,
 							"character": 4
 						}
 					],
@@ -49098,7 +49091,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7250,
+							"line": 7251,
 							"character": 4
 						}
 					],
@@ -50264,7 +50257,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6808,
+							"line": 6809,
 							"character": 4
 						}
 					],
@@ -50285,7 +50278,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6809,
+							"line": 6810,
 							"character": 4
 						}
 					],
@@ -50311,7 +50304,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 6807,
+					"line": 6808,
 					"character": 17
 				}
 			]
