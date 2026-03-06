@@ -283,7 +283,7 @@ describe('Unit test for auth', () => {
             text: () => Promise.resolve('abc'),
         } as any));
         jest.spyOn(authService, 'fetchAuthPostService').mockImplementation(() =>
-            // eslint-disable-next-line prefer-promise-reject-errors, implicit-arrow-linebreak
+             
             Promise.reject({
                 status: 500,
             }));

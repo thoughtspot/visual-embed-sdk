@@ -34,7 +34,7 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
-} from '../utils';
+ getHostEventsConfig } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
     getThoughtSpotHost,
@@ -78,7 +78,6 @@ import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
-import { getHostEventsConfig } from '../utils';
 
 const { version } = pkgInfo;
 
@@ -562,7 +561,8 @@ export class TsEmbed {
      */
     private updateAuthToken = async (_: MessagePayload, responder: any) => {
         const { authType, autoLogin: autoLoginConfig } = this.embedConfig;
-        // Default autoLogin: true for cookieless if undefined/null, otherwise false
+        // Default autoLogin: true for cookieless if undefined/null, otherwise
+        // false
         const autoLogin = autoLoginConfig ?? (authType === AuthType.TrustedAuthTokenCookieless);
         
         try {
