@@ -3170,6 +3170,18 @@ export enum EmbedEvent {
      */
     DeletePersonalisedView = 'deletePersonalisedView',
     /**
+     * Emitted when a user selects a different Personalised View or
+     * resets to the original/default view on a Liveboard.
+     * @returns viewName: string - Name of the selected view,
+     *   or 'Original View' when reset to default.
+     * @returns viewId: string | null - GUID of the selected view,
+     *   or null when reset to default.
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    ChangePersonalisedView = 'changePersonalisedView',
+    /**
      * Emitted when a user creates a Worksheet.
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
@@ -4750,6 +4762,39 @@ export enum HostEvent {
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * Triggers selection of a specific Personalised View on a
+     * Liveboard without reloading the embed. Pass either a
+     * `viewId` (GUID) or `viewName`. If neither is provided,
+     * the Liveboard resets to the original/default view.
+     * When a `viewName` is provided and multiple views share
+     * the same name, the first match is selected.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalisedView,
+     *   { viewId: '2a021a12-1aed-425d-984b-141ee916ce72' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Select by name
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalisedView,
+     *   { viewName: 'Dr Smith Cardiology' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Reset to default view
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalisedView,
+     *   {},
+     * )
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    SelectPersonalisedView = 'SelectPersonalisedView',
     /**
      * @hidden
      * Notify when info call is completed successfully
