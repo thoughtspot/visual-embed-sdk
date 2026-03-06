@@ -48,7 +48,7 @@ export class HostEventClient {
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
-          // eslint-disable-next-line no-throw-literal
+           
           throw { error };
       }
 
@@ -57,7 +57,7 @@ export class HostEventClient {
         || (response.value as any)?.error;
 
       if (errors) {
-      // eslint-disable-next-line no-throw-literal
+       
           throw { error: response.error };
       }
 

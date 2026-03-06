@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-/* eslint-disable import/no-mutable-exports */
+ 
+ 
 /**
  * Copyright (c) 2022
  *
@@ -36,7 +36,6 @@ import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
-import { ERROR_MESSAGE } from '../errors';
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -116,7 +115,7 @@ export const prefetch = (
     additionalFlags?: { [key: string]: string | number | boolean },
 ): void => {
     if (url === '') {
-        // eslint-disable-next-line no-console
+         
         logger.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
@@ -142,9 +141,9 @@ export const prefetch = (
                     iFrame.style.height = '0';
                     iFrame.style.border = '0';
 
-                    // Make it 'fixed' to keep it in a different stacking context.
-                    //   This should solve the focus behaviours inside the iframe from
-                    //   interfering with main body.
+                    // Make it 'fixed' to keep it in a different stacking
+                    // context. This should solve the focus behaviours inside
+                    // the iframe from interfering with main body.
                     iFrame.style.position = 'fixed';
                     // Push it out of viewport.
                     iFrame.style.top = '100vh';
@@ -323,7 +322,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {}); // eslint-disable-line @typescript-eslint/no-empty-function
+    return fn(() => {});  
 };
 
 /**

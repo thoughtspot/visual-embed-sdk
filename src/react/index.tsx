@@ -86,7 +86,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             });
             handleRendering(tsEmbed);
             if (forwardedRef) {
-                // eslint-disable-next-line no-param-reassign
+                 
                 forwardedRef.current = tsEmbed;
             }
             return () => {

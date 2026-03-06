@@ -3056,7 +3056,8 @@ describe('Unit test case for ts embed', () => {
                     expect.any(Object),
                     true
                 );
-                // Check that logger.error was called with the token refresh error
+                // Check that logger.error was called with the token refresh
+                // error
                 const errorCalls = (logger.error as jest.Mock).mock.calls.filter(
                     (call) => call[0]?.includes(ERROR_MESSAGE.INVALID_TOKEN_ERROR) && call[0]?.includes('Token fetch failed')
                 );

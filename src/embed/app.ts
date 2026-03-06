@@ -570,7 +570,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isLiveboardStylingAndGroupingEnabled?: boolean;
 
     /**
-     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled
+     * mails
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
