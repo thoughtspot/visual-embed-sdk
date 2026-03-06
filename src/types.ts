@@ -6696,6 +6696,39 @@ export enum Action {
      */
     SpotterDocs = 'spotterDocs',
     /**
+     * Controls visibility and disable state of the connector resources
+     * section in the Spotter chat interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterChatConnectorResources]
+     * disabledActions: [Action.SpotterChatConnectorResources]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SpotterChatConnectorResources = 'spotterChatConnectorResources',
+    /**
+     * Controls visibility and disable state of the connectors
+     * in the Spotter chat interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterChatConnectors]
+     * disabledActions: [Action.SpotterChatConnectors]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SpotterChatConnectors = 'spotterChatConnectors',
+    /**
+     * Controls visibility and disable state of the mode switcher
+     * in the Spotter chat interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterChatModeSwitcher]
+     * disabledActions: [Action.SpotterChatModeSwitcher]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
+    /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
      * the current time period in filter results.
