@@ -6,7 +6,7 @@ module.exports = {
     entries: [
         {
             filePath: '../lib/src/index.d.ts',
-            outFile: '../visual-embed-sdk.d.ts',
+            outFile: '../lib/src/visual-embed-sdk.d.ts',
             noCheck: true,
             output: {
                 noBanner: false,
