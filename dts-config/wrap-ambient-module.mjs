@@ -11,7 +11,7 @@ let content = readFileSync(filePath, 'utf8');
 content = content
     .replace(/^export declare /gm, 'export ')
     .replace(/^declare /gm, '')
-    .replace(/\nexport {};\n/g, '\n');
+    .replace(/\nexport {};(\n|$)/g, '$1');
 
 writeFileSync(
     filePath,
