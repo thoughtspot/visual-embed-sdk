@@ -1,4 +1,3 @@
- 
 import { graphqlQuery } from "./graphql-request";
 
 export const getPreviewQuery = `

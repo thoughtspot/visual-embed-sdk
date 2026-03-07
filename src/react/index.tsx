@@ -25,84 +25,87 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
     // Embed.preRender() method instead of the usual render method, and it will
     // not be destroyed when the component is unmounted.
     isPreRenderedComponent = false,
- ) => React.forwardRef<InstanceType<T>, U>(
-    (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
-        const ref = React.useRef<HTMLDivElement>(null);
-        const { className, style, ...embedProps } = props;
-        const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
-            embedProps,
-        );
+ ) => {
+    const Component = React.forwardRef<InstanceType<T>, U>(
+        (props: U, forwardedRef: React.MutableRefObject<InstanceType<T>>) => {
+            const ref = React.useRef<HTMLDivElement>(null);
+            const { className, style, ...embedProps } = props;
+            const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
+                embedProps,
+            );
 
-        const handleDestroy = (tsEmbed: InstanceType<T>) => {
-            // do not destroy if it is a preRender component
-            if (isPreRenderedComponent) return;
+            const handleDestroy = (tsEmbed: InstanceType<T>) => {
+                // do not destroy if it is a preRender component
+                if (isPreRenderedComponent) return;
 
-            // if component is connected to a preRendered component
-            if (props.preRenderId) {
-                tsEmbed.hidePreRender();
-                return;
-            }
+                // if component is connected to a preRendered component
+                if (props.preRenderId) {
+                    tsEmbed.hidePreRender();
+                    return;
+                }
 
-            tsEmbed.destroy();
-        };
-
-        const handlePreRenderRendering = (tsEmbed: InstanceType<T>) => {
-            tsEmbed.preRender();
-        };
-
-        const handleDefaultRendering = (tsEmbed: InstanceType<T>) => {
-            // if component is connected to a preRendered component
-            if (props.preRenderId) {
-                tsEmbed.showPreRender();
-                return;
-            }
-
-            tsEmbed.render();
-        };
-
-        const handleRendering = (tsEmbed: InstanceType<T>) => {
-            if (isPreRenderedComponent) {
-                handlePreRenderRendering(tsEmbed);
-                return;
-            }
-            handleDefaultRendering(tsEmbed);
-        };
-
-        useDeepCompareEffect(() => {
-            const tsEmbed = new EmbedConstructor(
-                ref!.current,
-                deepMerge(
-                    {
-                        insertAsSibling: viewConfig.insertAsSibling,
-                        frameParams: {
-                            class: viewConfig.insertAsSibling ? className || '' : '',
-                        },
-                    },
-                    viewConfig,
-                ),
-            ) as InstanceType<T>;
-            Object.keys(listeners).forEach((eventName) => {
-                tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
-            });
-            handleRendering(tsEmbed);
-            if (forwardedRef) {
-                 
-                forwardedRef.current = tsEmbed;
-            }
-            return () => {
-                handleDestroy(tsEmbed);
+                tsEmbed.destroy();
             };
-        }, [viewConfig, listeners]);
 
-        const preRenderStyles = isPreRenderedComponent ? { display: 'none' } : {};
+            const handlePreRenderRendering = (tsEmbed: InstanceType<T>) => {
+                tsEmbed.preRender();
+            };
 
-        return viewConfig.insertAsSibling ? (
-            <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute', ...preRenderStyles }}></span>
-        ) : (
-            <div data-testid="tsEmbed" ref={ref} style={{ ...style, ...preRenderStyles }} className={`ts-embed-container ${className}`}></div>
-        );
-    },
-);
+            const handleDefaultRendering = (tsEmbed: InstanceType<T>) => {
+                // if component is connected to a preRendered component
+                if (props.preRenderId) {
+                    tsEmbed.showPreRender();
+                    return;
+                }
+
+                tsEmbed.render();
+            };
+
+            const handleRendering = (tsEmbed: InstanceType<T>) => {
+                if (isPreRenderedComponent) {
+                    handlePreRenderRendering(tsEmbed);
+                    return;
+                }
+                handleDefaultRendering(tsEmbed);
+            };
+
+            useDeepCompareEffect(() => {
+                const tsEmbed = new EmbedConstructor(
+                    ref!.current,
+                    deepMerge(
+                        {
+                            insertAsSibling: viewConfig.insertAsSibling,
+                            frameParams: {
+                                class: viewConfig.insertAsSibling ? className || '' : '',
+                            },
+                        },
+                        viewConfig,
+                    ),
+                ) as InstanceType<T>;
+                Object.keys(listeners).forEach((eventName) => {
+                    tsEmbed.on(eventName as EmbedEvent, listeners[eventName as EmbedEvent]);
+                });
+                handleRendering(tsEmbed);
+                if (forwardedRef) {
+                    forwardedRef.current = tsEmbed;
+                }
+                return () => {
+                    handleDestroy(tsEmbed);
+                };
+            }, [viewConfig, listeners]);
+
+            const preRenderStyles = isPreRenderedComponent ? { display: 'none' } : {};
+
+            return viewConfig.insertAsSibling ? (
+                <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute', ...preRenderStyles }}></span>
+            ) : (
+                <div data-testid="tsEmbed" ref={ref} style={{ ...style, ...preRenderStyles }} className={`ts-embed-container ${className}`}></div>
+            );
+        },
+    );
+    Component.displayName = EmbedConstructor.name || 'EmbedComponent';
+    return Component;
+};
 
 interface SearchProps extends EmbedProps, SearchViewConfig { }
 
@@ -442,6 +445,7 @@ export const SpotterMessage = React.forwardRef<
         />
     );
 });
+SpotterMessage.displayName = 'SpotterMessage';
 
 /**
  * React component for PreRendered Conversation embed.

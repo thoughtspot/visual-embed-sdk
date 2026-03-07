@@ -34,7 +34,8 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
- getHostEventsConfig } from '../utils';
+    getHostEventsConfig,
+} from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
     getThoughtSpotHost,

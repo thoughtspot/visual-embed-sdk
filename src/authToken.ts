@@ -83,7 +83,6 @@ export const validateAuthToken = async (
 
     if (cachedAuthToken && cachedAuthToken === authToken) {
         if (!embedConfig.suppressErrorAlerts && !suppressAlert) {
-             
             alert(ERROR_MESSAGE.DUPLICATE_TOKEN_ERR);
         }
         throw new Error(ERROR_MESSAGE.DUPLICATE_TOKEN_ERR);
