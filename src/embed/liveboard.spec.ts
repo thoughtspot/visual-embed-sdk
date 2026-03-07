@@ -94,6 +94,37 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set disabled actions using PersonalizedViewsDropdown alias', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.PersonalizedViewsDropdown],
+            disabledActionReason: 'Action denied',
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsWithoutHiddenActions}&disableAction=[%22${Action.PersonalisedViewsDropdown}%22]&disableHint=Action%20denied&hideAction=[%22${Action.ReportError}%22]${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set hidden actions using OrganizeFavorites alias', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.OrganizeFavorites],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22,%22${Action.OrganiseFavourites}%22]${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set disabled actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             disabledActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],

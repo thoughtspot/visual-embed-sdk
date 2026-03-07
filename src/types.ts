@@ -3137,22 +3137,45 @@ export enum EmbedEvent {
     /**
      * Emitted when name, status (private or public) or filter values of a
      * Personalised view is updated.
+     * This event is deprecated. Use {@link EmbedEvent.UpdatePersonalizedView} instead.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
+     * Emitted when name, status (private or public) or filter values of a
+     * Personalized view is updated.
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    UpdatePersonalizedView = UpdatePersonalisedView,
+    /**
      * Emitted when a Personalised view is saved.
+     * This event is deprecated. Use {@link EmbedEvent.SavePersonalizedView} instead.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     SavePersonalisedView = 'savePersonalisedView',
+    /**
+     * Emitted when a Personalized view is saved.
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    SavePersonalizedView = SavePersonalisedView,
     /**
      * Emitted when a Liveboard is reset.
      * @returns viewName: string
@@ -3164,11 +3187,20 @@ export enum EmbedEvent {
     ResetLiveboard = 'resetLiveboard',
     /**
      * Emitted when a PersonalisedView is deleted.
+     * This event is deprecated. Use {@link EmbedEvent.DeletePersonalizedView} instead.
      * @returns views: string[]
      * @returns liveboardId: string
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DeletePersonalisedView = 'deletePersonalisedView',
+    /**
+     * Emitted when a PersonalizedView is deleted.
+     * @returns views: string[]
+     * @returns liveboardId: string
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DeletePersonalizedView = DeletePersonalisedView,
     /**
      * Emitted when a user creates a Worksheet.
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
@@ -4696,13 +4728,24 @@ export enum HostEvent {
     UpdateCrossFilter = 'UpdateCrossFilter',
     /**
      * Trigger reset action for a personalized Liveboard view.
+     * This event is deprecated. Use {@link HostEvent.ResetLiveboardPersonalizedView} instead.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot Cloud: 10.1.0.cl, 10.1.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
+    /**
+     * Trigger reset action for a personalized Liveboard view.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalizedView);
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Triggers an action to update Parameter values on embedded
      * Answers, Liveboard, and Spotter answer in Edit mode.
@@ -4744,12 +4787,22 @@ export enum HostEvent {
     GetParameters = 'GetParameters',
     /**
      * Triggers an event to update a personalized view of a Liveboard.
+     * This event is deprecated. Use {@link HostEvent.UpdatePersonalizedView} instead.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * Triggers an event to update a personalized view of a Liveboard.
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    UpdatePersonalizedView = UpdatePersonalisedView,    
     /**
      * @hidden
      * Notify when info call is completed successfully
@@ -6121,13 +6174,25 @@ export enum Action {
     /**
      * The Liveboard Personalised Views dropdown.
      * Allows navigating to a personalized Liveboard View.
+     * This action is deprecated. Use {@link Action.PersonalizedViewsDropdown} instead.
      *  @example
      * ```js
      * disabledActions: [Action.PersonalisedViewsDropdown]
      * ```
      *  @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
+    /**
+     * The Liveboard Personalized Views dropdown.
+     * Allows navigating to a personalized Liveboard View.
+     *  @example
+     * ```js
+     * disabledActions: [Action.PersonalizedViewsDropdown]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    PersonalizedViewsDropdown = PersonalisedViewsDropdown,    
     /**
      * Action ID for show or hide the user details on a
      * Liveboard (Recently visited / social proof)
@@ -6220,14 +6285,28 @@ export enum Action {
     /**
      * The **Organize Favourites** action on Homepage
      * *Favorites* module.
+     * This action is deprecated. Use {@link Action.OrganizeFavorites} instead.
      *
      * @example
      * ```js
      * disabledActions: [Action.OrganiseFavourites]
      * ```
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     OrganiseFavourites = 'organiseFavourites',
+
+    /**
+     * The **Organize Favorites** action on Homepage
+     * *Favorites* module.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.OrganizeFavorites]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    OrganizeFavorites = OrganiseFavourites,
 
     /**
      * The **AI Highlights** action on a Liveboard.
