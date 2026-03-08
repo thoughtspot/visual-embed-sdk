@@ -46,7 +46,7 @@
         "lint:fix": "eslint 'src/**/*.*' --fix",
         "tsc": "tsc -p tsconfig.build.json --incremental false; tsc -p tsconfig.build.json --incremental false --module commonjs --outDir cjs",
         "build-and-publish": "npm run build:gatsby && npm run publish",
-        "bundle-dts-file": "dts-bundle-generator --config ./dts-config/dts-bundle-file.config.js",
+        "bundle-dts-file": "dts-bundle-generator --config ./dts-config/dts-bundle-file.config.js && node dts-config/wrap-ambient-module.mjs",
         "bundle-dts": "dts-bundle-generator --config ./dts-config/dts-bundle.config.js",
         "bundle-dts-react": "dts-bundle-generator --config ./dts-config/dts-bundle-react.config.js",
         "bundle-dts-react-full": "dts-bundle-generator --config ./dts-config/dts-bundle-react-full.config.js",
