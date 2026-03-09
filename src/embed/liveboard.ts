@@ -606,7 +606,6 @@ export class LiveboardEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isWYSIWYGLiveboardPDFEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled = false,
             isGranularXLSXCSVSchedulesEnabled = false,
             showSpotterLimitations,
@@ -615,6 +614,7 @@ export class LiveboardEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
+            isWYSIWYGLiveboardPDFEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -725,6 +725,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
+        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
+            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
+        }
+
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
@@ -736,7 +740,6 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
-        params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
 
         const queryParams = getQueryParamString(params, true);
 

@@ -846,7 +846,6 @@ export class AppEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isWYSIWYGLiveboardPDFEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled = false,
             isGranularXLSXCSVSchedulesEnabled = false,
             isCentralizedLiveboardFilterUXEnabled = false,
@@ -857,6 +856,7 @@ export class AppEmbed extends V1Embed {
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
+            isWYSIWYGLiveboardPDFEnabled,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1035,6 +1035,10 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
+        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
+            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
+        }
+
         this.defaultHeight = minimumHeight || this.defaultHeight;
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
@@ -1042,7 +1046,6 @@ export class AppEmbed extends V1Embed {
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        params[Param.isWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
         if (dataPanelCustomGroupsAccordionInitialState
             === DataPanelCustomColumnGroupsAccordionState.COLLAPSE_ALL
             || dataPanelCustomGroupsAccordionInitialState
