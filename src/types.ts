@@ -57,6 +57,7 @@ export enum AuthType {
      * @deprecated This option is deprecated.
      * @hidden
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     SAML = 'SSO_SAML',
     /**
      * SSO using SAML
@@ -102,6 +103,7 @@ export enum AuthType {
      * });
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     SAMLRedirect = 'SSO_SAML',
     /**
      * SSO using OIDC
@@ -115,6 +117,7 @@ export enum AuthType {
      * Will make the host application redirect to the OIDC IdP.
      * See code samples in {@link SAMLRedirect}.
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     OIDCRedirect = 'SSO_OIDC',
     /**
      * Trusted authentication server
@@ -140,6 +143,7 @@ export enum AuthType {
      * });
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     TrustedAuthToken = 'AuthServer',
     /**
      * Trusted authentication server Cookieless, Use your own authentication
@@ -3202,7 +3206,8 @@ export enum EmbedEvent {
      * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
      * - `responder`: Contains elements that let developers define whether ThoughtSpot
-     *   will run or block the search operation, and if blocked, which error message to provide.
+     *   will run or block the search operation, and if blocked, which error message to
+     *   provide.
      * - `execute` - When `execute` returns `true`, the search is run.
      * When `execute` returns `false`, the search is not executed.
      * - `error` - Developers can customize the user-facing error message when `execute`
@@ -4316,6 +4321,7 @@ export enum HostEvent {
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     DownloadAsPng = 'downloadAsPng',
     /**
      * Trigger the **Download** > **CSV**  action on tables in
@@ -4498,7 +4504,8 @@ export enum HostEvent {
      * Update one or several filters applied on a Liveboard.
      * @param - Includes the following keys:
      * - `filter`: A single filter object containing column name, filter operator, and
-     * values. - `filters`: Multiple filter objects with column name, filter operator,
+     * values.
+     * - `filters`: Multiple filter objects with column name, filter operator,
      * and values for each.
      *
      * Each filter object must include the following attributes:
@@ -4769,7 +4776,8 @@ export enum HostEvent {
      * add a name and description for the Answer.
      * @param - Includes the following keys:
      * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter
-     * embed. - `name`: Optional. Name string for the Answer.
+     * embed.
+     * - `name`: Optional. Name string for the Answer.
      * - `description`: Optional. Description text for the Answer.
      * @example
      * ```js
@@ -5611,6 +5619,7 @@ export enum Action {
      * disabledActions: [Action.LiveboardInfo]
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     LiveboardInfo = 'pinboardInfo',
     /**
      * @hidden
@@ -5641,6 +5650,7 @@ export enum Action {
      * disabledActions: [Action.Subscription]
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     Subscription = 'subscription',
     /**
      * The **Explore** action on Liveboard visualizations
@@ -7084,7 +7094,8 @@ export enum EmbedErrorCodes {
  *
  * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
  * - **message**: Human-readable error description (string or array of strings for
- * multiple errors) - **code**: Machine-readable error identifier {@link EmbedErrorCodes}
+ * multiple errors)
+ * - **code**: Machine-readable error identifier {@link EmbedErrorCodes}
  * values
  * - **[key: string]**: Additional context-specific for backward compatibility
  *

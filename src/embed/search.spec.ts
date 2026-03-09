@@ -527,7 +527,6 @@ describe('Search embed tests', () => {
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
-             
         });
         searchEmbed.render();
         await executeAfterWait(() => {
@@ -541,7 +540,6 @@ describe('Search embed tests', () => {
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
-             
             dataPanelCustomGroupsAccordionInitialState:
                 DataPanelCustomColumnGroupsAccordionState.EXPAND_FIRST,
         });
