@@ -732,7 +732,8 @@ export class LiveboardEmbed extends V1Embed {
         personalizedViewId?: string,
     ) {
         // Extract view from liveboardId if passed along with it (legacy
-        // approach) View must be appended as query param at the end, not
+        // approach)
+        // View must be appended as query param at the end, not
         // embedded in path
         let liveboardGuid = liveboardId;
         let legacyViewId: string | undefined;

@@ -1,5 +1,3 @@
- 
- 
 /**
  * Copyright (c) 2022
  *
@@ -115,7 +113,6 @@ export const prefetch = (
     additionalFlags?: { [key: string]: string | number | boolean },
 ): void => {
     if (url === '') {
-         
         logger.warn('The prefetch method does not have a valid URL');
     } else {
         const features = prefetchFeatures || [PrefetchFeatures.FullApp];
@@ -322,7 +319,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {});  
+    return fn(() => {});
 };
 
 /**

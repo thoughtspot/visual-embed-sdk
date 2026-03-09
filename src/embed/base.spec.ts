@@ -1,5 +1,4 @@
- 
-/* eslint-disable @typescript-eslint/no-shadow */
+ /* eslint-disable @typescript-eslint/no-shadow */
 import EventEmitter from 'eventemitter3';
 import { EmbedConfig } from '../index';
 import * as auth from '../auth';

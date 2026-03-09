@@ -48,7 +48,6 @@ export class HostEventClient {
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
-           
           throw { error };
       }
 
@@ -57,7 +56,6 @@ export class HostEventClient {
         || (response.value as any)?.error;
 
       if (errors) {
-       
           throw { error: response.error };
       }
 
