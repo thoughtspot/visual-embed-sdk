@@ -1987,6 +1987,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLiveboardMasterpiecesEnabled?: boolean;
+    /**
+     * Enable or disable Muze chart phase 1 GA
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    muzeChartPhase1EnabledGA: true,
+     * })
+     * ```
+     */
+    muzeChartPhase1EnabledGA?: boolean;
 }
 
 export interface AllEmbedViewConfig
@@ -5068,6 +5084,7 @@ export enum Param {
     ShowLiveboardTitle = 'showLiveboardTitle',
     ShowMaskedFilterChip = 'showMaskedFilterChip',
     IsLiveboardMasterpiecesEnabled = 'isLiveboardMasterpiecesEnabled',
+    MuzeChartPhase1EnabledGA = 'muzeChartPhase1EnabledGA',
     HiddenTabs = 'hideTabs',
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
