@@ -2739,6 +2739,17 @@ export enum EmbedEvent {
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
+     * Emitted when the Download Liveboard as Continuous PDF action is triggered
+     * on a Liveboard.
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.DownloadLiveboardAsContinuousPDF, payload => {
+     *   console.log('download liveboard as continuous PDF', payload)})
+     * ```
+     */
+    DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
+    /**
      * Emitted when an Answer is deleted in the app
      *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe
      *  to when delete is completed. Default is end:true.
@@ -4268,6 +4279,18 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     DownloadAsPdf = 'downloadAsPdf',
+    /**
+     * Trigger the **Download Liveboard as Continuous PDF** action on an
+     * embedded Liveboard.
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DownloadLiveboardAsContinuousPDF)
+     * ```
+     *
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
     /**
      * Trigger the **AI Highlights** action on an embedded Liveboard
      *
@@ -6199,6 +6222,16 @@ export enum Action {
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     DownloadLiveboard = 'downloadLiveboard',
+    /**
+     * The **Download Liveboard as Continuous PDF** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as a continuous PDF.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsContinuousPDF]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
     /**
      * @hidden
      */
