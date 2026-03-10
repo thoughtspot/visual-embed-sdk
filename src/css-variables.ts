@@ -946,4 +946,49 @@ export interface CustomCssVariables {
      * Color for section title text (e.g., "Recent", "Older") in the saved chats sidebar.
      */
     '--ts-var-saved-chats-section-title-color'?: string;
+
+    /**
+     * Text color of the styling panel in the Liveboard.
+     */
+    '--ts-var-liveboard-styling-panel-text-color'?: string;
+
+    /**
+     * Border color of the styling panel in the Liveboard.
+     */
+    '--ts-var-liveboard-styling-panel-border-color'?: string;
+
+    /**
+     * Background color of the styling button in the Liveboard.
+     */
+    '--ts-var-liveboard-styling-button-background'?: string;
+
+    /**
+     * Text color of the styling button in the Liveboard.
+     */
+    '--ts-var-liveboard-styling-button-text-color'?: string;
+
+    /**
+     * Background color of the styling button in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-styling-button-hover-background'?: string;
+
+    /**
+     * Background color of the styling button in the Liveboard when active.
+     */
+    '--ts-var-liveboard-styling-button-active-background'?: string;
+
+    /**
+     * Text color of the styling button in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-styling-button-hover-text-color'?: string;
+
+    /**
+     * Box shadow of the styling button in the Liveboard.
+     */
+    '--ts-var-liveboard-styling-button-shadow'?: string;
+
+    /**
+     * Background color of the color palette in the Liveboard styling panel.
+     */
+    '--ts-var-liveboard-styling-color-palette-background'?: string;
   }
