@@ -4834,8 +4834,8 @@ export enum HostEvent {
     /**
      * Triggers selection of a specific Personalized View on a
      * Liveboard without reloading the embed. Pass either a
-     * `viewId` (GUID) or `viewName`. If neither is provided,
-     * the Liveboard resets to the original/default view.
+     * `viewId` (GUID) or `viewName`. If both are provided, `viewId` takes precedence.
+     * If neither is provided, the Liveboard resets to the original/default view.
      * When a `viewName` is provided and multiple views share
      * the same name, the first match is selected.
      * @example
