@@ -205,6 +205,128 @@ describe('HostEventClient', () => {
             expect(result).toEqual(mockResponse);
         });
 
+        it('should route GetAnswerSession through passthrough and return data', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const mockResponse = [{ value: { session: 'testSession', embedAnswerData: { id: '1' } } }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '123' });
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.GetAnswerSession, parameters: { vizId: '123' } },
+                undefined,
+            );
+            expect(result).toEqual({ session: 'testSession', embedAnswerData: { id: '1' } });
+        });
+
+        it('should fall back to legacy host event when passthrough returns no data for GetAnswerSession', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce([])
+                .mockResolvedValueOnce({ session: 'fallbackSession' });
+
+            const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '123' });
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                expect.anything(),
+                HostEvent.GetAnswerSession,
+                mockThoughtSpotHost,
+                { vizId: '123' },
+                undefined,
+            );
+            expect(result).toEqual({ session: 'fallbackSession' });
+        });
+
+        it('should throw real errors from passthrough without falling back', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ error: 'Permission denied' }]);
+
+            await expect(client.triggerHostEvent(HostEvent.GetAnswerSession, {}))
+                .rejects.toThrow('Permission denied');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should route GetFilters through passthrough and return data', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const mockResponse = [{ value: { liveboardFilters: [{ id: 'f1' }], runtimeFilters: [] as any[] } }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.GetFilters, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.GetFilters, parameters: {} },
+                undefined,
+            );
+            expect(result).toEqual({ liveboardFilters: [{ id: 'f1' }], runtimeFilters: [] });
+        });
+
+        it('should route GetTabs through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            const mockResponse = [{ value: { orderedTabIds: ['t1', 't2'], numberOfTabs: 2, Tabs: [] as any[] } }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.GetTabs, {});
+
+            expect(result).toEqual({ orderedTabIds: ['t1', 't2'], numberOfTabs: 2, Tabs: [] });
+        });
+
+        it('should route GetTML through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            const tmlData = { answer: { search_query: 'revenue by region' } };
+            mockProcessTrigger.mockResolvedValue([{ value: tmlData }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetTML, {});
+
+            expect(result).toEqual(tmlData);
+        });
+
+        it('should route GetIframeUrl through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { iframeUrl: 'https://ts.example.com/embed' } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetIframeUrl, {});
+
+            expect(result).toEqual({ iframeUrl: 'https://ts.example.com/embed' });
+        });
+
+        it('should route GetParameters through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { parameters: [{ name: 'p1' }] } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetParameters, {});
+
+            expect(result).toEqual({ parameters: [{ name: 'p1' }] });
+        });
+
+        it('should route getExportRequestForCurrentPinboard through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { v2Content: 'exportData' } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.getExportRequestForCurrentPinboard, {});
+
+            expect(result).toEqual({ v2Content: 'exportData' });
+        });
+
+        it('should fall back to legacy for GetFilters when passthrough returns null', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(null)
+                .mockResolvedValueOnce({ liveboardFilters: [], runtimeFilters: [] });
+
+            const result = await client.triggerHostEvent(HostEvent.GetFilters, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(result).toEqual({ liveboardFilters: [], runtimeFilters: [] });
+        });
+
         it('should call fallback  for Pin event', async () => {
             const { client, mockIframe } = createHostEventClient();
             const hostEvent = HostEvent.Pin;
@@ -316,6 +438,141 @@ describe('HostEventClient', () => {
                 vizId: 'testVizId',
                 liveboardId: 'testLiveboard',
             });
+        });
+    });
+
+    describe('getDataWithPassthroughFallback', () => {
+        const callMethod = (client: HostEventClient, ...args: any[]) => (client as any).getDataWithPassthroughFallback(...args);
+
+        it('should return unwrapped value when passthrough succeeds', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { session: 's1', embedAnswerData: { id: 'a1' } } }]);
+
+            const result = await callMethod(
+                client, UIPassthroughEvent.GetAnswerSession, HostEvent.GetAnswerSession, { vizId: '1' },
+            );
+
+            expect(result).toEqual({ session: 's1', embedAnswerData: { id: 'a1' } });
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should fall back to legacy when passthrough returns empty array', async () => {
+            const { client } = createHostEventClient();
+            const legacyResponse = { session: 'legacy' };
+            mockProcessTrigger
+                .mockResolvedValueOnce([])
+                .mockResolvedValueOnce(legacyResponse);
+
+            const result = await callMethod(
+                client, UIPassthroughEvent.GetAnswerSession, HostEvent.GetAnswerSession, { vizId: '1' },
+            );
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(result).toEqual(legacyResponse);
+        });
+
+        it('should fall back to legacy when passthrough returns null', async () => {
+            const { client } = createHostEventClient();
+            const legacyResponse = { parameters: [] as any[] };
+            mockProcessTrigger
+                .mockResolvedValueOnce(null)
+                .mockResolvedValueOnce(legacyResponse);
+
+            const result = await callMethod(
+                client, UIPassthroughEvent.GetParameters, HostEvent.GetParameters, {},
+            );
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(result).toEqual(legacyResponse);
+        });
+
+        it('should fall back to legacy when passthrough returns undefined', async () => {
+            const { client } = createHostEventClient();
+            const legacyResponse = { iframeUrl: 'https://ts.example.com' };
+            mockProcessTrigger
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(legacyResponse);
+
+            const result = await callMethod(
+                client, UIPassthroughEvent.GetIframeUrl, HostEvent.GetIframeUrl, {},
+            );
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(result).toEqual(legacyResponse);
+        });
+
+        it('should fall back when response array has no matching entries', async () => {
+            const { client } = createHostEventClient();
+            const legacyResponse = { v2Content: 'data' };
+            mockProcessTrigger
+                .mockResolvedValueOnce([{ refId: 'r1' }])
+                .mockResolvedValueOnce(legacyResponse);
+
+            const result = await callMethod(
+                client, UIPassthroughEvent.GetExportRequestForCurrentPinboard,
+                HostEvent.getExportRequestForCurrentPinboard, {},
+            );
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(result).toEqual(legacyResponse);
+        });
+
+        it('should throw when response has error field', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ error: 'Permission denied' }]);
+
+            await expect(callMethod(
+                client, UIPassthroughEvent.GetFilters, HostEvent.GetFilters, {},
+            )).rejects.toThrow('Permission denied');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should throw when response value contains errors field', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { errors: 'Invalid vizId' } }]);
+
+            await expect(callMethod(
+                client, UIPassthroughEvent.GetTML, HostEvent.GetTML, { vizId: 'bad' },
+            )).rejects.toThrow('Invalid vizId');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should throw when response value contains error field', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { error: 'Not found' } }]);
+
+            await expect(callMethod(
+                client, UIPassthroughEvent.GetTabs, HostEvent.GetTabs, {},
+            )).rejects.toThrow('Not found');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should stringify object errors instead of producing [object Object]', async () => {
+            const { client } = createHostEventClient();
+            const errorObj = { code: 403, reason: 'Forbidden' };
+            mockProcessTrigger.mockResolvedValue([{ error: errorObj }]);
+
+            await expect(callMethod(
+                client, UIPassthroughEvent.GetFilters, HostEvent.GetFilters, {},
+            )).rejects.toThrow(JSON.stringify(errorObj));
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
+        it('should default payload to empty object when null', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { iframeUrl: 'https://ts.example.com' } }]);
+
+            await callMethod(
+                client, UIPassthroughEvent.GetIframeUrl, HostEvent.GetIframeUrl, null,
+            );
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.GetIframeUrl, parameters: {} },
+                undefined,
+            );
         });
     });
 });

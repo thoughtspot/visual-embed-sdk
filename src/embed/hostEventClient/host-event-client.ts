@@ -3,18 +3,42 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     UIPassthroughArrayResponse,
-    UIPassthroughEvent, HostEventRequest, HostEventResponse,
+    UIPassthroughEvent,
+    HostEventRequest,
+    HostEventResponse,
     UIPassthroughRequest,
     UIPassthroughResponse,
     TriggerPayload,
     TriggerResponse,
 } from './contracts';
 
+/** Host events that use getDataWithPassthroughFallback (getter-style APIs) */
+const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+    [HostEvent.GetAnswerSession]: UIPassthroughEvent.GetAnswerSession,
+    [HostEvent.GetFilters]: UIPassthroughEvent.GetFilters,
+    [HostEvent.GetIframeUrl]: UIPassthroughEvent.GetIframeUrl,
+    [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters,
+    [HostEvent.GetTML]: UIPassthroughEvent.GetTML,
+    [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs,
+    [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
+};
+
 export class HostEventClient {
   iFrame: HTMLIFrameElement;
 
+  /** Host events with custom handlers 
+   * (setters or special logic) - 
+   * bound to instance for protected method access */
+  private readonly customHandlers: Partial<
+    Record<HostEvent, (payload: any, context?: ContextType) => Promise<any>>
+  >;
+
   constructor(iFrame?: HTMLIFrameElement) {
       this.iFrame = iFrame;
+      this.customHandlers = {
+          [HostEvent.Pin]: (p, c) => this.handlePinEvent(p, c),
+          [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
+      };
   }
 
   /**
@@ -44,7 +68,7 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
       const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
-          ?.filter?.((r) => r.error || r.value)[0];
+          ?.find?.((r) => r.error || r.value);
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
@@ -56,7 +80,8 @@ export class HostEventClient {
         || (response.value as any)?.error;
 
       if (errors) {
-          throw { error: response.error };
+          const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
+          throw { error: message };
       }
 
       return { ...response.value };
@@ -68,6 +93,36 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<any> {
       return this.processTrigger(hostEvent, data, context);
+  }
+
+  /**
+   * For getter events that return data. Tries UI passthrough first;
+   * if the app doesn't support it (no response data), falls back to
+   * the legacy host event channel. Real errors are thrown as-is.
+   */
+  private async getDataWithPassthroughFallback<UIPassthroughEventT extends UIPassthroughEvent>(
+      passthroughEvent: UIPassthroughEventT,
+      hostEvent: HostEvent,
+      payload: any,
+      context?: ContextType,
+  ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
+      const response = await this.triggerUIPassthroughApi(
+          passthroughEvent, payload || {}, context,
+      );
+      const matched = response?.find?.((r) => r.error || r.value);
+      if (!matched) {
+          return this.hostEventFallback(hostEvent, payload, context);
+      }
+
+      const errors = matched.error
+          || (matched.value as any)?.errors
+          || (matched.value as any)?.error;
+      if (errors) {
+          const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
+          throw new Error(message);
+      }
+
+      return { ...matched.value };
   }
 
   /**
@@ -144,16 +199,18 @@ export class HostEventClient {
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
-      switch (hostEvent) {
-          case HostEvent.Pin:
-              return this.handlePinEvent(payload as HostEventRequest<HostEvent.Pin>, context as ContextType) as any;
-          case HostEvent.SaveAnswer:
-              return this.handleSaveAnswerEvent(
-                  payload as HostEventRequest<HostEvent.SaveAnswer>,
-                  context as ContextType,
-              ) as any;
-          default:
-              return this.hostEventFallback(hostEvent, payload, context);
+      const customHandler = this.customHandlers[hostEvent];
+      if (customHandler) {
+          return customHandler(payload, context as ContextType) as any;
       }
+
+      const passthroughEvent = HOST_EVENT_PASSTHROUGH_MAP[hostEvent];
+      if (passthroughEvent) {
+          return this.getDataWithPassthroughFallback(
+              passthroughEvent, hostEvent, payload, context as ContextType,
+          ) as any;
+      }
+
+      return this.hostEventFallback(hostEvent, payload, context);
   }
 }
