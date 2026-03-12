@@ -80,7 +80,8 @@ export class HostEventClient {
         || (response.value as any)?.error;
 
       if (errors) {
-          throw { error: response.error };
+          const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
+          throw { error: message };
       }
 
       return { ...response.value };
