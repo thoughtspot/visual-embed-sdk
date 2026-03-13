@@ -192,6 +192,94 @@ describe('HostEventClient', () => {
             expect(result).toEqual({ answerId: 'newAnswer', ...mockResponse[0].value });
         });
 
+        it('should call handleHostEventWithParam for UpdateFilters event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const hostEvent = HostEvent.UpdateFilters;
+            const payload: HostEventRequest<typeof hostEvent> = {
+                vizId: 'viz-123',
+                filter: {
+                    column: 'region',
+                    oper: 'EQ',
+                    values: ['North'],
+                },
+            } as any;
+            const mockResponse = [{ value: { success: true } }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+
+            const result = await client.triggerHostEvent(hostEvent, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    type: UIPassthroughEvent.UpdateFilters,
+                    parameters: payload,
+                },
+                undefined,
+            );
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should call handleHostEventWithParam for DrillDown event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const hostEvent = HostEvent.DrillDown;
+            const payload: HostEventRequest<typeof hostEvent> = {
+                vizId: 'viz-456',
+                autoDrillDown: true,
+            } as any;
+            const mockResponse = [{ value: { drillDownApplied: true } }];
+            mockProcessTrigger.mockResolvedValue(mockResponse);
+
+            const result = await client.triggerHostEvent(hostEvent, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    type: UIPassthroughEvent.Drilldown,
+                    parameters: payload,
+                },
+                undefined,
+            );
+            expect(result).toEqual({ drillDownApplied: true });
+        });
+
+        it('should pass context to UpdateFilters event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = { vizId: 'viz-1', filter: { column: 'x', oper: 'EQ', values: ['a'] } } as any;
+            const context = { answerId: 'ans-1' } as any;
+            mockProcessTrigger.mockResolvedValue([{ value: {} }]);
+
+            await client.triggerHostEvent(HostEvent.UpdateFilters, payload, context);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.UpdateFilters, parameters: payload },
+                context,
+            );
+        });
+
+        it('should pass context to DrillDown event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = { vizId: 'viz-2' } as any;
+            const context = { liveboardId: 'lb-1' } as any;
+            mockProcessTrigger.mockResolvedValue([{ value: {} }]);
+
+            await client.triggerHostEvent(HostEvent.DrillDown, payload, context);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.Drilldown, parameters: payload },
+                context,
+            );
+        });
+
         it('should call hostEventFallback for unmapped events', async () => {
             const { client } = createHostEventClient();
             const hostEvent = 'testEvent' as HostEvent;
