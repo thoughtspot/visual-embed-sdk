@@ -142,13 +142,31 @@ export type UIPassthroughContractBase = {
   };
   [UIPassthroughEvent.UpdateFilters]: {
     request: {
-      filter: any;
-      filters: any;
+      filter?: {
+        column: string;
+        oper: string;
+        values: string[];
+        type?: string;
+      };
+      filters?: {
+        column: string;
+        oper: string;
+        values: string[];
+        type?: string;
+      }[];
     };
     response: any;
   };
   [UIPassthroughEvent.Drilldown]: {
-    request: any;
+    request: {
+      points: {
+        selectedPoints?: string[];
+        clickedPoint?: string;
+      };
+      columnGuid?: string;
+      autoDrillDown?: boolean;
+      vizId?: string;
+    };
     response: any;
   };
 };
