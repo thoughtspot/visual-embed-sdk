@@ -288,7 +288,8 @@ describe('React Components', () => {
             ).toBe(true);
         });
 
-        // Note: insertAsSibling is not supported for SpotterMessage as it's not part of the allowed props
+        // Note: insertAsSibling is not supported for SpotterMessage as it's
+        // not part of the allowed props
     });
 
     describe('Component Factory Coverage', () => {
@@ -416,7 +417,8 @@ describe('React Components', () => {
             const TestComponent = () => {
                 const { sendMessage } = useSpotterAgent({ worksheetId: 'test-worksheet' });
                 
-                // Call sendMessage immediately before service has time to initialize
+                // Call sendMessage immediately before service has time to
+                // initialize
                 sendMessageResult = sendMessage('test query');
                 
                 return <div>Test</div>;
@@ -727,7 +729,8 @@ describe('React Components', () => {
 
              const { rerender } = render(<TestComponent worksheetId="worksheet1" />);
              
-             // This should trigger the "if (serviceRef.current)" branch in useEffect
+             // This should trigger the "if (serviceRef.current)" branch in
+             // useEffect
              rerender(<TestComponent worksheetId="worksheet1" />);
              rerender(<TestComponent worksheetId="worksheet2" />);
              rerender(<TestComponent worksheetId="worksheet3" />);

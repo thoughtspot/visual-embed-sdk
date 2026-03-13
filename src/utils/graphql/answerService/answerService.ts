@@ -14,7 +14,6 @@ export interface SessionInterface {
     acSession: { sessionId: string; genNo: number };
 }
 
-// eslint-disable-next-line no-shadow
 export enum OperationType {
     GetChartWithData = 'GetChartWithData',
     GetTableWithHeadlineData = 'GetTableWithHeadlineData',
@@ -25,6 +24,8 @@ export interface UnderlyingDataPoint {
     dataValue: any;
 }
 
+export const DATA_TYPES = ['DATE', 'DATE_TIME', 'TIME'];
+
 /**
  * AnswerService provides a simple way to work with ThoughtSpot Answers.
  *
@@ -34,10 +35,13 @@ export interface UnderlyingDataPoint {
  *
  * You can use this service to:
  *
- * - Add or remove columns from Answers (`addColumns`, `removeColumns`, `addColumnsByName`)
+ * - Add or remove columns from Answers (`addColumns`, `removeColumns`,
+ * `addColumnsByName`)
  * - Apply filters to Answers (`addFilter`)
- * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`, `fetchCSVBlob`, `fetchPNGBlob`)
- * - Get data for specific points in visualizations (`getUnderlyingDataForPoint`)
+ * - Get data from Answers in different formats (JSON, CSV, PNG) (`fetchData`,
+ * `fetchCSVBlob`, `fetchPNGBlob`)
+ * - Get data for specific points in visualizations
+ * (`getUnderlyingDataForPoint`)
  * - Run custom queries (`executeQuery`)
  * - Add visualizations to Liveboards (`addDisplayedVizToLiveboard`)
  *
@@ -70,7 +74,7 @@ export interface UnderlyingDataPoint {
  * });
  * ```
  * 
- * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
+ * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl
  * @group Events
  */
 export class AnswerService {
@@ -149,6 +153,7 @@ export class AnswerService {
      *    ]);
      *    console.log(await service.fetchData());
      * });
+     * ```
      */
     public async addColumnsByName(columnNames: string[]) {
         const sourceDetail = await this.getSourceDetail();
@@ -308,7 +313,7 @@ export class AnswerService {
      *     const data = await underlying.fetchData(0, 100);
      *  })
      * ```
-     * @version SDK: 1.25.0| ThoughtSpot: 9.10.0.cl
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0.cl
      */
     public async getUnderlyingDataForPoint(
         outputColumnNames: string[],
@@ -465,7 +470,7 @@ function getSelectedPointsForUnderlyingDataQuery(
         const dataType = colVal.column.dataType;
         const id = colVal.column.id;
         let dataValue;
-        if (dataType === 'DATE') {
+        if (DATA_TYPES.includes(dataType)) {
             if (Number.isFinite(colVal.value)) {
                 dataValue = [{
                     epochRange: {
@@ -504,12 +509,10 @@ function getSelectedPointsForUnderlyingDataQuery(
 function getDisplayedViz(visualizations: any[], displayMode: string) {
     if (displayMode === 'CHART_MODE') {
         return visualizations.find(
-            // eslint-disable-next-line no-underscore-dangle
             (viz: any) => viz.__typename === 'ChartViz',
         );
     }
     return visualizations.find(
-        // eslint-disable-next-line no-underscore-dangle
         (viz: any) => viz.__typename === 'TableViz',
     );
 }

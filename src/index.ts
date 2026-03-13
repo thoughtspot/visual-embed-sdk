@@ -70,6 +70,7 @@ import {
     EmbedErrorDetailsEvent, 
     ErrorDetailsTypes,
     ContextType,
+    AutoMCPFrameRendererViewConfig,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { SageEmbed, SageViewConfig } from './embed/sage';
@@ -166,6 +167,8 @@ export {
     EmbedErrorCodes,
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
+    AutoMCPFrameRendererViewConfig,
 };
 
 export { resetCachedAuthToken } from './authToken';
+export { startAutoMCPFrameRenderer } from './embed/auto-frame-renderer';

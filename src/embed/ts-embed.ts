@@ -34,6 +34,7 @@ import {
     setStyleProperties,
     removeStyleProperties,
     isUndefined,
+    getHostEventsConfig,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -78,12 +79,11 @@ import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
-import { getHostEventsConfig } from '../utils';
 
 const { version } = pkgInfo;
 
 /**
- * Global prefix for all Thoughtspot postHash Params.
+ * Global prefix for all ThoughtSpot postHash Params.
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const TS_EMBED_ID = '_thoughtspot-embed';
@@ -174,9 +174,9 @@ export class TsEmbed {
     private isPreRendered: boolean;
 
     /**
-     * Should we encode URL Query Params using base64 encoding which thoughtspot
+     * Should we encode URL Query Params using base64 encoding which ThoughtSpot
      * will generate for embedding. This provides additional security to
-     * thoughtspot clusters against Cross site scripting attacks.
+     * ThoughtSpot clusters against Cross site scripting attacks.
      * @default false
      */
     private shouldEncodeUrlQueryParams = false;
@@ -562,7 +562,8 @@ export class TsEmbed {
      */
     private updateAuthToken = async (_: MessagePayload, responder: any) => {
         const { authType, autoLogin: autoLoginConfig } = this.embedConfig;
-        // Default autoLogin: true for cookieless if undefined/null, otherwise false
+        // Default autoLogin: true for cookieless if undefined/null, otherwise
+        // false
         const autoLogin = autoLoginConfig ?? (authType === AuthType.TrustedAuthTokenCookieless);
         
         try {
@@ -699,6 +700,7 @@ export class TsEmbed {
             customizations,
             contextMenuTrigger,
             linkOverride,
+            enableLinkOverridesV2,
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
@@ -786,8 +788,12 @@ export class TsEmbed {
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
         }
-
-        if (linkOverride) {
+        // TODO: Once V2 is stable, send both flags when
+        // linkOverride is true (remove the else-if).
+        if (enableLinkOverridesV2) {
+            queryParams[Param.EnableLinkOverridesV2] = true;
+            queryParams[Param.LinkOverride] = true;
+        } else if (linkOverride) {
             queryParams[Param.LinkOverride] = linkOverride;
         }
         if (insertInToSlide) {
@@ -867,7 +873,7 @@ export class TsEmbed {
         iFrame.mozallowfullscreen = true;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        iFrame.allow = 'clipboard-read; clipboard-write; fullscreen;';
+        iFrame.allow = 'clipboard-read; clipboard-write; fullscreen; local-network-access;';
 
         const frameParams = this.viewConfig.frameParams;
         const { height: frameHeight, width: frameWidth, ...restParams } = frameParams || {};
@@ -1790,7 +1796,7 @@ export class TsEmbed {
      * Returns the answerService which can be used to make arbitrary graphql calls on top
      * session.
      * @param vizId [Optional] to get for a specific viz in case of a Liveboard.
-     * @version SDK: 1.25.0 / ThoughtSpot 9.10.0
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.10.0
      */
     public async getAnswerService(vizId?: string): Promise<AnswerService> {
         const { session } = await this.trigger(HostEvent.GetAnswerSession, vizId ? { vizId } : {});

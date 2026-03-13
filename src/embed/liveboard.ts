@@ -2,8 +2,8 @@
  * Copyright (c) 2022
  *
  * Embed a ThoughtSpot Liveboard or visualization
- * https://developers.thoughtspot.com/docs/?pageid=embed-pinboard
- * https://developers.thoughtspot.com/docs/?pageid=embed-a-viz
+ * https://developers.thoughtspot.com/docs/embed-liveboard
+ * https://developers.thoughtspot.com/docs/embed-a-viz
  * @summary Liveboard & visualization embed
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
@@ -49,9 +49,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
      *
-     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -62,14 +62,14 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     fullHeight?: boolean;
     /**
-     * This is the minimum height(in pixels) for a full-height Liveboard.
+     * This is the minimum height (in pixels) for a full-height Liveboard.
      * Setting this height helps resolve issues with empty Liveboards and
      * other screens navigable from a Liveboard.
      *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
-     * @default 500
      * @deprecated Use `minimumHeight` instead.
+     * @default 500
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -98,7 +98,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     minimumHeight?: number;
     /**
-     * @Deprecated If set to true, the context menu in visualizations will be enabled.
+     * If set to true, the context menu in visualizations will be enabled.
+     * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
+     * @deprecated this option is deprecated.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -106,7 +108,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    enableVizTransformations:true,
      * })
      * ```
-     * @version: SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
      */
     enableVizTransformations?: boolean;
     /**
@@ -119,8 +120,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    liveboardId:id of liveboard,
+     *    liveboardId:'id of liveboard',
      * })
+     * ```
      */
     liveboardId?: string;
     /**
@@ -173,6 +175,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *       'f547ec54-2a37-4516-a222-2b06719af726'
      *     ]
      * })
+     * ```
      */
     visibleVizs?: string[];
     /**
@@ -200,6 +203,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Specify the tab ID.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -207,7 +211,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    activeTabId:'id-1234',
      * })
      * ```
-     * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1-sw
      */
     activeTabId?: string;
     /**
@@ -216,6 +219,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * that includes specific filter selections.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -224,7 +228,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    activeTabId: 'tab-guid',
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     personalizedViewId?: string;
     /**
@@ -245,13 +248,14 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * Show a preview image of the visualization before the visualization loads.
      * Only works for visualizations embeds with a viz id.
      *
-     * Also, viz snashot should be enabled in the ThoughtSpot instance.
+     * Also, viz snapshot should be enabled in the ThoughtSpot instance.
      * Contact ThoughtSpot support to enable this feature.
      *
-     * Since, this will show preview images, be careful that it may show
+     * Since this will show preview images, be careful that it may show
      * undesired data to the user when using row level security.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -261,7 +265,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * });
      * embed.render();
      * ```
-     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
      */
     showPreviewLoader?: boolean;
     /**
@@ -269,13 +272,14 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    oAuthPollingInterval: value in milliseconds,
+     *    oAuthPollingInterval: 30000,
      * })
+     * ```
      */
     oAuthPollingInterval?: number;
 
@@ -284,36 +288,39 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *
      * Supported embed types: `LiveboardEmbed`
      * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    isForceRedirect: false,
      * })
+     * ```
      */
     isForceRedirect?: boolean;
 
     /**
      * The source connection ID for authentication.
-     * @hidden
-     * @version SDK: 1.35.0 | ThoughtSpot:10.6.0.cl
      *
      * Supported embed types: `LiveboardEmbed`
+     * @hidden
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... //other embed view config
      *    dataSourceId: '',
      * })
+     * ```
      */
     dataSourceId?: string;
     /**
-     * The list of tab IDs to hide from the embedded.
-     * This Tabs will be hidden from their respective LBs.
-     * Use this to hide an tabID.
+     * The list of tab IDs to hide from the embedded Liveboard.
+     * These tabs will be hidden from their respective Liveboards.
+     * Use this to hide a tab ID.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -324,7 +331,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *   ]
      * });
      * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     hiddenTabs?: string[];
     /**
@@ -348,7 +354,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     visibleTabs?: string[];
     /**
-     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
+     * @deprecated This flag is deprecated.
      *
      * Supported embed types: `LiveboardEmbed`, `AppEmbed`
      * @type {boolean}
@@ -364,7 +371,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
     /**
-     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled
+     * mails
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -414,6 +422,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * This flag is used to enable the full height lazy load data.
      *
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -422,33 +433,29 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     *
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
     /**
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before the its top edge is visible in the
+     * the visualization will be loaded 10px before its top edge is visible in the
      * viewport.
      *
      * The format is similar to CSS margin.
      *
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
      *    lazyLoadingMargin: '0px',
      * })
      * ```
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
     /**
@@ -456,6 +463,8 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * of the spotter underneath the chat input.
      * default is false.
      *
+     * @type {boolean}
+     * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -463,14 +472,13 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    showSpotterLimitations: true,
      * })
      * ```
-     * @type {boolean}
-     * @version SDK: 1.41.1 | ThoughtSpot: 10.5.0.cl
      */
     showSpotterLimitations?: boolean;
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -479,7 +487,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    updatedSpotterChatPrompt : true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
     /**
@@ -487,6 +494,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * branding in tool response cards.
      *
      * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -497,7 +505,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
 }
@@ -506,6 +513,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
  * Embed a ThoughtSpot Liveboard or visualization. When rendered it already
  * waits for the authentication to complete, so you need not wait for
  * `AuthStatus.SUCCESS`.
+ * @group Embed components
  * @example
  * ```js
  * import { .. } from '@thoughtspot/visual-embed-sdk';
@@ -515,7 +523,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
  * // .. other params here.
  * })
  * ```
- * @group Embed components
  */
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
@@ -724,8 +731,10 @@ export class LiveboardEmbed extends V1Embed {
         activeTabId: string,
         personalizedViewId?: string,
     ) {
-        // Extract view from liveboardId if passed along with it (legacy approach)
-        // View must be appended as query param at the end, not embedded in path
+        // Extract view from liveboardId if passed along with it (legacy
+        // approach)
+        // View must be appended as query param at the end, not
+        // embedded in path
         let liveboardGuid = liveboardId;
         let legacyViewId: string | undefined;
 
@@ -736,7 +745,8 @@ export class LiveboardEmbed extends V1Embed {
             legacyViewId = params.get('view') || undefined;
         }
 
-        // personalizedViewId takes precedence over legacyViewId (when passed as part of liveboardId)
+        // personalizedViewId takes precedence over legacyViewId (when passed
+        // as part of liveboardId)
         const effectiveViewId = personalizedViewId || legacyViewId;
 
         let suffix = `/embed/viz/${liveboardGuid}`;

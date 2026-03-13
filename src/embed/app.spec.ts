@@ -397,7 +397,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isLiveboardStylingAndGroupingEnabled to true in url', async () => {
+    test('should set isLiveboardStylingAndGroupingEnabled to true in url (deprecated, use isLiveboardMasterpiecesEnabled)', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             isLiveboardStylingAndGroupingEnabled: true,
@@ -421,6 +421,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isThisPeriodInDateFiltersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set enableHomepageAnnouncement to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableHomepageAnnouncement: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=true${defaultParamsPost}#/home`,
             );
         });
     });
@@ -505,6 +519,37 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set deprecated standalone enablePastConversationsSidebar in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePastConversationsSidebar: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePastConversationsSidebar=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should prefer spotterSidebarConfig.enablePastConversationsSidebar over deprecated standalone flag in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePastConversationsSidebar: false,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePastConversationsSidebar=true${defaultParamsPost}#/home`,
             );
         });
     });

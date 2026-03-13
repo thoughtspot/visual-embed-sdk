@@ -19,11 +19,11 @@ import { getSessionInfo, getPreauthInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
 import { resetAllCachedServices } from './utils/resetServices';
 
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let loggedInStatus = false;
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let samlAuthWindow: Window = null;
-// eslint-disable-next-line import/no-mutable-exports
+ 
 export let samlCompletionPromise: Promise<void> = null;
 
 let releaseVersion = '';
@@ -54,7 +54,8 @@ export enum AuthFailureType {
     /**
      * The current authentication token or session has expired.
      *
-     * Emitted when the embed receives an auth-expiry signal and starts auth refresh handling.
+     * Emitted when the embed receives an auth-expiry signal and starts auth refresh
+     * handling.
      */
     EXPIRY = 'EXPIRY',
     /**
@@ -83,20 +84,45 @@ export enum AuthFailureType {
  */
 export enum AuthStatus {
     /**
-     * Emits when the SDK fails to authenticate
+     * Emits when the SDK fails to authenticate.
      */
     FAILURE = 'FAILURE',
     /**
-     * Emits when the SDK authenticates successfully
+     * Emits when the SDK authentication step completes
+     * successfully (e.g., token exchange, cookie set).
+     * This fires before any iframe is rendered. Use
+     * this to know that auth passed and it is safe to
+     * proceed with rendering. The callback receives no
+     * arguments.
+     * @example
+     * ```js
+     * const authEE = init({ ... });
+     * authEE.on(AuthStatus.SDK_SUCCESS, () => {
+     *     // Auth done, iframe not loaded yet
+     * });
+     * ```
      */
     SDK_SUCCESS = 'SDK_SUCCESS',
     /**
      * @hidden
-     * Emits when iframe is loaded and session info is available
+     * Emits when iframe is loaded and session
+     * information is available.
      */
     SESSION_INFO_SUCCESS = 'SESSION_INFO_SUCCESS',
     /**
-     * Emits when the app sends an authentication success message
+     * Emits when the ThoughtSpot app inside the
+     * embedded iframe confirms its session is active.
+     * This fires after the iframe loads and sends back an `AuthInit` event.
+     * @param sessionInfo Information about the user session, with details like `userGUID`.
+     * @see EmbedEvent.AuthInit
+     * @example
+     * ```js
+     * const authEE = init({ ... });
+     * authEE.on(AuthStatus.SUCCESS, (sessionInfo) => {
+     *     // App is loaded and authenticated
+     *     console.log(sessionInfo.userGUID);
+     * });
+     * ```
      */
     SUCCESS = 'SUCCESS',
     /**
@@ -306,7 +332,7 @@ function removeSSORedirectUrlMarker(): void {
     // unnecessary hash to the parent page URL until we find any use case where
     // that creates an issue.
 
-    // Replace any occurences of ?ssoMarker=guid or &ssoMarker=guid.
+    // Replace any occurrences of ?ssoMarker=guid or &ssoMarker=guid.
     let updatedHash = window.location.hash.replace(`?${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '');
     updatedHash = updatedHash.replace(`&${getSSOMarker(SSO_REDIRECTION_MARKER_GUID)}`, '');
     window.location.hash = updatedHash;

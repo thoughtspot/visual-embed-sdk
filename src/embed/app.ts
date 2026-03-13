@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl, resolveEnablePastConversationsSidebar } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -64,7 +64,7 @@ export enum Page {
 }
 
 /**
- * Define the initial state os column custom group accordions
+ * Define the initial state of column custom group accordions
  * in data panel v2.
  */
 export enum DataPanelCustomColumnGroupsAccordionState {
@@ -140,7 +140,7 @@ export enum ListPage {
  */
 export interface DiscoveryExperience {
     /**
-     * primaryNavbarVersion determines the version of the navigation version.
+     * primaryNavbarVersion determines the version of the primary navigation bar.
      */
     primaryNavbarVersion?: PrimaryNavbarVersion;
     /**
@@ -164,8 +164,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This flag also controls the homepage left navigation bar.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -186,8 +186,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * **Note**: This attribute is not supported in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -204,8 +204,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * navigation bar is not hidden via `showPrimaryNavbar`.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.2.0 | ThoughtSpot: 8.4.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -216,12 +216,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     disableProfileAndHelp?: boolean;
     /**
-     * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
-     * @default true
      * Whether the help menu in the top navigation bar should be served
      * from Pendo or ThoughtSpot's internal help items.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.36.3 | ThoughtSpot: 10.1.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -236,8 +236,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * the top navigation bar in the V3 navigation experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -256,8 +256,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * in the classic (V1) experience.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -275,8 +275,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * in the classic (V1) and V2 experience modes.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -292,7 +292,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * In the V3 experience, it shows or hides application selection
      * icons on the left navigation panel.
      * By default, the application selection menu and icons are
-     * shown in the UI
+     * shown in the UI.
      *
      * **Note**: This attribute is not supported in the classic (V1) experience.
      *
@@ -332,7 +332,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * takes precedence. This is the path post the `#/` in the URL of the standalone
      * ThoughtSpot app. Use this to open the embedded view to a specific path.
      *
-     * For eg, if you want the component to open to a specific Liveboard
+     * For example, if you want the component to open to a specific Liveboard
      * you could set the path to `pinboard/<liveboardId>/tab/<tabId>`.
      *
      * Supported embed types: `AppEmbed`
@@ -350,7 +350,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The application page to set as the start page
      * in the embedded view.
      *
-     * Use this to open to particular page in the app. To open to a specific
+     * Use this to open to a particular page in the app. To open to a specific
      * path within the app, use the `path` attribute which is more flexible.
      *
      * Supported embed types: `AppEmbed`
@@ -430,8 +430,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * If set to true, the Search Assist feature is enabled.
      *
      * Supported embed types: `AppEmbed`
-     * @default true
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1-sw
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -469,8 +469,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * For more information,
      * see link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -485,8 +485,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * For more information, see
      * link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
      * Supported embed types: `AppEmbed`
-     * @default false
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -501,10 +501,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     discoveryExperience?: DiscoveryExperience;
     /**
-     * To set the initial state of the search bar in case of saved-answers.
+     * To set the initial state of the search bar in case of saved-answers. Use {@link collapseSearchBar} instead.
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
+     * @deprecated This flag is deprecated.
      * @default false
-     * @deprecated Use {@link collapseSearchBar} instead
      */
     collapseSearchBarInitially?: boolean;
     /**
@@ -532,14 +532,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Flag to use home page search bar mode
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK : 1.33.0 | ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.33.0 | ThoughtSpot: 10.3.0.cl
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
      * This flag is used to enable unified search experience for full app embed.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.34.0 | ThoughtSpot:10.5.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
      * @default true
      * @example
      * ```js
@@ -552,7 +552,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isUnifiedSearchExperienceEnabled?: boolean;
 
     /**
-     * This flag is used to enable/disable the styling and grouping in a Liveboard
+     * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
+     * @deprecated This flag is deprecated.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -569,7 +570,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isLiveboardStylingAndGroupingEnabled?: boolean;
 
     /**
-     * This flag is used to enable/disable the png embedding of liveboard in scheduled mails
+     * This flag is used to enable/disable the png embedding of liveboard in scheduled
+     * mails
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -622,6 +624,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * This flag is used to enable the full height lazy load data.
      *
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
@@ -630,10 +635,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    lazyLoadingForFullHeight: true,
      * })
      * ```
-     *
-     * @type {boolean}
-     * @default false
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingForFullHeight?: boolean;
 
@@ -641,23 +642,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before the its top edge is visible in the
+     * the visualization will be loaded 10px before its top edge is visible in the
      * viewport.
      *
      * The format is similar to CSS margin.
      *
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#embed-container', {
      *    // ...other options
      *    fullHeight: true,
      *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when its visible in the viewport.
+     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
      *    lazyLoadingMargin: '0px',
      * })
      * ```
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot:10.12.0.cl
      */
     lazyLoadingMargin?: string;
 
@@ -665,6 +666,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
      * ```js
@@ -673,25 +675,36 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    updatedSpotterChatPrompt : true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     updatedSpotterChatPrompt?: boolean;
+    /**
+     * Controls the visibility of the past conversations sidebar.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @deprecated from SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
+     * Use `spotterSidebarConfig.enablePastConversationsSidebar`.
+     * @default false
+     */
+    enablePastConversationsSidebar?: boolean;
     /**
      * Configuration for the Spotter sidebar UI customization.
      * Only applicable when navigating to Spotter within the app.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
+     *    // Deprecated standalone flag (backward compatibility)
+     *    enablePastConversationsSidebar: false,
+     *    // Recommended config; this value takes precedence
      *    spotterSidebarConfig: {
      *        enablePastConversationsSidebar: true,
      *        spotterSidebarTitle: 'My Conversations',
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
@@ -699,6 +712,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * branding in tool response cards.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -709,7 +723,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    },
      * })
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
@@ -729,6 +742,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     minimumHeight?: number;
+    /**
+     * To enable the homepage announcement banner.
+     * Controls the visibility of the announcement section
+     * on the homepage.
+     *
+     * Supported embed types: `AppEmbed`
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableHomepageAnnouncement: true,
+     * })
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    enableHomepageAnnouncement?: boolean;
 }
 
 /**
@@ -809,6 +838,7 @@ export class AppEmbed extends V1Embed {
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
+            enableHomepageAnnouncement,
         } = this.viewConfig;
 
         let params: any = {};
@@ -837,10 +867,15 @@ export class AppEmbed extends V1Embed {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
 
+        const resolvedEnablePastConversationsSidebar = resolveEnablePastConversationsSidebar({
+            spotterSidebarConfigValue: spotterSidebarConfig?.enablePastConversationsSidebar,
+            standaloneValue: this.viewConfig.enablePastConversationsSidebar,
+        });
+        setParamIfDefined(params, Param.EnablePastConversationsSidebar, resolvedEnablePastConversationsSidebar, true);
+
         // Handle spotterSidebarConfig params
         if (spotterSidebarConfig) {
             const {
-                enablePastConversationsSidebar,
                 spotterSidebarTitle,
                 spotterSidebarDefaultExpanded,
                 spotterChatRenameLabel,
@@ -853,7 +888,6 @@ export class AppEmbed extends V1Embed {
                 spotterNewChatButtonTitle,
             } = spotterSidebarConfig;
 
-            setParamIfDefined(params, Param.EnablePastConversationsSidebar, enablePastConversationsSidebar, true);
             setParamIfDefined(params, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
             setParamIfDefined(params, Param.SpotterSidebarTitle, spotterSidebarTitle);
             setParamIfDefined(params, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
@@ -977,6 +1011,10 @@ export class AppEmbed extends V1Embed {
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
+        if (enableHomepageAnnouncement !== undefined) {
+            params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
         this.defaultHeight = minimumHeight || this.defaultHeight;

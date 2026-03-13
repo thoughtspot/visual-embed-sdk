@@ -1,4 +1,11 @@
-import { ContextType, HostEvent } from '../../types';
+import { ContextType, HostEvent, RuntimeFilter } from '../../types';
+import { SessionInterface } from '../../utils/graphql/answerService/answerService';
+
+export interface LiveboardTab {
+  id: string;
+  name: string;
+  [key: string]: any;
+}
 
 export enum UIPassthroughEvent {
   PinAnswerToLiveboard = 'addVizToPinboard',
@@ -8,6 +15,13 @@ export enum UIPassthroughEvent {
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
   GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
+  GetAnswerSession = 'getAnswerSession',
+  GetFilters = 'getFilters',
+  GetIframeUrl = 'getIframeUrl',
+  GetParameters = 'getParameters',
+  GetTML = 'getTML',
+  GetTabs = 'getTabs',
+  GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
 }
 
 // UI Passthrough Contract
@@ -73,6 +87,57 @@ export type UIPassthroughContractBase = {
       tml: string;
     };
   };
+  [UIPassthroughEvent.GetAnswerSession]: {
+    request: {
+      vizId?: string;
+    };
+    response: {
+      session: SessionInterface;
+      embedAnswerData?: Record<string, any>;
+    };
+  };
+  [UIPassthroughEvent.GetFilters]: {
+    request: {
+      vizId?: string;
+    };
+    response: {
+      liveboardFilters: Record<string, any>[];
+      runtimeFilters: RuntimeFilter[];
+    };
+  };
+  [UIPassthroughEvent.GetIframeUrl]: {
+    request: Record<string, never>;
+    response: {
+      iframeUrl: string;
+    };
+  };
+  [UIPassthroughEvent.GetParameters]: {
+    request: Record<string, never>;
+    response: {
+      parameters: Record<string, any>[];
+    };
+  };
+  [UIPassthroughEvent.GetTML]: {
+    request: {
+      vizId?: string;
+      includeNonExecutedSearchTokens?: boolean;
+    };
+    response: Record<string, any>;
+  };
+  [UIPassthroughEvent.GetTabs]: {
+    request: Record<string, never>;
+    response: {
+      orderedTabIds: string[];
+      numberOfTabs: number;
+      Tabs: LiveboardTab[];
+    };
+  };
+  [UIPassthroughEvent.GetExportRequestForCurrentPinboard]: {
+    request: Record<string, never>;
+    response: {
+      v2Content: string;
+    };
+  };
 };
 
 // UI Passthrough Request and Response
@@ -86,7 +151,7 @@ export type UIPassthroughResponse<
 
 export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContractBase> =
   Array<{
-    redId?: string;
+    refId?: string;
     value?: UIPassthroughResponse<ApiName>;
     error?: any;
   }>
@@ -95,6 +160,13 @@ export type UIPassthroughArrayResponse<ApiName extends keyof UIPassthroughContra
 export type EmbedApiHostEventMapping = {
   [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard;
   [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer;
+  [HostEvent.GetAnswerSession]: UIPassthroughEvent.GetAnswerSession;
+  [HostEvent.GetFilters]: UIPassthroughEvent.GetFilters;
+  [HostEvent.GetIframeUrl]: UIPassthroughEvent.GetIframeUrl;
+  [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters;
+  [HostEvent.GetTML]: UIPassthroughEvent.GetTML;
+  [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs;
+  [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
 }
 
 // Host Event Request and Response

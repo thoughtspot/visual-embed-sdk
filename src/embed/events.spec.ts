@@ -2,6 +2,7 @@ import { logger } from '../utils/logger';
 import {
     init,
     AuthType,
+    Action,
     EmbedEvent,
     SearchEmbed,
     PinboardEmbed,
@@ -254,6 +255,75 @@ describe('test communication between host app and ThoughtSpot', () => {
         };
         expect(mockPort.postMessage).toHaveBeenCalledWith(heightObj);
     });
+    test('should handle UpdatePersonalizedView as alias for UpdatePersonalisedView', async () => {
+        const handler = jest.fn();
+
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.UpdatePersonalizedView, handler).render();
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.UpdatePersonalisedView,
+                data: PAYLOAD,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].data).toBe(PAYLOAD);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('should handle SavePersonalizedView as alias for SavePersonalisedView', async () => {
+        const handler = jest.fn();
+
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.SavePersonalizedView, handler).render();
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.SavePersonalisedView,
+                data: PAYLOAD,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].data).toBe(PAYLOAD);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('should handle DeletePersonalizedView as alias for DeletePersonalisedView', async () => {
+        const handler = jest.fn();
+
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.DeletePersonalizedView, handler).render();
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.DeletePersonalisedView,
+                data: PAYLOAD,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].data).toBe(PAYLOAD);
+        }, EVENT_WAIT_TIME);
+    });
+
     test('ALL event listener should fire for all events with the event type set correctly', async () => {
         const embed = new AppEmbed(getRootEl(), defaultViewConfig);
         const spy = jest.fn();
@@ -284,5 +354,23 @@ describe('test communication between host app and ThoughtSpot', () => {
                 type: EmbedEvent.DialogOpen,
             });
         }, EVENT_WAIT_TIME);
+    });
+});
+
+describe('Americanized enum alias values', () => {
+    test('EmbedEvent aliases should resolve to the same values as their British counterparts', () => {
+        expect(EmbedEvent.UpdatePersonalizedView).toBe(EmbedEvent.UpdatePersonalisedView);
+        expect(EmbedEvent.SavePersonalizedView).toBe(EmbedEvent.SavePersonalisedView);
+        expect(EmbedEvent.DeletePersonalizedView).toBe(EmbedEvent.DeletePersonalisedView);
+    });
+
+    test('HostEvent aliases should resolve to the same values as their British counterparts', () => {
+        expect(HostEvent.ResetLiveboardPersonalizedView).toBe(HostEvent.ResetLiveboardPersonalisedView);
+        expect(HostEvent.UpdatePersonalizedView).toBe(HostEvent.UpdatePersonalisedView);
+    });
+
+    test('Action aliases should resolve to the same values as their British counterparts', () => {
+        expect(Action.PersonalizedViewsDropdown).toBe(Action.PersonalisedViewsDropdown);
+        expect(Action.OrganizeFavorites).toBe(Action.OrganiseFavourites);
     });
 });

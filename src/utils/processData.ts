@@ -83,10 +83,8 @@ function processNoCookieAccess(e: any, containerEl: Element) {
     } = getEmbedConfig();
     if (!ignoreNoCookieAccess) {
         if (!suppressNoCookieAccessAlert && !suppressErrorAlerts) {
-            // eslint-disable-next-line no-alert
             alert(ERROR_MESSAGE.THIRD_PARTY_COOKIE_BLOCKED_ALERT);
         }
-        // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
     }
     notifyAuthFailure(AuthFailureType.NO_COOKIE_ACCESS);
@@ -107,11 +105,9 @@ export function processAuthFailure(e: any, containerEl: Element) {
     const isTrustedAuth = authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless;
     const isEmbeddedSSOInfoFailure = isEmbeddedSSO && e?.data?.type === AuthFailureType.UNAUTHENTICATED_FAILURE;
     if (autoLogin && isTrustedAuth) {
-        // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     } else if (authType !== AuthType.None && !disableLoginFailurePage && !isEmbeddedSSOInfoFailure) {
-        // eslint-disable-next-line no-param-reassign
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.OTHER);
     }
@@ -126,7 +122,6 @@ export function processAuthFailure(e: any, containerEl: Element) {
  */
 function processAuthLogout(e: any, containerEl: Element) {
     const { loginFailedMessage } = getEmbedConfig();
-    // eslint-disable-next-line no-param-reassign
     containerEl.innerHTML = loginFailedMessage;
     resetCachedAuthToken();
     disableAutoLogin();

@@ -10,7 +10,7 @@ import { CustomCssVariables } from './css-variables';
 import type { SessionInterface } from './utils/graphql/answerService/answerService';
 
 /**
- * The authentication mechanism for allowing access to the
+ * The authentication mechanism for allowing access to
  * the embedded app
  * @group Authentication / Init
  */
@@ -36,6 +36,7 @@ export enum AuthType {
      * To use this:
      * Your SAML or OpenID provider must allow iframe redirects.
      * For example, if you are using Okta as IdP, you can enable iframe embedding.
+     * @version SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl
      * @example
      * ```js
      * init({
@@ -43,20 +44,20 @@ export enum AuthType {
      *   authType: AuthType.EmbeddedSSO,
      *  });
      * ```
-     * @version: SDK: 1.15.0 | ThoughtSpot: 8.8.0.cl
      */
     EmbeddedSSO = 'EmbeddedSSO',
     /**
-     * SSO using SAML
-     * @deprecated Use {@link SAMLRedirect} instead
+     * SSO using SAML, Use {@link SAMLRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
      */
     SSO = 'SSO_SAML',
     /**
-     * SSO using SAML
-     * @deprecated Use {@link SAMLRedirect} instead
+     * SSO using SAML, Use {@link SAMLRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     SAML = 'SSO_SAML',
     /**
      * SSO using SAML
@@ -102,11 +103,13 @@ export enum AuthType {
      * });
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     SAMLRedirect = 'SSO_SAML',
     /**
      * SSO using OIDC
+     * SSO using OIDC, Use {@link OIDCRedirect} instead
+     * @deprecated This option is deprecated.
      * @hidden
-     * @deprecated Use {@link OIDCRedirect} instead
      */
     OIDC = 'SSO_OIDC',
     /**
@@ -114,11 +117,13 @@ export enum AuthType {
      * Will make the host application redirect to the OIDC IdP.
      * See code samples in {@link SAMLRedirect}.
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     OIDCRedirect = 'SSO_OIDC',
     /**
      * Trusted authentication server
+     * Use {@link TrustedAuth} instead
+     * @deprecated This option is deprecated.
      * @hidden
-     * @deprecated Use {@link TrustedAuth} instead
      */
     AuthServer = 'AuthServer',
     /**
@@ -138,6 +143,7 @@ export enum AuthType {
      * });
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     TrustedAuthToken = 'AuthServer',
     /**
      * Trusted authentication server Cookieless, Use your own authentication
@@ -145,6 +151,7 @@ export enum AuthType {
      * obtained from ThoughtSpot. This uses a cookieless authentication
      * approach, recommended to bypass the third-party cookie-blocking restriction
      * implemented by some browsers.
+     * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1.sw
      * @example
      * ```js
      * init({
@@ -155,8 +162,8 @@ export enum AuthType {
      *      .then((response) => response.json())
      *      .then((data) => data.token);
      *  }
+     * });
      * ```
-     * @version SDK: 1.22.0| ThoughtSpot: 9.3.0.cl, 9.5.1.sw
      */
     TrustedAuthTokenCookieless = 'AuthServerCookieless',
     /**
@@ -177,43 +184,43 @@ export enum HomeLeftNavItem {
     /**
      * The *Search data* option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     SearchData = 'search-data',
     /**
      * The *Home* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     Home = 'insights-home',
     /**
      * The *Liveboards* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     Liveboards = 'liveboards',
     /**
      * The *Answers* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     Answers = 'answers',
     /**
      * The *Monitor subscriptions* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     MonitorSubscription = 'monitor-alerts',
     /**
      * The *SpotIQ analysis* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      */
     SpotIQAnalysis = 'spotiq-analysis',
     /**
      * The *Liveboard schedules* menu option in
      * the *Insights* left navigation panel.
-     * @version SDK: 1.34.0| ThoughtSpot: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      */
     LiveboardSchedules = 'liveboard-schedules',
     /**
@@ -390,8 +397,8 @@ export interface EmbedConfig {
      * [SSO] For SSO Authentication, if `noRedirect` is set to true, it will
      * open the SAML auth flow in a popup, instead of redirecting the browser in
      * place.
+     * @deprecated This option is deprecated.
      * @default false
-     * @deprecated
      */
     noRedirect?: boolean;
 
@@ -401,8 +408,8 @@ export interface EmbedConfig {
      *
      * Need to use this with `authTriggerContainer`. Or manually trigger
      * the `AuthEvent.TRIGGER_SSO_POPUP` event on a user interaction.
-     * @default false
      * @version SDK: 1.18.0
+     * @default false
      */
     inPopup?: boolean;
 
@@ -412,7 +419,7 @@ export interface EmbedConfig {
      * terminated.
      *
      * Eg: "/dashboard", "#/foo" [Do not include the host]
-     * @version SDK: 1.10.2 | ThoughtSpot 8.2.0.cl, 8.4.1.sw
+     * @version SDK: 1.10.2 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      */
     redirectPath?: string;
 
@@ -495,7 +502,7 @@ export interface EmbedConfig {
     detectCookieAccessSlow?: boolean;
     /**
      * Hide the `beta` alert warning message for SearchEmbed.
-     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw*
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
@@ -512,6 +519,7 @@ export interface EmbedConfig {
      * For `inPopup` SAMLRedirect or OIDCRedirect authentication, we need a
      * button that the user can click to trigger the flow.
      * This attribute sets a containing element for that button.
+     * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      * @example
      * ```js
      * init({
@@ -520,7 +528,6 @@ export interface EmbedConfig {
      *   authTriggerContainer: '#auth-trigger-container'
      * })
      * ```
-     * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      */
     authTriggerContainer?: string | HTMLElement;
     /**
@@ -537,11 +544,10 @@ export interface EmbedConfig {
      */
     authTriggerText?: string;
     /**
-     * Prevent users from accessing the full application or ThoughtSpot application pages
-     * access to the embedded application users
-     * outside of the iframe.
-     * @default true
+     * Prevent embedded application users from accessing ThoughtSpot
+     * application pages outside of the iframe.
      * @version SDK: 1.22.0 | ThoughtSpot: 9.3.0.cl, 9.5.1.sw
+     * @default true
      */
     blockNonEmbedFullAppAccess?: boolean;
 
@@ -575,6 +581,7 @@ export interface EmbedConfig {
      * other logs such as warnings, information alerts,
      * and debug messages in the console output.
      *
+     * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      * @default LogLevel.ERROR
      * @example
      * ```js
@@ -583,7 +590,6 @@ export interface EmbedConfig {
      *   logLevel: LogLevel.SILENT
      * })
      * ```
-     * @version SDK: 1.26.7 | ThoughtSpot: 9.10.0.cl
      */
     logLevel?: LogLevel;
     /**
@@ -611,6 +617,7 @@ export interface EmbedConfig {
      * This flag is used to disable the token verification in the SDK.
      * Enabling this flag will also disable the caching of the token.
      * @hidden
+     * @version SDK: 1.28.5 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      * @example
      * ```js
      * init({
@@ -618,13 +625,12 @@ export interface EmbedConfig {
      *   disableTokenVerification : true
      * })
      * ```
-     * @version SDK: 1.28.5 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     disableTokenVerification?: boolean;
 
     /**
      * This flag is used to disable showing the login failure page in the embedded app.
-     * @version SDK 1.32.3 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
+     * @version SDK: 1.32.3 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     disableLoginFailurePage?: boolean;
     /**
@@ -634,6 +640,7 @@ export interface EmbedConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
+     * @version SDK: 1.33.5 | ThoughtSpot: *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -644,12 +651,12 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     * @version SDK: 1.33.5 | ThoughtSpot: *
      */
     additionalFlags?: { [key: string]: string | number | boolean };
     /**
      * This is an object (key/val) for customVariables being
      * used by the third party tool's script.
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
@@ -660,7 +667,6 @@ export interface EmbedConfig {
      *     }
      * });
      * ```
-     *  @version SDK 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     customVariablesForThirdPartyTools?: Record<string, any>;
 
@@ -669,8 +675,8 @@ export interface EmbedConfig {
     /**
      * Disable fullscreen presentation mode functionality. When enabled, prevents entering
      * and exiting fullscreen mode for embedded visualizations during presentations.
-     * @default true (feature is disabled by default)
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @default true (feature is disabled by default)
      * @example
      * ```js
      * init({
@@ -690,18 +696,154 @@ export interface EmbedConfig {
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
-     * import { CustomActionPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
      * init({
      *   ... // other embed config options
      *   customActions: [
      *     {
-     *       name: 'customAction',
-     *       id: 'customAction',
-     *       target: CustomActionTarget.VIZ,
-     *       position: CustomActionPosition.PRIMARY,
-     *       }
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // ANSWER: Available on answer pages
+     *       target: CustomActionTarget.ANSWER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
      *     }
-     *   ]
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```js
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.MENU,
+     *
+     *       // What type of content this action applies to
+     *       // SPOTTER: Available in Spotter (AI-powered search)
+     *       target: CustomActionTarget.SPOTTER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1'],
+     *     }
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```js
+     * import { CustomActionsPosition, CustomActionTarget } from '@thoughtspot/visual-embed-sdk';
+     * init({
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-liveboard-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Liveboard Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // LIVEBOARD: Available on liveboard pages
+     *       target: CustomActionTarget.LIVEBOARD,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific liveboards
+     *       //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     },
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-viz-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Viz Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // VIZ: Available on individual visualizations
+     *       target: CustomActionTarget.VIZ,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       //     // Restrict to specific liveboard. If liveboardId is
+     *       //     // passed, custom actions will appear on all vizzes of liveboard
+     *       //     liveboardIds: ['liveboard-id-1'],
+     *       //     // Restrict to specific vizIds
+     *       //     vizIds: ['viz-id-1']
+     *       // },
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     }
+     *   ],
      * })
      * ```
      */
@@ -744,7 +886,7 @@ export interface FrameParams {
      */
     loading?: 'lazy' | 'eager' | 'auto';
     /**
-     * This parameters will be passed on the iframe
+     * These parameters will be passed to the iframe
      * as is.
      */
     [key: string]: string | number | boolean | undefined;
@@ -821,8 +963,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the embedded.
-     * This actions will be hidden from the user.
+     * The list of actions to hide from the embedded view.
+     * These actions will be hidden from the user.
      * Use this to hide an action.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
@@ -863,7 +1005,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The locale settings to apply to the embedded view.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+     * @version SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -878,12 +1020,13 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * This is an object (key/val) of override flags which will be applied
      * to the internal embedded object. This can be used to add any
      * URL flag.
-     * If the same flags are passed in init, they will be overriden by the values here.
+     * If the same flags are passed in init, they will be overridden by the values here.
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -895,7 +1038,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *     },
      * });
      * ```
-     * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      */
     additionalFlags?: { [key: string]: string | number | boolean };
     /**
@@ -936,6 +1078,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -945,7 +1088,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * });
      * embed.showPreRender();
      * ```
-     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      */
     preRenderId?: string;
 
@@ -956,7 +1098,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * its dimensions based on changes to the size of the embedding element.
      * @type {boolean}
      * @default false
-     * @version SDK: 1.24.0 | ThoughtSpot:9.4.0.cl, 9.4.0.sw
+     * @version SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw
      * @example
      * ```js
      * // Disable tracking PreRender size in the configuration
@@ -971,9 +1113,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     doNotTrackPreRenderSize?: boolean;
     /**
      * Enable the V2 shell. This can provide performance benefits
-     * due to a lighterweight shell.
+     * due to a lighter-weight shell.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -982,7 +1125,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   enableV2Shell_experimental: true,
      * });
      * ```
-     * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      */
 
     enableV2Shell_experimental?: boolean;
@@ -1002,6 +1144,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * and disable redirection of links in a new tab.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1010,7 +1153,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   disableRedirectionLinksInNewTab: true,
      * });
      * ```
-     * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      */
     disableRedirectionLinksInNewTab?: boolean;
     /**
@@ -1021,6 +1163,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Per Org URL feature is enabled on your ThoughtSpot instance.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1029,24 +1172,56 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   overrideOrgId: 142536,
      * });
      * ```
-     * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      */
     overrideOrgId?: number;
     /**
-     * Flag to override the *Open Link in New Tab* context menu option.
+     * Flag to override the *Open Link in New Tab* context
+     * menu option.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * For improved link override handling, use
+     * {@link enableLinkOverridesV2} instead.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
+     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
+     * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    linkOverride:false,
+     *    linkOverride: true,
      * })
      * ```
      */
     linkOverride?: boolean;
+    /**
+     * Enables the V2 link override mechanism with improved
+     * handling. When enabled, navigation links within the
+     * embedded ThoughtSpot app are intercepted and routed
+     * through the SDK via the `EmbedEvent.DialogOpen`
+     * event.
+     *
+     * The SDK automatically sends {@link linkOverride}
+     * alongside this flag for backward compatibility with
+     * older ThoughtSpot versions.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
+     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.46.0 | ThoughtSpot: 26.2.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableLinkOverridesV2: true,
+     * });
+     *
+     * embed.on(EmbedEvent.DialogOpen, (payload) => {
+     *    console.log('Link clicked:', payload);
+     * });
+     * ```
+     */
+    enableLinkOverridesV2?: boolean;
     /**
      * The primary action to display on top of the viz for Liveboard and App Embed.
      * Use this to set the primary action.
@@ -1071,7 +1246,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     insertInToSlide?: boolean;
     /**
      * Show alert messages and toast messages in the embed.
-     * Supported embed in all embed types.
+     * Supported in all embed types.
      *
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
@@ -1096,7 +1271,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```ts
      * import {
      *   CustomActionPayload,
-     *   CustomActionPosition,
+     *   CustomActionsPosition,
      *   CustomActionTarget,
      * } from '@thoughtspot/visual-embed-sdk';
      * // Use supported embed types such as AppEmbed or LiveboardEmbed
@@ -1104,18 +1279,160 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *   ... // other embed config options
      *   customActions: [
      *     {
-     *       name: 'customAction',
-     *       id: 'customAction',
-     *       target: CustomActionTarget.VIZ,
-     *       position: CustomActionPosition.PRIMARY,
-     *       }
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // ANSWER: Available on answer pages
+     *       target: CustomActionTarget.ANSWER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
      *     }
-     *   ]
+     *   ],
      * })
      *
      * // to trigger a custom flow on custom action click listen to Custom action embed event
      * embed.on(EmbedEvent.CustomAction, (payload: CustomActionPayload) => {
      *   console.log('Custom Action event:', payload);
+     * })
+     * ```
+     * @example
+     * ```ts
+     * import {
+     *   CustomActionsPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.MENU,
+     *
+     *       // What type of content this action applies to
+     *       // SPOTTER: Available in Spotter (AI-powered search)
+     *       target: CustomActionTarget.SPOTTER,
+     *
+     *       // Optional: Restrict where this action appears based on data models
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1'],
+     *     }
+     *   ],
+     * })
+     * ```
+     * @example
+     * ```ts
+     * import {
+     *   CustomActionsPosition,
+     *   CustomActionTarget,
+     * } from '@thoughtspot/visual-embed-sdk';
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   ... // other embed config options
+     *   customActions: [
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-liveboard-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Liveboard Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // LIVEBOARD: Available on liveboard pages
+     *       target: CustomActionTarget.LIVEBOARD,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific liveboards
+     *       //     liveboardIds: ['liveboard-id-1', 'liveboard-id-2'],
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     },
+     *     {
+     *       // Unique identifier for the custom action
+     *       id: 'my-viz-custom-action',
+     *
+     *       // Display name shown to users in the UI
+     *       name: 'My Viz Custom Action',
+     *
+     *       // Where the action appears in the UI
+     *       // PRIMARY: Shows as a primary button (e.g., in the toolbar)
+     *       // MENU: Shows in the "More" menu (three dots menu)
+     *       // CONTEXTMENU: Shows in the right-click context menu
+     *       position: CustomActionsPosition.PRIMARY,
+     *
+     *       // What type of content this action applies to
+     *       // VIZ: Available on individual visualizations
+     *       target: CustomActionTarget.VIZ,
+     *
+     *       // Optional: Restrict where this action appears based on metadata
+     *       // metadataIds: {
+     *       //     // Restrict to specific answers
+     *       //     answerIds: ['answer-id-1', 'answer-id-2'],
+     *       //     // Restrict to specific liveboard. If liveboardId is
+     *       //     // passed, custom actions will appear on all vizzes of liveboard
+     *       //     liveboardIds: ['liveboard-id-1'],
+     *       //     // Restrict to specific vizIds
+     *       //     vizIds: ['viz-id-1']
+     *       // },
+     *       // dataModelIds: {
+     *       //     // Restrict to specific data models
+     *       //     modelIds: ['model-id-1', 'model-id-2'],
+     *       //     // Restrict to specific columns within models
+     *       //     modelColumnNames: ['model-id::column-name']
+     *       // },
+     *       //     // Restrict to specific groups (for group-based access control)
+     *       //     groupIds: ['group-id-1', 'group-id-2'],
+     *       //     // Restrict to specific organizations (for multi-org deployments)
+     *       //     orgIds: ['org-id-1', 'org-id-2'],
+     *     }
+     *   ],
      * })
      * ```
      */
@@ -1163,6 +1480,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
+
 /**
  * The configuration object for Home page embeds configs.
  */
@@ -1172,8 +1492,9 @@ export interface HomePageConfig {
      * *Liveboards* and *Answers*.
      * For example: `hiddenListColumns = [ListPageColumns.Author]`
      *
-     * **Note**: This option is available only in full app embedding and requires importing the `ListPageColumns` enum.
-     * Starting with version 10.14.0.cl, you can use this attribute to
+     * **Note**: This option is available only in full app embedding and requires
+     * importing the `ListPageColumns` enum. Starting with version 10.14.0.cl, you can
+     * use this attribute to
      * hide the columns on all list pages in the *Insights* section.
      *
      * Supported embed types: `AppEmbed`
@@ -1213,11 +1534,12 @@ export interface HomePageConfig {
     /**
      * Reorder home page modules.
      * To specify the modules, import the `HomepageModule` enum.
-     * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary, HomepageModule.Watchlist]`
-     * **Note**: This attribute is not supported in the classic (v1) homepage.
+     * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary,
+     * HomepageModule.Watchlist]` **Note**: This attribute is not supported in the
+     * classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.28.0| ThoughtSpot: 9.12.5.cl, 10.1.0.sw
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
@@ -1238,6 +1560,7 @@ export interface HomePageConfig {
      * **Note**: This attribute is not supported in the classic (v1) homepage.
      *
      * Supported embed types: `AppEmbed`
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      * @example
      * ```js
      * import { HomeLeftNavItem } from '@thoughtspot/visual-embed-sdk';
@@ -1248,7 +1571,6 @@ export interface HomePageConfig {
      *    ... //other embed view configuration attributes
      * })
      * ```
-     * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
      */
     hiddenHomeLeftNavItems?: HomeLeftNavItem[];
 }
@@ -1262,7 +1584,7 @@ export interface SearchLiveboardCommonViewConfig {
      * visualization, or Liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @version SDK: 1.9.4 | ThoughtSpot 8.1.0.cl, 8.4.1.sw
+     * @version SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1280,11 +1602,11 @@ export interface SearchLiveboardCommonViewConfig {
      */
     runtimeFilters?: RuntimeFilter[];
     /**
-     * The list of parameter override to apply to a search Answer,
+     * The list of parameter overrides to apply to a search Answer,
      * visualization, or Liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @version SDK : 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
+     * @version SDK: 1.25.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1304,6 +1626,7 @@ export interface SearchLiveboardCommonViewConfig {
      * flag to set ContextMenu Trigger to either left or right click.
      *
      * Supported embed types: `AppEmbed`, `SageEmbed`, `SearchEmbed`
+     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SageEmbed, or SearchEmbed
@@ -1312,7 +1635,6 @@ export interface SearchLiveboardCommonViewConfig {
      *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
      * })
      * ```
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     contextMenuTrigger?: ContextMenuTriggerOptions;
     /**
@@ -1335,7 +1657,7 @@ export interface SearchLiveboardCommonViewConfig {
      * when set to false, runtime parameters will be included in the URL
      * (default behavior before SDK 1.45.0).
      *
-     * Irrespective of this flag, runtime filters ( if passed ) will be applied to the
+     * Irrespective of this flag, runtime parameters (if passed) will be applied to the
      * embedded view.
      * @default true
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl
@@ -1354,14 +1676,15 @@ export interface SearchLiveboardCommonViewConfig {
      *    ... // other embed view config
      *   collapseSearchBar: true,
      * });
+     * ```
      */
     collapseSearchBar?: boolean;
     /**
      * Flag to control Data panel experience
      *
      * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @deprecated from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      * @default true
-     * @deprecated from SDK 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
@@ -1394,6 +1717,7 @@ export interface SearchLiveboardCommonViewConfig {
      * the current time period in filter results.
      *
      * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
      * const embed = new <EmbedComponent>('#tsEmbed', {
@@ -1401,7 +1725,6 @@ export interface SearchLiveboardCommonViewConfig {
      *    isThisPeriodInDateFiltersEnabled: true,
      * })
      * ```
-     * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      */
     isThisPeriodInDateFiltersEnabled?: boolean;
 }
@@ -1462,6 +1785,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Boolean to control if Liveboard header is sticky or not.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1470,7 +1794,6 @@ export interface LiveboardAppEmbedViewConfig {
      *   isLiveboardHeaderSticky: true,
      * });
      * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     isLiveboardHeaderSticky?: boolean;
     /**
@@ -1478,8 +1801,8 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.1.0.cl
      * @default false
-     * @version SDK: 1.32.0 | ThoughtSpot:10.1.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1495,8 +1818,8 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.3.0.cl
      * @default false
-     * @version SDK: 1.35.0 | ThoughtSpot:10.3.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1512,7 +1835,7 @@ export interface LiveboardAppEmbedViewConfig {
      * header.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl
      * @default true
      * @example
      * ```js
@@ -1527,10 +1850,12 @@ export interface LiveboardAppEmbedViewConfig {
     /**
      * This flag is used to enable/disable hide irrelevant filters in Liveboard tab
      *
-     * **Note**: This feature is supported only if compact header is enabled on your Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled` attribute.
+     * **Note**: This feature is supported only if compact header is enabled on your
+     * Liveboard. To enable compact header, use the `isLiveboardCompactHeaderEnabled`
+     * attribute.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.36.0 | ThoughtSpot:10.6.0.cl
+     * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @default false
      * @example
      * ```js
@@ -1548,7 +1873,7 @@ export interface LiveboardAppEmbedViewConfig {
      * compact header
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.35.0 | ThoughtSpot:10.4.0.cl
+     * @version SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl
      * @default true
      * @example
      * ```js
@@ -1581,7 +1906,7 @@ export interface LiveboardAppEmbedViewConfig {
      * the cover and filters pages in the Liveboard PDF.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.40.0 | ThoughtSpot:10.8.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.8.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1593,9 +1918,9 @@ export interface LiveboardAppEmbedViewConfig {
      */
     coverAndFilterOptionInPDF?: boolean;
     /**
-     * This flag is used to enable or disable the new centralized Liveboard filter UX (v2).
-     * When enabled, a unified modal is used to manage and update multiple filters at once,
-     * replacing the older individual filter interactions.
+     * This flag is used to enable or disable the new centralized Liveboard filter UX
+     * (v2). When enabled, a unified modal is used to manage and update multiple filters
+     * at once, replacing the older individual filter interactions.
      * To enable this feature on your instance, contact ThoughtSpot Support.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -1627,7 +1952,8 @@ export interface LiveboardAppEmbedViewConfig {
     isLinkParametersEnabled?: boolean;
 
     /**
-     * This flag is used to enable or disable the enhanced filter interactivity in liveboard.
+     * This flag is used to enable or disable the enhanced filter interactivity in
+     * liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.42.0 | ThoughtSpot: 10.15.0.cl
@@ -1819,7 +2145,7 @@ export enum HomepageModule {
      */
     Search = 'SEARCH',
     /**
-     * kPI watchlist module
+     * KPI watchlist module
      */
     Watchlist = 'WATCHLIST',
     /**
@@ -1852,7 +2178,8 @@ export enum ListPageColumns {
      */
     Favorites = 'FAVOURITE',
     /**
-     * @deprecated Use {@link ListPageColumns.Favorites} instead.
+     * Favourite Use {@link ListPageColumns.Favorites} instead.
+     * @deprecated This option is deprecated.
      */
     Favourite = Favorites,
     /**
@@ -1956,13 +2283,13 @@ export enum EmbedEvent {
     /**
      * Rendering has initialized.
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Init, showLoader)
      *  //show a loader
      * function showLoader() {
      * document.getElementById("loader");
      * }
-     *```
+     * ```
      * @returns timestamp - The timestamp when the event was generated.
      */
     Init = 'init',
@@ -1970,11 +2297,11 @@ export enum EmbedEvent {
      * Authentication has either succeeded or failed.
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.AuthInit, payload => {
      *    console.log('AuthInit', payload);
      * })
-     *```
+     * ```
      * @returns isLoggedIn - A Boolean specifying whether authentication was successful.
      */
     AuthInit = 'authInit',
@@ -1983,13 +2310,13 @@ export enum EmbedEvent {
      * @returns timestamp - The timestamp when the event was generated.
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Load, hideLoader)
      *    //hide loader
      * function hideLoader() {
      *   document.getElementById("loader");
      * }
-     *```
+     * ```
      */
     Load = 'load',
     /**
@@ -1998,11 +2325,11 @@ export enum EmbedEvent {
      * @return data -  Answer of Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Data, payload => {
      *    console.log('data', payload);
      * })
-     *```
+     * ```
      * @important
      */
     Data = 'data',
@@ -2010,9 +2337,9 @@ export enum EmbedEvent {
      * Search query has been updated by the user.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * searchEmbed.on(EmbedEvent.QueryChanged, payload => console.log('data', payload))
-     *```
+     * ```
      */
     QueryChanged = 'queryChanged',
     /**
@@ -2022,7 +2349,7 @@ export enum EmbedEvent {
      * @returns drillDownColumns - The columns on which drill down was performed
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
-     *```js
+     * ```js
      * searchEmbed.on(EmbedEvent.DrillDown, {
      *    points: {
      *        clickedPoint,
@@ -2030,12 +2357,12 @@ export enum EmbedEvent {
      *    },
      *    autoDrillDown: true,
      * })
-     *```
+     * ```
      * In this example, `VizPointDoubleClick` event is used for
      * triggering the `DrillDown` event when an area or specific
      * data point on a table or chart is double-clicked.
      * @example
-     *```js
+     * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
      *   console.log(payload);
      *   const clickedPoint = payload.data.clickedPoint;
@@ -2049,7 +2376,7 @@ export enum EmbedEvent {
      *   autoDrillDown: true,
      *     })
      * })
-     *```
+     * ```
      */
     Drilldown = 'drillDown',
     /**
@@ -2174,13 +2501,13 @@ export enum EmbedEvent {
      * The ThoughtSpot authentication session has expired.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.AuthExpire, showAuthExpired)
      * //show auth expired banner
      * function showAuthExpired() {
      *    document.getElementById("authExpiredBanner");
      * }
-     *```
+     * ```
      */
     AuthExpire = 'ThoughtspotAuthExpired',
     /**
@@ -2217,22 +2544,22 @@ export enum EmbedEvent {
      * Applicable to `SearchBarEmbed` only.
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      * @example
-     *```js
+     * ```js
      * searchbarEmbed.on(EmbedEvent.GetDataClick)
      *  .then(data => {
      *  console.log('Answer Data:', data);
      * })
-     *```
+     * ```
      */
     GetDataClick = 'getDataClick',
     /**
      * Detects the route change.
      * @version SDK: 1.7.0 | ThoughtSpot: 8.0.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * searchEmbed.on(EmbedEvent.RouteChange, payload =>
      *    console.log('data', payload))
-     *```
+     * ```
      */
     RouteChange = 'ROUTE_CHANGE',
     /**
@@ -2242,12 +2569,12 @@ export enum EmbedEvent {
     V1Data = 'exportVizDataToParent',
     /**
      * Emitted when the embed does not have cookie access. This happens
-     * when Safari and other Web browsers block third-party cookies
-     * are blocked by default. `NoCookieAccess` can trigger.
+     * when third-party cookies are blocked by Safari or other
+     * web browsers. `NoCookieAccess` can trigger.
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.NoCookieAccess)
-     *```
+     * ```
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1.sw
      */
     NoCookieAccess = 'noCookieAccess',
@@ -2261,22 +2588,22 @@ export enum EmbedEvent {
      * Emitted when any modal is opened in the app
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.DialogOpen, payload => {
      *    console.log('dialog open', payload);
      *  })
-     *```
+     * ```
      */
     DialogOpen = 'dialog-open',
     /**
      * Emitted when any modal is closed in the app
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.DialogClose, payload => {
      *     console.log('dialog close', payload);
      * })
-     *```
+     * ```
      */
     DialogClose = 'dialog-close',
     /**
@@ -2285,39 +2612,39 @@ export enum EmbedEvent {
      * other events on the rendered Liveboard.
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.LiveboardRendered, payload => {
            console.log('Liveboard is rendered', payload);
        })
-     *```
+     * ```
      * The following example shows how to trigger
      * `SetVisibleVizs` event using LiveboardRendered embed event:
      * @example
-     *```js
+     * ```js
      * const embedRef = useEmbedRef();
      * const onLiveboardRendered = () => {
      * embed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
      * };
-     *```
+     * ```
      */
     LiveboardRendered = 'PinboardRendered',
     /**
      * Emits all events.
-     * @Version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
+     * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.ALL, payload => {
      *  console.log('Embed Events', payload)
      * })
-     *```
+     * ```
      */
     ALL = '*',
     /**
      * Emitted when an Answer is saved in the app.
      * Use start:true to subscribe to when save is initiated, or end:true to subscribe to when save is completed. Default is end:true.
-     * @Version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //Emit when action starts
      *  searchEmbed.on(EmbedEvent.Save, payload => {
      *    console.log('Save', payload)
@@ -2328,7 +2655,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.Save, payload => {
      *    console.log('Save', payload)
      * })
-     *```
+     * ```
      */
     Save = 'save',
     /**
@@ -2340,106 +2667,112 @@ export enum EmbedEvent {
      * `EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Download, {
      * vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
-     *```
+     * ```
      */
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an Answer.
-     *  Use start:true to subscribe to when download is initiated, or end:true to subscribe to when download is completed. Default is end:true.
+     *  Use start:true to subscribe to when download is initiated, or end:true to
+     *  subscribe to when download is completed. Default is end:true.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)}, {start: true })
      * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)})
-     *```
+     * ```
      */
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an Answer
-     *  Use start:true to subscribe to when download as PDF is initiated, or end:true to subscribe to when download as PDF is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as PDF is initiated, or end:true to
+     *  subscribe to when download as PDF is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)}, {start: true })
      * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)})
-     *```
+     * ```
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an Answer.
-     *  Use start:true to subscribe to when download as CSV is initiated, or end:true to subscribe to when download as CSV is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as CSV is initiated, or end:true to
+     *  subscribe to when download as CSV is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
      *   console.log('download CSV', payload)}, {start: true })
      * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
      *    console.log('download CSV', payload)})
-     *```
+     * ```
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an Answer.
-     *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to subscribe to when download as XLSX is completed. Default is end:true.
+     *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to
+     *  subscribe to when download as XLSX is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)}, { start: true })
      * //emit when action ends
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)})
-     *```
+     * ```
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
      * Emitted when an Answer is deleted in the app
-     *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe to when delete is completed. Default is end:true.
+     *  Use start:true to subscribe to when delete is initiated, or end:true to subscribe
+     *  to when delete is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)}, {start: true })
      * //trigger when action is completed
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)})
-     *```
+     * ```
      */
     AnswerDelete = 'answerDelete',
     /**
      * Emitted when the AI Highlights action is triggered on a Liveboard
      * @version SDK: 1.44.0 | ThoughtSpot: 10.15.0.cl
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.AIHighlights, (payload) => {
      *   console.log('AI Highlights', payload);
      * })
-     *```
+     * ```
      */
     AIHighlights = 'AIHighlights',
     /**
      * Emitted when a user initiates the Pin action to
      *  add an Answer to a Liveboard.
-     *  Use start:true to subscribe to when pin is initiated, or end:true to subscribe to when pin is completed. Default is end:true.
+     *  Use start:true to subscribe to when pin is initiated, or end:true to subscribe to
+     *  when pin is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.Pin, payload => {
      *    console.log('pin', payload)
@@ -2450,14 +2783,14 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.Pin, payload => {
      *    console.log('pin', payload)
      * })
-     *```
+     * ```
      */
     Pin = 'pin',
     /**
      * Emitted when SpotIQ analysis is triggered
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
      *   console.log('SpotIQAnalyze', payload)
@@ -2468,14 +2801,14 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.SpotIQAnalyze, payload => {
      *   console.log('SpotIQ analyze', payload)
      * })
-     *```
+     * ```
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
      * Emitted when a user shares an object with another user or group
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.Share, payload => {
      *    console.log('Share', payload)
@@ -2486,7 +2819,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.Share, payload => {
      *   console.log('Share', payload)
      * })
-     *```
+     * ```
      */
     Share = 'share',
     /**
@@ -2494,11 +2827,11 @@ export enum EmbedEvent {
      * data on a chart or table.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.DrillInclude, payload => {
      *    console.log('Drill include', payload);
      * })
-     *```
+     * ```
      */
     DrillInclude = 'context-menu-item-include',
     /**
@@ -2506,22 +2839,22 @@ export enum EmbedEvent {
      * data on a chart or table
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.DrillExclude, payload => {
      *     console.log('Drill exclude', payload);
      * })
-     *```
+     * ```
      */
     DrillExclude = 'context-menu-item-exclude',
     /**
      * Emitted when a column value is copied in the embedded app.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
-     * seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
+     * ```js
+     * searchEmbed.on(EmbedEvent.CopyToClipboard, payload => {
      *    console.log('copy to clipboard', payload);
      * })
-     *```
+     * ```
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
@@ -2529,10 +2862,10 @@ export enum EmbedEvent {
      * embedded Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.UpdateTML)
      * })
-     *```
+     * ```
      */
     UpdateTML = 'updateTSL',
     /**
@@ -2540,75 +2873,77 @@ export enum EmbedEvent {
      * on an embedded Liveboard.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.EditTML, payload => {
      *    console.log('Edit TML', payload);
      * })
-     *```
+     * ```
      */
     EditTML = 'editTSL',
     /**
      * Emitted when the **Export TML** action is triggered on an
      * an embedded object in the app
-     *  Use start:true to subscribe to when export is initiated, or end:true to subscribe to when export is completed. Default is end:true.
+     *  Use start:true to subscribe to when export is initiated, or end:true to subscribe
+     *  to when export is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)}, { start: true })
      * //emit when action ends
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)})
-     *```
+     * ```
      */
     ExportTML = 'exportTSL',
     /**
      * Emitted when an Answer is saved as a View.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * appEmbed.on(EmbedEvent.SaveAsView, payload => {
      *    console.log('View', payload);
      * })
-     *```
+     * ```
      */
     SaveAsView = 'saveAsView',
     /**
      * Emitted when the user creates a copy of an Answer.
-     *  Use start:true to subscribe to when copy and edit is initiated, or end:true to subscribe to when copy and edit is completed. Default is end:true.
+     *  Use start:true to subscribe to when copy and edit is initiated, or end:true to
+     *  subscribe to when copy and edit is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * //emit when action starts
      * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
      *    console.log('Copy and edit', payload)}, {start: true })
      * //emit when action ends
      * appEmbed.on(EmbedEvent.CopyAEdit, payload => {
      *    console.log('Copy and edit', payload)})
-     *```
+     * ```
      */
     CopyAEdit = 'copyAEdit',
     /**
      * Emitted when a user clicks *Show underlying data* on an Answer.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.ShowUnderlyingData, payload => {
      *    console.log('show data', payload);
      * })
-     *```
+     * ```
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
      * Emitted when an Answer is switched to a chart or table view.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
-     *```js
+     * ```js
      * searchEmbed.on(EmbedEvent.AnswerChartSwitcher, payload => {
      *    console.log('switch view', payload);
      * })
-     *```
+     * ```
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -2625,118 +2960,118 @@ export enum EmbedEvent {
      * Emitted when a user clicks **Show Liveboard details** on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.LiveboardInfo, payload => {
      *    console.log('Liveboard details', payload);
      * })
-     *```
+     * ```
      */
     LiveboardInfo = 'pinboardInfo',
     /**
      * Emitted when a user clicks on the Favorite icon on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.AddToFavorites, payload => {
      *    console.log('favorites', payload);
      * })
-     *```
+     * ```
      */
     AddToFavorites = 'addToFavorites',
     /**
      * Emitted when a user clicks **Schedule** on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Schedule, payload => {
-     *    console.log(`Liveboard schedule', payload);
+     *    console.log('Liveboard schedule', payload);
      * })
-     *```
+     * ```
      */
     Schedule = 'subscription',
     /**
      * Emitted when a user clicks **Edit** on a Liveboard or visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Edit, payload => {
-     *    console.log(`Liveboard edit', payload);
+     *    console.log('Liveboard edit', payload);
      * })
-     *```
+     * ```
      */
     Edit = 'edit',
     /**
      * Emitted when a user clicks *Make a copy* on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.MakeACopy, payload => {
-     *    console.log(`Copy', payload);
+     *    console.log('Copy', payload);
      * })
-     *```
+     * ```
      */
     MakeACopy = 'makeACopy',
     /**
      * Emitted when a user clicks **Present** on a Liveboard or visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Present)
-     *```
+     * ```
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Present, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * })
-     *```
+     * ```
      */
     Present = 'present',
     /**
      * Emitted when a user clicks **Delete** on a visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     *```
+     * ```
      */
     Delete = 'delete',
     /**
      * Emitted when a user clicks Manage schedules on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.SchedulesList)
-     *```
+     * ```
      */
     SchedulesList = 'schedule-list',
     /**
      * Emitted when a user clicks **Cancel** in edit mode on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Cancel)
-     *```
+     * ```
      */
     Cancel = 'cancel',
     /**
      * Emitted when a user clicks **Explore** on a visualization
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     *```
+     * ```
      */
     Explore = 'explore',
     /**
      * Emitted when a user clicks **Copy link** action on a visualization.
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     *```
+     * ```
      */
     CopyLink = 'embedDocument',
     /**
@@ -2744,21 +3079,21 @@ export enum EmbedEvent {
      * visualization or Liveboard.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.on(EmbedEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
-     *```
+     * ```
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
      * Emitted when a user right clicks on a visualization (chart or table)
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.0.sw
      * @example
-     *```js
+     * ```js
      * LiveboardEmbed.on(EmbedEvent.VizPointRightClick, payload => {
      *    console.log('VizPointClick', payload)
      * })
-     *```
+     * ```
      */
     VizPointRightClick = 'vizPointRightClick',
     /**
@@ -2772,75 +3107,128 @@ export enum EmbedEvent {
      * filter details.
      * @example
      *
-     *```js
+     * ```js
      * LiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
      *    console.log('payload', payload);
      * })
-     *
+     * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
      */
     FilterChanged = 'filterChanged',
     /**
      *  Emitted when a user clicks the **Go** button to initiate
      *  a Natural Language Search query
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SageEmbedQuery = 'sageEmbedQuery',
     /**
      * Emitted when a user selects a data source on the embedded
      * Natural Language Search interface.
      *
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     SageWorksheetUpdated = 'sageWorksheetUpdated',
     /**
      * Emitted when a user updates a connection on the **Data** page
-     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     UpdateConnection = 'updateConnection',
     /**
      * Emitted when a user updates a connection on the **Data** page
-     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     CreateConnection = 'createConnection',
     /**
      * Emitted when name, status (private or public) or filter values of a
      * Personalised view is updated.
+     * This event is deprecated. Use {@link EmbedEvent.UpdatePersonalizedView} instead.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
-     * Emitted when a Personalised view is saved.
+     * Emitted when name, status (private or public) or filter values of a
+     * Personalized view is updated.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    UpdatePersonalizedView = UpdatePersonalisedView,
+    /**
+     * Emitted when a Personalised view is saved.
+     * This event is deprecated. Use {@link EmbedEvent.SavePersonalizedView} instead.
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     SavePersonalisedView = 'savePersonalisedView',
+    /**
+     * Emitted when a Personalized view is saved.
+     * @returns viewName: string
+     * @returns viewId: string
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    SavePersonalizedView = SavePersonalisedView,
     /**
      * Emitted when a Liveboard is reset.
      * @returns viewName: string
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      */
     ResetLiveboard = 'resetLiveboard',
     /**
      * Emitted when a PersonalisedView is deleted.
+     * This event is deprecated. Use {@link EmbedEvent.DeletePersonalizedView} instead.
      * @returns views: string[]
      * @returns liveboardId: string
-     * @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DeletePersonalisedView = 'deletePersonalisedView',
     /**
+     * Emitted when a PersonalizedView is deleted.
+     * @returns views: string[]
+     * @returns liveboardId: string
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DeletePersonalizedView = DeletePersonalisedView,
+    /**
+     * Emitted when a user selects a different Personalized View or
+     * resets to the original/default view on a Liveboard.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.ChangePersonalizedView, (data) => {
+     *   console.log(data.viewName);    // 'Q4 Revenue' or 'Original View'
+     *   console.log(data.viewId);      // '2a021a12-...' or null (default)
+     *   console.log(data.liveboardId); // 'abc123...'
+     *   console.log(data.isPublic);    // true | false
+     * })
+     * ```
+     * @returns viewName: string - Name of the selected view,
+     *   or 'Original View' when reset to default.
+     * @returns viewId: string | null - GUID of the selected view,
+     *   or null when reset to default.
+     * @returns liveboardId: string
+     * @returns isPublic: boolean
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    ChangePersonalizedView = 'changePersonalisedView',
+    /**
      * Emitted when a user creates a Worksheet.
-     * @version SDK : 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
+     * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
     CreateWorksheet = 'createWorksheet',
     /**
@@ -2849,12 +3237,12 @@ export enum EmbedEvent {
      * @returns viewId: string
      * @returns liveboardId: string
      * @returns isPublic: boolean
-     * @version SDK : 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl
+     * @version SDK: 1.29.0 | ThoughtSpot Cloud: 9.12.0.cl
      */
     AskSageInit = 'AskSageInit',
     /**
      * Emitted when a Liveboard or visualization is renamed.
-     * @version SDK : 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw
+     * @version SDK: 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw
      */
     Rename = 'rename',
     /**
@@ -2871,15 +3259,14 @@ export enum EmbedEvent {
      * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
      * - `responder`: Contains elements that let developers define whether ThoughtSpot
-     *   will run or block the search operation, and if blocked, which error message to provide.
-     *
-     * `execute` - When `execute` returns `true`, the search is run.
+     *   will run or block the search operation, and if blocked, which error message to
+     *   provide.
+     * - `execute` - When `execute` returns `true`, the search is run.
      * When `execute` returns `false`, the search is not executed.
-     *
-     * `error` - Developers can customize the user-facing error message when `execute`
+     * - `error` - Developers can customize the user-facing error message when `execute`
      * is `false` by using the `error` parameters in `responder`.
-     * `errorText` - The error message text shown to the user.
-     * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
+     * - `errorText` - The error message text shown to the user.
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl
      * @example
      *
      * This example blocks search operation and returns a custom error message:
@@ -2894,7 +3281,7 @@ export enum EmbedEvent {
      *       },
      *     },
      *   });
-     * });
+     * })
      * ```
      * @example
      *
@@ -2920,7 +3307,7 @@ export enum EmbedEvent {
      *       },
      *     },
      *   });
-     * });
+     * })
      * ```
      */
     OnBeforeGetVizDataIntercept = 'onBeforeGetVizDataIntercept',
@@ -2931,8 +3318,8 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
-     * @version SDK : 1.29.0 | ThoughtSpot: 10.3.0.cl
+     * ```
+     * @version SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl
      */
     ParameterChanged = 'parameterChanged',
     /**
@@ -2987,24 +3374,24 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.CreateLiveboard, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
-     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
+     * ```
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     CreateLiveboard = 'createLiveboard',
     /**
      * Emitted when a user creates a Model.
-     * @version SDK : 1.37.0 | ThoughtSpot: 10.8.0.cl
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
      */
     CreateModel = 'createModel',
     /**
      * @hidden
      * Emitted when a user exits present mode.
-     * @version SDK : 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
     /**
      * Emitted when a user requests the full height lazy load data.
-     * @version SDK : 1.39.0 | ThoughtSpot : 10.10.0.cl
+     * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      * @hidden
      */
     RequestVisibleEmbedCoordinates = 'requestVisibleEmbedCoordinates',
@@ -3015,7 +3402,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.SpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterData = 'SpotterData',
@@ -3026,7 +3413,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.PreviewSpotterData, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     PreviewSpotterData = 'PreviewSpotterData',
@@ -3037,7 +3424,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.AddToCoaching, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     AddToCoaching = 'addToCoaching',
@@ -3059,7 +3446,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.SpotterQueryTriggered, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     SpotterQueryTriggered = 'SpotterQueryTriggered',
@@ -3070,7 +3457,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.LastPromptEdited, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptEdited = 'LastPromptEdited',
@@ -3081,18 +3468,18 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.LastPromptDeleted, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     LastPromptDeleted = 'LastPromptDeleted',
     /**
-     * Emitted when the coversation is reset in spotter embed.
+     * Emitted when the conversation is reset in Spotter embed.
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.ResetSpotterConversation, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
@@ -3103,7 +3490,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.SpotterInit, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     SpotterInit = 'spotterInit',
@@ -3114,7 +3501,7 @@ export enum EmbedEvent {
      * spotterEmbed.on(EmbedEvent.SpotterLoadComplete, (payload) => {
      *     console.log('payload', payload);
      * })
-     *```
+     * ```
      * @version SDK: 1.44.0 | ThoughtSpot: 26.2.0.cl
      */
     SpotterLoadComplete = 'spotterLoadComplete',
@@ -3373,7 +3760,8 @@ export enum HostEvent {
      * - `autoDrillDown`: Optional. If `true`, the drill down will be done automatically
      *   on the most popular column.
      * - `vizId` (TS >= 9.8.0): Optional. The GUID of the visualization to drill in case
-     *   of a Liveboard. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
+     *   of a Liveboard. In Spotter embed, `vizId` refers to the Answer ID and is
+     *   **required**.
      * @example
      * ```js
      * searchEmbed.on(EmbedEvent.VizPointDoubleClick, (payload) => {
@@ -3551,7 +3939,7 @@ export enum HostEvent {
      * ```js
      * appEmbed.navigateToPage(-1)
      * ```
-     * @version SDK: 1.12.0 | ThoughtSpot 8.4.0.cl, 8.4.1.sw
+     * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      */
     Navigate = 'Navigate',
     /**
@@ -3644,7 +4032,8 @@ export enum HostEvent {
      * the following parameters:
      *
      * @param - Includes the following keys:
-     * - `vizId`: GUID of the saved Answer or Spotter visualization ID to pin to a Liveboard.
+     * - `vizId`: GUID of the saved Answer or Spotter visualization ID to pin to a
+     * Liveboard.
      *   Optional when pinning a new chart or table generated from a Search query.
      *   **Required** in Spotter Embed.
      * - `liveboardId`: GUID of the Liveboard to pin an Answer. If there is no Liveboard,
@@ -3739,7 +4128,7 @@ export enum HostEvent {
      * Trigger the **Show Liveboard details** action
      * on an embedded Liveboard.
      * @example
-     *```js
+     * ```js
      * liveboardEmbed.trigger(HostEvent.LiveboardInfo)
      *```
      * @example
@@ -3941,7 +4330,7 @@ export enum HostEvent {
      * appEmbed.trigger(HostEvent.Remove)
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
-     * * @example
+     * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.Remove)
      * ```
@@ -4039,7 +4428,8 @@ export enum HostEvent {
      * This event is not supported in visualization embed and search embed.
      * @param - Object parameter. Includes the following keys:
      * - `vizId`: To trigger the action for a specific visualization in Liveboard embed,
-     *   pass in `vizId` as a key. In Spotter embed, `vizId` refers to the Answer ID and is **required**.
+     *   pass in `vizId` as a key. In Spotter embed, `vizId` refers to the Answer ID and
+     *   is **required**.
      *
      * @example
      * ```js
@@ -4088,7 +4478,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.CopyLink, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * ```js
-     * vizEmbed.trigger((HostEvent.CopyLink)
+     * vizEmbed.trigger(HostEvent.CopyLink)
      * ```
      * @example
      * ```js
@@ -4119,7 +4509,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.Present, {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
      * ```js
-     * vizEmbed.trigger((HostEvent.Present)
+     * vizEmbed.trigger(HostEvent.Present)
      * ```
      * @example
      * ```js
@@ -4148,16 +4538,15 @@ export enum HostEvent {
      *   );
      * })
      * ```
-     * * @example
+     * @example
      * ```js
-
-    * // You can use the Data event dispatched on each answer creation to get the vizId and use in Pin host event.
-    * let latestSpotterVizId = '';
-    * spotterEmbed.on(EmbedEvent.Data, (payload) => {
-    *   latestSpotterVizId = payload.data.id;
-    * });
-    *
-    * spotterEmbed.trigger(HostEvent.GetTML, {
+     * // You can use the Data event dispatched on each answer creation to get the vizId and use in GetTML host event.
+     * let latestSpotterVizId = '';
+     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     *   latestSpotterVizId = payload.data.id;
+     * });
+     *
+     * spotterEmbed.trigger(HostEvent.GetTML, {
      *   vizId: latestSpotterVizId
      * }).then((tml) => {
      *   console.log(
@@ -4284,6 +4673,11 @@ export enum HostEvent {
     /**
      * Trigger the **Download** action on charts in
      * the embedded view.
+     * Use {@link HostEvent.DownloadAsPng} instead.
+     * 
+     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
+     * 
+     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
      * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
      * ```js
@@ -4302,9 +4696,6 @@ export enum HostEvent {
      *
      * spotterEmbed.trigger(HostEvent.Download, { vizId: latestSpotterVizId });
      * ```
-     * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
-     * Use {@link DownloadAsPng}
-     * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
      */
     Download = 'downloadAsPng',
     /**
@@ -4336,6 +4727,7 @@ export enum HostEvent {
      *
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.1.sw
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     DownloadAsPng = 'downloadAsPng',
     /**
      * Trigger the **Download** > **CSV**  action on tables in
@@ -4620,8 +5012,10 @@ export enum HostEvent {
     /**
      * Update one or several filters applied on a Liveboard.
      * @param - Includes the following keys:
-     * - `filter`: A single filter object containing column name, filter operator, and values.
-     * - `filters`: Multiple filter objects with column name, filter operator, and values for each.
+     * - `filter`: A single filter object containing column name, filter operator, and
+     * values.
+     * - `filters`: Multiple filter objects with column name, filter operator,
+     * and values for each.
      *
      * Each filter object must include the following attributes:
      *
@@ -4856,13 +5250,24 @@ export enum HostEvent {
     UpdateCrossFilter = 'UpdateCrossFilter',
     /**
      * Trigger reset action for a personalized Liveboard view.
+     * This event is deprecated. Use {@link HostEvent.ResetLiveboardPersonalizedView} instead.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalisedView);
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot Cloud: 10.1.0.cl, 10.1.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
+    /**
+     * Trigger reset action for a personalized Liveboard view.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalizedView);
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Triggers an action to update Parameter values on embedded
      * Answers, Liveboard, and Spotter answer in Edit mode.
@@ -4899,8 +5304,8 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
      *  console.log('parameters', parameter);
      * });
-     *```
-     *```js
+     * ```
+     * ```js
      * // You can use the Data event dispatched on each answer creation to get the vizId and use in GetParameters host event.
      * let latestSpotterVizId = '';
      * spotterEmbed.on(EmbedEvent.Data, (payload) => {
@@ -4922,6 +5327,7 @@ export enum HostEvent {
     GetParameters = 'GetParameters',
     /**
      * Triggers an event to update a personalized view of a Liveboard.
+     * This event is deprecated. Use {@link HostEvent.UpdatePersonalizedView} instead.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
@@ -4934,14 +5340,56 @@ export enum HostEvent {
      * }, ContextType.Liveboard);
      * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     UpdatePersonalisedView = 'UpdatePersonalisedView',
+    /**
+     * Triggers an event to update a personalized view of a Liveboard.
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    UpdatePersonalizedView = UpdatePersonalisedView,    
+    /**
+     * Triggers selection of a specific Personalized View on a
+     * Liveboard without reloading the embed. Pass either a
+     * `viewId` (GUID) or `viewName`. If both are provided, `viewId` takes precedence.
+     * If neither is provided, the Liveboard resets to the original/default view.
+     * When a `viewName` is provided and multiple views share
+     * the same name, the first match is selected.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   { viewId: '2a021a12-1aed-425d-984b-141ee916ce72' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Select by name
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   { viewName: 'Dr Smith Cardiology' },
+     * )
+     * ```
+     * @example
+     * ```js
+     * // Reset to default view
+     * liveboardEmbed.trigger(
+     *   HostEvent.SelectPersonalizedView,
+     *   {},
+     * )
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    SelectPersonalizedView = 'SelectPersonalisedView',
     /**
      * @hidden
      * Notify when info call is completed successfully
      * ```js
      * liveboardEmbed.trigger(HostEvent.InfoSuccess, data);
-     *```
+     * ```
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     InfoSuccess = 'InfoSuccess',
@@ -4954,7 +5402,8 @@ export enum HostEvent {
      * triggered with a modal to prompt users to
      * add a name and description for the Answer.
      * @param - Includes the following keys:
-     * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter embed.
+     * - `vizId`: Refers to the Answer ID in Spotter embed and is **required** in Spotter
+     * embed.
      * - `name`: Optional. Name string for the Answer.
      * - `description`: Optional. Description text for the Answer.
      * @example
@@ -5093,7 +5542,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.AddToCoaching, { vizId: '730496d6-6903-4601-937e-2c691821af3c' });
      *
-     *```
+     * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     AddToCoaching = 'addToCoaching',
@@ -5135,7 +5584,7 @@ export enum HostEvent {
      * });
      *
      * spotterEmbed.trigger(HostEvent.AnswerChartSwitcher, { vizId: latestSpotterVizId });
-     *```
+     * ```
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
@@ -5145,7 +5594,7 @@ export enum HostEvent {
      * This is automatically triggered by the SDK when fullscreen mode is exited.
      * ```js
      * liveboardEmbed.trigger(HostEvent.ExitPresentMode);
-     *```
+     * ```
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
      */
     ExitPresentMode = 'exitPresentMode',
@@ -5200,8 +5649,9 @@ export enum HostEvent {
     /**
      * Triggers a new conversation in Spotter embed.
      *
-     * This feature is available only when chat history is enabled on your ThoughtSpot instance.
-     * Contact your admin or ThoughtSpot Support to enable chat history on your instance.
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
      *
      * @example
      * ```js
@@ -5250,6 +5700,7 @@ export enum DataSourceVisualMode {
  */
 
 export enum Param {
+    Tsmcp = 'tsmcp',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
@@ -5299,6 +5750,7 @@ export enum Param {
     // 'both' clicks in `contextMenuTrigger` configuration.
     ContextMenuTrigger = 'contextMenuEnabledOnWhichClick',
     LinkOverride = 'linkOverride',
+    EnableLinkOverridesV2 = 'enableLinkOverridesV2',
     blockNonEmbedFullAppAccess = 'blockNonEmbedFullAppAccess',
     ShowInsertToSlide = 'insertInToSlide',
     PrimaryNavHidden = 'primaryNavHidden',
@@ -5393,6 +5845,7 @@ export enum Param {
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
+    EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
 }
 
 /**
@@ -5553,14 +6006,14 @@ export enum Action {
      * ```js
      * disabledActions: [Action.CollapseDataPanel]
      * ```
-     * @version: SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
+     * @version SDK: 1.1.0 | ThoughtSpot Cloud: ts7.may.cl, 8.4.1.sw
      */
     CollapseDataSources = 'collapseDataSources',
     /**
      * The **Collapse data panel** icon on the Search page.
      * Collapses the data panel view.
      *
-     * @version: SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      *
      * @example
      * ```js
@@ -5842,6 +6295,7 @@ export enum Action {
      * disabledActions: [Action.LiveboardInfo]
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     LiveboardInfo = 'pinboardInfo',
     /**
      * @hidden
@@ -5872,6 +6326,7 @@ export enum Action {
      * disabledActions: [Action.Subscription]
      * ```
      */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     Subscription = 'subscription',
     /**
      * The **Explore** action on Liveboard visualizations
@@ -6008,13 +6463,12 @@ export enum Action {
      */
     CreateMonitor = 'createMonitor',
     /**
-     * @deprecated
-     * Reports errors
+     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
+     * @deprecated This action is deprecated. It was used for reporting errors.
      * @example
      * ```js
      * disabledActions: [Action.ReportError]
      * ```
-     * @version SDK: 1.11.1 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      */
     ReportError = 'reportError',
     /**
@@ -6024,7 +6478,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SyncToSheets]
      * ```
-     * @version SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      */
     SyncToSheets = 'sync-to-sheets',
     /**
@@ -6035,7 +6489,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SyncToOtherApps]
      * ```
-     * @version SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      */
     SyncToOtherApps = 'sync-to-other-apps',
     /**
@@ -6045,7 +6499,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ManagePipelines]
      * ```
-     * @version SDK: 1.18.0| ThoughtSpot: 8.10.0.cl, 9.0.1.sw
+     * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      */
     ManagePipelines = 'manage-pipeline',
     /**
@@ -6353,13 +6807,25 @@ export enum Action {
     /**
      * The Liveboard Personalised Views dropdown.
      * Allows navigating to a personalized Liveboard View.
+     * This action is deprecated. Use {@link Action.PersonalizedViewsDropdown} instead.
      *  @example
      * ```js
      * disabledActions: [Action.PersonalisedViewsDropdown]
      * ```
-     *  @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     *  @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     PersonalisedViewsDropdown = 'personalisedViewsDropdown',
+    /**
+     * The Liveboard Personalized Views dropdown.
+     * Allows navigating to a personalized Liveboard View.
+     *  @example
+     * ```js
+     * disabledActions: [Action.PersonalizedViewsDropdown]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    PersonalizedViewsDropdown = PersonalisedViewsDropdown,    
     /**
      * Action ID for show or hide the user details on a
      * Liveboard (Recently visited / social proof)
@@ -6367,7 +6833,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.LiveboardUsers]
      * ```
-     *  @version SDK : 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
+     *  @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 10.1.0.sw
      */
     LiveboardUsers = 'liveboardUsers',
 
@@ -6386,7 +6852,7 @@ export enum Action {
      * hiddenAction: [Action.TML] // hide all TML actions
      * disabledActions: [Action.TML] // to disable all TML actions
      * ```
-     * @version SDK : 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw
+     * @version SDK: 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw
      */
     TML = 'tml',
     /**
@@ -6435,7 +6901,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.AddToWatchlist]
      * ```
-     * @version SDK : 1.27.9 | ThoughtSpot Cloud: 9.12.5.cl
+     * @version SDK: 1.27.9 | ThoughtSpot Cloud: 9.12.5.cl
      */
     AddToWatchlist = 'addToWatchlist',
 
@@ -6446,20 +6912,34 @@ export enum Action {
      * ```js
      * disabledActions: [Action.RemoveFromWatchlist]
      * ```
-     * @version SDK : 1.27.9 | ThoughtSpot: 9.12.5.cl
+     * @version SDK: 1.27.9 | ThoughtSpot: 9.12.5.cl
      */
     RemoveFromWatchlist = 'removeFromWatchlist',
     /**
      * The **Organize Favourites** action on Homepage
      * *Favorites* module.
+     * This action is deprecated. Use {@link Action.OrganizeFavorites} instead.
      *
      * @example
      * ```js
      * disabledActions: [Action.OrganiseFavourites]
      * ```
-     * @version SDK : 1.32.0 | ThoughtSpot: 10.0.0.cl
+     * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl
+     * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     OrganiseFavourites = 'organiseFavourites',
+
+    /**
+     * The **Organize Favorites** action on Homepage
+     * *Favorites* module.
+     *
+     * @example
+     * ```js
+     * disabledActions: [Action.OrganizeFavorites]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    OrganizeFavorites = OrganiseFavourites,
 
     /**
      * The **AI Highlights** action on a Liveboard.
@@ -6524,7 +7004,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.ManageTags]
      * ```
-     * @version SDK : 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.3.0.cl
      */
     ManageTags = 'manageTags',
 
@@ -7032,18 +7512,80 @@ export interface CustomAction {
  * positions in the application.
  */
 export enum CustomActionsPosition {
+    /**
+     * Shows the action as a primary button
+     * in the toolbar area of the embed.
+     */
     PRIMARY = 'PRIMARY',
+    /**
+     * Shows the action inside the "More" menu
+     * (three-dot overflow menu).
+     */
     MENU = 'MENU',
+    /**
+     * Shows the action in the right-click
+     * context menu. Only supported for
+     * {@link CustomActionTarget.VIZ},
+     * {@link CustomActionTarget.ANSWER}, and
+     * {@link CustomActionTarget.SPOTTER} targets.
+     */
     CONTEXTMENU = 'CONTEXTMENU',
 }
 
 /**
- * Enum options to mention the target of the custom action.
+ * Enum options to mention the target of the code-based custom action.
+ * The target determines which type of ThoughtSpot object the action is
+ * associated with, and also controls which positions and scoping options
+ * are available.
  */
 export enum CustomActionTarget {
+    /**
+     * Action applies at the Liveboard level.
+     * Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU}.
+     * Can be scoped with
+     * `metadataIds.liveboardIds`,
+     * `orgIds`, and `groupIds`.
+     */
     LIVEBOARD = 'LIVEBOARD',
+    /**
+     * Action applies to individual
+     * visualizations (charts/tables).
+     * Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with `metadataIds`
+     * (answerIds, liveboardIds, vizIds),
+     * `dataModelIds` (modelIds,
+     * modelColumnNames), `orgIds`,
+     * and `groupIds`.
+     */
     VIZ = 'VIZ',
+    /**
+     * Action applies to saved or unsaved
+     * Answers. Supported positions:
+     * {@link CustomActionsPosition.PRIMARY},
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with
+     * `metadataIds.answerIds`,
+     * `dataModelIds` (modelIds,
+     * modelColumnNames), `orgIds`,
+     * and `groupIds`.
+     */
     ANSWER = 'ANSWER',
+    /**
+     * Action applies to Spotter
+     * (AI-powered search).
+     * Supported positions:
+     * {@link CustomActionsPosition.MENU},
+     * {@link CustomActionsPosition.CONTEXTMENU}.
+     * Can be scoped with
+     * `dataModelIds.modelIds`,
+     * `orgIds`, and `groupIds`.
+     */
     SPOTTER = 'SPOTTER',
 }
 
@@ -7172,7 +7714,9 @@ export enum ErrorDetailsTypes {
 }
 
 /**
- * Error codes for identifying specific issues in embedded ThoughtSpot components. Use {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error handling and debugging.
+ * Error codes for identifying specific issues in embedded ThoughtSpot components. Use
+ * {@link EmbedErrorDetailsEvent}  and  {@link ErrorDetailsTypes} codes for precise error
+ * handling and debugging.
  *
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
@@ -7244,15 +7788,17 @@ export enum EmbedErrorCodes {
 /**
  * Error event object emitted when an error occurs in an embedded component.
  *
- * This interface defines the structure of error objects returned by the {@link EmbedEvent.Error}
- * event. It provides detailed information about what went wrong, including the error type,
- * a human-readable message, and a machine-readable error code.
+ * This interface defines the structure of error objects returned by the {@link
+ * EmbedEvent.Error} event. It provides detailed information about what went wrong,
+ * including the error type, a human-readable message, and a machine-readable error code.
  *
  * ## Properties
  *
  * - **errorType**: One of the predefined {@link ErrorDetailsTypes} values
- * - **message**: Human-readable error description (string or array of strings for multiple errors)
- * - **code**: Machine-readable error identifier {@link EmbedErrorCodes} values
+ * - **message**: Human-readable error description (string or array of strings for
+ * multiple errors)
+ * - **code**: Machine-readable error identifier {@link EmbedErrorCodes}
+ * values
  * - **[key: string]**: Additional context-specific for backward compatibility
  *
  * ## Usage
@@ -7378,14 +7924,14 @@ export type ApiInterceptFlags = {
     /**
      * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
      *
-     * Can be used for Serach and App Embed from SDK 1.29.0
+     * Can be used for Search and App Embed from SDK 1.29.0
      *
-     * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
      * This allows to intercept the urls passed, once intercepted the api will only
-     * run based on the reponse from the responder of ApiIntercept event.
+     * run based on the response from the responder of ApiIntercept event.
      *
      * @example
      * ```js
@@ -7396,7 +7942,7 @@ export type ApiInterceptFlags = {
      * })
      * ```
      *
-     * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptUrls?: (string | InterceptedApiType)[];
     /**
@@ -7413,7 +7959,7 @@ export type ApiInterceptFlags = {
      * })
      * ```
      *
-     * @version SDK : 1.43.0 | ThoughtSpot: 10.15.0.cl
+     * @version SDK: 1.43.0 | ThoughtSpot: 10.15.0.cl
      */
     interceptTimeout?: number;
 };
