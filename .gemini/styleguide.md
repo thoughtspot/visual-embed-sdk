@@ -109,3 +109,28 @@ Enforce this canonical tag order within every JSDoc block:
 - **Current mapping:**
   - `@version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl`
   - `@version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl`
+
+### 12. Boolean Params for ThoughtSpot: Prefer `undefined` Over `false`
+- **ThoughtSpot behavior:** On the ThoughtSpot side, `undefined` (omitted param) is treated as falsy. There is no need to explicitly pass `false` when a flag is not set.
+- **URL size:** Explicitly passing `false` for every unset flag increases the URL/query string size unnecessarily. Omit the param entirely when the value is not explicitly provided.
+- **Rule:** Do not use `= false` as a default in destructuring. Leave the value as `undefined` when not set, and only add the param to the request when the caller explicitly provides a value (`!== undefined`).
+
+**Good example** — omit param when not set; add only when defined:
+```ts
+// Destructuring: no default — stays undefined when caller does not set it
+enableHomepageAnnouncement,
+// ...
+if (enableHomepageAnnouncement !== undefined) {
+    params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
+}
+// Result: param omitted from URL when not set (ThoughtSpot treats as false)
+```
+
+**Bad example** — always sends `false`, bloating the URL:
+```ts
+// Destructuring: = false forces the param to always be sent
+isPNGInScheduledEmailsEnabled = false,
+// ...
+params[Param.IsPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
+// Result: ?isPNGInScheduledEmailsEnabled=false added to URL even when not needed
+```
