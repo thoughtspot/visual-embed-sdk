@@ -484,6 +484,86 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    describe('spotter chat hiddenActions', () => {
+        it.each([
+            ['SpotterChatConnectorResources', Action.SpotterChatConnectorResources],
+            ['SpotterChatConnectors', Action.SpotterChatConnectors],
+            ['SpotterChatModeSwitcher', Action.SpotterChatModeSwitcher],
+        ])('should render with hiddenActions for %s', async (_, action) => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                hiddenActions: [action],
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&hideAction=[%22${Action.ReportError}%22,%22${action}%22]&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should render with multiple spotter chat actions hidden together', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                hiddenActions: [
+                    Action.SpotterChatConnectorResources,
+                    Action.SpotterChatConnectors,
+                    Action.SpotterChatModeSwitcher,
+                ],
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&hideAction=[%22${Action.ReportError}%22,%22${Action.SpotterChatConnectorResources}%22,%22${Action.SpotterChatConnectors}%22,%22${Action.SpotterChatModeSwitcher}%22]&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+    });
+
+    describe('spotter chat disabledActions', () => {
+        it.each([
+            ['SpotterChatConnectorResources', Action.SpotterChatConnectorResources],
+            ['SpotterChatConnectors', Action.SpotterChatConnectors],
+            ['SpotterChatModeSwitcher', Action.SpotterChatModeSwitcher],
+        ])('should render with disabledActions for %s', async (_, action) => {
+            const disabledReason = 'testing disabled reason';
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                disabledActions: [action],
+                disabledActionReason: disabledReason,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&${Param.DisableActions}=[%22${action}%22]&${Param.DisableActionReason}=${disabledReason}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should render with multiple spotter chat actions disabled together', async () => {
+            const disabledReason = 'not available';
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                disabledActions: [
+                    Action.SpotterChatConnectorResources,
+                    Action.SpotterChatConnectors,
+                    Action.SpotterChatModeSwitcher,
+                ],
+                disabledActionReason: disabledReason,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&${Param.DisableActions}=[%22${Action.SpotterChatConnectorResources}%22,%22${Action.SpotterChatConnectors}%22,%22${Action.SpotterChatModeSwitcher}%22]&${Param.DisableActionReason}=${disabledReason}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+    });
+
     describe('spotter sidebar config params', () => {
         it.each([
             ['enablePastConversationsSidebar', true, 'enablePastConversationsSidebar=true'],
