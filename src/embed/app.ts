@@ -808,6 +808,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardDescription = true,
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
+            muzeChartPhase1EnabledGA,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
@@ -851,6 +852,9 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
         params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        if (muzeChartPhase1EnabledGA !== undefined) {
+            params[Param.MuzeChartPhase1EnabledGA] = muzeChartPhase1EnabledGA;
+        }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
