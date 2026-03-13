@@ -192,20 +192,18 @@ export class HostEventClient {
       };
   }
 
-  protected async handleUpdateFiltersEvent(
+  protected handleUpdateFiltersEvent(
     payload: HostEventRequest<HostEvent.UpdateFilters>,
     context?: ContextType,
   ): Promise<any> {
-    const data = await this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
-    return data;
+    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
   }
 
-  protected async handleDrillDownEvent(
+  protected handleDrillDownEvent(
     payload: HostEventRequest<HostEvent.DrillDown>,
     context?: ContextType,
   ): Promise<any> {
-    const data = await this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
-    return data;
+    return this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
   }
 
   public async triggerHostEvent<

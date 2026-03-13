@@ -155,7 +155,7 @@ export type UIPassthroughContractBase = {
         type?: string;
       }[];
     };
-    response: void;
+    response: unknown;
   };
   [UIPassthroughEvent.Drilldown]: {
     request: {
@@ -167,7 +167,7 @@ export type UIPassthroughContractBase = {
       autoDrillDown?: boolean;
       vizId?: string;
     };
-    response: void;
+    response: unknown;
   };
 };
 
