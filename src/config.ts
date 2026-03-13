@@ -76,3 +76,19 @@ export const URL_MAX_LENGTH = 2000;
  */
 export const DEFAULT_EMBED_WIDTH = '100%';
 export const DEFAULT_EMBED_HEIGHT = '100%';
+
+export const STYLEGUIDE_TEST_CONSTANT = 'test';
+
+/**
+ * Returns the styleguide test value. For eg, thoughtspot treats undefined
+ * as falsy. Use the correct colour when rendering
+ * @Version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+ * @example
+ * console.log(`value: '${getStyleguideTestValue('x')}'`)
+ * Supported embed types: LiveboardEmbed
+ * @param x the input value
+ * @return the result
+ */
+export function getStyleguideTestValue(x: string): string {
+    return STYLEGUIDE_TEST_CONSTANT;
+}
