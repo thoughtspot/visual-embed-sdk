@@ -15,6 +15,8 @@ export enum UIPassthroughEvent {
   GetAnswerConfig = 'getAnswerPageConfig',
   GetLiveboardConfig = 'getPinboardPageConfig',
   GetUnsavedAnswerTML = 'getUnsavedAnswerTML',
+  UpdateFilters = 'updateFilters',
+  Drilldown = 'drillDown',
   GetAnswerSession = 'getAnswerSession',
   GetFilters = 'getFilters',
   GetIframeUrl = 'getIframeUrl',
@@ -137,6 +139,35 @@ export type UIPassthroughContractBase = {
     response: {
       v2Content: string;
     };
+  };
+  [UIPassthroughEvent.UpdateFilters]: {
+    request: {
+      filter?: {
+        column: string;
+        oper: string;
+        values: string[];
+        type?: string;
+      };
+      filters?: {
+        column: string;
+        oper: string;
+        values: string[];
+        type?: string;
+      }[];
+    };
+    response: unknown;
+  };
+  [UIPassthroughEvent.Drilldown]: {
+    request: {
+      points: {
+        selectedPoints?: string[];
+        clickedPoint?: string;
+      };
+      columnGuid?: string;
+      autoDrillDown?: boolean;
+      vizId?: string;
+    };
+    response: unknown;
   };
 };
 

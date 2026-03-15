@@ -4494,6 +4494,20 @@ export enum HostEvent {
      *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * }, ContextType.Liveboard);
      * ```
+     * @example
+     * ```js
+     * // Copy link from liveboard context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {}, ContextType.Liveboard);
+     * ```
+     * @example
+     * ```js
+     * // Copy link from liveboard visualization context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * liveboardEmbed.trigger(HostEvent.CopyLink, {
+     *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }, ContextType.Liveboard);
+     * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     CopyLink = 'embedDocument',
@@ -4510,6 +4524,20 @@ export enum HostEvent {
      * ```
      * ```js
      * vizEmbed.trigger(HostEvent.Present)
+     * ```
+     * @example
+     * ```js
+     * // Present from liveboard visualization context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * liveboardEmbed.trigger(HostEvent.Present, {
+     *     vizId: '730496d6-6903-4601-937e-2c691821af3c'
+     * }, ContextType.Liveboard);
+     * ```
+     * @example
+     * ```js
+     * // Present from liveboard context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * liveboardEmbed.trigger(HostEvent.Present, {}, ContextType.Liveboard);
      * ```
      * @example
      * ```js

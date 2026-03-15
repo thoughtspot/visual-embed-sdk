@@ -38,6 +38,8 @@ export class HostEventClient {
       this.customHandlers = {
           [HostEvent.Pin]: (p, c) => this.handlePinEvent(p, c),
           [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
+          [HostEvent.UpdateFilters]: (p, c) => this.handleUpdateFiltersEvent(p, c),
+          [HostEvent.DrillDown]: (p, c) => this.handleDrillDownEvent(p, c),
       };
   }
 
@@ -188,6 +190,20 @@ export class HostEventClient {
           ...data,
           answerId: data?.saveResponse?.data?.Answer__save?.answer?.id,
       };
+  }
+
+  protected handleUpdateFiltersEvent(
+    payload: HostEventRequest<HostEvent.UpdateFilters>,
+    context?: ContextType,
+  ): Promise<any> {
+    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+  }
+
+  protected handleDrillDownEvent(
+    payload: HostEventRequest<HostEvent.DrillDown>,
+    context?: ContextType,
+  ): Promise<any> {
+    return this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
   }
 
   public async triggerHostEvent<
