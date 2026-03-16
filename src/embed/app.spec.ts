@@ -1247,6 +1247,7 @@ describe('App embed tests', () => {
     });
 
     test('should register event handlers to adjust iframe height', async () => {
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
         let embedHeightCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
