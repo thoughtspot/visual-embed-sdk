@@ -1122,7 +1122,7 @@ export class AppEmbed extends V1Embed {
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
-        logger.error('Updating iframe height', data);
+        logger.info('Updating iframe height', data);
         const currentHeight = this.iFrame.getBoundingClientRect().height;
         const heightToSet = Math.max(data.data, this.defaultHeight);
         const heightChange = Math.abs(heightToSet - currentHeight);
