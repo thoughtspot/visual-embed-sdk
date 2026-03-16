@@ -1975,6 +1975,99 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    describe('updateIFrameHeight threshold handling', () => {
+        let mockIFrame: HTMLIFrameElement;
+
+        beforeEach(() => {
+            mockIFrame = document.createElement('iframe');
+            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+                top: 0,
+                left: 0,
+                bottom: 500,
+                right: 800,
+                width: 800,
+                height: 500,
+            });
+        });
+
+        test('should skip height update when change is below threshold', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+            }) as any;
+
+            liveboardEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await liveboardEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(liveboardEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(510, 500) = 510; change = 10 < 30
+            liveboardEmbed.updateIFrameHeight({ data: 510, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+        });
+
+        test('should update height when change meets threshold', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+            }) as any;
+
+            liveboardEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await liveboardEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(liveboardEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(700, 500) = 700; change = 200 >= 30
+            liveboardEmbed.updateIFrameHeight({ data: 700, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(700);
+        });
+
+        test('should use defaultHeight when data is below it and apply threshold', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+                minimumHeight: 800,
+            }) as any;
+
+            liveboardEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await liveboardEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(liveboardEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(100, 800) = 800; change = 300 >= 30
+            liveboardEmbed.updateIFrameHeight({ data: 100, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(800);
+        });
+
+        test('should skip update when height change is exactly at threshold boundary', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                ...defaultViewConfig,
+                fullHeight: true,
+            }) as any;
+
+            liveboardEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await liveboardEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(liveboardEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(529, 500) = 529; change = 29 < 30
+            liveboardEmbed.updateIFrameHeight({ data: 529, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+        });
+    });
+
     describe('Liveboard Embed Default Height and Minimum Height Handling', () => {
         test('should set default height to 800 when minimum height is provided', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

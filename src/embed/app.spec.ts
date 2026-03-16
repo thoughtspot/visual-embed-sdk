@@ -1638,8 +1638,8 @@ describe('App embed tests', () => {
 
     describe('IFrame height management', () => {
         let mockIFrame: HTMLIFrameElement;
-
         beforeEach(() => {
+            jest.spyOn(logger, 'error').mockImplementation(() => {});
             mockIFrame = document.createElement('iframe');
             mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
                 top: 100,
@@ -1691,19 +1691,77 @@ describe('App embed tests', () => {
                 fullHeight: true,
             } as AppViewConfig) as any;
 
-            // Set up the mock iframe
+            // Set up the mock iframe with a height that differs from defaultHeight by > threshold
+            mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
+                top: 100, left: 150, bottom: 100, right: 800, width: 650, height: 0,
+            });
             appEmbed.iFrame = mockIFrame;
             document.body.appendChild(mockIFrame);
 
             await appEmbed.render();
             const mockEvent = {
-                data: 0, // This will make it use the default height
+                data: 0, // This will make it use the default height (500); change = |500 - 0| = 500 >= 30
                 type: EmbedEvent.EmbedHeight,
             };
             appEmbed.updateIFrameHeight(mockEvent);
 
             // Should use the default height
             expect(mockIFrame.style.height).toBe('500px');
+        });
+
+        test('should skip height update when change is below threshold', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+
+            appEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await appEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet will be max(510, 500) = 510; change = 10 < 30
+            appEmbed.updateIFrameHeight({ data: 510, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).not.toHaveBeenCalled();
+        });
+
+        test('should update height when change meets threshold', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig) as any;
+
+            appEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await appEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(600, 500) = 600; change = 100 >= 30
+            appEmbed.updateIFrameHeight({ data: 600, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(600);
+        });
+
+        test('should use defaultHeight when data is below it and check threshold', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                minimumHeight: 800,
+            } as AppViewConfig) as any;
+
+            appEmbed.iFrame = mockIFrame;
+            document.body.appendChild(mockIFrame);
+            await appEmbed.render();
+
+            const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight');
+
+            // currentHeight is 500; heightToSet = max(100, 800) = 800; change = 300 >= 30
+            appEmbed.updateIFrameHeight({ data: 100, type: EmbedEvent.EmbedHeight });
+
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(800);
         });
     });
 });
