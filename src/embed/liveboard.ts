@@ -388,7 +388,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
-     * This flag is used to enable/disable the WYSIWYG liveboard PDF
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page 
+     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages. 
+     * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
