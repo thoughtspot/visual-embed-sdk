@@ -1115,7 +1115,7 @@ export class AppEmbed extends V1Embed {
         return url;
     }
 
-    private HEIGHT_CHANAGE_THRESHOLD = 30;
+    private HEIGHT_CHANGE_THRESHOLD = 30;
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.
