@@ -806,7 +806,7 @@ export class LiveboardEmbed extends V1Embed {
         )}`;
     }
 
-    private HEIGHT_CHANAGE_THRESHOLD = 30;
+    private HEIGHT_CHANGE_THRESHOLD = 30;
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.
@@ -816,7 +816,7 @@ export class LiveboardEmbed extends V1Embed {
         const currentHeight = this.iFrame.getBoundingClientRect().height;
         const heightToSet = Math.max(data.data, this.defaultHeight);
         const heightChange = Math.abs(heightToSet - currentHeight);
-        if (heightChange < this.HEIGHT_CHANAGE_THRESHOLD) {
+        if (heightChange < this.HEIGHT_CHANGE_THRESHOLD) {
             logger.info('Height change is less than the threshold, skipping height update', { heightChange, heightToSet, currentHeight });
             return;
         }

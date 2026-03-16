@@ -1126,7 +1126,7 @@ export class AppEmbed extends V1Embed {
         const currentHeight = this.iFrame.getBoundingClientRect().height;
         const heightToSet = Math.max(data.data, this.defaultHeight);
         const heightChange = Math.abs(heightToSet - currentHeight);
-        if (heightChange < this.HEIGHT_CHANAGE_THRESHOLD) {
+        if (heightChange < this.HEIGHT_CHANGE_THRESHOLD) {
             logger.info('Height change is less than the threshold, skipping height update', { heightChange, heightToSet, currentHeight });
             return;
         }
