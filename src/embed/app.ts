@@ -838,7 +838,7 @@ export class AppEmbed extends V1Embed {
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
-            enableHomepageAnnouncement,
+            enableHomepageAnnouncement = false,
         } = this.viewConfig;
 
         let params: any = {};
