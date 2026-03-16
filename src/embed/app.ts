@@ -1115,13 +1115,22 @@ export class AppEmbed extends V1Embed {
         return url;
     }
 
+    private HEIGHT_CHANAGE_THRESHOLD = 30;
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
+        logger.error('Updating iframe height', data);
+        const currentHeight = this.iFrame.getBoundingClientRect().height;
+        const heightToSet = Math.max(data.data, this.defaultHeight);
+        const heightChange = Math.abs(heightToSet - currentHeight);
+        if (heightChange < this.HEIGHT_CHANAGE_THRESHOLD) {
+            logger.info('Height change is less than the threshold, skipping height update', { heightChange, heightToSet, currentHeight });
+            return;
+        }
+        this.setIFrameHeight(heightToSet);
         this.sendFullHeightLazyLoadData();
     };
 
