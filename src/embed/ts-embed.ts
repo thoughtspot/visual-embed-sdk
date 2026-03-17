@@ -323,6 +323,8 @@ export class TsEmbed {
 
     private subscribedListeners: Record<string, any> = {};
 
+    private eventPort: MessagePort | void;
+
     /**
      * Subscribe to network events (online/offline) that should
      * work regardless of auth status
@@ -378,6 +380,8 @@ export class TsEmbed {
                 this.handleApiInterceptEvent({ eventData, eventPort });
                 return;
             }
+
+            this.eventPort = eventPort;
 
             this.executeCallbacks(
                 eventType,
@@ -1457,8 +1461,7 @@ export class TsEmbed {
                     code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
                     error: err.message,
                 };
-                this.handleError(errorDetails);
-                return null;
+                this.executeCallbacks(EmbedEvent.Error, errorDetails, this.eventPort);
             }
             throw err;
         });
