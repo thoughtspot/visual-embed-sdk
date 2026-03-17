@@ -467,7 +467,7 @@ describe('App embed tests', () => {
     test('should set isWYSIWYGLiveboardPDFEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            isWYSIWYGLiveboardPDFEnabled: true,
+            isContinuousLiveboardPDFEnabled: true,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {

@@ -600,11 +600,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    isWYSIWYGLiveboardPDFEnabled: true,
+     *    isContinuousLiveboardPDFEnabled: true,
      * })
      * ```
      */
-    isWYSIWYGLiveboardPDFEnabled?: boolean;
+    isContinuousLiveboardPDFEnabled?: boolean;
 
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
@@ -858,7 +858,7 @@ export class AppEmbed extends V1Embed {
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isWYSIWYGLiveboardPDFEnabled,
+            isContinuousLiveboardPDFEnabled,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1037,8 +1037,8 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
-        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
-            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
+        if (isContinuousLiveboardPDFEnabled !== undefined) {
+            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
         }
 
         this.defaultHeight = minimumHeight || this.defaultHeight;

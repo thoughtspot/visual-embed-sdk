@@ -26972,6 +26972,40 @@
 					}
 				},
 				{
+					"id": 2773,
+					"name": "isContinuousLiveboardPDFEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   isContinuousLiveboardPDFEnabled: true,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 607,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
 					"id": 2845,
 					"name": "isEnhancedFilterInteractivityEnabled",
 					"kind": 1024,
@@ -27410,40 +27444,6 @@
 						{
 							"fileName": "embed/app.ts",
 							"line": 552,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
-					}
-				},
-				{
-					"id": 2773,
-					"name": "isWYSIWYGLiveboardPDFEnabled",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
-						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   isWYSIWYGLiveboardPDFEnabled: true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "embed/app.ts",
-							"line": 607,
 							"character": 4
 						}
 					],
@@ -28628,6 +28628,7 @@
 						2818,
 						2817,
 						2843,
+						2773,
 						2845,
 						2775,
 						2844,
@@ -28640,7 +28641,6 @@
 						2772,
 						2827,
 						2770,
-						2773,
 						2776,
 						2777,
 						2807,
@@ -41281,6 +41281,40 @@
 					}
 				},
 				{
+					"id": 2624,
+					"name": "isContinuousLiveboardPDFEnabled",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   isContinuousLiveboardPDFEnabled: true,\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/liveboard.ts",
+							"line": 407,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
 					"id": 2689,
 					"name": "isEnhancedFilterInteractivityEnabled",
 					"kind": 1024,
@@ -41687,40 +41721,6 @@
 					"inheritedFrom": {
 						"type": "reference",
 						"name": "LiveboardOtherViewConfig.isThisPeriodInDateFiltersEnabled"
-					}
-				},
-				{
-					"id": 2624,
-					"name": "isWYSIWYGLiveboardPDFEnabled",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
-						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
-						"tags": [
-							{
-								"tag": "version",
-								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
-							},
-							{
-								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   isWYSIWYGLiveboardPDFEnabled: true,\n})\n```\n"
-							}
-						]
-					},
-					"sources": [
-						{
-							"fileName": "embed/liveboard.ts",
-							"line": 407,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "boolean"
 					}
 				},
 				{
@@ -42940,6 +42940,7 @@
 						2666,
 						2665,
 						2687,
+						2624,
 						2689,
 						2626,
 						2688,
@@ -42951,7 +42952,6 @@
 						2664,
 						2623,
 						2675,
-						2624,
 						2627,
 						2628,
 						2655,

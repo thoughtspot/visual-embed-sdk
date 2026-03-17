@@ -400,11 +400,11 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    isWYSIWYGLiveboardPDFEnabled: true,
+     *    isContinuousLiveboardPDFEnabled: true,
      * })
      * ```
      */
-    isWYSIWYGLiveboardPDFEnabled?: boolean;
+    isContinuousLiveboardPDFEnabled?: boolean;
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
      *
@@ -616,7 +616,7 @@ export class LiveboardEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isWYSIWYGLiveboardPDFEnabled,
+            isContinuousLiveboardPDFEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -727,8 +727,8 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
-        if (isWYSIWYGLiveboardPDFEnabled !== undefined) {
-            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isWYSIWYGLiveboardPDFEnabled;
+        if (isContinuousLiveboardPDFEnabled !== undefined) {
+            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

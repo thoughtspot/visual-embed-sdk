@@ -262,7 +262,7 @@ describe('Liveboard/viz embed tests', () => {
 
     test('should set isWYSIWYGLiveboardPDFEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            isWYSIWYGLiveboardPDFEnabled: true,
+            isContinuousLiveboardPDFEnabled: true,
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
