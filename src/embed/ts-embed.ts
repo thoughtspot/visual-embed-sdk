@@ -1461,7 +1461,7 @@ export class TsEmbed {
                     code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
                     error: err.message,
                 };
-                this.executeCallbacks(EmbedEvent.Error, {eventType: EmbedEvent.Error, data: errorDetails}, this.eventPort);
+                this.executeCallbacks(EmbedEvent.Error, {type: EmbedEvent.Error, data: errorDetails, status: 'end'}, this.eventPort);
             }
             throw err;
         });
