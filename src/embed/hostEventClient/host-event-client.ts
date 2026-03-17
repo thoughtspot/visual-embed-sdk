@@ -217,7 +217,7 @@ export class HostEventClient {
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
 
     const data = await this.triggerUIPassthroughApi(UIPassthroughEvent.GetAvailableUIPassthroughs, payload, context);
-    console.log('data', data);
+    const availableUIPassthroughs = data?.find?.((r) => r.error || r.value);
       const customHandler = this.customHandlers[hostEvent];
       if (customHandler) {
           return customHandler(payload, context as ContextType) as any;
