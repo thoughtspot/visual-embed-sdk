@@ -464,6 +464,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isWYSIWYGLiveboardPDFEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isContinuousLiveboardPDFEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLinkParametersEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

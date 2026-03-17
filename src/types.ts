@@ -5877,6 +5877,7 @@ export enum Param {
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
+    IsWYSIWYGLiveboardPDFEnabled = 'isWYSIWYGLiveboardPDFEnabled',
     isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',

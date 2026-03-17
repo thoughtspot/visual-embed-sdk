@@ -388,6 +388,24 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page 
+     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages. 
+     * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isContinuousLiveboardPDFEnabled: true,
+     * })
+     * ```
+     */
+    isContinuousLiveboardPDFEnabled?: boolean;
+    /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -598,6 +616,7 @@ export class LiveboardEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
+            isContinuousLiveboardPDFEnabled,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -706,6 +725,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
+        if (isContinuousLiveboardPDFEnabled !== undefined) {
+            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
