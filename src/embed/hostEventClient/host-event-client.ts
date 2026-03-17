@@ -23,8 +23,19 @@ const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>>
     [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
 };
 
+/** Custom handler events and their corresponding UI passthrough event */
+const CUSTOM_HANDLER_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+    [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard,
+    [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer,
+    [HostEvent.UpdateFilters]: UIPassthroughEvent.UpdateFilters,
+    [HostEvent.DrillDown]: UIPassthroughEvent.Drilldown,
+};
+
 export class HostEventClient {
   iFrame: HTMLIFrameElement;
+
+  /** Cached list of available UI passthrough keys from the embedded app */
+  private availablePassthroughKeysCache: string[] | null = null;
 
   /** Host events with custom handlers 
    * (setters or special logic) - 
@@ -135,6 +146,27 @@ export class HostEventClient {
       this.iFrame = iFrame;
   }
 
+  /**
+   * Fetches the list of available UI passthrough keys from the embedded app.
+   * Result is cached for the session. Returns empty array on failure.
+   */
+  private async getAvailableUIPassthroughKeys(context?: ContextType): Promise<string[]> {
+      if (this.availablePassthroughKeysCache !== null) {
+          return this.availablePassthroughKeysCache;
+      }
+      try {
+          const response = await this.triggerUIPassthroughApi(
+              UIPassthroughEvent.GetAvailableUIPassthroughs, {}, context,
+          );
+          const matched = response?.find?.((r) => r.value && !r.error);
+          const keys = matched?.value?.keys;
+          this.availablePassthroughKeysCache = Array.isArray(keys) ? keys : [];
+          return this.availablePassthroughKeysCache;
+      } catch {
+          return [];
+      }
+  }
+
   public async triggerUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
@@ -215,16 +247,24 @@ export class HostEventClient {
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
-
-    const data = await this.triggerUIPassthroughApi(UIPassthroughEvent.GetAvailableUIPassthroughs, payload, context);
-    const availableUIPassthroughs = data?.find?.((r) => r.error || r.value);
       const customHandler = this.customHandlers[hostEvent];
       if (customHandler) {
+          const passthroughEvent = CUSTOM_HANDLER_PASSTHROUGH_MAP[hostEvent];
+          if (passthroughEvent) {
+              const availableKeys = await this.getAvailableUIPassthroughKeys(context as ContextType);
+              if (availableKeys.length > 0 && !availableKeys.includes(passthroughEvent)) {
+                  return this.hostEventFallback(hostEvent, payload, context) as any;
+              }
+          }
           return customHandler(payload, context as ContextType) as any;
       }
 
       const passthroughEvent = HOST_EVENT_PASSTHROUGH_MAP[hostEvent];
       if (passthroughEvent) {
+          const availableKeys = await this.getAvailableUIPassthroughKeys(context as ContextType);
+          if (availableKeys.length > 0 && !availableKeys.includes(passthroughEvent)) {
+              return this.hostEventFallback(hostEvent, payload, context) as any;
+          }
           return this.getDataWithPassthroughFallback(
               passthroughEvent, hostEvent, payload, context as ContextType,
           ) as any;

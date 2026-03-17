@@ -125,6 +125,8 @@ describe('HostEventClient', () => {
     });
 
     describe('executeHostEvent', () => {
+        const mockGetAvailablePassthroughs = () => [{ value: { keys: Object.values(UIPassthroughEvent) } }];
+
         it('should call handleUIPassthroughForHostEvent for Pin event', async () => {
             const { client, mockIframe } = createHostEventClient();
             const hostEvent = HostEvent.Pin;
@@ -140,7 +142,9 @@ describe('HostEventClient', () => {
                 },
             };
 
-            mockProcessTrigger.mockResolvedValue([mockResponse]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([mockResponse]);
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
@@ -176,7 +180,9 @@ describe('HostEventClient', () => {
                 },
                 refId: 'testVizId',
             }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
             const result = await client.triggerHostEvent(hostEvent, payload);
 
             expect(mockProcessTrigger).toHaveBeenCalledWith(
@@ -204,7 +210,9 @@ describe('HostEventClient', () => {
                 },
             } as any;
             const mockResponse = [{ value: { success: true } }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
@@ -229,7 +237,9 @@ describe('HostEventClient', () => {
                 autoDrillDown: true,
             } as any;
             const mockResponse = [{ value: { drillDownApplied: true } }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
@@ -250,7 +260,9 @@ describe('HostEventClient', () => {
             const { client, mockIframe } = createHostEventClient();
             const payload = { vizId: 'viz-1', filter: { column: 'x', oper: 'EQ', values: ['a'] } } as any;
             const context = { answerId: 'ans-1' } as any;
-            mockProcessTrigger.mockResolvedValue([{ value: {} }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: {} }]);
 
             await client.triggerHostEvent(HostEvent.UpdateFilters, payload, context);
 
@@ -267,7 +279,9 @@ describe('HostEventClient', () => {
             const { client, mockIframe } = createHostEventClient();
             const payload = { vizId: 'viz-2' } as any;
             const context = { liveboardId: 'lb-1' } as any;
-            mockProcessTrigger.mockResolvedValue([{ value: {} }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: {} }]);
 
             await client.triggerHostEvent(HostEvent.DrillDown, payload, context);
 
@@ -278,6 +292,26 @@ describe('HostEventClient', () => {
                 { type: UIPassthroughEvent.Drilldown, parameters: payload },
                 context,
             );
+        });
+
+        it('should skip to fallback when passthrough is not in available keys', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce([{ value: { keys: ['getFilters'] } }])
+                .mockResolvedValueOnce({ session: 'legacySession' });
+
+            const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '123' });
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.GetAnswerSession,
+                mockThoughtSpotHost,
+                { vizId: '123' },
+                undefined,
+            );
+            expect(result).toEqual({ session: 'legacySession' });
         });
 
         it('should call hostEventFallback for unmapped events', async () => {
@@ -296,11 +330,14 @@ describe('HostEventClient', () => {
         it('should route GetAnswerSession through passthrough and return data', async () => {
             const { client, mockIframe } = createHostEventClient();
             const mockResponse = [{ value: { session: 'testSession', embedAnswerData: { id: '1' } } }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
 
             const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '123' });
 
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
                 mockIframe,
                 HostEvent.UIPassthrough,
                 mockThoughtSpotHost,
@@ -313,14 +350,15 @@ describe('HostEventClient', () => {
         it('should fall back to legacy host event when passthrough returns no data for GetAnswerSession', async () => {
             const { client } = createHostEventClient();
             mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
                 .mockResolvedValueOnce([])
                 .mockResolvedValueOnce({ session: 'fallbackSession' });
 
             const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '123' });
 
-            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
             expect(mockProcessTrigger).toHaveBeenNthCalledWith(
-                2,
+                3,
                 expect.anything(),
                 HostEvent.GetAnswerSession,
                 mockThoughtSpotHost,
@@ -332,17 +370,21 @@ describe('HostEventClient', () => {
 
         it('should throw real errors from passthrough without falling back', async () => {
             const { client } = createHostEventClient();
-            mockProcessTrigger.mockResolvedValue([{ error: 'Permission denied' }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ error: 'Permission denied' }]);
 
             await expect(client.triggerHostEvent(HostEvent.GetAnswerSession, {}))
                 .rejects.toThrow('Permission denied');
-            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
         });
 
         it('should route GetFilters through passthrough and return data', async () => {
             const { client, mockIframe } = createHostEventClient();
             const mockResponse = [{ value: { liveboardFilters: [{ id: 'f1' }], runtimeFilters: [] as any[] } }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
 
             const result = await client.triggerHostEvent(HostEvent.GetFilters, {});
 
@@ -359,7 +401,9 @@ describe('HostEventClient', () => {
         it('should route GetTabs through passthrough and return data', async () => {
             const { client } = createHostEventClient();
             const mockResponse = [{ value: { orderedTabIds: ['t1', 't2'], numberOfTabs: 2, Tabs: [] as any[] } }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
 
             const result = await client.triggerHostEvent(HostEvent.GetTabs, {});
 
@@ -369,7 +413,9 @@ describe('HostEventClient', () => {
         it('should route GetTML through passthrough and return data', async () => {
             const { client } = createHostEventClient();
             const tmlData = { answer: { search_query: 'revenue by region' } };
-            mockProcessTrigger.mockResolvedValue([{ value: tmlData }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: tmlData }]);
 
             const result = await client.triggerHostEvent(HostEvent.GetTML, {});
 
@@ -378,7 +424,9 @@ describe('HostEventClient', () => {
 
         it('should route GetIframeUrl through passthrough and return data', async () => {
             const { client } = createHostEventClient();
-            mockProcessTrigger.mockResolvedValue([{ value: { iframeUrl: 'https://ts.example.com/embed' } }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { iframeUrl: 'https://ts.example.com/embed' } }]);
 
             const result = await client.triggerHostEvent(HostEvent.GetIframeUrl, {});
 
@@ -387,7 +435,9 @@ describe('HostEventClient', () => {
 
         it('should route GetParameters through passthrough and return data', async () => {
             const { client } = createHostEventClient();
-            mockProcessTrigger.mockResolvedValue([{ value: { parameters: [{ name: 'p1' }] } }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { parameters: [{ name: 'p1' }] } }]);
 
             const result = await client.triggerHostEvent(HostEvent.GetParameters, {});
 
@@ -396,7 +446,9 @@ describe('HostEventClient', () => {
 
         it('should route getExportRequestForCurrentPinboard through passthrough and return data', async () => {
             const { client } = createHostEventClient();
-            mockProcessTrigger.mockResolvedValue([{ value: { v2Content: 'exportData' } }]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { v2Content: 'exportData' } }]);
 
             const result = await client.triggerHostEvent(HostEvent.getExportRequestForCurrentPinboard, {});
 
@@ -406,12 +458,13 @@ describe('HostEventClient', () => {
         it('should fall back to legacy for GetFilters when passthrough returns null', async () => {
             const { client } = createHostEventClient();
             mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
                 .mockResolvedValueOnce(null)
                 .mockResolvedValueOnce({ liveboardFilters: [], runtimeFilters: [] });
 
             const result = await client.triggerHostEvent(HostEvent.GetFilters, {});
 
-            expect(mockProcessTrigger).toHaveBeenCalledTimes(2);
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
             expect(result).toEqual({ liveboardFilters: [], runtimeFilters: [] });
         });
 
@@ -427,7 +480,9 @@ describe('HostEventClient', () => {
                 },
             };
 
-            mockProcessTrigger.mockResolvedValue([mockResponse]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([mockResponse]);
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
@@ -453,7 +508,9 @@ describe('HostEventClient', () => {
                 },
             };
 
-            mockProcessTrigger.mockResolvedValue([mockResponse]);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([mockResponse]);
 
             const result = await client.triggerHostEvent(hostEvent, payload);
 
@@ -485,7 +542,9 @@ describe('HostEventClient', () => {
                 },
                 refId: 'testVizId',
             }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
             const result = await client.triggerHostEvent(hostEvent, payload);
             expect(result.liveboardId).toBe('testLiveboard');
         });
@@ -507,7 +566,9 @@ describe('HostEventClient', () => {
                 },
                 refId: 'testVizId',
             }];
-            mockProcessTrigger.mockResolvedValue(mockResponse);
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
             const result = await client.triggerHostEvent(hostEvent, payload);
             expect(result.liveboardId).toBe('testLiveboard');
             expect(mockProcessTrigger).toHaveBeenCalledWith(
