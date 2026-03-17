@@ -1,7 +1,12 @@
-import { ContextType, EmbedErrorCodes, ErrorDetailsTypes, HostEvent } from '../../types';
+import { ContextType, HostEvent } from '../../types';
 import { processTrigger as processTriggerService } from '../../utils/processTrigger';
-import { ERROR_MESSAGE } from '../../errors';
 import { getEmbedConfig } from '../embedConfig';
+import {
+    isValidUpdateFiltersPayload,
+    isValidDrillDownPayload,
+    throwUpdateFiltersValidationError,
+    throwDrillDownValidationError,
+} from './utils';
 import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
@@ -225,88 +230,23 @@ export class HostEventClient {
       };
   }
 
-  private static isValidUpdateFiltersPayload(
-    payload: HostEventRequest<HostEvent.UpdateFilters> | undefined,
-  ): boolean {
-    if (!payload) return false;
-
-    const isValidFilter = (f: { column?: string; oper?: string; values?: unknown[] }) =>
-      !!f && typeof f.column === 'string' && typeof f.oper === 'string' && Array.isArray(f.values);
-
-    const hasValidFilter = payload.filter && isValidFilter(payload.filter);
-    const hasValidFilters = Array.isArray(payload.filters) && payload.filters.length > 0 && payload.filters.every(isValidFilter);
-
-    return !!(hasValidFilter || hasValidFilters);
-  }
-
-  private static throwUpdateFiltersValidationError(): never {
-    const message = ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD;
-    const err = new Error(message) as Error & {
-      isValidationError?: boolean;
-      embedErrorDetails?: {
-        errorType: ErrorDetailsTypes;
-        message: string;
-        code: EmbedErrorCodes;
-        error: string;
-      };
-    };
-    err.isValidationError = true;
-    err.embedErrorDetails = {
-      errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-      message,
-      code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
-      error: message,
-    };
-    throw err;
-  }
-
   protected handleUpdateFiltersEvent(
     payload: HostEventRequest<HostEvent.UpdateFilters>,
     context?: ContextType,
   ): Promise<any> {
-    if (!HostEventClient.isValidUpdateFiltersPayload(payload)) {
-      HostEventClient.throwUpdateFiltersValidationError();
+    if (!isValidUpdateFiltersPayload(payload)) {
+      throwUpdateFiltersValidationError();
     }
 
     return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
-  }
-
-  private static isValidDrillDownPayload(
-    payload: HostEventRequest<HostEvent.DrillDown> | undefined,
-  ): boolean {
-    if (!payload) return false;
-
-    const points = payload.points;
-    if (!points || typeof points !== 'object') return false;
-
-    const hasClickedPoint = 'clickedPoint' in points && points.clickedPoint != null;
-    const hasSelectedPoints = Array.isArray(points.selectedPoints) && points.selectedPoints.length > 0;
-
-    return hasClickedPoint || hasSelectedPoints;
-  }
-
-  private static throwDrillDownValidationError(): never {
-    const message = ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD;
-    const err = new Error(message) as Error & {
-      isValidationError?: boolean;
-      embedErrorDetails?: { errorType: ErrorDetailsTypes; message: string; code: EmbedErrorCodes; error: string };
-    };
-    err.isValidationError = true;
-    err.embedErrorDetails = {
-      errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-      message,
-      code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
-      error: message,
-    };
-    throw err;
   }
 
   protected handleDrillDownEvent(
     payload: HostEventRequest<HostEvent.DrillDown>,
     context?: ContextType,
   ): Promise<any> {
-    if (!HostEventClient.isValidDrillDownPayload(payload)) {
-      HostEventClient.throwDrillDownValidationError();
+    if (!isValidDrillDownPayload(payload)) {
+      throwDrillDownValidationError();
     }
 
     return this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
