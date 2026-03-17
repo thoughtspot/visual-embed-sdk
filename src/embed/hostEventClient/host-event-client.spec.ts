@@ -770,4 +770,50 @@ describe('HostEventClient', () => {
             );
         });
     });
+
+    describe('UI passthrough available keys tests', () => {
+        const mockKeys = () => [{ value: { keys: Object.values(UIPassthroughEvent) } }];
+
+        it('triggerHostEvent Pin returns passthrough response', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockKeys())
+                .mockResolvedValueOnce([{ value: { pinboardId: 'lb1', tabId: 't1', vizId: 'v1' } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.Pin, { newVizName: 'Viz' });
+
+            expect(result).toMatchObject({ pinboardId: 'lb1', liveboardId: 'lb1' });
+        });
+
+        it('triggerHostEvent GetAnswerSession returns session', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockKeys())
+                .mockResolvedValueOnce([{ value: { session: 's1' } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetAnswerSession, {});
+
+            expect(result).toEqual({ session: 's1' });
+        });
+
+        it('triggerHostEvent unmapped event uses fallback', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue({ data: 'legacy' });
+
+            const result = await client.triggerHostEvent('unknownEvent' as HostEvent, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(expect.anything(), 'unknownEvent', mockThoughtSpotHost, {}, undefined);
+            expect(result).toEqual({ data: 'legacy' });
+        });
+
+        it('hostEventFallback delegates to processTrigger', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue({ ok: true });
+
+            const result = await client.hostEventFallback(HostEvent.Save, { x: 1 });
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(mockIframe, HostEvent.Save, mockThoughtSpotHost, { x: 1 }, undefined);
+            expect(result).toEqual({ ok: true });
+        });
+    });
 });
