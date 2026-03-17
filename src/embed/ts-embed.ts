@@ -1458,7 +1458,6 @@ export class TsEmbed {
                     error: err.message,
                 };
                 this.handleError(errorDetails);
-                return null;
             }
             throw err;
         });
