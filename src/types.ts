@@ -7844,6 +7844,15 @@ export enum EmbedErrorCodes {
 
     /** Invalid URL provided in configuration */
     INVALID_URL = 'INVALID_URL',
+
+    /** Host event payload validation failed */
+    HOST_EVENT_VALIDATION = 'HOST_EVENT_VALIDATION',
+
+    /** UpdateFilters payload is invalid - missing or malformed filter/filters */
+    UPDATEFILTERS_INVALID_PAYLOAD = 'UPDATEFILTERS_INVALID_PAYLOAD',
+
+    /** DrillDown payload is invalid - missing or malformed points */
+    DRILLDOWN_INVALID_PAYLOAD = 'DRILLDOWN_INVALID_PAYLOAD',
 }
 
 /**

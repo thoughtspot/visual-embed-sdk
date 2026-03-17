@@ -233,7 +233,7 @@ describe('HostEventClient', () => {
             const { client, mockIframe } = createHostEventClient();
             const hostEvent = HostEvent.DrillDown;
             const payload: HostEventRequest<typeof hostEvent> = {
-                vizId: 'viz-456',
+                points: { clickedPoint: 'point-1', selectedPoints: ['sel-1'] },
                 autoDrillDown: true,
             } as any;
             const mockResponse = [{ value: { drillDownApplied: true } }];
@@ -256,6 +256,42 @@ describe('HostEventClient', () => {
             expect(result).toEqual({ drillDownApplied: true });
         });
 
+        it('should accept UpdateFilters with filters array', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                filters: [
+                    { column: '(Sample) Retail - Apparel::city', oper: 'IN', values: ['atlanta'] },
+                    { column: '(Sample) Retail - Apparel::Region', oper: 'IN', values: ['West', 'Midwest'] },
+                ],
+            } as any;
+            const mockResponse = [{ value: { success: true } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.UpdateFilters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.UpdateFilters, parameters: payload },
+                undefined,
+            );
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should throw when UpdateFilters payload has no valid filter', async () => {
+            const { client } = createHostEventClient();
+            const invalidPayload = {} as any;
+            mockProcessTrigger.mockResolvedValueOnce(mockGetAvailablePassthroughs());
+
+            await expect(client.triggerHostEvent(HostEvent.UpdateFilters, invalidPayload))
+                .rejects.toThrow('UpdateFilters requires a valid filter or filters array');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
         it('should pass context to UpdateFilters event', async () => {
             const { client, mockIframe } = createHostEventClient();
             const payload = { vizId: 'viz-1', filter: { column: 'x', oper: 'EQ', values: ['a'] } } as any;
@@ -275,9 +311,19 @@ describe('HostEventClient', () => {
             );
         });
 
+        it('should throw when DrillDown payload has no valid points', async () => {
+            const { client } = createHostEventClient();
+            const invalidPayload = {} as any;
+            mockProcessTrigger.mockResolvedValueOnce(mockGetAvailablePassthroughs());
+
+            await expect(client.triggerHostEvent(HostEvent.DrillDown, invalidPayload))
+                .rejects.toThrow('DrillDown requires a valid points object');
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+        });
+
         it('should pass context to DrillDown event', async () => {
             const { client, mockIframe } = createHostEventClient();
-            const payload = { vizId: 'viz-2' } as any;
+            const payload = { points: { clickedPoint: 'point-1' }, vizId: 'viz-2' } as any;
             const context = { liveboardId: 'lb-1' } as any;
             mockProcessTrigger
                 .mockResolvedValueOnce(mockGetAvailablePassthroughs())
