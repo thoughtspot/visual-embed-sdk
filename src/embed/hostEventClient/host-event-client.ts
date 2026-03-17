@@ -18,8 +18,18 @@ import {
     TriggerResponse,
 } from './contracts';
 
-/** Host events that use getDataWithPassthroughFallback (getter-style APIs) */
-const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+/**
+ * Maps HostEvent to its corresponding UIPassthroughEvent.
+ * Includes both custom-handler events (Pin, SaveAnswer, UpdateFilters, DrillDown)
+ * and getter events (GetAnswerSession, GetFilters, etc.) that use getDataWithPassthroughFallback.
+ */
+const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+    // Custom handlers (setters with special logic)
+    [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard,
+    [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer,
+    [HostEvent.UpdateFilters]: UIPassthroughEvent.UpdateFilters,
+    [HostEvent.DrillDown]: UIPassthroughEvent.Drilldown,
+    // Getters (use getDataWithPassthroughFallback)
     [HostEvent.GetAnswerSession]: UIPassthroughEvent.GetAnswerSession,
     [HostEvent.GetFilters]: UIPassthroughEvent.GetFilters,
     [HostEvent.GetIframeUrl]: UIPassthroughEvent.GetIframeUrl,
@@ -27,14 +37,6 @@ const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>>
     [HostEvent.GetTML]: UIPassthroughEvent.GetTML,
     [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs,
     [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
-};
-
-/** Custom handler events and their corresponding UI passthrough event */
-const CUSTOM_HANDLER_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
-    [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard,
-    [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer,
-    [HostEvent.UpdateFilters]: UIPassthroughEvent.UpdateFilters,
-    [HostEvent.DrillDown]: UIPassthroughEvent.Drilldown,
 };
 
 export class HostEventClient {
@@ -252,6 +254,15 @@ export class HostEventClient {
     return this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
   }
 
+  /**
+   * Dispatches a host event using the appropriate channel:
+   * 1. If the embedded app supports UI passthrough for this event, use it (custom handler or getter).
+   * 2. Otherwise fall back to the legacy host event channel.
+   *
+   * @param hostEvent - The host event to trigger
+   * @param payload - Optional payload for the event
+   * @param context - Optional context (e.g. vizId) for scoped operations
+   */
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
@@ -262,28 +273,20 @@ export class HostEventClient {
       context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       const customHandler = this.customHandlers[hostEvent];
-      if (customHandler) {
-          const passthroughEvent = CUSTOM_HANDLER_PASSTHROUGH_MAP[hostEvent];
-          if (passthroughEvent) {
-              const availableKeys = await this.getAvailableUIPassthroughKeys(context as ContextType);
-              if (availableKeys.length > 0 && !availableKeys.includes(passthroughEvent)) {
-                  return this.hostEventFallback(hostEvent, payload, context) as any;
-              }
-          }
-          return customHandler(payload, context as ContextType) as any;
+      const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
+
+      // If embedded app supports passthrough but not this event, use legacy channel
+      const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
+      if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
+          return this.hostEventFallback(hostEvent, payload, context) as any;
       }
 
-      const passthroughEvent = HOST_EVENT_PASSTHROUGH_MAP[hostEvent];
-      if (passthroughEvent) {
-          const availableKeys = await this.getAvailableUIPassthroughKeys(context as ContextType);
-          if (availableKeys.length > 0 && !availableKeys.includes(passthroughEvent)) {
-              return this.hostEventFallback(hostEvent, payload, context) as any;
-          }
-          return this.getDataWithPassthroughFallback(
-              passthroughEvent, hostEvent, payload, context as ContextType,
-          ) as any;
-      }
-
-      return this.hostEventFallback(hostEvent, payload, context);
+      // Custom handler (setters) > getter passthrough > legacy fallback
+      return (customHandler
+          ? customHandler(payload, context as ContextType)
+          : passthroughEvent
+              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context as ContextType)
+              : this.hostEventFallback(hostEvent, payload, context)
+      ) as any;
   }
 }
