@@ -133,7 +133,7 @@
         "react-resize-detector": "^6.6.0",
         "react-test-renderer": "^17.0.2",
         "react-use-flexsearch": "^0.1.1",
-        "rollup": "4.24.0",
+        "rollup": "4.59.0",
         "rollup-plugin-typescript2": "0.27.3",
         "ts-jest": "^29.4.6",
         "ts-loader": "8.0.4",
