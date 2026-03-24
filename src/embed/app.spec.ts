@@ -1530,6 +1530,28 @@ describe('App embed tests', () => {
                 width: 650,
             });
         });
+        test('should not send correct visible data when RequestFullHeightLazyLoadData is triggered if lazyLoadingForFullHeight is false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                lazyLoadingMargin: '10px',
+            } as AppViewConfig);
+
+            const mockTrigger = jest.spyOn(appEmbed, 'trigger');
+
+            await appEmbed.render();
+
+            // Trigger the lazy load data calculation
+            (appEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).not.toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+                top: 0,
+                height: 500,
+                left: 0,
+                width: 650,
+            });
+        });
 
         test('should calculate correct visible data for partially visible full height element', async () => {
             // Mock iframe partially clipped from top and left
