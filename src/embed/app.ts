@@ -1109,7 +1109,10 @@ export class AppEmbed extends V1Embed {
 
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(this.iFrame);
-        this.trigger(HostEvent.VisibleEmbedCoordinates, data);
+        // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
+        if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
+            this.trigger(HostEvent.VisibleEmbedCoordinates, data);
+        }
     }
 
     /**

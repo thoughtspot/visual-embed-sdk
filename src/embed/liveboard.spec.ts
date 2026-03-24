@@ -1670,6 +1670,29 @@ describe('Liveboard/viz embed tests', () => {
             });
         });
 
+        test('should send correct visible data when RequestVisibleEmbedCoordinates is triggered', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingMargin: '10px',
+            } as LiveboardViewConfig);
+
+            const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
+
+            await liveboardEmbed.render();
+
+            // Trigger the lazy load data calculation
+            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).not.toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+                top: 0,
+                height: 500,
+                left: 0,
+                width: 650,
+            });
+        });
+
         test('should calculate correct visible data for partially visible full height element', async () => {
             mockIFrame.getBoundingClientRect = jest.fn().mockReturnValue({
                 top: -50,
