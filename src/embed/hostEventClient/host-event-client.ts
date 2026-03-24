@@ -2,6 +2,12 @@ import { ContextType, HostEvent } from '../../types';
 import { processTrigger as processTriggerService } from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
+    isValidUpdateFiltersPayload,
+    isValidDrillDownPayload,
+    throwUpdateFiltersValidationError,
+    throwDrillDownValidationError,
+} from './utils';
+import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     HostEventRequest,
@@ -12,8 +18,18 @@ import {
     TriggerResponse,
 } from './contracts';
 
-/** Host events that use getDataWithPassthroughFallback (getter-style APIs) */
-const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+/**
+ * Maps HostEvent to its corresponding UIPassthroughEvent.
+ * Includes both custom-handler events (Pin, SaveAnswer, UpdateFilters, DrillDown)
+ * and getter events (GetAnswerSession, GetFilters, etc.) that use getDataWithPassthroughFallback.
+ */
+const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
+    // Custom handlers (setters with special logic)
+    [HostEvent.Pin]: UIPassthroughEvent.PinAnswerToLiveboard,
+    [HostEvent.SaveAnswer]: UIPassthroughEvent.SaveAnswer,
+    [HostEvent.UpdateFilters]: UIPassthroughEvent.UpdateFilters,
+    [HostEvent.DrillDown]: UIPassthroughEvent.Drilldown,
+    // Getters (use getDataWithPassthroughFallback)
     [HostEvent.GetAnswerSession]: UIPassthroughEvent.GetAnswerSession,
     [HostEvent.GetFilters]: UIPassthroughEvent.GetFilters,
     [HostEvent.GetIframeUrl]: UIPassthroughEvent.GetIframeUrl,
@@ -25,6 +41,9 @@ const HOST_EVENT_PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>>
 
 export class HostEventClient {
   iFrame: HTMLIFrameElement;
+
+  /** Cached list of available UI passthrough keys from the embedded app */
+  private availablePassthroughKeysCache: string[] | null = null;
 
   /** Host events with custom handlers 
    * (setters or special logic) - 
@@ -135,6 +154,27 @@ export class HostEventClient {
       this.iFrame = iFrame;
   }
 
+  /**
+   * Fetches the list of available UI passthrough keys from the embedded app.
+   * Result is cached for the session. Returns empty array on failure.
+   */
+  private async getAvailableUIPassthroughKeys(context?: ContextType): Promise<string[]> {
+      if (this.availablePassthroughKeysCache !== null) {
+          return this.availablePassthroughKeysCache;
+      }
+      try {
+          const response = await this.triggerUIPassthroughApi(
+              UIPassthroughEvent.GetAvailableUIPassthroughs, {}, context,
+          );
+          const matched = response?.find?.((r) => r.value && !r.error);
+          const keys = matched?.value?.keys;
+          this.availablePassthroughKeysCache = Array.isArray(keys) ? keys : [];
+          return this.availablePassthroughKeysCache;
+      } catch {
+          return [];
+      }
+  }
+
   public async triggerUIPassthroughApi<UIPassthroughEventT extends UIPassthroughEvent>(
       apiName: UIPassthroughEventT,
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
@@ -196,6 +236,10 @@ export class HostEventClient {
     payload: HostEventRequest<HostEvent.UpdateFilters>,
     context?: ContextType,
   ): Promise<any> {
+    if (!isValidUpdateFiltersPayload(payload)) {
+      throwUpdateFiltersValidationError();
+    }
+
     return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
   }
 
@@ -203,9 +247,22 @@ export class HostEventClient {
     payload: HostEventRequest<HostEvent.DrillDown>,
     context?: ContextType,
   ): Promise<any> {
+    if (!isValidDrillDownPayload(payload)) {
+      throwDrillDownValidationError();
+    }
+
     return this.handleHostEventWithParam(UIPassthroughEvent.Drilldown, payload, context as ContextType);
   }
 
+  /**
+   * Dispatches a host event using the appropriate channel:
+   * 1. If the embedded app supports UI passthrough for this event, use it (custom handler or getter).
+   * 2. Otherwise fall back to the legacy host event channel.
+   *
+   * @param hostEvent - The host event to trigger
+   * @param payload - Optional payload for the event
+   * @param context - Optional context (e.g. vizId) for scoped operations
+   */
   public async triggerHostEvent<
     HostEventT extends HostEvent,
     PayloadT,
@@ -216,17 +273,20 @@ export class HostEventClient {
       context?: ContextT,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       const customHandler = this.customHandlers[hostEvent];
-      if (customHandler) {
-          return customHandler(payload, context as ContextType) as any;
+      const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
+
+      // If embedded app supports passthrough but not this event, use legacy channel
+      const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
+      if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
+          return this.hostEventFallback(hostEvent, payload, context) as any;
       }
 
-      const passthroughEvent = HOST_EVENT_PASSTHROUGH_MAP[hostEvent];
-      if (passthroughEvent) {
-          return this.getDataWithPassthroughFallback(
-              passthroughEvent, hostEvent, payload, context as ContextType,
-          ) as any;
-      }
-
-      return this.hostEventFallback(hostEvent, payload, context);
+      // Custom handler (setters) > getter passthrough > legacy fallback
+      return (customHandler
+          ? customHandler(payload, context as ContextType)
+          : passthroughEvent
+              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context as ContextType)
+              : this.hostEventFallback(hostEvent, payload, context)
+      ) as any;
   }
 }

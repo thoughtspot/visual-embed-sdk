@@ -1446,7 +1446,21 @@ export class TsEmbed {
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context);
+        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch((err: Error & {
+            isValidationError?: boolean;
+            embedErrorDetails?: { errorType: ErrorDetailsTypes; message: string; code: EmbedErrorCodes; error: string };
+        }): Promise<null> => {
+            if (err?.isValidationError) {
+                const errorDetails = err.embedErrorDetails ?? {
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
+                    code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
+                    error: err.message,
+                };
+                this.handleError(errorDetails);
+            }
+            throw err;
+        });
     }
 
     /**
