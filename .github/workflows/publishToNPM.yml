@@ -49,8 +49,8 @@ jobs:
           # Get the latest Git tag and set it as an output variable
           echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
       
-      - name: Update npm
-        run: npm install -g npm@latest # latest version of npm for OIDC
+      - name: Use stable npm
+        run: npm install -g npm@10 # latest version of npm for OIDC
       
       # Run npm install
       - name: Run npm install
