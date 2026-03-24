@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined, validateHttpUrl, resolveEnablePastConversationsSidebar } from '../utils';
+import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -17,12 +17,11 @@ import {
     EmbedEvent,
     MessagePayload,
     AllEmbedViewConfig,
-    ErrorDetailsTypes,
-    EmbedErrorCodes,
+    DefaultAppInitData,
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
-import { ERROR_MESSAGE } from '../errors';
+import { buildSpotterSidebarAppInitData } from './spotter-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -780,6 +779,16 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 }
 
 /**
+ * APP_INIT data shape for AppEmbed.
+ * @internal
+ */
+export interface AppEmbedAppInitData extends DefaultAppInitData {
+    embedParams?: {
+        spotterSidebarConfig?: SpotterSidebarViewConfig;
+    };
+}
+
+/**
  * Embeds full ThoughtSpot experience in a host application.
  * @group Embed components
  */
@@ -800,6 +809,23 @@ export class AppEmbed extends V1Embed {
                 this.requestVisibleEmbedCoordinatesHandler,
             );
         }
+    }
+
+    /**
+     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
+     * so the conv-assist app can read sidebar configuration on initialisation.
+     *
+     * Precedence for `enablePastConversationsSidebar`:
+     * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
+     * deprecated top-level `enablePastConversationsSidebar` flag; if the former
+     * is absent the latter is used as a fallback.
+     *
+     * An invalid `spotterDocumentationUrl` triggers a validation error and is
+     * excluded from the payload rather than forwarded to the app.
+     */
+    protected async getAppInitData(): Promise<AppEmbedAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
     }
 
     /**
@@ -853,7 +879,6 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
-            spotterSidebarConfig,
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
@@ -885,53 +910,6 @@ export class AppEmbed extends V1Embed {
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
-        }
-
-        const resolvedEnablePastConversationsSidebar = resolveEnablePastConversationsSidebar({
-            spotterSidebarConfigValue: spotterSidebarConfig?.enablePastConversationsSidebar,
-            standaloneValue: this.viewConfig.enablePastConversationsSidebar,
-        });
-        setParamIfDefined(params, Param.EnablePastConversationsSidebar, resolvedEnablePastConversationsSidebar, true);
-
-        // Handle spotterSidebarConfig params
-        if (spotterSidebarConfig) {
-            const {
-                spotterSidebarTitle,
-                spotterSidebarDefaultExpanded,
-                spotterChatRenameLabel,
-                spotterChatDeleteLabel,
-                spotterDeleteConversationModalTitle,
-                spotterPastConversationAlertMessage,
-                spotterDocumentationUrl,
-                spotterBestPracticesLabel,
-                spotterConversationsBatchSize,
-                spotterNewChatButtonTitle,
-            } = spotterSidebarConfig;
-
-            setParamIfDefined(params, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
-            setParamIfDefined(params, Param.SpotterSidebarTitle, spotterSidebarTitle);
-            setParamIfDefined(params, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
-            setParamIfDefined(params, Param.SpotterChatDeleteLabel, spotterChatDeleteLabel);
-            setParamIfDefined(params, Param.SpotterDeleteConversationModalTitle, spotterDeleteConversationModalTitle);
-            setParamIfDefined(params, Param.SpotterPastConversationAlertMessage, spotterPastConversationAlertMessage);
-            setParamIfDefined(params, Param.SpotterBestPracticesLabel, spotterBestPracticesLabel);
-            setParamIfDefined(params, Param.SpotterConversationsBatchSize, spotterConversationsBatchSize);
-            setParamIfDefined(params, Param.SpotterNewChatButtonTitle, spotterNewChatButtonTitle);
-
-            // URL param with validation
-            if (spotterDocumentationUrl !== undefined) {
-                const [isValid, validationError] = validateHttpUrl(spotterDocumentationUrl);
-                if (isValid) {
-                    params[Param.SpotterDocumentationUrl] = spotterDocumentationUrl;
-                } else {
-                    this.handleError({
-                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                        message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                        code: EmbedErrorCodes.INVALID_URL,
-                        error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                    });
-                }
-            }
         }
 
         // Handle spotterChatConfig params
