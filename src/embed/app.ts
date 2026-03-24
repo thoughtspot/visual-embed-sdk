@@ -1130,7 +1130,7 @@ export class AppEmbed extends V1Embed {
             logger.info('Height change is less than the threshold, skipping height update', { heightChange, heightToSet, currentHeight });
             return;
         }
-        this.setIFrameHeight(heightToSet);
+        this.setIFrameHeight(heightToSet + this.HEIGHT_CHANGE_THRESHOLD);
         this.sendFullHeightLazyLoadData();
     };
 
