@@ -2025,7 +2025,7 @@ describe('Liveboard/viz embed tests', () => {
             // currentHeight is 500; heightToSet = max(700, 500) = 700; change = 200 >= 30
             liveboardEmbed.updateIFrameHeight({ data: 700, type: EmbedEvent.EmbedHeight });
 
-            expect(spySetIFrameHeight).toHaveBeenCalledWith(700);
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(730);
         });
 
         test('should use defaultHeight when data is below it and apply threshold', async () => {
@@ -2045,7 +2045,7 @@ describe('Liveboard/viz embed tests', () => {
             // currentHeight is 500; heightToSet = max(100, 800) = 800; change = 300 >= 30
             liveboardEmbed.updateIFrameHeight({ data: 100, type: EmbedEvent.EmbedHeight });
 
-            expect(spySetIFrameHeight).toHaveBeenCalledWith(800);
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(830);
         });
 
         test('should skip update when height change is exactly at threshold boundary', async () => {

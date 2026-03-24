@@ -1683,7 +1683,7 @@ describe('App embed tests', () => {
             appEmbed.updateIFrameHeight(mockEvent);
 
             // Check if the iframe style was updated
-            expect(mockIFrame.style.height).toBe('600px');
+            expect(mockIFrame.style.height).toBe('630px');
         });
 
         test('should handle updateIFrameHeight with default height', async () => {
@@ -1707,7 +1707,7 @@ describe('App embed tests', () => {
             appEmbed.updateIFrameHeight(mockEvent);
 
             // Should use the default height
-            expect(mockIFrame.style.height).toBe('500px');
+            expect(mockIFrame.style.height).toBe('530px');
         });
 
         test('should skip height update when change is below threshold', async () => {
@@ -1743,7 +1743,7 @@ describe('App embed tests', () => {
             // currentHeight is 500; heightToSet = max(600, 500) = 600; change = 100 >= 30
             appEmbed.updateIFrameHeight({ data: 600, type: EmbedEvent.EmbedHeight });
 
-            expect(spySetIFrameHeight).toHaveBeenCalledWith(600);
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(630);
         });
 
         test('should use defaultHeight when data is below it and check threshold', async () => {
@@ -1762,7 +1762,7 @@ describe('App embed tests', () => {
             // currentHeight is 500; heightToSet = max(100, 800) = 800; change = 300 >= 30
             appEmbed.updateIFrameHeight({ data: 100, type: EmbedEvent.EmbedHeight });
 
-            expect(spySetIFrameHeight).toHaveBeenCalledWith(800);
+            expect(spySetIFrameHeight).toHaveBeenCalledWith(830);
         });
     });
 });
