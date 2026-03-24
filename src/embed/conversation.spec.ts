@@ -2,13 +2,16 @@ import { SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed } from './conve
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
-import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, EmbedErrorCodes  } from '../types';
+import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, EmbedErrorCodes, EmbedEvent } from '../types';
 import {
     getDocumentBody,
     getIFrameSrc,
+    getIFrameEl,
     getRootEl,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
+    postMessageToParent,
+    executeAfterWait,
 } from '../test/test-utils';
 import { ERROR_MESSAGE } from '../errors';
 
@@ -289,81 +292,6 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should render the conversation embed with past conversations sidebar enabled', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterSidebarConfig: {
-                enablePastConversationsSidebar: true,
-            },
-        };
-
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
-    it('should render the conversation embed with past conversations sidebar disabled', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterSidebarConfig: {
-                enablePastConversationsSidebar: false,
-            },
-        };
-
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=false#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
-    it('should render the conversation embed with deprecated standalone enablePastConversationsSidebar flag', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            enablePastConversationsSidebar: true,
-        };
-
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
-    it('should prefer spotterSidebarConfig.enablePastConversationsSidebar over deprecated standalone flag', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            enablePastConversationsSidebar: false,
-            spotterSidebarConfig: {
-                enablePastConversationsSidebar: true,
-            },
-        };
-
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
     it('should render the conversation embed with all boolean flags set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
@@ -375,16 +303,13 @@ describe('ConversationEmbed', () => {
             dataPanelV2: true,
             showSpotterLimitations: true,
             hideSampleQuestions: true,
-            spotterSidebarConfig: {
-                enablePastConversationsSidebar: true,
-            },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableSourceSelection=true&hideSourceSelection=true&enableDataPanelV2=true&showSpotterLimitations=true&hideSampleQuestions=true&enablePastConversationsSidebar=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableSourceSelection=true&hideSourceSelection=true&enableDataPanelV2=true&showSpotterLimitations=true&hideSampleQuestions=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
     });
 
@@ -564,73 +489,99 @@ describe('ConversationEmbed', () => {
         });
     });
 
-    describe('spotter sidebar config params', () => {
-        it.each([
-            ['enablePastConversationsSidebar', true, 'enablePastConversationsSidebar=true'],
-            ['spotterSidebarTitle', 'My Conversations', 'spotterSidebarTitle=My%20Conversations'],
-            ['spotterSidebarDefaultExpanded', true, 'spotterSidebarDefaultExpanded=true'],
-            ['spotterChatRenameLabel', 'Edit Name', 'spotterChatRenameLabel=Edit%20Name'],
-            ['spotterChatDeleteLabel', 'Remove', 'spotterChatDeleteLabel=Remove'],
-            ['spotterDeleteConversationModalTitle', 'Remove Conversation', 'spotterDeleteConversationModalTitle=Remove%20Conversation'],
-            ['spotterPastConversationAlertMessage', 'Viewing past conversation', 'spotterPastConversationAlertMessage=Viewing%20past%20conversation'],
-            ['spotterBestPracticesLabel', 'Help Tips', 'spotterBestPracticesLabel=Help%20Tips'],
-            ['spotterConversationsBatchSize', 50, 'spotterConversationsBatchSize=50'],
-            ['spotterNewChatButtonTitle', 'Start New Conversation', 'spotterNewChatButtonTitle=Start%20New%20Conversation'],
-            ['spotterDocumentationUrl', 'https://docs.example.com/spotter', 'spotterDocumentationUrl=https%3A%2F%2Fdocs.example.com%2Fspotter'],
-        ])('should render with spotterSidebarConfig.%s', async (configKey, configValue, expectedParam) => {
-            const viewConfig: SpotterEmbedViewConfig = {
-                worksheetId: 'worksheetId',
-                spotterSidebarConfig: {
-                    [configKey]: configValue,
-                },
-            };
-            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-            await conversationEmbed.render();
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&${expectedParam}#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-            );
-        });
+});
 
-        it.each([
-            ['invalid URL format', 'invalid-url'],
-            ['invalid protocol (ftp)', 'ftp://docs.example.com/spotter'],
-        ])('should handle error for spotterSidebarConfig.spotterDocumentationUrl with %s', async (_, invalidUrl) => {
-            const viewConfig: SpotterEmbedViewConfig = {
-                worksheetId: 'worksheetId',
-                spotterSidebarConfig: {
-                    spotterDocumentationUrl: invalidUrl,
-                },
-            };
-            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-            (conversationEmbed as any).handleError = jest.fn();
-            await conversationEmbed.render();
-            expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                    message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                    code: EmbedErrorCodes.INVALID_URL,
-                }),
-            );
-        });
+describe('SpotterEmbed APP_INIT embedParams', () => {
+    const mockEmbedEventPayload = { type: EmbedEvent.APP_INIT, data: {} };
 
-        it('should render with multiple spotterSidebarConfig options', async () => {
-            const viewConfig: SpotterEmbedViewConfig = {
-                worksheetId: 'worksheetId',
-                spotterSidebarConfig: {
-                    enablePastConversationsSidebar: true,
-                    spotterSidebarTitle: 'Chats',
-                    spotterSidebarDefaultExpanded: true,
-                    spotterNewChatButtonTitle: 'New',
-                    spotterConversationsBatchSize: 25,
-                },
-            };
-            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-            await conversationEmbed.render();
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enablePastConversationsSidebar=true&spotterSidebarDefaultExpanded=true&spotterSidebarTitle=Chats&spotterConversationsBatchSize=25&spotterNewChatButtonTitle=New#/embed/insights/conv-assist?worksheet=worksheetId&query=`,
-            );
+    async function getAppInitResponse(viewConfig: SpotterEmbedViewConfig) {
+        const embed = new SpotterEmbed(getRootEl(), viewConfig);
+        embed.render();
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, mockEmbedEventPayload, mockPort);
+        });
+        await executeAfterWait(() => {});
+        return mockPort.postMessage.mock.calls[0]?.[0];
+    }
+
+    it('should include spotterSidebarConfig in embedParams when spotterSidebarConfig is provided', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterSidebarTitle: 'My Conversations',
+                spotterSidebarDefaultExpanded: true,
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig).toEqual({
+            enablePastConversationsSidebar: true,
+            spotterSidebarTitle: 'My Conversations',
+            spotterSidebarDefaultExpanded: true,
         });
     });
+
+    it('should populate enablePastConversationsSidebar from deprecated standalone flag', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            enablePastConversationsSidebar: true,
+        });
+        expect(response.data.embedParams.spotterSidebarConfig).toEqual({
+            enablePastConversationsSidebar: true,
+        });
+    });
+
+    it('should use spotterSidebarConfig.enablePastConversationsSidebar over deprecated standalone flag', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            enablePastConversationsSidebar: false,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterSidebarTitle: 'Chats',
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.embedParams.spotterSidebarConfig.spotterSidebarTitle).toBe('Chats');
+    });
+
+    it('should fall back to deprecated standalone flag when spotterSidebarConfig omits enablePastConversationsSidebar', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            enablePastConversationsSidebar: true,
+            spotterSidebarConfig: {
+                spotterSidebarTitle: 'My Chats',
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.embedParams.spotterSidebarConfig.spotterSidebarTitle).toBe('My Chats');
+    });
+
+    it('should not include embedParams when neither spotterSidebarConfig nor standalone flag is set', async () => {
+        const response = await getAppInitResponse({ worksheetId: 'ws1' });
+        expect(response.data.embedParams).toBeUndefined();
+    });
+
+    it('should call handleError and exclude spotterDocumentationUrl from embedParams when URL is invalid', async () => {
+        const embed = new SpotterEmbed(getRootEl(), {
+            worksheetId: 'ws1',
+            spotterSidebarConfig: { spotterDocumentationUrl: 'invalid-url' },
+        });
+        (embed as any).handleError = jest.fn();
+        embed.render();
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, mockEmbedEventPayload, mockPort);
+        });
+        await executeAfterWait(() => {});
+        expect((embed as any).handleError).toHaveBeenCalledWith(
+            expect.objectContaining({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                code: EmbedErrorCodes.INVALID_URL,
+            }),
+        );
+        expect(mockPort.postMessage.mock.calls[0]?.[0].data.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
+    });
+
 });
+

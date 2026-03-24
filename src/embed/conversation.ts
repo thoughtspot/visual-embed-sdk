@@ -1,8 +1,9 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData } from '../types';
 import { TsEmbed } from './ts-embed';
-import { getQueryParamString, getFilterQuery, getRuntimeParameters, validateHttpUrl, setParamIfDefined, resolveEnablePastConversationsSidebar } from '../utils';
+import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
  * Configuration for search options
@@ -344,6 +345,16 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
 export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 
 /**
+ * APP_INIT data shape for SpotterEmbed.
+ * @internal
+ */
+export interface SpotterAppInitData extends DefaultAppInitData {
+    embedParams?: {
+        spotterSidebarConfig?: SpotterSidebarViewConfig;
+    };
+}
+
+/**
  * Embed ThoughtSpot AI Conversation.
  * @version SDK: 1.37.0 | ThoughtSpot: 10.9.0.cl
  * @group Embed components
@@ -369,6 +380,23 @@ export class SpotterEmbed extends TsEmbed {
         super(container, viewConfig);
     }
 
+    /**
+     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
+     * so the conv-assist app can read sidebar configuration on initialisation.
+     *
+     * Precedence for `enablePastConversationsSidebar`:
+     * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
+     * deprecated top-level `enablePastConversationsSidebar` flag; if the former
+     * is absent the latter is used as a fallback.
+     *
+     * An invalid `spotterDocumentationUrl` triggers a validation error and is
+     * excluded from the payload rather than forwarded to the app.
+     */
+    protected async getAppInitData(): Promise<SpotterAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+    }
+
     protected getEmbedParamsObject() {
         const {
             worksheetId,
@@ -383,28 +411,8 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
-            spotterSidebarConfig,
             spotterChatConfig,
         } = this.viewConfig;
-
-        // Extract sidebar config properties
-        const {
-            enablePastConversationsSidebar: sidebarEnablePastConversationsSidebar,
-            spotterSidebarTitle,
-            spotterSidebarDefaultExpanded,
-            spotterChatRenameLabel,
-            spotterChatDeleteLabel,
-            spotterDeleteConversationModalTitle,
-            spotterPastConversationAlertMessage,
-            spotterDocumentationUrl,
-            spotterBestPracticesLabel,
-            spotterConversationsBatchSize,
-            spotterNewChatButtonTitle,
-        } = spotterSidebarConfig || {};
-        const resolvedEnablePastConversationsSidebar = resolveEnablePastConversationsSidebar({
-            spotterSidebarConfigValue: sidebarEnablePastConversationsSidebar,
-            standaloneValue: this.viewConfig.enablePastConversationsSidebar,
-        });
 
         if (!worksheetId) {
             this.handleError({
@@ -424,38 +432,6 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
-        setParamIfDefined(
-            queryParams,
-            Param.EnablePastConversationsSidebar,
-            resolvedEnablePastConversationsSidebar,
-            true,
-        );
-        setParamIfDefined(queryParams, Param.SpotterSidebarDefaultExpanded, spotterSidebarDefaultExpanded, true);
-
-        // String params
-        setParamIfDefined(queryParams, Param.SpotterSidebarTitle, spotterSidebarTitle);
-        setParamIfDefined(queryParams, Param.SpotterChatRenameLabel, spotterChatRenameLabel);
-        setParamIfDefined(queryParams, Param.SpotterChatDeleteLabel, spotterChatDeleteLabel);
-        setParamIfDefined(queryParams, Param.SpotterDeleteConversationModalTitle, spotterDeleteConversationModalTitle);
-        setParamIfDefined(queryParams, Param.SpotterPastConversationAlertMessage, spotterPastConversationAlertMessage);
-        setParamIfDefined(queryParams, Param.SpotterBestPracticesLabel, spotterBestPracticesLabel);
-        setParamIfDefined(queryParams, Param.SpotterConversationsBatchSize, spotterConversationsBatchSize);
-        setParamIfDefined(queryParams, Param.SpotterNewChatButtonTitle, spotterNewChatButtonTitle);
-
-        // URL param with validation
-        if (spotterDocumentationUrl !== undefined) {
-            const [isValid, validationError] = validateHttpUrl(spotterDocumentationUrl);
-            if (isValid) {
-                queryParams[Param.SpotterDocumentationUrl] = spotterDocumentationUrl;
-            } else {
-                this.handleError({
-                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                    message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                    code: EmbedErrorCodes.INVALID_URL,
-                    error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
-                });
-            }
-        }
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
