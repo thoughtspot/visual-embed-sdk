@@ -3558,6 +3558,45 @@ describe('Unit test case for ts embed', () => {
             expect(getRootEl().nextElementSibling.innerHTML).toBe('');
         });
 
+        it('should not call trigger or remove DOM if destroy is called before render', () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: { width: '100%', height: '100%' },
+            });
+
+            const triggerSpy = jest.spyOn(appEmbed, 'trigger');
+            const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild');
+
+            appEmbed.destroy();
+
+            expect(triggerSpy).not.toHaveBeenCalled();
+            expect(removeChildSpy).not.toHaveBeenCalled();
+        });
+
+        it('should still remove DOM element when trigger rejects (waitForCleanupOnDestroy: true)', async () => {
+            const originalEmbedConfig = embedConfig.getEmbedConfig();
+            embedConfig.setEmbedConfig({
+                ...originalEmbedConfig,
+                waitForCleanupOnDestroy: true,
+                cleanupTimeout: 1000,
+            });
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: { width: '100%', height: '100%' },
+            });
+            await appEmbed.render();
+
+            jest.spyOn(appEmbed, 'trigger').mockRejectedValue(new Error('trigger failed'));
+            const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+
+            appEmbed.destroy();
+
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            expect(removeChildSpy).toHaveBeenCalled();
+
+            embedConfig.setEmbedConfig(originalEmbedConfig);
+        });
+
         describe('with waitForCleanupOnDestroy configuration', () => {
             let originalEmbedConfig: any;
 
