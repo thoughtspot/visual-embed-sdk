@@ -880,21 +880,6 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add isUnifiedSearchExperienceEnabled flag to the iframe src', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            isUnifiedSearchExperienceEnabled: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=false${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
     test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

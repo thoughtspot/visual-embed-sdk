@@ -11,8 +11,6 @@ import {
     AppEmbed,
     LiveboardEmbed,
     AppViewConfig,
-    SageEmbed,
-    SageViewConfig,
     SearchViewConfig,
     AnswerService,
     SpotterEmbed,
@@ -2192,28 +2190,6 @@ describe('Unit test case for ts embed', () => {
                     `http://${thoughtSpotHost}/?embedApp=true${defaultParams}#/embed/viz/${liveboardId}`,
                 );
             });
-
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-
-            const sageEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-            } as SageViewConfig);
-
-            sageEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
-                );
-            });
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with left value', async () => {
@@ -2228,29 +2204,6 @@ describe('Unit test case for ts embed', () => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
                     `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=left#/embed/viz/${liveboardId}`,
-                );
-            });
-
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-
-            const sageEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-                contextMenuTrigger: ContextMenuTriggerOptions.LEFT_CLICK,
-            } as SageViewConfig);
-
-            sageEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=left&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
                 );
             });
         });
@@ -2269,28 +2222,6 @@ describe('Unit test case for ts embed', () => {
                     `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=right#/embed/viz/${liveboardId}`,
                 );
             });
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-
-            const sageEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-                contextMenuTrigger: ContextMenuTriggerOptions.RIGHT_CLICK,
-            } as SageViewConfig);
-
-            sageEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=right&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
-                );
-            });
         });
 
         it('Should add contextMenuEnabledOnWhichClick flag to the iframe with both value', async () => {
@@ -2305,28 +2236,6 @@ describe('Unit test case for ts embed', () => {
                 expectUrlMatchesWithParams(
                     getIFrameSrc(),
                     `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&contextMenuEnabledOnWhichClick=both#/embed/viz/${liveboardId}`,
-                );
-            });
-            const defaultConfig: SageViewConfig = {
-                disableWorksheetChange: false,
-                hideWorksheetSelector: false,
-                hideSageAnswerHeader: false,
-                hideAutocompleteSuggestions: false,
-                hideSampleQuestions: false,
-                isProductTour: false,
-                dataPanelV2: false,
-            };
-
-            const sageEmbed = new SageEmbed(getRootEl(), {
-                ...defaultConfig,
-                contextMenuTrigger: ContextMenuTriggerOptions.BOTH_CLICKS,
-            } as SageViewConfig);
-
-            sageEmbed.render();
-            await executeAfterWait(() => {
-                expectUrlMatch(
-                    getIFrameSrc(),
-                    `http://${thoughtSpotHost}/?embedApp=true&enableDataPanelV2=false&contextMenuEnabledOnWhichClick=both&isSageEmbed=true&disableWorksheetChange=false&hideWorksheetSelector=false&hideEurekaSuggestions=false&isProductTour=false&hideSageAnswerHeader=false&hideAction=%5B%22reportError%22%5D#/embed/eureka`,
                 );
             });
         });
@@ -4220,9 +4129,9 @@ describe('PreRender replaceExistingPreRender scenarios', () => {
             preRenderId: 'no-replace-test',
             liveboardId: 'lb2',
         });
-        
+
         const result = await embed2.preRender(false, false);
-        
+
         expect(result).toBe(embed2);
         // The original iframe should still have lb1
         const iframe = getIFrameEl();
@@ -4247,17 +4156,17 @@ describe('Destroy error handling', () => {
             frameParams: { width: '100%', height: '100%' },
         });
         await appEmbed.render();
-        
+
         const logSpy = jest.spyOn(logger, 'log').mockImplementation(() => {});
-        
+
         jest.spyOn(Node.prototype, 'removeChild').mockImplementationOnce(() => {
             throw new Error('Remove failed');
         });
-        
+
         expect(() => {
             appEmbed.destroy();
         }).not.toThrow();
-        
+
         expect(logSpy).toHaveBeenCalledWith('Error destroying TS Embed', expect.any(Error));
         logSpy.mockReset();
     });
@@ -4282,25 +4191,25 @@ describe('Fullscreen change handler behavior', () => {
             liveboardId: 'test-lb',
         });
         await liveboardEmbed.render();
-        
+
         await executeAfterWait(() => {
             const iframe = getIFrameEl();
             expect(iframe).toBeTruthy();
         });
 
         mockProcessTrigger.mockResolvedValue({});
-        
+
         liveboardEmbed['setupFullscreenChangeHandler']();
-        
+
         Object.defineProperty(document, 'fullscreenElement', {
             value: null,
             writable: true,
             configurable: true,
         });
-        
+
         const event = new Event('fullscreenchange');
         document.dispatchEvent(event);
-        
+
         await executeAfterWait(() => {
             expect(mockProcessTrigger).toHaveBeenLastCalledWith(
                 expect.any(Object),
@@ -4318,7 +4227,7 @@ describe('Fullscreen change handler behavior', () => {
             liveboardId: 'test-lb-fullscreen',
         });
         await liveboardEmbed.render();
-        
+
         await executeAfterWait(() => {
             const iframe = getIFrameEl();
             expect(iframe).toBeTruthy();
@@ -4326,18 +4235,18 @@ describe('Fullscreen change handler behavior', () => {
 
         mockProcessTrigger.mockClear();
         mockProcessTrigger.mockResolvedValue({});
-        
+
         liveboardEmbed['setupFullscreenChangeHandler']();
-        
+
         Object.defineProperty(document, 'fullscreenElement', {
             value: getIFrameEl(),
             writable: true,
             configurable: true,
         });
-        
+
         const event = new Event('fullscreenchange');
         document.dispatchEvent(event);
-        
+
         await executeAfterWait(() => {
             expect(mockProcessTrigger).not.toHaveBeenCalledWith(
                 expect.any(Object),
@@ -4365,7 +4274,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             preRenderId,
             ...initialConfig,
         });
-        
+
         await embed1.preRender();
         await waitFor(() => !!getIFrameEl());
 

@@ -4,7 +4,6 @@ export const ERROR_MESSAGE = {
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
-    SAGE_EMBED_BETA_WARNING_MESSAGE: 'SageEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
     DUPLICATE_TOKEN_ERR: 'Duplicate token. Please issue a new token every time getAuthToken callback is called. See https://developers.thoughtspot.com/docs/?pageid=embed-auth#trusted-auth-embed for more details.',
     SDK_NOT_INITIALIZED: 'SDK not initialized',

@@ -535,22 +535,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
-     * This flag is used to enable unified search experience for full app embed.
-     *
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
-     * @default true
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    isUnifiedSearchExperienceEnabled: true,
-     * })
-     * ```
-     */
-    isUnifiedSearchExperienceEnabled?: boolean;
-
-    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
      * @deprecated This flag is deprecated.
      *
@@ -587,8 +571,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page 
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages. 
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
+     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
      * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -868,7 +852,6 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             isEnhancedFilterInteractivityEnabled = false,
             homePageSearchBarMode,
-            isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
@@ -903,7 +886,6 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-        params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
         params = this.getBaseQueryParams(params);

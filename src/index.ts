@@ -67,13 +67,12 @@ import {
     CustomActionTarget,
     InterceptedApiType,
     EmbedErrorCodes,
-    EmbedErrorDetailsEvent, 
+    EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     ContextType,
     AutoMCPFrameRendererViewConfig,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { SageEmbed, SageViewConfig } from './embed/sage';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
@@ -100,7 +99,6 @@ export {
     SearchBarEmbed,
     PinboardEmbed,
     LiveboardEmbed,
-    SageEmbed,
     AppEmbed,
     SpotterAgentEmbed,
     SpotterAgentEmbedViewConfig,
@@ -134,7 +132,6 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
-    SageViewConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
