@@ -506,11 +506,6 @@ export interface EmbedConfig {
      */
     suppressSearchEmbedBetaWarning?: boolean;
     /**
-     * Hide `beta` alert warning message for SageEmbed.
-     *
-     */
-    suppressSageEmbedBetaWarning?: boolean;
-    /**
      * Custom style params for embed Config.
      * @version SDK: 1.17.0 | ThoughtSpot: 8.9.0.cl, 9.0.1.sw
      */
@@ -905,7 +900,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The width and height dimensions to render an embedded
      * object inside your app.  Specify the values in pixels or percentage.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
      * @example
      * ```js
@@ -935,7 +930,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * for the user.
      * Use this to disable actions.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
@@ -950,7 +945,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * The tooltip to display for disabled actions.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
@@ -968,7 +963,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * These actions will be hidden from the user.
      * Use this to hide an action.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
      * ```js
@@ -989,7 +984,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *
      * Use either this or hiddenActions.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @important
      * @example
@@ -1005,7 +1000,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * The locale settings to apply to the embedded view.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.9.4 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -1026,7 +1021,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -1052,7 +1047,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.2.0 | ThoughtSpot: 9.0.0.cl, 9.0.0.sw
      * @example
      * ```js
@@ -1078,7 +1073,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Use PreRender to render the embed in the background and then
      * show or hide the rendered embed using showPreRender or hidePreRender respectively.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
      * @example
      * ```js
@@ -1116,7 +1111,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighter-weight shell.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.31.2 | ThoughtSpot: 10.0.0.cl
      * @example
      * ```js
@@ -1144,7 +1139,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * This flag can be used to disable links inside the embedded app,
      * and disable redirection of links in a new tab.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
@@ -1163,7 +1158,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The `overrideOrgId` setting is honoured only if the
      * Per Org URL feature is enabled on your ThoughtSpot instance.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.35.0 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
@@ -1183,7 +1178,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * {@link enableLinkOverridesV2} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
-     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SearchEmbed`, `SpotterAgentEmbed`,
      * `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
@@ -1207,7 +1202,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * older ThoughtSpot versions.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
-     * `SageEmbed`, `SearchEmbed`, `SpotterAgentEmbed`,
+     * `SearchEmbed`, `SpotterAgentEmbed`,
      * `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.46.0 | ThoughtSpot: 26.2.0.cl
      * @example
@@ -1266,7 +1261,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * external app, calling an API, or opening a modal — based on the data context of
      * what they clicked can be used to trigger custom logic when the action is clicked.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SageEmbed`, `SearchEmbed`, `SpotterEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterEmbed`
      * @version SDK: 1.43.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```ts
@@ -1438,7 +1433,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     customActions?: CustomAction[];
-
 
     /**
      * Refresh the auth token when the token is near expiry.
@@ -1626,11 +1620,11 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * flag to set ContextMenu Trigger to either left or right click.
      *
-     * Supported embed types: `AppEmbed`, `SageEmbed`, `SearchEmbed`
+     * Supported embed types: `AppEmbed`, `SearchEmbed`
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SageEmbed, or SearchEmbed
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, or SearchEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    contextMenuTrigger:ContextMenuTriggerOptions.LEFT_CLICK || RIGHT_CLICK,
@@ -1667,12 +1661,12 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * To set the initial state of the search bar in case of saved Answers.
      *
-     * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `SearchBarEmbed`
      * @default true
      * @version SDK: 1.34.0 | ThoughtSpot: 10.3.0.cl
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, or SearchBarEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *   collapseSearchBar: true,
@@ -1683,12 +1677,12 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * Flag to control Data panel experience
      *
-     * Supported embed types: `SageEmbed`, `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * Supported embed types: `AppEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @deprecated from SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      * @default true
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, AppEmbed, or SearchBarEmbed
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, or SearchBarEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    dataPanelV2: true,
@@ -1699,12 +1693,12 @@ export interface SearchLiveboardCommonViewConfig {
     /**
      * To enable custom column groups in data panel v2
      *
-     * Supported embed types: `SageEmbed`, `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * Supported embed types: `SearchBarEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @version SDK: 1.32.0 | ThoughtSpot: 10.0.0.cl, 10.1.0.sw
      * @default false
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, SageEmbed, SearchBarEmbed, or LiveboardEmbed
+     * // Replace <EmbedComponent> with embed component name. For example, SearchBarEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *   ... // other embed view config
      *   enableCustomColumnGroups: true,
@@ -3128,19 +3122,6 @@ export enum EmbedEvent {
      */
     FilterChanged = 'filterChanged',
     /**
-     *  Emitted when a user clicks the **Go** button to initiate
-     *  a Natural Language Search query
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
-     */
-    SageEmbedQuery = 'sageEmbedQuery',
-    /**
-     * Emitted when a user selects a data source on the embedded
-     * Natural Language Search interface.
-     *
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
-     */
-    SageWorksheetUpdated = 'sageWorksheetUpdated',
-    /**
      * Emitted when a user updates a connection on the **Data** page
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
      */
@@ -3266,7 +3247,7 @@ export enum EmbedEvent {
      * **Prerequisite**: Set`isOnBeforeGetVizDataInterceptEnabled` to `true`
      * to ensure that `EmbedEvent.OnBeforeGetVizDataIntercept` is emitted
      * when the embedding application user tries to run a search query.
-     * 
+     *
      * This framework applies only to `AppEmbed` and `SearchEmbed`.
      * @param - Includes the following parameters:
      * - `payload`: The payload received from the embed related to the Data API call.
@@ -3642,7 +3623,7 @@ export enum EmbedEvent {
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     SpotterConversationSelected = 'spotterConversationSelected',
-    
+
     /**
      * @hidden
      * Emitted when the auth token is about to get expired and needs to be refreshed.
@@ -4605,7 +4586,7 @@ export enum HostEvent {
      *      tml.answer.search_query // TML representation of the search query
      *   );
      * })
-    * ```
+     * ```
      * @example
      * ```js
      * // Get TML from search context
@@ -4726,9 +4707,9 @@ export enum HostEvent {
      * Trigger the **Download** action on charts in
      * the embedded view.
      * Use {@link HostEvent.DownloadAsPng} instead.
-     * 
+     *
      * @version SDK: 1.19.0 | ThoughtSpot: 9.0.0.cl, 9.0.1.sw
-     * 
+     *
      * @deprecated from SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl ,9.4.1.sw
      * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
@@ -5230,21 +5211,6 @@ export enum HostEvent {
      */
     SetHiddenTabs = 'SetPinboardHiddenTabs',
     /**
-     * Updates the search query string for Natural Language Search operations.
-     * @param - Includes the following keys:
-     * - `queryString`: Text string in Natural Language format.
-     * - `executeSearch`: Boolean to execute search and update search query.
-     * @example
-     * ```js
-     * sageEmbed.trigger(HostEvent.UpdateSageQuery, {
-     *  queryString: 'revenue per year',
-     *  executeSearch: true,
-     * })
-     * ```
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
-     */
-    UpdateSageQuery = 'updateSageQuery',
-    /**
      * Get the Answer session for a Search or
      * Liveboard visualization.
      *
@@ -5402,7 +5368,7 @@ export enum HostEvent {
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
-    UpdatePersonalizedView = UpdatePersonalisedView,    
+    UpdatePersonalizedView = UpdatePersonalisedView,
     /**
      * Triggers selection of a specific Personalized View on a
      * Liveboard without reloading the embed. Pass either a
@@ -5716,7 +5682,7 @@ export enum HostEvent {
     /**
      * @hidden
      * Get the current context of the embedded page.
-     * 
+     *
      * @example
      * ```js
      * const context = await liveboardEmbed.trigger(HostEvent.GetPageContext);
@@ -5813,7 +5779,6 @@ export enum Param {
     HideNotification = 'hideNotification',
     HideApplicationSwitcher = 'applicationSwitcherHidden',
     HideOrgSwitcher = 'orgSwitcherHidden',
-    IsSageEmbed = 'isSageEmbed',
     HideWorksheetSelector = 'hideWorksheetSelector',
     DisableWorksheetChange = 'disableWorksheetChange',
     HideSourceSelection = 'hideSourceSelection',
@@ -5864,7 +5829,6 @@ export enum Param {
     HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
     IsEnhancedFilterInteractivityEnabled = 'isLiveboardPermissionV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
-    IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
@@ -6888,7 +6852,7 @@ export enum Action {
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
-    PersonalizedViewsDropdown = PersonalisedViewsDropdown,    
+    PersonalizedViewsDropdown = PersonalisedViewsDropdown,
     /**
      * Action ID for show or hide the user details on a
      * Liveboard (Recently visited / social proof)
@@ -7211,11 +7175,11 @@ export enum Action {
      */
     CoverAndFilterOptionInPDF = 'coverAndFilterOptionInPDF',
     /**
-    * Action ID to hide or disable the Coaching workflow in Spotter conversations.
-    * When disabled, users cannot access **Add to Coaching** workflow in conversation.
-    * The **Add to Coaching** feature allows adding reference questions and
-    * business terms to improve Spotter’s responses. This feature is generally available
-    * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
+     * Action ID to hide or disable the Coaching workflow in Spotter conversations.
+     * When disabled, users cannot access **Add to Coaching** workflow in conversation.
+     * The **Add to Coaching** feature allows adding reference questions and
+     * business terms to improve Spotter’s responses. This feature is generally available
+     * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
@@ -7291,7 +7255,7 @@ export enum Action {
      * @version SDK: 1.43.0 | ThoughtSpot Cloud: 10.15.0.cl
      */
     LiveboardStylePanel = 'liveboardStylePanel',
-     /**
+    /**
      * The **Publish** action for Liveboards, Answers and Models.
      * Opens the publishing modal. It's a parent action for the
      * **Manage Publishing** and **Unpublish** actions if the object
@@ -7303,43 +7267,43 @@ export enum Action {
      * ```
      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
      */
-     Publish = 'publish',
-     /**
-      * The **Manage Publishing** action for Liveboards, Answers and Models.
-      * Opens the same publishing modal as the **Publish** action.
-      * Appears as a child action to the **Publish** action if the
-      * object is already published.
-      * @example
-      * ```js
-      * hiddenActions: [Action.ManagePublishing]
-      * disabledActions: [Action.ManagePublishing]
-      * ```
-      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
-      */
-     ManagePublishing = 'managePublishing',
-     /**
-      * The **Unpublish** action for Liveboards, Answers and Models.
-      * Opens the unpublishing modal. Appears as a child action to
-      * the **Publish** action if the object is already published.
-      * @example
-      * ```js
-      * hiddenActions: [Action.Unpublish]
-      * disabledActions: [Action.Unpublish]
-      * ```
-      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
-      */
-     Unpublish = 'unpublish',
-     /**
-      * The **Parameterize** action for Tables and Connections.
-      * Opens the parameterization modal.
-      * @example
-      * ```js
-      * hiddenActions: [Action.Parameterize]
-      * disabledActions: [Action.Parameterize]
-      * ```
-      * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
-      */
-     Parameterize = 'parameterise',
+    Publish = 'publish',
+    /**
+     * The **Manage Publishing** action for Liveboards, Answers and Models.
+     * Opens the same publishing modal as the **Publish** action.
+     * Appears as a child action to the **Publish** action if the
+     * object is already published.
+     * @example
+     * ```js
+     * hiddenActions: [Action.ManagePublishing]
+     * disabledActions: [Action.ManagePublishing]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    ManagePublishing = 'managePublishing',
+    /**
+     * The **Unpublish** action for Liveboards, Answers and Models.
+     * Opens the unpublishing modal. Appears as a child action to
+     * the **Publish** action if the object is already published.
+     * @example
+     * ```js
+     * hiddenActions: [Action.Unpublish]
+     * disabledActions: [Action.Unpublish]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    Unpublish = 'unpublish',
+    /**
+     * The **Parameterize** action for Tables and Connections.
+     * Opens the parameterization modal.
+     * @example
+     * ```js
+     * hiddenActions: [Action.Parameterize]
+     * disabledActions: [Action.Parameterize]
+     * ```
+     * @version SDK: 1.45.0 | ThoughtSpot Cloud: 26.2.0.cl
+     */
+    Parameterize = 'parameterise',
     /**
      * The **Move to Group** menu action on a Liveboard.
      * Allows moving a visualization to a different group.
@@ -7775,11 +7739,11 @@ export enum LogLevel {
  * Error types emitted by embedded components.
  *
  * These enum values categorize different types of errors that can occur during
- * the lifecycle of an embedded ThoughtSpot component. 
+ * the lifecycle of an embedded ThoughtSpot component.
  * Use {@link EmbedErrorDetailsEvent} and {@link EmbedErrorCodes} to handle specific errors.
  * @version SDK: 1.44.2 | ThoughtSpot: 26.2.0.cl
  * @group Error Handling
- * 
+ *
  * @example
  * Handle specific error types
  * ```js
@@ -7916,7 +7880,7 @@ export enum EmbedErrorCodes {
  *
  * @example
  * Handle specific error types
- * 
+ *
  * ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   switch (error.code) {
@@ -7930,7 +7894,7 @@ export enum EmbedErrorCodes {
  * ```
  * @example
  * Handle multiple error messages
- * 
+ *
  * ```js
  * embed.on(EmbedEvent.Error, (error) => {
  *   const messages = Array.isArray(error.message)
@@ -8096,34 +8060,33 @@ export interface ObjectIds {
     modalTitle?: string;
 }
 
-
 export interface ContextObject {
     /**
      * Stack of context objects.
      */
-   stack: Array<{
+    stack: Array<{
+        /**
+         * Name of the context object.
+         */
+        name: string;
+        /**
+         * Type of the context object.
+         */
+        type: ContextType;
+        /**
+         * Object IDs of the context object.
+         */
+        objectIds: ObjectIds;
+    }>;
     /**
-     * Name of the context object.
+     * Current context object.
      */
-    name: string;
-    /**
-     * Type of the context object.
-     */
-    type: ContextType;
-    /**
-     * Object IDs of the context object.
-     */
-    objectIds: ObjectIds;
-   }>
-   /**
-    * Current context object.
-    */
-   currentContext: {
-    /**
-     * Name of the current context object.
-     */
-    name: string;
-    type: ContextType;
-    objectIds: ObjectIds;
-   }
+    currentContext: {
+        /**
+         * Name of the current context object.
+         */
+        name: string;
+        type: ContextType;
+        objectIds: ObjectIds;
+    };
 }

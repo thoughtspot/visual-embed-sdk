@@ -5,7 +5,6 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
 import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed/search-bar';
-import { SageEmbed as _SageEmbed, SageViewConfig } from '../embed/sage';
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
@@ -299,48 +298,6 @@ export const PreRenderedSearchBarEmbed = componentFactory<
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
 
-interface SageEmbedProps extends EmbedProps, SageViewConfig { }
-
-/**
- * React component for LLM based search Sage embed.
- * @example
- * ```tsx
- * function Sage() {
- *  return <SageEmbed
- *      showObjectResults={true}
- *      ... other view config props or event listeners.
- *  />
- * }
- * ```
- */
-export const SageEmbed = componentFactory<typeof _SageEmbed, SageEmbedProps, SageViewConfig>(
-    _SageEmbed,
-);
-
-/**
- * React component for PreRendered Sage embed.
- *
- * PreRenderedSageEmbed will preRender the SageEmbed and will be hidden by
- * default.
- *
- * SageEmbed with preRenderId passed will call showPreRender on the embed.
- * @example
- * ```tsx
- * function LandingPageComponent() {
- *  return <PreRenderedSageEmbed preRenderId="someId" showObjectResults={true} />
- * }
- * ```
- * function MyComponent() {
- *  return <SageEmbed preRenderId="someId" showObjectResults={true} />
- * }
- * ```
- */
-export const PreRenderedSageEmbed = componentFactory<
-    typeof _SageEmbed,
-    SageEmbedProps & PreRenderProps,
-    SageViewConfig
->(_SageEmbed, true);
-
 interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
 
@@ -409,24 +366,24 @@ type SpotterMessageProps = {
 
 /**
  * React component for displaying individual conversation messages from SpotterAgent.
- * 
+ *
  * This component renders a single message response from your ThoughtSpot conversation,
  * showing charts, visualizations, or text responses based on the user's query.
- * 
+ *
  * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
  * const result = await sendMessage('show me sales by region');
- * 
+ *
  * if (!result.error) {
  *   // Simple usage - just pass the message data
  *   <SpotterMessage message={result.message} />
- *   
+ *
  *   // With optional query for context
- *   <SpotterMessage 
- *     message={result.message} 
- *     query={result.query} 
+ *   <SpotterMessage
+ *     message={result.message}
+ *     query={result.query}
  *   />
  * }
  * ```
@@ -436,7 +393,7 @@ export const SpotterMessage = React.forwardRef<
     SpotterMessageProps
 >((props, ref) => {
     const { message, query: _, ...otherProps } = props;
-    
+
     return (
         <ConversationMessage
             ref={ref}
@@ -475,7 +432,6 @@ type EmbedComponent = typeof SearchEmbed
     | typeof AppEmbed
     | typeof LiveboardEmbed
     | typeof SearchBarEmbed
-    | typeof SageEmbed
     | typeof ConversationMessage
     | typeof SpotterMessage
     | typeof SpotterEmbed
@@ -527,20 +483,20 @@ export function useInit(config: EmbedConfig) {
 
 /**
  * React hook for interacting with SpotterAgent AI conversations.
- * 
+ *
  * This hook provides a sendMessage function that allows you to send natural language
  * queries to your data and get back AI-generated responses with visualizations.
- * 
+ *
  * @version SDK: 1.39.0 | ThoughtSpot: 10.11.0.cl
  * @param config - Configuration object containing worksheetId and other options
  * @returns Object with sendMessage function that returns conversation results
  * @example
  * ```tsx
  * const { sendMessage } = useSpotterAgent({ worksheetId: 'worksheetId' });
- * 
+ *
  * const handleQuery = async () => {
  *   const result = await sendMessage('show me sales by region');
- *   
+ *
  *   if (!result.error) {
  *     // Display the message response
  *     <SpotterMessage message={result.message} />
@@ -552,14 +508,14 @@ export function useInit(config: EmbedConfig) {
  */
 export function useSpotterAgent(config: SpotterAgentEmbedViewConfig) {
     const serviceRef = useRef<_SpotterAgentEmbed | null>(null);
-    
+
     useDeepCompareEffect(() => {
         if (serviceRef.current) {
             serviceRef.current = null;
         }
-        
+
         serviceRef.current = new _SpotterAgentEmbed(config);
-        
+
         return () => {
             serviceRef.current = null;
         };
