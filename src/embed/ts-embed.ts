@@ -1602,6 +1602,9 @@ export class TsEmbed {
         try {
             this.removeFullscreenChangeHandler();
             this.unsubscribeToEvents();
+            if (!this.isRendered) {
+                return;
+            }
             if (!getEmbedConfig().waitForCleanupOnDestroy) {
                 this.trigger(HostEvent.DestroyEmbed)
                 this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
@@ -1610,10 +1613,14 @@ export class TsEmbed {
                 Promise.race([
                     this.trigger(HostEvent.DestroyEmbed),
                     new Promise((resolve) => setTimeout(resolve, cleanupTimeout)),
-                ]).then(() => {
-                    this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
-                }).catch((e) => {
+                ]).catch((e) => {
                     logger.log('Error destroying TS Embed', e);
+                }).finally(() => {
+                    try {
+                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                    } catch (e) {
+                        logger.log('Error removing DOM element on destroy', e);
+                    }
                 });
             }
         } catch (e) {
