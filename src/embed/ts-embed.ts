@@ -1616,7 +1616,11 @@ export class TsEmbed {
                 ]).catch((e) => {
                     logger.log('Error destroying TS Embed', e);
                 }).finally(() => {
-                    this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                    try {
+                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                    } catch (e) {
+                        logger.log('Error removing DOM element on destroy', e);
+                    }
                 });
             }
         } catch (e) {
