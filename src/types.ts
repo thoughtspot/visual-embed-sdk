@@ -593,6 +593,7 @@ export interface EmbedConfig {
      */
     logLevel?: LogLevel;
     /**
+     * @hidden
      * Disables the Mixpanel tracking from the SDK.
      * @version SDK: 1.27.9
      */
