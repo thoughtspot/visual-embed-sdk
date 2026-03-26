@@ -75,7 +75,7 @@
         "ts-deepmerge": "^6.0.2",
         "tslib": "^2.5.3",
         "use-deep-compare-effect": "^1.8.1",
-        "yaml": "^2.5.1"
+        "yaml": "^2.8.3"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
