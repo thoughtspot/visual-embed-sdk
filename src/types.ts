@@ -595,6 +595,7 @@ export interface EmbedConfig {
     /**
      * Disables the Mixpanel tracking from the SDK.
      * @version SDK: 1.27.9
+     * @hidden
      */
     disableSDKTracking?: boolean;
     /**
