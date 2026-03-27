@@ -728,6 +728,15 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Enables the stop answer generation button in the Spotter embed UI,
+     * allowing users to interrupt an ongoing answer generation.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default false
+     */
+    enableStopAnswerGenerationEmbed?: boolean;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -862,6 +871,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
@@ -892,6 +902,9 @@ export class AppEmbed extends V1Embed {
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(enableStopAnswerGenerationEmbed)) {
+            params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
         }
 
         // Handle spotterChatConfig params
