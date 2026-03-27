@@ -69,13 +69,13 @@
     },
     "dependencies": {
         "classnames": "^2.3.1",
-        "eventemitter3": "^4.0.7",
+        "eventemitter3": "^5.0.4",
         "lodash": "^4.17.23",
-        "mixpanel-browser": "2.47.0",
-        "ts-deepmerge": "^6.0.2",
+        "mixpanel-browser": "2.74.0",
+        "ts-deepmerge": "^7.0.3",
         "tslib": "^2.5.3",
         "use-deep-compare-effect": "^1.8.1",
-        "yaml": "^2.5.1"
+        "yaml": "^2.8.3"
     },
     "devDependencies": {
         "@mdx-js/mdx": "^1.6.22",
