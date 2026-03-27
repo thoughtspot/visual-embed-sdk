@@ -10,6 +10,7 @@ import { EmbedEvent } from '../../types';
 import { embedEventStatus } from '../../utils';
 
 describe('hostEventClient utils', () => {
+
     describe('isValidUpdateFiltersPayload', () => {
         it('returns false for undefined', () => {
             expect(isValidUpdateFiltersPayload(undefined)).toBe(false);
@@ -19,13 +20,19 @@ describe('hostEventClient utils', () => {
             expect(isValidUpdateFiltersPayload({})).toBe(false);
         });
 
-        it('returns true for valid filter', () => {
+        it('returns true for valid filter with column', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: { column: 'region', oper: 'EQ', values: ['North'] },
             } as any)).toBe(true);
         });
 
-        it('returns true for valid filters array', () => {
+        it('returns true for valid filter with columnName', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { columnName: 'region', oper: 'EQ', values: ['North'] },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for valid filters array with column', () => {
             expect(isValidUpdateFiltersPayload({
                 filters: [
                     { column: 'x', oper: 'IN', values: ['a', 'b'] },
@@ -34,23 +41,32 @@ describe('hostEventClient utils', () => {
             } as any)).toBe(true);
         });
 
-        // it('returns false for filter with missing column', () => {
-        //     expect(isValidUpdateFiltersPayload({
-        //         filter: { oper: 'EQ', values: ['a'] },
-        //     } as any)).toBe(false);
-        // });
+        it('returns true for valid filters array with columnName', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    { columnName: 'x', oper: 'IN', values: ['a', 'b'] },
+                    { columnName: 'y', oper: 'EQ', values: ['c'] },
+                ],
+            } as any)).toBe(true);
+        });
 
-        // it('returns false for filter with missing oper', () => {
-        //     expect(isValidUpdateFiltersPayload({
-        //         filter: { column: 'x', values: ['a'] },
-        //     } as any)).toBe(false);
-        // });
+        it('returns false for filter with missing column/columnName', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { oper: 'EQ', values: ['a'] },
+            } as any)).toBe(false);
+        });
 
-        // it('returns false for filter with non-array values', () => {
-        //     expect(isValidUpdateFiltersPayload({
-        //         filter: { column: 'x', oper: 'EQ', values: 'a' },
-        //     } as any)).toBe(false);
-        // });
+        it('returns false for filter with missing oper', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', values: ['a'] },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for filter with non-array values', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: 'a' },
+            } as any)).toBe(false);
+        });
 
         it('returns false for empty filters array', () => {
             expect(isValidUpdateFiltersPayload({ filters: [] } as any)).toBe(false);
@@ -66,7 +82,7 @@ describe('hostEventClient utils', () => {
             expect(isValidDrillDownPayload({})).toBe(false);
         });
 
-        it('returns false for empty points', () => {
+        it('returns false for empty points object', () => {
             expect(isValidDrillDownPayload({ points: {} } as any)).toBe(false);
         });
 

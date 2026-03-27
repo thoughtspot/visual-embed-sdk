@@ -8,8 +8,21 @@ export function isValidUpdateFiltersPayload(
 ): boolean {
   if (!payload) return false;
 
-  const isValidFilter = (f: { column?: string; oper?: string; values?: unknown[], type?: string }) =>
-    !!f && typeof f.column === 'string' && typeof f.oper === 'string' && Array.isArray(f.values) && f.type ? typeof f.type === 'string' : true;
+  const isValidFilter = (f: { 
+    column?: string; 
+    oper?: string; 
+    values?: unknown[]; 
+    type?: string; 
+    columnName?: string; 
+    operator?: string 
+  }) => {
+    const hasColumn = typeof f.column === 'string' || typeof f.columnName === 'string';
+    const hasOperator = typeof f.oper === 'string' || typeof f.operator === 'string';
+    const hasValues = Array.isArray(f.values);
+    const validType = !f.type || typeof f.type === 'string';
+  
+    return hasColumn && hasOperator && hasValues && validType;
+  };
 
   const hasValidFilter = payload.filter && isValidFilter(payload.filter);
   const hasValidFilters = Array.isArray(payload.filters) && payload.filters.length > 0 && payload.filters.every(isValidFilter);
