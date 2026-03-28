@@ -10,6 +10,10 @@ import { EmbedEvent } from '../../types';
 import { embedEventStatus } from '../../utils';
 
 describe('hostEventClient utils', () => {
+
+    // =========================
+    // UpdateFilters Validation
+    // =========================
     describe('isValidUpdateFiltersPayload', () => {
         it('returns false for undefined', () => {
             expect(isValidUpdateFiltersPayload(undefined)).toBe(false);
@@ -19,9 +23,21 @@ describe('hostEventClient utils', () => {
             expect(isValidUpdateFiltersPayload({})).toBe(false);
         });
 
-        it('returns true for valid filter', () => {
+        it('returns true for valid filter with column', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: { column: 'region', oper: 'EQ', values: ['North'] },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for valid filter with columnName', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { columnName: 'region', oper: 'EQ', values: ['North'] },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for filter with operator instead of oper', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'region', operator: 'EQ', values: ['North'] },
             } as any)).toBe(true);
         });
 
@@ -34,13 +50,31 @@ describe('hostEventClient utils', () => {
             } as any)).toBe(true);
         });
 
-        it('returns false for filter with missing column', () => {
+        it('returns true for valid filters array with columnName', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    { columnName: 'x', oper: 'IN', values: ['a', 'b'] },
+                    { columnName: 'y', oper: 'EQ', values: ['c'] },
+                ],
+            } as any)).toBe(true);
+        });
+
+        it('returns false if one filter in filters array is invalid', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    { column: 'x', oper: 'EQ', values: ['a'] },
+                    { column: 'y', values: ['b'] }, // invalid
+                ],
+            } as any)).toBe(false);
+        });
+
+        it('returns false for filter with missing column/columnName', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: { oper: 'EQ', values: ['a'] },
             } as any)).toBe(false);
         });
 
-        it('returns false for filter with missing oper', () => {
+        it('returns false for filter with missing operator', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: { column: 'x', values: ['a'] },
             } as any)).toBe(false);
@@ -52,11 +86,39 @@ describe('hostEventClient utils', () => {
             } as any)).toBe(false);
         });
 
+        it('returns false for filter with non-string type', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: ['a'], type: 123 },
+            } as any)).toBe(false);
+        });
+
+        it('returns true for filter with valid string type', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: ['a'], type: 'STRING' },
+            } as any)).toBe(true);
+        });
+
         it('returns false for empty filters array', () => {
             expect(isValidUpdateFiltersPayload({ filters: [] } as any)).toBe(false);
         });
+
+        it('returns false if filters is not an array', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: 'invalid',
+            } as any)).toBe(false);
+        });
+
+        it('returns true if filter is valid even when filters is invalid', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: ['a'] },
+                filters: [{ column: 'y' }], // invalid
+            } as any)).toBe(true);
+        });
     });
 
+    // =========================
+    // DrillDown Validation
+    // =========================
     describe('isValidDrillDownPayload', () => {
         it('returns false for undefined', () => {
             expect(isValidDrillDownPayload(undefined)).toBe(false);
@@ -66,7 +128,7 @@ describe('hostEventClient utils', () => {
             expect(isValidDrillDownPayload({})).toBe(false);
         });
 
-        it('returns false for empty points', () => {
+        it('returns false for empty points object', () => {
             expect(isValidDrillDownPayload({ points: {} } as any)).toBe(false);
         });
 
@@ -97,16 +159,42 @@ describe('hostEventClient utils', () => {
                 points: { selectedPoints: [] },
             } as any)).toBe(false);
         });
+
+        it('returns false if clickedPoint is null', () => {
+            expect(isValidDrillDownPayload({
+                points: { clickedPoint: null },
+            } as any)).toBe(false);
+        });
+
+        it('returns false if selectedPoints is not an array', () => {
+            expect(isValidDrillDownPayload({
+                points: { selectedPoints: 'invalid' },
+            } as any)).toBe(false);
+        });
+
+        it('returns false if both clickedPoint and selectedPoints are invalid', () => {
+            expect(isValidDrillDownPayload({
+                points: { clickedPoint: null, selectedPoints: [] },
+            } as any)).toBe(false);
+        });
     });
 
+    // =========================
+    // Error Handling
+    // =========================
     describe('createValidationError', () => {
-        it('throws with message and embedErrorDetails', () => {
+        it('throws with message', () => {
             expect(() => createValidationError('test error')).toThrow('test error');
+        });
 
+        it('throws Error instance with metadata', () => {
             try {
                 createValidationError('custom msg');
             } catch (err: any) {
+                expect(err).toBeInstanceOf(Error);
                 expect(err.isValidationError).toBe(true);
+                expect(err.embedErrorDetails).toBeDefined();
+
                 expect(err.embedErrorDetails).toMatchObject({
                     type: EmbedEvent.Error,
                     data: {
