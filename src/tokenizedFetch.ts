@@ -29,6 +29,8 @@ export const tokenizedFetch: typeof fetch = async (input, init): Promise<Respons
     }
 
     const req = new Request(input, init);
+    req.headers.append('Content-Type', 'application/json');
+    req.headers.append('Accept', 'application/json');
     const authToken = await getAuthenticationToken(embedConfig);
     if (authToken) {
         req.headers.append('Authorization', `Bearer ${authToken}`);
