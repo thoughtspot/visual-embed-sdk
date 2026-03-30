@@ -50,7 +50,7 @@ jobs:
           echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
       
       - name: Update npm
-        run: npm install -g npm@10 # use npm@10 for OIDC
+        run: npm install -g npm@11.5.1 # use npm@10 for OIDC
       
       # Run npm install
       - name: Run npm install
