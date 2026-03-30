@@ -71,7 +71,7 @@
         "classnames": "^2.3.1",
         "eventemitter3": "^5.0.4",
         "lodash": "^4.17.23",
-        "mixpanel-browser": "2.74.0",
+        "mixpanel-browser": "2.47.0",
         "ts-deepmerge": "^7.0.3",
         "tslib": "^2.5.3",
         "use-deep-compare-effect": "^1.8.1",
