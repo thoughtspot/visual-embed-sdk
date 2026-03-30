@@ -50,7 +50,7 @@ jobs:
           echo "::set-output name=LATEST_TAG::$(git tag -l | sort -V | tail -n 1)"           
       
       - name: Update npm
-        run: npm install -g npm@10 # use npm@10 for OIDC
+        run: npm install -g npm@11.5.1 # use npm@11.5.1 for OIDC
       
       # Run npm install
       - name: Run npm install
@@ -80,6 +80,8 @@ jobs:
             echo "Publishing from $BRANCH_NAME branch with tag: $NPM_TAG"
             npm publish --tag $NPM_TAG
           fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Draft Release
         if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
