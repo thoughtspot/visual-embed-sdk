@@ -427,6 +427,47 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set enablePbVizDataCaching to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enablePbVizDataCaching: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enablePbVizDataCaching=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set enablePbVizDataCaching to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enablePbVizDataCaching: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enablePbVizDataCaching=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not set enablePbVizDataCaching in url when not provided', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('enablePbVizDataCaching');
+        });
+    });
+
     test('should render viz', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

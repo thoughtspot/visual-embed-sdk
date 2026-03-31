@@ -5901,6 +5901,7 @@ export enum Param {
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
+    EnablePbVizDataCaching = 'enablePbVizDataCaching',
 }
 
 /**

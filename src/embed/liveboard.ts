@@ -534,6 +534,19 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * If set to true, enables visualization data caching on the Liveboard.
+     * @type {boolean}
+     * @version SDK: 1.37.0 | ThoughtSpot: 10.7.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enablePbVizDataCaching: true,
+     * })
+     * ```
+     */
+    enablePbVizDataCaching?: boolean;
 }
 
 /**
@@ -627,6 +640,7 @@ export class LiveboardEmbed extends V1Embed {
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
+            enablePbVizDataCaching,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -742,6 +756,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isContinuousLiveboardPDFEnabled !== undefined) {
             params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
+        }
+
+        if (enablePbVizDataCaching !== undefined) {
+            params[Param.EnablePbVizDataCaching] = enablePbVizDataCaching;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

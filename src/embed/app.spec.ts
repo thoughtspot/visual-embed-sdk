@@ -1208,6 +1208,44 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enablePbVizDataCaching to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePbVizDataCaching: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePbVizDataCaching=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set enablePbVizDataCaching to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enablePbVizDataCaching: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePbVizDataCaching=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set enablePbVizDataCaching in url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('enablePbVizDataCaching');
+        });
+    });
+
     test('Should add HomePageSearchBarMode flag with object search to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
