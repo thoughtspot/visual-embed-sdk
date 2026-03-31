@@ -913,7 +913,9 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
-        params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
+        if (isUnifiedSearchExperienceEnabled !== undefined) {
+            params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
+        }
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
         params = this.getBaseQueryParams(params);
