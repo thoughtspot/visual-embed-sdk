@@ -494,11 +494,11 @@ describe('HostEventClient', () => {
             const { client } = createHostEventClient();
             mockProcessTrigger
                 .mockResolvedValueOnce(mockGetAvailablePassthroughs())
-                .mockResolvedValueOnce([{ value: { v2Content: 'exportData' } }]);
+                .mockResolvedValueOnce([{ value: { data: { v2Content: 'exportData' }, type: 'getExportRequestForCurrentPinboard' } }]);
 
             const result = await client.triggerHostEvent(HostEvent.getExportRequestForCurrentPinboard, {});
 
-            expect(result).toEqual({ v2Content: 'exportData' });
+            expect(result).toEqual({ data: { v2Content: 'exportData' }, type: 'getExportRequestForCurrentPinboard' });
         });
 
         it('should fall back to legacy for GetFilters when passthrough returns null', async () => {
