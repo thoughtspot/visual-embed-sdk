@@ -508,6 +508,15 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Enables the stop answer generation button in the Spotter embed UI,
+     * allowing users to interrupt an ongoing answer generation.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default false
+     */
+    enableStopAnswerGenerationEmbed?: boolean;
+    /**
      * Configuration for customizing Spotter chat UI
      * branding in tool response cards.
      *
@@ -614,6 +623,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
@@ -640,6 +650,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(enableStopAnswerGenerationEmbed)) {
+            params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
         }
         if (visibleVizs) {
             params[Param.visibleVizs] = visibleVizs;
