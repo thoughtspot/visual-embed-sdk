@@ -104,11 +104,12 @@ Enforce this canonical tag order within every JSDoc block:
 
 ### 11. SDK-to-ThoughtSpot Version Mapping
 - The `@version` tag must follow the canonical mapping between SDK and ThoughtSpot Cloud versions.
-- If the version pairing in a PR does not match this sequence, flag it for review by a TSE (ThoughtSpot Embedded) developer.
+- If the version pairing in a PR does not match this sequence, automatically correct it to match the canonical mapping below.
 - Update this mapping when releasing new SDK versions.
 - **Current mapping:**
   - `@version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl`
   - `@version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl`
+  - `@version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl`
 
 ### 12. Boolean Params for ThoughtSpot: Prefer `undefined` Over `false`
 - **ThoughtSpot behavior:** On the ThoughtSpot side, `undefined` (omitted param) is treated as falsy. There is no need to explicitly pass `false` when a flag is not set.
@@ -133,4 +134,32 @@ isPNGInScheduledEmailsEnabled = false,
 // ...
 params[Param.IsPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
 // Result: ?isPNGInScheduledEmailsEnabled=false added to URL even when not needed
+```
+
+### 13. Deprecated Terminology Detection and Flagging
+- When reviewing JSDoc/TSDoc comments, identify and flag any use of deprecated ThoughtSpot terminology.
+- Deprecated terms in documentation must be flagged for the developer to update to the current equivalent.
+- **Deprecated terms mapping:**
+  | Deprecated Term | Current Equivalent |
+  |---|---|
+  | Worksheet | Model / LogicalModel |
+  | Dashboard / Pinboard | Liveboard |
+  | SpotIQ | Cortex / Analysis |
+
+**Example — flag and report:**
+```
+❌ FOUND: "Worksheet" in line 42 JSDoc
+   @param worksheetId - The ID of the Worksheet.
+
+FLAG FOR UPDATE: Replace "Worksheet" with "Model" or "LogicalModel"
+```
+
+**Example — correct documentation:**
+```ts
+/**
+ * Retrieves a Model by ID.
+ * @param modelId - The unique identifier of the Model.
+ * @returns A Model object containing the current state.
+ */
+getModelById(modelId: string)
 ```
