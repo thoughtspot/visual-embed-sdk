@@ -535,6 +535,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
+     * This flag is used to enable unified search experience for full app embed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
+     * @default true
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    isUnifiedSearchExperienceEnabled: true,
+     * })
+     * ```
+     */
+    isUnifiedSearchExperienceEnabled?: boolean;
+
+    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
      * @deprecated This flag is deprecated.
      *
@@ -861,6 +877,7 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             isEnhancedFilterInteractivityEnabled = false,
             homePageSearchBarMode,
+            isUnifiedSearchExperienceEnabled = false,
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
@@ -896,6 +913,7 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
         params = this.getBaseQueryParams(params);
