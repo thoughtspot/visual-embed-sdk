@@ -3636,6 +3636,20 @@ export enum EmbedEvent {
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      */
     RefreshAuthToken = 'RefreshAuthToken',
+    /**
+     * Emitted when a user clicks the **Send Test Email** button in the
+     * Liveboard schedule modal. Requires `isSendNowLiveboardSchedulingEnabled`
+     * to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SendTestScheduleEmail, (payload) => {
+     *     console.log('Send test email', payload);
+     *     // payload: { liveboardId: string, sendToSelf: boolean }
+     * })
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
 }
 
 /**
@@ -5336,7 +5350,8 @@ export enum HostEvent {
      * ```js
      * // Get parameters from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * liveboardEmbed.trigger(HostEvent.GetParameters, {}, ContextType.Liveboard).then((parameters) => {
+     * liveboardEmbed.trigger(HostEvent.GetParameters, {},
+     * ContextType.Liveboard).then((parameters) => {
      *     console.log('parameters', parameters);
      * });
      * ```
@@ -5690,6 +5705,26 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     GetPageContext = 'GetPageContext',
+    /**
+     * Trigger the **Send Test Email** action in the Liveboard schedule modal.
+     * Sends a test schedule email to self or all recipients.
+     * Requires `isSendNowLiveboardSchedulingEnabled` to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SendTestScheduleEmail, {
+     *     sendToSelf: true,
+     * })
+     * ```
+     * @example
+     * ```js
+     * // Send to all recipients
+     * liveboardEmbed.trigger(HostEvent.SendTestScheduleEmail, {
+     *     sendToSelf: false,
+     * })
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
 }
 
 /**
@@ -5846,6 +5881,7 @@ export enum Param {
     IsWYSIWYGLiveboardPDFEnabled = 'isWYSIWYGLiveboardPDFEnabled',
     isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
+    isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
@@ -7481,6 +7517,18 @@ export enum Action {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      */
     IncludeCurrentPeriod = 'includeCurrentPeriod',
+    /**
+     * The **Send Test Email** button in the Liveboard schedule modal.
+     * Allows sending a test schedule email to self or all recipients.
+     * Requires `isSendNowLiveboardSchedulingEnabled` to be enabled.
+     * @example
+     * ```js
+     * disabledActions: [Action.SendTestScheduleEmail]
+     * hiddenActions: [Action.SendTestScheduleEmail]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
