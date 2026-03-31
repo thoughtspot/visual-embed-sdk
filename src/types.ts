@@ -3636,6 +3636,42 @@ export enum EmbedEvent {
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      */
     RefreshAuthToken = 'RefreshAuthToken',
+
+    /**
+     * Triggered whenever the page context changes, returning the current context along with the navigation stack.
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.EmbedPageContextChanged, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.47.2 | ThoughtSpot: 26.3.0.cl
+     */
+    EmbedPageContextChanged = 'EmbedPageContextChanged',
+
+    /**
+     * Represents a special embed event that is triggered whenever any host event is subscribed.
+     *
+     * You can listen to this event when you need to dispatch a host event during load or render,
+     * particularly in situations where timing issues may occur.
+     *
+     * @example
+     * ```js
+     * embed.on(`${HostEvent.Save} Subscribed`, () => {
+     *     // make action
+     * });
+     * ```
+     * 
+     * @example
+     * ```js
+     * embed.on(subscribedEvent(HostEvent.Save), () => {
+     *     // make action
+     * });
+     * ```
+     * @version SDK: 1.47.2 | ThoughtSpot: 26.4.0.cl
+     */
+    Subscribed = 'Subscribed'
+    
 }
 
 /**

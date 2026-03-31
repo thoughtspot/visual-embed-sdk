@@ -1542,6 +1542,21 @@ export class TsEmbed {
     }
 
     /**
+     * Generates the event name for a "Subscribed" embed event.
+     *
+     * This helper appends the "Subscribed" suffix to a given host or action event,
+     * allowing you to listen for subscription lifecycle events in a consistent format.
+     *
+     * @param eventName - The host or action event to generate the subscribed event name for.
+     * @returns The formatted event name (e.g., "Save Subscribed").
+     * 
+     * @version SDK: 1.47.2 | ThoughtSpot: 26.3.0.cl
+     */
+    public subscribedEvent(eventName: HostEvent | Action): string {
+        return `${eventName} ${EmbedEvent.Subscribed}`;
+    }
+
+    /**
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
