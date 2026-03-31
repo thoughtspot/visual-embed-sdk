@@ -538,13 +538,13 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * This flag is used to enable unified search experience for full app embed.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
-     * @default true
+     * @version SDK: 1.34.0 | ThoughtSpot Cloud: 10.5.0.cl
+     * @default false
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    isUnifiedSearchExperienceEnabled: true,
+     *    isUnifiedSearchExperienceEnabled: false,
      * })
      * ```
      */
