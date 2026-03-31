@@ -3668,7 +3668,7 @@ export enum EmbedEvent {
      *     // make action
      * });
      * ```
-     * @version SDK: 1.47.2 | ThoughtSpot: 26.4.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.4.0.cl
      */
     Subscribed = 'Subscribed',
     
