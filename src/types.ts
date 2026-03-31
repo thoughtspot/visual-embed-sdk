@@ -6223,7 +6223,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DownloadLiveboard]
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DownloadLiveboard = 'downloadLiveboard',
     /**
@@ -6236,6 +6236,26 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
+    /**
+     * The **Download Liveboard as XLSX** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as an XLSX file.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsXlsx]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsXlsx = 'downloadLiveboardAsXlsx',
+    /**
+     * The **Download Liveboard as CSV** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as a CSV file.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsCsv]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsCsv = 'downloadLiveboardAsCsv',
     /**
      * @hidden
      */
