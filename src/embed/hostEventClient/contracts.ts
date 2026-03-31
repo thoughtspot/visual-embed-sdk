@@ -138,7 +138,7 @@ export type UIPassthroughContractBase = {
     request: Record<string, never>;
     response: {
       data: { v2Content: string };
-      type: string;
+      type: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
     };
   };
   [UIPassthroughEvent.UpdateFilters]: {
