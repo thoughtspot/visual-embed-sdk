@@ -61,7 +61,7 @@ const testSetIframeHeightBehavior = (
         ...defaultViewConfig,
         fullHeight: true,
     } as AppViewConfig) as any;
-    
+
     const spySetIFrameHeight = shouldBeCalled
         ? jest.spyOn(appEmbed, 'setIFrameHeight').mockImplementation(jest.fn())
         : jest.spyOn(appEmbed, 'setIFrameHeight');
@@ -876,6 +876,51 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardReverifyBanner=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add isUnifiedSearchExperienceEnabled flag to the iframe src', async () => {
+        // Case 1: explicitly true
+        const appEmbedTrue = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isUnifiedSearchExperienceEnabled: true,
+        } as AppViewConfig);
+
+        appEmbedTrue.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+        appEmbedTrue.destroy();
+
+        // Case 2: explicitly false
+        const appEmbedFalse = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isUnifiedSearchExperienceEnabled: false,
+        } as AppViewConfig);
+
+        appEmbedFalse.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+        appEmbedFalse.destroy();
+
+        // Case 3: not provided — defaults to false
+        const appEmbedDefault = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbedDefault.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
