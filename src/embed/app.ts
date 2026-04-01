@@ -788,7 +788,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * If set to true, enables visualization data caching on the Liveboard.
      * @type {boolean}
-     * @version SDK: 1.37.0 | ThoughtSpot: 10.7.0.cl
+     * @version SDK: 1.47.2 | ThoughtSpot: 26.5.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
