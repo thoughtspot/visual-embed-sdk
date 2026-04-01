@@ -788,16 +788,16 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * If set to true, enables visualization data caching on the Liveboard.
      * @type {boolean}
-     * @version SDK: 1.47.2 | ThoughtSpot: 26.5.0.cl
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
-     *    enablePbVizDataCaching: true,
+     *    enableLiveboardDataCache: true,
      * })
      * ```
      */
-    enablePbVizDataCaching?: boolean;
+    enableLiveboardDataCache?: boolean;
 }
 
 /**
@@ -907,7 +907,7 @@ export class AppEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled,
-            enablePbVizDataCaching,
+            enableLiveboardDataCache,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1050,8 +1050,8 @@ export class AppEmbed extends V1Embed {
 
         this.defaultHeight = minimumHeight || this.defaultHeight;
 
-        if (enablePbVizDataCaching !== undefined) {
-            params[Param.EnablePbVizDataCaching] = enablePbVizDataCaching;
+        if (enableLiveboardDataCache !== undefined) {
+            params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
         }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;

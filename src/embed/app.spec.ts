@@ -1208,41 +1208,41 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set enablePbVizDataCaching to true in url', async () => {
+    test('should set enableLiveboardDataCache to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            enablePbVizDataCaching: true,
+            enableLiveboardDataCache: true,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePbVizDataCaching=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=true${defaultParamsPost}#/home`,
             );
         });
     });
 
-    test('should set enablePbVizDataCaching to false in url', async () => {
+    test('should set enableLiveboardDataCache to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            enablePbVizDataCaching: false,
+            enableLiveboardDataCache: false,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enablePbVizDataCaching=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=false${defaultParamsPost}#/home`,
             );
         });
     });
 
-    test('should not set enablePbVizDataCaching in url when not provided', async () => {
+    test('should not set enableLiveboardDataCache in url when not provided', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).not.toContain('enablePbVizDataCaching');
+            expect(getIFrameSrc()).not.toContain('enableLiveboardDataCache');
         });
     });
 

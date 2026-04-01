@@ -427,9 +427,9 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should set enablePbVizDataCaching to true in url', async () => {
+    test('should set enableLiveboardDataCache to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            enablePbVizDataCaching: true,
+            enableLiveboardDataCache: true,
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
@@ -437,14 +437,14 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enablePbVizDataCaching=true${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableLiveboardDataCache=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
 
-    test('should set enablePbVizDataCaching to false in url', async () => {
+    test('should set enableLiveboardDataCache to false in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            enablePbVizDataCaching: false,
+            enableLiveboardDataCache: false,
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
@@ -452,19 +452,19 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enablePbVizDataCaching=false${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableLiveboardDataCache=false${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
 
-    test('should not set enablePbVizDataCaching in url when not provided', async () => {
+    test('should not set enableLiveboardDataCache in url when not provided', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
-            expect(getIFrameSrc()).not.toContain('enablePbVizDataCaching');
+            expect(getIFrameSrc()).not.toContain('enableLiveboardDataCache');
         });
     });
 
