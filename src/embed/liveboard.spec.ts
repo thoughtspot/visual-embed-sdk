@@ -427,6 +427,47 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set enableLiveboardDataCache to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enableLiveboardDataCache: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableLiveboardDataCache=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set enableLiveboardDataCache to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            enableLiveboardDataCache: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&enableLiveboardDataCache=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not set enableLiveboardDataCache in url when not provided', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('enableLiveboardDataCache');
+        });
+    });
+
     test('should render viz', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

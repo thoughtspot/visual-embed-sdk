@@ -1208,6 +1208,44 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enableLiveboardDataCache to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableLiveboardDataCache: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set enableLiveboardDataCache to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableLiveboardDataCache: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set enableLiveboardDataCache in url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('enableLiveboardDataCache');
+        });
+    });
+
     test('Should add HomePageSearchBarMode flag with object search to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

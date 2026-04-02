@@ -5937,6 +5937,7 @@ export enum Param {
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
+    EnableLiveboardDataCache = 'enableLiveboardDataCache',
 }
 
 /**

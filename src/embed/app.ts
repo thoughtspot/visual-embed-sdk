@@ -785,6 +785,19 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     enableHomepageAnnouncement?: boolean;
+    /**
+     * If set to true, enables visualization data caching on the Liveboard.
+     * @type {boolean}
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableLiveboardDataCache: true,
+     * })
+     * ```
+     */
+    enableLiveboardDataCache?: boolean;
 }
 
 /**
@@ -894,6 +907,7 @@ export class AppEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled,
+            enableLiveboardDataCache,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1035,6 +1049,10 @@ export class AppEmbed extends V1Embed {
         }
 
         this.defaultHeight = minimumHeight || this.defaultHeight;
+
+        if (enableLiveboardDataCache !== undefined) {
+            params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
+        }
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
