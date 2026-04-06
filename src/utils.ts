@@ -6,7 +6,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import merge from 'ts-deepmerge';
+import { merge } from 'ts-deepmerge';
 import {
     EmbedConfig,
     QueryParams,
