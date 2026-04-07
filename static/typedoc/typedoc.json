@@ -27128,7 +27128,7 @@
 				},
 				{
 					"id": 2641,
-					"name": "muzeChartPhase1EnabledGA",
+					"name": "newChartsLibrary",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
@@ -27140,7 +27140,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.46.4 | ThoughtSpot: 26.6.0.cl"
+								"text": "SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl"
 							},
 							{
 								"tag": "default",
@@ -27148,7 +27148,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   muzeChartPhase1EnabledGA: true,\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   newChartsLibrary: true,\n})\n```\n"
 							}
 						]
 					},
@@ -27165,7 +27165,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"name": "AllEmbedViewConfig.muzeChartPhase1EnabledGA"
+						"name": "AllEmbedViewConfig.newChartsLibrary"
 					}
 				},
 				{
@@ -41744,7 +41744,7 @@
 				},
 				{
 					"id": 2537,
-					"name": "muzeChartPhase1EnabledGA",
+					"name": "newChartsLibrary",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
@@ -41756,7 +41756,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.46.4 | ThoughtSpot: 26.6.0.cl"
+								"text": "SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl"
 							},
 							{
 								"tag": "default",
@@ -41764,7 +41764,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   muzeChartPhase1EnabledGA: true,\n})\n```\n"
+								"text": "\n```js\n// Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed\nconst embed = new <EmbedComponent>('#tsEmbed', {\n   ... // other embed view config\n   newChartsLibrary: true,\n})\n```\n"
 							}
 						]
 					},
@@ -41781,7 +41781,7 @@
 					},
 					"inheritedFrom": {
 						"type": "reference",
-						"name": "LiveboardAppEmbedViewConfig.muzeChartPhase1EnabledGA"
+						"name": "LiveboardAppEmbedViewConfig.newChartsLibrary"
 					}
 				},
 				{
@@ -46240,7 +46240,7 @@
 				},
 				{
 					"id": 2350,
-					"name": "muzeChartPhase1EnabledGA",
+					"name": "newChartsLibrary",
 					"kind": 1024,
 					"kindString": "Property",
 					"flags": {
@@ -46252,7 +46252,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.46.4 | ThoughtSpot: 26.6.0.cl"
+								"text": "SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl"
 							},
 							{
 								"tag": "default",
@@ -46260,7 +46260,7 @@
 							},
 							{
 								"tag": "example",
-								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   muzeChartPhase1EnabledGA: true,\n})\n```\n"
+								"text": "\n```js\nconst embed = new SearchEmbed('#tsEmbed', {\n   ... // other embed view config\n   newChartsLibrary: true,\n})\n```\n"
 							}
 						]
 					},

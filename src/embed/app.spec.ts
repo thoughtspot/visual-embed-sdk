@@ -805,11 +805,11 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA true to the iframe src', async () => {
+    test('Should add newChartsLibrary true to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: false,
-            muzeChartPhase1EnabledGA: true,
+            newChartsLibrary: true,
         } as AppViewConfig);
 
         appEmbed.render();
@@ -821,11 +821,11 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA false to the iframe src', async () => {
+    test('Should add newChartsLibrary false to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: false,
-            muzeChartPhase1EnabledGA: false,
+            newChartsLibrary: false,
         } as AppViewConfig);
 
         appEmbed.render();
@@ -837,7 +837,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should not add muzeChartPhase1EnabledGA to the iframe src when not specified', async () => {
+    test('Should not add newChartsLibrary to the iframe src when not specified', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             showPrimaryNavbar: false,

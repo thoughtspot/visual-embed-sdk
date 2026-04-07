@@ -634,11 +634,11 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA flag set to true to the iframe src', async () => {
+    test('Should add newChartsLibrary flag set to true to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            muzeChartPhase1EnabledGA: true,
+            newChartsLibrary: true,
         } as LiveboardViewConfig);
 
         liveboardEmbed.render();
@@ -650,11 +650,11 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA flag set to false to the iframe src', async () => {
+    test('Should add newChartsLibrary flag set to false to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            muzeChartPhase1EnabledGA: false,
+            newChartsLibrary: false,
         } as LiveboardViewConfig);
 
         liveboardEmbed.render();

@@ -327,11 +327,11 @@ export interface SearchViewConfig
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    muzeChartPhase1EnabledGA: true,
+     *    newChartsLibrary: true,
      * })
      * ```
      */
-    muzeChartPhase1EnabledGA?: boolean;
+    newChartsLibrary?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -420,7 +420,7 @@ export class SearchEmbed extends TsEmbed {
             excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
             isThisPeriodInDateFiltersEnabled,
-            muzeChartPhase1EnabledGA,
+            newChartsLibrary,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -467,8 +467,8 @@ export class SearchEmbed extends TsEmbed {
             queryParams[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
-        if (muzeChartPhase1EnabledGA !== undefined) {
-            queryParams[Param.EnableNewChartLibrary] = muzeChartPhase1EnabledGA;
+        if (newChartsLibrary !== undefined) {
+            queryParams[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;

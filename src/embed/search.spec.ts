@@ -524,10 +524,10 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA flag set to true to the iframe src', async () => {
+    test('Should add newChartsLibrary flag set to true to the iframe src', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
-            muzeChartPhase1EnabledGA: true,
+            newChartsLibrary: true,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
@@ -538,10 +538,10 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('Should add muzeChartPhase1EnabledGA flag set to false to the iframe src', async () => {
+    test('Should add newChartsLibrary flag set to false to the iframe src', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
-            muzeChartPhase1EnabledGA: false,
+            newChartsLibrary: false,
         });
         searchEmbed.render();
         await executeAfterWait(() => {

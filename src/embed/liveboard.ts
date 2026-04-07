@@ -619,7 +619,7 @@ export class LiveboardEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
-            muzeChartPhase1EnabledGA,
+            newChartsLibrary,
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
@@ -763,8 +763,8 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
         }
 
-        if (muzeChartPhase1EnabledGA !== undefined) {
-            params[Param.EnableNewChartLibrary] = muzeChartPhase1EnabledGA;
+        if (newChartsLibrary !== undefined) {
+            params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

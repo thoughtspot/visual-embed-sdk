@@ -2005,11 +2005,11 @@ export interface LiveboardAppEmbedViewConfig {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    muzeChartPhase1EnabledGA: true,
+     *    newChartsLibrary: true,
      * })
      * ```
      */
-    muzeChartPhase1EnabledGA?: boolean;
+    newChartsLibrary?: boolean;
 }
 
 export interface AllEmbedViewConfig
