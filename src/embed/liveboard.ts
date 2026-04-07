@@ -761,6 +761,7 @@ export class LiveboardEmbed extends V1Embed {
 
         if (enableLiveboardDataCache !== undefined) {
             params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
+        }
 
         if (muzeChartPhase1EnabledGA !== undefined) {
             params[Param.EnableNewChartLibrary] = muzeChartPhase1EnabledGA;
