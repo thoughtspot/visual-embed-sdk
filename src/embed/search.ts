@@ -321,7 +321,7 @@ export interface SearchViewConfig
      * Enable or disable Muze chart phase 1 GA
      *
      * Supported embed types: `SearchEmbed`
-     * @version SDK: 1.46.4 | ThoughtSpot: 26.6.0.cl
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      * @default false
      * @example
      * ```js
