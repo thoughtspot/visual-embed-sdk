@@ -1,11 +1,10 @@
 name: Auto Documentation Generation
 
 on:
-  pull_request:
-    branches: [main]
-    types: [closed]
-    paths-ignore:
-      - 'static/typedoc/typedoc.json'
+  schedule:
+    # '30 8' = 08:30 UTC | '*' = every day/month | '1' = Monday
+    - cron: '30 8 * * 1'
+  workflow_dispatch: # Allows you to trigger it manually via the Actions tab
 
 # Added permissions to allow the bot to push code
 permissions:
@@ -14,7 +13,6 @@ permissions:
 jobs:
   docgen:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout code
