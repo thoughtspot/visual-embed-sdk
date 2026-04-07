@@ -3686,6 +3686,20 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+    /**
+     * Emitted when a user clicks the **Refresh** button in the
+     * Liveboard header. Requires `enableLiveboardDataCache`
+     * to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.RefreshLiveboardBrowserCache, (payload) => {
+     *     console.log('Send test email', payload);
+     *     // payload: { liveboardId: string, sendToSelf: boolean }
+     * })
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 
 /**
@@ -5761,6 +5775,25 @@ export enum HostEvent {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache, {
+     *     sendToSelf: true,
+     * })
+     * ```
+     * @example
+     * ```js
+     * // Send to all recipients
+     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache, {
+     *     sendToSelf: false,
+     * })
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -7586,6 +7619,17 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * disabledActions: [Action.RefreshLiveboardBrowserCache]
+     * hiddenActions: [Action.RefreshLiveboardBrowserCache]
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
