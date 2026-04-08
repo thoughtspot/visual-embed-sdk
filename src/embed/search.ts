@@ -317,6 +317,21 @@ export interface SearchViewConfig
      * ```
      */
     focusSearchBarOnRender?: boolean;
+    /**
+     * Enable or disable Muze chart phase 1 GA
+     *
+     * Supported embed types: `SearchEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    newChartsLibrary: true,
+     * })
+     * ```
+     */
+    newChartsLibrary?: boolean;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -405,6 +420,7 @@ export class SearchEmbed extends TsEmbed {
             excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
             isThisPeriodInDateFiltersEnabled,
+            newChartsLibrary,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -449,6 +465,10 @@ export class SearchEmbed extends TsEmbed {
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             queryParams[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
+        if (newChartsLibrary !== undefined) {
+            queryParams[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;

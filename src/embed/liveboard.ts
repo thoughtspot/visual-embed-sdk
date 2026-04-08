@@ -619,6 +619,7 @@ export class LiveboardEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
+            newChartsLibrary,
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
@@ -760,6 +761,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (enableLiveboardDataCache !== undefined) {
             params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
+        }
+
+        if (newChartsLibrary !== undefined) {
+            params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;

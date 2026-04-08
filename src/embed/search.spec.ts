@@ -524,6 +524,34 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('Should add newChartsLibrary flag set to true to the iframe src', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newChartsLibrary: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=true&muzeChartPhase1EnabledGA=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('Should add newChartsLibrary flag set to false to the iframe src', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newChartsLibrary: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=true&muzeChartPhase1EnabledGA=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,

@@ -634,6 +634,38 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('Should add newChartsLibrary flag set to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            newChartsLibrary: true,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&muzeChartPhase1EnabledGA=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('Should add newChartsLibrary flag set to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            newChartsLibrary: false,
+        } as LiveboardViewConfig);
+
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&muzeChartPhase1EnabledGA=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('Should add hideIrrelevantFiltersAtTabLevel flag to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
