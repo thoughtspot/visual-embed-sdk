@@ -8,6 +8,7 @@ import {
 import { AuthType } from './types';
 import { SessionInfo } from './utils/sessionInfoService';
 import { logger } from './utils/logger';
+import pkgInfo from '../package.json';
 
 const config = {
     thoughtSpotHost: 'https://10.87.89.232',
@@ -60,6 +61,7 @@ describe('Unit test for mixpanel', () => {
             clusterName: sessionInfo.clusterName,
             releaseVersion: sessionInfo.releaseVersion,
             hostAppUrl: 'localhost',
+            sdkVersion: pkgInfo.version,
         });
         expect(mixpanel.identify).not.toHaveBeenCalledWith(sessionInfo.userGUID);
     });
