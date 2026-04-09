@@ -67,7 +67,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
-import pkgInfo from '../../package.json';
+import { version } from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
     getInitPromise,
@@ -79,8 +79,6 @@ import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
-
-const { version } = pkgInfo;
 
 /**
  * Global prefix for all ThoughtSpot postHash Params.
