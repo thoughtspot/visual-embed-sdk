@@ -23,7 +23,6 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
     ContextType,
-    SpotterFileUploadFileTypes,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -494,35 +493,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     showSpotterLimitations?: boolean;
     /**
-     * Enables file upload in the Spotter chat interface.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    // ...other options
-     *    spotterFileUploadEnabled: true,
-     * })
-     * ```
-     */
-    spotterFileUploadEnabled?: boolean;
-    /**
-     * Restricts the allowed file types for Spotter file upload.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    // ...other options
-     *    spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
-     * })
-     * ```
-     */
-    spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
-    /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `LiveboardEmbed`
@@ -664,8 +634,6 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardXLSXCSVDownloadEnabled = false,
             isGranularXLSXCSVSchedulesEnabled = false,
             showSpotterLimitations,
-            spotterFileUploadEnabled,
-            spotterFileUploadFileTypes,
 
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
@@ -763,23 +731,23 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
         }
 
-        if (spotterFileUploadEnabled !== undefined) {
-            params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
-        }
-
-        if (spotterFileUploadFileTypes !== undefined) {
-            params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
-        }
-
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            if (spotterFileUploadEnabled !== undefined) {
+                params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (spotterFileUploadFileTypes !== undefined) {
+                params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         if (isLinkParametersEnabled !== undefined) {

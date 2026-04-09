@@ -755,35 +755,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     enableStopAnswerGenerationEmbed?: boolean;
     /**
-     * Enables file upload in the Spotter chat interface.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterFileUploadEnabled: true,
-     * })
-     * ```
-     */
-    spotterFileUploadEnabled?: boolean;
-    /**
-     * Restricts the allowed file types for Spotter file upload.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
-     * })
-     * ```
-     */
-    spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
-    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -941,8 +912,6 @@ export class AppEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
-            spotterFileUploadEnabled,
-            spotterFileUploadFileTypes,
 
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
@@ -990,18 +959,18 @@ export class AppEmbed extends V1Embed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
-        }
-
-        if (spotterFileUploadEnabled !== undefined) {
-            params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
-        }
-
-        if (spotterFileUploadFileTypes !== undefined) {
-            params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            if (spotterFileUploadEnabled !== undefined) {
+                params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (spotterFileUploadFileTypes !== undefined) {
+                params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         if (hideObjectSearch) {
