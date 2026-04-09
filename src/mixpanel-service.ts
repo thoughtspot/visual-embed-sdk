@@ -2,7 +2,7 @@ import * as mixpanel from 'mixpanel-browser';
 import { logger } from './utils/logger';
 import { SessionInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
-import pkgInfo from '../package.json';
+import { version } from '../package.json';
 
 export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',
@@ -81,7 +81,7 @@ export function initMixpanel(sessionInfo: SessionInfo): void {
                 clusterName: sessionInfo.clusterName,
                 releaseVersion: sessionInfo.releaseVersion,
                 hostAppUrl: window?.location?.host || '',
-                sdkVersion: pkgInfo.version,
+                sdkVersion: version,
             });
             isMixpanelInitialized = true;
             emptyQueue();
