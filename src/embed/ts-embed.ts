@@ -1160,6 +1160,7 @@ export class TsEmbed {
         data: any,
         eventPort?: MessagePort | void,
     ): void {
+        logger.log(`[EmbedEvent fired]: ${eventType}`);
         const eventHandlers = this.eventHandlerMap.get(eventType) || [];
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
         const callbacks = [...eventHandlers, ...allHandlers];
@@ -1413,6 +1414,7 @@ export class TsEmbed {
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+        logger.log(`[HostEvent triggered]: ${messageType}`);
 
         if (!this.isRendered) {
             this.handleError({
