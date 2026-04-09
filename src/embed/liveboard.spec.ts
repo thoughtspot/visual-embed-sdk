@@ -1252,6 +1252,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set spotterFileUploadEnabled parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterFileUploadEnabled: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&spotterFileUploadEnabled=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set spotterFileUploadFileTypes parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                spotterFileUploadFileTypes: JSON.stringify({ types: ['image/png', 'application/pdf'] }),
+            });
+        });
+    });
+
     test('should render the liveboard embed with updatedSpotterChatPrompt', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
