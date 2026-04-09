@@ -1256,7 +1256,7 @@ describe('Liveboard/viz embed tests', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            spotterFileUploadEnabled: true,
+            spotterChatConfig: { spotterFileUploadEnabled: true },
         } as LiveboardViewConfig);
         await liveboardEmbed.render();
         await executeAfterWait(() => {
@@ -1271,7 +1271,7 @@ describe('Liveboard/viz embed tests', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
-            spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
+            spotterChatConfig: { spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] } },
         } as LiveboardViewConfig);
         await liveboardEmbed.render();
         await executeAfterWait(() => {

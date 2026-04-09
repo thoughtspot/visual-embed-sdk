@@ -113,6 +113,21 @@ export interface SpotterChatViewConfig {
      * External MCP tool branding is not affected.
      */
     toolResponseCardBrandingLabel?: string;
+    /**
+     * Enables file upload in the Spotter chat interface.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
+     * @default false
+     */
+    spotterFileUploadEnabled?: boolean;
+    /**
+     * Restricts the allowed file types for Spotter file upload.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
+     */
+    spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
 }
 
 /**
@@ -190,35 +205,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     showSpotterLimitations?: boolean;
-    /**
-     * Enables file upload in the Spotter chat interface.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterFileUploadEnabled: true,
-     * })
-     * ```
-     */
-    spotterFileUploadEnabled?: boolean;
-    /**
-     * Restricts the allowed file types for Spotter file upload.
-     *
-     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
-     * })
-     * ```
-     */
-    spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
     /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
@@ -443,8 +429,6 @@ export class SpotterEmbed extends TsEmbed {
             hideSourceSelection,
             dataPanelV2,
             showSpotterLimitations,
-            spotterFileUploadEnabled,
-            spotterFileUploadFileTypes,
 
             hideSampleQuestions,
             runtimeFilters,
@@ -472,10 +456,6 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.HideSourceSelection, hideSourceSelection, true);
         setParamIfDefined(queryParams, Param.DataPanelV2Enabled, dataPanelV2, true);
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
-        setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
-        if (spotterFileUploadFileTypes !== undefined) {
-            queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
-        }
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
@@ -485,10 +465,16 @@ export class SpotterEmbed extends TsEmbed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
+            if (spotterFileUploadFileTypes !== undefined) {
+                queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         return queryParams;

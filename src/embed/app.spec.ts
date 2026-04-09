@@ -584,7 +584,7 @@ describe('App embed tests', () => {
     test('should set spotterFileUploadEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            spotterFileUploadEnabled: true,
+            spotterChatConfig: { spotterFileUploadEnabled: true },
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
@@ -598,7 +598,7 @@ describe('App embed tests', () => {
     test('should set spotterFileUploadFileTypes in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
+            spotterChatConfig: { spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] } },
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
