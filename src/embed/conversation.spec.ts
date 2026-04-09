@@ -358,7 +358,7 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            spotterFileUploadEnabled: true,
+            spotterChatConfig: { spotterFileUploadEnabled: true },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -375,7 +375,7 @@ describe('ConversationEmbed', () => {
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] },
+            spotterChatConfig: { spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] } },
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
