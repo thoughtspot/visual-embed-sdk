@@ -1,6 +1,6 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualOverridesPayload } from '../types';
 import { TsEmbed } from './ts-embed';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
@@ -360,6 +360,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 export interface SpotterAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        visualOverridesParams?: VisualOverridesPayload | null;
     };
 }
 

@@ -15,6 +15,7 @@ import {
     SearchLiveboardCommonViewConfig,
     DefaultAppInitData,
     BaseViewConfig,
+    VisualOverridesPayload,
 } from '../types';
 import {
     getQueryParamString,
@@ -332,6 +333,13 @@ export interface SearchViewConfig
      * ```
      */
     newChartsLibrary?: boolean;
+
+    /**
+    * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
+    * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
+    * @version SDK: 1.47.0
+    */
+    visualOverrides?: VisualOverridesPayload;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -344,6 +352,9 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 export interface SearchAppInitData extends DefaultAppInitData {
     searchOptions?: SearchOptions;
+    embedParams?: {
+        visualOverridesParams?: VisualOverridesPayload | null;
+    };
 }
 
 /**
@@ -395,7 +406,21 @@ export class SearchEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return { ...defaultAppInitData, ...this.getSearchInitData() };
+        const result: SearchAppInitData = {
+            ...defaultAppInitData,
+            ...this.getSearchInitData(),
+        };
+
+        if (this.viewConfig.visualOverrides) {
+            result.embedParams = {
+                ...((defaultAppInitData as any).embedParams || {}),
+                visualOverridesParams: this.viewConfig.visualOverrides,
+            };
+        } else if ((defaultAppInitData as any).embedParams) {
+            result.embedParams = (defaultAppInitData as any).embedParams;
+        }
+
+        return result;
     }
 
     protected getEmbedParamsObject() {

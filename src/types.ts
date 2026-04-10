@@ -8214,3 +8214,170 @@ export interface ContextObject {
         objectIds: ObjectIds;
     };
 }
+
+
+// ─── Visual Overrides ────────────────────────────────────────────────────────
+
+export interface FontProperties {
+    color?: string;
+    bold?: boolean;
+    italic?: boolean;
+    strikeThrough?: boolean;
+    underline?: boolean;
+}
+
+export interface SolidBackgroundAttrs {
+    color?: string;
+}
+
+export interface GradientBackgroundAttrs {
+    backgroundFormatMidpoint?: number;
+    colors?: string[];
+    backgroundFormatRange?: number[];
+    isAutoScaled?: boolean;
+}
+
+export interface ConditionalFormattingRow {
+    operator: string;
+    value?: string;
+    rangeValues?: { min: number; max: number };
+    plotAsBand?: boolean;
+    isHighlightRow?: boolean;
+    comparisonType?: 'VALUE_BASED' | 'COLUMN_BASED' | 'PARAMETER_BASED';
+    lhsColumnId?: string;
+    columnToCompare?: string;
+    comparisonParameterId?: string;
+    fontProperties?: FontProperties;
+    backgroundFormatType?: 'SOLID' | 'GRADIENT';
+    solidBackgroundAttrs?: SolidBackgroundAttrs;
+    gradientBackgroundAttrs?: GradientBackgroundAttrs;
+}
+
+export interface ConditionalFormatting {
+    rows?: ConditionalFormattingRow[];
+}
+
+export interface ColorPalette {
+    colors?: string[];
+}
+
+export interface ChartLegend {
+    show?: boolean;
+    position?: 'top' | 'bottom' | 'left' | 'right';
+    colorPalette?: ColorPalette;
+}
+
+export interface DataLabelFilter {
+    value?: number;
+    operator?: string;
+}
+
+export interface ColumnDataLabel {
+    name: string;
+    visible?: boolean;
+    filter?: DataLabelFilter | null;
+}
+
+export interface ChartDataLabel {
+    allLabels?: boolean;
+    stackLabels?: boolean;
+    columnDataLabel?: ColumnDataLabel[];
+}
+
+export interface ChartSummaries {
+    showRowTotals?: boolean;
+    showColumnTotals?: boolean;
+    showRowGrandTotals?: boolean;
+    showColumnGrandTotals?: boolean;
+}
+
+export interface GridLine {
+    x?: boolean;
+    y?: boolean;
+}
+
+export interface ChartDisplay {
+    summaries?: ChartSummaries;
+    regressionLine?: boolean;
+    gridLine?: GridLine;
+}
+
+export interface YAxisRange {
+    min?: number;
+    max?: number;
+}
+
+export interface ChartAxis {
+    linkedColumns?: string[];
+    showName?: boolean;
+    showLabelValue?: boolean;
+    yAxisRange?: YAxisRange;
+}
+
+export interface ChartColumn {
+    name: string;
+    color?: string;
+    conditionalFormatting?: ConditionalFormatting;
+}
+
+export interface ChartOverrides {
+    legend?: ChartLegend;
+    dataLabel?: ChartDataLabel;
+    display?: ChartDisplay;
+    axis?: ChartAxis[];
+    columns?: ChartColumn[];
+    updateMaskPaths?: string[];
+}
+
+export interface TableColumn {
+    name: string;
+    wrapText?: boolean;
+    show?: boolean;
+    conditionalFormatting?: ConditionalFormatting;
+}
+
+export interface TableDisplay {
+    tableTheme?: string;
+    tableContentDensity?: string;
+}
+
+export interface ColumnSummaryVisibility {
+    columnId: string;
+    visible: boolean;
+}
+
+export interface DisplaySummaryConfig {
+    showAllSummaries?: boolean;
+    columnVisibility?: ColumnSummaryVisibility[];
+}
+
+export interface TableOverrides {
+    columns?: TableColumn[];
+    display?: TableDisplay;
+    displaySummaryConfig?: DisplaySummaryConfig;
+    updateMaskPaths?: string[];
+}
+
+/**
+ * Visual overrides payload to customize chart and table rendering
+ * within embedded ThoughtSpot components.
+ *
+ * @example
+ * ```js
+ * const embed = new AppEmbed('#tsEmbed', {
+ *   visualOverrides: {
+ *     chart: {
+ *       legend: { show: true, position: 'bottom' },
+ *       columns: [{ name: 'Revenue', color: '#1f77b4' }],
+ *     },
+ *     table: {
+ *       display: { tableTheme: 'ZEBRA', tableContentDensity: 'COMPACT' },
+ *     },
+ *   },
+ * });
+ * ```
+ */
+export interface VisualOverridesPayload {
+    chart?: ChartOverrides;
+    table?: TableOverrides;
+}

@@ -18,6 +18,7 @@ import {
     MessagePayload,
     AllEmbedViewConfig,
     DefaultAppInitData,
+    VisualOverridesPayload,
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
@@ -798,6 +799,13 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     enableLiveboardDataCache?: boolean;
+
+    /**
+     * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
+     * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
+     * @version SDK: 1.47.0
+     */
+    visualOverrides?: VisualOverridesPayload;
 }
 
 /**
@@ -807,6 +815,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        visualOverridesParams?: VisualOverridesPayload | null;
     };
 }
 
@@ -844,6 +853,8 @@ export class AppEmbed extends V1Embed {
      *
      * An invalid `spotterDocumentationUrl` triggers a validation error and is
      * excluded from the payload rather than forwarded to the app.
+     *
+     * Also sets `embedParams.visualOverridesParams` from {@link AppViewConfig.visualOverrides}.
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();

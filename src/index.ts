@@ -169,3 +169,4 @@ export {
 
 export { resetCachedAuthToken } from './authToken';
 export { startAutoMCPFrameRenderer } from './embed/auto-frame-renderer';
+export type { VisualOverridesPayload } from './types';
