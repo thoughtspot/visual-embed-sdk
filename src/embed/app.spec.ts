@@ -22,6 +22,7 @@ import {
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
     postMessageToParent,
+    testVisualOverridesInEmbed,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -1875,33 +1876,8 @@ describe('AppEmbed visualOverrides tests', () => {
             visualOverrides,
         } as AppViewConfig);
 
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
-
         mockMessageChannel();
-        appEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 
     test('should not include visualOverridesParams when visualOverrides is not provided', async () => {
@@ -1949,33 +1925,8 @@ describe('AppEmbed visualOverrides tests', () => {
             visualOverrides,
         } as AppViewConfig);
 
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
-
         mockMessageChannel();
-        appEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 
     test('should pass visualOverrides with both chart and table configs', async () => {
@@ -1997,33 +1948,8 @@ describe('AppEmbed visualOverrides tests', () => {
             visualOverrides,
         } as AppViewConfig);
 
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
-
         mockMessageChannel();
-        appEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
 

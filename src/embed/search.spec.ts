@@ -17,6 +17,7 @@ import {
     expectUrlMatchesWithParams,
     getIFrameEl,
     postMessageToParent,
+    testVisualOverridesInEmbed,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import { SearchBarEmbed } from './search-bar';
@@ -854,32 +855,8 @@ describe('SearchEmbed visualOverrides tests', () => {
             ...defaultViewConfig,
             visualOverrides,
         });
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
 
-        searchEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
     });
 
     test('should not include visualOverridesParams when visualOverrides is not provided', async () => {
@@ -931,32 +908,8 @@ describe('SearchEmbed visualOverrides tests', () => {
             ...defaultViewConfig,
             visualOverrides,
         });
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
 
-        searchEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
     });
 
     test('should pass visualOverrides with table config', async () => {
@@ -972,31 +925,7 @@ describe('SearchEmbed visualOverrides tests', () => {
             ...defaultViewConfig,
             visualOverrides,
         });
-        const mockEmbedEventPayload = {
-            type: EmbedEvent.APP_INIT,
-            data: {},
-        };
 
-        searchEmbed.render();
-
-        const mockPort: any = {
-            postMessage: jest.fn(),
-        };
-
-        await executeAfterWait(() => {
-            const iframe = getIFrameEl();
-            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
-        });
-
-        await executeAfterWait(() => {
-            expect(mockPort.postMessage).toHaveBeenCalledWith({
-                type: EmbedEvent.APP_INIT,
-                data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        visualOverridesParams: visualOverrides,
-                    }),
-                }),
-            });
-        });
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
     });
 });

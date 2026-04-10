@@ -416,8 +416,6 @@ export class SearchEmbed extends TsEmbed {
                 ...((defaultAppInitData as any).embedParams || {}),
                 visualOverridesParams: this.viewConfig.visualOverrides,
             };
-        } else if ((defaultAppInitData as any).embedParams) {
-            result.embedParams = (defaultAppInitData as any).embedParams;
         }
 
         return result;

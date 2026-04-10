@@ -854,7 +854,8 @@ export class AppEmbed extends V1Embed {
      * An invalid `spotterDocumentationUrl` triggers a validation error and is
      * excluded from the payload rather than forwarded to the app.
      *
-     * Also sets `embedParams.visualOverridesParams` from {@link AppViewConfig.visualOverrides}.
+     * Also sets `embedParams.visualOverridesParams` from
+     * {@link AppViewConfig.visualOverrides}.
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
