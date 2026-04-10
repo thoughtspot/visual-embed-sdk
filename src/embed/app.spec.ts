@@ -21,6 +21,7 @@ import {
     defaultParamsForPinboardEmbed,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    postMessageToParent,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -1856,6 +1857,173 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
         } as AppViewConfig);
         await appEmbed.render();
         expect(appEmbed['defaultHeight']).toBe(700);
+    });
+});
+
+describe('AppEmbed visualOverrides tests', () => {
+    test('should include visualOverridesParams in APP_INIT when visualOverrides config is provided', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'bottom' as const,
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        visualOverridesParams: visualOverrides,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include visualOverridesParams when visualOverrides is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.visualOverridesParams).toBeUndefined();
+            }
+        });
+    });
+
+    test('should pass visualOverrides with table config in AppEmbed', async () => {
+        const visualOverrides = {
+            table: {
+                display: {
+                    tableTheme: 'ZEBRA',
+                    tableContentDensity: 'COMPACT',
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        visualOverridesParams: visualOverrides,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should pass visualOverrides with both chart and table configs', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'right' as const,
+                },
+            },
+            table: {
+                display: {
+                    tableTheme: 'STRIPED',
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        visualOverridesParams: visualOverrides,
+                    }),
+                }),
+            });
+        });
     });
 });
 
