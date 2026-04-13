@@ -5955,7 +5955,17 @@ export enum Param {
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
     EnableLiveboardDataCache = 'enableLiveboardDataCache',
+    SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
+    SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
 }
+
+/**
+ * Configuration for allowed file types in Spotter file upload.
+ * @group Embed components
+ */
+export type SpotterFileUploadFileTypes = {
+    types?: string[];
+};
 
 /**
  * ThoughtSpot application pages include actions and menu commands
