@@ -117,7 +117,7 @@ export interface SpotterChatViewConfig {
      * Enables file upload in the Spotter chat interface.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      * @default false
      */
     spotterFileUploadEnabled?: boolean;
@@ -125,7 +125,7 @@ export interface SpotterChatViewConfig {
      * Restricts the allowed file types for Spotter file upload.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.49.0 | ThoughtSpot: 27.0.0.cl
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
 }
@@ -429,7 +429,6 @@ export class SpotterEmbed extends TsEmbed {
             hideSourceSelection,
             dataPanelV2,
             showSpotterLimitations,
-
             hideSampleQuestions,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
