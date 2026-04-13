@@ -803,7 +803,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
      * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
-     * @version SDK: 1.48.0 | ThoughtSpot: 26.6.0.cl
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
 }
