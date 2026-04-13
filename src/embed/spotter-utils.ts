@@ -2,7 +2,7 @@ import { DefaultAppInitData, ErrorDetailsTypes, EmbedErrorCodes } from '../types
 import { validateHttpUrl } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
 import type { SpotterSidebarViewConfig } from './conversation';
-import type { VisualOverridesPayload } from '../types';
+import type { VisualizationOverrides } from '../types';
 
 /**
  * Resolves enablePastConversationsSidebar with
@@ -23,13 +23,13 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     viewConfig: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         enablePastConversationsSidebar?: boolean;
-        visualOverrides?: VisualOverridesPayload;
+        visualOverrides?: VisualizationOverrides;
     },
     handleError: (err: any) => void,
 ): T & {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
-        visualOverridesParams?: VisualOverridesPayload | null;
+        visualOverridesParams?: VisualizationOverrides | null;
     };
 } {
     const { spotterSidebarConfig, enablePastConversationsSidebar, visualOverrides } = viewConfig;
@@ -73,6 +73,7 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     return {
         ...defaultAppInitData,
         embedParams: {
+            ...((defaultAppInitData as any).embedParams || {}),
             spotterSidebarConfig: resolvedSidebarConfig,
             ...(visualOverrides !== undefined ? { visualOverridesParams: visualOverrides } : {}),
         },

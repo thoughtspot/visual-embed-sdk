@@ -8237,131 +8237,399 @@ export interface GradientBackgroundAttrs {
     isAutoScaled?: boolean;
 }
 
+/**
+ * Data label filter operators
+ * @group Visual Overrides
+ */
+export enum DataLabelFilterOperator {
+    /** Greater than */
+    GreaterThan = 'GREATER_THAN',
+    /** Less than */
+    LessThan = 'LESS_THAN',
+    /** Greater than or equal to */
+    GreaterThanOrEqualTo = 'GREATER_THAN_OR_EQUAL_TO',
+    /** Less than or equal to */
+    LessThanOrEqualTo = 'LESS_THAN_OR_EQUAL_TO',
+    /** Equal to */
+    EqualTo = 'EQUAL_TO',
+    /** Not equal to */
+    NotEqualTo = 'NOT_EQUAL_TO',
+}
+
+/**
+ * Conditional formatting operators
+ * @group Visual Overrides
+ */
+export enum ConditionalFormattingOperator {
+    /** Is equal to */
+    Is = 'IS',
+    /** Is not equal to */
+    IsNot = 'IS_NOT',
+    /** Contains */
+    Contains = 'CONTAINS',
+    /** Does not contain */
+    DoesNotContain = 'DOES_NOT_CONTAIN',
+    /** Starts with */
+    StartsWith = 'STARTS_WITH',
+    /** Ends with */
+    EndsWith = 'ENDS_WITH',
+    /** Greater than */
+    GreaterThan = 'GREATER_THAN',
+    /** Less than */
+    LessThan = 'LESS_THAN',
+    /** Greater than or equal to */
+    GreaterThanEqualTo = 'GREATER_THAN_EQUAL_TO',
+    /** Less than or equal to */
+    LessThanEqualTo = 'LESS_THAN_EQUAL_TO',
+    /** Equal to */
+    EqualTo = 'EQUAL_TO',
+    /** Not equal to */
+    NotEqualTo = 'NOT_EQUAL_TO',
+    /** Is between */
+    IsBetween = 'IS_BETWEEN',
+    /** Is null */
+    IsNull = 'IS_NULL',
+    /** Is not null */
+    IsNotNull = 'IS_NOT_NULL',
+}
+
+/**
+ * Background format types for conditional formatting
+ * @group Visual Overrides
+ */
+export enum BackgroundFormatType {
+    /** Solid color background */
+    Solid = 'SOLID',
+    /** Gradient background */
+    Gradient = 'GRADIENT',
+}
+
+/**
+ * Comparison types for conditional formatting
+ * @group Visual Overrides
+ */
+export enum ConditionalFormattingComparisonType {
+    /** Value-based comparison */
+    ValueBased = 'VALUE_BASED',
+    /** Column-based comparison */
+    ColumnBased = 'COLUMN_BASED',
+    /** Parameter-based comparison */
+    ParameterBased = 'PARAMETER_BASED',
+}
+
+/**
+ * A single conditional formatting rule row
+ * @group Visual Overrides
+ */
 export interface ConditionalFormattingRow {
-    operator: string;
+    /** Comparison operator */
+    operator: ConditionalFormattingOperator | string;
+    /** Value to compare against */
     value?: string;
+    /** Range values for range-based comparisons */
     rangeValues?: { min: number; max: number };
+    /** Plot the formatting as a band/area */
     plotAsBand?: boolean;
+    /** Highlight this row if the condition is met */
     isHighlightRow?: boolean;
-    comparisonType?: 'VALUE_BASED' | 'COLUMN_BASED' | 'PARAMETER_BASED';
+    /** Type of comparison: value-based, column-based, or parameter-based */
+    comparisonType?: ConditionalFormattingComparisonType | string;
+    /** Column ID to apply the formatting to (left-hand side) */
     lhsColumnId?: string;
+    /** Column name to compare against (right-hand side) */
     columnToCompare?: string;
+    /** Parameter ID to compare against */
     comparisonParameterId?: string;
+    /** Font properties to apply (color, bold, italic, etc.) */
     fontProperties?: FontProperties;
-    backgroundFormatType?: 'SOLID' | 'GRADIENT';
+    /** Background format type: solid color or gradient */
+    backgroundFormatType?: BackgroundFormatType | string;
+    /** Solid background color attributes */
     solidBackgroundAttrs?: SolidBackgroundAttrs;
+    /** Gradient background attributes */
     gradientBackgroundAttrs?: GradientBackgroundAttrs;
 }
 
+/**
+ * Conditional formatting configuration
+ * @group Visual Overrides
+ */
 export interface ConditionalFormatting {
+    /** Array of conditional formatting rules */
     rows?: ConditionalFormattingRow[];
 }
 
+/**
+ * Color palette for charts
+ * @group Visual Overrides
+ */
 export interface ColorPalette {
+    /** Array of color values (hex codes or color names) */
     colors?: string[];
 }
 
+/**
+ * Legend position options
+ * @group Visual Overrides
+ */
+export enum LegendPosition {
+    /** Position legend at the top */
+    Top = 'top',
+    /** Position legend at the bottom */
+    Bottom = 'bottom',
+    /** Position legend on the left */
+    Left = 'left',
+    /** Position legend on the right */
+    Right = 'right',
+}
+
+/**
+ * Table theme options
+ * @group Visual Overrides
+ */
+export enum TableTheme {
+    /** Outline theme */
+    Outline = 'OUTLINE',
+    /** Row theme */
+    Row = 'ROW',
+    /** Zebra theme */
+    Zebra = 'ZEBRA',
+}
+
+/**
+ * Table content density options
+ * @group Visual Overrides
+ */
+export enum TableContentDensity {
+    /** Regular density */
+    Regular = 'REGULAR',
+    /** Compact density */
+    Compact = 'COMPACT',
+}
+
+/**
+ * Chart legend configuration
+ * @group Visual Overrides
+ */
 export interface ChartLegend {
+    /** Show or hide the legend */
     show?: boolean;
-    position?: 'top' | 'bottom' | 'left' | 'right';
+    /** Position of the legend */
+    position?: LegendPosition | string;
+    /** Color palette to use for legend colors */
     colorPalette?: ColorPalette;
 }
 
+/**
+ * Filter for data labels
+ * @group Visual Overrides
+ */
 export interface DataLabelFilter {
+    /** Filter threshold value */
     value?: number;
-    operator?: string;
+    /** Filter operator */
+    operator?: DataLabelFilterOperator | string;
 }
 
+/**
+ * Data label configuration for a specific column
+ * @group Visual Overrides
+ */
 export interface ColumnDataLabel {
+    /** Column name to apply data label overrides to */
     name: string;
+    /** Show or hide data labels for this column */
     visible?: boolean;
+    /** Filter to apply to data labels */
     filter?: DataLabelFilter | null;
 }
 
+/**
+ * Chart data label configuration
+ * @group Visual Overrides
+ */
 export interface ChartDataLabel {
+    /** Show labels for all data points */
     allLabels?: boolean;
+    /** Show labels for stacked values */
     stackLabels?: boolean;
+    /** Per-column data label configurations */
     columnDataLabel?: ColumnDataLabel[];
 }
 
+/**
+ * Chart summaries and totals configuration
+ * @group Visual Overrides
+ */
 export interface ChartSummaries {
+    /** Show row totals */
     showRowTotals?: boolean;
+    /** Show column totals */
     showColumnTotals?: boolean;
+    /** Show row grand totals */
     showRowGrandTotals?: boolean;
+    /** Show column grand totals */
     showColumnGrandTotals?: boolean;
 }
 
+/**
+ * Gridline configuration
+ * @group Visual Overrides
+ */
 export interface GridLine {
+    /** Show vertical gridlines */
     x?: boolean;
+    /** Show horizontal gridlines */
     y?: boolean;
 }
 
+/**
+ * Chart display configuration
+ * @group Visual Overrides
+ */
 export interface ChartDisplay {
+    /** Summary and totals configuration */
     summaries?: ChartSummaries;
+    /** Show regression line on chart */
     regressionLine?: boolean;
+    /** Gridline visibility configuration */
     gridLine?: GridLine;
 }
 
+/**
+ * Y-axis range configuration
+ * @group Visual Overrides
+ */
 export interface YAxisRange {
+    /** Minimum value for Y-axis */
     min?: number;
+    /** Maximum value for Y-axis */
     max?: number;
 }
 
+/**
+ * Chart axis configuration
+ * @group Visual Overrides
+ */
 export interface ChartAxis {
+    /** Column names to link to this axis */
     linkedColumns?: string[];
+    /** Show the axis name */
     showName?: boolean;
+    /** Show the axis label values */
     showLabelValue?: boolean;
+    /** Y-axis range configuration */
     yAxisRange?: YAxisRange;
 }
 
+/**
+ * Chart column override configuration
+ * @group Visual Overrides
+ */
 export interface ChartColumn {
+    /** Column name to apply overrides to */
     name: string;
+    /** Color for the column (hex code) */
     color?: string;
+    /** Conditional formatting rules to apply to the column */
     conditionalFormatting?: ConditionalFormatting;
 }
 
+/**
+ * Chart visualization overrides
+ * @group Visual Overrides
+ */
 export interface ChartOverrides {
+    /** Legend configuration */
     legend?: ChartLegend;
+    /** Data label configuration */
     dataLabel?: ChartDataLabel;
+    /** Display properties (summaries, regression line, gridlines) */
     display?: ChartDisplay;
+    /** Per-axis configurations */
     axis?: ChartAxis[];
+    /** Per-column configurations */
     columns?: ChartColumn[];
-    updateMaskPaths?: string[];
-}
-
-export interface TableColumn {
-    name: string;
-    wrapText?: boolean;
-    show?: boolean;
-    conditionalFormatting?: ConditionalFormatting;
-}
-
-export interface TableDisplay {
-    tableTheme?: string;
-    tableContentDensity?: string;
-}
-
-export interface ColumnSummaryVisibility {
-    columnId: string;
-    visible: boolean;
-}
-
-export interface DisplaySummaryConfig {
-    showAllSummaries?: boolean;
-    columnVisibility?: ColumnSummaryVisibility[];
-}
-
-export interface TableOverrides {
-    columns?: TableColumn[];
-    display?: TableDisplay;
-    displaySummaryConfig?: DisplaySummaryConfig;
+    /** Update mask paths for partial updates */
     updateMaskPaths?: string[];
 }
 
 /**
- * Visual overrides payload to customize chart and table rendering
+ * Table column override configuration
+ * @group Visual Overrides
+ */
+export interface TableColumn {
+    /**
+     * Name of the column to apply overrides to
+     */
+    name: string;
+    /**
+     * Enable or disable text wrapping for the column
+     */
+    wrapText?: boolean;
+    /**
+     * Show or hide the column
+     */
+    show?: boolean;
+    /**
+     * Conditional formatting rules to apply to the column
+     */
+    conditionalFormatting?: ConditionalFormatting;
+}
+
+/**
+ * Table display configuration
+ * @group Visual Overrides
+ */
+export interface TableDisplay {
+    /** Table theme */
+    tableTheme?: TableTheme | string;
+    /** Table content density */
+    tableContentDensity?: TableContentDensity | string;
+}
+
+/**
+ * Column summary visibility configuration
+ * @group Visual Overrides
+ */
+export interface ColumnSummaryVisibility {
+    /** Column ID to control summary visibility for */
+    columnId: string;
+    /** Show or hide summary for this column */
+    visible: boolean;
+}
+
+/**
+ * Display summary configuration
+ * @group Visual Overrides
+ */
+export interface DisplaySummaryConfig {
+    /** Show all column summaries by default */
+    showAllSummaries?: boolean;
+    /** Per-column summary visibility overrides */
+    columnVisibility?: ColumnSummaryVisibility[];
+}
+
+/**
+ * Table visualization overrides
+ * @group Visual Overrides
+ */
+export interface TableOverrides {
+    /** Per-column configurations (properties, conditional formatting) */
+    columns?: TableColumn[];
+    /** Table display properties (theme, density) */
+    display?: TableDisplay;
+    /** Summary/headline column visibility configuration */
+    displaySummaryConfig?: DisplaySummaryConfig;
+    /** Update mask paths for partial updates */
+    updateMaskPaths?: string[];
+}
+
+/**
+ * Visualization overrides to customize chart and table rendering
  * within embedded ThoughtSpot components.
  *
+ * @group Visual Overrides
  * @example
  * ```js
  * const embed = new AppEmbed('#tsEmbed', {
@@ -8377,7 +8645,9 @@ export interface TableOverrides {
  * });
  * ```
  */
-export interface VisualOverridesPayload {
+export interface VisualizationOverrides {
+    /** Chart visualization overrides */
     chart?: ChartOverrides;
+    /** Table visualization overrides */
     table?: TableOverrides;
 }

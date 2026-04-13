@@ -15,7 +15,7 @@ import {
     SearchLiveboardCommonViewConfig,
     DefaultAppInitData,
     BaseViewConfig,
-    VisualOverridesPayload,
+    VisualizationOverrides,
 } from '../types';
 import {
     getQueryParamString,
@@ -337,9 +337,9 @@ export interface SearchViewConfig
     /**
     * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
     * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
-    * @version SDK: 1.48.0
+    * @version SDK: 1.48.0 | ThoughtSpot: 26.6.0.cl
     */
-    visualOverrides?: VisualOverridesPayload;
+    visualOverrides?: VisualizationOverrides;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -353,7 +353,7 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 export interface SearchAppInitData extends DefaultAppInitData {
     searchOptions?: SearchOptions;
     embedParams?: {
-        visualOverridesParams?: VisualOverridesPayload | null;
+        visualOverridesParams?: VisualizationOverrides | null;
     };
 }
 

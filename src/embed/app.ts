@@ -18,7 +18,7 @@ import {
     MessagePayload,
     AllEmbedViewConfig,
     DefaultAppInitData,
-    VisualOverridesPayload,
+    VisualizationOverrides,
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
@@ -803,9 +803,9 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
      * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
-     * @version SDK: 1.48.0
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.6.0.cl
      */
-    visualOverrides?: VisualOverridesPayload;
+    visualOverrides?: VisualizationOverrides;
 }
 
 /**
@@ -815,7 +815,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
-        visualOverridesParams?: VisualOverridesPayload | null;
+        visualOverridesParams?: VisualizationOverrides | null;
     };
 }
 
