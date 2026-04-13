@@ -1,0 +1,22 @@
+{
+    "name": "ts-to-any-converter",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "test": "vitest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "mustache": "^4.2.0",
+        "ts-morph": "^25.0.1"
+    },
+    "devDependencies": {
+        "@types/mustache": "^4.2.5",
+        "tsx": "^4.19.3",
+        "vitest": "^3.0.9"
+    }
+}
