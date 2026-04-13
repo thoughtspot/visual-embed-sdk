@@ -912,7 +912,6 @@ export class AppEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
-
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
