@@ -801,8 +801,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     enableLiveboardDataCache?: boolean;
 
     /**
-     * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
-     * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
+     * Visual overrides to customize the chart or table properties`.
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
@@ -815,7 +814,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
-        visualOverridesParams?: VisualizationOverrides | null;
     };
 }
 
@@ -853,9 +851,6 @@ export class AppEmbed extends V1Embed {
      *
      * An invalid `spotterDocumentationUrl` triggers a validation error and is
      * excluded from the payload rather than forwarded to the app.
-     *
-     * Also sets `embedParams.visualOverridesParams` from
-     * {@link AppViewConfig.visualOverrides}.
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();

@@ -335,10 +335,9 @@ export interface SearchViewConfig
     newChartsLibrary?: boolean;
 
     /**
-    * Default visual overrides from `init()` sent on APP_INIT as `visualOverridesParams`
-    * when the embed view config does not set {@link SearchLiveboardCommonViewConfig.visualOverrides}.
-    * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
-    */
+     * Visual overrides to customize the chart or table properties`.
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
     visualOverrides?: VisualizationOverrides;
 }
 
