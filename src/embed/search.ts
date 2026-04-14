@@ -335,7 +335,7 @@ export interface SearchViewConfig
     newChartsLibrary?: boolean;
 
     /**
-     * Visual overrides to customize the chart or table properties`.
+     * Visual overrides to customize the chart or table properties.
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
