@@ -71,6 +71,14 @@ import {
     ErrorDetailsTypes,
     ContextType,
     AutoMCPFrameRendererViewConfig,
+    LegendPosition,
+    BackgroundFormatType,
+    ConditionalFormattingComparisonType,
+    ConditionalFormattingOperator,
+    DataLabelFilterOperator,
+    TableTheme,
+    TableContentDensity,
+    VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
@@ -165,6 +173,14 @@ export {
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     AutoMCPFrameRendererViewConfig,
+    VisualizationOverrides,
+    LegendPosition,
+    BackgroundFormatType,
+    ConditionalFormattingComparisonType,
+    ConditionalFormattingOperator,
+    DataLabelFilterOperator,
+    TableTheme,
+    TableContentDensity,
 };
 
 export { resetCachedAuthToken } from './authToken';

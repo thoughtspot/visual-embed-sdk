@@ -17,6 +17,7 @@ import {
     expectUrlMatchesWithParams,
     getIFrameEl,
     postMessageToParent,
+    testVisualOverridesInEmbed,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import { SearchBarEmbed } from './search-bar';
@@ -837,5 +838,94 @@ describe('SearchBarEmbed tests', () => {
                 }),
             });
         });
+    });
+});
+
+describe('SearchEmbed visualOverrides tests', () => {
+    test('should pass visualOverrides in embedParams when visualOverrides config is provided', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'bottom' as const,
+                },
+            },
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        });
+
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
+    });
+
+    test('should not include visualOverridesParams when visualOverrides is not provided', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        });
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        searchEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            expect(callArgs.data.embedParams?.visualOverridesParams).toBeUndefined();
+        });
+    });
+
+    test('should pass visualOverrides with complex chart config', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'right' as const,
+                    colorPalette: {
+                        colors: ['#ff0000', '#00ff00', '#0000ff'],
+                    },
+                },
+                columns: [
+                    {
+                        name: 'Revenue',
+                        color: '#1f77b4',
+                    },
+                ],
+            },
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        });
+
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
+    });
+
+    test('should pass visualOverrides with table config', async () => {
+        const visualOverrides = {
+            table: {
+                display: {
+                    tableTheme: 'ZEBRA',
+                    tableContentDensity: 'COMPACT',
+                },
+            },
+        };
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        });
+
+        await testVisualOverridesInEmbed(searchEmbed, visualOverrides);
     });
 });

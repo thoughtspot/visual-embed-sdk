@@ -15,6 +15,7 @@ import {
     SearchLiveboardCommonViewConfig,
     DefaultAppInitData,
     BaseViewConfig,
+    VisualizationOverrides,
 } from '../types';
 import {
     getQueryParamString,
@@ -332,6 +333,12 @@ export interface SearchViewConfig
      * ```
      */
     newChartsLibrary?: boolean;
+
+    /**
+     * Visual overrides to customize the chart or table properties.
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    visualOverrides?: VisualizationOverrides;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -344,6 +351,9 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 export interface SearchAppInitData extends DefaultAppInitData {
     searchOptions?: SearchOptions;
+    embedParams?: {
+        visualOverridesParams?: VisualizationOverrides | null;
+    };
 }
 
 /**
@@ -395,7 +405,19 @@ export class SearchEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return { ...defaultAppInitData, ...this.getSearchInitData() };
+        const result: SearchAppInitData = {
+            ...defaultAppInitData,
+            ...this.getSearchInitData(),
+        };
+
+        if (this.viewConfig.visualOverrides) {
+            result.embedParams = {
+                ...((defaultAppInitData as any).embedParams || {}),
+                visualOverridesParams: this.viewConfig.visualOverrides,
+            };
+        }
+
+        return result;
     }
 
     protected getEmbedParamsObject() {

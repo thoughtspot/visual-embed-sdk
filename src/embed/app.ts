@@ -18,6 +18,7 @@ import {
     MessagePayload,
     AllEmbedViewConfig,
     DefaultAppInitData,
+    VisualizationOverrides,
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
@@ -798,6 +799,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     enableLiveboardDataCache?: boolean;
+
+    /**
+     * Visual overrides to customize the chart or table properties.
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    visualOverrides?: VisualizationOverrides;
 }
 
 /**
