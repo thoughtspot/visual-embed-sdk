@@ -1122,17 +1122,17 @@ export class TsEmbed {
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number | string): void {
-        if (this.viewConfig.fullHeight && this.isPreRendered) {                                                                                   
-            if (this.preRenderWrapper) {                       
-                this.preRenderWrapper.style.height = getCssDimension(height);                                                                     
-            }                                                                                                                                     
+        if (this.viewConfig.fullHeight && this.isPreRendered) {
+            if (this.preRenderWrapper) {
+                this.preRenderWrapper.style.height = getCssDimension(height);
+            }
             // Also grow the host container (this.el) so in-flow siblings are
-            // pushed down correctly and the page layout reflects the real height.                                                                
-            if (this.el) {                                                                                                                        
+            // pushed down correctly and the page layout reflects the real height.
+            if (this.el) {
                 (this.el as HTMLElement).style.height = getCssDimension(height);
-            }                                                                                                                                     
-        } 
-        // this.iFrame.style.height = getCssDimension(height);
+            }
+        }
+        this.iFrame.style.height = getCssDimension(height);
     }
 
     /**
