@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { getAuthenticationToken } from './authToken';
+import { getAuthenticationToken, storeAuthTokenInCache, getCacheAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 import { initMixpanel } from './mixpanel-service';
 import {
@@ -462,6 +462,10 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
     samlCompletionPromise = samlCompletionPromise || new Promise<void>((resolve, reject) => {
         window.addEventListener('message', (e) => {
             if (e.data.type === EmbedEvent.SAMLComplete) {
+                if (e.data.accessToken) {
+                    const decodedToken = decodeURIComponent(e.data.accessToken);
+                    storeAuthTokenInCache(decodedToken);
+                }
                 samlCompletionResolved = true;
                 if (popupClosedCheck) {
                     clearInterval(popupClosedCheck);
@@ -503,7 +507,12 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
         await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
-        loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        const cachedToken = getCacheAuthToken();
+        if (cachedToken) {
+            loggedInStatus = true;
+        } else {
+            loggedInStatus = await isLoggedIn(thoughtSpotHost);
+        }
         return;
     }
 
