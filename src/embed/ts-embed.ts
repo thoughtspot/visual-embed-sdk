@@ -1150,12 +1150,13 @@ export class TsEmbed {
     }
 
     private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {                                                                                                         
-        const errorType = data?.errorType ?? data?.data?.errorType;                                                                                                              
+        const errorType = data?.errorType ?? data?.data?.code;                                                                                                              
         if (                                                                                                                                                                     
             eventType === EmbedEvent.Error
-            && errorType === ErrorDetailsTypes.VALIDATION_ERROR                                                                                                                  
+            && errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION                                                                                                                  
             && !getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation && getHostEventsConfig(this.viewConfig).useHostEventsV2                                                                                                                                
         ) {
+            logger.warn(`Host Event Validation failed: ${data?.data.message}`);
             return true;                                                                                                                                                         
         }           
         return false;
