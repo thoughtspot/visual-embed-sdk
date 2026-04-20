@@ -4612,6 +4612,58 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             );
         });
 
+        test('logs warning with undefined message when flat format has no nested data', () => {
+            jest.spyOn(logger, 'warn');
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, jest.fn());
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeFlatValidationData());
+
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: undefined');
+        });
+
+        test('skips Error event when useHostEventsV2 is false and shouldBypassPayloadValidation is true', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: false, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: invalid payload');
+        });
+
+        test('skips via handleError when shouldBypassPayloadValidation is true', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).handleError({
+                type: EmbedEvent.Error,
+                data: {
+                    errorType: 'VALIDATION_ERROR',
+                    message: 'bad payload',
+                    code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                    error: 'bad payload',
+                },
+            });
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: bad payload');
+        });
+
+        test('delivers Error event to EmbedEvent.ALL handler when not skipped', () => {
+            const allHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            embed.on(EmbedEvent.ALL, allHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(allHandler).toHaveBeenCalled();
+        });
+
         test('does not skip non-Error events even with HOST_EVENT_VALIDATION error code', () => {
             const customActionHandler = jest.fn();
             const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
