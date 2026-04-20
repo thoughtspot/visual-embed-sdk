@@ -1149,6 +1149,18 @@ export class TsEmbed {
         }
     }
 
+    private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {                                                                                                         
+        const errorType = data?.errorType ?? data?.data?.code;                                                                                                              
+        if (                                                                                                                                                                     
+            eventType === EmbedEvent.Error
+            && errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION                                                                                                                  
+            && (!getHostEventsConfig(this.viewConfig).useHostEventsV2 || getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)                                                                                                                                
+        ) {
+            logger.warn(`Host Event Validation failed: ${data?.data?.message}`);
+            return true;                                                                                                                                                         
+        }           
+        return false;
+    }                                                                                                                                                                            
     /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
@@ -1160,6 +1172,7 @@ export class TsEmbed {
         data: any,
         eventPort?: MessagePort | void,
     ): void {
+        if (this.shouldSkipEvent(eventType, data)) return;
         const eventHandlers = this.eventHandlerMap.get(eventType) || [];
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
         const callbacks = [...eventHandlers, ...allHandlers];
