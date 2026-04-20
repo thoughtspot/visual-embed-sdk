@@ -1154,9 +1154,9 @@ export class TsEmbed {
         if (                                                                                                                                                                     
             eventType === EmbedEvent.Error
             && errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION                                                                                                                  
-            && !getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation && getHostEventsConfig(this.viewConfig).useHostEventsV2                                                                                                                                
+            && (!getHostEventsConfig(this.viewConfig).useHostEventsV2 || getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)                                                                                                                                
         ) {
-            logger.warn(`Host Event Validation failed: ${data?.data.message}`);
+            logger.warn(`Host Event Validation failed: ${data?.data?.message}`);
             return true;                                                                                                                                                         
         }           
         return false;
