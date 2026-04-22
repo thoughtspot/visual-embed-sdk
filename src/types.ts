@@ -6815,6 +6815,26 @@ export enum Action {
      */
     AxisMenuRemove = 'axisMenuRemove',
     /**
+     * The **Compare with** action in the chart axis customization menu.
+     * Allows comparing data across dimensions or measures.
+     * @example
+     * ```js
+     * disabledActions: [Action.AxisMenuCompare]
+     * ```
+     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
+     */
+    AxisMenuCompare = 'axisMenuCompare',
+    /**
+     * The **Merge with** action in the chart axis customization menu.
+     * Allows merging data across dimensions or measures.
+     * @example
+     * ```js
+     * disabledActions: [Action.AxisMenuMerge]
+     * ```
+     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
+     */
+    AxisMenuMerge = 'axisMenuMerge',
+    /**
      * @hidden
      */
     InsertInToSlide = 'insertInToSlide',
