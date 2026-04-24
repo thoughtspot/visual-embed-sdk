@@ -645,6 +645,77 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        test('embedExpiryInAuthToken defaults to true when refreshAuthTokenOnNearExpiry is not set', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({ embedExpiryInAuthToken: true }),
+                );
+            });
+        });
+
+        test('embedExpiryInAuthToken is false when refreshAuthTokenOnNearExpiry is false', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                refreshAuthTokenOnNearExpiry: false,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({ embedExpiryInAuthToken: false }),
+                );
+            });
+        });
+
+        test('embedExpiryInAuthToken is true when refreshAuthTokenOnNearExpiry is true', async () => {
+            const mockEmbedEventPayload = {
+                type: EmbedEvent.APP_INIT,
+                data: {},
+            };
+            const searchEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                refreshAuthTokenOnNearExpiry: true,
+            });
+            searchEmbed.render();
+            const mockPort: any = {
+                postMessage: jest.fn(),
+            };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({ embedExpiryInAuthToken: true }),
+                );
+            });
+        });
+
         test('when Embed event status have start status', (done) => {
             const mockEmbedEventPayload = {
                 type: EmbedEvent.Save,
