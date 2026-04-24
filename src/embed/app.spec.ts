@@ -480,6 +480,19 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLinkParametersEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
