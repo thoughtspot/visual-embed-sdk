@@ -13,7 +13,8 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "ThoughtSpot application pages include actions and menu commands\nfor various user-initiated operations. These actions are represented\nas enumeration members in the SDK. To show, hide, or disable\nspecific actions in the embedded view, define the Action\nenumeration members in the `disabledActions`, `visibleActions`,\nor `hiddenActions` array.",
+				"shortText": "ThoughtSpot application pages include actions and menu commands\nfor various user-initiated operations. These actions are represented\nas enumeration members in the SDK. To control actions in the embedded view:\n- `disabledActions` — action is greyed out and still visible, but non-interactive (user can see but not click)\n- `hiddenActions` — action is completely removed from the UI (user cannot see it at all)\n- `visibleActions` — allowlist, only these actions are shown; all others are hidden",
+				"text": "Use `disabledActions` to disable (grey out) an action.\nUse `hiddenActions` to hide (fully remove) an action.\nUse `visibleActions` to show only specific actions.",
 				"tags": [
 					{
 						"tag": "example",
@@ -48,7 +49,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7092,
+							"line": 7097,
 							"character": 4
 						}
 					],
@@ -76,7 +77,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6169,
+							"line": 6174,
 							"character": 4
 						}
 					],
@@ -104,7 +105,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6098,
+							"line": 6103,
 							"character": 4
 						}
 					],
@@ -128,7 +129,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6087,
+							"line": 6092,
 							"character": 4
 						}
 					],
@@ -152,7 +153,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6150,
+							"line": 6155,
 							"character": 4
 						}
 					],
@@ -176,7 +177,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6159,
+							"line": 6164,
 							"character": 4
 						}
 					],
@@ -204,7 +205,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6179,
+							"line": 6184,
 							"character": 4
 						}
 					],
@@ -232,7 +233,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6860,
+							"line": 6865,
 							"character": 4
 						}
 					],
@@ -260,7 +261,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6583,
+							"line": 6588,
 							"character": 4
 						}
 					],
@@ -288,7 +289,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7045,
+							"line": 7050,
 							"character": 4
 						}
 					],
@@ -316,7 +317,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6571,
+							"line": 6576,
 							"character": 4
 						}
 					],
@@ -344,7 +345,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6559,
+							"line": 6564,
 							"character": 4
 						}
 					],
@@ -373,7 +374,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7034,
+							"line": 7039,
 							"character": 4
 						}
 					],
@@ -401,7 +402,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6695,
+							"line": 6700,
 							"character": 4
 						}
 					],
@@ -429,7 +430,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6729,
+							"line": 6734,
 							"character": 4
 						}
 					],
@@ -457,7 +458,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6784,
+							"line": 6789,
 							"character": 4
 						}
 					],
@@ -485,7 +486,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6718,
+							"line": 6723,
 							"character": 4
 						}
 					],
@@ -513,7 +514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6752,
+							"line": 6757,
 							"character": 4
 						}
 					],
@@ -541,7 +542,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6794,
+							"line": 6799,
 							"character": 4
 						}
 					],
@@ -569,7 +570,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6763,
+							"line": 6768,
 							"character": 4
 						}
 					],
@@ -597,7 +598,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6816,
+							"line": 6821,
 							"character": 4
 						}
 					],
@@ -625,7 +626,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6773,
+							"line": 6778,
 							"character": 4
 						}
 					],
@@ -653,7 +654,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6740,
+							"line": 6745,
 							"character": 4
 						}
 					],
@@ -681,7 +682,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6804,
+							"line": 6809,
 							"character": 4
 						}
 					],
@@ -709,7 +710,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6706,
+							"line": 6711,
 							"character": 4
 						}
 					],
@@ -737,7 +738,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7190,
+							"line": 7195,
 							"character": 4
 						}
 					],
@@ -761,7 +762,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6141,
+							"line": 6146,
 							"character": 4
 						}
 					],
@@ -789,7 +790,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6132,
+							"line": 6137,
 							"character": 4
 						}
 					],
@@ -817,7 +818,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6120,
+							"line": 6125,
 							"character": 4
 						}
 					],
@@ -845,7 +846,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7278,
+							"line": 7283,
 							"character": 4
 						}
 					],
@@ -869,7 +870,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6109,
+							"line": 6114,
 							"character": 4
 						}
 					],
@@ -884,7 +885,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6508,
+							"line": 6513,
 							"character": 4
 						}
 					],
@@ -908,7 +909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6046,
+							"line": 6051,
 							"character": 4
 						}
 					],
@@ -932,7 +933,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6507,
+							"line": 6512,
 							"character": 4
 						}
 					],
@@ -960,7 +961,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7288,
+							"line": 7293,
 							"character": 4
 						}
 					],
@@ -988,7 +989,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7448,
+							"line": 7453,
 							"character": 4
 						}
 					],
@@ -1016,7 +1017,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7009,
+							"line": 7014,
 							"character": 4
 						}
 					],
@@ -1044,7 +1045,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6603,
+							"line": 6608,
 							"character": 4
 						}
 					],
@@ -1072,7 +1073,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6653,
+							"line": 6658,
 							"character": 4
 						}
 					],
@@ -1100,7 +1101,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7202,
+							"line": 7207,
 							"character": 4
 						}
 					],
@@ -1128,7 +1129,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7259,
+							"line": 7264,
 							"character": 4
 						}
 					],
@@ -1156,7 +1157,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7159,
+							"line": 7164,
 							"character": 4
 						}
 					],
@@ -1184,7 +1185,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7178,
+							"line": 7183,
 							"character": 4
 						}
 					],
@@ -1208,7 +1209,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6229,
+							"line": 6234,
 							"character": 4
 						}
 					],
@@ -1232,7 +1233,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6262,
+							"line": 6267,
 							"character": 4
 						}
 					],
@@ -1257,7 +1258,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6252,
+							"line": 6257,
 							"character": 4
 						}
 					],
@@ -1281,7 +1282,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6239,
+							"line": 6244,
 							"character": 4
 						}
 					],
@@ -1305,7 +1306,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6272,
+							"line": 6277,
 							"character": 4
 						}
 					],
@@ -1333,7 +1334,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6282,
+							"line": 6287,
 							"character": 4
 						}
 					],
@@ -1361,7 +1362,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6292,
+							"line": 6297,
 							"character": 4
 						}
 					],
@@ -1389,7 +1390,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6312,
+							"line": 6317,
 							"character": 4
 						}
 					],
@@ -1417,7 +1418,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6302,
+							"line": 6307,
 							"character": 4
 						}
 					],
@@ -1441,7 +1442,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6524,
+							"line": 6529,
 							"character": 4
 						}
 					],
@@ -1465,7 +1466,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6497,
+							"line": 6502,
 							"character": 4
 						}
 					],
@@ -1489,7 +1490,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6488,
+							"line": 6493,
 							"character": 4
 						}
 					],
@@ -1513,7 +1514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6388,
+							"line": 6393,
 							"character": 4
 						}
 					],
@@ -1537,7 +1538,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6037,
+							"line": 6042,
 							"character": 4
 						}
 					],
@@ -1565,7 +1566,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6592,
+							"line": 6597,
 							"character": 4
 						}
 					],
@@ -1580,7 +1581,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6513,
+							"line": 6518,
 							"character": 4
 						}
 					],
@@ -1608,7 +1609,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7248,
+							"line": 7253,
 							"character": 4
 						}
 					],
@@ -1636,7 +1637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6904,
+							"line": 6909,
 							"character": 4
 						}
 					],
@@ -1664,7 +1665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7105,
+							"line": 7110,
 							"character": 4
 						}
 					],
@@ -1688,7 +1689,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6356,
+							"line": 6361,
 							"character": 4
 						}
 					],
@@ -1712,7 +1713,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6396,
+							"line": 6401,
 							"character": 4
 						}
 					],
@@ -1740,7 +1741,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7269,
+							"line": 7274,
 							"character": 4
 						}
 					],
@@ -1768,7 +1769,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6870,
+							"line": 6875,
 							"character": 4
 						}
 					],
@@ -1796,7 +1797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6881,
+							"line": 6886,
 							"character": 4
 						}
 					],
@@ -1820,7 +1821,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6477,
+							"line": 6482,
 							"character": 4
 						}
 					],
@@ -1845,7 +1846,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6328,
+							"line": 6333,
 							"character": 4
 						}
 					],
@@ -1869,7 +1870,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6338,
+							"line": 6343,
 							"character": 4
 						}
 					],
@@ -1897,7 +1898,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7303,
+							"line": 7308,
 							"character": 4
 						}
 					],
@@ -1925,7 +1926,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7593,
+							"line": 7598,
 							"character": 4
 						}
 					],
@@ -1953,7 +1954,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7169,
+							"line": 7174,
 							"character": 4
 						}
 					],
@@ -1977,7 +1978,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6438,
+							"line": 6443,
 							"character": 4
 						}
 					],
@@ -2005,7 +2006,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7369,
+							"line": 7374,
 							"character": 4
 						}
 					],
@@ -2033,7 +2034,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6977,
+							"line": 6982,
 							"character": 4
 						}
 					],
@@ -2057,7 +2058,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6028,
+							"line": 6033,
 							"character": 4
 						}
 					],
@@ -2081,7 +2082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6945,
+							"line": 6950,
 							"character": 4
 						}
 					],
@@ -2109,7 +2110,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6643,
+							"line": 6648,
 							"character": 4
 						}
 					],
@@ -2137,7 +2138,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7395,
+							"line": 7400,
 							"character": 4
 						}
 					],
@@ -2165,7 +2166,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7148,
+							"line": 7153,
 							"character": 4
 						}
 					],
@@ -2193,7 +2194,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6850,
+							"line": 6855,
 							"character": 4
 						}
 					],
@@ -2220,7 +2221,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6925,
+							"line": 6930,
 							"character": 4
 						}
 					],
@@ -2248,7 +2249,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7438,
+							"line": 7443,
 							"character": 4
 						}
 					],
@@ -2276,7 +2277,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7428,
+							"line": 7433,
 							"character": 4
 						}
 					],
@@ -2300,7 +2301,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6934,
+							"line": 6939,
 							"character": 4
 						}
 					],
@@ -2332,7 +2333,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7069,
+							"line": 7074,
 							"character": 4
 						}
 					],
@@ -2360,7 +2361,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7081,
+							"line": 7086,
 							"character": 4
 						}
 					],
@@ -2388,7 +2389,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7418,
+							"line": 7423,
 							"character": 4
 						}
 					],
@@ -2416,7 +2417,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7116,
+							"line": 7121,
 							"character": 4
 						}
 					],
@@ -2448,7 +2449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6957,
+							"line": 6962,
 							"character": 4
 						}
 					],
@@ -2476,7 +2477,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6967,
+							"line": 6972,
 							"character": 4
 						}
 					],
@@ -2500,7 +2501,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6455,
+							"line": 6460,
 							"character": 4
 						}
 					],
@@ -2524,7 +2525,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7347,
+							"line": 7352,
 							"character": 4
 						}
 					],
@@ -2548,7 +2549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6366,
+							"line": 6371,
 							"character": 4
 						}
 					],
@@ -2576,7 +2577,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7214,
+							"line": 7219,
 							"character": 4
 						}
 					],
@@ -2604,7 +2605,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7382,
+							"line": 7387,
 							"character": 4
 						}
 					],
@@ -2629,7 +2630,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6549,
+							"line": 6554,
 							"character": 4
 						}
 					],
@@ -2653,7 +2654,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6406,
+							"line": 6411,
 							"character": 4
 						}
 					],
@@ -2681,7 +2682,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7359,
+							"line": 7364,
 							"character": 4
 						}
 					],
@@ -2709,7 +2710,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6684,
+							"line": 6689,
 							"character": 4
 						}
 					],
@@ -2737,7 +2738,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7056,
+							"line": 7061,
 							"character": 4
 						}
 					],
@@ -2765,7 +2766,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6830,
+							"line": 6835,
 							"character": 4
 						}
 					],
@@ -2796,7 +2797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6612,
+							"line": 6617,
 							"character": 4
 						}
 					],
@@ -2820,7 +2821,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6533,
+							"line": 6538,
 							"character": 4
 						}
 					],
@@ -2848,7 +2849,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6840,
+							"line": 6845,
 							"character": 4
 						}
 					],
@@ -2876,7 +2877,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7226,
+							"line": 7231,
 							"character": 4
 						}
 					],
@@ -2904,7 +2905,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6916,
+							"line": 6921,
 							"character": 4
 						}
 					],
@@ -2928,7 +2929,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5997,
+							"line": 6002,
 							"character": 4
 						}
 					],
@@ -2952,7 +2953,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6015,
+							"line": 6020,
 							"character": 4
 						}
 					],
@@ -2976,7 +2977,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6060,
+							"line": 6065,
 							"character": 4
 						}
 					],
@@ -3000,7 +3001,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6069,
+							"line": 6074,
 							"character": 4
 						}
 					],
@@ -3028,7 +3029,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7605,
+							"line": 7610,
 							"character": 4
 						}
 					],
@@ -3043,7 +3044,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6514,
+							"line": 6519,
 							"character": 4
 						}
 					],
@@ -3067,7 +3068,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6078,
+							"line": 6083,
 							"character": 4
 						}
 					],
@@ -3085,7 +3086,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6204,
+							"line": 6209,
 							"character": 4
 						}
 					],
@@ -3113,7 +3114,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6891,
+							"line": 6896,
 							"character": 4
 						}
 					],
@@ -3137,7 +3138,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6219,
+							"line": 6224,
 							"character": 4
 						}
 					],
@@ -3161,7 +3162,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6192,
+							"line": 6197,
 							"character": 4
 						}
 					],
@@ -3189,7 +3190,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7559,
+							"line": 7564,
 							"character": 4
 						}
 					],
@@ -3217,7 +3218,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7570,
+							"line": 7575,
 							"character": 4
 						}
 					],
@@ -3245,7 +3246,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7538,
+							"line": 7543,
 							"character": 4
 						}
 					],
@@ -3273,7 +3274,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7518,
+							"line": 7523,
 							"character": 4
 						}
 					],
@@ -3301,7 +3302,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7581,
+							"line": 7586,
 							"character": 4
 						}
 					],
@@ -3329,7 +3330,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7528,
+							"line": 7533,
 							"character": 4
 						}
 					],
@@ -3357,7 +3358,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7548,
+							"line": 7553,
 							"character": 4
 						}
 					],
@@ -3385,7 +3386,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7237,
+							"line": 7242,
 							"character": 4
 						}
 					],
@@ -3413,7 +3414,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7498,
+							"line": 7503,
 							"character": 4
 						}
 					],
@@ -3441,7 +3442,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7508,
+							"line": 7513,
 							"character": 4
 						}
 					],
@@ -3469,7 +3470,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7478,
+							"line": 7483,
 							"character": 4
 						}
 					],
@@ -3497,7 +3498,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7468,
+							"line": 7473,
 							"character": 4
 						}
 					],
@@ -3525,7 +3526,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7488,
+							"line": 7493,
 							"character": 4
 						}
 					],
@@ -3553,7 +3554,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7336,
+							"line": 7341,
 							"character": 4
 						}
 					],
@@ -3581,7 +3582,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7314,
+							"line": 7319,
 							"character": 4
 						}
 					],
@@ -3609,7 +3610,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7325,
+							"line": 7330,
 							"character": 4
 						}
 					],
@@ -3633,7 +3634,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6469,
+							"line": 6474,
 							"character": 4
 						}
 					],
@@ -3661,7 +3662,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6633,
+							"line": 6638,
 							"character": 4
 						}
 					],
@@ -3689,7 +3690,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6622,
+							"line": 6627,
 							"character": 4
 						}
 					],
@@ -3717,7 +3718,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6663,
+							"line": 6668,
 							"character": 4
 						}
 					],
@@ -3745,7 +3746,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6673,
+							"line": 6678,
 							"character": 4
 						}
 					],
@@ -3777,7 +3778,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6996,
+							"line": 7001,
 							"character": 4
 						}
 					],
@@ -3801,7 +3802,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6378,
+							"line": 6383,
 							"character": 4
 						}
 					],
@@ -3829,7 +3830,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7458,
+							"line": 7463,
 							"character": 4
 						}
 					],
@@ -3857,7 +3858,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7407,
+							"line": 7412,
 							"character": 4
 						}
 					],
@@ -3885,7 +3886,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7138,
+							"line": 7143,
 							"character": 4
 						}
 					],
@@ -3909,7 +3910,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 6347,
+							"line": 6352,
 							"character": 4
 						}
 					],
@@ -3937,7 +3938,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7020,
+							"line": 7025,
 							"character": 4
 						}
 					],
@@ -3965,7 +3966,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7127,
+							"line": 7132,
 							"character": 4
 						}
 					],
@@ -4131,7 +4132,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 5988,
+					"line": 5993,
 					"character": 12
 				}
 			]
@@ -4758,7 +4759,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8304,
+							"line": 8309,
 							"character": 4
 						}
 					],
@@ -4776,7 +4777,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8302,
+							"line": 8307,
 							"character": 4
 						}
 					],
@@ -4796,7 +4797,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8300,
+					"line": 8305,
 					"character": 12
 				}
 			]
@@ -4829,7 +4830,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8315,
+							"line": 8320,
 							"character": 4
 						}
 					],
@@ -4847,7 +4848,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8317,
+							"line": 8322,
 							"character": 4
 						}
 					],
@@ -4865,7 +4866,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8313,
+							"line": 8318,
 							"character": 4
 						}
 					],
@@ -4886,7 +4887,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8311,
+					"line": 8316,
 					"character": 12
 				}
 			]
@@ -4919,7 +4920,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8269,
+							"line": 8274,
 							"character": 4
 						}
 					],
@@ -4937,7 +4938,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8271,
+							"line": 8276,
 							"character": 4
 						}
 					],
@@ -4955,7 +4956,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8275,
+							"line": 8280,
 							"character": 4
 						}
 					],
@@ -4973,7 +4974,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8285,
+							"line": 8290,
 							"character": 4
 						}
 					],
@@ -4991,7 +4992,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8277,
+							"line": 8282,
 							"character": 4
 						}
 					],
@@ -5009,7 +5010,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8281,
+							"line": 8286,
 							"character": 4
 						}
 					],
@@ -5027,7 +5028,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8265,
+							"line": 8270,
 							"character": 4
 						}
 					],
@@ -5045,7 +5046,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8289,
+							"line": 8294,
 							"character": 4
 						}
 					],
@@ -5063,7 +5064,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8267,
+							"line": 8272,
 							"character": 4
 						}
 					],
@@ -5081,7 +5082,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8293,
+							"line": 8298,
 							"character": 4
 						}
 					],
@@ -5099,7 +5100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8291,
+							"line": 8296,
 							"character": 4
 						}
 					],
@@ -5117,7 +5118,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8279,
+							"line": 8284,
 							"character": 4
 						}
 					],
@@ -5135,7 +5136,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8283,
+							"line": 8288,
 							"character": 4
 						}
 					],
@@ -5153,7 +5154,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8287,
+							"line": 8292,
 							"character": 4
 						}
 					],
@@ -5171,7 +5172,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8273,
+							"line": 8278,
 							"character": 4
 						}
 					],
@@ -5204,7 +5205,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8263,
+					"line": 8268,
 					"character": 12
 				}
 			]
@@ -5228,7 +5229,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7625,
+							"line": 7630,
 							"character": 4
 						}
 					],
@@ -5243,7 +5244,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7623,
+							"line": 7628,
 							"character": 4
 						}
 					],
@@ -5258,7 +5259,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7624,
+							"line": 7629,
 							"character": 4
 						}
 					],
@@ -5279,7 +5280,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7622,
+					"line": 7627,
 					"character": 12
 				}
 			]
@@ -5320,7 +5321,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8070,
+							"line": 8075,
 							"character": 4
 						}
 					],
@@ -5338,7 +5339,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8066,
+							"line": 8071,
 							"character": 4
 						}
 					],
@@ -5356,7 +5357,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8079,
+							"line": 8084,
 							"character": 4
 						}
 					],
@@ -5374,7 +5375,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8062,
+							"line": 8067,
 							"character": 4
 						}
 					],
@@ -5392,7 +5393,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8074,
+							"line": 8079,
 							"character": 4
 						}
 					],
@@ -5415,7 +5416,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8058,
+					"line": 8063,
 					"character": 12
 				}
 			]
@@ -5442,7 +5443,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7762,
+							"line": 7767,
 							"character": 4
 						}
 					],
@@ -5460,7 +5461,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7735,
+							"line": 7740,
 							"character": 4
 						}
 					],
@@ -5478,7 +5479,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7773,
+							"line": 7778,
 							"character": 4
 						}
 					],
@@ -5496,7 +5497,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7749,
+							"line": 7754,
 							"character": 4
 						}
 					],
@@ -5518,7 +5519,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7725,
+					"line": 7730,
 					"character": 12
 				}
 			]
@@ -5545,7 +5546,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7716,
+							"line": 7721,
 							"character": 4
 						}
 					],
@@ -5563,7 +5564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7708,
+							"line": 7713,
 							"character": 4
 						}
 					],
@@ -5581,7 +5582,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7703,
+							"line": 7708,
 							"character": 4
 						}
 					],
@@ -5602,7 +5603,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7698,
+					"line": 7703,
 					"character": 12
 				}
 			]
@@ -5635,7 +5636,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8254,
+							"line": 8259,
 							"character": 4
 						}
 					],
@@ -5653,7 +5654,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8246,
+							"line": 8251,
 							"character": 4
 						}
 					],
@@ -5671,7 +5672,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8250,
+							"line": 8255,
 							"character": 4
 						}
 					],
@@ -5689,7 +5690,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8248,
+							"line": 8253,
 							"character": 4
 						}
 					],
@@ -5707,7 +5708,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8252,
+							"line": 8257,
 							"character": 4
 						}
 					],
@@ -5725,7 +5726,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8256,
+							"line": 8261,
 							"character": 4
 						}
 					],
@@ -5749,7 +5750,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8244,
+					"line": 8249,
 					"character": 12
 				}
 			]
@@ -5860,7 +5861,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5795,
+							"line": 5796,
 							"character": 4
 						}
 					],
@@ -5878,7 +5879,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5799,
+							"line": 5800,
 							"character": 4
 						}
 					],
@@ -5896,7 +5897,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5791,
+							"line": 5792,
 							"character": 4
 						}
 					],
@@ -5917,7 +5918,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 5787,
+					"line": 5788,
 					"character": 12
 				}
 			]
@@ -5958,7 +5959,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7939,
+							"line": 7944,
 							"character": 4
 						}
 					],
@@ -5976,7 +5977,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7942,
+							"line": 7947,
 							"character": 4
 						}
 					],
@@ -5994,7 +5995,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7951,
+							"line": 7956,
 							"character": 4
 						}
 					],
@@ -6012,7 +6013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7978,
+							"line": 7983,
 							"character": 4
 						}
 					],
@@ -6030,7 +6031,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7960,
+							"line": 7965,
 							"character": 4
 						}
 					],
@@ -6048,7 +6049,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7972,
+							"line": 7977,
 							"character": 4
 						}
 					],
@@ -6066,7 +6067,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7945,
+							"line": 7950,
 							"character": 4
 						}
 					],
@@ -6084,7 +6085,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7969,
+							"line": 7974,
 							"character": 4
 						}
 					],
@@ -6102,7 +6103,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7936,
+							"line": 7941,
 							"character": 4
 						}
 					],
@@ -6120,7 +6121,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7954,
+							"line": 7959,
 							"character": 4
 						}
 					],
@@ -6138,7 +6139,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7948,
+							"line": 7953,
 							"character": 4
 						}
 					],
@@ -6156,7 +6157,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7963,
+							"line": 7968,
 							"character": 4
 						}
 					],
@@ -6174,7 +6175,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7957,
+							"line": 7962,
 							"character": 4
 						}
 					],
@@ -6192,7 +6193,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7975,
+							"line": 7980,
 							"character": 4
 						}
 					],
@@ -6210,7 +6211,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7966,
+							"line": 7971,
 							"character": 4
 						}
 					],
@@ -6228,7 +6229,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7933,
+							"line": 7938,
 							"character": 4
 						}
 					],
@@ -6262,7 +6263,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7931,
+					"line": 7936,
 					"character": 12
 				}
 			]
@@ -6314,7 +6315,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2789,
+							"line": 2790,
 							"character": 4
 						}
 					],
@@ -6342,7 +6343,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2652,
+							"line": 2653,
 							"character": 4
 						}
 					],
@@ -6374,7 +6375,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2416,
+							"line": 2417,
 							"character": 4
 						}
 					],
@@ -6402,7 +6403,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3439,
+							"line": 3440,
 							"character": 4
 						}
 					],
@@ -6430,7 +6431,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3002,
+							"line": 3003,
 							"character": 4
 						}
 					],
@@ -6462,7 +6463,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2510,
+							"line": 2511,
 							"character": 4
 						}
 					],
@@ -6490,7 +6491,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2970,
+							"line": 2971,
 							"character": 4
 						}
 					],
@@ -6518,7 +6519,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2778,
+							"line": 2779,
 							"character": 4
 						}
 					],
@@ -6547,7 +6548,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3605,
+							"line": 3606,
 							"character": 4
 						}
 					],
@@ -6587,7 +6588,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3251,
+							"line": 3252,
 							"character": 4
 						}
 					],
@@ -6615,7 +6616,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2523,
+							"line": 2524,
 							"character": 4
 						}
 					],
@@ -6647,7 +6648,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2318,
+							"line": 2319,
 							"character": 4
 						}
 					],
@@ -6675,7 +6676,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3078,
+							"line": 3079,
 							"character": 4
 						}
 					],
@@ -6719,7 +6720,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3237,
+							"line": 3238,
 							"character": 4
 						}
 					],
@@ -6747,7 +6748,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2948,
+							"line": 2949,
 							"character": 4
 						}
 					],
@@ -6775,7 +6776,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3098,
+							"line": 3099,
 							"character": 4
 						}
 					],
@@ -6803,7 +6804,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2881,
+							"line": 2882,
 							"character": 4
 						}
 					],
@@ -6827,7 +6828,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3149,
+							"line": 3150,
 							"character": 4
 						}
 					],
@@ -6852,7 +6853,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3389,
+							"line": 3390,
 							"character": 4
 						}
 					],
@@ -6876,7 +6877,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3394,
+							"line": 3395,
 							"character": 4
 						}
 					],
@@ -6900,7 +6901,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3242,
+							"line": 3243,
 							"character": 4
 						}
 					],
@@ -6928,7 +6929,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3109,
+							"line": 3110,
 							"character": 4
 						}
 					],
@@ -6964,7 +6965,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2433,
+							"line": 2434,
 							"character": 4
 						}
 					],
@@ -7000,7 +7001,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2346,
+							"line": 2347,
 							"character": 4
 						}
 					],
@@ -7028,7 +7029,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3450,
+							"line": 3451,
 							"character": 4
 						}
 					],
@@ -7060,7 +7061,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2404,
+							"line": 2405,
 							"character": 4
 						}
 					],
@@ -7088,7 +7089,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3060,
+							"line": 3061,
 							"character": 4
 						}
 					],
@@ -7124,7 +7125,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3209,
+							"line": 3210,
 							"character": 4
 						}
 					],
@@ -7156,7 +7157,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3216,
+							"line": 3217,
 							"character": 4
 						}
 					],
@@ -7184,7 +7185,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2619,
+							"line": 2620,
 							"character": 4
 						}
 					],
@@ -7212,7 +7213,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2608,
+							"line": 2609,
 							"character": 4
 						}
 					],
@@ -7241,7 +7242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2687,
+							"line": 2688,
 							"character": 4
 						}
 					],
@@ -7269,7 +7270,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2735,
+							"line": 2736,
 							"character": 4
 						}
 					],
@@ -7297,7 +7298,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2719,
+							"line": 2720,
 							"character": 4
 						}
 					],
@@ -7325,7 +7326,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2703,
+							"line": 2704,
 							"character": 4
 						}
 					],
@@ -7353,7 +7354,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2751,
+							"line": 2752,
 							"character": 4
 						}
 					],
@@ -7381,7 +7382,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2762,
+							"line": 2763,
 							"character": 4
 						}
 					],
@@ -7409,7 +7410,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2870,
+							"line": 2871,
 							"character": 4
 						}
 					],
@@ -7437,7 +7438,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2858,
+							"line": 2859,
 							"character": 4
 						}
 					],
@@ -7481,7 +7482,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2392,
+							"line": 2393,
 							"character": 4
 						}
 					],
@@ -7509,7 +7510,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3024,
+							"line": 3025,
 							"character": 4
 						}
 					],
@@ -7537,7 +7538,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2904,
+							"line": 2905,
 							"character": 4
 						}
 					],
@@ -7565,7 +7566,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3666,
+							"line": 3667,
 							"character": 4
 						}
 					],
@@ -7602,7 +7603,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2500,
+							"line": 2501,
 							"character": 4
 						}
 					],
@@ -7630,7 +7631,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3088,
+							"line": 3089,
 							"character": 4
 						}
 					],
@@ -7658,7 +7659,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2921,
+							"line": 2922,
 							"character": 4
 						}
 					],
@@ -7686,7 +7687,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3139,
+							"line": 3140,
 							"character": 4
 						}
 					],
@@ -7714,7 +7715,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2565,
+							"line": 2566,
 							"character": 4
 						}
 					],
@@ -7742,7 +7743,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2306,
+							"line": 2307,
 							"character": 4
 						}
 					],
@@ -7770,7 +7771,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3483,
+							"line": 3484,
 							"character": 4
 						}
 					],
@@ -7798,7 +7799,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3472,
+							"line": 3473,
 							"character": 4
 						}
 					],
@@ -7826,7 +7827,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2991,
+							"line": 2992,
 							"character": 4
 						}
 					],
@@ -7858,7 +7859,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2641,
+							"line": 2642,
 							"character": 4
 						}
 					],
@@ -7890,7 +7891,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2332,
+							"line": 2333,
 							"character": 4
 						}
 					],
@@ -7918,7 +7919,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3035,
+							"line": 3036,
 							"character": 4
 						}
 					],
@@ -7946,7 +7947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2591,
+							"line": 2592,
 							"character": 4
 						}
 					],
@@ -7984,7 +7985,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3322,
+							"line": 3323,
 							"character": 4
 						}
 					],
@@ -8012,7 +8013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3539,
+							"line": 3540,
 							"character": 4
 						}
 					],
@@ -8036,7 +8037,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3333,
+							"line": 3334,
 							"character": 4
 						}
 					],
@@ -8064,7 +8065,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2810,
+							"line": 2811,
 							"character": 4
 						}
 					],
@@ -8096,7 +8097,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3050,
+							"line": 3051,
 							"character": 4
 						}
 					],
@@ -8124,7 +8125,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3428,
+							"line": 3429,
 							"character": 4
 						}
 					],
@@ -8152,7 +8153,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2355,
+							"line": 2356,
 							"character": 4
 						}
 					],
@@ -8176,7 +8177,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3256,
+							"line": 3257,
 							"character": 4
 						}
 					],
@@ -8216,7 +8217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3200,
+							"line": 3201,
 							"character": 4
 						}
 					],
@@ -8244,7 +8245,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3494,
+							"line": 3495,
 							"character": 4
 						}
 					],
@@ -8272,7 +8273,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2575,
+							"line": 2576,
 							"character": 4
 						}
 					],
@@ -8300,7 +8301,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2671,
+							"line": 2672,
 							"character": 4
 						}
 					],
@@ -8328,7 +8329,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2932,
+							"line": 2933,
 							"character": 4
 						}
 					],
@@ -8372,7 +8373,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3182,
+							"line": 3183,
 							"character": 4
 						}
 					],
@@ -8412,7 +8413,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3191,
+							"line": 3192,
 							"character": 4
 						}
 					],
@@ -8440,7 +8441,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3013,
+							"line": 3014,
 							"character": 4
 						}
 					],
@@ -8468,7 +8469,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3069,
+							"line": 3070,
 							"character": 4
 						}
 					],
@@ -8496,7 +8497,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3704,
+							"line": 3705,
 							"character": 4
 						}
 					],
@@ -8524,7 +8525,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2846,
+							"line": 2847,
 							"character": 4
 						}
 					],
@@ -8552,7 +8553,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2959,
+							"line": 2960,
 							"character": 4
 						}
 					],
@@ -8580,7 +8581,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2828,
+							"line": 2829,
 							"character": 4
 						}
 					],
@@ -8608,7 +8609,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3629,
+							"line": 3630,
 							"character": 4
 						}
 					],
@@ -8636,7 +8637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3617,
+							"line": 3618,
 							"character": 4
 						}
 					],
@@ -8664,7 +8665,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3641,
+							"line": 3642,
 							"character": 4
 						}
 					],
@@ -8692,7 +8693,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3417,
+							"line": 3418,
 							"character": 4
 						}
 					],
@@ -8720,7 +8721,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3505,
+							"line": 3506,
 							"character": 4
 						}
 					],
@@ -8748,7 +8749,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3516,
+							"line": 3517,
 							"character": 4
 						}
 					],
@@ -8776,7 +8777,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3461,
+							"line": 3462,
 							"character": 4
 						}
 					],
@@ -8809,7 +8810,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3689,
+							"line": 3690,
 							"character": 4
 						}
 					],
@@ -8838,7 +8839,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3376,
+							"line": 3377,
 							"character": 4
 						}
 					],
@@ -8862,7 +8863,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3144,
+							"line": 3145,
 							"character": 4
 						}
 					],
@@ -8906,7 +8907,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3161,
+							"line": 3162,
 							"character": 4
 						}
 					],
@@ -8946,7 +8947,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3171,
+							"line": 3172,
 							"character": 4
 						}
 					],
@@ -8974,7 +8975,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2892,
+							"line": 2893,
 							"character": 4
 						}
 					],
@@ -9010,7 +9011,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2464,
+							"line": 2465,
 							"character": 4
 						}
 					],
@@ -9042,7 +9043,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2445,
+							"line": 2446,
 							"character": 4
 						}
 					],
@@ -9070,7 +9071,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3120,
+							"line": 3121,
 							"character": 4
 						}
 					],
@@ -9181,7 +9182,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2293,
+					"line": 2294,
 					"character": 12
 				}
 			]
@@ -9223,7 +9224,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7893,
+							"line": 7898,
 							"character": 4
 						}
 					],
@@ -9241,7 +9242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7897,
+							"line": 7902,
 							"character": 4
 						}
 					],
@@ -9259,7 +9260,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7895,
+							"line": 7900,
 							"character": 4
 						}
 					],
@@ -9280,7 +9281,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7891,
+					"line": 7896,
 					"character": 12
 				}
 			]
@@ -9734,7 +9735,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2165,
+							"line": 2166,
 							"character": 4
 						}
 					],
@@ -9752,7 +9753,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2177,
+							"line": 2178,
 							"character": 4
 						}
 					],
@@ -9770,7 +9771,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2169,
+							"line": 2170,
 							"character": 4
 						}
 					],
@@ -9788,7 +9789,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2157,
+							"line": 2158,
 							"character": 4
 						}
 					],
@@ -9806,7 +9807,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2173,
+							"line": 2174,
 							"character": 4
 						}
 					],
@@ -9824,7 +9825,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2161,
+							"line": 2162,
 							"character": 4
 						}
 					],
@@ -9848,7 +9849,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2153,
+					"line": 2154,
 					"character": 12
 				}
 			]
@@ -9908,7 +9909,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4351,
+							"line": 4352,
 							"character": 4
 						}
 					],
@@ -9945,7 +9946,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4049,
+							"line": 4050,
 							"character": 4
 						}
 					],
@@ -9978,7 +9979,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5633,
+							"line": 5634,
 							"character": 4
 						}
 					],
@@ -10011,7 +10012,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5675,
+							"line": 5676,
 							"character": 4
 						}
 					],
@@ -10039,7 +10040,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5318,
+							"line": 5319,
 							"character": 4
 						}
 					],
@@ -10072,7 +10073,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5713,
+							"line": 5714,
 							"character": 4
 						}
 					],
@@ -10121,7 +10122,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4584,
+							"line": 4585,
 							"character": 4
 						}
 					],
@@ -10166,7 +10167,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4459,
+							"line": 4460,
 							"character": 4
 						}
 					],
@@ -10194,7 +10195,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5642,
+							"line": 5643,
 							"character": 4
 						}
 					],
@@ -10235,7 +10236,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4737,
+							"line": 4738,
 							"character": 4
 						}
 					],
@@ -10263,7 +10264,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5660,
+							"line": 5661,
 							"character": 4
 						}
 					],
@@ -10291,7 +10292,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5733,
+							"line": 5734,
 							"character": 4
 						}
 					],
@@ -10328,7 +10329,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4799,
+							"line": 4800,
 							"character": 4
 						}
 					],
@@ -10369,7 +10370,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4869,
+							"line": 4870,
 							"character": 4
 						}
 					],
@@ -10414,7 +10415,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4329,
+							"line": 4330,
 							"character": 4
 						}
 					],
@@ -10446,7 +10447,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4830,
+							"line": 4831,
 							"character": 4
 						}
 					],
@@ -10487,7 +10488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4908,
+							"line": 4909,
 							"character": 4
 						}
 					],
@@ -10515,7 +10516,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4341,
+							"line": 4342,
 							"character": 4
 						}
 					],
@@ -10560,7 +10561,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3879,
+							"line": 3880,
 							"character": 4
 						}
 					],
@@ -10606,7 +10607,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4539,
+							"line": 4540,
 							"character": 4
 						}
 					],
@@ -10643,7 +10644,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5607,
+							"line": 5608,
 							"character": 4
 						}
 					],
@@ -10679,7 +10680,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4275,
+							"line": 4276,
 							"character": 4
 						}
 					],
@@ -10716,7 +10717,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4428,
+							"line": 4429,
 							"character": 4
 						}
 					],
@@ -10752,7 +10753,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4253,
+							"line": 4254,
 							"character": 4
 						}
 					],
@@ -10785,7 +10786,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5308,
+							"line": 5309,
 							"character": 4
 						}
 					],
@@ -10817,7 +10818,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5110,
+							"line": 5111,
 							"character": 4
 						}
 					],
@@ -10849,7 +10850,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3906,
+							"line": 3907,
 							"character": 4
 						}
 					],
@@ -10882,7 +10883,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5412,
+							"line": 5413,
 							"character": 4
 						}
 					],
@@ -10926,7 +10927,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4675,
+							"line": 4676,
 							"character": 4
 						}
 					],
@@ -10958,7 +10959,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5234,
+							"line": 5235,
 							"character": 4
 						}
 					],
@@ -10990,7 +10991,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4201,
+							"line": 4202,
 							"character": 4
 						}
 					],
@@ -11042,7 +11043,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4396,
+							"line": 4397,
 							"character": 4
 						}
 					],
@@ -11091,7 +11092,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4494,
+							"line": 4495,
 							"character": 4
 						}
 					],
@@ -11132,7 +11133,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5074,
+							"line": 5075,
 							"character": 4
 						}
 					],
@@ -11165,7 +11166,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4003,
+							"line": 4004,
 							"character": 4
 						}
 					],
@@ -11206,7 +11207,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4031,
+							"line": 4032,
 							"character": 4
 						}
 					],
@@ -11267,7 +11268,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4185,
+							"line": 4186,
 							"character": 4
 						}
 					],
@@ -11316,7 +11317,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4629,
+							"line": 4630,
 							"character": 4
 						}
 					],
@@ -11348,7 +11349,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5622,
+							"line": 5623,
 							"character": 4
 						}
 					],
@@ -11384,7 +11385,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4410,
+							"line": 4411,
 							"character": 4
 						}
 					],
@@ -11421,7 +11422,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4067,
+							"line": 4068,
 							"character": 4
 						}
 					],
@@ -11453,7 +11454,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5345,
+							"line": 5346,
 							"character": 4
 						}
 					],
@@ -11481,7 +11482,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5354,
+							"line": 5355,
 							"character": 4
 						}
 					],
@@ -11513,7 +11514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5092,
+							"line": 5093,
 							"character": 4
 						}
 					],
@@ -11541,7 +11542,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5651,
+							"line": 5652,
 							"character": 4
 						}
 					],
@@ -11582,7 +11583,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4985,
+							"line": 4986,
 							"character": 4
 						}
 					],
@@ -11631,7 +11632,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5541,
+							"line": 5542,
 							"character": 4
 						}
 					],
@@ -11663,7 +11664,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4216,
+							"line": 4217,
 							"character": 4
 						}
 					],
@@ -11695,7 +11696,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4231,
+							"line": 4232,
 							"character": 4
 						}
 					],
@@ -11728,7 +11729,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3810,
+							"line": 3811,
 							"character": 4
 						}
 					],
@@ -11764,7 +11765,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5471,
+							"line": 5472,
 							"character": 4
 						}
 					],
@@ -11796,7 +11797,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5779,
+							"line": 5780,
 							"character": 4
 						}
 					],
@@ -11833,7 +11834,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3948,
+							"line": 3949,
 							"character": 4
 						}
 					],
@@ -11870,7 +11871,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5278,
+							"line": 5279,
 							"character": 4
 						}
 					],
@@ -11907,7 +11908,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5256,
+							"line": 5257,
 							"character": 4
 						}
 					],
@@ -11944,7 +11945,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3928,
+							"line": 3929,
 							"character": 4
 						}
 					],
@@ -11980,7 +11981,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4933,
+							"line": 4934,
 							"character": 4
 						}
 					],
@@ -12021,7 +12022,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4708,
+							"line": 4709,
 							"character": 4
 						}
 					],
@@ -12062,7 +12063,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4771,
+							"line": 4772,
 							"character": 4
 						}
 					],
@@ -12099,7 +12100,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5591,
+							"line": 5592,
 							"character": 4
 						}
 					],
@@ -12128,7 +12129,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5747,
+							"line": 5748,
 							"character": 4
 						}
 					],
@@ -12169,7 +12170,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5044,
+							"line": 5045,
 							"character": 4
 						}
 					],
@@ -12210,7 +12211,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5014,
+							"line": 5015,
 							"character": 4
 						}
 					],
@@ -12243,7 +12244,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5566,
+							"line": 5567,
 							"character": 4
 						}
 					],
@@ -12271,7 +12272,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5334,
+							"line": 5335,
 							"character": 4
 						}
 					],
@@ -12320,7 +12321,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5213,
+							"line": 5214,
 							"character": 4
 						}
 					],
@@ -12357,7 +12358,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5383,
+							"line": 5384,
 							"character": 4
 						}
 					],
@@ -12389,7 +12390,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5430,
+							"line": 5431,
 							"character": 4
 						}
 					],
@@ -12413,7 +12414,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 5438,
+							"line": 5439,
 							"character": 4
 						}
 					],
@@ -12455,7 +12456,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 3991,
+							"line": 3992,
 							"character": 4
 						}
 					],
@@ -12487,7 +12488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4290,
+							"line": 4291,
 							"character": 4
 						}
 					],
@@ -12515,7 +12516,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 4083,
+							"line": 4084,
 							"character": 4
 						}
 					],
@@ -12605,7 +12606,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 3780,
+					"line": 3781,
 					"character": 12
 				}
 			]
@@ -12632,7 +12633,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8109,
+							"line": 8114,
 							"character": 4
 						}
 					],
@@ -12650,7 +12651,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8105,
+							"line": 8110,
 							"character": 4
 						}
 					],
@@ -12668,7 +12669,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8113,
+							"line": 8118,
 							"character": 4
 						}
 					],
@@ -12689,7 +12690,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8101,
+					"line": 8106,
 					"character": 12
 				}
 			]
@@ -12722,7 +12723,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8379,
+							"line": 8384,
 							"character": 4
 						}
 					],
@@ -12740,7 +12741,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8381,
+							"line": 8386,
 							"character": 4
 						}
 					],
@@ -12758,7 +12759,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8383,
+							"line": 8388,
 							"character": 4
 						}
 					],
@@ -12776,7 +12777,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8377,
+							"line": 8382,
 							"character": 4
 						}
 					],
@@ -12798,7 +12799,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8375,
+					"line": 8380,
 					"character": 12
 				}
 			]
@@ -12902,7 +12903,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2203,
+							"line": 2204,
 							"character": 4
 						}
 					],
@@ -12920,7 +12921,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2207,
+							"line": 2208,
 							"character": 4
 						}
 					],
@@ -12938,7 +12939,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2190,
+							"line": 2191,
 							"character": 4
 						}
 					],
@@ -12962,7 +12963,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2195,
+							"line": 2196,
 							"character": 4
 						}
 					],
@@ -12980,7 +12981,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2211,
+							"line": 2212,
 							"character": 4
 						}
 					],
@@ -12998,7 +12999,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2199,
+							"line": 2200,
 							"character": 4
 						}
 					],
@@ -13016,7 +13017,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2215,
+							"line": 2216,
 							"character": 4
 						}
 					],
@@ -13041,7 +13042,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2186,
+					"line": 2187,
 					"character": 12
 				}
 			]
@@ -13078,7 +13079,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7847,
+							"line": 7852,
 							"character": 4
 						}
 					],
@@ -13106,7 +13107,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7808,
+							"line": 7813,
 							"character": 4
 						}
 					],
@@ -13134,7 +13135,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7833,
+							"line": 7838,
 							"character": 4
 						}
 					],
@@ -13162,7 +13163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7796,
+							"line": 7801,
 							"character": 4
 						}
 					],
@@ -13190,7 +13191,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7859,
+							"line": 7864,
 							"character": 4
 						}
 					],
@@ -13218,7 +13219,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7820,
+							"line": 7825,
 							"character": 4
 						}
 					],
@@ -13242,7 +13243,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7783,
+					"line": 7788,
 					"character": 12
 				}
 			]
@@ -13423,7 +13424,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7612,
+							"line": 7617,
 							"character": 4
 						}
 					],
@@ -13438,7 +13439,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7614,
+							"line": 7619,
 							"character": 4
 						}
 					],
@@ -13453,7 +13454,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7613,
+							"line": 7618,
 							"character": 4
 						}
 					],
@@ -13468,7 +13469,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7615,
+							"line": 7620,
 							"character": 4
 						}
 					],
@@ -13490,7 +13491,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7611,
+					"line": 7616,
 					"character": 12
 				}
 			]
@@ -13569,7 +13570,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2113,
+							"line": 2114,
 							"character": 4
 						}
 					],
@@ -13587,7 +13588,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2133,
+							"line": 2134,
 							"character": 4
 						}
 					],
@@ -13605,7 +13606,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2129,
+							"line": 2130,
 							"character": 4
 						}
 					],
@@ -13623,7 +13624,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2121,
+							"line": 2122,
 							"character": 4
 						}
 					],
@@ -13641,7 +13642,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2125,
+							"line": 2126,
 							"character": 4
 						}
 					],
@@ -13659,7 +13660,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2109,
+							"line": 2110,
 							"character": 4
 						}
 					],
@@ -13677,7 +13678,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2117,
+							"line": 2118,
 							"character": 4
 						}
 					],
@@ -13695,7 +13696,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2085,
+							"line": 2086,
 							"character": 4
 						}
 					],
@@ -13713,7 +13714,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2105,
+							"line": 2106,
 							"character": 4
 						}
 					],
@@ -13731,7 +13732,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2101,
+							"line": 2102,
 							"character": 4
 						}
 					],
@@ -13749,7 +13750,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2137,
+							"line": 2138,
 							"character": 4
 						}
 					],
@@ -13767,7 +13768,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2097,
+							"line": 2098,
 							"character": 4
 						}
 					],
@@ -13785,7 +13786,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2093,
+							"line": 2094,
 							"character": 4
 						}
 					],
@@ -13803,7 +13804,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2089,
+							"line": 2090,
 							"character": 4
 						}
 					],
@@ -13821,7 +13822,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2141,
+							"line": 2142,
 							"character": 4
 						}
 					],
@@ -13854,7 +13855,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2081,
+					"line": 2082,
 					"character": 12
 				}
 			]
@@ -13887,7 +13888,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8407,
+							"line": 8412,
 							"character": 4
 						}
 					],
@@ -13905,7 +13906,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8405,
+							"line": 8410,
 							"character": 4
 						}
 					],
@@ -13925,7 +13926,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8403,
+					"line": 8408,
 					"character": 12
 				}
 			]
@@ -13958,7 +13959,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8392,
+							"line": 8397,
 							"character": 4
 						}
 					],
@@ -13976,7 +13977,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8394,
+							"line": 8399,
 							"character": 4
 						}
 					],
@@ -13994,7 +13995,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8396,
+							"line": 8401,
 							"character": 4
 						}
 					],
@@ -14015,7 +14016,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8390,
+					"line": 8395,
 					"character": 12
 				}
 			]
@@ -25365,7 +25366,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -25449,7 +25450,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1676,
+							"line": 1677,
 							"character": 4
 						}
 					],
@@ -25524,7 +25525,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1634,
+							"line": 1635,
 							"character": 4
 						}
 					],
@@ -25563,7 +25564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1914,
+							"line": 1915,
 							"character": 4
 						}
 					],
@@ -25609,7 +25610,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -25649,7 +25650,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -25731,7 +25732,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1692,
+							"line": 1693,
 							"character": 4
 						}
 					],
@@ -25807,7 +25808,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -25845,7 +25846,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -25867,7 +25868,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -25883,7 +25884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -25965,7 +25966,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -26007,7 +26008,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1810,
+							"line": 1811,
 							"character": 4
 						}
 					],
@@ -26049,7 +26050,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1898,
+							"line": 1899,
 							"character": 4
 						}
 					],
@@ -26091,7 +26092,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1708,
+							"line": 1709,
 							"character": 4
 						}
 					],
@@ -26163,7 +26164,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -26382,7 +26383,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -26420,7 +26421,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1647,
+							"line": 1648,
 							"character": 4
 						}
 					],
@@ -26458,7 +26459,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1660,
+							"line": 1661,
 							"character": 4
 						}
 					],
@@ -26495,7 +26496,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -26590,7 +26591,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -26610,7 +26611,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -26652,7 +26653,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1570,
+							"line": 1571,
 							"character": 4
 						}
 					],
@@ -26694,7 +26695,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1528,
+							"line": 1529,
 							"character": 4
 						}
 					],
@@ -26736,7 +26737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1507,
+							"line": 1508,
 							"character": 4
 						}
 					],
@@ -26896,7 +26897,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1865,
+							"line": 1866,
 							"character": 4
 						}
 					],
@@ -26938,7 +26939,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1746,
+							"line": 1747,
 							"character": 4
 						}
 					],
@@ -27192,7 +27193,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -27229,7 +27230,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -27266,7 +27267,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -27307,7 +27308,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1932,
+							"line": 1933,
 							"character": 4
 						}
 					],
@@ -27379,7 +27380,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1964,
+							"line": 1965,
 							"character": 4
 						}
 					],
@@ -27451,7 +27452,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1947,
+							"line": 1948,
 							"character": 4
 						}
 					],
@@ -27493,7 +27494,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1827,
+							"line": 1828,
 							"character": 4
 						}
 					],
@@ -27531,7 +27532,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1793,
+							"line": 1794,
 							"character": 4
 						}
 					],
@@ -27573,7 +27574,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1996,
+							"line": 1997,
 							"character": 4
 						}
 					],
@@ -27678,7 +27679,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -27750,7 +27751,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1724,
+							"line": 1725,
 							"character": 4
 						}
 					],
@@ -27897,7 +27898,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -27935,7 +27936,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -28051,7 +28052,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2012,
+							"line": 2013,
 							"character": 4
 						}
 					],
@@ -28089,7 +28090,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -28196,7 +28197,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -28234,7 +28235,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1236,
+							"line": 1237,
 							"character": 4
 						}
 					],
@@ -28271,7 +28272,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -28309,7 +28310,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1549,
+							"line": 1550,
 							"character": 4
 						}
 					],
@@ -28351,7 +28352,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1598,
+							"line": 1599,
 							"character": 4
 						}
 					],
@@ -28393,7 +28394,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1619,
+							"line": 1620,
 							"character": 4
 						}
 					],
@@ -28438,7 +28439,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -28475,7 +28476,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -28517,7 +28518,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1778,
+							"line": 1779,
 							"character": 4
 						}
 					],
@@ -28559,7 +28560,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1882,
+							"line": 1883,
 							"character": 4
 						}
 					],
@@ -28601,7 +28602,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1762,
+							"line": 1763,
 							"character": 4
 						}
 					],
@@ -28643,7 +28644,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1844,
+							"line": 1845,
 							"character": 4
 						}
 					],
@@ -28685,7 +28686,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1980,
+							"line": 1981,
 							"character": 4
 						}
 					],
@@ -28906,7 +28907,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -28928,8 +28929,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -28948,7 +28949,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -29852,7 +29853,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -29940,7 +29941,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -29980,7 +29981,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -30019,7 +30020,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -30057,7 +30058,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -30079,7 +30080,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30095,7 +30096,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -30140,7 +30141,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -30178,7 +30179,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -30216,7 +30217,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -30253,7 +30254,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -30314,7 +30315,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30334,7 +30335,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -30376,7 +30377,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -30413,7 +30414,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -30450,7 +30451,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -30487,7 +30488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -30525,7 +30526,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -30563,7 +30564,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -30601,7 +30602,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -30639,7 +30640,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -30677,7 +30678,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1236,
+							"line": 1237,
 							"character": 4
 						}
 					],
@@ -30714,7 +30715,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -30755,7 +30756,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -30792,7 +30793,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -30833,7 +30834,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -30855,8 +30856,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -30875,7 +30876,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -30930,7 +30931,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 1479,
+					"line": 1480,
 					"character": 17
 				}
 			],
@@ -30986,7 +30987,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -31075,7 +31076,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -31116,7 +31117,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -31156,7 +31157,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -31195,7 +31196,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -31218,7 +31219,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -31234,7 +31235,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -31280,7 +31281,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -31319,7 +31320,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -31358,7 +31359,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -31396,7 +31397,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -31459,7 +31460,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -31479,7 +31480,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -31522,7 +31523,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -31560,7 +31561,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -31598,7 +31599,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -31636,7 +31637,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -31675,7 +31676,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -31714,7 +31715,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -31753,7 +31754,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -31792,7 +31793,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -31830,7 +31831,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -31872,7 +31873,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -31910,7 +31911,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -31952,7 +31953,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -31975,8 +31976,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -31995,7 +31996,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -32134,7 +32135,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -32223,7 +32224,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -32264,7 +32265,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -32347,7 +32348,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -32425,7 +32426,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -32448,7 +32449,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -32464,7 +32465,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -32510,7 +32511,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -32549,7 +32550,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -32670,7 +32671,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -32786,7 +32787,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -32849,7 +32850,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -32869,7 +32870,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -32990,7 +32991,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -33028,7 +33029,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -33066,7 +33067,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -33104,7 +33105,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -33143,7 +33144,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -33182,7 +33183,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -33221,7 +33222,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -33260,7 +33261,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -33298,7 +33299,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -33454,7 +33455,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -33492,7 +33493,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -33696,7 +33697,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -33719,8 +33720,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -33739,7 +33740,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -33874,7 +33875,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7656,
+							"line": 7661,
 							"character": 4
 						}
 					],
@@ -33896,7 +33897,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7657,
+											"line": 7662,
 											"character": 8
 										}
 									],
@@ -33915,7 +33916,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7658,
+											"line": 7663,
 											"character": 8
 										}
 									],
@@ -33951,7 +33952,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7660,
+							"line": 7665,
 							"character": 4
 						}
 					],
@@ -33973,7 +33974,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7668,
+											"line": 7673,
 											"character": 8
 										}
 									],
@@ -33994,7 +33995,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7669,
+											"line": 7674,
 											"character": 8
 										}
 									],
@@ -34015,7 +34016,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7662,
+											"line": 7667,
 											"character": 8
 										}
 									],
@@ -34033,7 +34034,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7661,
+											"line": 7666,
 											"character": 8
 										}
 									],
@@ -34051,7 +34052,7 @@
 									"sources": [
 										{
 											"fileName": "types.ts",
-											"line": 7663,
+											"line": 7668,
 											"character": 8
 										}
 									],
@@ -34073,7 +34074,7 @@
 													"sources": [
 														{
 															"fileName": "types.ts",
-															"line": 7664,
+															"line": 7669,
 															"character": 12
 														}
 													],
@@ -34095,7 +34096,7 @@
 																	"sources": [
 																		{
 																			"fileName": "types.ts",
-																			"line": 7665,
+																			"line": 7670,
 																			"character": 16
 																		}
 																	],
@@ -34179,7 +34180,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7672,
+							"line": 7677,
 							"character": 4
 						}
 					],
@@ -34200,7 +34201,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7673,
+							"line": 7678,
 							"character": 4
 						}
 					],
@@ -34225,7 +34226,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7655,
+					"line": 7660,
 					"character": 17
 				}
 			]
@@ -40259,7 +40260,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8037,
+							"line": 8042,
 							"character": 4
 						}
 					],
@@ -40281,7 +40282,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8033,
+							"line": 8038,
 							"character": 4
 						}
 					],
@@ -40303,7 +40304,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8035,
+							"line": 8040,
 							"character": 4
 						}
 					],
@@ -40339,7 +40340,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8031,
+					"line": 8036,
 					"character": 17
 				}
 			],
@@ -40624,7 +40625,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -40708,7 +40709,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1676,
+							"line": 1677,
 							"character": 4
 						}
 					],
@@ -40746,7 +40747,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1634,
+							"line": 1635,
 							"character": 4
 						}
 					],
@@ -40785,7 +40786,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1914,
+							"line": 1915,
 							"character": 4
 						}
 					],
@@ -40831,7 +40832,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -40871,7 +40872,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -40914,7 +40915,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1692,
+							"line": 1693,
 							"character": 4
 						}
 					],
@@ -40994,7 +40995,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -41032,7 +41033,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -41054,7 +41055,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41070,7 +41071,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -41115,7 +41116,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -41157,7 +41158,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1810,
+							"line": 1811,
 							"character": 4
 						}
 					],
@@ -41199,7 +41200,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1898,
+							"line": 1899,
 							"character": 4
 						}
 					],
@@ -41241,7 +41242,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1708,
+							"line": 1709,
 							"character": 4
 						}
 					],
@@ -41279,7 +41280,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -41384,7 +41385,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -41459,7 +41460,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1647,
+							"line": 1648,
 							"character": 4
 						}
 					],
@@ -41497,7 +41498,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1660,
+							"line": 1661,
 							"character": 4
 						}
 					],
@@ -41534,7 +41535,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -41629,7 +41630,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41649,7 +41650,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -41732,7 +41733,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1865,
+							"line": 1866,
 							"character": 4
 						}
 					],
@@ -41774,7 +41775,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1746,
+							"line": 1747,
 							"character": 4
 						}
 					],
@@ -41846,7 +41847,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -41883,7 +41884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -41920,7 +41921,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -41961,7 +41962,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1932,
+							"line": 1933,
 							"character": 4
 						}
 					],
@@ -42033,7 +42034,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1964,
+							"line": 1965,
 							"character": 4
 						}
 					],
@@ -42105,7 +42106,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1947,
+							"line": 1948,
 							"character": 4
 						}
 					],
@@ -42147,7 +42148,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1827,
+							"line": 1828,
 							"character": 4
 						}
 					],
@@ -42185,7 +42186,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1793,
+							"line": 1794,
 							"character": 4
 						}
 					],
@@ -42227,7 +42228,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1996,
+							"line": 1997,
 							"character": 4
 						}
 					],
@@ -42332,7 +42333,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -42404,7 +42405,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1724,
+							"line": 1725,
 							"character": 4
 						}
 					],
@@ -42513,7 +42514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -42619,7 +42620,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -42698,7 +42699,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2012,
+							"line": 2013,
 							"character": 4
 						}
 					],
@@ -42736,7 +42737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -42808,7 +42809,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -42880,7 +42881,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1236,
+							"line": 1237,
 							"character": 4
 						}
 					],
@@ -42917,7 +42918,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -42955,7 +42956,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1598,
+							"line": 1599,
 							"character": 4
 						}
 					],
@@ -42997,7 +42998,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1619,
+							"line": 1620,
 							"character": 4
 						}
 					],
@@ -43042,7 +43043,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -43079,7 +43080,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -43121,7 +43122,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1778,
+							"line": 1779,
 							"character": 4
 						}
 					],
@@ -43163,7 +43164,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1882,
+							"line": 1883,
 							"character": 4
 						}
 					],
@@ -43205,7 +43206,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1762,
+							"line": 1763,
 							"character": 4
 						}
 					],
@@ -43247,7 +43248,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1844,
+							"line": 1845,
 							"character": 4
 						}
 					],
@@ -43289,7 +43290,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1980,
+							"line": 1981,
 							"character": 4
 						}
 					],
@@ -43470,7 +43471,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -43492,8 +43493,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -43512,7 +43513,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -43769,7 +43770,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2226,
+							"line": 2227,
 							"character": 4
 						}
 					],
@@ -43790,7 +43791,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2230,
+							"line": 2231,
 							"character": 4
 						}
 					],
@@ -43812,7 +43813,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2236,
+							"line": 2237,
 							"character": 4
 						}
 					],
@@ -43856,7 +43857,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2222,
+					"line": 2223,
 					"character": 17
 				}
 			]
@@ -43883,7 +43884,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2246,
+							"line": 2247,
 							"character": 4
 						}
 					],
@@ -43904,7 +43905,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2250,
+							"line": 2251,
 							"character": 4
 						}
 					],
@@ -43940,7 +43941,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2242,
+					"line": 2243,
 					"character": 17
 				}
 			]
@@ -43985,7 +43986,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -44069,7 +44070,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1676,
+							"line": 1677,
 							"character": 4
 						}
 					],
@@ -44107,7 +44108,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1634,
+							"line": 1635,
 							"character": 4
 						}
 					],
@@ -44154,7 +44155,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -44194,7 +44195,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -44237,7 +44238,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1692,
+							"line": 1693,
 							"character": 4
 						}
 					],
@@ -44350,7 +44351,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -44388,7 +44389,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -44410,7 +44411,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44426,7 +44427,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -44471,7 +44472,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -44513,7 +44514,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1708,
+							"line": 1709,
 							"character": 4
 						}
 					],
@@ -44551,7 +44552,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -44589,7 +44590,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -44627,7 +44628,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1647,
+							"line": 1648,
 							"character": 4
 						}
 					],
@@ -44665,7 +44666,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1660,
+							"line": 1661,
 							"character": 4
 						}
 					],
@@ -44736,7 +44737,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -44797,7 +44798,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44817,7 +44818,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -44859,7 +44860,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -44896,7 +44897,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -44933,7 +44934,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -44970,7 +44971,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -45008,7 +45009,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1724,
+							"line": 1725,
 							"character": 4
 						}
 					],
@@ -45046,7 +45047,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -45084,7 +45085,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -45122,7 +45123,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -45160,7 +45161,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -45198,7 +45199,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1236,
+							"line": 1237,
 							"character": 4
 						}
 					],
@@ -45235,7 +45236,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -45273,7 +45274,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1598,
+							"line": 1599,
 							"character": 4
 						}
 					],
@@ -45315,7 +45316,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1619,
+							"line": 1620,
 							"character": 4
 						}
 					],
@@ -45394,7 +45395,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -45431,7 +45432,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -45472,7 +45473,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -45528,8 +45529,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -45548,7 +45549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -45673,7 +45674,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -45859,7 +45860,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1676,
+							"line": 1677,
 							"character": 4
 						}
 					],
@@ -45934,7 +45935,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1634,
+							"line": 1635,
 							"character": 4
 						}
 					],
@@ -45981,7 +45982,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -46021,7 +46022,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -46102,7 +46103,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1692,
+							"line": 1693,
 							"character": 4
 						}
 					],
@@ -46210,7 +46211,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -46248,7 +46249,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -46270,7 +46271,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46286,7 +46287,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -46331,7 +46332,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -46373,7 +46374,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1708,
+							"line": 1709,
 							"character": 4
 						}
 					],
@@ -46411,7 +46412,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -46483,7 +46484,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -46521,7 +46522,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1647,
+							"line": 1648,
 							"character": 4
 						}
 					],
@@ -46559,7 +46560,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1660,
+							"line": 1661,
 							"character": 4
 						}
 					],
@@ -46630,7 +46631,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -46763,7 +46764,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46783,7 +46784,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -46927,7 +46928,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -46964,7 +46965,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -47001,7 +47002,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -47038,7 +47039,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -47076,7 +47077,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1724,
+							"line": 1725,
 							"character": 4
 						}
 					],
@@ -47114,7 +47115,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -47152,7 +47153,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -47228,7 +47229,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -47266,7 +47267,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -47303,7 +47304,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -47341,7 +47342,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1598,
+							"line": 1599,
 							"character": 4
 						}
 					],
@@ -47383,7 +47384,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1619,
+							"line": 1620,
 							"character": 4
 						}
 					],
@@ -47487,7 +47488,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -47524,7 +47525,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -47565,7 +47566,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -47617,8 +47618,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -47637,7 +47638,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -47950,7 +47951,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -48038,7 +48039,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -48078,7 +48079,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -48117,7 +48118,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -48155,7 +48156,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -48177,7 +48178,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48193,7 +48194,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -48238,7 +48239,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -48276,7 +48277,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -48314,7 +48315,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -48351,7 +48352,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -48412,7 +48413,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48432,7 +48433,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -48474,7 +48475,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -48511,7 +48512,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -48548,7 +48549,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -48585,7 +48586,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -48623,7 +48624,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -48661,7 +48662,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -48699,7 +48700,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -48737,7 +48738,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -48774,7 +48775,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -48815,7 +48816,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -48852,7 +48853,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -48893,7 +48894,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -48915,8 +48916,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -48935,7 +48936,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -49171,7 +49172,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 4
 						}
 					],
@@ -49259,7 +49260,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1435,
+							"line": 1436,
 							"character": 4
 						}
 					],
@@ -49299,7 +49300,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1045,
+							"line": 1046,
 							"character": 4
 						}
 					],
@@ -49376,7 +49377,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1153,
+							"line": 1154,
 							"character": 4
 						}
 					],
@@ -49448,7 +49449,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 960,
+							"line": 961,
 							"character": 4
 						}
 					],
@@ -49470,7 +49471,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. These actions will be disabled\nfor the user.\nUse this to disable actions.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -49486,7 +49487,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 944,
+							"line": 945,
 							"character": 4
 						}
 					],
@@ -49531,7 +49532,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1109,
+							"line": 1110,
 							"character": 4
 						}
 					],
@@ -49569,7 +49570,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1220,
+							"line": 1221,
 							"character": 4
 						}
 					],
@@ -49679,7 +49680,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1126,
+							"line": 1127,
 							"character": 4
 						}
 					],
@@ -49784,7 +49785,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1137,
+							"line": 1138,
 							"character": 4
 						}
 					],
@@ -49845,7 +49846,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to hide from the embedded view.\nThese actions will be hidden from the user.\nUse this to hide an action.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -49865,7 +49866,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 978,
+							"line": 980,
 							"character": 4
 						}
 					],
@@ -49975,7 +49976,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1061,
+							"line": 1062,
 							"character": 4
 						}
 					],
@@ -50012,7 +50013,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8157,
+							"line": 8162,
 							"character": 4
 						}
 					],
@@ -50049,7 +50050,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8140,
+							"line": 8145,
 							"character": 4
 						}
 					],
@@ -50086,7 +50087,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8124,
+							"line": 8129,
 							"character": 4
 						}
 					],
@@ -50124,7 +50125,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1192,
+							"line": 1193,
 							"character": 4
 						}
 					],
@@ -50162,7 +50163,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1014,
+							"line": 1015,
 							"character": 4
 						}
 					],
@@ -50200,7 +50201,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1172,
+							"line": 1173,
 							"character": 4
 						}
 					],
@@ -50238,7 +50239,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1088,
+							"line": 1089,
 							"character": 4
 						}
 					],
@@ -50275,7 +50276,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1448,
+							"line": 1449,
 							"character": 4
 						}
 					],
@@ -50415,7 +50416,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1461,
+							"line": 1462,
 							"character": 4
 						}
 					],
@@ -50452,7 +50453,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1256,
+							"line": 1257,
 							"character": 4
 						}
 					],
@@ -50635,7 +50636,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 1475,
+							"line": 1476,
 							"character": 4
 						}
 					],
@@ -50657,8 +50658,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this to hide all actions except the ones you want to show.",
-						"text": "Use either this or hiddenActions.\n\nSupported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -50677,7 +50678,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 999,
+							"line": 1000,
 							"character": 4
 						}
 					],
@@ -51271,7 +51272,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8650,
+							"line": 8655,
 							"character": 4
 						}
 					],
@@ -51294,7 +51295,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 8652,
+							"line": 8657,
 							"character": 4
 						}
 					],
@@ -51317,7 +51318,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 8648,
+					"line": 8653,
 					"character": 17
 				}
 			]
@@ -51338,7 +51339,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7648,
+							"line": 7653,
 							"character": 4
 						}
 					],
@@ -51359,7 +51360,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 7649,
+							"line": 7654,
 							"character": 4
 						}
 					],
@@ -51385,7 +51386,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 7647,
+					"line": 7652,
 					"character": 17
 				}
 			]
@@ -51869,7 +51870,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2049,
+					"line": 2050,
 					"character": 12
 				}
 			],
@@ -51893,7 +51894,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2049,
+							"line": 2050,
 							"character": 30
 						}
 					],
@@ -51939,7 +51940,7 @@
 											"sources": [
 												{
 													"fileName": "types.ts",
-													"line": 2056,
+													"line": 2057,
 													"character": 16
 												}
 											],
@@ -52003,7 +52004,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2038,
+					"line": 2039,
 					"character": 12
 				}
 			],
@@ -52030,7 +52031,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 2043,
+									"line": 2044,
 									"character": 4
 								}
 							],
@@ -52052,7 +52053,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2038,
+							"line": 2039,
 							"character": 29
 						}
 					]
@@ -52077,7 +52078,7 @@
 			"sources": [
 				{
 					"fileName": "types.ts",
-					"line": 2025,
+					"line": 2026,
 					"character": 12
 				}
 			],
@@ -52099,7 +52100,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 2029,
+									"line": 2030,
 									"character": 4
 								}
 							],
@@ -52119,7 +52120,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 2031,
+									"line": 2032,
 									"character": 4
 								}
 							],
@@ -52137,7 +52138,7 @@
 							"sources": [
 								{
 									"fileName": "types.ts",
-									"line": 2027,
+									"line": 2028,
 									"character": 4
 								}
 							],
@@ -52161,7 +52162,7 @@
 					"sources": [
 						{
 							"fileName": "types.ts",
-							"line": 2025,
+							"line": 2026,
 							"character": 29
 						}
 					]

@@ -926,9 +926,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu. These actions will be disabled
-     * for the user.
-     * Use this to disable actions.
+     * (...), and the contextual menu. Disabled actions are grayed out
+     * and still visible to the user, but cannot be clicked.
+     * Use this when you want to disable an action (keep it visible but non-interactive).
+     * To completely remove an action from the UI, use {@link hiddenActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -959,9 +960,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the embedded view.
-     * These actions will be hidden from the user.
-     * Use this to hide an action.
+     * The list of actions to completely remove from the embedded view.
+     * Hidden actions are not visible to the user at all (fully removed from the UI).
+     * Use this when you want to remove an action entirely.
+     * To keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -980,9 +982,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu. These will be only actions that
      * are visible to the user.
-     * Use this to hide all actions except the ones you want to show.
-     *
-     * Use either this or hiddenActions.
+     * Use this as an allowlist — only the actions listed here will be shown.
+     * All other actions will be hidden. Use either this or {@link hiddenActions}, not both.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -5960,10 +5961,14 @@ export enum Param {
 /**
  * ThoughtSpot application pages include actions and menu commands
  * for various user-initiated operations. These actions are represented
- * as enumeration members in the SDK. To show, hide, or disable
- * specific actions in the embedded view, define the Action
- * enumeration members in the `disabledActions`, `visibleActions`,
- * or `hiddenActions` array.
+ * as enumeration members in the SDK. To control actions in the embedded view:
+ * - disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).
+ * - hiddenActions — the action is completely removed from the UI (user cannot see it at all).
+ * - visibleActions — allowlist, only these actions are shown; all others are hidden.
+ *
+ * Use disabledActions to disable (gray out) an action.
+ * Use hiddenActions to hide (fully remove) an action.
+ * Use visibleActions to show only specific actions.
  * @example
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
