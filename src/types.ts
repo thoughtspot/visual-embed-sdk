@@ -1445,6 +1445,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * })
      * ```
      */
+    /**
+     * @default true
+     */
     refreshAuthTokenOnNearExpiry?: boolean;
     /**
      * This flag skips payload validation so events can be processed even if the payload is old, incomplete, or from a trusted system.
@@ -8093,6 +8096,9 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
+    embedExpiryInAuthToken:boolean;
+    shouldBypassPayloadValidation:boolean
+    useHostEventsV2:boolean
 }
 
 /**
