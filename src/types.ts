@@ -983,7 +983,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * (...), and the contextual menu. These will be only actions that
      * are visible to the user.
      * Use this as an allowlist — only the actions listed here will be shown.
-     * All other actions will be hidden. Use either this or hiddenActions, not both.
+     * All other actions will be hidden. Use either this or {@link hiddenActions}, not both.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
