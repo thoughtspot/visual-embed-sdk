@@ -926,10 +926,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu. Disabled actions are greyed out
+     * (...), and the contextual menu. Disabled actions are grayed out
      * and still visible to the user, but cannot be clicked.
      * Use this when you want to disable an action (keep it visible but non-interactive).
-     * To completely remove an action from the UI, use hiddenActions instead.
+     * To completely remove an action from the UI, use {@link hiddenActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
