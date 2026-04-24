@@ -388,9 +388,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page 
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages. 
-     * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
+     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
+     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -640,7 +640,7 @@ export class LiveboardEmbed extends V1Embed {
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled,
+            isContinuousLiveboardPDFEnabled = false,
             enableLiveboardDataCache,
         } = this.viewConfig;
 

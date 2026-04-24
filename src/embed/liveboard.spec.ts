@@ -275,6 +275,20 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isWYSIWYGLiveboardPDFEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isLiveboardXLSXCSVDownloadEnabled: true,

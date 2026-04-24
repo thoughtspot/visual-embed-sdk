@@ -13,8 +13,8 @@
 			"kindString": "Enumeration",
 			"flags": {},
 			"comment": {
-				"shortText": "ThoughtSpot application pages include actions and menu commands\nfor various user-initiated operations. These actions are represented\nas enumeration members in the SDK. To control actions in the embedded view:\n- `disabledActions` — action is greyed out and still visible, but non-interactive (user can see but not click)\n- `hiddenActions` — action is completely removed from the UI (user cannot see it at all)\n- `visibleActions` — allowlist, only these actions are shown; all others are hidden",
-				"text": "Use `disabledActions` to disable (grey out) an action.\nUse `hiddenActions` to hide (fully remove) an action.\nUse `visibleActions` to show only specific actions.",
+				"shortText": "ThoughtSpot application pages include actions and menu commands\nfor various user-initiated operations. These actions are represented\nas enumeration members in the SDK. To control actions in the embedded view:\n- disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).\n- hiddenActions — the action is completely removed from the UI (user cannot see it at all).\n- visibleActions — allowlist, only these actions are shown; all others are hidden.",
+				"text": "Use disabledActions to disable (gray out) an action.\nUse hiddenActions to hide (fully remove) an action.\nUse visibleActions to show only specific actions.",
 				"tags": [
 					{
 						"tag": "example",
@@ -25868,7 +25868,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -26591,7 +26591,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -27330,7 +27330,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
@@ -28929,7 +28929,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30080,7 +30080,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30315,7 +30315,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -30856,7 +30856,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -31219,7 +31219,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -31460,7 +31460,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -31976,7 +31976,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -32449,7 +32449,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -32850,7 +32850,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -33720,7 +33720,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41055,7 +41055,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41630,7 +41630,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -41984,7 +41984,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.",
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
@@ -43493,7 +43493,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44411,7 +44411,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -44798,7 +44798,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -45529,7 +45529,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46271,7 +46271,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -46764,7 +46764,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -47618,7 +47618,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48178,7 +48178,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48413,7 +48413,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -48916,7 +48916,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -49471,7 +49471,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are greyed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use hiddenActions instead.",
+						"shortText": "The list of actions to disable from the primary menu, more menu\n(...), and the contextual menu. Disabled actions are grayed out\nand still visible to the user, but cannot be clicked.\nUse this when you want to disable an action (keep it visible but non-interactive).\nTo completely remove an action from the UI, use {@link hiddenActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -49846,7 +49846,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (greyed out), use disabledActions instead.",
+						"shortText": "The list of actions to completely remove from the embedded view.\nHidden actions are not visible to the user at all (fully removed from the UI).\nUse this when you want to remove an action entirely.\nTo keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
@@ -50658,7 +50658,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or hiddenActions, not both.",
+						"shortText": "The list of actions to display from the primary menu, more menu\n(...), and the contextual menu. These will be only actions that\nare visible to the user.\nUse this as an allowlist — only the actions listed here will be shown.\nAll other actions will be hidden. Use either this or {@link hiddenActions}, not both.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`",
 						"tags": [
 							{
