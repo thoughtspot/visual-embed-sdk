@@ -963,7 +963,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The list of actions to completely remove from the embedded view.
      * Hidden actions are not visible to the user at all (fully removed from the UI).
      * Use this when you want to remove an action entirely.
-     * To keep an action visible but non-interactive (greyed out), use disabledActions instead.
+     * To keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
