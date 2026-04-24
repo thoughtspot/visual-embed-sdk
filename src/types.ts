@@ -5962,13 +5962,13 @@ export enum Param {
  * ThoughtSpot application pages include actions and menu commands
  * for various user-initiated operations. These actions are represented
  * as enumeration members in the SDK. To control actions in the embedded view:
- * - `disabledActions` — action is greyed out and still visible, but non-interactive (user can see but not click)
- * - `hiddenActions` — action is completely removed from the UI (user cannot see it at all)
- * - `visibleActions` — allowlist, only these actions are shown; all others are hidden
+ * - disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).
+ * - hiddenActions — the action is completely removed from the UI (user cannot see it at all).
+ * - visibleActions — allowlist, only these actions are shown; all others are hidden.
  *
- * Use `disabledActions` to disable (grey out) an action.
- * Use `hiddenActions` to hide (fully remove) an action.
- * Use `visibleActions` to show only specific actions.
+ * Use disabledActions to disable (gray out) an action.
+ * Use hiddenActions to hide (fully remove) an action.
+ * Use visibleActions to show only specific actions.
  * @example
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
