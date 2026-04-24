@@ -97,6 +97,7 @@ beforeAll(() => {
 const customisations = {
     style: {
         customCSS: {},
+        customCSSUrl: undefined as string | undefined,
     },
     content: {},
 };
@@ -132,6 +133,9 @@ const getMockAppInitPayload = (data: any) => {
         customVariablesForThirdPartyTools,
         interceptTimeout: undefined,
         interceptUrls: [],
+        shouldBypassPayloadValidation:undefined,
+        useHostEventsV2:undefined,
+        embedExpiryInAuthToken:true
     };
     return {
         type: EmbedEvent.APP_INIT,

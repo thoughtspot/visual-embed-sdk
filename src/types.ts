@@ -1437,6 +1437,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * Refresh the auth token when the token is near expiry.
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1444,9 +1445,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *    refreshAuthTokenOnNearExpiry: true,
      * })
      * ```
-     */
-    /**
-     * @default true
      */
     refreshAuthTokenOnNearExpiry?: boolean;
     /**
@@ -8097,8 +8095,8 @@ export interface DefaultAppInitData {
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
     embedExpiryInAuthToken:boolean;
-    shouldBypassPayloadValidation:boolean
-    useHostEventsV2:boolean
+    shouldBypassPayloadValidation?:boolean
+    useHostEventsV2?:boolean
 }
 
 /**
