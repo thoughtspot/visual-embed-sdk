@@ -1,5 +1,5 @@
 import { startAutoMCPFrameRenderer } from './auto-frame-renderer';
-import { Param, AuthType } from '../types';
+import { Action, Param, AuthType } from '../types';
 import { init } from '../index';
 import * as authInstance from '../auth';
 import { TsEmbed } from './ts-embed';
@@ -28,7 +28,7 @@ describe('startAutoMCPFrameRenderer', () => {
             TsEmbed.prototype as any,
             'getEmbedBasePath',
         ).mockImplementation(function (this: any, query: string) {
-            return `http://${thoughtSpotHost}/?${query}#`;
+            return `http://${thoughtSpotHost}/${query}#`;
         });
         renderIFrameSpy = jest.spyOn(
             TsEmbed.prototype as any,
@@ -215,6 +215,88 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(observer).toBeInstanceOf(MutationObserver);
             observer.disconnect();
         });
+
+        test('should forward disabledActions into the rendered iframe src', async () => {
+            let capturedSrc = '';
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(
+                TsEmbed.prototype as any,
+                'renderIFrame',
+            ).mockImplementation(async function (this: any, src: string) {
+                capturedSrc = src;
+            });
+
+            const observer = startAutoMCPFrameRenderer({
+                disabledActions: [Action.Pin],
+                disabledActionReason: 'Upgrade to Pro!',
+            });
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true#/embed/viz/lb1`;
+            document.body.appendChild(iframe);
+
+            await new Promise((r) => setTimeout(r, 50));
+
+            expect(capturedSrc).toContain('disableAction');
+            expect(capturedSrc).toContain('disableHint');
+            observer.disconnect();
+        });
+
+        test('should forward hiddenActions into the rendered iframe src', async () => {
+            let capturedSrc = '';
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(
+                TsEmbed.prototype as any,
+                'renderIFrame',
+            ).mockImplementation(async function (this: any, src: string) {
+                capturedSrc = src;
+            });
+
+            const observer = startAutoMCPFrameRenderer({
+                hiddenActions: [Action.Pin],
+            });
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true#/embed/viz/lb1`;
+            document.body.appendChild(iframe);
+
+            await new Promise((r) => setTimeout(r, 50));
+
+            expect(capturedSrc).toContain('hideAction');
+            observer.disconnect();
+        });
+
+        test('should apply frameParams height to the replacement iframe', async () => {
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(
+                TsEmbed.prototype as any,
+                'renderIFrame',
+            ).mockResolvedValue(undefined);
+
+            const createIframeElSpy = jest.spyOn(
+                TsEmbed.prototype as any,
+                'createIframeEl',
+            );
+
+            const observer = startAutoMCPFrameRenderer({
+                frameParams: { height: '600px', width: '100%' },
+            });
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true#/embed/viz/lb1`;
+            document.body.appendChild(iframe);
+
+            await new Promise((r) => setTimeout(r, 50));
+
+            if (createIframeElSpy.mock.calls.length > 0) {
+                const createdIframe = createIframeElSpy.mock.results[0]?.value as HTMLIFrameElement;
+                expect(createdIframe?.style?.height).toBe('600px');
+                expect(createdIframe?.style?.width).toBe('100%');
+            }
+
+            createIframeElSpy.mockRestore();
+            observer.disconnect();
+        });
     });
 
     describe('getMCPIframeSrc URL construction', () => {
@@ -238,6 +320,7 @@ describe('startAutoMCPFrameRenderer', () => {
 
             expect(capturedSrc).not.toContain(`${Param.Tsmcp}=true`);
             expect(capturedSrc).toContain('customParam=hello');
+            expect(capturedSrc).toMatch(/\?[^#]+#/);
             observer.disconnect();
         });
 

@@ -116,7 +116,8 @@ class AutoFrameRenderer extends TsEmbed {
 
         const mergedQueryParams = { ...queryParams, ...existingQueryParamsObject };
         const mergedQueryParamsString = getQueryParamString(mergedQueryParams);
-        const frameSrc = `${this.getEmbedBasePath(mergedQueryParamsString)}${sourceURL.hash.replace('#', '')}`;
+        const queryString = mergedQueryParamsString ? `?${mergedQueryParamsString}` : '';
+        const frameSrc = `${this.getEmbedBasePath(queryString)}${sourceURL.hash.replace('#', '')}`;
         return frameSrc;
     }
 
