@@ -2,7 +2,6 @@ import 'jest-fetch-mock';
 import * as embedConfigModule from './embed/embedConfig';
 import * as authTokenModule from './authToken';
 import { AuthType } from './types';
-import { storeValueInWindow } from './utils';
 import { tokenizedFetch } from './tokenizedFetch';
 
 jest.mock('./embed/embedConfig');
@@ -10,15 +9,12 @@ jest.mock('./authToken');
 
 const mockGetEmbedConfig = embedConfigModule.getEmbedConfig as jest.Mock;
 const mockGetAuthenticationToken = authTokenModule.getAuthenticationToken as jest.Mock;
+const mockGetCacheAuthToken = authTokenModule.getCacheAuthToken as jest.Mock;
 
 describe('tokenizedFetch', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         fetchMock.resetMocks();
-        // Clean up any cached token stored during tests
-        if ((window as any)._tsEmbedSDK) {
-            delete (window as any)._tsEmbedSDK.cachedAuthToken;
-        }
     });
 
     describe('non-cookieless auth', () => {
@@ -26,8 +22,8 @@ describe('tokenizedFetch', () => {
             mockGetEmbedConfig.mockReturnValue({ authType: AuthType.TrustedAuthToken });
         });
 
-        it('should add Authorization Bearer header when cachedAuthToken exists in window', async () => {
-            storeValueInWindow('cachedAuthToken', 'my-cached-token');
+        it('should add Authorization Bearer header when cachedAuthToken exists', async () => {
+            mockGetCacheAuthToken.mockReturnValue('my-cached-token');
             fetchMock.mockResponseOnce(JSON.stringify({}));
 
             await tokenizedFetch('https://example.com/api', { method: 'GET' });
@@ -38,7 +34,8 @@ describe('tokenizedFetch', () => {
             expect(request.headers.get('Authorization')).toBe('Bearer my-cached-token');
         });
 
-        it('should fetch with credentials include when no cachedAuthToken in window', async () => {
+        it('should fetch with credentials include when no cachedAuthToken', async () => {
+            mockGetCacheAuthToken.mockReturnValue(null);
             fetchMock.mockResponseOnce(JSON.stringify({}));
 
             await tokenizedFetch('https://example.com/api', { method: 'GET' });

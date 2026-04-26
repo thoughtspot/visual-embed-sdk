@@ -2,7 +2,6 @@ import { getAuthenticationToken, getCacheAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 
 import { AuthType } from './types';
-import { getValueFromWindow } from './utils';
 
 /**
  * Fetch wrapper that adds the authentication token to the request.
@@ -21,23 +20,21 @@ import { getValueFromWindow } from './utils';
  */
 export const tokenizedFetch: typeof fetch = async (input, init): Promise<Response> => {
     const embedConfig = getEmbedConfig();
+    const options: RequestInit = { ...init };
+    let token: string | undefined;
     if (embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) {
-        const cachedToken = getCacheAuthToken();
-        if (cachedToken) {
-            const req = new Request(input, init);
-            req.headers.append('Authorization', `Bearer ${cachedToken}`);
-            return fetch(req);
+        token = getCacheAuthToken();
+        if (!token) {
+            return fetch(input, { ...options, credentials: 'include' });
         }
-        return fetch(input, {
-            credentials: 'include',
-            ...init,
-        });
+    } else {
+        token = await getAuthenticationToken(embedConfig);
+    }
+    const req = new Request(input, options);
+
+    if (token) {
+        req.headers.append('Authorization', `Bearer ${token}`);
     }
 
-    const req = new Request(input, init);
-    const authToken = await getAuthenticationToken(embedConfig);
-    if (authToken) {
-        req.headers.append('Authorization', `Bearer ${authToken}`);
-    }
     return fetch(req);
 };
