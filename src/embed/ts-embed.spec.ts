@@ -2371,9 +2371,12 @@ describe('Unit test case for ts embed', () => {
             libEmbed.showPreRender();
             expect(warnSpy).toHaveBeenCalledTimes(1);
 
+            // The ResizeObserver now tracks the placeholder inside this.el,
+            // not this.el itself, so pass it as the target.
+            const preRenderPlaceholder = tsEmbedDiv.firstElementChild as HTMLElement;
             resizeObserverCb([
                 {
-                    target: tsEmbedDiv,
+                    target: preRenderPlaceholder,
                     contentRect: { height: 297, width: 987 },
                 },
             ]);
