@@ -97,6 +97,7 @@ beforeAll(() => {
 const customisations = {
     style: {
         customCSS: {},
+        customCSSUrl: undefined as string | undefined,
     },
     content: {},
 };
@@ -132,6 +133,9 @@ const getMockAppInitPayload = (data: any) => {
         customVariablesForThirdPartyTools,
         interceptTimeout: undefined,
         interceptUrls: [],
+        shouldBypassPayloadValidation:undefined,
+        useHostEventsV2:undefined,
+        embedExpiryInAuthToken:true
     };
     return {
         type: EmbedEvent.APP_INIT,
@@ -640,6 +644,37 @@ describe('Unit test case for ts embed', () => {
                 }));
             });
         });
+
+        test.each([
+            ['not set', undefined, true],
+            ['false', false, false],
+            ['true', true, true],
+        ] as [string, boolean | undefined, boolean][])(
+            'embedExpiryInAuthToken is %s when refreshAuthTokenOnNearExpiry is %s',
+            async (_label, refreshAuthTokenOnNearExpiry, expectedEmbedExpiry) => {
+                const mockEmbedEventPayload = {
+                    type: EmbedEvent.APP_INIT,
+                    data: {},
+                };
+                const searchEmbed = new AppEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    refreshAuthTokenOnNearExpiry,
+                });
+                searchEmbed.render();
+                const mockPort: any = {
+                    postMessage: jest.fn(),
+                };
+                await executeAfterWait(() => {
+                    const iframe = getIFrameEl();
+                    postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+                });
+                await executeAfterWait(() => {
+                    expect(mockPort.postMessage).toHaveBeenCalledWith(
+                        getMockAppInitPayload({ embedExpiryInAuthToken: expectedEmbedExpiry }),
+                    );
+                });
+            },
+        );
 
         test('when Embed event status have start status', (done) => {
             const mockEmbedEventPayload = {

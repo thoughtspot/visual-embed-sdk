@@ -481,7 +481,7 @@ export class TsEmbed {
                 this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
-            embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry,
+            embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry ?? true,
             ...getInterceptInitData(this.viewConfig),
             ...getHostEventsConfig(this.viewConfig),
         };
