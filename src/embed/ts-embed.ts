@@ -914,7 +914,6 @@ export class TsEmbed {
      * @param url - The URL of the embedded ThoughtSpot app.
      */
     protected async renderIFrame(url: string): Promise<any> {
-        console.log("NEW  NEW ")
         if (this.isError) {
             return null;
         }
@@ -1153,8 +1152,8 @@ export class TsEmbed {
      */
     protected setIFrameHeight(height: number | string): void {
         if (this.isPreRendered && this.insertedDomEl) {
-            // Iframe fills wrapper (height:100%); drive via placeholder so
-            // ResizeObserver propagates to preRenderWrapper.
+            // TODO: update the function to only udpate this.insertedDomEl
+            // cause in non pre render case thats the iframe :)
             (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
         } else {
             this.iFrame.style.height = getCssDimension(height);
@@ -1763,10 +1762,9 @@ export class TsEmbed {
             }
             this.syncPreRenderStyle();
             if (!this.viewConfig.doNotTrackPreRenderSize) {
-                // Observe the placeholder when available: its height is kept
-                // in sync with the iframe by setIFrameHeight (fullHeight path),
-                // so ResizeObserver fires whenever the iframe grows or shrinks.
-                // Fall back to this.el for non-fullHeight cases.
+                // placeHolder gets height update -> update iframe 
+                // in case of fullhegiht or whatever PLS update 
+                // this.insertedDomEl, this will be our souce of truth
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
