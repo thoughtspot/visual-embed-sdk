@@ -15699,7 +15699,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 845,
+							"line": 846,
 							"character": 4
 						}
 					],
@@ -15763,7 +15763,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1309,
+							"line": 1310,
 							"character": 11
 						}
 					],
@@ -15937,7 +15937,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1178,
+							"line": 1179,
 							"character": 11
 						}
 					],
@@ -16274,7 +16274,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1283,
+							"line": 1284,
 							"character": 11
 						}
 					],
@@ -16650,7 +16650,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1338,
+							"line": 1339,
 							"character": 17
 						}
 					],
@@ -17156,7 +17156,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 840,
+					"line": 841,
 					"character": 13
 				}
 			],
@@ -19175,7 +19175,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 589,
+							"line": 590,
 							"character": 4
 						}
 					],
@@ -19239,7 +19239,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1038,
+							"line": 1039,
 							"character": 11
 						}
 					],
@@ -19450,7 +19450,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1103,
+							"line": 1104,
 							"character": 11
 						}
 					],
@@ -19751,7 +19751,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1078,
+							"line": 1079,
 							"character": 11
 						}
 					],
@@ -20130,7 +20130,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1067,
+							"line": 1068,
 							"character": 17
 						}
 					],
@@ -20344,7 +20344,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1019,
+							"line": 1020,
 							"character": 11
 						}
 					],
@@ -20623,7 +20623,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 583,
+					"line": 584,
 					"character": 13
 				}
 			],
@@ -26188,7 +26188,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 804,
+							"line": 805,
 							"character": 4
 						}
 					],
@@ -26259,7 +26259,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 817,
+							"line": 818,
 							"character": 4
 						}
 					],
@@ -26407,7 +26407,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 771,
+							"line": 772,
 							"character": 4
 						}
 					],
@@ -28035,7 +28035,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 788,
+							"line": 789,
 							"character": 4
 						}
 					],
@@ -28878,8 +28878,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Configuration for the SpotterViz panel shown on the Liveboard, replacing the default \"SpotterViz\" name with your own brand name.",
-						"text": "Supported embed types: `AppEmbed`",
+						"shortText": "Configuration for the SpotterViz interface shown on the Liveboard,\nreplacing the default \"SpotterViz\" name with your own brand name.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -28894,7 +28894,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 762,
+							"line": 763,
 							"character": 4
 						}
 					],
@@ -29083,7 +29083,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 823,
+							"line": 824,
 							"character": 4
 						}
 					],
@@ -41427,7 +41427,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 565,
+							"line": 566,
 							"character": 4
 						}
 					],
@@ -43528,8 +43528,8 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Configuration for the SpotterViz panel shown on the Liveboard, replacing the default \"SpotterViz\" name with your own brand name.",
-						"text": "Supported embed types: `LiveboardEmbed`",
+						"shortText": "Configuration for the SpotterViz interface shown on the Liveboard,\nreplacing the default \"SpotterViz\" name with your own brand name.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
@@ -43544,7 +43544,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 552,
+							"line": 553,
 							"character": 4
 						}
 					],
@@ -51349,7 +51349,7 @@
 			"kindString": "Interface",
 			"flags": {},
 			"comment": {
-				"shortText": "Configuration for the SpotterViz panel shown on the Liveboard.",
+				"shortText": "Configuration for the SpotterViz interface shown on the Liveboard.",
 				"tags": [
 					{
 						"tag": "version",
@@ -51371,7 +51371,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Rename the default \"SpotterViz\" label shown in the SpotterViz panel with a custom brand name.",
+						"shortText": "Rename the default \"SpotterViz\" label shown in the SpotterViz interface with a custom brand name.",
 						"tags": [
 							{
 								"tag": "default",

@@ -745,9 +745,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
-     * Configuration for the SpotterViz panel shown on the Liveboard, replacing the default "SpotterViz" name with your own brand name.
+     * Configuration for the SpotterViz interface shown on the Liveboard, 
+     * replacing the default "SpotterViz" name with your own brand name.
      *
-     * Supported embed types: `AppEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
      * @example
      * ```js
