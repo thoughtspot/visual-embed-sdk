@@ -1475,8 +1475,29 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
+/**
+ * Configuration for {@link startAutoMCPFrameRenderer}.
+ *
+ * Extends {@link BaseViewConfig} but omits params that are not applicable
+ * to the auto-frame renderer:
+ * - `preRenderId` / `usePrerenderedIfAvailable` / `doNotTrackPreRenderSize` —
+ *   the renderer always replaces a live iframe in-place; prerender pools are not used.
+ * - `insertAsSibling` — insertion is always a same-position `replaceWith`; the
+ *   container-append path is never taken.
+ * - `primaryAction` — a Liveboard/AppEmbed-specific feature; the renderer renders
+ *   whatever route the MCP server specifies.
+ * - `enableV2Shell_experimental` — the renderer always uses the v2 URL format;
+ *   this flag has no effect.
+ */
+export type AutoMCPFrameRendererViewConfig = Omit<
+    BaseViewConfig,
+    | 'preRenderId'
+    | 'usePrerenderedIfAvailable'
+    | 'doNotTrackPreRenderSize'
+    | 'insertAsSibling'
+    | 'primaryAction'
+    | 'enableV2Shell_experimental'
+>;
 
 /**
  * The configuration object for Home page embeds configs.
