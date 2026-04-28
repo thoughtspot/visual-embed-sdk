@@ -1329,6 +1329,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set spotterVizBrandName parameter in url params via spotterViz config', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterViz: {
+                brandName: 'MyBrand',
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&spotterVizBrandName=MyBrand#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not set spotterVizBrandName parameter when spotterViz brandName is not provided', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterViz: {},
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterVizBrandName');
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

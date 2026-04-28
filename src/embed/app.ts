@@ -21,7 +21,7 @@ import {
     VisualizationOverrides,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterVizConfig } from './conversation';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
 
 /**
@@ -745,6 +745,23 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the SpotterViz interface shown on the Liveboard, 
+     * replacing the default "SpotterViz" name with your own brand name.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -911,6 +928,7 @@ export class AppEmbed extends V1Embed {
             updatedSpotterChatPrompt,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterViz,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
@@ -961,6 +979,11 @@ export class AppEmbed extends V1Embed {
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+        }
+
+        if (spotterViz) {
+            const { brandName } = spotterViz;
+            setParamIfDefined(params, Param.SpotterVizBrandName, brandName);
         }
 
         if (hideObjectSearch) {

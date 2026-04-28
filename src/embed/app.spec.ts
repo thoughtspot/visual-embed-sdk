@@ -595,6 +595,32 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set spotterVizBrandName in url via spotterViz config', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz: {
+                brandName: 'MyBrand',
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterVizBrandName=MyBrand${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set spotterVizBrandName in url when spotterViz is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterVizBrandName');
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

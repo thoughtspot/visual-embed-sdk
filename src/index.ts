@@ -32,7 +32,7 @@ import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/live
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
-import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterVizConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -140,6 +140,7 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SpotterVizConfig,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
