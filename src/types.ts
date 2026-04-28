@@ -5955,6 +5955,7 @@ export enum Param {
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
+    SpotterVizBrandName = 'spotterVizBrandName',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
     EnableLiveboardDataCache = 'enableLiveboardDataCache',
 }

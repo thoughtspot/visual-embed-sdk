@@ -116,6 +116,20 @@ export interface SpotterChatViewConfig {
 }
 
 /**
+ * Configuration for the SpotterViz panel shown on the Liveboard.
+ * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+ * @group Embed components
+ */
+export interface SpotterVizConfig {
+    /**
+     * Rename the default "SpotterViz" label shown in the SpotterViz panel with a custom brand name.
+     * @default ''
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     */
+    brandName?: string;
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */

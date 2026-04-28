@@ -30,7 +30,7 @@ import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { SpotterChatViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterVizConfig } from './conversation';
 
 
 /**
@@ -535,6 +535,22 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the SpotterViz panel shown on the Liveboard, replacing the default "SpotterViz" name with your own brand name.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
      * If set to true, enables visualization data caching on the Liveboard.
      * @type {boolean}
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
@@ -641,6 +657,7 @@ export class LiveboardEmbed extends V1Embed {
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled = false,
+            spotterViz,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -739,6 +756,11 @@ export class LiveboardEmbed extends V1Embed {
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+        }
+
+        if (spotterViz) {
+            const { brandName } = spotterViz;
+            setParamIfDefined(params, Param.SpotterVizBrandName, brandName);
         }
 
         if (isLinkParametersEnabled !== undefined) {
