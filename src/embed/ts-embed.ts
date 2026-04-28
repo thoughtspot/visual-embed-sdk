@@ -135,7 +135,7 @@ export class TsEmbed {
         this.hostEventClient.setIframeElement(iFrame);
     }
 
-    protected viewConfig: ViewConfig & { visibleTabs?: string[], hiddenTabs?: string[], showAlerts?: boolean };
+    protected viewConfig: ViewConfig & { visibleTabs?: string[], hiddenTabs?: string[], showAlerts?: boolean, fullHeight?: boolean };
 
     protected embedConfig: EmbedConfig;
 
@@ -187,6 +187,7 @@ export class TsEmbed {
 
     protected isReadyForRenderPromise;
 
+    private static activeInstances = new Set<TsEmbed>();    
     /**
      * Handler for fullscreen change events
      */
@@ -217,6 +218,7 @@ export class TsEmbed {
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
         });
+        TsEmbed.activeInstances.add(this);
     }
 
     /**
@@ -1121,8 +1123,26 @@ export class TsEmbed {
      * Sets the height of the iframe
      * @param height The height in pixels
      */
-    protected setIFrameHeight(height: number | string): void {
+    protected setIFrameHeight(height: number | string) {
         this.iFrame.style.height = getCssDimension(height);
+
+        if (this.viewConfig.fullHeight && this.isPreRendered) {
+            // Fix #1: wrapper height matches iframe
+            if (this.preRenderWrapper) {
+                this.preRenderWrapper.style.height = getCssDimension(height);
+            }
+            // Fix #2 + #3: container takes up space in normal flow
+            if (this.el) {
+                (this.el as HTMLElement).style.height = getCssDimension(height);
+            }
+            // Fix stale top/left on ALL wrappers — growing this embed
+            // shifts every subsequent wrapper's position on the page
+            TsEmbed.activeInstances.forEach(instance => {
+                if (instance.isPreRenderAvailable()) {
+                    instance.syncPreRenderStyle();
+                }
+            });
+        }
     }
 
     /**
@@ -1628,6 +1648,7 @@ export class TsEmbed {
         try {
             this.removeFullscreenChangeHandler();
             this.unsubscribeToEvents();
+            TsEmbed.activeInstances.delete(this);
             if (!this.isRendered) {
                 return;
             }
