@@ -982,8 +982,10 @@ export class AppEmbed extends V1Embed {
         }
 
         if (spotterViz) {
-            const { brandName } = spotterViz;
+            const { brandName, hideStarterPrompts, customStarterPrompts } = spotterViz;
             setParamIfDefined(params, Param.SpotterVizBrandName, brandName);
+            setParamIfDefined(params, Param.SpotterVizHideStarterPrompts, hideStarterPrompts, true);
+            setParamIfDefined(params, Param.SpotterVizCustomStarterPrompts, customStarterPrompts);
         }
 
         if (hideObjectSearch) {
