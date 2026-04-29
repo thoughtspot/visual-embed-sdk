@@ -1784,15 +1784,10 @@ export class TsEmbed {
      * Adds a placeholder ele as well to mimic the actuall iframe being there
      */
     public async showPreRender(): Promise<TsEmbed> {
-        const _t = performance.now.bind(performance);
-        const t0 = _t();
         logger.debug('ShowPreRender Called');
 
         if (this.shouldWaitForRenderPromise)
             await this.isReadyForRenderPromise;
-
-        const t1 = _t();
-        logger.debug(`[showPreRender] readyForRender: ${(t1 - t0).toFixed(2)}ms`);
 
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
@@ -1804,8 +1799,6 @@ export class TsEmbed {
         }
         this.isRendered = true;
         this.beforePrerenderVisible();
-        const t2 = _t();
-        logger.debug(`[showPreRender] beforePrerenderVisible: ${(t2 - t1).toFixed(2)}ms`);
 
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
@@ -1824,12 +1817,8 @@ export class TsEmbed {
             }
 
             this.hostElement.appendChild(this.insertedDomEl);
-            const t3 = _t();
-            logger.debug(`[showPreRender] placeholderSetup: ${(t3 - t2).toFixed(2)}ms`);
-
+            
             this.syncPreRenderStyle();
-            const t4 = _t();
-            logger.debug(`[showPreRender] syncPreRenderStyle (forces layout): ${(t4 - t3).toFixed(2)}ms`);
 
             if (!this.viewConfig.doNotTrackPreRenderSize) {
                 // placeHolder gets height update -> update iframe
@@ -1853,13 +1842,9 @@ export class TsEmbed {
             }
         }
 
-        const tBeforeCleanup = _t();
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
         this.subscribeToEvents();
-        const tEnd = _t();
-        logger.debug(`[showPreRender] subscribeToEvents+styleCleanup: ${(tEnd - tBeforeCleanup).toFixed(2)}ms`);
-        logger.debug(`[showPreRender] TOTAL: ${(tEnd - t0).toFixed(2)}ms`);
-
+        
         // Setup fullscreen change handler for prerendered components
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
