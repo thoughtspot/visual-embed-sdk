@@ -35,6 +35,7 @@ import {
     removeStyleProperties,
     isUndefined,
     getHostEventsConfig,
+    getValueFromWindow,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -72,6 +73,7 @@ import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
     getInitPromise,
     getIsInitCalled,
+    getIsInitCompleted,
 } from './base';
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
@@ -188,6 +190,7 @@ export class TsEmbed {
     protected hostEventClient: HostEventClient;
 
     protected isReadyForRenderPromise;
+    protected shouldWaitForRenderPromise: boolean;
 
     /**
      * Handler for fullscreen change events
@@ -209,7 +212,8 @@ export class TsEmbed {
         });
 
         this.hostEventClient = new HostEventClient(this.iFrame);
-        this.isReadyForRenderPromise = getInitPromise().then(async () => {
+        this.shouldWaitForRenderPromise = !getIsInitCompleted();
+        const afterInit = () => {
             const embedConfig = getEmbedConfig();
             this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
@@ -218,7 +222,14 @@ export class TsEmbed {
             this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
             this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
-        });
+        }
+        if (!this.shouldWaitForRenderPromise) {
+            afterInit();
+        } else {
+            this.isReadyForRenderPromise = getInitPromise().then(afterInit).finally(() => {
+                this.shouldWaitForRenderPromise = true;
+            })
+        }
     }
 
     /**
@@ -1103,12 +1114,10 @@ export class TsEmbed {
         if (preRenderChild instanceof HTMLIFrameElement) {
             this.setIframeElement(preRenderChild);
         }
-        if (this.hostElement) {
-            this.hostElement.appendChild(this.insertedDomEl);
-        }
 
         if (this.iFrame) {
             this.iFrame.style.height = '100%';
+            this.iFrame.style.width = '100%';
         }
 
         if (this.showPreRenderByDefault) {
@@ -1151,11 +1160,13 @@ export class TsEmbed {
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number | string): void {
-        if (this.isPreRendered && this.insertedDomEl) {
-            // TODO: update the function to only udpate this.insertedDomEl
-            // cause in non pre render case thats the iframe :)
-            (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
+        if (this.isPreRendered) {
+            if (this.insertedDomEl)
+                (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
+            else 
+                this.preRenderWrapper.style.height = getCssDimension(height);
         } else {
+            // normal (non-preRender) mode: size the iframe directly
             this.iFrame.style.height = getCssDimension(height);
         }
     }
@@ -1521,7 +1532,8 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        await this.isReadyForRenderPromise;
+        if (!this.shouldWaitForRenderPromise)
+            await this.isReadyForRenderPromise;
         this.isRendered = true;
 
         return this;
@@ -1580,6 +1592,7 @@ export class TsEmbed {
      */
 
     public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
+        logger.debug('PreRender Called')
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
@@ -1590,7 +1603,7 @@ export class TsEmbed {
 
         const isAlreadyRendered = this.connectPreRendered();
         if (isAlreadyRendered && !replaceExistingPreRender) {
-            if(this.showPreRenderByDefault) {
+            if (this.showPreRenderByDefault) {
                 this.showPreRender();
             }
             return this;
@@ -1681,7 +1694,8 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        await this.isReadyForRenderPromise;
+        if (this.shouldWaitForRenderPromise)
+            await this.isReadyForRenderPromise;
 
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;
@@ -1689,7 +1703,9 @@ export class TsEmbed {
     }
 
     protected beforePrerenderVisible(): void {
-        this.validatePreRenderViewConfig(this.viewConfig);
+        // We can ignore this as its a bit expensive and the newer customers 
+        // have moved on to UpdateEmbedParams supported clusters
+        // this.validatePreRenderViewConfig(this.viewConfig);
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
         this.executeAfterEmbedContainerLoaded(async () => {
             try {
@@ -1739,9 +1755,19 @@ export class TsEmbed {
      * If the component is not preRendered, it attempts to create and render it.
      * Also, synchronizes the style of the PreRender component with the embedding
      * element.
+     * Adds a placeholder ele as well to mimic the actuall iframe being there
      */
     public async showPreRender(): Promise<TsEmbed> {
-        await this.isReadyForRenderPromise;
+        const _t = performance.now.bind(performance);
+        const t0 = _t();
+        logger.debug('ShowPreRender Called');
+
+        if (this.shouldWaitForRenderPromise)
+            await this.isReadyForRenderPromise;
+
+        const t1 = _t();
+        logger.debug(`[showPreRender] readyForRender: ${(t1 - t0).toFixed(2)}ms`);
+
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
@@ -1752,25 +1778,43 @@ export class TsEmbed {
         }
         this.isRendered = true;
         this.beforePrerenderVisible();
+        const t2 = _t();
+        logger.debug(`[showPreRender] beforePrerenderVisible: ${(t2 - t1).toFixed(2)}ms`);
 
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
-            logger.debug('Inserting dumming Ele for preRender', this.insertedDomEl);
-            this.hostElement.appendChild(this.insertedDomEl);
             if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
-                (this.insertedDomEl as HTMLDivElement).style.height = this.iFrame.height;
+                // in case of fullHeight iframe could already have a height
+                // so we need to consider that as well 
+                (this.insertedDomEl as HTMLDivElement).style.height = this.preRenderWrapper.style.height
             }
+            logger.debug('Inserting dumming Ele for preRender', this.insertedDomEl);
+
+            const placeHolderId = this.getPreRenderIds().placeHolder;
+            const oldEle = this.hostElement.querySelector(`#${placeHolderId}`);
+            if (oldEle) {
+                logger.debug('Found exstinig placeholder ! Removing');
+                this.hostElement.removeChild(oldEle);
+            }
+
+            this.hostElement.appendChild(this.insertedDomEl);
+            const t3 = _t();
+            logger.debug(`[showPreRender] placeholderSetup: ${(t3 - t2).toFixed(2)}ms`);
+
             this.syncPreRenderStyle();
+            const t4 = _t();
+            logger.debug(`[showPreRender] syncPreRenderStyle (forces layout): ${(t4 - t3).toFixed(2)}ms`);
+
             if (!this.viewConfig.doNotTrackPreRenderSize) {
-                // placeHolder gets height update -> update iframe 
-                // in case of fullhegiht or whatever PLS update 
+                // placeHolder gets height update -> update iframe
+                // in case of fullhegiht or whatever PLS update
                 // this.insertedDomEl, this will be our souce of truth
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
                         if (entry.contentRect && entry.target === observeTarget) {
                             logger.debug('Ele height changed updating PreRender')
-                            setStyleProperties(this.iFrame, {
+                            setStyleProperties(this.preRenderWrapper, {
                                 width: `${entry.contentRect.width}px`,
                                 height: `${entry.contentRect.height}px`,
                             });
@@ -1778,12 +1822,17 @@ export class TsEmbed {
                     });
                 });
                 this.resizeObserver.observe(observeTarget);
+                const t5 = _t();
+                logger.debug(`[showPreRender] resizeObserverSetup: ${(t5 - t4).toFixed(2)}ms`);
             }
         }
 
+        const tBeforeCleanup = _t();
         removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
-
         this.subscribeToEvents();
+        const tEnd = _t();
+        logger.debug(`[showPreRender] subscribeToEvents+styleCleanup: ${(tEnd - tBeforeCleanup).toFixed(2)}ms`);
+        logger.debug(`[showPreRender] TOTAL: ${(tEnd - t0).toFixed(2)}ms`);
 
         // Setup fullscreen change handler for prerendered components
         if (this.iFrame) {
@@ -1817,6 +1866,7 @@ export class TsEmbed {
             left: `${elBoundingClient.x + window.scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
+            position: 'absolute'
         });
     }
 
@@ -1825,6 +1875,7 @@ export class TsEmbed {
      * If the component is not preRendered, it issues a warning.
      */
     public hidePreRender(): void {
+        logger.debug('HidePreRender Called');
         if (!this.isPreRenderConnected()) {
             // if the embed component is not preRendered , nothing to hide
             logger.warn('PreRender should be called before hiding it using hidePreRender.');
