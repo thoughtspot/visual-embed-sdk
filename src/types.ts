@@ -5956,6 +5956,8 @@ export enum Param {
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
     SpotterVizBrandName = 'spotterVizBrandName',
+    SpotterVizHideStarterPrompts = 'spotterVizHideStarterPrompts',
+    SpotterVizCustomStarterPrompts = 'spotterVizCustomStarterPrompts',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
     EnableLiveboardDataCache = 'enableLiveboardDataCache',
 }

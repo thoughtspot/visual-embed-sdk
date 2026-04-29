@@ -621,6 +621,39 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set spotterVizHideStarterPrompts=true when hideStarterPrompts is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz: {
+                hideStarterPrompts: true,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterVizHideStarterPrompts=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set spotterVizCustomStarterPrompts in url when customStarterPrompts is provided', async () => {
+        const customPrompts = [
+            { id: '001', displayText: 'Show revenue by region', fullPrompt: 'Show revenue by region' },
+            { displayText: 'Top customers', fullPrompt: 'Top customers by sales' },
+        ];
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz: {
+                customStarterPrompts: customPrompts,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toContain('spotterVizCustomStarterPrompts');
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

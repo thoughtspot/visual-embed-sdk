@@ -1358,6 +1358,41 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set spotterVizHideStarterPrompts=true when hideStarterPrompts is true', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterViz: {
+                hideStarterPrompts: true,
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&spotterVizHideStarterPrompts=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set spotterVizCustomStarterPrompts in url when customStarterPrompts is provided', async () => {
+        const customPrompts = [
+            { id: '1', displayText: 'Show revenue by region', fullPrompt: 'Show revenue by region' },
+            { displayText: 'Top customers', fullPrompt: 'Top customers by sales' },
+        ];
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterViz: {
+                customStarterPrompts: customPrompts,
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).toContain('spotterVizCustomStarterPrompts');
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
