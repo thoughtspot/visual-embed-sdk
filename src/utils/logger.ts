@@ -1,5 +1,5 @@
 import { LogLevel } from '../types';
-
+import { version } from '../../package.json';
 const logFunctions: {
     [key: string]: (...args: any[]) => void;
 } = {
@@ -51,7 +51,7 @@ class Logger {
         if (this.canLog(logLevel)) {
             const logFn = logFunctions[logLevel];
             if (logFn) {
-                logFn(...args);
+                logFn(`[vesdk-${version}]` , ...args);
             }
         }
     }
