@@ -938,8 +938,8 @@ export class LiveboardEmbed extends V1Embed {
                 </div>
                 `;
             const previewDiv = div.firstElementChild as HTMLElement;
-            this.el.appendChild(previewDiv);
-            this.el.style.position = 'relative';
+            this.hostElement.appendChild(previewDiv);
+            this.hostElement.style.position = 'relative';
             this.on(EmbedEvent.Data, () => {
                 previewDiv.remove();
             });
@@ -961,6 +961,7 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(() => {
