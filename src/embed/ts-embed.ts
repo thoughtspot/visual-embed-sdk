@@ -1779,9 +1779,12 @@ export class TsEmbed {
             if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
                 // in case of fullHeight iframe could already have a height
                 // so we need to consider that as well 
-                (this.insertedDomEl as HTMLDivElement).style.height = this.preRenderWrapper.style.height
+                const existingHeight = this.preRenderWrapper.style.height;
+                if (existingHeight) {
+                    (this.insertedDomEl as HTMLDivElement).style.height = existingHeight;
+                }
             }
-            logger.debug('Inserting dumming Ele for preRender', this.insertedDomEl);
+            logger.debug('Inserting dummy Ele for preRender', this.insertedDomEl);
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
             const oldEle = this.hostElement.querySelector(`#${placeHolderId}`);
@@ -1811,8 +1814,6 @@ export class TsEmbed {
                     });
                 });
                 this.resizeObserver.observe(observeTarget);
-                const t5 = _t();
-                logger.debug(`[showPreRender] resizeObserverSetup: ${(t5 - t4).toFixed(2)}ms`);
             }
         }
 
