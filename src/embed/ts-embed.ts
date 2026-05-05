@@ -900,6 +900,9 @@ export class TsEmbed {
         return iFrame;
     }
 
+    /**
+     * Returns true if this embed instance is configured for pre-rendering.
+     */
     protected isPreRenderEmbed() {
         return !!this.viewConfig.preRenderId;
     }
@@ -1037,9 +1040,12 @@ export class TsEmbed {
     protected preRenderChild: HTMLElement;
 
     /**
-     * Check if we have pre Rendered already 
-     * if yes : set all the internal properties of our object
-     * if no send NO (false) meaning connect failed
+     * Checks for an existing pre-rendered component and connects to it.
+     *
+     * If a matching pre-rendered component is found in the DOM, this method
+     * sets the internal properties of the embed object to reference it.
+     *
+     * @returns True if a connection was successfully established, false otherwise.
      */
     protected connectPreRendered(): boolean {
         const preRenderIds = this.getPreRenderIds();
@@ -1088,6 +1094,11 @@ export class TsEmbed {
         return divChildNode;
     }
 
+    /**
+     * Creates the in-flow placeholder div inserted into the host element when
+     * showPreRender() is called. The wrapper observes this element to stay
+     * aligned with the host layout.
+     */
     private createPreRenderPlaceholder(): HTMLDivElement {
         const placeholder = document.createElement('div');
         const id = this.getPreRenderIds();
@@ -1096,7 +1107,7 @@ export class TsEmbed {
         const height = getCssDimension(frameHeight || DEFAULT_EMBED_HEIGHT);
         placeholder.style.width = width;
         placeholder.style.height = height;
-        // hahaha
+        // we can improve this , lol
         placeholder.id = id.placeHolder;
         return placeholder;
     }
@@ -1543,7 +1554,7 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        if (!this.shouldWaitForRenderPromise)
+        if (this.shouldWaitForRenderPromise)
             await this.isReadyForRenderPromise;
         this.isRendered = true;
 
@@ -1618,7 +1629,6 @@ export class TsEmbed {
      */
 
     public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
-        logger.debug('PreRender Called')
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
@@ -1777,15 +1787,12 @@ export class TsEmbed {
     };
 
     /**
-     * Displays the PreRender component.
-     * If the component is not preRendered, it attempts to create and render it.
-     * Also, synchronizes the style of the PreRender component with the embedding
-     * element.
-     * Adds a placeholder ele as well to mimic the actuall iframe being there
+     * Displays the pre-rendered component inside the host element.
+     * If the component has not been pre-rendered yet, it initiates rendering first.
+     * Inserts a placeholder element into the host and positions the pre-render
+     * wrapper to overlay it.
      */
     public async showPreRender(): Promise<TsEmbed> {
-        logger.debug('ShowPreRender Called');
-
         if (this.shouldWaitForRenderPromise)
             await this.isReadyForRenderPromise;
 
@@ -1803,35 +1810,29 @@ export class TsEmbed {
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
             if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
-                // in case of fullHeight iframe could already have a height
-                // so we need to consider that as well 
+                // If fullHeight has already sized the wrapper, seed the placeholder
+                // with the same height so syncPreRenderStyle gets an accurate rect.
                 const existingHeight = this.preRenderWrapper.style.height;
                 if (existingHeight) {
                     (this.insertedDomEl as HTMLDivElement).style.height = existingHeight;
                 }
             }
-            logger.debug('Inserting dummy Ele for preRender', this.insertedDomEl);
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
             const oldEle = this.hostElement.querySelector(`#${placeHolderId}`);
             if (oldEle) {
-                logger.debug('Found exstinig placeholder ! Removing');
                 this.hostElement.removeChild(oldEle);
             }
 
             this.hostElement.appendChild(this.insertedDomEl);
-            
+
             this.syncPreRenderStyle();
 
             if (!this.viewConfig.doNotTrackPreRenderSize) {
-                // placeHolder gets height update -> update iframe
-                // in case of fullhegiht or whatever PLS update
-                // this.insertedDomEl, this will be our souce of truth
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
                         if (entry.contentRect && entry.target === observeTarget) {
-                            logger.debug('Ele height changed updating PreRender')
                             setStyleProperties(this.preRenderWrapper, {
                                 width: `${entry.contentRect.width}px`,
                                 height: `${entry.contentRect.height}px`,
