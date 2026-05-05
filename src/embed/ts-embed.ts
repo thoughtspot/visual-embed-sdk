@@ -1741,7 +1741,7 @@ export class TsEmbed {
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers 
         // have moved on to UpdateEmbedParams supported clusters
-        // this.validatePreRenderViewConfig(this.viewConfig);
+        // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
         this.executeAfterEmbedContainerLoaded(async () => {
             try {
@@ -1759,32 +1759,6 @@ export class TsEmbed {
         });
     }
 
-    private validatePreRenderViewConfig = (viewConfig: ViewConfig) => {
-        const preRenderAllowedKeys = ['preRenderId', 'vizId', 'liveboardId'];
-        const preRenderedObject = (this.preRenderWrapper as any)?.[this.embedNodeKey] as TsEmbed;
-        if (!preRenderedObject) return;
-        if (viewConfig.preRenderId) {
-            const allOtherKeys = Object.keys(viewConfig).filter(
-                (key) => !preRenderAllowedKeys.includes(key) && !key.startsWith('on'),
-            );
-
-            allOtherKeys.forEach((key: keyof ViewConfig) => {
-                if (
-                    !isUndefined(viewConfig[key])
-                    && !isEqual(viewConfig[key], preRenderedObject.viewConfig[key])
-                ) {
-                    logger.warn(
-                        `${viewConfig.embedComponentType || 'Component'} was pre-rendered with `
-                        + `"${key}" as "${JSON.stringify(preRenderedObject.viewConfig[key])}" `
-                        + `but a different value "${JSON.stringify(viewConfig[key])}" `
-                        + 'was passed to the Embed component. '
-                        + 'The new value provided is ignored, the value provided during '
-                        + 'preRender is used.',
-                    );
-                }
-            });
-        }
-    };
 
     /**
      * Displays the pre-rendered component inside the host element.
