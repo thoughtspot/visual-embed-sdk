@@ -1499,8 +1499,8 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        await this.isReadyForRenderPromise;
         this.isRendered = true;
+        await this.isReadyForRenderPromise;
 
         return this;
     }
