@@ -991,4 +991,178 @@ export interface CustomCssVariables {
      * Background color of the color palette in the Liveboard styling panel.
      */
     '--ts-var-liveboard-styling-color-palette-background'?: string;
-  }
+
+    /**
+     * Main panel background of the SpotterViz.
+     */
+    '--ts-var-spotterviz-panel-background'?: string;
+
+    /**
+     * Background color of the chat input field in SpotterViz.
+     */
+    '--ts-var-spotterviz-input-background'?: string;
+
+    /**
+     * Placeholder text color of the chat input field in SpotterViz.
+     */
+    '--ts-var-spotterviz-input-placeholder-color'?: string;
+
+    /**
+     * CTA color of the chat input field in SpotterViz.
+     */
+    '--ts-var-spotterviz-input-cta-color'?: string;
+
+    /**
+     * CTA hover color of the chat input field in SpotterViz.
+     */
+    '--ts-var-spotterviz-input-cta-hover-color'?: string;
+
+    /**
+     * Text color for the SpotterViz label in the empty state, displayed below
+     * the SpotterViz icon.
+     */
+    '--ts-var-spotterviz-emptystate-spotterviz-color'?: string;
+
+    /**
+     * Background color of the starter prompt cards in SpotterViz.
+     */
+    '--ts-var-spotterviz-prompt-card-background'?: string;
+
+    /**
+     * Background hover color of the starter prompt cards in SpotterViz.
+     */
+    '--ts-var-spotterviz-prompt-card-hover-background'?: string;
+
+    /**
+     * Primary text color in SpotterViz, also used for tool response text,
+     * upvote/downvote buttons, and other primary content.
+     */
+    '--ts-var-spotterviz-text-primary'?: string;
+
+    /**
+     * Secondary text color in SpotterViz.
+     */
+    '--ts-var-spotterviz-text-secondary'?: string;
+
+    /**
+     * Background color of the user chat message bubble in SpotterViz.
+     */
+    '--ts-var-spotterviz-message-background'?: string;
+
+    /**
+     * Hover color for the user chat message expand button in SpotterViz.
+     */
+    '--ts-var-spotterviz-usermessage-icon-hover'?: string;
+
+    /**
+     * Background color of the user chat message expand button in SpotterViz.
+     */
+    '--ts-var-spotterviz-usermessage-icon-background'?: string;
+
+    /**
+     * Color of the thinking step header when in progress in SpotterViz.
+     */
+    '--ts-var-spotterviz-thinking-inprogress-header-color'?: string;
+
+    /**
+     * Color of the thinking step header when completed in SpotterViz.
+     */
+    '--ts-var-spotterviz-thinking-completed-header-color'?: string;
+
+    /**
+     * Color of the final completion indicator icon shown when all work is done.
+     * The last green dot which is shown when work is done.
+     */
+    '--ts-var-spotterviz-thinking-work-done-icon-color'?: string;
+
+    /**
+     * Hover background color for the working/work done CTA in SpotterViz.
+     */
+    '--ts-var-spotterviz-thinking-cta-hover-background'?: string;
+
+    /**
+     * Background color of tool call panels in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-call-background'?: string;
+
+    /**
+     * Color of tool titles and icons in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-title-color'?: string;
+
+    /**
+     * Border color of tool call panels in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-border-color'?: string;
+
+    /**
+     * Background color of the JSON input panel inside a tool call in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-json-input-background'?: string;
+
+    /**
+     * Background color of the upvote/downvote feedback buttons in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-feedback-button-background'?: string;
+
+    /**
+     * Hover background color of the upvote/downvote feedback buttons in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-feedback-button-hover'?: string;
+
+    /**
+     * Text color of the JSON input panel inside a tool call in SpotterViz.
+     */
+    '--ts-var-spotterviz-tool-json-input-color'?: string;
+
+    /**
+     * Background color of the last checkpoint section in SpotterViz.
+     */
+    '--ts-var-spotterviz-last-checkpoint-background'?: string;
+
+    /**
+     * Border color of the last checkpoint section in SpotterViz.
+     */
+    '--ts-var-spotterviz-last-checkpoint-border'?: string;
+
+    /**
+     * Border color of the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-border'?: string;
+
+    /**
+     * Background color of the selected section in the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-selected-background'?: string;
+
+    /**
+     * Text color of the selected section in the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-selected-text-color'?: string;
+
+    /**
+     * Text color of unselected items in the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-text'?: string;
+
+    /**
+     * Hover background color of unselected items in the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-hover-background'?: string;
+
+    /**
+     * Hover text color of unselected items in the Liveboard edit header toolbar.
+     */
+    '--ts-var-liveboard-edit-toolbar-hover-text-color'?: string;
+
+    /**
+     * Text color of the SpotterViz footer.
+     */
+    '--ts-var-spotterviz-footer-text-color'?: string;
+
+    /**
+     * Shared border color used throughout SpotterViz: input box, user message,
+     * header underline, left panel border, thinking step connector and dots.
+     */
+    '--ts-var-spotterviz-border-color'?: string;
+}
