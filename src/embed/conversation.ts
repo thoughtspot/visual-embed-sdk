@@ -118,15 +118,15 @@ export interface SpotterChatViewConfig {
      * error handling with RETRY / REFRESH / NEW_CHAT /
      * SUPPORT actions) inside the embedded context.
      *
-     * When `false` (default), Spotter falls back to the
+     * When false (default), Spotter falls back to the
      * legacy error display so existing embed integrations
-     * are not affected. Set to `true` to opt in to the
+     * are not affected. Set to true to opt in to the
      * new error handling experience.
      *
-     * Supported embed types: `SpotterEmbed`, `AppEmbed`,
-     * `LiveboardEmbed`
+     * Supported embed types: SpotterEmbed, AppEmbed,
+     * LiveboardEmbed
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      * @default false
-     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     isSpotterErrorBannersEnabled?: boolean;
 }
