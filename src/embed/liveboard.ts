@@ -735,10 +735,12 @@ export class LiveboardEmbed extends V1Embed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                isSpotterErrorBannersEnabled,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            setParamIfDefined(params, Param.IsSpotterErrorBannersEnabled, isSpotterErrorBannersEnabled, true);
         }
 
         if (isLinkParametersEnabled !== undefined) {

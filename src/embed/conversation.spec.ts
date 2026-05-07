@@ -351,6 +351,25 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should set isSpotterErrorBannersEnabled to true in url via spotterChatConfig', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterChatConfig: {
+                isSpotterErrorBannersEnabled: true,
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&isSpotterErrorBannersEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',

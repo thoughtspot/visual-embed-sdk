@@ -113,6 +113,22 @@ export interface SpotterChatViewConfig {
      * External MCP tool branding is not affected.
      */
     toolResponseCardBrandingLabel?: string;
+    /**
+     * Enables the new Spotter error banner UI (bucketed
+     * error handling with RETRY / REFRESH / NEW_CHAT /
+     * SUPPORT actions) inside the embedded context.
+     *
+     * When `false` (default), Spotter falls back to the
+     * legacy error display so existing embed integrations
+     * are not affected. Set to `true` to opt in to the
+     * new error handling experience.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`,
+     * `LiveboardEmbed`
+     * @default false
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    isSpotterErrorBannersEnabled?: boolean;
 }
 
 /**
@@ -450,10 +466,12 @@ export class SpotterEmbed extends TsEmbed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                isSpotterErrorBannersEnabled,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            setParamIfDefined(queryParams, Param.IsSpotterErrorBannersEnabled, isSpotterErrorBannersEnabled, true);
         }
 
         return queryParams;

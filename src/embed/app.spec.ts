@@ -607,6 +607,22 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isSpotterErrorBannersEnabled to true in url via spotterChatConfig', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: {
+                isSpotterErrorBannersEnabled: true,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isSpotterErrorBannersEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
