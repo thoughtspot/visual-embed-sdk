@@ -4790,7 +4790,7 @@
 			]
 		},
 		{
-			"id": 3071,
+			"id": 3083,
 			"name": "BackgroundFormatType",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4806,7 +4806,7 @@
 			},
 			"children": [
 				{
-					"id": 3073,
+					"id": 3085,
 					"name": "Gradient",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4824,7 +4824,7 @@
 					"defaultValue": "\"GRADIENT\""
 				},
 				{
-					"id": 3072,
+					"id": 3084,
 					"name": "Solid",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4847,8 +4847,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3073,
-						3072
+						3085,
+						3084
 					]
 				}
 			],
@@ -4861,7 +4861,7 @@
 			]
 		},
 		{
-			"id": 3074,
+			"id": 3086,
 			"name": "ConditionalFormattingComparisonType",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4877,7 +4877,7 @@
 			},
 			"children": [
 				{
-					"id": 3076,
+					"id": 3088,
 					"name": "ColumnBased",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4895,7 +4895,7 @@
 					"defaultValue": "\"COLUMN_BASED\""
 				},
 				{
-					"id": 3077,
+					"id": 3089,
 					"name": "ParameterBased",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4913,7 +4913,7 @@
 					"defaultValue": "\"PARAMETER_BASED\""
 				},
 				{
-					"id": 3075,
+					"id": 3087,
 					"name": "ValueBased",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4936,9 +4936,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3076,
-						3077,
-						3075
+						3088,
+						3089,
+						3087
 					]
 				}
 			],
@@ -4951,7 +4951,7 @@
 			]
 		},
 		{
-			"id": 3078,
+			"id": 3090,
 			"name": "ConditionalFormattingOperator",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -4967,7 +4967,7 @@
 			},
 			"children": [
 				{
-					"id": 3081,
+					"id": 3093,
 					"name": "Contains",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -4985,7 +4985,7 @@
 					"defaultValue": "\"CONTAINS\""
 				},
 				{
-					"id": 3082,
+					"id": 3094,
 					"name": "DoesNotContain",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5003,7 +5003,7 @@
 					"defaultValue": "\"DOES_NOT_CONTAIN\""
 				},
 				{
-					"id": 3084,
+					"id": 3096,
 					"name": "EndsWith",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5021,7 +5021,7 @@
 					"defaultValue": "\"ENDS_WITH\""
 				},
 				{
-					"id": 3089,
+					"id": 3101,
 					"name": "EqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5039,7 +5039,7 @@
 					"defaultValue": "\"EQUAL_TO\""
 				},
 				{
-					"id": 3085,
+					"id": 3097,
 					"name": "GreaterThan",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5057,7 +5057,7 @@
 					"defaultValue": "\"GREATER_THAN\""
 				},
 				{
-					"id": 3087,
+					"id": 3099,
 					"name": "GreaterThanEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5075,7 +5075,7 @@
 					"defaultValue": "\"GREATER_THAN_EQUAL_TO\""
 				},
 				{
-					"id": 3079,
+					"id": 3091,
 					"name": "Is",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5093,7 +5093,7 @@
 					"defaultValue": "\"IS\""
 				},
 				{
-					"id": 3091,
+					"id": 3103,
 					"name": "IsBetween",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5111,7 +5111,7 @@
 					"defaultValue": "\"IS_BETWEEN\""
 				},
 				{
-					"id": 3080,
+					"id": 3092,
 					"name": "IsNot",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5129,7 +5129,7 @@
 					"defaultValue": "\"IS_NOT\""
 				},
 				{
-					"id": 3093,
+					"id": 3105,
 					"name": "IsNotNull",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5147,7 +5147,7 @@
 					"defaultValue": "\"IS_NOT_NULL\""
 				},
 				{
-					"id": 3092,
+					"id": 3104,
 					"name": "IsNull",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5165,7 +5165,7 @@
 					"defaultValue": "\"IS_NULL\""
 				},
 				{
-					"id": 3086,
+					"id": 3098,
 					"name": "LessThan",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5183,7 +5183,7 @@
 					"defaultValue": "\"LESS_THAN\""
 				},
 				{
-					"id": 3088,
+					"id": 3100,
 					"name": "LessThanEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5201,7 +5201,7 @@
 					"defaultValue": "\"LESS_THAN_EQUAL_TO\""
 				},
 				{
-					"id": 3090,
+					"id": 3102,
 					"name": "NotEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5219,7 +5219,7 @@
 					"defaultValue": "\"NOT_EQUAL_TO\""
 				},
 				{
-					"id": 3083,
+					"id": 3095,
 					"name": "StartsWith",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5242,21 +5242,21 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3081,
-						3082,
-						3084,
-						3089,
-						3085,
-						3087,
-						3079,
-						3091,
-						3080,
 						3093,
+						3094,
+						3096,
+						3101,
+						3097,
+						3099,
+						3091,
+						3103,
 						3092,
-						3086,
-						3088,
-						3090,
-						3083
+						3105,
+						3104,
+						3098,
+						3100,
+						3102,
+						3095
 					]
 				}
 			],
@@ -5480,7 +5480,7 @@
 			]
 		},
 		{
-			"id": 2991,
+			"id": 3003,
 			"name": "CustomActionTarget",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -5490,7 +5490,7 @@
 			},
 			"children": [
 				{
-					"id": 2994,
+					"id": 3006,
 					"name": "ANSWER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5508,7 +5508,7 @@
 					"defaultValue": "\"ANSWER\""
 				},
 				{
-					"id": 2992,
+					"id": 3004,
 					"name": "LIVEBOARD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5526,7 +5526,7 @@
 					"defaultValue": "\"LIVEBOARD\""
 				},
 				{
-					"id": 2995,
+					"id": 3007,
 					"name": "SPOTTER",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5544,7 +5544,7 @@
 					"defaultValue": "\"SPOTTER\""
 				},
 				{
-					"id": 2993,
+					"id": 3005,
 					"name": "VIZ",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5567,10 +5567,10 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2994,
-						2992,
-						2995,
-						2993
+						3006,
+						3004,
+						3007,
+						3005
 					]
 				}
 			],
@@ -5583,7 +5583,7 @@
 			]
 		},
 		{
-			"id": 2987,
+			"id": 2999,
 			"name": "CustomActionsPosition",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -5593,7 +5593,7 @@
 			},
 			"children": [
 				{
-					"id": 2990,
+					"id": 3002,
 					"name": "CONTEXTMENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5611,7 +5611,7 @@
 					"defaultValue": "\"CONTEXTMENU\""
 				},
 				{
-					"id": 2989,
+					"id": 3001,
 					"name": "MENU",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5629,7 +5629,7 @@
 					"defaultValue": "\"MENU\""
 				},
 				{
-					"id": 2988,
+					"id": 3000,
 					"name": "PRIMARY",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5652,9 +5652,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2990,
-						2989,
-						2988
+						3002,
+						3001,
+						3000
 					]
 				}
 			],
@@ -5667,7 +5667,7 @@
 			]
 		},
 		{
-			"id": 3094,
+			"id": 3106,
 			"name": "DataLabelFilterOperator",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -5683,7 +5683,7 @@
 			},
 			"children": [
 				{
-					"id": 3099,
+					"id": 3111,
 					"name": "EqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5701,7 +5701,7 @@
 					"defaultValue": "\"EQUAL_TO\""
 				},
 				{
-					"id": 3095,
+					"id": 3107,
 					"name": "GreaterThan",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5719,7 +5719,7 @@
 					"defaultValue": "\"GREATER_THAN\""
 				},
 				{
-					"id": 3097,
+					"id": 3109,
 					"name": "GreaterThanOrEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5737,7 +5737,7 @@
 					"defaultValue": "\"GREATER_THAN_OR_EQUAL_TO\""
 				},
 				{
-					"id": 3096,
+					"id": 3108,
 					"name": "LessThan",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5755,7 +5755,7 @@
 					"defaultValue": "\"LESS_THAN\""
 				},
 				{
-					"id": 3098,
+					"id": 3110,
 					"name": "LessThanOrEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5773,7 +5773,7 @@
 					"defaultValue": "\"LESS_THAN_OR_EQUAL_TO\""
 				},
 				{
-					"id": 3100,
+					"id": 3112,
 					"name": "NotEqualTo",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5796,12 +5796,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3099,
-						3095,
-						3097,
-						3096,
-						3098,
-						3100
+						3111,
+						3107,
+						3109,
+						3108,
+						3110,
+						3112
 					]
 				}
 			],
@@ -5814,7 +5814,7 @@
 			]
 		},
 		{
-			"id": 2983,
+			"id": 2995,
 			"name": "DataPanelCustomColumnGroupsAccordionState",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -5824,7 +5824,7 @@
 			},
 			"children": [
 				{
-					"id": 2985,
+					"id": 2997,
 					"name": "COLLAPSE_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5835,14 +5835,14 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 78,
+							"line": 79,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"COLLAPSE_ALL\""
 				},
 				{
-					"id": 2984,
+					"id": 2996,
 					"name": "EXPAND_ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5853,14 +5853,14 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 74,
+							"line": 75,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"EXPAND_ALL\""
 				},
 				{
-					"id": 2986,
+					"id": 2998,
 					"name": "EXPAND_FIRST",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -5871,7 +5871,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 82,
+							"line": 83,
 							"character": 4
 						}
 					],
@@ -5883,16 +5883,16 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2985,
-						2984,
-						2986
+						2997,
+						2996,
+						2998
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 70,
+					"line": 71,
 					"character": 12
 				}
 			]
@@ -5982,7 +5982,7 @@
 			]
 		},
 		{
-			"id": 3000,
+			"id": 3012,
 			"name": "EmbedErrorCodes",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -6006,7 +6006,7 @@
 			},
 			"children": [
 				{
-					"id": 3003,
+					"id": 3015,
 					"name": "CONFLICTING_ACTIONS_CONFIG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6024,7 +6024,7 @@
 					"defaultValue": "\"CONFLICTING_ACTIONS_CONFIG\""
 				},
 				{
-					"id": 3004,
+					"id": 3016,
 					"name": "CONFLICTING_TABS_CONFIG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6042,7 +6042,7 @@
 					"defaultValue": "\"CONFLICTING_TABS_CONFIG\""
 				},
 				{
-					"id": 3007,
+					"id": 3019,
 					"name": "CUSTOM_ACTION_VALIDATION",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6060,7 +6060,7 @@
 					"defaultValue": "\"CUSTOM_ACTION_VALIDATION\""
 				},
 				{
-					"id": 3016,
+					"id": 3028,
 					"name": "DRILLDOWN_INVALID_PAYLOAD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6078,7 +6078,7 @@
 					"defaultValue": "\"DRILLDOWN_INVALID_PAYLOAD\""
 				},
 				{
-					"id": 3010,
+					"id": 3022,
 					"name": "HOST_EVENT_TYPE_UNDEFINED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6096,7 +6096,7 @@
 					"defaultValue": "\"HOST_EVENT_TYPE_UNDEFINED\""
 				},
 				{
-					"id": 3014,
+					"id": 3026,
 					"name": "HOST_EVENT_VALIDATION",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6114,7 +6114,7 @@
 					"defaultValue": "\"HOST_EVENT_VALIDATION\""
 				},
 				{
-					"id": 3005,
+					"id": 3017,
 					"name": "INIT_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6132,7 +6132,7 @@
 					"defaultValue": "\"INIT_ERROR\""
 				},
 				{
-					"id": 3013,
+					"id": 3025,
 					"name": "INVALID_URL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6150,7 +6150,7 @@
 					"defaultValue": "\"INVALID_URL\""
 				},
 				{
-					"id": 3002,
+					"id": 3014,
 					"name": "LIVEBOARD_ID_MISSING",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6168,7 +6168,7 @@
 					"defaultValue": "\"LIVEBOARD_ID_MISSING\""
 				},
 				{
-					"id": 3008,
+					"id": 3020,
 					"name": "LOGIN_FAILED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6186,7 +6186,7 @@
 					"defaultValue": "\"LOGIN_FAILED\""
 				},
 				{
-					"id": 3006,
+					"id": 3018,
 					"name": "NETWORK_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6204,7 +6204,7 @@
 					"defaultValue": "\"NETWORK_ERROR\""
 				},
 				{
-					"id": 3011,
+					"id": 3023,
 					"name": "PARSING_API_INTERCEPT_BODY_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6222,7 +6222,7 @@
 					"defaultValue": "\"PARSING_API_INTERCEPT_BODY_ERROR\""
 				},
 				{
-					"id": 3009,
+					"id": 3021,
 					"name": "RENDER_NOT_CALLED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6240,7 +6240,7 @@
 					"defaultValue": "\"RENDER_NOT_CALLED\""
 				},
 				{
-					"id": 3015,
+					"id": 3027,
 					"name": "UPDATEFILTERS_INVALID_PAYLOAD",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6258,7 +6258,7 @@
 					"defaultValue": "\"UPDATEFILTERS_INVALID_PAYLOAD\""
 				},
 				{
-					"id": 3012,
+					"id": 3024,
 					"name": "UPDATE_PARAMS_FAILED",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6276,7 +6276,7 @@
 					"defaultValue": "\"UPDATE_PARAMS_FAILED\""
 				},
 				{
-					"id": 3001,
+					"id": 3013,
 					"name": "WORKSHEET_ID_NOT_FOUND",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -6299,22 +6299,22 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3003,
-						3004,
-						3007,
-						3016,
-						3010,
-						3014,
-						3005,
-						3013,
-						3002,
-						3008,
-						3006,
-						3011,
-						3009,
 						3015,
-						3012,
-						3001
+						3016,
+						3019,
+						3028,
+						3022,
+						3026,
+						3017,
+						3025,
+						3014,
+						3020,
+						3018,
+						3023,
+						3021,
+						3027,
+						3024,
+						3013
 					]
 				}
 			],
@@ -9246,7 +9246,7 @@
 			]
 		},
 		{
-			"id": 3023,
+			"id": 3035,
 			"name": "ErrorDetailsTypes",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9271,7 +9271,7 @@
 			},
 			"children": [
 				{
-					"id": 3024,
+					"id": 3036,
 					"name": "API",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9289,7 +9289,7 @@
 					"defaultValue": "\"API\""
 				},
 				{
-					"id": 3026,
+					"id": 3038,
 					"name": "NETWORK",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9307,7 +9307,7 @@
 					"defaultValue": "\"NETWORK\""
 				},
 				{
-					"id": 3025,
+					"id": 3037,
 					"name": "VALIDATION_ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9330,9 +9330,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3024,
-						3026,
-						3025
+						3036,
+						3038,
+						3037
 					]
 				}
 			],
@@ -9345,7 +9345,7 @@
 			]
 		},
 		{
-			"id": 2657,
+			"id": 2669,
 			"name": "HomeLeftNavItem",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9355,7 +9355,7 @@
 			},
 			"children": [
 				{
-					"id": 2661,
+					"id": 2673,
 					"name": "Answers",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9379,7 +9379,7 @@
 					"defaultValue": "\"answers\""
 				},
 				{
-					"id": 2665,
+					"id": 2677,
 					"name": "Create",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9403,7 +9403,7 @@
 					"defaultValue": "\"create\""
 				},
 				{
-					"id": 2667,
+					"id": 2679,
 					"name": "Favorites",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9427,7 +9427,7 @@
 					"defaultValue": "\"favorites\""
 				},
 				{
-					"id": 2659,
+					"id": 2671,
 					"name": "Home",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9451,7 +9451,7 @@
 					"defaultValue": "\"insights-home\""
 				},
 				{
-					"id": 2664,
+					"id": 2676,
 					"name": "LiveboardSchedules",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9475,7 +9475,7 @@
 					"defaultValue": "\"liveboard-schedules\""
 				},
 				{
-					"id": 2660,
+					"id": 2672,
 					"name": "Liveboards",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9499,7 +9499,7 @@
 					"defaultValue": "\"liveboards\""
 				},
 				{
-					"id": 2662,
+					"id": 2674,
 					"name": "MonitorSubscription",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9523,7 +9523,7 @@
 					"defaultValue": "\"monitor-alerts\""
 				},
 				{
-					"id": 2658,
+					"id": 2670,
 					"name": "SearchData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9547,7 +9547,7 @@
 					"defaultValue": "\"search-data\""
 				},
 				{
-					"id": 2663,
+					"id": 2675,
 					"name": "SpotIQAnalysis",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9571,7 +9571,7 @@
 					"defaultValue": "\"spotiq-analysis\""
 				},
 				{
-					"id": 2666,
+					"id": 2678,
 					"name": "Spotter",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9600,16 +9600,16 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2661,
-						2665,
-						2667,
-						2659,
-						2664,
-						2660,
-						2662,
-						2658,
-						2663,
-						2666
+						2673,
+						2677,
+						2679,
+						2671,
+						2676,
+						2672,
+						2674,
+						2670,
+						2675,
+						2678
 					]
 				}
 			],
@@ -9622,7 +9622,7 @@
 			]
 		},
 		{
-			"id": 2929,
+			"id": 2941,
 			"name": "HomePage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9638,7 +9638,7 @@
 			},
 			"children": [
 				{
-					"id": 2930,
+					"id": 2942,
 					"name": "Modular",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9649,14 +9649,14 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 113,
+							"line": 114,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2931,
+					"id": 2943,
 					"name": "ModularWithStylingChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9667,7 +9667,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 118,
+							"line": 119,
 							"character": 4
 						}
 					],
@@ -9679,44 +9679,29 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2930,
-						2931
+						2942,
+						2943
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 108,
+					"line": 109,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 2923,
+			"id": 2935,
 			"name": "HomePageSearchBarMode",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2925,
+					"id": 2937,
 					"name": "AI_ANSWER",
-					"kind": 16,
-					"kindString": "Enumeration member",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "embed/app.ts",
-							"line": 87,
-							"character": 4
-						}
-					],
-					"defaultValue": "\"aiAnswer\""
-				},
-				{
-					"id": 2926,
-					"name": "NONE",
 					"kind": 16,
 					"kindString": "Enumeration member",
 					"flags": {},
@@ -9727,10 +9712,25 @@
 							"character": 4
 						}
 					],
+					"defaultValue": "\"aiAnswer\""
+				},
+				{
+					"id": 2938,
+					"name": "NONE",
+					"kind": 16,
+					"kindString": "Enumeration member",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 89,
+							"character": 4
+						}
+					],
 					"defaultValue": "\"none\""
 				},
 				{
-					"id": 2924,
+					"id": 2936,
 					"name": "OBJECT_SEARCH",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9738,7 +9738,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 86,
+							"line": 87,
 							"character": 4
 						}
 					],
@@ -9750,22 +9750,22 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2925,
-						2926,
-						2924
+						2937,
+						2938,
+						2936
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 85,
+					"line": 86,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 2668,
+			"id": 2680,
 			"name": "HomepageModule",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -9782,7 +9782,7 @@
 			},
 			"children": [
 				{
-					"id": 2671,
+					"id": 2683,
 					"name": "Favorite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9800,7 +9800,7 @@
 					"defaultValue": "\"FAVORITE\""
 				},
 				{
-					"id": 2674,
+					"id": 2686,
 					"name": "Learning",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9818,7 +9818,7 @@
 					"defaultValue": "\"LEARNING\""
 				},
 				{
-					"id": 2672,
+					"id": 2684,
 					"name": "MyLibrary",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9836,7 +9836,7 @@
 					"defaultValue": "\"MY_LIBRARY\""
 				},
 				{
-					"id": 2669,
+					"id": 2681,
 					"name": "Search",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9854,7 +9854,7 @@
 					"defaultValue": "\"SEARCH\""
 				},
 				{
-					"id": 2673,
+					"id": 2685,
 					"name": "Trending",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9872,7 +9872,7 @@
 					"defaultValue": "\"TRENDING\""
 				},
 				{
-					"id": 2670,
+					"id": 2682,
 					"name": "Watchlist",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -9895,12 +9895,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2671,
-						2674,
-						2672,
-						2669,
-						2673,
-						2670
+						2683,
+						2686,
+						2684,
+						2681,
+						2685,
+						2682
 					]
 				}
 			],
@@ -12670,7 +12670,7 @@
 			]
 		},
 		{
-			"id": 2996,
+			"id": 3008,
 			"name": "InterceptedApiType",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -12680,7 +12680,7 @@
 			},
 			"children": [
 				{
-					"id": 2998,
+					"id": 3010,
 					"name": "ALL",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12698,7 +12698,7 @@
 					"defaultValue": "\"ALL\""
 				},
 				{
-					"id": 2997,
+					"id": 3009,
 					"name": "AnswerData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12716,7 +12716,7 @@
 					"defaultValue": "\"AnswerData\""
 				},
 				{
-					"id": 2999,
+					"id": 3011,
 					"name": "LiveboardData",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12739,9 +12739,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2998,
-						2997,
-						2999
+						3010,
+						3009,
+						3011
 					]
 				}
 			],
@@ -12754,7 +12754,7 @@
 			]
 		},
 		{
-			"id": 3066,
+			"id": 3078,
 			"name": "LegendPosition",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -12770,7 +12770,7 @@
 			},
 			"children": [
 				{
-					"id": 3068,
+					"id": 3080,
 					"name": "Bottom",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12788,7 +12788,7 @@
 					"defaultValue": "\"bottom\""
 				},
 				{
-					"id": 3069,
+					"id": 3081,
 					"name": "Left",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12806,7 +12806,7 @@
 					"defaultValue": "\"left\""
 				},
 				{
-					"id": 3070,
+					"id": 3082,
 					"name": "Right",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12824,7 +12824,7 @@
 					"defaultValue": "\"right\""
 				},
 				{
-					"id": 3067,
+					"id": 3079,
 					"name": "Top",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12847,10 +12847,10 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3068,
-						3069,
-						3070,
-						3067
+						3080,
+						3081,
+						3082,
+						3079
 					]
 				}
 			],
@@ -12863,7 +12863,7 @@
 			]
 		},
 		{
-			"id": 2932,
+			"id": 2944,
 			"name": "ListPage",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -12879,7 +12879,7 @@
 			},
 			"children": [
 				{
-					"id": 2933,
+					"id": 2945,
 					"name": "List",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12890,14 +12890,14 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 130,
+							"line": 131,
 							"character": 4
 						}
 					],
 					"defaultValue": "\"v2\""
 				},
 				{
-					"id": 2934,
+					"id": 2946,
 					"name": "ListWithUXChanges",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12908,7 +12908,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 134,
+							"line": 135,
 							"character": 4
 						}
 					],
@@ -12920,21 +12920,21 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2933,
-						2934
+						2945,
+						2946
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 125,
+					"line": 126,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 2975,
+			"id": 2987,
 			"name": "ListPageColumns",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -12950,7 +12950,7 @@
 			},
 			"children": [
 				{
-					"id": 2979,
+					"id": 2991,
 					"name": "Author",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12968,7 +12968,7 @@
 					"defaultValue": "\"AUTHOR\""
 				},
 				{
-					"id": 2980,
+					"id": 2992,
 					"name": "DateSort",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -12986,7 +12986,7 @@
 					"defaultValue": "\"DATE_SORT\""
 				},
 				{
-					"id": 2976,
+					"id": 2988,
 					"name": "Favorites",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13004,7 +13004,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2977,
+					"id": 2989,
 					"name": "Favourite",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13028,7 +13028,7 @@
 					"defaultValue": "\"FAVOURITE\""
 				},
 				{
-					"id": 2981,
+					"id": 2993,
 					"name": "Share",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13046,7 +13046,7 @@
 					"defaultValue": "\"SHARE\""
 				},
 				{
-					"id": 2978,
+					"id": 2990,
 					"name": "Tags",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13064,7 +13064,7 @@
 					"defaultValue": "\"TAGS\""
 				},
 				{
-					"id": 2982,
+					"id": 2994,
 					"name": "Verified",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13087,13 +13087,13 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2979,
-						2980,
-						2976,
-						2977,
-						2981,
-						2978,
-						2982
+						2991,
+						2992,
+						2988,
+						2989,
+						2993,
+						2990,
+						2994
 					]
 				}
 			],
@@ -13106,7 +13106,7 @@
 			]
 		},
 		{
-			"id": 2900,
+			"id": 2912,
 			"name": "LogLevel",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -13116,7 +13116,7 @@
 			},
 			"children": [
 				{
-					"id": 2905,
+					"id": 2917,
 					"name": "DEBUG",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13144,7 +13144,7 @@
 					"defaultValue": "\"DEBUG\""
 				},
 				{
-					"id": 2902,
+					"id": 2914,
 					"name": "ERROR",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13172,7 +13172,7 @@
 					"defaultValue": "\"ERROR\""
 				},
 				{
-					"id": 2904,
+					"id": 2916,
 					"name": "INFO",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13200,7 +13200,7 @@
 					"defaultValue": "\"INFO\""
 				},
 				{
-					"id": 2901,
+					"id": 2913,
 					"name": "SILENT",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13228,7 +13228,7 @@
 					"defaultValue": "\"SILENT\""
 				},
 				{
-					"id": 2906,
+					"id": 2918,
 					"name": "TRACE",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13256,7 +13256,7 @@
 					"defaultValue": "\"TRACE\""
 				},
 				{
-					"id": 2903,
+					"id": 2915,
 					"name": "WARN",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13289,12 +13289,12 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2905,
-						2902,
-						2904,
-						2901,
-						2906,
-						2903
+						2917,
+						2914,
+						2916,
+						2913,
+						2918,
+						2915
 					]
 				}
 			],
@@ -13328,7 +13328,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 43,
+							"line": 44,
 							"character": 4
 						}
 					],
@@ -13346,7 +13346,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 55,
+							"line": 56,
 							"character": 4
 						}
 					],
@@ -13364,7 +13364,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 35,
+							"line": 36,
 							"character": 4
 						}
 					],
@@ -13382,7 +13382,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 47,
+							"line": 48,
 							"character": 4
 						}
 					],
@@ -13400,7 +13400,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 63,
+							"line": 64,
 							"character": 4
 						}
 					],
@@ -13418,7 +13418,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 39,
+							"line": 40,
 							"character": 4
 						}
 					],
@@ -13436,7 +13436,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 59,
+							"line": 60,
 							"character": 4
 						}
 					],
@@ -13461,20 +13461,20 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 31,
+					"line": 32,
 					"character": 12
 				}
 			]
 		},
 		{
-			"id": 2646,
+			"id": 2658,
 			"name": "PrefetchFeatures",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2647,
+					"id": 2659,
 					"name": "FullApp",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13489,7 +13489,7 @@
 					"defaultValue": "\"FullApp\""
 				},
 				{
-					"id": 2649,
+					"id": 2661,
 					"name": "LiveboardEmbed",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13504,7 +13504,7 @@
 					"defaultValue": "\"LiveboardEmbed\""
 				},
 				{
-					"id": 2648,
+					"id": 2660,
 					"name": "SearchEmbed",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13519,7 +13519,7 @@
 					"defaultValue": "\"SearchEmbed\""
 				},
 				{
-					"id": 2650,
+					"id": 2662,
 					"name": "VizEmbed",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13539,10 +13539,10 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2647,
-						2649,
-						2648,
-						2650
+						2659,
+						2661,
+						2660,
+						2662
 					]
 				}
 			],
@@ -13555,7 +13555,7 @@
 			]
 		},
 		{
-			"id": 2927,
+			"id": 2939,
 			"name": "PrimaryNavbarVersion",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -13571,7 +13571,7 @@
 			},
 			"children": [
 				{
-					"id": 2928,
+					"id": 2940,
 					"name": "Sliding",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13582,7 +13582,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 101,
+							"line": 102,
 							"character": 4
 						}
 					],
@@ -13594,14 +13594,14 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2928
+						2940
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 95,
+					"line": 96,
 					"character": 12
 				}
 			]
@@ -13919,7 +13919,7 @@
 			]
 		},
 		{
-			"id": 3105,
+			"id": 3117,
 			"name": "TableContentDensity",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -13935,7 +13935,7 @@
 			},
 			"children": [
 				{
-					"id": 3107,
+					"id": 3119,
 					"name": "Compact",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13953,7 +13953,7 @@
 					"defaultValue": "\"COMPACT\""
 				},
 				{
-					"id": 3106,
+					"id": 3118,
 					"name": "Regular",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -13976,8 +13976,8 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3107,
-						3106
+						3119,
+						3118
 					]
 				}
 			],
@@ -13990,7 +13990,7 @@
 			]
 		},
 		{
-			"id": 3101,
+			"id": 3113,
 			"name": "TableTheme",
 			"kind": 4,
 			"kindString": "Enumeration",
@@ -14006,7 +14006,7 @@
 			},
 			"children": [
 				{
-					"id": 3102,
+					"id": 3114,
 					"name": "Outline",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14024,7 +14024,7 @@
 					"defaultValue": "\"OUTLINE\""
 				},
 				{
-					"id": 3103,
+					"id": 3115,
 					"name": "Row",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14042,7 +14042,7 @@
 					"defaultValue": "\"ROW\""
 				},
 				{
-					"id": 3104,
+					"id": 3116,
 					"name": "Zebra",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14065,9 +14065,9 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						3102,
-						3103,
-						3104
+						3114,
+						3115,
+						3116
 					]
 				}
 			],
@@ -14080,14 +14080,14 @@
 			]
 		},
 		{
-			"id": 2958,
+			"id": 2970,
 			"name": "UIPassthroughEvent",
 			"kind": 4,
 			"kindString": "Enumeration",
 			"flags": {},
 			"children": [
 				{
-					"id": 2967,
+					"id": 2979,
 					"name": "Drilldown",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14102,7 +14102,7 @@
 					"defaultValue": "\"drillDown\""
 				},
 				{
-					"id": 2963,
+					"id": 2975,
 					"name": "GetAnswerConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14117,7 +14117,7 @@
 					"defaultValue": "\"getAnswerPageConfig\""
 				},
 				{
-					"id": 2968,
+					"id": 2980,
 					"name": "GetAnswerSession",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14132,7 +14132,7 @@
 					"defaultValue": "\"getAnswerSession\""
 				},
 				{
-					"id": 2962,
+					"id": 2974,
 					"name": "GetAvailableUIPassthroughs",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14147,7 +14147,7 @@
 					"defaultValue": "\"getAvailableUiPassthroughs\""
 				},
 				{
-					"id": 2961,
+					"id": 2973,
 					"name": "GetDiscoverabilityStatus",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14162,7 +14162,7 @@
 					"defaultValue": "\"getDiscoverabilityStatus\""
 				},
 				{
-					"id": 2974,
+					"id": 2986,
 					"name": "GetExportRequestForCurrentPinboard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14177,7 +14177,7 @@
 					"defaultValue": "\"getExportRequestForCurrentPinboard\""
 				},
 				{
-					"id": 2969,
+					"id": 2981,
 					"name": "GetFilters",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14192,7 +14192,7 @@
 					"defaultValue": "\"getFilters\""
 				},
 				{
-					"id": 2970,
+					"id": 2982,
 					"name": "GetIframeUrl",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14207,7 +14207,7 @@
 					"defaultValue": "\"getIframeUrl\""
 				},
 				{
-					"id": 2964,
+					"id": 2976,
 					"name": "GetLiveboardConfig",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14222,7 +14222,7 @@
 					"defaultValue": "\"getPinboardPageConfig\""
 				},
 				{
-					"id": 2971,
+					"id": 2983,
 					"name": "GetParameters",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14237,7 +14237,7 @@
 					"defaultValue": "\"getParameters\""
 				},
 				{
-					"id": 2972,
+					"id": 2984,
 					"name": "GetTML",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14252,7 +14252,7 @@
 					"defaultValue": "\"getTML\""
 				},
 				{
-					"id": 2973,
+					"id": 2985,
 					"name": "GetTabs",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14267,7 +14267,7 @@
 					"defaultValue": "\"getTabs\""
 				},
 				{
-					"id": 2965,
+					"id": 2977,
 					"name": "GetUnsavedAnswerTML",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14282,7 +14282,7 @@
 					"defaultValue": "\"getUnsavedAnswerTML\""
 				},
 				{
-					"id": 2959,
+					"id": 2971,
 					"name": "PinAnswerToLiveboard",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14297,7 +14297,7 @@
 					"defaultValue": "\"addVizToPinboard\""
 				},
 				{
-					"id": 2960,
+					"id": 2972,
 					"name": "SaveAnswer",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14312,7 +14312,7 @@
 					"defaultValue": "\"saveAnswer\""
 				},
 				{
-					"id": 2966,
+					"id": 2978,
 					"name": "UpdateFilters",
 					"kind": 16,
 					"kindString": "Enumeration member",
@@ -14332,22 +14332,22 @@
 					"title": "Enumeration members",
 					"kind": 16,
 					"children": [
-						2967,
-						2963,
-						2968,
-						2962,
-						2961,
+						2979,
+						2975,
+						2980,
 						2974,
-						2969,
-						2970,
-						2964,
+						2973,
+						2986,
+						2981,
+						2982,
+						2976,
+						2983,
+						2984,
+						2985,
+						2977,
 						2971,
 						2972,
-						2973,
-						2965,
-						2959,
-						2960,
-						2966
+						2978
 					]
 				}
 			],
@@ -14467,7 +14467,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2935,
+											"id": 2947,
 											"name": "VizPoint"
 										}
 									}
@@ -15699,7 +15699,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 829,
+							"line": 853,
 							"character": 4
 						}
 					],
@@ -15719,7 +15719,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2675,
+										"id": 2687,
 										"name": "DOMSelector"
 									}
 								},
@@ -15731,7 +15731,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2541,
+										"id": 2552,
 										"name": "AppViewConfig"
 									}
 								}
@@ -15763,7 +15763,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1287,
+							"line": 1316,
 							"character": 11
 						}
 					],
@@ -15937,7 +15937,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1156,
+							"line": 1185,
 							"character": 11
 						}
 					],
@@ -16274,7 +16274,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1261,
+							"line": 1290,
 							"character": 11
 						}
 					],
@@ -16399,7 +16399,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -16478,7 +16478,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
@@ -16490,7 +16490,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -16650,7 +16650,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1316,
+							"line": 1345,
 							"character": 17
 						}
 					],
@@ -17049,7 +17049,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -17156,7 +17156,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 824,
+					"line": 848,
 					"character": 13
 				}
 			],
@@ -18343,7 +18343,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -18427,7 +18427,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
@@ -18442,7 +18442,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -19027,7 +19027,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -19175,7 +19175,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 573,
+							"line": 607,
 							"character": 4
 						}
 					],
@@ -19195,7 +19195,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2675,
+										"id": 2687,
 										"name": "DOMSelector"
 									}
 								},
@@ -19229,7 +19229,7 @@
 					}
 				},
 				{
-					"id": 697,
+					"id": 699,
 					"name": "destroy",
 					"kind": 2048,
 					"kindString": "Method",
@@ -19239,13 +19239,13 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1016,
+							"line": 1055,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 698,
+							"id": 700,
 							"name": "destroy",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -19440,7 +19440,7 @@
 					}
 				},
 				{
-					"id": 713,
+					"id": 715,
 					"name": "getLiveboardUrl",
 					"kind": 2048,
 					"kindString": "Method",
@@ -19450,13 +19450,13 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1081,
+							"line": 1120,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 714,
+							"id": 716,
 							"name": "getLiveboardUrl",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -19741,7 +19741,7 @@
 					}
 				},
 				{
-					"id": 707,
+					"id": 709,
 					"name": "navigateToLiveboard",
 					"kind": 2048,
 					"kindString": "Method",
@@ -19751,20 +19751,20 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1056,
+							"line": 1095,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 708,
+							"id": 710,
 							"name": "navigateToLiveboard",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 709,
+									"id": 711,
 									"name": "liveboardId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -19775,7 +19775,7 @@
 									}
 								},
 								{
-									"id": 710,
+									"id": 712,
 									"name": "vizId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -19788,7 +19788,7 @@
 									}
 								},
 								{
-									"id": 711,
+									"id": 713,
 									"name": "activeTabId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -19801,7 +19801,7 @@
 									}
 								},
 								{
-									"id": 712,
+									"id": 714,
 									"name": "personalizedViewId",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -19879,7 +19879,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -19900,7 +19900,7 @@
 					}
 				},
 				{
-					"id": 720,
+					"id": 722,
 					"name": "on",
 					"kind": 2048,
 					"kindString": "Method",
@@ -19916,7 +19916,7 @@
 					],
 					"signatures": [
 						{
-							"id": 721,
+							"id": 723,
 							"name": "on",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -19939,7 +19939,7 @@
 							},
 							"parameters": [
 								{
-									"id": 722,
+									"id": 724,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -19951,26 +19951,26 @@
 									}
 								},
 								{
-									"id": 723,
+									"id": 725,
 									"name": "callback",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
 								{
-									"id": 724,
+									"id": 726,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -20120,7 +20120,7 @@
 					}
 				},
 				{
-					"id": 705,
+					"id": 707,
 					"name": "render",
 					"kind": 2048,
 					"kindString": "Method",
@@ -20130,13 +20130,13 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1045,
+							"line": 1084,
 							"character": 17
 						}
 					],
 					"signatures": [
 						{
-							"id": 706,
+							"id": 708,
 							"name": "render",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -20334,7 +20334,7 @@
 					}
 				},
 				{
-					"id": 689,
+					"id": 691,
 					"name": "trigger",
 					"kind": 2048,
 					"kindString": "Method",
@@ -20344,13 +20344,13 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 997,
+							"line": 1036,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 690,
+							"id": 692,
 							"name": "trigger",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -20361,7 +20361,7 @@
 							},
 							"typeParameter": [
 								{
-									"id": 691,
+									"id": 693,
 									"name": "HostEventT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -20373,14 +20373,14 @@
 									}
 								},
 								{
-									"id": 692,
+									"id": 694,
 									"name": "PayloadT",
 									"kind": 131072,
 									"kindString": "Type parameter",
 									"flags": {}
 								},
 								{
-									"id": 693,
+									"id": 695,
 									"name": "ContextT",
 									"kind": 131072,
 									"kindString": "Type parameter",
@@ -20394,7 +20394,7 @@
 							],
 							"parameters": [
 								{
-									"id": 694,
+									"id": 696,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -20408,7 +20408,7 @@
 									}
 								},
 								{
-									"id": 695,
+									"id": 697,
 									"name": "data",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -20433,7 +20433,7 @@
 									"defaultValue": "..."
 								},
 								{
-									"id": 696,
+									"id": 698,
 									"name": "context",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -20516,7 +20516,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -20597,25 +20597,25 @@
 					"title": "Methods",
 					"kind": 2048,
 					"children": [
-						697,
+						699,
 						874,
 						844,
 						842,
-						713,
+						715,
 						869,
 						853,
 						859,
 						867,
-						707,
+						709,
 						819,
-						720,
+						722,
 						849,
 						861,
-						705,
+						707,
 						863,
 						846,
 						865,
-						689,
+						691,
 						837
 					]
 				}
@@ -20623,7 +20623,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 567,
+					"line": 601,
 					"character": 13
 				}
 			],
@@ -21252,7 +21252,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -21334,7 +21334,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
@@ -21349,7 +21349,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -21921,7 +21921,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -22082,7 +22082,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2675,
+										"id": 2687,
 										"name": "DOMSelector"
 									}
 								},
@@ -22684,7 +22684,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -22766,7 +22766,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
@@ -22781,7 +22781,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -23353,7 +23353,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -24594,7 +24594,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								}
@@ -24676,7 +24676,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2679,
+										"id": 2691,
 										"name": "MessageCallback"
 									}
 								},
@@ -24691,7 +24691,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 2676,
+										"id": 2688,
 										"name": "MessageOptions"
 									},
 									"defaultValue": "..."
@@ -25260,7 +25260,7 @@
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2958,
+										"id": 2970,
 										"name": "UIPassthroughEvent"
 									}
 								}
@@ -25384,7 +25384,7 @@
 			]
 		},
 		{
-			"id": 2541,
+			"id": 2552,
 			"name": "AppViewConfig",
 			"kind": 256,
 			"kindString": "Interface",
@@ -25400,7 +25400,7 @@
 			},
 			"children": [
 				{
-					"id": 2590,
+					"id": 2602,
 					"name": "additionalFlags",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25431,20 +25431,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2591,
+							"id": 2603,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 2592,
+								"id": 2604,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2593,
+										"id": 2605,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -25480,7 +25480,7 @@
 					}
 				},
 				{
-					"id": 2621,
+					"id": 2633,
 					"name": "collapseSearchBar",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25522,7 +25522,7 @@
 					}
 				},
 				{
-					"id": 2561,
+					"id": 2572,
 					"name": "collapseSearchBarInitially",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25549,7 +25549,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 509,
+							"line": 510,
 							"character": 4
 						}
 					],
@@ -25559,7 +25559,7 @@
 					}
 				},
 				{
-					"id": 2618,
+					"id": 2630,
 					"name": "contextMenuTrigger",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25598,7 +25598,7 @@
 					}
 				},
 				{
-					"id": 2639,
+					"id": 2651,
 					"name": "coverAndFilterOptionInPDF",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25636,7 +25636,7 @@
 					}
 				},
 				{
-					"id": 2609,
+					"id": 2621,
 					"name": "customActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25685,7 +25685,7 @@
 					}
 				},
 				{
-					"id": 2594,
+					"id": 2606,
 					"name": "customizations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25714,7 +25714,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -25723,7 +25723,7 @@
 					}
 				},
 				{
-					"id": 2562,
+					"id": 2573,
 					"name": "dataPanelCustomGroupsAccordionInitialState",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25751,18 +25751,18 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 530,
+							"line": 531,
 							"character": 4
 						}
 					],
 					"type": {
 						"type": "reference",
-						"id": 2983,
+						"id": 2995,
 						"name": "DataPanelCustomColumnGroupsAccordionState"
 					}
 				},
 				{
-					"id": 2622,
+					"id": 2634,
 					"name": "dataPanelV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25804,7 +25804,7 @@
 					}
 				},
 				{
-					"id": 2544,
+					"id": 2555,
 					"name": "disableProfileAndHelp",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25832,7 +25832,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 217,
+							"line": 218,
 							"character": 4
 						}
 					],
@@ -25842,7 +25842,7 @@
 					}
 				},
 				{
-					"id": 2602,
+					"id": 2614,
 					"name": "disableRedirectionLinksInNewTab",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25880,7 +25880,7 @@
 					}
 				},
 				{
-					"id": 2586,
+					"id": 2598,
 					"name": "disabledActionReason",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25918,7 +25918,7 @@
 					}
 				},
 				{
-					"id": 2585,
+					"id": 2597,
 					"name": "disabledActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25960,7 +25960,7 @@
 					}
 				},
 				{
-					"id": 2560,
+					"id": 2571,
 					"name": "discoveryExperience",
 					"kind": 1024,
 					"kindString": "Property",
@@ -25987,7 +25987,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 502,
+							"line": 503,
 							"character": 4
 						}
 					],
@@ -25997,7 +25997,7 @@
 					}
 				},
 				{
-					"id": 2598,
+					"id": 2610,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26038,7 +26038,7 @@
 					}
 				},
 				{
-					"id": 2633,
+					"id": 2645,
 					"name": "enable2ColumnLayout",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26080,7 +26080,7 @@
 					}
 				},
 				{
-					"id": 2638,
+					"id": 2650,
 					"name": "enableAskSage",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26122,7 +26122,7 @@
 					}
 				},
 				{
-					"id": 2623,
+					"id": 2635,
 					"name": "enableCustomColumnGroups",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26164,7 +26164,7 @@
 					}
 				},
 				{
-					"id": 2578,
+					"id": 2590,
 					"name": "enableHomepageAnnouncement",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26188,7 +26188,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 788,
+							"line": 811,
 							"character": 4
 						}
 					],
@@ -26198,7 +26198,7 @@
 					}
 				},
 				{
-					"id": 2605,
+					"id": 2617,
 					"name": "enableLinkOverridesV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26236,7 +26236,7 @@
 					}
 				},
 				{
-					"id": 2579,
+					"id": 2591,
 					"name": "enableLiveboardDataCache",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26259,7 +26259,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 801,
+							"line": 824,
 							"character": 4
 						}
 					],
@@ -26269,7 +26269,7 @@
 					}
 				},
 				{
-					"id": 2573,
+					"id": 2584,
 					"name": "enablePastConversationsSidebar",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26297,7 +26297,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 708,
+							"line": 709,
 							"character": 4
 						}
 					],
@@ -26307,7 +26307,7 @@
 					}
 				},
 				{
-					"id": 2545,
+					"id": 2556,
 					"name": "enablePendoHelp",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26335,7 +26335,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 233,
+							"line": 234,
 							"character": 4
 						}
 					],
@@ -26345,7 +26345,7 @@
 					}
 				},
 				{
-					"id": 2557,
+					"id": 2568,
 					"name": "enableSearchAssist",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26373,7 +26373,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 443,
+							"line": 444,
 							"character": 4
 						}
 					],
@@ -26383,7 +26383,7 @@
 					}
 				},
 				{
-					"id": 2576,
+					"id": 2588,
 					"name": "enableStopAnswerGenerationEmbed",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26407,7 +26407,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 755,
+							"line": 778,
 							"character": 4
 						}
 					],
@@ -26417,7 +26417,7 @@
 					}
 				},
 				{
-					"id": 2599,
+					"id": 2611,
 					"name": "enableV2Shell_experimental",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26455,7 +26455,7 @@
 					}
 				},
 				{
-					"id": 2619,
+					"id": 2631,
 					"name": "excludeRuntimeFiltersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26493,7 +26493,7 @@
 					}
 				},
 				{
-					"id": 2620,
+					"id": 2632,
 					"name": "excludeRuntimeParametersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26531,7 +26531,7 @@
 					}
 				},
 				{
-					"id": 2601,
+					"id": 2613,
 					"name": "exposeTranslationIDs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26568,7 +26568,7 @@
 					}
 				},
 				{
-					"id": 2582,
+					"id": 2594,
 					"name": "frameParams",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26598,7 +26598,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -26607,7 +26607,7 @@
 					}
 				},
 				{
-					"id": 2558,
+					"id": 2569,
 					"name": "fullHeight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26631,7 +26631,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 466,
+							"line": 467,
 							"character": 4
 						}
 					],
@@ -26641,7 +26641,7 @@
 					}
 				},
 				{
-					"id": 2587,
+					"id": 2599,
 					"name": "hiddenActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26687,7 +26687,7 @@
 					}
 				},
 				{
-					"id": 2628,
+					"id": 2640,
 					"name": "hiddenHomeLeftNavItems",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26719,7 +26719,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2657,
+							"id": 2669,
 							"name": "HomeLeftNavItem"
 						}
 					},
@@ -26729,7 +26729,7 @@
 					}
 				},
 				{
-					"id": 2626,
+					"id": 2638,
 					"name": "hiddenHomepageModules",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26761,7 +26761,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2668,
+							"id": 2680,
 							"name": "HomepageModule"
 						}
 					},
@@ -26771,7 +26771,7 @@
 					}
 				},
 				{
-					"id": 2625,
+					"id": 2637,
 					"name": "hiddenListColumns",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26803,7 +26803,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2975,
+							"id": 2987,
 							"name": "ListPageColumns"
 						}
 					},
@@ -26813,7 +26813,7 @@
 					}
 				},
 				{
-					"id": 2549,
+					"id": 2560,
 					"name": "hideApplicationSwitcher",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26841,7 +26841,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 310,
+							"line": 311,
 							"character": 4
 						}
 					],
@@ -26851,7 +26851,7 @@
 					}
 				},
 				{
-					"id": 2546,
+					"id": 2557,
 					"name": "hideHamburger",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26879,7 +26879,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 249,
+							"line": 250,
 							"character": 4
 						}
 					],
@@ -26889,7 +26889,7 @@
 					}
 				},
 				{
-					"id": 2543,
+					"id": 2554,
 					"name": "hideHomepageLeftNav",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26917,7 +26917,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 199,
+							"line": 200,
 							"character": 4
 						}
 					],
@@ -26927,7 +26927,7 @@
 					}
 				},
 				{
-					"id": 2636,
+					"id": 2648,
 					"name": "hideIrrelevantChipsInLiveboardTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -26969,7 +26969,7 @@
 					}
 				},
 				{
-					"id": 2629,
+					"id": 2641,
 					"name": "hideLiveboardHeader",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27011,7 +27011,7 @@
 					}
 				},
 				{
-					"id": 2548,
+					"id": 2559,
 					"name": "hideNotification",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27039,7 +27039,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 288,
+							"line": 289,
 							"character": 4
 						}
 					],
@@ -27049,7 +27049,7 @@
 					}
 				},
 				{
-					"id": 2547,
+					"id": 2558,
 					"name": "hideObjectSearch",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27077,7 +27077,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 269,
+							"line": 270,
 							"character": 4
 						}
 					],
@@ -27087,7 +27087,7 @@
 					}
 				},
 				{
-					"id": 2555,
+					"id": 2566,
 					"name": "hideObjects",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27111,7 +27111,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 419,
+							"line": 420,
 							"character": 4
 						}
 					],
@@ -27124,7 +27124,7 @@
 					}
 				},
 				{
-					"id": 2550,
+					"id": 2561,
 					"name": "hideOrgSwitcher",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27152,7 +27152,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 328,
+							"line": 329,
 							"character": 4
 						}
 					],
@@ -27162,7 +27162,7 @@
 					}
 				},
 				{
-					"id": 2554,
+					"id": 2565,
 					"name": "hideTagFilterChips",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27186,7 +27186,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 402,
+							"line": 403,
 							"character": 4
 						}
 					],
@@ -27196,7 +27196,7 @@
 					}
 				},
 				{
-					"id": 2563,
+					"id": 2574,
 					"name": "homePageSearchBarMode",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27216,18 +27216,18 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 537,
+							"line": 538,
 							"character": 4
 						}
 					],
 					"type": {
 						"type": "reference",
-						"id": 2923,
+						"id": 2935,
 						"name": "HomePageSearchBarMode"
 					}
 				},
 				{
-					"id": 2595,
+					"id": 2607,
 					"name": "insertAsSibling",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27265,7 +27265,7 @@
 					}
 				},
 				{
-					"id": 2615,
+					"id": 2627,
 					"name": "interceptTimeout",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27302,7 +27302,7 @@
 					}
 				},
 				{
-					"id": 2614,
+					"id": 2626,
 					"name": "interceptUrls",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27342,7 +27342,7 @@
 					}
 				},
 				{
-					"id": 2640,
+					"id": 2652,
 					"name": "isCentralizedLiveboardFilterUXEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27380,7 +27380,7 @@
 					}
 				},
 				{
-					"id": 2567,
+					"id": 2578,
 					"name": "isContinuousLiveboardPDFEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27404,7 +27404,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 607,
+							"line": 608,
 							"character": 4
 						}
 					],
@@ -27414,7 +27414,7 @@
 					}
 				},
 				{
-					"id": 2642,
+					"id": 2654,
 					"name": "isEnhancedFilterInteractivityEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27452,7 +27452,7 @@
 					}
 				},
 				{
-					"id": 2569,
+					"id": 2580,
 					"name": "isGranularXLSXCSVSchedulesEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27476,7 +27476,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 641,
+							"line": 642,
 							"character": 4
 						}
 					],
@@ -27486,7 +27486,7 @@
 					}
 				},
 				{
-					"id": 2641,
+					"id": 2653,
 					"name": "isLinkParametersEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27524,7 +27524,7 @@
 					}
 				},
 				{
-					"id": 2634,
+					"id": 2646,
 					"name": "isLiveboardCompactHeaderEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27566,7 +27566,7 @@
 					}
 				},
 				{
-					"id": 2632,
+					"id": 2644,
 					"name": "isLiveboardHeaderSticky",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27604,7 +27604,7 @@
 					}
 				},
 				{
-					"id": 2644,
+					"id": 2656,
 					"name": "isLiveboardMasterpiecesEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27646,7 +27646,7 @@
 					}
 				},
 				{
-					"id": 2565,
+					"id": 2576,
 					"name": "isLiveboardStylingAndGroupingEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27673,7 +27673,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 570,
+							"line": 571,
 							"character": 4
 						}
 					],
@@ -27683,7 +27683,7 @@
 					}
 				},
 				{
-					"id": 2568,
+					"id": 2579,
 					"name": "isLiveboardXLSXCSVDownloadEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27707,7 +27707,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 624,
+							"line": 625,
 							"character": 4
 						}
 					],
@@ -27717,7 +27717,7 @@
 					}
 				},
 				{
-					"id": 2613,
+					"id": 2625,
 					"name": "isOnBeforeGetVizDataInterceptEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27751,7 +27751,7 @@
 					}
 				},
 				{
-					"id": 2566,
+					"id": 2577,
 					"name": "isPNGInScheduledEmailsEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27775,7 +27775,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 588,
+							"line": 589,
 							"character": 4
 						}
 					],
@@ -27785,7 +27785,7 @@
 					}
 				},
 				{
-					"id": 2624,
+					"id": 2636,
 					"name": "isThisPeriodInDateFiltersEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27823,7 +27823,7 @@
 					}
 				},
 				{
-					"id": 2564,
+					"id": 2575,
 					"name": "isUnifiedSearchExperienceEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27851,7 +27851,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 552,
+							"line": 553,
 							"character": 4
 						}
 					],
@@ -27861,7 +27861,7 @@
 					}
 				},
 				{
-					"id": 2570,
+					"id": 2581,
 					"name": "lazyLoadingForFullHeight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27888,7 +27888,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 658,
+							"line": 659,
 							"character": 4
 						}
 					],
@@ -27898,7 +27898,7 @@
 					}
 				},
 				{
-					"id": 2571,
+					"id": 2582,
 					"name": "lazyLoadingMargin",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27922,7 +27922,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 682,
+							"line": 683,
 							"character": 4
 						}
 					],
@@ -27932,7 +27932,7 @@
 					}
 				},
 				{
-					"id": 2604,
+					"id": 2616,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -27970,7 +27970,7 @@
 					}
 				},
 				{
-					"id": 2589,
+					"id": 2601,
 					"name": "locale",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28008,7 +28008,7 @@
 					}
 				},
 				{
-					"id": 2577,
+					"id": 2589,
 					"name": "minimumHeight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28035,7 +28035,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 772,
+							"line": 795,
 							"character": 4
 						}
 					],
@@ -28045,7 +28045,7 @@
 					}
 				},
 				{
-					"id": 2559,
+					"id": 2570,
 					"name": "modularHomeExperience",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28072,7 +28072,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 482,
+							"line": 483,
 							"character": 4
 						}
 					],
@@ -28082,7 +28082,7 @@
 					}
 				},
 				{
-					"id": 2645,
+					"id": 2657,
 					"name": "newChartsLibrary",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28124,7 +28124,7 @@
 					}
 				},
 				{
-					"id": 2603,
+					"id": 2615,
 					"name": "overrideOrgId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28162,7 +28162,7 @@
 					}
 				},
 				{
-					"id": 2552,
+					"id": 2563,
 					"name": "pageId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28186,7 +28186,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 366,
+							"line": 367,
 							"character": 4
 						}
 					],
@@ -28197,7 +28197,7 @@
 					}
 				},
 				{
-					"id": 2551,
+					"id": 2562,
 					"name": "path",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28221,7 +28221,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 348,
+							"line": 349,
 							"character": 4
 						}
 					],
@@ -28231,7 +28231,7 @@
 					}
 				},
 				{
-					"id": 2597,
+					"id": 2609,
 					"name": "preRenderId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28269,7 +28269,7 @@
 					}
 				},
 				{
-					"id": 2606,
+					"id": 2618,
 					"name": "primaryAction",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28307,7 +28307,7 @@
 					}
 				},
 				{
-					"id": 2610,
+					"id": 2622,
 					"name": "refreshAuthTokenOnNearExpiry",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28348,7 +28348,7 @@
 					}
 				},
 				{
-					"id": 2627,
+					"id": 2639,
 					"name": "reorderedHomepageModules",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28380,7 +28380,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2668,
+							"id": 2680,
 							"name": "HomepageModule"
 						}
 					},
@@ -28390,7 +28390,7 @@
 					}
 				},
 				{
-					"id": 2616,
+					"id": 2628,
 					"name": "runtimeFilters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28432,7 +28432,7 @@
 					}
 				},
 				{
-					"id": 2617,
+					"id": 2629,
 					"name": "runtimeParameters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28464,7 +28464,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -28474,7 +28474,7 @@
 					}
 				},
 				{
-					"id": 2611,
+					"id": 2623,
 					"name": "shouldBypassPayloadValidation",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28515,7 +28515,7 @@
 					}
 				},
 				{
-					"id": 2608,
+					"id": 2620,
 					"name": "showAlerts",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28552,7 +28552,7 @@
 					}
 				},
 				{
-					"id": 2631,
+					"id": 2643,
 					"name": "showLiveboardDescription",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28594,7 +28594,7 @@
 					}
 				},
 				{
-					"id": 2637,
+					"id": 2649,
 					"name": "showLiveboardReverifyBanner",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28636,7 +28636,7 @@
 					}
 				},
 				{
-					"id": 2630,
+					"id": 2642,
 					"name": "showLiveboardTitle",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28678,7 +28678,7 @@
 					}
 				},
 				{
-					"id": 2635,
+					"id": 2647,
 					"name": "showLiveboardVerifiedBadge",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28720,7 +28720,7 @@
 					}
 				},
 				{
-					"id": 2643,
+					"id": 2655,
 					"name": "showMaskedFilterChip",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28762,7 +28762,7 @@
 					}
 				},
 				{
-					"id": 2542,
+					"id": 2553,
 					"name": "showPrimaryNavbar",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28790,7 +28790,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 177,
+							"line": 178,
 							"character": 4
 						}
 					],
@@ -28800,7 +28800,7 @@
 					}
 				},
 				{
-					"id": 2575,
+					"id": 2586,
 					"name": "spotterChatConfig",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28824,7 +28824,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 746,
+							"line": 747,
 							"character": 4
 						}
 					],
@@ -28835,7 +28835,7 @@
 					}
 				},
 				{
-					"id": 2574,
+					"id": 2585,
 					"name": "spotterSidebarConfig",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28859,7 +28859,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 728,
+							"line": 729,
 							"character": 4
 						}
 					],
@@ -28870,7 +28870,42 @@
 					}
 				},
 				{
-					"id": 2553,
+					"id": 2587,
+					"name": "spotterViz",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Configuration for the SpotterViz interface shown on the Liveboard.\nCustomize the brand name, description, chat input placeholder,\nstarter prompts, and visibility of starter prompts in the SpotterViz panel.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new AppEmbed('#embed-container', {\n   ... // other options\n   spotterViz: {\n       brandName: 'MyBrand',\n       description: 'Ask questions about your data',\n       inputChatPlaceholder: 'Ask a question...',\n       hideStarterPrompts: false,\n       customStarterPrompts: [{ displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }]\n   },\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/app.ts",
+							"line": 769,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 2542,
+						"name": "SpotterVizConfig"
+					}
+				},
+				{
+					"id": 2564,
 					"name": "tag",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28894,7 +28929,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 382,
+							"line": 383,
 							"character": 4
 						}
 					],
@@ -28904,7 +28939,7 @@
 					}
 				},
 				{
-					"id": 2572,
+					"id": 2583,
 					"name": "updatedSpotterChatPrompt",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28932,7 +28967,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 698,
+							"line": 699,
 							"character": 4
 						}
 					],
@@ -28942,7 +28977,7 @@
 					}
 				},
 				{
-					"id": 2612,
+					"id": 2624,
 					"name": "useHostEventsV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -28983,7 +29018,7 @@
 					}
 				},
 				{
-					"id": 2588,
+					"id": 2600,
 					"name": "visibleActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29029,7 +29064,7 @@
 					}
 				},
 				{
-					"id": 2580,
+					"id": 2592,
 					"name": "visualOverrides",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29048,13 +29083,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 807,
+							"line": 830,
 							"character": 4
 						}
 					],
 					"type": {
 						"type": "reference",
-						"id": 3063,
+						"id": 3075,
 						"name": "VisualizationOverrides"
 					}
 				}
@@ -29064,107 +29099,108 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2590,
-						2621,
-						2561,
-						2618,
-						2639,
-						2609,
-						2594,
-						2562,
-						2622,
-						2544,
 						2602,
+						2633,
+						2572,
+						2630,
+						2651,
+						2621,
+						2606,
+						2573,
+						2634,
+						2555,
+						2614,
+						2598,
+						2597,
+						2571,
+						2610,
+						2645,
+						2650,
+						2635,
+						2590,
+						2617,
+						2591,
+						2584,
+						2556,
+						2568,
+						2588,
+						2611,
+						2631,
+						2632,
+						2613,
+						2594,
+						2569,
+						2599,
+						2640,
+						2638,
+						2637,
+						2560,
+						2557,
+						2554,
+						2648,
+						2641,
+						2559,
+						2558,
+						2566,
+						2561,
+						2565,
+						2574,
+						2607,
+						2627,
+						2626,
+						2652,
+						2578,
+						2654,
+						2580,
+						2653,
+						2646,
+						2644,
+						2656,
+						2576,
+						2579,
+						2625,
+						2577,
+						2636,
+						2575,
+						2581,
+						2582,
+						2616,
+						2601,
+						2589,
+						2570,
+						2657,
+						2615,
+						2563,
+						2562,
+						2609,
+						2618,
+						2622,
+						2639,
+						2628,
+						2629,
+						2623,
+						2620,
+						2643,
+						2649,
+						2642,
+						2647,
+						2655,
+						2553,
 						2586,
 						2585,
-						2560,
-						2598,
-						2633,
-						2638,
-						2623,
-						2578,
-						2605,
-						2579,
-						2573,
-						2545,
-						2557,
-						2576,
-						2599,
-						2619,
-						2620,
-						2601,
-						2582,
-						2558,
 						2587,
-						2628,
-						2626,
-						2625,
-						2549,
-						2546,
-						2543,
-						2636,
-						2629,
-						2548,
-						2547,
-						2555,
-						2550,
-						2554,
-						2563,
-						2595,
-						2615,
-						2614,
-						2640,
-						2567,
-						2642,
-						2569,
-						2641,
-						2634,
-						2632,
-						2644,
-						2565,
-						2568,
-						2613,
-						2566,
-						2624,
 						2564,
-						2570,
-						2571,
-						2604,
-						2589,
-						2577,
-						2559,
-						2645,
-						2603,
-						2552,
-						2551,
-						2597,
-						2606,
-						2610,
-						2627,
-						2616,
-						2617,
-						2611,
-						2608,
-						2631,
-						2637,
-						2630,
-						2635,
-						2643,
-						2542,
-						2575,
-						2574,
-						2553,
-						2572,
-						2612,
-						2588,
-						2580
+						2583,
+						2624,
+						2600,
+						2592
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 160,
+					"line": 161,
 					"character": 17
 				}
 			],
@@ -29884,14 +29920,14 @@
 			]
 		},
 		{
-			"id": 3027,
+			"id": 3039,
 			"name": "AutoMCPFrameRendererViewConfig",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 3037,
+					"id": 3049,
 					"name": "additionalFlags",
 					"kind": 1024,
 					"kindString": "Property",
@@ -29922,20 +29958,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 3038,
+							"id": 3050,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 3039,
+								"id": 3051,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 3040,
+										"id": 3052,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -29971,7 +30007,7 @@
 					}
 				},
 				{
-					"id": 3056,
+					"id": 3068,
 					"name": "customActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30020,7 +30056,7 @@
 					}
 				},
 				{
-					"id": 3041,
+					"id": 3053,
 					"name": "customizations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30049,7 +30085,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -30058,7 +30094,7 @@
 					}
 				},
 				{
-					"id": 3049,
+					"id": 3061,
 					"name": "disableRedirectionLinksInNewTab",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30096,7 +30132,7 @@
 					}
 				},
 				{
-					"id": 3033,
+					"id": 3045,
 					"name": "disabledActionReason",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30134,7 +30170,7 @@
 					}
 				},
 				{
-					"id": 3032,
+					"id": 3044,
 					"name": "disabledActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30176,7 +30212,7 @@
 					}
 				},
 				{
-					"id": 3045,
+					"id": 3057,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30217,7 +30253,7 @@
 					}
 				},
 				{
-					"id": 3052,
+					"id": 3064,
 					"name": "enableLinkOverridesV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30255,7 +30291,7 @@
 					}
 				},
 				{
-					"id": 3046,
+					"id": 3058,
 					"name": "enableV2Shell_experimental",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30293,7 +30329,7 @@
 					}
 				},
 				{
-					"id": 3048,
+					"id": 3060,
 					"name": "exposeTranslationIDs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30330,7 +30366,7 @@
 					}
 				},
 				{
-					"id": 3029,
+					"id": 3041,
 					"name": "frameParams",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30360,7 +30396,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -30369,7 +30405,7 @@
 					}
 				},
 				{
-					"id": 3034,
+					"id": 3046,
 					"name": "hiddenActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30415,7 +30451,7 @@
 					}
 				},
 				{
-					"id": 3042,
+					"id": 3054,
 					"name": "insertAsSibling",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30453,7 +30489,7 @@
 					}
 				},
 				{
-					"id": 3062,
+					"id": 3074,
 					"name": "interceptTimeout",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30490,7 +30526,7 @@
 					}
 				},
 				{
-					"id": 3061,
+					"id": 3073,
 					"name": "interceptUrls",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30530,7 +30566,7 @@
 					}
 				},
 				{
-					"id": 3060,
+					"id": 3072,
 					"name": "isOnBeforeGetVizDataInterceptEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30564,7 +30600,7 @@
 					}
 				},
 				{
-					"id": 3051,
+					"id": 3063,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30602,7 +30638,7 @@
 					}
 				},
 				{
-					"id": 3036,
+					"id": 3048,
 					"name": "locale",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30640,7 +30676,7 @@
 					}
 				},
 				{
-					"id": 3050,
+					"id": 3062,
 					"name": "overrideOrgId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30678,7 +30714,7 @@
 					}
 				},
 				{
-					"id": 3044,
+					"id": 3056,
 					"name": "preRenderId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30716,7 +30752,7 @@
 					}
 				},
 				{
-					"id": 3053,
+					"id": 3065,
 					"name": "primaryAction",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30754,7 +30790,7 @@
 					}
 				},
 				{
-					"id": 3057,
+					"id": 3069,
 					"name": "refreshAuthTokenOnNearExpiry",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30795,7 +30831,7 @@
 					}
 				},
 				{
-					"id": 3058,
+					"id": 3070,
 					"name": "shouldBypassPayloadValidation",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30836,7 +30872,7 @@
 					}
 				},
 				{
-					"id": 3055,
+					"id": 3067,
 					"name": "showAlerts",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30873,7 +30909,7 @@
 					}
 				},
 				{
-					"id": 3059,
+					"id": 3071,
 					"name": "useHostEventsV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30914,7 +30950,7 @@
 					}
 				},
 				{
-					"id": 3035,
+					"id": 3047,
 					"name": "visibleActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -30965,32 +31001,32 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						3037,
-						3056,
-						3041,
 						3049,
-						3033,
-						3032,
-						3045,
-						3052,
-						3046,
-						3048,
-						3029,
-						3034,
-						3042,
-						3062,
-						3061,
-						3060,
-						3051,
-						3036,
-						3050,
-						3044,
+						3068,
 						3053,
+						3061,
+						3045,
+						3044,
 						3057,
+						3064,
 						3058,
-						3055,
-						3059,
-						3035
+						3060,
+						3041,
+						3046,
+						3054,
+						3074,
+						3073,
+						3072,
+						3063,
+						3048,
+						3062,
+						3056,
+						3065,
+						3069,
+						3070,
+						3067,
+						3071,
+						3047
 					]
 				}
 			],
@@ -31189,7 +31225,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -31508,7 +31544,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -32341,7 +32377,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -32902,7 +32938,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -33463,7 +33499,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -33924,7 +33960,7 @@
 			]
 		},
 		{
-			"id": 2938,
+			"id": 2950,
 			"name": "CustomActionPayload",
 			"kind": 256,
 			"kindString": "Interface",
@@ -33939,7 +33975,7 @@
 			},
 			"children": [
 				{
-					"id": 2939,
+					"id": 2951,
 					"name": "contextMenuPoints",
 					"kind": 1024,
 					"kindString": "Property",
@@ -33956,14 +33992,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2940,
+							"id": 2952,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2941,
+									"id": 2953,
 									"name": "clickedPoint",
 									"kind": 1024,
 									"kindString": "Property",
@@ -33977,12 +34013,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 2935,
+										"id": 2947,
 										"name": "VizPoint"
 									}
 								},
 								{
-									"id": 2942,
+									"id": 2954,
 									"name": "selectedPoints",
 									"kind": 1024,
 									"kindString": "Property",
@@ -33998,7 +34034,7 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 2935,
+											"id": 2947,
 											"name": "VizPoint"
 										}
 									}
@@ -34009,8 +34045,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2941,
-										2942
+										2953,
+										2954
 									]
 								}
 							]
@@ -34018,7 +34054,7 @@
 					}
 				},
 				{
-					"id": 2943,
+					"id": 2955,
 					"name": "embedAnswerData",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34033,14 +34069,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2944,
+							"id": 2956,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2952,
+									"id": 2964,
 									"name": "columns",
 									"kind": 1024,
 									"kindString": "Property",
@@ -34061,7 +34097,7 @@
 									}
 								},
 								{
-									"id": 2953,
+									"id": 2965,
 									"name": "data",
 									"kind": 1024,
 									"kindString": "Property",
@@ -34082,7 +34118,7 @@
 									}
 								},
 								{
-									"id": 2946,
+									"id": 2958,
 									"name": "id",
 									"kind": 1024,
 									"kindString": "Property",
@@ -34100,7 +34136,7 @@
 									}
 								},
 								{
-									"id": 2945,
+									"id": 2957,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -34118,7 +34154,7 @@
 									}
 								},
 								{
-									"id": 2947,
+									"id": 2959,
 									"name": "sources",
 									"kind": 1024,
 									"kindString": "Property",
@@ -34133,14 +34169,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 2948,
+											"id": 2960,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 2949,
+													"id": 2961,
 													"name": "header",
 													"kind": 1024,
 													"kindString": "Property",
@@ -34155,14 +34191,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 2950,
+															"id": 2962,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 2951,
+																	"id": 2963,
 																	"name": "guid",
 																	"kind": 1024,
 																	"kindString": "Property",
@@ -34185,7 +34221,7 @@
 																	"title": "Properties",
 																	"kind": 1024,
 																	"children": [
-																		2951
+																		2963
 																	]
 																}
 															]
@@ -34198,7 +34234,7 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														2949
+														2961
 													]
 												}
 											]
@@ -34211,23 +34247,23 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2952,
-										2953,
-										2946,
-										2945,
-										2947
+										2964,
+										2965,
+										2958,
+										2957,
+										2959
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 2954,
+								"id": 2966,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2955,
+										"id": 2967,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -34246,7 +34282,7 @@
 					}
 				},
 				{
-					"id": 2956,
+					"id": 2968,
 					"name": "session",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34265,7 +34301,7 @@
 					}
 				},
 				{
-					"id": 2957,
+					"id": 2969,
 					"name": "vizId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34290,10 +34326,10 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2939,
-						2943,
-						2956,
-						2957
+						2951,
+						2955,
+						2968,
+						2969
 					]
 				}
 			],
@@ -34306,7 +34342,7 @@
 			]
 		},
 		{
-			"id": 2714,
+			"id": 2726,
 			"name": "CustomCssVariables",
 			"kind": 256,
 			"kindString": "Interface",
@@ -34316,7 +34352,7 @@
 			},
 			"children": [
 				{
-					"id": 2768,
+					"id": 2780,
 					"name": "--ts-var-answer-chart-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34339,7 +34375,7 @@
 					}
 				},
 				{
-					"id": 2767,
+					"id": 2779,
 					"name": "--ts-var-answer-chart-select-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34362,7 +34398,7 @@
 					}
 				},
 				{
-					"id": 2737,
+					"id": 2749,
 					"name": "--ts-var-answer-data-panel-background-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34385,7 +34421,7 @@
 					}
 				},
 				{
-					"id": 2738,
+					"id": 2750,
 					"name": "--ts-var-answer-edit-panel-background-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34408,7 +34444,7 @@
 					}
 				},
 				{
-					"id": 2740,
+					"id": 2752,
 					"name": "--ts-var-answer-view-table-chart-switcher-active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34431,7 +34467,7 @@
 					}
 				},
 				{
-					"id": 2739,
+					"id": 2751,
 					"name": "--ts-var-answer-view-table-chart-switcher-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34454,7 +34490,7 @@
 					}
 				},
 				{
-					"id": 2719,
+					"id": 2731,
 					"name": "--ts-var-application-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34477,7 +34513,7 @@
 					}
 				},
 				{
-					"id": 2780,
+					"id": 2792,
 					"name": "--ts-var-axis-data-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34500,7 +34536,7 @@
 					}
 				},
 				{
-					"id": 2781,
+					"id": 2793,
 					"name": "--ts-var-axis-data-label-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34523,7 +34559,7 @@
 					}
 				},
 				{
-					"id": 2778,
+					"id": 2790,
 					"name": "--ts-var-axis-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34546,7 +34582,7 @@
 					}
 				},
 				{
-					"id": 2779,
+					"id": 2791,
 					"name": "--ts-var-axis-title-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34569,7 +34605,7 @@
 					}
 				},
 				{
-					"id": 2742,
+					"id": 2754,
 					"name": "--ts-var-button--icon-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34592,7 +34628,7 @@
 					}
 				},
 				{
-					"id": 2747,
+					"id": 2759,
 					"name": "--ts-var-button--primary--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34615,7 +34651,7 @@
 					}
 				},
 				{
-					"id": 2744,
+					"id": 2756,
 					"name": "--ts-var-button--primary--font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34638,7 +34674,7 @@
 					}
 				},
 				{
-					"id": 2746,
+					"id": 2758,
 					"name": "--ts-var-button--primary--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34661,7 +34697,7 @@
 					}
 				},
 				{
-					"id": 2745,
+					"id": 2757,
 					"name": "--ts-var-button--primary-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34684,7 +34720,7 @@
 					}
 				},
 				{
-					"id": 2743,
+					"id": 2755,
 					"name": "--ts-var-button--primary-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34707,7 +34743,7 @@
 					}
 				},
 				{
-					"id": 2752,
+					"id": 2764,
 					"name": "--ts-var-button--secondary--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34730,7 +34766,7 @@
 					}
 				},
 				{
-					"id": 2749,
+					"id": 2761,
 					"name": "--ts-var-button--secondary--font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34753,7 +34789,7 @@
 					}
 				},
 				{
-					"id": 2751,
+					"id": 2763,
 					"name": "--ts-var-button--secondary--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34776,7 +34812,7 @@
 					}
 				},
 				{
-					"id": 2750,
+					"id": 2762,
 					"name": "--ts-var-button--secondary-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34799,7 +34835,7 @@
 					}
 				},
 				{
-					"id": 2748,
+					"id": 2760,
 					"name": "--ts-var-button--secondary-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34822,7 +34858,7 @@
 					}
 				},
 				{
-					"id": 2756,
+					"id": 2768,
 					"name": "--ts-var-button--tertiary--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34845,7 +34881,7 @@
 					}
 				},
 				{
-					"id": 2755,
+					"id": 2767,
 					"name": "--ts-var-button--tertiary--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34868,7 +34904,7 @@
 					}
 				},
 				{
-					"id": 2754,
+					"id": 2766,
 					"name": "--ts-var-button--tertiary-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34891,7 +34927,7 @@
 					}
 				},
 				{
-					"id": 2753,
+					"id": 2765,
 					"name": "--ts-var-button--tertiary-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34914,7 +34950,7 @@
 					}
 				},
 				{
-					"id": 2741,
+					"id": 2753,
 					"name": "--ts-var-button-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34937,7 +34973,7 @@
 					}
 				},
 				{
-					"id": 2874,
+					"id": 2886,
 					"name": "--ts-var-cca-modal-summary-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34960,7 +34996,7 @@
 					}
 				},
 				{
-					"id": 2869,
+					"id": 2881,
 					"name": "--ts-var-change-analysis-insights-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -34983,7 +35019,7 @@
 					}
 				},
 				{
-					"id": 2864,
+					"id": 2876,
 					"name": "--ts-var-chart-heatmap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35006,7 +35042,7 @@
 					}
 				},
 				{
-					"id": 2863,
+					"id": 2875,
 					"name": "--ts-var-chart-heatmap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35029,7 +35065,7 @@
 					}
 				},
 				{
-					"id": 2866,
+					"id": 2878,
 					"name": "--ts-var-chart-treemap-legend-label-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35052,7 +35088,7 @@
 					}
 				},
 				{
-					"id": 2865,
+					"id": 2877,
 					"name": "--ts-var-chart-treemap-legend-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35075,7 +35111,7 @@
 					}
 				},
 				{
-					"id": 2803,
+					"id": 2815,
 					"name": "--ts-var-checkbox-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35098,7 +35134,7 @@
 					}
 				},
 				{
-					"id": 2806,
+					"id": 2818,
 					"name": "--ts-var-checkbox-background-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35121,7 +35157,7 @@
 					}
 				},
 				{
-					"id": 2801,
+					"id": 2813,
 					"name": "--ts-var-checkbox-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35144,7 +35180,7 @@
 					}
 				},
 				{
-					"id": 2804,
+					"id": 2816,
 					"name": "--ts-var-checkbox-checked-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35167,7 +35203,7 @@
 					}
 				},
 				{
-					"id": 2805,
+					"id": 2817,
 					"name": "--ts-var-checkbox-checked-disabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35190,7 +35226,7 @@
 					}
 				},
 				{
-					"id": 2800,
+					"id": 2812,
 					"name": "--ts-var-checkbox-error-border",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35213,7 +35249,7 @@
 					}
 				},
 				{
-					"id": 2802,
+					"id": 2814,
 					"name": "--ts-var-checkbox-hover-border",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35236,7 +35272,7 @@
 					}
 				},
 				{
-					"id": 2773,
+					"id": 2785,
 					"name": "--ts-var-chip--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35259,7 +35295,7 @@
 					}
 				},
 				{
-					"id": 2772,
+					"id": 2784,
 					"name": "--ts-var-chip--active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35282,7 +35318,7 @@
 					}
 				},
 				{
-					"id": 2775,
+					"id": 2787,
 					"name": "--ts-var-chip--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35305,7 +35341,7 @@
 					}
 				},
 				{
-					"id": 2774,
+					"id": 2786,
 					"name": "--ts-var-chip--hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35328,7 +35364,7 @@
 					}
 				},
 				{
-					"id": 2771,
+					"id": 2783,
 					"name": "--ts-var-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35351,7 +35387,7 @@
 					}
 				},
 				{
-					"id": 2769,
+					"id": 2781,
 					"name": "--ts-var-chip-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35374,7 +35410,7 @@
 					}
 				},
 				{
-					"id": 2770,
+					"id": 2782,
 					"name": "--ts-var-chip-box-shadow",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35397,7 +35433,7 @@
 					}
 				},
 				{
-					"id": 2776,
+					"id": 2788,
 					"name": "--ts-var-chip-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35420,7 +35456,7 @@
 					}
 				},
 				{
-					"id": 2777,
+					"id": 2789,
 					"name": "--ts-var-chip-title-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35443,7 +35479,7 @@
 					}
 				},
 				{
-					"id": 2788,
+					"id": 2800,
 					"name": "--ts-var-dialog-body-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35466,7 +35502,7 @@
 					}
 				},
 				{
-					"id": 2789,
+					"id": 2801,
 					"name": "--ts-var-dialog-body-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35489,7 +35525,7 @@
 					}
 				},
 				{
-					"id": 2792,
+					"id": 2804,
 					"name": "--ts-var-dialog-footer-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35512,7 +35548,7 @@
 					}
 				},
 				{
-					"id": 2790,
+					"id": 2802,
 					"name": "--ts-var-dialog-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35535,7 +35571,7 @@
 					}
 				},
 				{
-					"id": 2791,
+					"id": 2803,
 					"name": "--ts-var-dialog-header-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35558,7 +35594,7 @@
 					}
 				},
 				{
-					"id": 2799,
+					"id": 2811,
 					"name": "--ts-var-home-favorite-suggestion-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35581,7 +35617,7 @@
 					}
 				},
 				{
-					"id": 2798,
+					"id": 2810,
 					"name": "--ts-var-home-favorite-suggestion-card-icon-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35604,7 +35640,7 @@
 					}
 				},
 				{
-					"id": 2797,
+					"id": 2809,
 					"name": "--ts-var-home-favorite-suggestion-card-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35627,7 +35663,7 @@
 					}
 				},
 				{
-					"id": 2796,
+					"id": 2808,
 					"name": "--ts-var-home-watchlist-selected-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35650,7 +35686,7 @@
 					}
 				},
 				{
-					"id": 2862,
+					"id": 2874,
 					"name": "--ts-var-kpi-analyze-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35673,7 +35709,7 @@
 					}
 				},
 				{
-					"id": 2861,
+					"id": 2873,
 					"name": "--ts-var-kpi-comparison-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35696,7 +35732,7 @@
 					}
 				},
 				{
-					"id": 2860,
+					"id": 2872,
 					"name": "--ts-var-kpi-hero-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35719,7 +35755,7 @@
 					}
 				},
 				{
-					"id": 2868,
+					"id": 2880,
 					"name": "--ts-var-kpi-negative-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35742,7 +35778,7 @@
 					}
 				},
 				{
-					"id": 2867,
+					"id": 2879,
 					"name": "--ts-var-kpi-positive-change-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35765,7 +35801,7 @@
 					}
 				},
 				{
-					"id": 2794,
+					"id": 2806,
 					"name": "--ts-var-list-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35788,7 +35824,7 @@
 					}
 				},
 				{
-					"id": 2793,
+					"id": 2805,
 					"name": "--ts-var-list-selected-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35811,7 +35847,7 @@
 					}
 				},
 				{
-					"id": 2821,
+					"id": 2833,
 					"name": "--ts-var-liveboard-answer-viz-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35834,7 +35870,7 @@
 					}
 				},
 				{
-					"id": 2834,
+					"id": 2846,
 					"name": "--ts-var-liveboard-chip--active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35858,7 +35894,7 @@
 					}
 				},
 				{
-					"id": 2833,
+					"id": 2845,
 					"name": "--ts-var-liveboard-chip--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35882,7 +35918,7 @@
 					}
 				},
 				{
-					"id": 2831,
+					"id": 2843,
 					"name": "--ts-var-liveboard-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35906,7 +35942,7 @@
 					}
 				},
 				{
-					"id": 2832,
+					"id": 2844,
 					"name": "--ts-var-liveboard-chip-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35930,7 +35966,7 @@
 					}
 				},
 				{
-					"id": 2839,
+					"id": 2851,
 					"name": "--ts-var-liveboard-cross-filter-layout-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35953,7 +35989,7 @@
 					}
 				},
 				{
-					"id": 2837,
+					"id": 2849,
 					"name": "--ts-var-liveboard-dual-column-breakpoint",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35976,7 +36012,7 @@
 					}
 				},
 				{
-					"id": 2836,
+					"id": 2848,
 					"name": "--ts-var-liveboard-edit-bar-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -35999,7 +36035,7 @@
 					}
 				},
 				{
-					"id": 2822,
+					"id": 2834,
 					"name": "--ts-var-liveboard-group-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36023,7 +36059,7 @@
 					}
 				},
 				{
-					"id": 2823,
+					"id": 2835,
 					"name": "--ts-var-liveboard-group-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36047,7 +36083,7 @@
 					}
 				},
 				{
-					"id": 2827,
+					"id": 2839,
 					"name": "--ts-var-liveboard-group-description-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36071,7 +36107,7 @@
 					}
 				},
 				{
-					"id": 2815,
+					"id": 2827,
 					"name": "--ts-var-liveboard-group-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36095,7 +36131,7 @@
 					}
 				},
 				{
-					"id": 2830,
+					"id": 2842,
 					"name": "--ts-var-liveboard-group-tile-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36119,7 +36155,7 @@
 					}
 				},
 				{
-					"id": 2829,
+					"id": 2841,
 					"name": "--ts-var-liveboard-group-tile-description-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36143,7 +36179,7 @@
 					}
 				},
 				{
-					"id": 2820,
+					"id": 2832,
 					"name": "--ts-var-liveboard-group-tile-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36167,7 +36203,7 @@
 					}
 				},
 				{
-					"id": 2828,
+					"id": 2840,
 					"name": "--ts-var-liveboard-group-tile-title-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36191,7 +36227,7 @@
 					}
 				},
 				{
-					"id": 2818,
+					"id": 2830,
 					"name": "--ts-var-liveboard-group-tile-title-font-size",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36215,7 +36251,7 @@
 					}
 				},
 				{
-					"id": 2819,
+					"id": 2831,
 					"name": "--ts-var-liveboard-group-tile-title-font-weight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36239,7 +36275,7 @@
 					}
 				},
 				{
-					"id": 2826,
+					"id": 2838,
 					"name": "--ts-var-liveboard-group-title-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36263,7 +36299,7 @@
 					}
 				},
 				{
-					"id": 2816,
+					"id": 2828,
 					"name": "--ts-var-liveboard-group-title-font-size",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36287,7 +36323,7 @@
 					}
 				},
 				{
-					"id": 2817,
+					"id": 2829,
 					"name": "--ts-var-liveboard-group-title-font-weight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36311,7 +36347,7 @@
 					}
 				},
 				{
-					"id": 2853,
+					"id": 2865,
 					"name": "--ts-var-liveboard-header-action-button-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36334,7 +36370,7 @@
 					}
 				},
 				{
-					"id": 2850,
+					"id": 2862,
 					"name": "--ts-var-liveboard-header-action-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36357,7 +36393,7 @@
 					}
 				},
 				{
-					"id": 2851,
+					"id": 2863,
 					"name": "--ts-var-liveboard-header-action-button-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36380,7 +36416,7 @@
 					}
 				},
 				{
-					"id": 2852,
+					"id": 2864,
 					"name": "--ts-var-liveboard-header-action-button-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36403,7 +36439,7 @@
 					}
 				},
 				{
-					"id": 2808,
+					"id": 2820,
 					"name": "--ts-var-liveboard-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36426,7 +36462,7 @@
 					}
 				},
 				{
-					"id": 2859,
+					"id": 2871,
 					"name": "--ts-var-liveboard-header-badge-active-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36449,7 +36485,7 @@
 					}
 				},
 				{
-					"id": 2854,
+					"id": 2866,
 					"name": "--ts-var-liveboard-header-badge-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36472,7 +36508,7 @@
 					}
 				},
 				{
-					"id": 2855,
+					"id": 2867,
 					"name": "--ts-var-liveboard-header-badge-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36495,7 +36531,7 @@
 					}
 				},
 				{
-					"id": 2858,
+					"id": 2870,
 					"name": "--ts-var-liveboard-header-badge-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36518,7 +36554,7 @@
 					}
 				},
 				{
-					"id": 2856,
+					"id": 2868,
 					"name": "--ts-var-liveboard-header-badge-modified-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36541,7 +36577,7 @@
 					}
 				},
 				{
-					"id": 2857,
+					"id": 2869,
 					"name": "--ts-var-liveboard-header-badge-modified-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36564,7 +36600,7 @@
 					}
 				},
 				{
-					"id": 2809,
+					"id": 2821,
 					"name": "--ts-var-liveboard-header-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36587,7 +36623,7 @@
 					}
 				},
 				{
-					"id": 2807,
+					"id": 2819,
 					"name": "--ts-var-liveboard-layout-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36610,7 +36646,7 @@
 					}
 				},
 				{
-					"id": 2825,
+					"id": 2837,
 					"name": "--ts-var-liveboard-notetitle-body-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36633,7 +36669,7 @@
 					}
 				},
 				{
-					"id": 2824,
+					"id": 2836,
 					"name": "--ts-var-liveboard-notetitle-heading-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36656,7 +36692,7 @@
 					}
 				},
 				{
-					"id": 2838,
+					"id": 2850,
 					"name": "--ts-var-liveboard-single-column-breakpoint",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36679,7 +36715,7 @@
 					}
 				},
 				{
-					"id": 2893,
+					"id": 2905,
 					"name": "--ts-var-liveboard-styling-button-active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36702,7 +36738,7 @@
 					}
 				},
 				{
-					"id": 2890,
+					"id": 2902,
 					"name": "--ts-var-liveboard-styling-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36725,7 +36761,7 @@
 					}
 				},
 				{
-					"id": 2892,
+					"id": 2904,
 					"name": "--ts-var-liveboard-styling-button-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36748,7 +36784,7 @@
 					}
 				},
 				{
-					"id": 2894,
+					"id": 2906,
 					"name": "--ts-var-liveboard-styling-button-hover-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36771,7 +36807,7 @@
 					}
 				},
 				{
-					"id": 2895,
+					"id": 2907,
 					"name": "--ts-var-liveboard-styling-button-shadow",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36794,7 +36830,7 @@
 					}
 				},
 				{
-					"id": 2891,
+					"id": 2903,
 					"name": "--ts-var-liveboard-styling-button-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36817,7 +36853,7 @@
 					}
 				},
 				{
-					"id": 2896,
+					"id": 2908,
 					"name": "--ts-var-liveboard-styling-color-palette-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36840,7 +36876,7 @@
 					}
 				},
 				{
-					"id": 2889,
+					"id": 2901,
 					"name": "--ts-var-liveboard-styling-panel-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36863,7 +36899,7 @@
 					}
 				},
 				{
-					"id": 2888,
+					"id": 2900,
 					"name": "--ts-var-liveboard-styling-panel-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36886,7 +36922,7 @@
 					}
 				},
 				{
-					"id": 2840,
+					"id": 2852,
 					"name": "--ts-var-liveboard-tab-active-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36909,7 +36945,7 @@
 					}
 				},
 				{
-					"id": 2841,
+					"id": 2853,
 					"name": "--ts-var-liveboard-tab-hover-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36932,7 +36968,7 @@
 					}
 				},
 				{
-					"id": 2811,
+					"id": 2823,
 					"name": "--ts-var-liveboard-tile-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36955,7 +36991,7 @@
 					}
 				},
 				{
-					"id": 2810,
+					"id": 2822,
 					"name": "--ts-var-liveboard-tile-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -36978,7 +37014,7 @@
 					}
 				},
 				{
-					"id": 2812,
+					"id": 2824,
 					"name": "--ts-var-liveboard-tile-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37001,7 +37037,7 @@
 					}
 				},
 				{
-					"id": 2813,
+					"id": 2825,
 					"name": "--ts-var-liveboard-tile-padding",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37024,7 +37060,7 @@
 					}
 				},
 				{
-					"id": 2814,
+					"id": 2826,
 					"name": "--ts-var-liveboard-tile-table-header-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37047,7 +37083,7 @@
 					}
 				},
 				{
-					"id": 2842,
+					"id": 2854,
 					"name": "--ts-var-liveboard-tile-title-fontsize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37070,7 +37106,7 @@
 					}
 				},
 				{
-					"id": 2843,
+					"id": 2855,
 					"name": "--ts-var-liveboard-tile-title-fontweight",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37093,7 +37129,7 @@
 					}
 				},
 				{
-					"id": 2786,
+					"id": 2798,
 					"name": "--ts-var-menu--hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37116,7 +37152,7 @@
 					}
 				},
 				{
-					"id": 2783,
+					"id": 2795,
 					"name": "--ts-var-menu-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37139,7 +37175,7 @@
 					}
 				},
 				{
-					"id": 2782,
+					"id": 2794,
 					"name": "--ts-var-menu-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37162,7 +37198,7 @@
 					}
 				},
 				{
-					"id": 2784,
+					"id": 2796,
 					"name": "--ts-var-menu-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37185,7 +37221,7 @@
 					}
 				},
 				{
-					"id": 2787,
+					"id": 2799,
 					"name": "--ts-var-menu-selected-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37208,7 +37244,7 @@
 					}
 				},
 				{
-					"id": 2785,
+					"id": 2797,
 					"name": "--ts-var-menu-text-transform",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37231,7 +37267,7 @@
 					}
 				},
 				{
-					"id": 2720,
+					"id": 2732,
 					"name": "--ts-var-nav-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37254,7 +37290,7 @@
 					}
 				},
 				{
-					"id": 2721,
+					"id": 2733,
 					"name": "--ts-var-nav-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37277,7 +37313,7 @@
 					}
 				},
 				{
-					"id": 2848,
+					"id": 2860,
 					"name": "--ts-var-parameter-chip-active-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37300,7 +37336,7 @@
 					}
 				},
 				{
-					"id": 2849,
+					"id": 2861,
 					"name": "--ts-var-parameter-chip-active-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37323,7 +37359,7 @@
 					}
 				},
 				{
-					"id": 2844,
+					"id": 2856,
 					"name": "--ts-var-parameter-chip-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37346,7 +37382,7 @@
 					}
 				},
 				{
-					"id": 2846,
+					"id": 2858,
 					"name": "--ts-var-parameter-chip-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37369,7 +37405,7 @@
 					}
 				},
 				{
-					"id": 2847,
+					"id": 2859,
 					"name": "--ts-var-parameter-chip-hover-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37392,7 +37428,7 @@
 					}
 				},
 				{
-					"id": 2845,
+					"id": 2857,
 					"name": "--ts-var-parameter-chip-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37415,7 +37451,7 @@
 					}
 				},
 				{
-					"id": 2715,
+					"id": 2727,
 					"name": "--ts-var-root-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37438,7 +37474,7 @@
 					}
 				},
 				{
-					"id": 2716,
+					"id": 2728,
 					"name": "--ts-var-root-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37461,7 +37497,7 @@
 					}
 				},
 				{
-					"id": 2717,
+					"id": 2729,
 					"name": "--ts-var-root-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37484,7 +37520,7 @@
 					}
 				},
 				{
-					"id": 2718,
+					"id": 2730,
 					"name": "--ts-var-root-text-transform",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37507,7 +37543,7 @@
 					}
 				},
 				{
-					"id": 2877,
+					"id": 2889,
 					"name": "--ts-var-saved-chats-bg",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37530,7 +37566,7 @@
 					}
 				},
 				{
-					"id": 2876,
+					"id": 2888,
 					"name": "--ts-var-saved-chats-border-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37553,7 +37589,7 @@
 					}
 				},
 				{
-					"id": 2881,
+					"id": 2893,
 					"name": "--ts-var-saved-chats-btn-bg",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37576,7 +37612,7 @@
 					}
 				},
 				{
-					"id": 2882,
+					"id": 2894,
 					"name": "--ts-var-saved-chats-btn-hover-bg",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37599,7 +37635,7 @@
 					}
 				},
 				{
-					"id": 2885,
+					"id": 2897,
 					"name": "--ts-var-saved-chats-conv-active-bg",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37622,7 +37658,7 @@
 					}
 				},
 				{
-					"id": 2884,
+					"id": 2896,
 					"name": "--ts-var-saved-chats-conv-hover-bg",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37645,7 +37681,7 @@
 					}
 				},
 				{
-					"id": 2883,
+					"id": 2895,
 					"name": "--ts-var-saved-chats-conv-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37668,7 +37704,7 @@
 					}
 				},
 				{
-					"id": 2886,
+					"id": 2898,
 					"name": "--ts-var-saved-chats-footer-border",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37691,7 +37727,7 @@
 					}
 				},
 				{
-					"id": 2879,
+					"id": 2891,
 					"name": "--ts-var-saved-chats-header-border",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37714,7 +37750,7 @@
 					}
 				},
 				{
-					"id": 2887,
+					"id": 2899,
 					"name": "--ts-var-saved-chats-section-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37737,7 +37773,7 @@
 					}
 				},
 				{
-					"id": 2878,
+					"id": 2890,
 					"name": "--ts-var-saved-chats-text-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37760,7 +37796,7 @@
 					}
 				},
 				{
-					"id": 2880,
+					"id": 2892,
 					"name": "--ts-var-saved-chats-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37783,7 +37819,7 @@
 					}
 				},
 				{
-					"id": 2729,
+					"id": 2741,
 					"name": "--ts-var-search-auto-complete-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37806,7 +37842,7 @@
 					}
 				},
 				{
-					"id": 2733,
+					"id": 2745,
 					"name": "--ts-var-search-auto-complete-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37829,7 +37865,7 @@
 					}
 				},
 				{
-					"id": 2734,
+					"id": 2746,
 					"name": "--ts-var-search-auto-complete-subtext-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37852,7 +37888,7 @@
 					}
 				},
 				{
-					"id": 2732,
+					"id": 2744,
 					"name": "--ts-var-search-bar-auto-complete-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37875,7 +37911,7 @@
 					}
 				},
 				{
-					"id": 2728,
+					"id": 2740,
 					"name": "--ts-var-search-bar-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37898,7 +37934,7 @@
 					}
 				},
 				{
-					"id": 2731,
+					"id": 2743,
 					"name": "--ts-var-search-bar-navigation-help-text-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37921,7 +37957,7 @@
 					}
 				},
 				{
-					"id": 2725,
+					"id": 2737,
 					"name": "--ts-var-search-bar-text-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37944,7 +37980,7 @@
 					}
 				},
 				{
-					"id": 2726,
+					"id": 2738,
 					"name": "--ts-var-search-bar-text-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37967,7 +38003,7 @@
 					}
 				},
 				{
-					"id": 2727,
+					"id": 2739,
 					"name": "--ts-var-search-bar-text-font-style",
 					"kind": 1024,
 					"kindString": "Property",
@@ -37990,7 +38026,7 @@
 					}
 				},
 				{
-					"id": 2722,
+					"id": 2734,
 					"name": "--ts-var-search-data-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38013,7 +38049,7 @@
 					}
 				},
 				{
-					"id": 2723,
+					"id": 2735,
 					"name": "--ts-var-search-data-button-font-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38036,7 +38072,7 @@
 					}
 				},
 				{
-					"id": 2724,
+					"id": 2736,
 					"name": "--ts-var-search-data-button-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38059,7 +38095,7 @@
 					}
 				},
 				{
-					"id": 2730,
+					"id": 2742,
 					"name": "--ts-var-search-navigation-button-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38082,7 +38118,7 @@
 					}
 				},
 				{
-					"id": 2795,
+					"id": 2807,
 					"name": "--ts-var-segment-control-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38105,7 +38141,7 @@
 					}
 				},
 				{
-					"id": 2835,
+					"id": 2847,
 					"name": "--ts-var-side-panel-width",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38128,7 +38164,7 @@
 					}
 				},
 				{
-					"id": 2873,
+					"id": 2885,
 					"name": "--ts-var-spotiq-analyze-crosscorrelation-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38151,7 +38187,7 @@
 					}
 				},
 				{
-					"id": 2870,
+					"id": 2882,
 					"name": "--ts-var-spotiq-analyze-forecasting-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38174,7 +38210,7 @@
 					}
 				},
 				{
-					"id": 2871,
+					"id": 2883,
 					"name": "--ts-var-spotiq-analyze-outlier-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38197,7 +38233,7 @@
 					}
 				},
 				{
-					"id": 2872,
+					"id": 2884,
 					"name": "--ts-var-spotiq-analyze-trend-card-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38220,7 +38256,7 @@
 					}
 				},
 				{
-					"id": 2875,
+					"id": 2887,
 					"name": "--ts-var-spotter-chat-width",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38243,7 +38279,7 @@
 					}
 				},
 				{
-					"id": 2735,
+					"id": 2747,
 					"name": "--ts-var-spotter-input-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38266,7 +38302,7 @@
 					}
 				},
 				{
-					"id": 2736,
+					"id": 2748,
 					"name": "--ts-var-spotter-prompt-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38289,7 +38325,7 @@
 					}
 				},
 				{
-					"id": 2765,
+					"id": 2777,
 					"name": "--ts-var-viz-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38312,7 +38348,7 @@
 					}
 				},
 				{
-					"id": 2763,
+					"id": 2775,
 					"name": "--ts-var-viz-border-radius",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38335,7 +38371,7 @@
 					}
 				},
 				{
-					"id": 2764,
+					"id": 2776,
 					"name": "--ts-var-viz-box-shadow",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38358,7 +38394,7 @@
 					}
 				},
 				{
-					"id": 2760,
+					"id": 2772,
 					"name": "--ts-var-viz-description-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38381,7 +38417,7 @@
 					}
 				},
 				{
-					"id": 2761,
+					"id": 2773,
 					"name": "--ts-var-viz-description-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38404,7 +38440,7 @@
 					}
 				},
 				{
-					"id": 2762,
+					"id": 2774,
 					"name": "--ts-var-viz-description-text-transform",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38427,7 +38463,7 @@
 					}
 				},
 				{
-					"id": 2766,
+					"id": 2778,
 					"name": "--ts-var-viz-legend-hover-background",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38450,7 +38486,7 @@
 					}
 				},
 				{
-					"id": 2757,
+					"id": 2769,
 					"name": "--ts-var-viz-title-color",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38473,7 +38509,7 @@
 					}
 				},
 				{
-					"id": 2758,
+					"id": 2770,
 					"name": "--ts-var-viz-title-font-family",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38496,7 +38532,7 @@
 					}
 				},
 				{
-					"id": 2759,
+					"id": 2771,
 					"name": "--ts-var-viz-title-text-transform",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38524,188 +38560,188 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2768,
-						2767,
-						2737,
-						2738,
-						2740,
-						2739,
-						2719,
 						2780,
-						2781,
-						2778,
 						2779,
-						2742,
-						2747,
-						2744,
-						2746,
-						2745,
-						2743,
-						2752,
 						2749,
-						2751,
 						2750,
-						2748,
-						2756,
-						2755,
-						2754,
-						2753,
-						2741,
-						2874,
-						2869,
-						2864,
-						2863,
-						2866,
-						2865,
-						2803,
-						2806,
-						2801,
-						2804,
-						2805,
-						2800,
-						2802,
-						2773,
-						2772,
-						2775,
-						2774,
-						2771,
-						2769,
-						2770,
-						2776,
-						2777,
-						2788,
-						2789,
+						2752,
+						2751,
+						2731,
 						2792,
+						2793,
 						2790,
 						2791,
-						2799,
-						2798,
-						2797,
-						2796,
-						2862,
-						2861,
-						2860,
-						2868,
-						2867,
-						2794,
-						2793,
-						2821,
-						2834,
-						2833,
-						2831,
-						2832,
-						2839,
-						2837,
-						2836,
-						2822,
-						2823,
-						2827,
+						2754,
+						2759,
+						2756,
+						2758,
+						2757,
+						2755,
+						2764,
+						2761,
+						2763,
+						2762,
+						2760,
+						2768,
+						2767,
+						2766,
+						2765,
+						2753,
+						2886,
+						2881,
+						2876,
+						2875,
+						2878,
+						2877,
 						2815,
-						2830,
-						2829,
-						2820,
-						2828,
 						2818,
-						2819,
-						2826,
+						2813,
 						2816,
 						2817,
-						2853,
-						2850,
-						2851,
-						2852,
-						2808,
-						2859,
-						2854,
-						2855,
-						2858,
-						2856,
-						2857,
-						2809,
-						2807,
-						2825,
-						2824,
-						2838,
-						2893,
-						2890,
-						2892,
-						2894,
-						2895,
-						2891,
-						2896,
-						2889,
-						2888,
-						2840,
-						2841,
-						2811,
-						2810,
 						2812,
-						2813,
 						2814,
-						2842,
-						2843,
-						2786,
-						2783,
-						2782,
+						2785,
 						2784,
 						2787,
-						2785,
-						2720,
-						2721,
-						2848,
-						2849,
-						2844,
-						2846,
-						2847,
-						2845,
-						2715,
-						2716,
-						2717,
-						2718,
-						2877,
-						2876,
-						2881,
-						2882,
-						2885,
-						2884,
-						2883,
-						2886,
-						2879,
-						2887,
-						2878,
-						2880,
-						2729,
-						2733,
-						2734,
-						2732,
-						2728,
-						2731,
-						2725,
-						2726,
-						2727,
-						2722,
-						2723,
-						2724,
-						2730,
-						2795,
-						2835,
+						2786,
+						2783,
+						2781,
+						2782,
+						2788,
+						2789,
+						2800,
+						2801,
+						2804,
+						2802,
+						2803,
+						2811,
+						2810,
+						2809,
+						2808,
+						2874,
 						2873,
-						2870,
-						2871,
 						2872,
-						2875,
+						2880,
+						2879,
+						2806,
+						2805,
+						2833,
+						2846,
+						2845,
+						2843,
+						2844,
+						2851,
+						2849,
+						2848,
+						2834,
+						2835,
+						2839,
+						2827,
+						2842,
+						2841,
+						2832,
+						2840,
+						2830,
+						2831,
+						2838,
+						2828,
+						2829,
+						2865,
+						2862,
+						2863,
+						2864,
+						2820,
+						2871,
+						2866,
+						2867,
+						2870,
+						2868,
+						2869,
+						2821,
+						2819,
+						2837,
+						2836,
+						2850,
+						2905,
+						2902,
+						2904,
+						2906,
+						2907,
+						2903,
+						2908,
+						2901,
+						2900,
+						2852,
+						2853,
+						2823,
+						2822,
+						2824,
+						2825,
+						2826,
+						2854,
+						2855,
+						2798,
+						2795,
+						2794,
+						2796,
+						2799,
+						2797,
+						2732,
+						2733,
+						2860,
+						2861,
+						2856,
+						2858,
+						2859,
+						2857,
+						2727,
+						2728,
+						2729,
+						2730,
+						2889,
+						2888,
+						2893,
+						2894,
+						2897,
+						2896,
+						2895,
+						2898,
+						2891,
+						2899,
+						2890,
+						2892,
+						2741,
+						2745,
+						2746,
+						2744,
+						2740,
+						2743,
+						2737,
+						2738,
+						2739,
+						2734,
 						2735,
 						2736,
-						2765,
-						2763,
-						2764,
-						2760,
-						2761,
-						2762,
-						2766,
-						2757,
-						2758,
-						2759
+						2742,
+						2807,
+						2847,
+						2885,
+						2882,
+						2883,
+						2884,
+						2887,
+						2747,
+						2748,
+						2777,
+						2775,
+						2776,
+						2772,
+						2773,
+						2774,
+						2778,
+						2769,
+						2770,
+						2771
 					]
 				}
 			],
@@ -38718,7 +38754,7 @@
 			]
 		},
 		{
-			"id": 2702,
+			"id": 2714,
 			"name": "CustomStyles",
 			"kind": 256,
 			"kindString": "Interface",
@@ -38728,7 +38764,7 @@
 			},
 			"children": [
 				{
-					"id": 2704,
+					"id": 2716,
 					"name": "customCSS",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38744,12 +38780,12 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2705,
+						"id": 2717,
 						"name": "customCssInterface"
 					}
 				},
 				{
-					"id": 2703,
+					"id": 2715,
 					"name": "customCSSUrl",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38774,8 +38810,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2704,
-						2703
+						2716,
+						2715
 					]
 				}
 			],
@@ -38788,7 +38824,7 @@
 			]
 		},
 		{
-			"id": 2692,
+			"id": 2704,
 			"name": "CustomisationsInterface",
 			"kind": 256,
 			"kindString": "Interface",
@@ -38804,7 +38840,7 @@
 			},
 			"children": [
 				{
-					"id": 2694,
+					"id": 2706,
 					"name": "content",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38821,14 +38857,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2695,
+							"id": 2707,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 2697,
+									"id": 2709,
 									"name": "stringIDs",
 									"kind": 1024,
 									"kindString": "Property",
@@ -38858,7 +38894,7 @@
 									}
 								},
 								{
-									"id": 2698,
+									"id": 2710,
 									"name": "stringIDsUrl",
 									"kind": 1024,
 									"kindString": "Property",
@@ -38878,7 +38914,7 @@
 									}
 								},
 								{
-									"id": 2696,
+									"id": 2708,
 									"name": "strings",
 									"kind": 1024,
 									"kindString": "Property",
@@ -38921,21 +38957,21 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										2697,
-										2698,
-										2696
+										2709,
+										2710,
+										2708
 									]
 								}
 							],
 							"indexSignature": {
-								"id": 2699,
+								"id": 2711,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2700,
+										"id": 2712,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -38954,7 +38990,7 @@
 					}
 				},
 				{
-					"id": 2701,
+					"id": 2713,
 					"name": "iconSpriteUrl",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38974,7 +39010,7 @@
 					}
 				},
 				{
-					"id": 2693,
+					"id": 2705,
 					"name": "style",
 					"kind": 1024,
 					"kindString": "Property",
@@ -38990,7 +39026,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2702,
+						"id": 2714,
 						"name": "CustomStyles"
 					}
 				}
@@ -39000,9 +39036,9 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2694,
-						2701,
-						2693
+						2706,
+						2713,
+						2705
 					]
 				}
 			],
@@ -39487,7 +39523,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					}
 				},
@@ -39766,7 +39802,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2900,
+						"id": 2912,
 						"name": "LogLevel"
 					}
 				},
@@ -40294,7 +40330,7 @@
 			]
 		},
 		{
-			"id": 3017,
+			"id": 3029,
 			"name": "EmbedErrorDetailsEvent",
 			"kind": 256,
 			"kindString": "Interface",
@@ -40323,7 +40359,7 @@
 			},
 			"children": [
 				{
-					"id": 3020,
+					"id": 3032,
 					"name": "code",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40340,12 +40376,12 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 3000,
+						"id": 3012,
 						"name": "EmbedErrorCodes"
 					}
 				},
 				{
-					"id": 3018,
+					"id": 3030,
 					"name": "errorType",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40362,12 +40398,12 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 3023,
+						"id": 3035,
 						"name": "ErrorDetailsTypes"
 					}
 				},
 				{
-					"id": 3019,
+					"id": 3031,
 					"name": "message",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40405,9 +40441,9 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						3020,
-						3018,
-						3019
+						3032,
+						3030,
+						3031
 					]
 				}
 			],
@@ -40419,7 +40455,7 @@
 				}
 			],
 			"indexSignature": {
-				"id": 3021,
+				"id": 3033,
 				"name": "__index",
 				"kind": 8192,
 				"kindString": "Index signature",
@@ -40429,7 +40465,7 @@
 				},
 				"parameters": [
 					{
-						"id": 3022,
+						"id": 3034,
 						"name": "key",
 						"kind": 32768,
 						"flags": {},
@@ -40446,7 +40482,7 @@
 			}
 		},
 		{
-			"id": 2651,
+			"id": 2663,
 			"name": "FrameParams",
 			"kind": 256,
 			"kindString": "Interface",
@@ -40462,7 +40498,7 @@
 			},
 			"children": [
 				{
-					"id": 2653,
+					"id": 2665,
 					"name": "height",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40494,7 +40530,7 @@
 					}
 				},
 				{
-					"id": 2654,
+					"id": 2666,
 					"name": "loading",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40530,7 +40566,7 @@
 					}
 				},
 				{
-					"id": 2652,
+					"id": 2664,
 					"name": "width",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40567,9 +40603,9 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2653,
-						2654,
-						2652
+						2665,
+						2666,
+						2664
 					]
 				}
 			],
@@ -40581,7 +40617,7 @@
 				}
 			],
 			"indexSignature": {
-				"id": 2655,
+				"id": 2667,
 				"name": "__index",
 				"kind": 8192,
 				"kindString": "Index signature",
@@ -40591,7 +40627,7 @@
 				},
 				"parameters": [
 					{
-						"id": 2656,
+						"id": 2668,
 						"name": "key",
 						"kind": 32768,
 						"flags": {},
@@ -40665,7 +40701,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 215,
+							"line": 227,
 							"character": 4
 						}
 					],
@@ -40675,7 +40711,7 @@
 					}
 				},
 				{
-					"id": 2489,
+					"id": 2490,
 					"name": "additionalFlags",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40706,20 +40742,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2490,
+							"id": 2491,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 2491,
+								"id": 2492,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2492,
+										"id": 2493,
 										"name": "key",
 										"kind": 32768,
 										"flags": {},
@@ -40755,7 +40791,7 @@
 					}
 				},
 				{
-					"id": 2520,
+					"id": 2521,
 					"name": "collapseSearchBar",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40797,7 +40833,7 @@
 					}
 				},
 				{
-					"id": 2517,
+					"id": 2518,
 					"name": "contextMenuTrigger",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40836,7 +40872,7 @@
 					}
 				},
 				{
-					"id": 2534,
+					"id": 2535,
 					"name": "coverAndFilterOptionInPDF",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40874,7 +40910,7 @@
 					}
 				},
 				{
-					"id": 2508,
+					"id": 2509,
 					"name": "customActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40923,7 +40959,7 @@
 					}
 				},
 				{
-					"id": 2493,
+					"id": 2494,
 					"name": "customizations",
 					"kind": 1024,
 					"kindString": "Property",
@@ -40952,7 +40988,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -40961,7 +40997,7 @@
 					}
 				},
 				{
-					"id": 2521,
+					"id": 2522,
 					"name": "dataPanelV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41035,7 +41071,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 82,
+							"line": 94,
 							"character": 4
 						}
 					],
@@ -41045,7 +41081,7 @@
 					}
 				},
 				{
-					"id": 2501,
+					"id": 2502,
 					"name": "disableRedirectionLinksInNewTab",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41083,7 +41119,7 @@
 					}
 				},
 				{
-					"id": 2485,
+					"id": 2486,
 					"name": "disabledActionReason",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41121,7 +41157,7 @@
 					}
 				},
 				{
-					"id": 2484,
+					"id": 2485,
 					"name": "disabledActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41163,7 +41199,7 @@
 					}
 				},
 				{
-					"id": 2497,
+					"id": 2498,
 					"name": "doNotTrackPreRenderSize",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41204,7 +41240,7 @@
 					}
 				},
 				{
-					"id": 2528,
+					"id": 2529,
 					"name": "enable2ColumnLayout",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41246,7 +41282,7 @@
 					}
 				},
 				{
-					"id": 2533,
+					"id": 2534,
 					"name": "enableAskSage",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41288,7 +41324,7 @@
 					}
 				},
 				{
-					"id": 2522,
+					"id": 2523,
 					"name": "enableCustomColumnGroups",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41330,7 +41366,7 @@
 					}
 				},
 				{
-					"id": 2504,
+					"id": 2505,
 					"name": "enableLinkOverridesV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41368,7 +41404,7 @@
 					}
 				},
 				{
-					"id": 2479,
+					"id": 2480,
 					"name": "enableLiveboardDataCache",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41391,7 +41427,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 549,
+							"line": 583,
 							"character": 4
 						}
 					],
@@ -41425,7 +41461,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 518,
+							"line": 530,
 							"character": 4
 						}
 					],
@@ -41435,7 +41471,7 @@
 					}
 				},
 				{
-					"id": 2498,
+					"id": 2499,
 					"name": "enableV2Shell_experimental",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41500,7 +41536,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 112,
+							"line": 124,
 							"character": 4
 						}
 					],
@@ -41510,7 +41546,7 @@
 					}
 				},
 				{
-					"id": 2518,
+					"id": 2519,
 					"name": "excludeRuntimeFiltersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41548,7 +41584,7 @@
 					}
 				},
 				{
-					"id": 2519,
+					"id": 2520,
 					"name": "excludeRuntimeParametersfromURL",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41586,7 +41622,7 @@
 					}
 				},
 				{
-					"id": 2500,
+					"id": 2501,
 					"name": "exposeTranslationIDs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41623,7 +41659,7 @@
 					}
 				},
 				{
-					"id": 2481,
+					"id": 2482,
 					"name": "frameParams",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41653,7 +41689,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -41686,7 +41722,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 63,
+							"line": 75,
 							"character": 4
 						}
 					],
@@ -41696,7 +41732,7 @@
 					}
 				},
 				{
-					"id": 2486,
+					"id": 2487,
 					"name": "hiddenActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41766,7 +41802,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 335,
+							"line": 347,
 							"character": 4
 						}
 					],
@@ -41779,7 +41815,7 @@
 					}
 				},
 				{
-					"id": 2531,
+					"id": 2532,
 					"name": "hideIrrelevantChipsInLiveboardTabs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41821,7 +41857,7 @@
 					}
 				},
 				{
-					"id": 2524,
+					"id": 2525,
 					"name": "hideLiveboardHeader",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41887,7 +41923,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 246,
+							"line": 258,
 							"character": 4
 						}
 					],
@@ -41897,7 +41933,7 @@
 					}
 				},
 				{
-					"id": 2494,
+					"id": 2495,
 					"name": "insertAsSibling",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41935,7 +41971,7 @@
 					}
 				},
 				{
-					"id": 2514,
+					"id": 2515,
 					"name": "interceptTimeout",
 					"kind": 1024,
 					"kindString": "Property",
@@ -41972,7 +42008,7 @@
 					}
 				},
 				{
-					"id": 2513,
+					"id": 2514,
 					"name": "interceptUrls",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42012,7 +42048,7 @@
 					}
 				},
 				{
-					"id": 2535,
+					"id": 2536,
 					"name": "isCentralizedLiveboardFilterUXEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42074,7 +42110,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 407,
+							"line": 419,
 							"character": 4
 						}
 					],
@@ -42084,7 +42120,7 @@
 					}
 				},
 				{
-					"id": 2537,
+					"id": 2538,
 					"name": "isEnhancedFilterInteractivityEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42146,7 +42182,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 439,
+							"line": 451,
 							"character": 4
 						}
 					],
@@ -42156,7 +42192,7 @@
 					}
 				},
 				{
-					"id": 2536,
+					"id": 2537,
 					"name": "isLinkParametersEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42194,7 +42230,7 @@
 					}
 				},
 				{
-					"id": 2529,
+					"id": 2530,
 					"name": "isLiveboardCompactHeaderEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42236,7 +42272,7 @@
 					}
 				},
 				{
-					"id": 2527,
+					"id": 2528,
 					"name": "isLiveboardHeaderSticky",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42274,7 +42310,7 @@
 					}
 				},
 				{
-					"id": 2539,
+					"id": 2540,
 					"name": "isLiveboardMasterpiecesEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42343,7 +42379,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 372,
+							"line": 384,
 							"character": 4
 						}
 					],
@@ -42377,7 +42413,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 423,
+							"line": 435,
 							"character": 4
 						}
 					],
@@ -42387,7 +42423,7 @@
 					}
 				},
 				{
-					"id": 2512,
+					"id": 2513,
 					"name": "isOnBeforeGetVizDataInterceptEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42445,7 +42481,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 389,
+							"line": 401,
 							"character": 4
 						}
 					],
@@ -42455,7 +42491,7 @@
 					}
 				},
 				{
-					"id": 2523,
+					"id": 2524,
 					"name": "isThisPeriodInDateFiltersEnabled",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42520,7 +42556,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 455,
+							"line": 467,
 							"character": 4
 						}
 					],
@@ -42554,7 +42590,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 478,
+							"line": 490,
 							"character": 4
 						}
 					],
@@ -42564,7 +42600,7 @@
 					}
 				},
 				{
-					"id": 2503,
+					"id": 2504,
 					"name": "linkOverride",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42626,7 +42662,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 127,
+							"line": 139,
 							"character": 4
 						}
 					],
@@ -42660,7 +42696,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 200,
+							"line": 212,
 							"character": 4
 						}
 					],
@@ -42670,7 +42706,7 @@
 					}
 				},
 				{
-					"id": 2488,
+					"id": 2489,
 					"name": "locale",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42735,7 +42771,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 99,
+							"line": 111,
 							"character": 4
 						}
 					],
@@ -42745,7 +42781,7 @@
 					}
 				},
 				{
-					"id": 2540,
+					"id": 2541,
 					"name": "newChartsLibrary",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42787,7 +42823,7 @@
 					}
 				},
 				{
-					"id": 2502,
+					"id": 2503,
 					"name": "overrideOrgId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42849,7 +42885,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 232,
+							"line": 244,
 							"character": 4
 						}
 					],
@@ -42859,7 +42895,7 @@
 					}
 				},
 				{
-					"id": 2496,
+					"id": 2497,
 					"name": "preRenderId",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42921,7 +42957,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 161,
+							"line": 173,
 							"character": 4
 						}
 					],
@@ -42931,7 +42967,7 @@
 					}
 				},
 				{
-					"id": 2505,
+					"id": 2506,
 					"name": "primaryAction",
 					"kind": 1024,
 					"kindString": "Property",
@@ -42969,7 +43005,7 @@
 					}
 				},
 				{
-					"id": 2509,
+					"id": 2510,
 					"name": "refreshAuthTokenOnNearExpiry",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43010,7 +43046,7 @@
 					}
 				},
 				{
-					"id": 2515,
+					"id": 2516,
 					"name": "runtimeFilters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43052,7 +43088,7 @@
 					}
 				},
 				{
-					"id": 2516,
+					"id": 2517,
 					"name": "runtimeParameters",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43084,7 +43120,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -43094,7 +43130,7 @@
 					}
 				},
 				{
-					"id": 2510,
+					"id": 2511,
 					"name": "shouldBypassPayloadValidation",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43135,7 +43171,7 @@
 					}
 				},
 				{
-					"id": 2507,
+					"id": 2508,
 					"name": "showAlerts",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43172,7 +43208,7 @@
 					}
 				},
 				{
-					"id": 2526,
+					"id": 2527,
 					"name": "showLiveboardDescription",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43214,7 +43250,7 @@
 					}
 				},
 				{
-					"id": 2532,
+					"id": 2533,
 					"name": "showLiveboardReverifyBanner",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43256,7 +43292,7 @@
 					}
 				},
 				{
-					"id": 2525,
+					"id": 2526,
 					"name": "showLiveboardTitle",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43298,7 +43334,7 @@
 					}
 				},
 				{
-					"id": 2530,
+					"id": 2531,
 					"name": "showLiveboardVerifiedBadge",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43340,7 +43376,7 @@
 					}
 				},
 				{
-					"id": 2538,
+					"id": 2539,
 					"name": "showMaskedFilterChip",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43406,7 +43442,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 269,
+							"line": 281,
 							"character": 4
 						}
 					],
@@ -43439,7 +43475,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 494,
+							"line": 506,
 							"character": 4
 						}
 					],
@@ -43473,7 +43509,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 536,
+							"line": 548,
 							"character": 4
 						}
 					],
@@ -43481,6 +43517,41 @@
 						"type": "reference",
 						"id": 1467,
 						"name": "SpotterChatViewConfig"
+					}
+				},
+				{
+					"id": 2479,
+					"name": "spotterViz",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Configuration for the SpotterViz interface shown on the Liveboard.\nCustomize the brand name, description, chat input placeholder,\nstarter prompts, and visibility of starter prompts in the SpotterViz panel.",
+						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl"
+							},
+							{
+								"tag": "example",
+								"text": "\n```js\nconst embed = new LiveboardEmbed('#embed-container', {\n   ... // other options\n   spotterViz: {\n       brandName: 'MyBrand',\n       description: 'Ask questions about your data',\n       inputChatPlaceholder: 'Ask a question...',\n       hideStarterPrompts: false,\n       customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],\n   },\n})\n```\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/liveboard.ts",
+							"line": 570,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 2542,
+						"name": "SpotterVizConfig"
 					}
 				},
 				{
@@ -43512,7 +43583,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 509,
+							"line": 521,
 							"character": 4
 						}
 					],
@@ -43522,7 +43593,7 @@
 					}
 				},
 				{
-					"id": 2511,
+					"id": 2512,
 					"name": "useHostEventsV2",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43563,7 +43634,7 @@
 					}
 				},
 				{
-					"id": 2487,
+					"id": 2488,
 					"name": "visibleActions",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43633,7 +43704,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 355,
+							"line": 367,
 							"character": 4
 						}
 					],
@@ -43670,7 +43741,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 180,
+							"line": 192,
 							"character": 4
 						}
 					],
@@ -43707,7 +43778,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 146,
+							"line": 158,
 							"character": 4
 						}
 					],
@@ -43723,81 +43794,82 @@
 					"kind": 1024,
 					"children": [
 						2459,
-						2489,
-						2520,
-						2517,
-						2534,
-						2508,
-						2493,
+						2490,
 						2521,
-						2449,
-						2501,
-						2485,
-						2484,
-						2497,
-						2528,
-						2533,
-						2522,
-						2504,
-						2479,
-						2477,
-						2498,
-						2451,
 						2518,
-						2519,
-						2500,
-						2481,
-						2448,
-						2486,
-						2466,
-						2531,
-						2524,
-						2461,
-						2494,
-						2514,
-						2513,
 						2535,
-						2470,
-						2537,
-						2472,
-						2536,
-						2529,
-						2527,
-						2539,
-						2468,
-						2471,
-						2512,
-						2469,
-						2523,
-						2473,
-						2474,
-						2503,
-						2452,
-						2458,
-						2488,
-						2450,
-						2540,
-						2502,
-						2460,
-						2496,
-						2455,
-						2505,
 						2509,
-						2515,
-						2516,
-						2510,
-						2507,
-						2526,
+						2494,
+						2522,
+						2449,
+						2502,
+						2486,
+						2485,
+						2498,
+						2529,
+						2534,
+						2523,
+						2505,
+						2480,
+						2477,
+						2499,
+						2451,
+						2519,
+						2520,
+						2501,
+						2482,
+						2448,
+						2487,
+						2466,
 						2532,
 						2525,
-						2530,
+						2461,
+						2495,
+						2515,
+						2514,
+						2536,
+						2470,
 						2538,
+						2472,
+						2537,
+						2530,
+						2528,
+						2540,
+						2468,
+						2471,
+						2513,
+						2469,
+						2524,
+						2473,
+						2474,
+						2504,
+						2452,
+						2458,
+						2489,
+						2450,
+						2541,
+						2503,
+						2460,
+						2497,
+						2455,
+						2506,
+						2510,
+						2516,
+						2517,
+						2511,
+						2508,
+						2527,
+						2533,
+						2526,
+						2531,
+						2539,
 						2462,
 						2475,
 						2478,
+						2479,
 						2476,
-						2511,
-						2487,
+						2512,
+						2488,
 						2467,
 						2456,
 						2454
@@ -43807,7 +43879,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 40,
+					"line": 52,
 					"character": 17
 				}
 			],
@@ -43941,7 +44013,7 @@
 			]
 		},
 		{
-			"id": 2897,
+			"id": 2909,
 			"name": "RuntimeParameter",
 			"kind": 256,
 			"kindString": "Interface",
@@ -43951,7 +44023,7 @@
 			},
 			"children": [
 				{
-					"id": 2898,
+					"id": 2910,
 					"name": "name",
 					"kind": 1024,
 					"kindString": "Property",
@@ -43972,7 +44044,7 @@
 					}
 				},
 				{
-					"id": 2899,
+					"id": 2911,
 					"name": "value",
 					"kind": 1024,
 					"kindString": "Property",
@@ -44011,8 +44083,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2898,
-						2899
+						2910,
+						2911
 					]
 				}
 			],
@@ -44279,7 +44351,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -44859,7 +44931,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -45406,7 +45478,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -46110,7 +46182,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -46829,7 +46901,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -47478,7 +47550,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					},
@@ -47767,7 +47839,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 3063,
+						"id": 3075,
 						"name": "VisualizationOverrides"
 					}
 				}
@@ -48171,7 +48243,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -48482,7 +48554,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -49396,7 +49468,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2692,
+						"id": 2704,
 						"name": "CustomisationsInterface"
 					},
 					"inheritedFrom": {
@@ -49919,7 +49991,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2651,
+						"id": 2663,
 						"name": "FrameParams"
 					},
 					"inheritedFrom": {
@@ -50454,7 +50526,7 @@
 						"type": "array",
 						"elementType": {
 							"type": "reference",
-							"id": 2897,
+							"id": 2909,
 							"name": "RuntimeParameter"
 						}
 					}
@@ -51271,6 +51343,308 @@
 			]
 		},
 		{
+			"id": 2542,
+			"name": "SpotterVizConfig",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "Configuration for the SpotterViz interface shown on the Liveboard.",
+				"tags": [
+					{
+						"tag": "version",
+						"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl"
+					},
+					{
+						"tag": "group",
+						"text": "Embed components\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2543,
+					"name": "brandName",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Rename the default \"SpotterViz\" label shown in the SpotterViz interface with a custom brand name.",
+						"tags": [
+							{
+								"tag": "default",
+								"text": "''"
+							},
+							{
+								"tag": "version",
+								"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 28,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2545,
+					"name": "customStarterPrompts",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Overrides the starter prompts with a custom list.\nEach entry must match the {@link SpotterVizStarterPrompt} shape.\nHas no effect when `hideStarterPrompts` is `true`.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 42,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reference",
+							"id": 2548,
+							"name": "SpotterVizStarterPrompt"
+						}
+					}
+				},
+				{
+					"id": 2546,
+					"name": "description",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Custom description text shown in the SpotterViz interface.\nReplaces the default SpotterViz description.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 48,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2544,
+					"name": "hideStarterPrompts",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Hides the starter prompts section entirely in the SpotterViz interface.\nWhen set to `true`, the starter prompts are not displayed.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "false\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 35,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				},
+				{
+					"id": 2547,
+					"name": "inputChatPlaceholder",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Custom placeholder text for the chat input in the SpotterViz interface.\nReplaces the default chat input placeholder text.",
+						"tags": [
+							{
+								"tag": "version",
+								"text": "SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl\n"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 54,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						2543,
+						2545,
+						2546,
+						2544,
+						2547
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "embed/spotter-viz-utils.ts",
+					"line": 22,
+					"character": 17
+				}
+			]
+		},
+		{
+			"id": 2548,
+			"name": "SpotterVizStarterPrompt",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"comment": {
+				"shortText": "Defines starter prompts displayed in the SpotterViz interface.",
+				"tags": [
+					{
+						"tag": "version",
+						"text": "SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl"
+					},
+					{
+						"tag": "group",
+						"text": "Embed components\n"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2550,
+					"name": "displayText",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Short label shown to the user as a clickable suggestion."
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 12,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2551,
+					"name": "fullPrompt",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Full prompt text sent to Spotter when the user clicks the suggestion."
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 14,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 2549,
+					"name": "id",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"comment": {
+						"shortText": "Identifier for the prompt."
+					},
+					"sources": [
+						{
+							"fileName": "embed/spotter-viz-utils.ts",
+							"line": 10,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						2550,
+						2551,
+						2549
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "embed/spotter-viz-utils.ts",
+					"line": 8,
+					"character": 17
+				}
+			]
+		},
+		{
 			"id": 1867,
 			"name": "UnderlyingDataPoint",
 			"kind": 256,
@@ -51333,7 +51707,7 @@
 			]
 		},
 		{
-			"id": 3063,
+			"id": 3075,
 			"name": "VisualizationOverrides",
 			"kind": 256,
 			"kindString": "Interface",
@@ -51353,7 +51727,7 @@
 			},
 			"children": [
 				{
-					"id": 3064,
+					"id": 3076,
 					"name": "chart",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51376,7 +51750,7 @@
 					}
 				},
 				{
-					"id": 3065,
+					"id": 3077,
 					"name": "table",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51404,8 +51778,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						3064,
-						3065
+						3076,
+						3077
 					]
 				}
 			],
@@ -51418,14 +51792,14 @@
 			]
 		},
 		{
-			"id": 2935,
+			"id": 2947,
 			"name": "VizPoint",
 			"kind": 256,
 			"kindString": "Interface",
 			"flags": {},
 			"children": [
 				{
-					"id": 2936,
+					"id": 2948,
 					"name": "selectedAttributes",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51446,7 +51820,7 @@
 					}
 				},
 				{
-					"id": 2937,
+					"id": 2949,
 					"name": "selectedMeasures",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51472,8 +51846,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2936,
-						2937
+						2948,
+						2949
 					]
 				}
 			],
@@ -51486,7 +51860,7 @@
 			]
 		},
 		{
-			"id": 2705,
+			"id": 2717,
 			"name": "customCssInterface",
 			"kind": 256,
 			"kindString": "Interface",
@@ -51496,7 +51870,7 @@
 			},
 			"children": [
 				{
-					"id": 2707,
+					"id": 2719,
 					"name": "rules_UNSTABLE",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51526,20 +51900,20 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 2708,
+							"id": 2720,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"indexSignature": {
-								"id": 2709,
+								"id": 2721,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 2710,
+										"id": 2722,
 										"name": "selector",
 										"kind": 32768,
 										"flags": {},
@@ -51552,7 +51926,7 @@
 								"type": {
 									"type": "reflection",
 									"declaration": {
-										"id": 2711,
+										"id": 2723,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
@@ -51565,14 +51939,14 @@
 											}
 										],
 										"indexSignature": {
-											"id": 2712,
+											"id": 2724,
 											"name": "__index",
 											"kind": 8192,
 											"kindString": "Index signature",
 											"flags": {},
 											"parameters": [
 												{
-													"id": 2713,
+													"id": 2725,
 													"name": "declaration",
 													"kind": 32768,
 													"flags": {},
@@ -51594,7 +51968,7 @@
 					}
 				},
 				{
-					"id": 2706,
+					"id": 2718,
 					"name": "variables",
 					"kind": 1024,
 					"kindString": "Property",
@@ -51613,7 +51987,7 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 2714,
+						"id": 2726,
 						"name": "CustomCssVariables"
 					}
 				}
@@ -51623,8 +51997,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						2707,
-						2706
+						2719,
+						2718
 					]
 				}
 			],
@@ -51929,7 +52303,7 @@
 			]
 		},
 		{
-			"id": 2675,
+			"id": 2687,
 			"name": "DOMSelector",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -51956,7 +52330,7 @@
 			}
 		},
 		{
-			"id": 2679,
+			"id": 2691,
 			"name": "MessageCallback",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -51971,7 +52345,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 2680,
+					"id": 2692,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -51994,7 +52368,7 @@
 					],
 					"signatures": [
 						{
-							"id": 2681,
+							"id": 2693,
 							"name": "__type",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -52004,19 +52378,19 @@
 							},
 							"parameters": [
 								{
-									"id": 2682,
+									"id": 2694,
 									"name": "payload",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
 										"type": "reference",
-										"id": 2687,
+										"id": 2699,
 										"name": "MessagePayload"
 									}
 								},
 								{
-									"id": 2683,
+									"id": 2695,
 									"name": "responder",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -52026,7 +52400,7 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 2684,
+											"id": 2696,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
@@ -52040,7 +52414,7 @@
 											],
 											"signatures": [
 												{
-													"id": 2685,
+													"id": 2697,
 													"name": "__type",
 													"kind": 4096,
 													"kindString": "Call signature",
@@ -52050,7 +52424,7 @@
 													},
 													"parameters": [
 														{
-															"id": 2686,
+															"id": 2698,
 															"name": "data",
 															"kind": 32768,
 															"kindString": "Parameter",
@@ -52081,7 +52455,7 @@
 			}
 		},
 		{
-			"id": 2676,
+			"id": 2688,
 			"name": "MessageOptions",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -52105,14 +52479,14 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 2677,
+					"id": 2689,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
 					"flags": {},
 					"children": [
 						{
-							"id": 2678,
+							"id": 2690,
 							"name": "start",
 							"kind": 1024,
 							"kindString": "Property",
@@ -52140,7 +52514,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								2678
+								2690
 							]
 						}
 					],
@@ -52155,7 +52529,7 @@
 			}
 		},
 		{
-			"id": 2687,
+			"id": 2699,
 			"name": "MessagePayload",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -52179,14 +52553,14 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 2688,
+					"id": 2700,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
 					"flags": {},
 					"children": [
 						{
-							"id": 2690,
+							"id": 2702,
 							"name": "data",
 							"kind": 1024,
 							"kindString": "Property",
@@ -52204,7 +52578,7 @@
 							}
 						},
 						{
-							"id": 2691,
+							"id": 2703,
 							"name": "status",
 							"kind": 1024,
 							"kindString": "Property",
@@ -52224,7 +52598,7 @@
 							}
 						},
 						{
-							"id": 2689,
+							"id": 2701,
 							"name": "type",
 							"kind": 1024,
 							"kindString": "Property",
@@ -52247,9 +52621,9 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								2690,
-								2691,
-								2689
+								2702,
+								2703,
+								2701
 							]
 						}
 					],
@@ -52910,7 +53284,7 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 2646,
+									"id": 2658,
 									"name": "PrefetchFeatures"
 								}
 							}
@@ -53038,7 +53412,7 @@
 			]
 		},
 		{
-			"id": 3108,
+			"id": 3120,
 			"name": "resetCachedAuthToken",
 			"kind": 64,
 			"kindString": "Function",
@@ -53054,7 +53428,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3109,
+					"id": 3121,
 					"name": "resetCachedAuthToken",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -53084,7 +53458,7 @@
 			]
 		},
 		{
-			"id": 3110,
+			"id": 3122,
 			"name": "startAutoMCPFrameRenderer",
 			"kind": 64,
 			"kindString": "Function",
@@ -53098,7 +53472,7 @@
 			],
 			"signatures": [
 				{
-					"id": 3111,
+					"id": 3123,
 					"name": "startAutoMCPFrameRenderer",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -53120,7 +53494,7 @@
 					},
 					"parameters": [
 						{
-							"id": 3112,
+							"id": 3124,
 							"name": "viewConfig",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -53130,7 +53504,7 @@
 							},
 							"type": {
 								"type": "reference",
-								"id": 3027,
+								"id": 3039,
 								"name": "AutoMCPFrameRendererViewConfig"
 							},
 							"defaultValue": "{}"
@@ -53308,7 +53682,7 @@
 			]
 		},
 		{
-			"id": 2907,
+			"id": 2919,
 			"name": "uploadMixpanelEvent",
 			"kind": 64,
 			"kindString": "Function",
@@ -53322,7 +53696,7 @@
 			],
 			"signatures": [
 				{
-					"id": 2908,
+					"id": 2920,
 					"name": "uploadMixpanelEvent",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -53332,7 +53706,7 @@
 					},
 					"parameters": [
 						{
-							"id": 2909,
+							"id": 2921,
 							"name": "eventId",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -53344,7 +53718,7 @@
 							}
 						},
 						{
-							"id": 2910,
+							"id": 2922,
 							"name": "eventProps",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -53355,7 +53729,7 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 2911,
+									"id": 2923,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
@@ -53383,36 +53757,36 @@
 				1713,
 				1720,
 				1879,
-				3071,
-				3074,
-				3078,
+				3083,
+				3086,
+				3090,
 				2279,
 				2100,
-				2991,
-				2987,
-				3094,
-				2983,
+				3003,
+				2999,
+				3106,
+				2995,
 				2106,
-				3000,
+				3012,
 				1911,
-				3023,
-				2657,
-				2929,
-				2923,
-				2668,
+				3035,
+				2669,
+				2941,
+				2935,
+				2680,
 				2019,
-				2996,
-				3066,
-				2932,
-				2975,
-				2900,
+				3008,
+				3078,
+				2944,
+				2987,
+				2912,
 				1870,
-				2646,
-				2927,
+				2658,
+				2939,
 				1895,
-				3105,
-				3101,
-				2958
+				3117,
+				3113,
+				2970
 			]
 		},
 		{
@@ -53434,21 +53808,21 @@
 			"title": "Interfaces",
 			"kind": 256,
 			"children": [
-				2541,
+				2552,
 				1730,
-				3027,
+				3039,
 				1169,
 				1482,
-				2938,
+				2950,
+				2726,
 				2714,
-				2702,
-				2692,
+				2704,
 				2283,
-				3017,
-				2651,
+				3029,
+				2663,
 				2447,
 				1891,
-				2897,
+				2909,
 				2397,
 				2334,
 				1860,
@@ -53456,10 +53830,12 @@
 				1467,
 				1416,
 				1470,
+				2542,
+				2548,
 				1867,
-				3063,
-				2935,
-				2705,
+				3075,
+				2947,
+				2717,
 				21,
 				28
 			]
@@ -53468,10 +53844,10 @@
 			"title": "Type aliases",
 			"kind": 4194304,
 			"children": [
-				2675,
-				2679,
-				2676,
-				2687
+				2687,
+				2691,
+				2688,
+				2699
 			]
 		},
 		{
@@ -53488,10 +53864,10 @@
 				4,
 				7,
 				25,
-				3108,
-				3110,
+				3120,
+				3122,
 				40,
-				2907
+				2919
 			]
 		}
 	],

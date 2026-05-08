@@ -1329,6 +1329,64 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
+        const spotterViz = {
+            brandName: 'MyBrand',
+            description: 'Ask questions about your data',
+            inputChatPlaceholder: 'Ask a question...',
+            hideStarterPrompts: false,
+            customStarterPrompts: [
+                { id: '1', displayText: 'Show revenue by region', fullPrompt: 'Show revenue by region' },
+                { id: '2', displayText: 'Top customers', fullPrompt: 'Top customers by sales' },
+            ],
+        };
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterViz,
+        } as LiveboardViewConfig);
+
+        mockMessageChannel();
+        await liveboardEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: spotterViz,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include spotterVizConfig in APP_INIT when spotterViz is not provided', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+
+        mockMessageChannel();
+        await liveboardEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+        });
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.spotterVizConfig).toBeUndefined();
+            }
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
