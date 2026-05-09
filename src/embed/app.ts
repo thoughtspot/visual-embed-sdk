@@ -116,6 +116,10 @@ export enum HomePage {
      * with styling changes.
      */
     ModularWithStylingChanges = 'v3',
+    /**
+     * Focused (v4) introduces the V4 homepage experience.
+     */
+    Focused = 'v4',
 }
 
 /**
@@ -805,21 +809,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
-    /**
-     * If set to true, enables the V4 homepage experience.
-     *
-     * Supported embed types: `AppEmbed`
-     * @default false
-     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    isHomepageV4Enabled: true,
-     * })
-     * ```
-     */
-    isHomepageV4Enabled?: boolean;
 }
 
 /**
@@ -931,7 +920,6 @@ export class AppEmbed extends V1Embed {
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled = false,
             enableLiveboardDataCache,
-            isHomepageV4Enabled = false,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1071,10 +1059,6 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
-        if (isHomepageV4Enabled !== undefined) {
-            params[Param.IsHomepageV4Enabled] = isHomepageV4Enabled;
-        }
-
         if (isContinuousLiveboardPDFEnabled !== undefined) {
             params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
         }
@@ -1117,6 +1101,7 @@ export class AppEmbed extends V1Embed {
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';
+        params[Param.IsHomepageV4Enabled] = false;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
@@ -1141,6 +1126,10 @@ export class AppEmbed extends V1Embed {
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
+            }
+
+            if (discoveryExperience.homePage === HomePage.Focused) {
+                params[Param.IsHomepageV4Enabled] = true;
             }
         }
 

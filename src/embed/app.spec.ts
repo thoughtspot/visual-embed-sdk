@@ -521,10 +521,12 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isHomepageV4Enabled to true in url', async () => {
+    test('should set isHomepageV4Enabled to true in url when homePage is Focused', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            isHomepageV4Enabled: true,
+            discoveryExperience: {
+                homePage: HomePage.Focused,
+            },
         } as AppViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
@@ -535,11 +537,8 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isHomepageV4Enabled to false in url', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            isHomepageV4Enabled: false,
-        } as AppViewConfig);
+    test('should set isHomepageV4Enabled to false in url by default', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
