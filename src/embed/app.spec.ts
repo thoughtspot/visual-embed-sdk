@@ -521,6 +521,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isHomepageV4Enabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isHomepageV4Enabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isHomepageV4Enabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isHomepageV4Enabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isHomepageV4Enabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isHomepageV4Enabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

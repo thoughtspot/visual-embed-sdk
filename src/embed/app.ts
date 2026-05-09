@@ -805,6 +805,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
+    /**
+     * If set to true, enables the V4 homepage experience.
+     *
+     * Supported embed types: `AppEmbed`
+     * @default false
+     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    isHomepageV4Enabled: true,
+     * })
+     * ```
+     */
+    isHomepageV4Enabled?: boolean;
 }
 
 /**
@@ -916,6 +931,7 @@ export class AppEmbed extends V1Embed {
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled = false,
             enableLiveboardDataCache,
+            isHomepageV4Enabled = false,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1053,6 +1069,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableHomepageAnnouncement !== undefined) {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
+        }
+
+        if (isHomepageV4Enabled !== undefined) {
+            params[Param.IsHomepageV4Enabled] = isHomepageV4Enabled;
         }
 
         if (isContinuousLiveboardPDFEnabled !== undefined) {
