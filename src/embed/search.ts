@@ -239,7 +239,8 @@ export interface SearchViewConfig
      */
     excludeSearchTokenStringFromURL?: boolean;
     /**
-     * The GUID of a saved answer to load initially.
+     * The GUID of a saved answer to embed. When provided, the embed loads
+     * the specified saved answer instead of an empty search page.
      * 
      * Supported embed types: `SearchEmbed`
      * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
