@@ -118,6 +118,7 @@ export enum HomePage {
     ModularWithStylingChanges = 'v3',
     /**
      * Focused (v4) introduces the V4 homepage experience.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
      */
     Focused = 'v4',
 }
