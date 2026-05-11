@@ -521,31 +521,16 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isHomepageV4Enabled to true in url when homePage is Focused', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            discoveryExperience: {
-                homePage: HomePage.Focused,
-            },
-        } as AppViewConfig);
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isHomepageV4Enabled=true${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
-    test('should set isHomepageV4Enabled to false in url by default', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isHomepageV4Enabled=false${defaultParamsPost}#/home`,
-            );
-        });
+    test('Should add homepageVersion=v4 when homePage is Focused to the iframe src', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Focused,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+        );
     });
 
     test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {

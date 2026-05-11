@@ -1102,7 +1102,6 @@ export class AppEmbed extends V1Embed {
         // Set homePageVersion to v2 by default to reset the LD flag value
         // for the homepageVersion.
         params[Param.HomepageVersion] = 'v2';
-        params[Param.IsHomepageV4Enabled] = false;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
@@ -1130,7 +1129,7 @@ export class AppEmbed extends V1Embed {
             }
 
             if (discoveryExperience.homePage === HomePage.Focused) {
-                params[Param.IsHomepageV4Enabled] = true;
+                params[Param.HomepageVersion] = HomePage.Focused;
             }
         }
 
