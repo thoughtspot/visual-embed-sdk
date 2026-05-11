@@ -120,7 +120,6 @@ export enum HomePage {
      * Focused (v4) introduces the V4 homepage experience
      * in which Watchlist and recents and incorporated together 
      * to form a more focused homepage.
-     * Switching can be done from admin panel.
      * Pre-requisite : spotter enablement
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
      */
