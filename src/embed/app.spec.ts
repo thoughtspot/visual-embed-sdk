@@ -521,6 +521,18 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add homepageVersion=v4 when homePage is Focused to the iframe src', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Focused,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+        );
+    });
+
     test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

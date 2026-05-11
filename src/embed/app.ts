@@ -116,6 +116,14 @@ export enum HomePage {
      * with styling changes.
      */
     ModularWithStylingChanges = 'v3',
+    /**
+     * Focused (v4) introduces the V4 homepage experience
+     * in which Watchlist and recents and incorporated together 
+     * to form a more focused homepage.
+     * Pre-requisite : spotter enablement
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     */
+    Focused = 'v4',
 }
 
 /**
@@ -1121,6 +1129,10 @@ export class AppEmbed extends V1Embed {
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
+            }
+
+            if (discoveryExperience.homePage === HomePage.Focused) {
+                params[Param.HomepageVersion] = HomePage.Focused;
             }
         }
 
