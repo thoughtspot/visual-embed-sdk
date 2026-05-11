@@ -239,7 +239,7 @@ export interface SearchViewConfig
      */
     excludeSearchTokenStringFromURL?: boolean;
     /**
-     * The GUID of a saved answer to embed. When provided, the embed loads
+     * Specifies the GUID of a saved answer to embed. When provided, the embed loads
      * the specified saved answer instead of an empty search page.
      * 
      * Supported embed types: `SearchEmbed`
