@@ -3800,8 +3800,8 @@ export enum EmbedEvent {
      * @example
      * ```js
      * liveboardEmbed.on(EmbedEvent.RefreshLiveboardBrowserCache, (payload) => {
-     *     console.log('Send test email', payload);
-     *     // payload: { liveboardId: string, sendToSelf: boolean }
+     *     console.log('Liveboard browser cache refreshed', payload);
+     *     // payload: { liveboardId: string }
      * })
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
@@ -5910,16 +5910,7 @@ export enum HostEvent {
      * Requires `enableLiveboardDataCache` to be enabled.
      * @example
      * ```js
-     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache, {
-     *     sendToSelf: true,
-     * })
-     * ```
-     * @example
-     * ```js
-     * // Send to all recipients
-     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache, {
-     *     sendToSelf: false,
-     * })
+     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache);
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
