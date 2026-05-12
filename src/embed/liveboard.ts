@@ -735,10 +735,18 @@ export class LiveboardEmbed extends V1Embed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            if (spotterFileUploadEnabled !== undefined) {
+                params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (spotterFileUploadFileTypes !== undefined) {
+                params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         if (isLinkParametersEnabled !== undefined) {
