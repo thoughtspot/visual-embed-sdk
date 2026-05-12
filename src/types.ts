@@ -6297,6 +6297,20 @@ export enum Action {
      */
     DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
     /**
+     * The Download Liveboard as A4 PDF menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as an A4 PDF.
+     * Requires {@link Action.DownloadLiveboard} as a parent action when
+     * {@link LiveboardViewConfig.isLiveboardXLSXCSVDownloadEnabled} or
+     * {@link LiveboardViewConfig.isContinuousLiveboardPDFEnabled} flags are enabled.
+     * Use this instead of {@link Action.DownloadAsPdf} when either flag is on.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsA4Pdf]
+     * ```
+     */
+    DownloadLiveboardAsA4Pdf = 'downloadLiveboardAsA4Pdf',
+    /**
      * The **Download Liveboard as XLSX** menu action on a Liveboard.
      * Allows downloading the entire Liveboard as an XLSX file.
      * @example
