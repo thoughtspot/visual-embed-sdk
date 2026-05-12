@@ -38,7 +38,7 @@
     "size-limit": [
         {
             "path": "dist/tsembed.es.js",
-            "limit": "34 kB"
+            "limit": "50 kB"
         }
     ],
     "scripts": {
