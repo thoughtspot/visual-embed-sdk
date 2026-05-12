@@ -1329,6 +1329,23 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isSpotterErrorBannersEnabled parameter in url params via spotterChatConfig', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: {
+                isSpotterErrorBannersEnabled: true,
+            },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&isSpotterErrorBannersEnabled=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('SetActiveTab Hostevent should not trigger the navigate event with the correct path, for vizEmbed', async () => {
         const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
