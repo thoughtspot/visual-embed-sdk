@@ -3704,6 +3704,95 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * Emitted when the SpotterViz panel mounts in embed mode.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizInit, (payload) => {
+     *     console.log('SpotterViz initialized', payload);
+     *     // payload: { liveboardId: string }
+     * })
+     * ```
+     */
+    SpotterVizInit = 'SpotterVizInit',
+
+    /**
+     * Emitted when the user submits a prompt in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizQueryTriggered, (payload) => {
+     *     console.log('SpotterViz query triggered', payload);
+     *     // payload: { query: string, sessionId: string }
+     * })
+     * ```
+     */
+    SpotterVizQueryTriggered = 'SpotterVizQueryTriggered',
+
+    /**
+     * Emitted when the SpotterViz agent finishes responding.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizResponseComplete, (payload) => {
+     *     console.log('SpotterViz response complete', payload);
+     *     // payload: { sessionId: string, messageId: string }
+     * })
+     * ```
+     */
+    SpotterVizResponseComplete = 'SpotterVizResponseComplete',
+
+    /**
+     * Emitted when a checkpoint is created in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizCheckpointCreated, (payload) => {
+     *     console.log('SpotterViz checkpoint created', payload);
+     *     // payload: { checkpointId: string, source: string, label: string }
+     * })
+     * ```
+     */
+    SpotterVizCheckpointCreated = 'SpotterVizCheckpointCreated',
+
+    /**
+     * Emitted when a checkpoint is restored in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizCheckpointRestored, (payload) => {
+     *     console.log('SpotterViz checkpoint restored', payload);
+     *     // payload: { checkpointId: string, newGenNumber: number }
+     * })
+     * ```
+     */
+    SpotterVizCheckpointRestored = 'SpotterVizCheckpointRestored',
+
+    /**
+     * Emitted when an error occurs in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizError, (payload) => {
+     *     console.log('SpotterViz error', payload);
+     * })
+     * ```
+     */
+    SpotterVizError = 'SpotterVizError',
+
+    /**
+     * Emitted when the SpotterViz panel is closed.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizClosed, (payload) => {
+     *     console.log('SpotterViz panel closed', payload);
+     * })
+     * ```
+     */
+    SpotterVizClosed = 'SpotterVizClosed',
 }
 
 /**
@@ -5779,6 +5868,29 @@ export enum HostEvent {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * Sends a user message (prompt) to the SpotterViz panel programmatically.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @param query - the prompt text to send.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SpotterVizSendUserMessage, {
+     *     query: 'Show me revenue by region',
+     * });
+     * ```
+     */
+    SpotterVizSendUserMessage = 'SpotterVizSendUserMessage',
+
+    /**
+     * Initializes a new SpotterViz conversation.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.InitSpotterVizConversation);
+     * ```
+     */
+    InitSpotterVizConversation = 'InitSpotterVizConversation',
 }
 
 /**
@@ -7653,6 +7765,42 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * The thumbs up/down feedback buttons in the SpotterViz panel.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizFeedback]
+     * disabledActions: [Action.SpotterVizFeedback]
+     * ```
+     */
+    SpotterVizFeedback = 'spotterVizFeedback',
+
+    /**
+     * The version restore button on checkpoint cards in the SpotterViz panel.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizCheckpointRestore]
+     * disabledActions: [Action.SpotterVizCheckpointRestore]
+     * ```
+     */
+    SpotterVizCheckpointRestore = 'spotterVizCheckpointRestore',
+
+    /**
+     * The **SpotterViz** button in the top edit header.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterViz]
+     * disabledActions: [Action.SpotterViz]
+     * ```
+     */
+    SpotterViz = 'spotterViz',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
