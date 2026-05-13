@@ -1,10 +1,12 @@
 import { startAutoMCPFrameRenderer } from './auto-frame-renderer';
-import { Action, AutoMCPFrameRendererViewConfig, EmbedEvent, InterceptedApiType, Param } from '../types';
+import { Action, AuthType, AutoMCPFrameRendererViewConfig, EmbedEvent, InterceptedApiType, Param } from '../types';
 import { init } from '../index';
 import * as authInstance from '../auth';
 import { TsEmbed } from './ts-embed';
+import { LiveboardEmbed, LiveboardViewConfig } from './liveboard';
 import {
     getDocumentBody,
+    getRootEl,
     postMessageToParent,
 } from '../test/test-utils';
 
@@ -18,7 +20,7 @@ describe('startAutoMCPFrameRenderer', () => {
     beforeAll(() => {
         init({
             thoughtSpotHost,
-            authType: 'None' as any,
+            authType: AuthType.None,
         });
         jest.spyOn(authInstance, 'postLoginService').mockImplementation(() => Promise.resolve(undefined));
         jest.spyOn(window, 'alert').mockImplementation(() => undefined);
@@ -259,9 +261,9 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(src).toContain('disableHint');
         });
 
-        test('hiddenActions → hideAction in rendered src', async () => {
+        test('hiddenActions → hideAction in rendered src as JSON array', async () => {
             const src = await captureRenderedSrc({ hiddenActions: [Action.Pin] });
-            expect(src).toContain('hideAction');
+            expect(src).toContain(`hideAction=${JSON.stringify([Action.ReportError, Action.Pin])}`);
         });
 
         test('visibleActions → visibleAction in rendered src', async () => {
@@ -314,6 +316,56 @@ describe('startAutoMCPFrameRenderer', () => {
         test('additionalFlags from viewConfig override those from init', async () => {
             const src = await captureRenderedSrc({ additionalFlags: { overrideFlag: 'view' } });
             expect(src).toContain('overrideFlag=view');
+        });
+
+        test('insertInToSlide → insertInToSlide param in rendered src', async () => {
+            const src = await captureRenderedSrc({ insertInToSlide: true });
+            expect(src).toContain('insertInToSlide=true');
+        });
+
+        test('customizations.iconSpriteUrl → iconSprite param in rendered src', async () => {
+            const src = await captureRenderedSrc({
+                customizations: { iconSpriteUrl: 'https://cdn.example.com/icons.svg' },
+            });
+            expect(src).toContain('iconSprite=cdn.example.com/icons.svg');
+        });
+
+        test('customizations.content.stringIDsUrl → overrideStringIDsUrl param in rendered src', async () => {
+            const src = await captureRenderedSrc({
+                customizations: { content: { stringIDsUrl: 'https://cdn.example.com/strings.json' } },
+            });
+            expect(src).toContain('overrideStringIDsUrl=');
+        });
+
+        test('multiple disabledActions → all actions serialised in rendered src', async () => {
+            const src = await captureRenderedSrc({
+                disabledActions: [Action.Pin, Action.Download, Action.Save],
+            });
+            expect(src).toContain('disableAction');
+            expect(src).toContain(Action.Pin);
+            expect(src).toContain(Action.Download);
+            expect(src).toContain(Action.Save);
+        });
+
+        test('multiple hiddenActions → all actions serialised in rendered src', async () => {
+            const src = await captureRenderedSrc({
+                hiddenActions: [Action.Pin, Action.Download],
+            });
+            const hideParam = decodeURIComponent(src.split('hideAction=')[1]?.split('&')[0] ?? '');
+            const parsed = JSON.parse(hideParam);
+            expect(parsed).toContain(Action.Pin);
+            expect(parsed).toContain(Action.Download);
+        });
+
+        test('multiple visibleActions → all actions serialised in rendered src', async () => {
+            const src = await captureRenderedSrc({
+                visibleActions: [Action.Download, Action.Save, Action.Pin],
+            });
+            const visibleParam = decodeURIComponent(src.split('visibleAction=')[1]?.split('&')[0] ?? '');
+            const parsed = JSON.parse(visibleParam);
+            expect(parsed).toContain(Action.Download);
+            expect(parsed).toContain(Action.Save);
+            expect(parsed).toContain(Action.Pin);
         });
 
         test('rendered src always contains a query string before the hash', async () => {
@@ -519,6 +571,75 @@ describe('startAutoMCPFrameRenderer', () => {
 
             expect(capturedSrc).toContain('locale=de-DE');
             observer.disconnect();
+        });
+    });
+
+    // ─── URL serialization parity with normal embeds ──────────────────────────
+    //
+    // These tests verify that array-typed params (hideAction, disableAction,
+    // visibleAction) are serialized identically by startAutoMCPFrameRenderer
+    // and by a standard LiveboardEmbed. Both must emit JSON arrays
+    // (e.g. ["pin"]) not CSV (e.g. pin) so ThoughtSpot's app honours them.
+
+    describe('URL serialization parity with LiveboardEmbed', () => {
+        async function captureLiveboardSrc(
+            viewConfig: Partial<LiveboardViewConfig>,
+        ): Promise<string> {
+            let capturedSrc = '';
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                .mockImplementation(async function (this: any, src: string) {
+                    capturedSrc = src;
+                });
+            const embed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: 'test-lb',
+                ...viewConfig,
+            });
+            embed.render();
+            await new Promise((r) => setTimeout(r, 50));
+            return capturedSrc;
+        }
+
+        function getQueryParam(url: string, param: string): string | null {
+            const qIdx = url.indexOf('?');
+            const hIdx = url.indexOf('#');
+            if (qIdx === -1) return null;
+            const qs = hIdx === -1 ? url.slice(qIdx + 1) : url.slice(qIdx + 1, hIdx);
+            return new URLSearchParams(qs).get(param);
+        }
+
+        test.each([
+            ['hiddenActions', { hiddenActions: [Action.Pin] }, 'hideAction'],
+            ['disabledActions', { disabledActions: [Action.Pin] }, 'disableAction'],
+            ['visibleActions', { visibleActions: [Action.Download] }, 'visibleAction'],
+        ])(
+            '%s: auto-renderer and LiveboardEmbed produce identical param format',
+            async (_, viewConfig, paramName) => {
+                const liveboardSrc = await captureLiveboardSrc(viewConfig);
+                const autoSrc = await captureRenderedSrc(viewConfig);
+
+                const liveboardValue = getQueryParam(liveboardSrc, paramName);
+                const autoValue = getQueryParam(autoSrc, paramName);
+
+                expect(autoValue).not.toBeNull();
+                expect(liveboardValue).not.toBeNull();
+                expect(autoValue).toBe(liveboardValue);
+            },
+        );
+
+        test('hideAction value is a JSON array, not CSV', async () => {
+            const autoSrc = await captureRenderedSrc({ hiddenActions: [Action.Pin] });
+            const liveboardSrc = await captureLiveboardSrc({ hiddenActions: [Action.Pin] });
+
+            const autoValue = getQueryParam(autoSrc, 'hideAction');
+            const liveboardValue = getQueryParam(liveboardSrc, 'hideAction');
+
+            // Both must parse as a JSON array — not CSV like "reportError,pin"
+            expect(() => JSON.parse(autoValue)).not.toThrow();
+            expect(() => JSON.parse(liveboardValue)).not.toThrow();
+            expect(Array.isArray(JSON.parse(autoValue))).toBe(true);
+            expect(Array.isArray(JSON.parse(liveboardValue))).toBe(true);
+            expect(JSON.parse(autoValue)).toEqual(JSON.parse(liveboardValue));
         });
     });
 });
