@@ -3793,6 +3793,20 @@ export enum EmbedEvent {
      * ```
      */
     SpotterVizClosed = 'SpotterVizClosed',
+    /**
+     * Emitted when a user clicks the **Refresh** button in the
+     * Liveboard header. Requires `enableLiveboardDataCache`
+     * to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.RefreshLiveboardBrowserCache, (payload) => {
+     *     console.log('Liveboard browser cache refreshed', payload);
+     *     // payload: { liveboardId: string }
+     * })
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 
 /**
@@ -5891,6 +5905,16 @@ export enum HostEvent {
      * ```
      */
     InitSpotterVizConversation = 'InitSpotterVizConversation',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache);
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -7801,6 +7825,17 @@ export enum Action {
      * ```
      */
     SpotterViz = 'spotterViz',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * disabledActions: [Action.RefreshLiveboardBrowserCache]
+     * hiddenActions: [Action.RefreshLiveboardBrowserCache]
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
