@@ -207,7 +207,10 @@ export class TsEmbed {
         });
         const embedConfig = getEmbedConfig();
         this.embedConfig = embedConfig;
-
+        if(embedConfig) {
+            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
+        }
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.isReadyForRenderPromise = getInitPromise().then(async () => {
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
