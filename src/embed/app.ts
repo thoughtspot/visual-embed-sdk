@@ -1032,8 +1032,8 @@ export class AppEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled = true,
+            isGranularXLSXCSVSchedulesEnabled = true,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
@@ -1043,7 +1043,7 @@ export class AppEmbed extends V1Embed {
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled = true,
             enableLiveboardDataCache,
         } = this.viewConfig;
 

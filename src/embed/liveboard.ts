@@ -697,8 +697,8 @@ export class LiveboardEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled = true,
+            isGranularXLSXCSVSchedulesEnabled = true,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
@@ -706,7 +706,7 @@ export class LiveboardEmbed extends V1Embed {
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled = true,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
