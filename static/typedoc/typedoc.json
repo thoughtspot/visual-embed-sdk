@@ -22469,7 +22469,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 369,
+							"line": 370,
 							"character": 4
 						}
 					],
@@ -22707,7 +22707,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 552,
+							"line": 553,
 							"character": 11
 						}
 					],
@@ -23361,7 +23361,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 563,
+							"line": 564,
 							"character": 17
 						}
 					],
@@ -23866,7 +23866,7 @@
 			"sources": [
 				{
 					"fileName": "embed/search.ts",
-					"line": 363,
+					"line": 364,
 					"character": 13
 				}
 			],
@@ -47043,7 +47043,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The GUID of a saved answer to load initially.",
+						"shortText": "The GUID of a saved answer to embed. When provided, the embed loads\nthe specified saved answer instead of an empty search page.",
 						"text": "Supported embed types: `SearchEmbed`",
 						"tags": [
 							{
@@ -47059,7 +47059,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 254,
+							"line": 255,
 							"character": 4
 						}
 					],
@@ -47206,7 +47206,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 283,
+							"line": 284,
 							"character": 4
 						}
 					],
@@ -47370,7 +47370,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 304,
+							"line": 305,
 							"character": 4
 						}
 					],
@@ -47978,7 +47978,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 320,
+							"line": 321,
 							"character": 4
 						}
 					],
@@ -48199,7 +48199,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 269,
+							"line": 270,
 							"character": 4
 						}
 					],
@@ -48500,7 +48500,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 335,
+							"line": 336,
 							"character": 4
 						}
 					],
@@ -48909,7 +48909,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 276,
+							"line": 277,
 							"character": 4
 						}
 					],
@@ -48984,7 +48984,7 @@
 					"sources": [
 						{
 							"fileName": "embed/search.ts",
-							"line": 341,
+							"line": 342,
 							"character": 4
 						}
 					],
