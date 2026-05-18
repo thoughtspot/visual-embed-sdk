@@ -620,10 +620,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @default true
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      * @example
      * ```js
@@ -638,9 +639,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @default true
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
@@ -655,9 +658,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @default true
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
@@ -1032,8 +1037,8 @@ export class AppEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = true,
-            isGranularXLSXCSVSchedulesEnabled = true,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
@@ -1043,7 +1048,7 @@ export class AppEmbed extends V1Embed {
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isContinuousLiveboardPDFEnabled = true,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -1173,13 +1178,8 @@ export class AppEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-        if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
-            params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
-        }
-
-        if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
-            params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
-        }
+        params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled ?? true;
+        params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled ?? true;
 
         if (hideTagFilterChips !== undefined) {
             params[Param.HideTagFilterChips] = hideTagFilterChips;
@@ -1203,9 +1203,7 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
-        if (isContinuousLiveboardPDFEnabled !== undefined) {
-            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
-        }
+        params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled ?? true;
 
         this.defaultHeight = minimumHeight || this.defaultHeight;
 
