@@ -115,6 +115,9 @@ export enum HomePage {
     /**
      * Modular (v2) introduces the updated Modular Home Experience.
      * It serves as the foundational version of the home page.
+     * @deprecated v1 and v2 home page experiences are deprecated.
+     * Use {@link HomePage.ModularWithStylingChanges} (v3) or
+     * {@link HomePage.Focused} (v4) instead.
      */
     Modular = 'v2',
     /**
@@ -124,7 +127,7 @@ export enum HomePage {
     ModularWithStylingChanges = 'v3',
     /**
      * Focused (v4) introduces the V4 homepage experience
-     * in which Watchlist and recents and incorporated together 
+     * in which Watchlist and recents and incorporated together
      * to form a more focused homepage.
      * Pre-requisite : spotter enablement
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
@@ -191,13 +194,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     showPrimaryNavbar?: boolean;
     /**
      * Control the visibility of the left navigation panel on the home page
-     * in the V2 and V3 navigation and home page experience.
+     * in the V3 and V4 navigation and home page experience.
      * If `showPrimaryNavbar` is true, that is, if the Global and Homepage
      * navigation bars are visible, this flag will only hide the left navigation bar
      * on the home page.
      * The `showPrimaryNavbar` flag takes precedence over the `hideHomepageLeftNav`.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to v3 and v4 home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -263,11 +267,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     hideHamburger?: boolean;
     /**
      * Control the visibility of the object search
-     * on the top navigation bar in the
-     * V2 and V3 navigation experience.
+     * on the top navigation bar in the V3 navigation experience.
      *
-     * **Note**: This attribute is not supported
-     * in the classic (V1) experience.
+     * **Note**: The classic (V1) and V2 navigation experiences are
+     * deprecated. This attribute applies to the V3 navigation experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -285,8 +288,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the notification icon
      * on the top navigation bar in V3 navigation experience.
      *
-     * **Note**: This attribute is not supported
-     * in the classic (V1) and V2 experience modes.
+     * **Note**: The classic (V1) and V2 experience modes are deprecated.
+     * This attribute applies to the V3 experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -301,14 +304,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideNotification?: boolean;
     /**
-     * Control the visibility of the application selection menu
-     * in the top navigation bar in the V2 experience.
+     * Control the visibility of the application selection menu.
      * In the V3 experience, it shows or hides application selection
      * icons on the left navigation panel.
      * By default, the application selection menu and icons are
      * shown in the UI.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) and V2 experiences are deprecated.
+     * This attribute applies to the V3 experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -326,7 +329,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the Org switcher button on the nav-bar.
      * By default, the Org switcher button is shown.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) experience is deprecated. This attribute
+     * applies to V2 (deprecated), V3 and V4 experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -485,6 +489,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
+     * @deprecated The V1 and V2 home page experiences are deprecated.
+     * Use the `discoveryExperience.homePage` option with
+     * {@link HomePage.ModularWithStylingChanges} (v3) or
+     * {@link HomePage.Focused} (v4) instead.
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -965,7 +973,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardMasterpiecesEnabled = false,
             newChartsLibrary,
             hideHomepageLeftNav = false,
-            modularHomeExperience = false,
+            modularHomeExperience,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -1164,7 +1172,6 @@ export class AppEmbed extends V1Embed {
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
-        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -1191,9 +1198,10 @@ export class AppEmbed extends V1Embed {
         // To use v3 navigation, we must manually set the discoveryExperience
         // settings.
         params[Param.NavigationVersion] = 'v2';
-        // Set homePageVersion to v2 by default to reset the LD flag value
-        // for the homepageVersion.
-        params[Param.HomepageVersion] = 'v2';
+        // Set homePageVersion to v3 by default to reset the LD flag value
+        // for the homepageVersion. V1 and V2 home page experiences are
+        // deprecated; v3 (ModularWithStylingChanges) is the new baseline.
+        params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
         if (discoveryExperience) {
             // primaryNavbarVersion v3 will enabled the new left navigation
             if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
@@ -1202,18 +1210,6 @@ export class AppEmbed extends V1Embed {
                 params[Param.ModularHomeExperienceEnabled] = true;
             }
 
-            // homePage v2 will enable the modular home page
-            // and it will override the modularHomeExperience value
-            if (discoveryExperience.homePage === HomePage.Modular) {
-                params[Param.ModularHomeExperienceEnabled] = true;
-            }
-
-            // ModularWithStylingChanges (v3) introduces the styling changes
-            // to the Modular Homepage.
-            // v3 will be the base version of homePageVersion.
-            if (discoveryExperience.homePage === HomePage.ModularWithStylingChanges) {
-                params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
-            }
 
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
