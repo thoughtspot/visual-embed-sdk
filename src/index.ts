@@ -33,6 +33,7 @@ import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterVizConfig, SpotterVizStarterPrompt } from './embed/spotter-viz-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -140,6 +141,8 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SpotterVizConfig,
+    SpotterVizStarterPrompt,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,

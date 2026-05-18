@@ -24,6 +24,7 @@ import {
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -754,6 +755,29 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the SpotterViz interface shown on the Liveboard.
+     * Customize the brand name, description, chat input placeholder,
+     * starter prompts, and visibility of starter prompts in the SpotterViz panel.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *        brandHeadline: 'Hi, there! I\'m',
+     *        description: 'Ask questions about your data',
+     *        inputChatPlaceholder: 'Ask a question...',
+     *        hideStarterPrompts: false,
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }]
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -823,6 +847,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        spotterVizConfig?: SpotterVizConfig;
     };
 }
 
@@ -863,7 +888,12 @@ export class AppEmbed extends V1Embed {
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+        const sidebarInitData = buildSpotterSidebarAppInitData(
+            defaultAppInitData,
+            this.viewConfig,
+            this.handleError.bind(this),
+        );
+        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
     }
 
     /**

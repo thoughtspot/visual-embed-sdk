@@ -23,6 +23,7 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
     ContextType,
+    DefaultAppInitData,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -31,6 +32,17 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig } from './conversation';
+import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+
+/**
+ * APP_INIT data shape for LiveboardEmbed.
+ * @internal
+ */
+export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
+    embedParams?: {
+        spotterVizConfig?: SpotterVizConfig;
+    };
+}
 
 
 /**
@@ -535,6 +547,29 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the SpotterViz interface shown on the Liveboard.
+     * Customize the brand name, description, chat input placeholder,
+     * starter prompts, and visibility of starter prompts in the SpotterViz panel.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *        brandHeadline: 'Hi, there! I\'m',
+     *        description: 'Ask questions about your data',
+     *        inputChatPlaceholder: 'Ask a question...',
+     *        hideStarterPrompts: false,
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
      * If set to true, enables visualization data caching on the Liveboard.
      * @type {boolean}
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
@@ -584,6 +619,11 @@ export class LiveboardEmbed extends V1Embed {
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
             this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
         }
+    }
+
+    protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
     }
 
     /**

@@ -592,6 +592,141 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
+        const spotterViz = {
+            brandName: 'MyBrand',
+            brandHeadline: "Hi, there! I'm",
+            description: 'Ask questions about your data',
+            inputChatPlaceholder: 'Ask a question...',
+            hideStarterPrompts: false,
+            customStarterPrompts: [
+                {
+                    id: '001',
+                    displayText: 'Show revenue by region',
+                    fullPrompt: 'Show revenue by region',
+                },
+                { id: '002', displayText: 'Top customers', fullPrompt: 'Top customers by sales' },
+            ],
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: spotterViz,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
+        const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: expect.objectContaining({
+                            brandHeadline: "Hi, there! I'm",
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include spotterVizConfig in APP_INIT when spotterViz is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.spotterVizConfig).toBeUndefined();
+            }
+        });
+    });
+
+    test('should include spotterVizConfig alongside spotterSidebarConfig in APP_INIT', async () => {
+        const spotterViz = { brandName: 'MyBrand' };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: spotterViz,
+                        spotterSidebarConfig: expect.objectContaining({
+                            enablePastConversationsSidebar: true,
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
     test('should set toolResponseCardBrandingLabel in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
