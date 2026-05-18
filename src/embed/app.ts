@@ -115,9 +115,9 @@ export enum HomePage {
     /**
      * Modular (v2) introduces the updated Modular Home Experience.
      * It serves as the foundational version of the home page.
-     * @deprecated v1 and v2 home page experiences are deprecated.
      * Use {@link HomePage.ModularWithStylingChanges} (v3) or
      * {@link HomePage.Focused} (v4) instead.
+     * @deprecated v1 and v2 home page experiences are deprecated.
      */
     Modular = 'v2',
     /**
@@ -489,10 +489,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
-     * @deprecated The V1 and V2 home page experiences are deprecated.
-     * Use the `discoveryExperience.homePage` option with
+     * Use the discoveryExperience.homePage option with
      * {@link HomePage.ModularWithStylingChanges} (v3) or
      * {@link HomePage.Focused} (v4) instead.
+     * @deprecated The V1 and V2 home page experiences are deprecated.
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
