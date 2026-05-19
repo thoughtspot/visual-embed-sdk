@@ -208,11 +208,15 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
-
+        const embedConfig = getEmbedConfig();
+        if(embedConfig) {
+            this.embedConfig = embedConfig;
+            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
+        }
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.shouldWaitForRenderPromise = !getIsInitCompleted();
         const afterInit = () => {
-            const embedConfig = getEmbedConfig();
             this.embedConfig = embedConfig;
             if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
