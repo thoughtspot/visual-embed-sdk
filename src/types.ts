@@ -1477,8 +1477,29 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
+/**
+ * Configuration for {@link startAutoMCPFrameRenderer}.
+ *
+ * Extends {@link BaseViewConfig} but omits params that are not applicable
+ * to the auto-frame renderer:
+ * - `preRenderId` / `usePrerenderedIfAvailable` / `doNotTrackPreRenderSize` —
+ *   the renderer always replaces a live iframe in-place; prerender pools are not used.
+ * - `insertAsSibling` — insertion is always a same-position `replaceWith`; the
+ *   container-append path is never taken.
+ * - `primaryAction` — a Liveboard/AppEmbed-specific feature; the renderer renders
+ *   whatever route the MCP server specifies.
+ * - `enableV2Shell_experimental` — the renderer always uses the v2 URL format;
+ *   this flag has no effect.
+ */
+export type AutoMCPFrameRendererViewConfig = Omit<
+    BaseViewConfig,
+    | 'preRenderId'
+    | 'usePrerenderedIfAvailable'
+    | 'doNotTrackPreRenderSize'
+    | 'insertAsSibling'
+    | 'primaryAction'
+    | 'enableV2Shell_experimental'
+>;
 
 /**
  * The configuration object for Home page embeds configs.
@@ -2465,38 +2486,54 @@ export enum EmbedEvent {
      */
     VizPointClick = 'vizPointClick',
     /**
-     * An error has occurred. This event is fired for the following error types:
+     * Fired when an error occurs in the embedded component.
      *
+     * **Important:** This event fires for many reasons — including internal
+     * validation warnings (e.g. `HOST_EVENT_VALIDATION`), configuration issues,
+     * and transient errors that ThoughtSpot already handles gracefully inside the
+     * iframe. **Do not call `embed.destroy()` or unmount the embed component on
+     * every error.** Doing so will tear down the iframe and abort all in-flight
+     * requests, causing the embed to fail entirely.
+     *
+     * Only treat the following codes as unrecoverable:
+     * - `INIT_ERROR` — SDK was not initialised before render
+     * - `LOGIN_FAILED` — authentication could not be completed
+     *
+     * All other error codes should be logged and inspected, not acted upon
+     * destructively.
+     *
+     * **Note:** There is currently no dedicated event for a true unrecoverable
+     * crash. A future `EmbedEvent.FatalError` event is planned to give customers
+     * a clean signal for when the embed cannot recover and needs to be torn down.
+     *
+     * Error types include:
      * `API` - API call failure.
-     * `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     * mode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
-     * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
-     * `INVALID_DATE_VALUE` - Invalid date value error.
-     * `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     * `FULLSCREEN` - Error when presenting a Liveboard in full screen mode.
+     * `VALIDATION_ERROR` - Internal host event or configuration validation warning.
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      * @returns error - An error object or message
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
-     * // API error
-     * SearchEmbed.on(EmbedEvent.Error, (error) => {
-     *   console.log(error);
-     *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
-     *  // { errorType: "API", message: '...', code: '...' } new format
+     * // Recommended pattern — only destroy on truly fatal errors
+     * embed.on(EmbedEvent.Error, (error) => {
+     *   const FATAL_CODES = ['INIT_ERROR', 'LOGIN_FAILED'];
+     *   if (FATAL_CODES.includes(error.data?.code)) {
+     *     embed.destroy();
+     *     return;
+     *   }
+     *   // Log all other errors — do not destroy
+     *   console.warn('Embed error (non-fatal):', error);
      * });
      * ```
      * @example
      * ```js
-     * // Fullscreen error (Errors during presenting of a liveboard)
-     * LiveboardEmbed.on(EmbedEvent.Error, (error) => {
+     * // API error
+     * SearchEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
-     *   // { type: "Error", data: { errorType: "FULLSCREEN", error: {
-     *   //   message: "Fullscreen API is not enabled",
-     *   //   stack: "..."
-     *   // } }}
-     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...' } new format
-     * })
+     *   // { errorType: "API", message: '...', code: '...' }
+     * });
      * ```
      */
     Error = 'Error',

@@ -238,6 +238,99 @@ describe('SpotterAgentEmbed', () => {
         expect(iframeSrc).toContain('hideAction');
     });
 
+    test('should handle disabledActions and disabledActionReason parameters correctly', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    ConvAssist__createConversation: {
+                        convId: 'conversationId',
+                        initialCtx: {
+                            type: 'TS_ANSWER',
+                            tsAnsCtx: {
+                                sessionId: 'sessionId',
+                                genNo: 1,
+                                stateKey: {
+                                    transactionId: 'transactionId',
+                                    generationNumber: 1,
+                                },
+                                worksheet: {
+                                    worksheetId: 'worksheetId',
+                                    worksheetName: 'GTM',
+                                },
+                            },
+                        },
+                    },
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    ConvAssist__sendMessage: {
+                        responses: [
+                            {
+                                msgId: 'msgId',
+                                data: {
+                                    asstRespData: {
+                                        tool: 'TS_NLS',
+                                        asstRespText: '',
+                                        nlsAnsData: {
+                                            sageQuerySuggestions: [
+                                                {
+                                                    llmReasoning: {
+                                                        assumptions: '',
+                                                        clarifications: '',
+                                                        interpretation: '',
+                                                        __typename: 'eureka_SageQuerySuggestion_LLMReasoning',
+                                                    },
+                                                    tokens: [],
+                                                    tmlTokens: [],
+                                                    worksheetId: 'worksheetId',
+                                                    description: '',
+                                                    title: '',
+                                                    cached: false,
+                                                    sqlQuery: '',
+                                                    sessionId: 'sessionId',
+                                                    genNo: 2,
+                                                    formulaInfo: [],
+                                                    tmlPhrases: [],
+                                                    stateKey: {
+                                                        transactionId: 'transactionId',
+                                                        generationNumber: 1,
+                                                        __typename: 'sage_auto_complete_v2_ACStateKey',
+                                                    },
+                                                    __typename: 'eureka_SageQuerySuggestion',
+                                                },
+                                            ],
+                                            responseType: 'ANSWER',
+                                            __typename: 'convassist_nls_tool_NLSToolAsstRespData',
+                                        },
+                                        __typename: 'convassist_AsstResponseData',
+                                    },
+                                    __typename: 'convassist_MessageData',
+                                },
+                                type: 'ASST_RESPONSE',
+                                __typename: 'convassist_MessagePayload',
+                            },
+                        ],
+                        __typename: 'convassist_SendMessageResponse',
+                    },
+                },
+            }),
+        );
+
+        const viewConfig: SpotterAgentEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            disabledActions: [Action.Download, Action.Save],
+            disabledActionReason: 'Upgrade to Pro!',
+        };
+
+        const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterAgentEmbed.sendMessage('userMessage');
+
+        const iframeSrc = getIFrameSrc(result.container);
+        expect(iframeSrc).toContain('disableAction');
+        expect(iframeSrc).toContain('disableHint');
+    });
+
     test('should have sendMessageData method', () => {
         const viewConfig: SpotterAgentEmbedViewConfig = {
             worksheetId: 'worksheetId',
