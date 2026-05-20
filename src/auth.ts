@@ -284,6 +284,25 @@ async function isLoggedIn(thoughtSpotHost: string): Promise<boolean> {
 }
 
 /**
+ * Detect whether the cluster has IAMv2 (Okta) enabled.
+ *
+ * On IAMv2 clusters Callosum sets JSESSIONID on the cluster domain after OIDC
+ * callback, but browsers commonly block it from being sent on cross-origin
+ * requests from the parent app (third-party cookie blocking, nested iframes).
+ * `/callosum/v1/session/isactive` therefore returns 401 and is unusable for
+ * detecting a logged-in state — we use `config.oktaEnabled` from
+ * `/prism/preauth/info` as the IAMv2 signal instead.
+ */
+async function isIAMv2Enabled(): Promise<boolean> {
+    try {
+        const preauth = await getPreauthInfo();
+        return Boolean(preauth?.config?.oktaEnabled);
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
  * Services to be called after the login is successful,
  * This should be called after the cookie is set for cookie auth or
  * after the token is set for cookieless.
@@ -487,6 +506,36 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
  */
 const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise<void> => {
     const { thoughtSpotHost } = embedConfig;
+    // On IAMv2 (Okta) clusters, the cookie-based isLoggedIn() probe returns
+    // 401 from cross-origin parent apps under third-party cookie blocking,
+    // so it cannot be used to detect auth state. Detect Okta upfront and
+    // branch around it.
+    const iamV2 = await isIAMv2Enabled();
+
+    if (iamV2) {
+        // After Okta redirects back to the parent app, the SSO marker is the
+        // authoritative signal that the IdP completed authentication. The
+        // embed iframe re-establishes the in-iframe session on load.
+        if (isAtSSORedirectUrl()) {
+            removeSSORedirectUrlMarker();
+            loggedInStatus = true;
+            return;
+        }
+        // First-load on IAMv2: skip the broken cookie probe, redirect to Okta.
+        const iamV2SsoURL = `${thoughtSpotHost}${ssoEndPoint}`;
+        if (embedConfig.inPopup) {
+            await samlPopupFlow(
+                iamV2SsoURL,
+                embedConfig.authTriggerContainer,
+                embedConfig.authTriggerText,
+            );
+            loggedInStatus = Boolean(getCacheAuthToken());
+            return;
+        }
+        window.location.href = iamV2SsoURL;
+        return;
+    }
+
     const loggedIn = await isLoggedIn(thoughtSpotHost);
     if (loggedIn) {
         if (isAtSSORedirectUrl()) {

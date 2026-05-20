@@ -539,6 +539,119 @@ describe('Unit test for auth', () => {
         });
     });
 
+    describe('doSSOAuth on IAMv2 (Okta) clusters', () => {
+        afterEach(() => {
+            SessionService.resetCachedPreauthInfo();
+            delete global.window;
+            global.window = Object.create(originalWindow);
+            global.window.open = jest.fn();
+            global.fetch = window.fetch;
+        });
+
+        it('SAMLRedirect: after Okta redirect, treats SSO marker as successful auth (no isactive call)', async () => {
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                },
+            });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockResolvedValue({
+                config: { oktaEnabled: true },
+            } as any);
+            const isActiveSpy = jest.spyOn(tokenAuthService, 'isActiveService');
+
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
+
+            expect(window.location.hash).toBe('');
+            expect(authInstance.loggedInStatus).toBe(true);
+            // The whole point of the fix: never call the cookie probe on IAMv2.
+            expect(isActiveSpy).not.toHaveBeenCalled();
+        });
+
+        it('SAMLRedirect: first load redirects to SSO endpoint without calling isactive', async () => {
+            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockResolvedValue({
+                config: { oktaEnabled: true },
+            } as any);
+            const isActiveSpy = jest.spyOn(tokenAuthService, 'isActiveService');
+
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
+
+            expect(global.window.location.href).toBe(samalLoginUrl);
+            expect(isActiveSpy).not.toHaveBeenCalled();
+        });
+
+        it('OIDCRedirect: after Okta redirect, treats SSO marker as successful auth', async () => {
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                },
+            });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockResolvedValue({
+                config: { oktaEnabled: true },
+            } as any);
+            const isActiveSpy = jest.spyOn(tokenAuthService, 'isActiveService');
+
+            await authInstance.doOIDCAuth(embedConfig.doOidcAuth);
+
+            expect(window.location.hash).toBe('');
+            expect(authInstance.loggedInStatus).toBe(true);
+            expect(isActiveSpy).not.toHaveBeenCalled();
+        });
+
+        it('preserves IAMv1 behavior when oktaEnabled is false', async () => {
+            Object.defineProperty(window, 'location', {
+                value: {
+                    href: `asd.com#?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                    hash: `?tsSSOMarker=${authInstance.SSO_REDIRECTION_MARKER_GUID}`,
+                },
+            });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockResolvedValue({
+                config: { oktaEnabled: false },
+            } as any);
+            // IAMv1 path: cookie probe is the authoritative session check.
+            const isActiveSpy = jest
+                .spyOn(tokenAuthService, 'isActiveService')
+                .mockResolvedValue(false);
+
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
+
+            expect(window.location.hash).toBe('');
+            expect(authInstance.loggedInStatus).toBe(false);
+            expect(isActiveSpy).toHaveBeenCalled();
+        });
+
+        it('falls back to IAMv1 behavior when getPreauthInfo fails', async () => {
+            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockRejectedValue(new Error('boom'));
+            jest.spyOn(tokenAuthService, 'isActiveService').mockResolvedValue(false);
+
+            await authInstance.doSamlAuth(embedConfig.doSamlAuth);
+
+            // Fell through to the IAMv1 redirect branch.
+            expect(global.window.location.href).toBe(samalLoginUrl);
+        });
+
+        it('SAMLRedirect with inPopup: runs popup flow and sets loggedInStatus from cachedAuthToken (no isactive call)', async () => {
+            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
+            jest.spyOn(SessionService, 'getPreauthInfo').mockResolvedValue({
+                config: { oktaEnabled: true },
+            } as any);
+            const isActiveSpy = jest.spyOn(tokenAuthService, 'isActiveService');
+            // Pre-resolve so samlPopupFlow returns immediately.
+            (authInstance as any).samlCompletionPromise = Promise.resolve();
+            global.window.open = jest.fn();
+            checkReleaseVersionInBetaInstance.storeValueInWindow('cachedAuthToken', 'iamv2-popup-token');
+
+            await authInstance.doSamlAuth({ ...embedConfig.doSamlAuthNoRedirect });
+
+            expect(authInstance.loggedInStatus).toBe(true);
+            // Critical IAMv2 invariant: the cookie probe is never called.
+            expect(isActiveSpy).not.toHaveBeenCalled();
+        });
+    });
+
     it('authenticate: when authType is SSO', async () => {
         jest.spyOn(authInstance, 'doSamlAuth');
         await authInstance.authenticate(embedConfig.SSOAuth);

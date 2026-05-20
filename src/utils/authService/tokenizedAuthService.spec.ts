@@ -80,14 +80,18 @@ describe('fetchPreauthInfoService', () => {
     it('fetchPreauthInfoService if fetch fails', async () => {
         const mockFetch = jest.spyOn(tokenizedFetchModule, 'tokenizedFetch');
 
-        // Mock for fetchPreauthInfoService
-        mockFetch.mockResolvedValueOnce({
+        // Mock for fetchPreauthInfoService — include clone() so the failure
+        // logger can read body via r.clone().text() without consuming the
+        // original Response's body stream.
+        const mockResponse: any = {
             ok: false,
             status: 500,
             statusText: 'Internal Server Error',
             json: jest.fn().mockResolvedValue({}),
             text: jest.fn().mockResolvedValue('Internal Server Error'),
-        } as any);
+        };
+        mockResponse.clone = jest.fn().mockReturnValue(mockResponse);
+        mockFetch.mockResolvedValueOnce(mockResponse);
 
         try {
             await fetchPreauthInfoService(thoughtspotHost);
@@ -96,5 +100,32 @@ describe('fetchPreauthInfoService', () => {
         }
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(mockFetch).toHaveBeenCalledWith(`${thoughtspotHost}${EndPoints.PREAUTH_INFO}`, {});
+    });
+
+    it('failure logging reads body from a clone, leaving the original intact for the caller', async () => {
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
+        const mockFetch = jest.spyOn(tokenizedFetchModule, 'tokenizedFetch');
+        const originalJson = jest.fn().mockResolvedValue({ config: { oktaEnabled: true } });
+        const cloneText = jest.fn().mockResolvedValue('{"config":{"oktaEnabled":true}}');
+        const cloneResponse: any = { text: cloneText };
+        const mockResponse: any = {
+            ok: false,
+            status: 401,
+            statusText: 'Unauthorized',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            json: originalJson,
+            clone: jest.fn().mockReturnValue(cloneResponse),
+        };
+        mockFetch.mockResolvedValueOnce(mockResponse);
+
+        const result = await fetchPreauthInfoService(thoughtspotHost);
+
+        // Failure logger consumed the clone's body, not the original's.
+        expect(mockResponse.clone).toHaveBeenCalled();
+        expect(cloneText).toHaveBeenCalled();
+        // Original Response body remains parseable by the caller.
+        const body = await result.json();
+        expect(body).toEqual({ config: { oktaEnabled: true } });
+        expect(originalJson).toHaveBeenCalled();
     });
 });
