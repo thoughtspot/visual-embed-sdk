@@ -771,6 +771,7 @@ export class TsEmbed {
             insertInToSlide,
             disableRedirectionLinksInNewTab,
             overrideOrgId,
+            overrideHistoryState,
             exposeTranslationIDs,
             primaryAction,
         } = this.viewConfig;
@@ -868,6 +869,9 @@ export class TsEmbed {
         }
         if (overrideOrgId !== undefined) {
             queryParams[Param.OverrideOrgId] = overrideOrgId;
+        }
+        if (overrideHistoryState !== undefined) {
+            queryParams[Param.OverrideHistoryState] = overrideHistoryState;
         }
 
         if (this.isPreAuthCacheEnabled()) {

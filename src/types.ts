@@ -1219,6 +1219,26 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     overrideOrgId?: number;
     /**
+     * Overrides the browser history behavior for embedding application users.
+     * This parameter changes standard history navigation (`pushState`) into a 
+     * state replacement (`replaceState`), preventing users from getting trapped in 
+     * back-button loops inside the embedded iframe environment.
+     * The `overrideHistoryState` setting is honoured only if the
+     * application is running within an embedded context.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     * ... // other embed view config
+     * overrideHistoryState: true,
+     * });
+     * ```
+     */
+    overrideHistoryState?: boolean;
+    /**
      * Flag to override the *Open Link in New Tab* context
      * menu option.
      *
@@ -6190,6 +6210,7 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
+    OverrideHistoryState = 'overrideHistoryState',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
