@@ -1220,10 +1220,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     overrideOrgId?: number;
     /**
      * Overrides the browser history behavior for embedding application users.
-     * This parameter changes standard history navigation (`pushState`) into a 
-     * state replacement (`replaceState`), preventing users from getting trapped in 
+     * This parameter changes standard history navigation (pushState) into a
+     * state replacement (replaceState), preventing users from getting trapped in
      * back-button loops inside the embedded iframe environment.
-     * The `overrideHistoryState` setting is honoured only if the
+     * The overrideHistoryState setting is honored only if the
      * application is running within an embedded context.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
@@ -1232,8 +1232,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
-     * ... // other embed view config
-     * overrideHistoryState: true,
+     *     // ... other embed view config
+     *     overrideHistoryState: true,
      * });
      * ```
      */
