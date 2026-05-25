@@ -920,7 +920,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardTitle = true,
             showLiveboardDescription = true,
             showMaskedFilterChip = false,
-            isLiveboardMasterpiecesEnabled = false,
+            isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
@@ -931,16 +931,16 @@ export class AppEmbed extends V1Embed {
             enableCustomColumnGroups = false,
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
-            isLiveboardCompactHeaderEnabled = false,
+            isLiveboardCompactHeaderEnabled,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
-            hideIrrelevantChipsInLiveboardTabs = false,
-            isEnhancedFilterInteractivityEnabled = false,
+            hideIrrelevantChipsInLiveboardTabs,
+            isEnhancedFilterInteractivityEnabled,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
-            coverAndFilterOptionInPDF = false,
+            coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled = false,
@@ -966,21 +966,32 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
-        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        if (!isUndefined(isLiveboardMasterpiecesEnabled)) {
+            params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        }
         if (newChartsLibrary !== undefined) {
             params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
-        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
+        if (!isUndefined(isLiveboardCompactHeaderEnabled)) {
+            params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        }
+        if (!isUndefined(isEnhancedFilterInteractivityEnabled)) {
+            params[Param.IsEnhancedFilterInteractivityEnabled] =
+                isEnhancedFilterInteractivityEnabled;
+        }
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (!isUndefined(hideIrrelevantChipsInLiveboardTabs)) {
+            params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        }
         if (isUnifiedSearchExperienceEnabled !== undefined) {
             params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         }
-        params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        if (!isUndefined(coverAndFilterOptionInPDF)) {
+            params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        }
 
         params = this.getBaseQueryParams(params);
 
