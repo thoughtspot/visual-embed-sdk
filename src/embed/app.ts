@@ -1130,9 +1130,13 @@ export class AppEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
+        if (!this.iFrame?.getBoundingClientRect) {
+            return;
+        }
+
         const data = calculateVisibleElementData(this.iFrame);
         // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
-        if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
+        if (this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight) {
             this.trigger(HostEvent.VisibleEmbedCoordinates, data);
         }
     }
@@ -1145,6 +1149,11 @@ export class AppEmbed extends V1Embed {
      */
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
+
+        if (!this.iFrame?.getBoundingClientRect) {
+            return;
+        }
+
         const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
@@ -1304,7 +1313,7 @@ export class AppEmbed extends V1Embed {
     private unregisterLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
         }
     }
 

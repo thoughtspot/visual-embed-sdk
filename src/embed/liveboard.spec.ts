@@ -1850,9 +1850,31 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
 
             removeEventListenerSpy.mockRestore();
+        });
+
+        test('should skip lazy load data when iframe is unavailable', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
+            } as LiveboardViewConfig);
+
+            const mockTrigger = jest.spyOn(liveboardEmbed, 'trigger');
+
+            await liveboardEmbed.render();
+
+            (liveboardEmbed as any).iFrame = undefined;
+            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).not.toHaveBeenCalledWith(
+                HostEvent.VisibleEmbedCoordinates,
+                expect.anything()
+            );
         });
 
         test('should handle RequestVisibleEmbedCoordinates event and respond with correct data', async () => {
@@ -1896,6 +1918,25 @@ describe('Liveboard/viz embed tests', () => {
                     width: 650,
                 },
             });
+        });
+
+        test('should not respond to RequestVisibleEmbedCoordinates when iframe is unavailable', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            const mockResponder = jest.fn();
+
+            (liveboardEmbed as any).iFrame = undefined;
+            (liveboardEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+
+            expect(mockResponder).not.toHaveBeenCalled();
         });
     });
 
