@@ -1909,9 +1909,30 @@ describe('App embed tests', () => {
             appEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
 
             removeEventListenerSpy.mockRestore();
+        });
+
+        test('should skip lazy load data when iframe is unavailable', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
+            } as AppViewConfig);
+
+            const mockTrigger = jest.spyOn(appEmbed, 'trigger');
+
+            await appEmbed.render();
+
+            (appEmbed as any).iFrame = undefined;
+            (appEmbed as any).sendFullHeightLazyLoadData();
+
+            expect(mockTrigger).not.toHaveBeenCalledWith(
+                HostEvent.VisibleEmbedCoordinates,
+                expect.anything()
+            );
         });
 
         test('should handle RequestVisibleEmbedCoordinates event and respond with correct data', async () => {
@@ -1954,6 +1975,24 @@ describe('App embed tests', () => {
                     width: 650,
                 },
             });
+        });
+
+        test('should not respond to RequestVisibleEmbedCoordinates when iframe is unavailable', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                lazyLoadingMargin: '10px',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            const mockResponder = jest.fn();
+
+            (appEmbed as any).iFrame = undefined;
+            (appEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+
+            expect(mockResponder).not.toHaveBeenCalled();
         });
     });
 
@@ -2140,5 +2179,4 @@ describe('AppEmbed visualOverrides tests', () => {
         await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
-
 
