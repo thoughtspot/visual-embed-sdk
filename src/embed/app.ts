@@ -562,6 +562,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isUnifiedSearchExperienceEnabled?: boolean;
 
     /**
+     * This flag is used to enable the new connection experience for AppEmbed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    newConnectionsExperience: true,
+     * })
+     * ```
+     */
+    newConnectionsExperience?: boolean;
+
+    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
      * @deprecated This flag is deprecated.
      *
@@ -914,6 +930,7 @@ export class AppEmbed extends V1Embed {
             hideApplicationSwitcher,
             hideOrgSwitcher,
             enableSearchAssist,
+            newConnectionsExperience,
             fullHeight,
             dataPanelV2 = true,
             hideLiveboardHeader = false,
@@ -1044,6 +1061,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (newConnectionsExperience !== undefined) {
+            params[Param.EnableConnectionNewExperience] = newConnectionsExperience;
         }
 
         if (enable2ColumnLayout !== undefined) {
