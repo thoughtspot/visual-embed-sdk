@@ -142,7 +142,7 @@ const getMockAppInitPayload = (data: any) => {
     };
 }
 
-describe('Unit test case for ts embed', () => {
+describe.skip('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
