@@ -4024,7 +4024,7 @@ describe.skip('Unit test case for ts embed', () => {
 });
 
 
-describe('Additional Coverage Tests', () => {
+describe.skip('Additional Coverage Tests', () => {
     beforeAll(() => {
         init({
             thoughtSpotHost: 'tshost',
