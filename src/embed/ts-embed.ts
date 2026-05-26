@@ -957,7 +957,7 @@ export class TsEmbed {
                         if (this.isPreAuthCacheEnabled()) {
                             getPreauthInfo().then((data) => {
                                 if (data?.info) {
-                                    this.trigger(HostEvent.InfoSuccess, data);
+                                    this.trigger(HostEvent.InfoSuccess, {});
                                 }
                             });
                         }
