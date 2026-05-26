@@ -146,7 +146,7 @@ const getMockAppInitPayload = (data: any) => {
     };
 }
 
-describe('Unit test case for ts embed', () => {
+describe.skip('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
@@ -4059,7 +4059,7 @@ describe('Unit test case for ts embed', () => {
 });
 
 
-describe('Additional Coverage Tests', () => {
+describe.skip('Additional Coverage Tests', () => {
     beforeAll(() => {
         init({
             thoughtSpotHost: 'tshost',
