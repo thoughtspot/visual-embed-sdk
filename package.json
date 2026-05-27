@@ -9,7 +9,8 @@
         "dist/**",
         "lib/**",
         "src/**",
-        "cjs/**"
+        "cjs/**",
+        "rollup.config.mjs"
     ],
     "exports": {
         ".": {
