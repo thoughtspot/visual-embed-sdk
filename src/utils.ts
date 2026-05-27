@@ -541,6 +541,9 @@ const hasMatchingOverflow = (element: HTMLElement, overflowPattern: RegExp) => {
 
 export const getScrollableAncestors = (element: HTMLElement) => {
     const ancestors: HTMLElement[] = [];
+    if (!element) {
+        return ancestors;
+    }
     let parent = getParentElementAcrossShadowRoot(element);
 
     while (parent && parent !== document.body && parent !== document.documentElement) {
@@ -555,6 +558,9 @@ export const getScrollableAncestors = (element: HTMLElement) => {
 
 export const getClippingAncestors = (element: HTMLElement) => {
     const ancestors: HTMLElement[] = [];
+    if (!element) {
+        return ancestors;
+    }
     let parent = getParentElementAcrossShadowRoot(element);
 
     while (parent && parent !== document.body && parent !== document.documentElement) {
@@ -571,6 +577,14 @@ export const calculateVisibleElementData = (
     element: HTMLElement,
     useClippingAncestors = false,
 ) => {
+     if (!element) {
+        return {
+            top: 0,
+            height: 0,
+            left: 0,
+            width: 0,
+        };
+    }
     const rect = element.getBoundingClientRect();
 
     let clipTop = 0;
