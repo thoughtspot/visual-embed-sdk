@@ -17,6 +17,11 @@
             "require": "./cjs/src/index.js",
             "types": "./lib/src/index.d.ts"
         },
+        "./webpack": {
+            "import": "./lib/src/index.js",
+            "require": "./cjs/src/index.js",
+            "types": "./lib/src/index.d.ts"
+        },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
             "require": "./cjs/src/react/all-types-export.js",
