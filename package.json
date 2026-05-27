@@ -10,7 +10,9 @@
         "lib/**",
         "src/**",
         "cjs/**",
-        "rollup.config.mjs"
+        "*.js",
+        "*.mjs",
+        "tsconfig*.json"
     ],
     "exports": {
         ".": {
