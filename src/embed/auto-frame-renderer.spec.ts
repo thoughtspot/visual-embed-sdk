@@ -296,15 +296,35 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(src).toContain('orgId=42');
         });
 
-        test('linkOverride → linkOverride param in rendered src', async () => {
+        test('linkOverride (V1) auto-upgrades to V2 in rendered src', async () => {
             const src = await captureRenderedSrc({ linkOverride: true });
             expect(src).toContain('linkOverride=true');
+            expect(src).toContain('enableLinkOverridesV2=true');
         });
 
         test('enableLinkOverridesV2 → enableLinkOverridesV2 + linkOverride in rendered src', async () => {
             const src = await captureRenderedSrc({ enableLinkOverridesV2: true });
             expect(src).toContain('enableLinkOverridesV2=true');
             expect(src).toContain('linkOverride=true');
+        });
+
+        test('disableRedirectionLinksInNewTab auto-disables V2 link overrides', async () => {
+            const src = await captureRenderedSrc({
+                enableLinkOverridesV2: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            expect(src).not.toContain('enableLinkOverridesV2=true');
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
+        });
+
+        test('disableRedirectionLinksInNewTab auto-disables V1 link override', async () => {
+            const src = await captureRenderedSrc({
+                linkOverride: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
         });
 
         test('additionalFlags → merged into rendered src', async () => {

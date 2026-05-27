@@ -801,13 +801,10 @@ export class TsEmbed {
         if (locale !== undefined) {
             queryParams[Param.Locale] = locale;
         }
-        // TODO: Once V2 is stable, send both flags when
-        // linkOverride is true (remove the else-if).
-        if (enableLinkOverridesV2) {
+
+        if (!disableRedirectionLinksInNewTab && (enableLinkOverridesV2 || linkOverride)) {
             queryParams[Param.EnableLinkOverridesV2] = true;
             queryParams[Param.LinkOverride] = true;
-        } else if (linkOverride) {
-            queryParams[Param.LinkOverride] = linkOverride;
         }
         if (insertInToSlide) {
             queryParams[Param.ShowInsertToSlide] = insertInToSlide;
