@@ -1314,6 +1314,9 @@ export class AppEmbed extends V1Embed {
     }
 
     private registerLazyLoadEvents() {
+        if (!this.iFrame) {
+            return;
+        }
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             this.unregisterLazyLoadEvents();
             // TODO: Use passive: true, install modernizr to check for passive
