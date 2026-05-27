@@ -79,6 +79,9 @@ describe('fetchPreauthInfoService', () => {
     });
     it('fetchPreauthInfoService if fetch fails', async () => {
         const mockFetch = jest.spyOn(tokenizedFetchModule, 'tokenizedFetch');
+        // Prevent logger.error from reaching console.error (which throws in
+        // test env)
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
 
         // Mock for fetchPreauthInfoService — include clone() so the failure
         // logger can read body via r.clone().text() without consuming the
@@ -93,11 +96,10 @@ describe('fetchPreauthInfoService', () => {
         mockResponse.clone = jest.fn().mockReturnValue(mockResponse);
         mockFetch.mockResolvedValueOnce(mockResponse);
 
-        try {
-            await fetchPreauthInfoService(thoughtspotHost);
-        } catch (e) {
-            expect(e.message).toContain(`Failed to fetch ${thoughtspotHost}${EndPoints.PREAUTH_INFO}`);
-        }
+        const response = await fetchPreauthInfoService(thoughtspotHost);
+        expect(response.ok).toBe(false);
+        expect(response.status).toBe(500);
+        expect(logger.error).toHaveBeenCalled();
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(mockFetch).toHaveBeenCalledWith(`${thoughtspotHost}${EndPoints.PREAUTH_INFO}`, {});
     });
