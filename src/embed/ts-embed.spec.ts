@@ -2406,9 +2406,12 @@ describe('Unit test case for ts embed', () => {
             libEmbed.showPreRender();
             expect(warnSpy).toHaveBeenCalledTimes(1);
 
+            // The ResizeObserver now tracks the placeholder inside this.el,
+            // not this.el itself, so pass it as the target.
+            const preRenderPlaceholder = tsEmbedDiv.firstElementChild as HTMLElement;
             resizeObserverCb([
                 {
-                    target: tsEmbedDiv,
+                    target: preRenderPlaceholder,
                     contentRect: { height: 297, width: 987 },
                 },
             ]);
@@ -2524,7 +2527,6 @@ describe('Unit test case for ts embed', () => {
 
             libEmbed.preRender();
             await waitFor(() => !!getIFrameEl());
-            const warnSpy = jest.spyOn(logger, 'warn');
             const newEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'i-am-preRendered',
                 liveboardId: 'awdawda',
@@ -2532,9 +2534,10 @@ describe('Unit test case for ts embed', () => {
                 frameParams: { height: 90 },
             });
 
-            newEmbed.showPreRender();
+            await newEmbed.showPreRender();
 
-            expect(warnSpy).toHaveBeenCalledTimes(2);
+            // Verify newEmbed successfully connected to the existing preRender
+            expect((newEmbed as any).isPreRenderConnected()).toBe(true);
         });
         it('showPreRender should not preRender if not available', async () => {
             createRootEleForEmbed();
@@ -3209,8 +3212,8 @@ describe('Unit test case for ts embed', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             const loggerSpy = jest.spyOn(logger, 'info');
 
-            // Mock insertedDomEl to have the embed object
-            (searchEmbed as any).insertedDomEl = {
+            // getPreRenderObj reads the embed reference from preRenderWrapper
+            (searchEmbed as any).preRenderWrapper = {
                 [searchEmbed['embedNodeKey']]: searchEmbed,
             };
 
