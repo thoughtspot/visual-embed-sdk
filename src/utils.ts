@@ -518,22 +518,81 @@ export const handleExitPresentMode = async (): Promise<void> => {
     logger.warn('Exit fullscreen API is not supported by this browser.');
 };
 
+const scrollableOverflowPattern = /(auto|scroll|overlay)/;
+const clippingOverflowPattern = /(auto|scroll|overlay|hidden|clip)/;
+
+const getParentElementAcrossShadowRoot = (element: HTMLElement): HTMLElement | null => {
+    if (element.parentElement) {
+        return element.parentElement;
+    }
+
+    const rootNode = element.getRootNode?.();
+    if (typeof ShadowRoot !== 'undefined' && rootNode instanceof ShadowRoot) {
+        return rootNode.host as HTMLElement;
+    }
+
+    return null;
+};
+
+const hasMatchingOverflow = (element: HTMLElement, overflowPattern: RegExp) => {
+    const style = window.getComputedStyle(element);
+    return overflowPattern.test(`${style.overflow}${style.overflowX}${style.overflowY}`);
+};
+
+export const getScrollableAncestors = (element: HTMLElement) => {
+    const ancestors: HTMLElement[] = [];
+    let parent = getParentElementAcrossShadowRoot(element);
+
+    while (parent && parent !== document.body && parent !== document.documentElement) {
+        if (hasMatchingOverflow(parent, scrollableOverflowPattern)) {
+            ancestors.push(parent);
+        }
+        parent = getParentElementAcrossShadowRoot(parent);
+    }
+
+    return ancestors;
+};
+
+export const getClippingAncestors = (element: HTMLElement) => {
+    const ancestors: HTMLElement[] = [];
+    let parent = getParentElementAcrossShadowRoot(element);
+
+    while (parent && parent !== document.body && parent !== document.documentElement) {
+        if (hasMatchingOverflow(parent, clippingOverflowPattern)) {
+            ancestors.push(parent);
+        }
+        parent = getParentElementAcrossShadowRoot(parent);
+    }
+
+    return ancestors;
+};
+
 export const calculateVisibleElementData = (element: HTMLElement) => {
     const rect = element.getBoundingClientRect();
 
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    let clipTop = 0;
+    let clipLeft = 0;
+    let clipBottom = window.innerHeight;
+    let clipRight = window.innerWidth;
 
-    const frameRelativeTop = Math.max(rect.top, 0);
-    const frameRelativeLeft = Math.max(rect.left, 0);
+    getClippingAncestors(element).forEach((ancestor) => {
+        const ancestorRect = ancestor.getBoundingClientRect();
+        clipTop = Math.max(clipTop, ancestorRect.top);
+        clipLeft = Math.max(clipLeft, ancestorRect.left);
+        clipBottom = Math.min(clipBottom, ancestorRect.bottom);
+        clipRight = Math.min(clipRight, ancestorRect.right);
+    });
 
-    const frameRelativeBottom = Math.min(windowHeight, rect.bottom);
-    const frameRelativeRight = Math.min(windowWidth, rect.right);
+    const frameRelativeTop = Math.max(rect.top, clipTop);
+    const frameRelativeLeft = Math.max(rect.left, clipLeft);
+
+    const frameRelativeBottom = Math.min(clipBottom, rect.bottom);
+    const frameRelativeRight = Math.min(clipRight, rect.right);
 
     const data = {
-        top: Math.max(0, rect.top * -1),
+        top: Math.max(0, clipTop - rect.top),
         height: Math.max(0, frameRelativeBottom - frameRelativeTop),
-        left: Math.max(0, rect.left * -1),
+        left: Math.max(0, clipLeft - rect.left),
         width: Math.max(0, frameRelativeRight - frameRelativeLeft),
     };
 

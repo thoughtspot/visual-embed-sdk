@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { calculateVisibleElementData, getClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -826,6 +826,10 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
+    private lazyLoadScrollContainers: HTMLElement[] = [];
+
+    private lazyLoadResizeObserver: ResizeObserver | undefined;
+
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
@@ -1295,16 +1299,37 @@ export class AppEmbed extends V1Embed {
 
     private registerLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            this.unregisterLazyLoadEvents();
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            if (typeof ResizeObserver !== 'undefined') {
+                const resizeTargets = new Set([
+                    this.iFrame.parentElement,
+                    ...getClippingAncestors(this.iFrame),
+                ].filter(Boolean) as HTMLElement[]);
+                this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
+                resizeTargets.forEach((resizeTarget) => {
+                    this.lazyLoadResizeObserver.observe(resizeTarget);
+                });
+            }
         }
     }
 
     private unregisterLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            this.lazyLoadResizeObserver?.disconnect();
+            this.lazyLoadResizeObserver = undefined;
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            this.lazyLoadScrollContainers = [];
         }
     }
 

@@ -18,6 +18,8 @@ import {
     getTypeFromValue,
     arrayIncludesString,
     calculateVisibleElementData,
+    getClippingAncestors,
+    getScrollableAncestors,
     formatTemplate,
     isValidCssMargin,
     resetValueFromWindow,
@@ -716,6 +718,108 @@ describe('calculateVisibleElementData', () => {
             left: 0, // Not clipped from left
             width: 1200, // Full viewport width
         });
+    });
+
+    it('should calculate data clipped by a scrollable parent', () => {
+        const scrollContainer = document.createElement('div');
+        scrollContainer.style.overflow = 'auto';
+        scrollContainer.appendChild(mockElement);
+
+        jest.spyOn(scrollContainer, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 50,
+            bottom: 600,
+            right: 650,
+            width: 600,
+            height: 500,
+        } as DOMRect);
+
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: -100,
+            left: 50,
+            bottom: 900,
+            right: 650,
+            width: 600,
+            height: 1000,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 200,
+            height: 500,
+            left: 0,
+            width: 600,
+        });
+    });
+
+    it('should calculate data clipped by a non-scroll clipping parent', () => {
+        const clippingContainer = document.createElement('div');
+        clippingContainer.style.overflow = 'hidden';
+        clippingContainer.appendChild(mockElement);
+
+        jest.spyOn(clippingContainer, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 100,
+            bottom: 500,
+            right: 500,
+            width: 400,
+            height: 400,
+        } as DOMRect);
+
+        jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
+            top: 50,
+            left: 50,
+            bottom: 700,
+            right: 700,
+            width: 650,
+            height: 650,
+        } as DOMRect);
+
+        const result = calculateVisibleElementData(mockElement);
+
+        expect(result).toEqual({
+            top: 50,
+            height: 400,
+            left: 50,
+            width: 400,
+        });
+    });
+});
+
+describe('getScrollableAncestors', () => {
+    it('should find scrollable ancestors inside a shadow root', () => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+
+        const shadow = host.attachShadow({ mode: 'open' });
+        const scrollContainer = document.createElement('div');
+        scrollContainer.style.overflow = 'auto';
+        const embedTarget = document.createElement('div');
+        const iframe = document.createElement('iframe');
+
+        shadow.appendChild(scrollContainer);
+        scrollContainer.appendChild(embedTarget);
+        embedTarget.appendChild(iframe);
+
+        expect(getScrollableAncestors(iframe)).toEqual([scrollContainer]);
+
+        host.remove();
+    });
+});
+
+describe('getClippingAncestors', () => {
+    it('should include scrollable and non-scroll clipping ancestors', () => {
+        const scrollContainer = document.createElement('div');
+        scrollContainer.style.overflow = 'auto';
+        const clippingContainer = document.createElement('div');
+        clippingContainer.style.overflow = 'hidden';
+        const iframe = document.createElement('iframe');
+
+        scrollContainer.appendChild(clippingContainer);
+        clippingContainer.appendChild(iframe);
+
+        expect(getClippingAncestors(iframe)).toEqual([clippingContainer, scrollContainer]);
     });
 });
 

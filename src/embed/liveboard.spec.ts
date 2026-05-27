@@ -1835,6 +1835,36 @@ describe('Liveboard/viz embed tests', () => {
             addEventListenerSpy.mockRestore();
         });
 
+        test('should listen to scroll and resize changes from scrollable iframe ancestors', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerAddEventListenerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerAddEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            liveboardEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+        });
+
         test('should remove window event listeners on destroy when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
 
@@ -1850,7 +1880,7 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
 
             removeEventListenerSpy.mockRestore();
         });
