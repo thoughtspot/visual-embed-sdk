@@ -454,6 +454,16 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     lazyLoadingForFullHeight?: boolean;
     /**
+     * This flag is used to enable container-aware full height lazy loading.
+     *
+     * Use this when the embed is rendered inside a scrollable or clipping
+     * container instead of relying on the browser window as the only viewport.
+     *
+     * @type {boolean}
+     * @default false
+     */
+    enableContainerAwareLazyLoadingForFullHeight?: boolean;
+    /**
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
@@ -829,7 +839,10 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
-        const data = calculateVisibleElementData(this.iFrame);
+        const data = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableContainerAwareLazyLoadingForFullHeight,
+        );
         // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
         if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
             this.trigger(HostEvent.VisibleEmbedCoordinates, data);
@@ -844,7 +857,10 @@ export class LiveboardEmbed extends V1Embed {
      */
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
-        const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
+        const visibleCoordinatesData = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableContainerAwareLazyLoadingForFullHeight,
+        );
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
@@ -1032,6 +1048,9 @@ export class LiveboardEmbed extends V1Embed {
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            if (!this.viewConfig.enableContainerAwareLazyLoadingForFullHeight) {
+                return;
+            }
             this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
             this.lazyLoadScrollContainers.forEach((scrollContainer) => {
                 scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);

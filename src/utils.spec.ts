@@ -521,7 +521,7 @@ describe('calculateVisibleElementData', () => {
             height: 200,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 0, // Not clipped from top
@@ -542,7 +542,7 @@ describe('calculateVisibleElementData', () => {
             height: 200,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 50, // Clipped 50px from top
@@ -563,7 +563,7 @@ describe('calculateVisibleElementData', () => {
             height: 200,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 0, // Not clipped from top
@@ -584,7 +584,7 @@ describe('calculateVisibleElementData', () => {
             height: 350,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 0, // Not clipped from top
@@ -743,7 +743,7 @@ describe('calculateVisibleElementData', () => {
             height: 1000,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 200,
@@ -776,7 +776,7 @@ describe('calculateVisibleElementData', () => {
             height: 650,
         } as DOMRect);
 
-        const result = calculateVisibleElementData(mockElement);
+        const result = calculateVisibleElementData(mockElement, true);
 
         expect(result).toEqual({
             top: 50,

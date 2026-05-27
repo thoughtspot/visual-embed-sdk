@@ -567,7 +567,10 @@ export const getClippingAncestors = (element: HTMLElement) => {
     return ancestors;
 };
 
-export const calculateVisibleElementData = (element: HTMLElement) => {
+export const calculateVisibleElementData = (
+    element: HTMLElement,
+    useClippingAncestors = false,
+) => {
     const rect = element.getBoundingClientRect();
 
     let clipTop = 0;
@@ -575,13 +578,15 @@ export const calculateVisibleElementData = (element: HTMLElement) => {
     let clipBottom = window.innerHeight;
     let clipRight = window.innerWidth;
 
-    getClippingAncestors(element).forEach((ancestor) => {
-        const ancestorRect = ancestor.getBoundingClientRect();
-        clipTop = Math.max(clipTop, ancestorRect.top);
-        clipLeft = Math.max(clipLeft, ancestorRect.left);
-        clipBottom = Math.min(clipBottom, ancestorRect.bottom);
-        clipRight = Math.min(clipRight, ancestorRect.right);
-    });
+    if (useClippingAncestors) {
+        getClippingAncestors(element).forEach((ancestor) => {
+            const ancestorRect = ancestor.getBoundingClientRect();
+            clipTop = Math.max(clipTop, ancestorRect.top);
+            clipLeft = Math.max(clipLeft, ancestorRect.left);
+            clipBottom = Math.min(clipBottom, ancestorRect.bottom);
+            clipRight = Math.min(clipRight, ancestorRect.right);
+        });
+    }
 
     const frameRelativeTop = Math.max(rect.top, clipTop);
     const frameRelativeLeft = Math.max(rect.left, clipLeft);
