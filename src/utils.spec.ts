@@ -19,6 +19,7 @@ import {
     arrayIncludesString,
     calculateVisibleElementData,
     getClippingAncestors,
+    getEffectiveClippingAncestors,
     getScrollableAncestors,
     formatTemplate,
     isValidCssMargin,
@@ -820,6 +821,62 @@ describe('getClippingAncestors', () => {
         clippingContainer.appendChild(iframe);
 
         expect(getClippingAncestors(iframe)).toEqual([clippingContainer, scrollContainer]);
+    });
+});
+
+describe('getEffectiveClippingAncestors', () => {
+    it('should ignore overflow ancestors that do not clip the element', () => {
+        const clippingContainer = document.createElement('div');
+        clippingContainer.style.overflow = 'hidden';
+        const iframe = document.createElement('iframe');
+
+        clippingContainer.appendChild(iframe);
+
+        jest.spyOn(clippingContainer, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 100,
+            bottom: 700,
+            right: 700,
+            width: 600,
+            height: 600,
+        } as DOMRect);
+        jest.spyOn(iframe, 'getBoundingClientRect').mockReturnValue({
+            top: 200,
+            left: 200,
+            bottom: 400,
+            right: 400,
+            width: 200,
+            height: 200,
+        } as DOMRect);
+
+        expect(getEffectiveClippingAncestors(iframe)).toEqual([]);
+    });
+
+    it('should include overflow ancestors that clip the element', () => {
+        const clippingContainer = document.createElement('div');
+        clippingContainer.style.overflow = 'hidden';
+        const iframe = document.createElement('iframe');
+
+        clippingContainer.appendChild(iframe);
+
+        jest.spyOn(clippingContainer, 'getBoundingClientRect').mockReturnValue({
+            top: 100,
+            left: 100,
+            bottom: 500,
+            right: 500,
+            width: 400,
+            height: 400,
+        } as DOMRect);
+        jest.spyOn(iframe, 'getBoundingClientRect').mockReturnValue({
+            top: 50,
+            left: 50,
+            bottom: 700,
+            right: 700,
+            width: 650,
+            height: 650,
+        } as DOMRect);
+
+        expect(getEffectiveClippingAncestors(iframe)).toEqual([clippingContainer]);
     });
 });
 

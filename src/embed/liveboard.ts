@@ -24,7 +24,7 @@ import {
     EmbedErrorCodes,
     ContextType,
 } from '../types';
-import { calculateVisibleElementData, getClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -1043,6 +1043,9 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private registerLazyLoadEvents() {
+        if(!this.iFrame) {
+            return;
+        }
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             this.unregisterLazyLoadEvents();
             // TODO: Use passive: true, install modernizr to check for passive
@@ -1058,7 +1061,7 @@ export class LiveboardEmbed extends V1Embed {
             if (typeof ResizeObserver !== 'undefined') {
                 const resizeTargets = new Set([
                     this.iFrame.parentElement,
-                    ...getClippingAncestors(this.iFrame),
+                    ...getEffectiveClippingAncestors(this.iFrame),
                 ].filter(Boolean) as HTMLElement[]);
                 this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
                 resizeTargets.forEach((resizeTarget) => {

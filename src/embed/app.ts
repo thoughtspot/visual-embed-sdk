@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -1332,7 +1332,7 @@ export class AppEmbed extends V1Embed {
             if (typeof ResizeObserver !== 'undefined') {
                 const resizeTargets = new Set([
                     this.iFrame.parentElement,
-                    ...getClippingAncestors(this.iFrame),
+                    ...getEffectiveClippingAncestors(this.iFrame),
                 ].filter(Boolean) as HTMLElement[]);
                 this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
                 resizeTargets.forEach((resizeTarget) => {

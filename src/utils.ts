@@ -536,7 +536,7 @@ const getParentElementAcrossShadowRoot = (element: HTMLElement): HTMLElement | n
 
 const hasMatchingOverflow = (element: HTMLElement, overflowPattern: RegExp) => {
     const style = window.getComputedStyle(element);
-    return overflowPattern.test(`${style.overflow}${style.overflowX}${style.overflowY}`);
+    return style ? overflowPattern.test(style.overflow + style.overflowX + style.overflowY) : false;
 };
 
 export const getScrollableAncestors = (element: HTMLElement) => {
@@ -573,6 +573,47 @@ export const getClippingAncestors = (element: HTMLElement) => {
     return ancestors;
 };
 
+const getIntersectedRect = (
+    rect: Pick<DOMRect, 'top' | 'left' | 'bottom' | 'right'>,
+    clipRect: Pick<DOMRect, 'top' | 'left' | 'bottom' | 'right'>,
+) => ({
+    top: Math.max(rect.top, clipRect.top),
+    left: Math.max(rect.left, clipRect.left),
+    bottom: Math.min(rect.bottom, clipRect.bottom),
+    right: Math.min(rect.right, clipRect.right),
+});
+
+const isSameVisibleRect = (
+    rectA: ReturnType<typeof getIntersectedRect>,
+    rectB: ReturnType<typeof getIntersectedRect>,
+) => rectA.top === rectB.top
+    && rectA.left === rectB.left
+    && rectA.bottom === rectB.bottom
+    && rectA.right === rectB.right;
+
+export const getEffectiveClippingAncestors = (element: HTMLElement) => {
+    if (!element) {
+        return [];
+    }
+
+    const elementRect = element.getBoundingClientRect();
+    let clipRect = {
+        top: 0,
+        left: 0,
+        bottom: window.innerHeight,
+        right: window.innerWidth,
+    };
+
+    return getClippingAncestors(element).filter((ancestor) => {
+        const currentVisibleRect = getIntersectedRect(elementRect, clipRect);
+        const nextClipRect = getIntersectedRect(clipRect, ancestor.getBoundingClientRect());
+        const nextVisibleRect = getIntersectedRect(elementRect, nextClipRect);
+        const clipsElement = !isSameVisibleRect(currentVisibleRect, nextVisibleRect);
+        clipRect = nextClipRect;
+        return clipsElement;
+    });
+};
+
 export const calculateVisibleElementData = (
     element: HTMLElement,
     useClippingAncestors = false,
@@ -593,7 +634,7 @@ export const calculateVisibleElementData = (
     let clipRight = window.innerWidth;
 
     if (useClippingAncestors) {
-        getClippingAncestors(element).forEach((ancestor) => {
+        getEffectiveClippingAncestors(element).forEach((ancestor) => {
             const ancestorRect = ancestor.getBoundingClientRect();
             clipTop = Math.max(clipTop, ancestorRect.top);
             clipLeft = Math.max(clipLeft, ancestorRect.left);
