@@ -1,0 +1,45 @@
+export declare const ERROR_MESSAGE: {
+    INVALID_THOUGHTSPOT_HOST: string;
+    SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: string;
+    LIVEBOARD_VIZ_ID_VALIDATION: string;
+    TRIGGER_TIMED_OUT: string;
+    SEARCHEMBED_BETA_WRANING_MESSAGE: string;
+    THIRD_PARTY_COOKIE_BLOCKED_ALERT: string;
+    DUPLICATE_TOKEN_ERR: string;
+    SDK_NOT_INITIALIZED: string;
+    SESSION_INFO_FAILED: string;
+    INVALID_TOKEN_ERROR: string;
+    INVALID_TOKEN_TYPE_ERROR: string;
+    MIXPANEL_TOKEN_NOT_FOUND: string;
+    PRERENDER_ID_MISSING: string;
+    SYNC_STYLE_CALLED_BEFORE_RENDER: string;
+    CSP_VIOLATION_ALERT: string;
+    CSP_FRAME_HOST_VIOLATION_LOG_MESSAGE: string;
+    MISSING_REPORTING_OBSERVER: string;
+    RENDER_CALLED_BEFORE_INIT: string;
+    SPOTTER_AGENT_NOT_INITIALIZED: string;
+    OFFLINE_WARNING: string;
+    INIT_SDK_REQUIRED: string;
+    CONFLICTING_ACTIONS_CONFIG: string;
+    CONFLICTING_TABS_CONFIG: string;
+    RENDER_BEFORE_EVENTS_REQUIRED: string;
+    HOST_EVENT_TYPE_UNDEFINED: string;
+    LOGIN_FAILED: string;
+    ERROR_PARSING_API_INTERCEPT_BODY: string;
+    SSR_ENVIRONMENT_ERROR: string;
+    UPDATE_PARAMS_FAILED: string;
+    INVALID_SPOTTER_DOCUMENTATION_URL: string;
+    UPDATEFILTERS_INVALID_PAYLOAD: string;
+    DRILLDOWN_INVALID_PAYLOAD: string;
+};
+export declare const CUSTOM_ACTIONS_ERROR_MESSAGE: {
+    INVALID_ACTION_OBJECT: string;
+    MISSING_REQUIRED_FIELDS: (id: string, missingFields: string[]) => string;
+    UNSUPPORTED_TARGET: (id: string, targetType: string) => string;
+    INVALID_POSITION: (position: string, targetType: string, supportedPositions: string) => string;
+    INVALID_METADATA_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => string;
+    INVALID_DATA_MODEL_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => string;
+    INVALID_FIELDS: (targetType: string, invalidFields: string[], supportedFields: string) => string;
+    DUPLICATE_IDS: (id: string, duplicateNames: string[], keptName: string) => string;
+};
+//# sourceMappingURL=errors.d.ts.map
