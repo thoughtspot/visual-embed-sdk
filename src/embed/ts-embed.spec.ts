@@ -133,9 +133,9 @@ const getMockAppInitPayload = (data: any) => {
         customVariablesForThirdPartyTools,
         interceptTimeout: undefined,
         interceptUrls: [],
-        shouldBypassPayloadValidation:undefined,
-        useHostEventsV2:undefined,
-        embedExpiryInAuthToken:true
+        shouldBypassPayloadValidation: undefined,
+        useHostEventsV2: undefined,
+        embedExpiryInAuthToken: true,
     };
     return {
         type: EmbedEvent.APP_INIT,
@@ -144,7 +144,7 @@ const getMockAppInitPayload = (data: any) => {
             ...data,
         },
     };
-}
+};
 
 describe('Unit test case for ts embed', () => {
     const mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
@@ -223,9 +223,7 @@ describe('Unit test case for ts embed', () => {
             liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
-                await liveboardEmbed.trigger(
-                    HostEvent.Save,
-                );
+                await liveboardEmbed.trigger(HostEvent.Save);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
                     getIFrameEl(),
                     HostEvent.Save,
@@ -244,10 +242,7 @@ describe('Unit test case for ts embed', () => {
             liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
-                await liveboardEmbed.trigger(
-                    HostEvent.Save,
-                    false,
-                );
+                await liveboardEmbed.trigger(HostEvent.Save, false);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
                     getIFrameEl(),
                     HostEvent.Save,
@@ -398,9 +393,11 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations: customisationsView,
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        customisations: customisationsView,
+                    }),
+                );
             });
         });
 
@@ -427,9 +424,11 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        hiddenHomepageModules: [HomepageModule.MyLibrary, HomepageModule.Learning],
+                    }),
+                );
             });
         });
 
@@ -480,10 +479,14 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    reorderedHomepageModules:
-                        [HomepageModule.MyLibrary, HomepageModule.Watchlist],
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        reorderedHomepageModules: [
+                            HomepageModule.MyLibrary,
+                            HomepageModule.Watchlist,
+                        ],
+                    }),
+                );
             });
         });
 
@@ -513,9 +516,11 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    runtimeParameterParams: 'param1=color&paramVal1=blue',
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        runtimeParameterParams: 'param1=color&paramVal1=blue',
+                    }),
+                );
             });
         });
 
@@ -546,9 +551,11 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        runtimeFilterParams: 'col1=color&op1=EQ&val1=blue',
+                    }),
+                );
             });
         });
 
@@ -638,10 +645,14 @@ describe('Unit test case for ts embed', () => {
             });
 
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    hiddenHomeLeftNavItems:
-                        [HomeLeftNavItem.Home, HomeLeftNavItem.MonitorSubscription],
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        hiddenHomeLeftNavItems: [
+                            HomeLeftNavItem.Home,
+                            HomeLeftNavItem.MonitorSubscription,
+                        ],
+                    }),
+                );
             });
         });
 
@@ -824,10 +835,12 @@ describe('Unit test case for ts embed', () => {
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    authToken: 'test_auth_token1',
-                    customVariablesForThirdPartyTools: {},
-                }));
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        authToken: 'test_auth_token1',
+                        customVariablesForThirdPartyTools: {},
+                    }),
+                );
             });
 
             jest.spyOn(authService, 'verifyTokenService').mockClear();
@@ -878,37 +891,40 @@ describe('Unit test case for ts embed', () => {
 
             await executeAfterWait(() => {
                 const iframe = getIFrameEl();
-                expect(iframe.src).toContain('overrideStringIDsUrl=https://sample-string-ids-url.com');
+                expect(iframe.src).toContain(
+                    'overrideStringIDsUrl=https://sample-string-ids-url.com',
+                );
                 postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
             });
 
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations: {
-                        content: {
-                            strings: {
-                                Liveboard: 'Dashboard',
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        customisations: {
+                            content: {
+                                strings: {
+                                    Liveboard: 'Dashboard',
+                                },
+                                stringIDsUrl: 'https://sample-string-ids-url.com',
+                                stringIDs: {
+                                    'liveboard.header.title': 'Dashboard name',
+                                },
                             },
-                            stringIDsUrl: 'https://sample-string-ids-url.com',
-                            stringIDs: {
-                                'liveboard.header.title': 'Dashboard name',
+                            style: {
+                                customCSS: {},
+                                customCSSUrl: undefined,
                             },
                         },
-                        style: {
-                            customCSS: {},
-                            customCSSUrl: undefined,
-                        },
-                    },
-                    authToken: 'test_auth_token1',
-                    customVariablesForThirdPartyTools: {},
-                }));
-                const customisationContent = mockPort.postMessage.mock.calls[0][0].data.customisations.content;
-                expect(customisationContent.stringIDsUrl)
-                    .toBe('https://sample-string-ids-url.com');
-                expect(customisationContent.stringIDs)
-                    .toEqual({
-                        'liveboard.header.title': 'Dashboard name',
-                    });
+                        authToken: 'test_auth_token1',
+                        customVariablesForThirdPartyTools: {},
+                    }),
+                );
+                const customisationContent =
+                    mockPort.postMessage.mock.calls[0][0].data.customisations.content;
+                expect(customisationContent.stringIDsUrl).toBe('https://sample-string-ids-url.com');
+                expect(customisationContent.stringIDs).toEqual({
+                    'liveboard.header.title': 'Dashboard name',
+                });
             });
         });
 
@@ -917,7 +933,10 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.APP_INIT,
                 data: {},
             };
-            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, exposeTranslationIDs: true });
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                exposeTranslationIDs: true,
+            });
             searchEmbed.render();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -963,16 +982,16 @@ describe('Unit test case for ts embed', () => {
                         name: 'Valid Action',
                         target: CustomActionTarget.LIVEBOARD,
                         position: CustomActionsPosition.PRIMARY,
-                        metadataIds: { liveboardIds: ['lb123'] }
+                        metadataIds: { liveboardIds: ['lb123'] },
                     },
                     {
                         id: 'action2',
                         name: 'Another Valid Action',
                         target: CustomActionTarget.VIZ,
                         position: CustomActionsPosition.MENU,
-                        metadataIds: { vizIds: ['viz456'] }
-                    }
-                ]
+                        metadataIds: { vizIds: ['viz456'] },
+                    },
+                ],
             });
 
             searchEmbed.render();
@@ -986,33 +1005,35 @@ describe('Unit test case for ts embed', () => {
             });
 
             await executeAfterWait(() => {
-                expect(mockPort.postMessage).toHaveBeenCalledWith(getMockAppInitPayload({
-                    customisations: {
-                        content: {},
-                        style: {
-                            customCSS: {},
-                            customCSSUrl: undefined,
+                expect(mockPort.postMessage).toHaveBeenCalledWith(
+                    getMockAppInitPayload({
+                        customisations: {
+                            content: {},
+                            style: {
+                                customCSS: {},
+                                customCSSUrl: undefined,
+                            },
                         },
-                    },
-                    authToken: 'test_auth_token1',
-                    customActions: [
-                        {
-                            id: 'action2',
-                            name: 'Another Valid Action',
-                            target: CustomActionTarget.VIZ,
-                            position: CustomActionsPosition.MENU,
-                            metadataIds: { vizIds: ['viz456'] }
-                        },
-                        {
-                            id: 'action1',
-                            name: 'Valid Action',
-                            target: CustomActionTarget.LIVEBOARD,
-                            position: CustomActionsPosition.PRIMARY,
-                            metadataIds: { liveboardIds: ['lb123'] }
-                        }
-                    ], // Actions should be sorted by name
-                    customVariablesForThirdPartyTools: {},
-                }));
+                        authToken: 'test_auth_token1',
+                        customActions: [
+                            {
+                                id: 'action2',
+                                name: 'Another Valid Action',
+                                target: CustomActionTarget.VIZ,
+                                position: CustomActionsPosition.MENU,
+                                metadataIds: { vizIds: ['viz456'] },
+                            },
+                            {
+                                id: 'action1',
+                                name: 'Valid Action',
+                                target: CustomActionTarget.LIVEBOARD,
+                                position: CustomActionsPosition.PRIMARY,
+                                metadataIds: { liveboardIds: ['lb123'] },
+                            },
+                        ], // Actions should be sorted by name
+                        customVariablesForThirdPartyTools: {},
+                    }),
+                );
 
                 // Verify that CustomActionsValidationResult structure is
                 // correct
@@ -1024,15 +1045,15 @@ describe('Unit test case for ts embed', () => {
                             id: 'action1',
                             name: 'Valid Action',
                             target: CustomActionTarget.LIVEBOARD,
-                            position: CustomActionsPosition.PRIMARY
+                            position: CustomActionsPosition.PRIMARY,
                         }),
                         expect.objectContaining({
                             id: 'action2',
                             name: 'Another Valid Action',
                             target: CustomActionTarget.VIZ,
-                            position: CustomActionsPosition.MENU
-                        })
-                    ])
+                            position: CustomActionsPosition.MENU,
+                        }),
+                    ]),
                 );
 
                 // Verify actions are sorted by name (alphabetically)
@@ -1094,7 +1115,10 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.APP_INIT,
                 data: {},
             };
-            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, preRenderId: 'test' });
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                preRenderId: 'test',
+            });
             searchEmbed.preRender();
             const mockPort: any = {
                 postMessage: jest.fn(),
@@ -1153,7 +1177,10 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.AuthExpire,
                 data: {},
             };
-            const searchEmbed = new SearchEmbed(getRootEl(), { ...defaultViewConfig, preRenderId: 'test' });
+            const searchEmbed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                preRenderId: 'test',
+            });
             jest.spyOn(baseInstance, 'notifyAuthFailure');
             searchEmbed.preRender();
             const loggerSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
@@ -1318,23 +1345,27 @@ describe('Unit test case for ts embed', () => {
             let mockGetPreauthInfo = null;
 
             if (overrideOrgId) {
-                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo').mockImplementation(jest.fn());
+                mockGetPreauthInfo = jest
+                    .spyOn(sessionInfoService, 'getPreauthInfo')
+                    .mockImplementation(jest.fn());
             }
 
-            const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService').mockResolvedValueOnce({
-                ok: true,
-                headers: new Headers({ 'content-type': 'application/json' }), // Mock headers correctly
-                json: async () => ({
-                    info: {
-                        configInfo: {
-                            mixpanelConfig: {
-                                devSdkKey: 'devSdkKey',
+            const mockPreauthInfoFetch = jest
+                .spyOn(authService, 'fetchPreauthInfoService')
+                .mockResolvedValueOnce({
+                    ok: true,
+                    headers: new Headers({ 'content-type': 'application/json' }), // Mock headers correctly
+                    json: async () => ({
+                        info: {
+                            configInfo: {
+                                mixpanelConfig: {
+                                    devSdkKey: 'devSdkKey',
+                                },
                             },
+                            userGUID: 'userGUID',
                         },
-                        userGUID: 'userGUID',
-                    },
-                }), // Mock JSON response
-            });
+                    }), // Mock JSON response
+                });
             const iFrame: any = document.createElement('div');
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(isLoggedIn);
             const tsEmbed = new SearchEmbed(getRootEl(), {
@@ -1360,10 +1391,7 @@ describe('Unit test case for ts embed', () => {
         };
 
         test('should call InfoSuccess Event on preauth call success', async () => {
-            const {
-                mockPreauthInfoFetch,
-                iFrame,
-            } = await setup(true);
+            const { mockPreauthInfoFetch, iFrame } = await setup(true);
             expect(mockPreauthInfoFetch).toHaveBeenCalledTimes(1);
 
             await executeAfterWait(() => {
@@ -1378,9 +1406,7 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('should not call InfoSuccess Event if overrideOrgId is true', async () => {
-            const {
-                mockGetPreauthInfo,
-            } = await setup(true, 123);
+            const { mockGetPreauthInfo } = await setup(true, 123);
             expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
         });
     });
@@ -1405,7 +1431,7 @@ describe('Unit test case for ts embed', () => {
             embedType: 'AppEmbed' | 'SearchEmbed',
             showPrimaryNavbar?: boolean,
             overrideOrgId?: number,
-            disablePreauthCache?: boolean
+            disablePreauthCache?: boolean,
         ) => {
             jest.spyOn(window, 'addEventListener').mockImplementationOnce(
                 (event, handler, options) => {
@@ -1422,18 +1448,23 @@ describe('Unit test case for ts embed', () => {
             let mockGetPreauthInfo = null;
 
             // Determine if preauth cache should be enabled
-            const isAppEmbedWithPrimaryNavbar = embedType === 'AppEmbed' && showPrimaryNavbar === true;
-            const shouldDisableCache = overrideOrgId || disablePreauthCache || isAppEmbedWithPrimaryNavbar;
+            const isAppEmbedWithPrimaryNavbar =
+                embedType === 'AppEmbed' && showPrimaryNavbar === true;
+            const shouldDisableCache =
+                overrideOrgId || disablePreauthCache || isAppEmbedWithPrimaryNavbar;
 
             if (shouldDisableCache) {
-                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo')
+                mockGetPreauthInfo = jest
+                    .spyOn(sessionInfoService, 'getPreauthInfo')
                     .mockImplementation(jest.fn());
             } else {
-                mockGetPreauthInfo = jest.spyOn(sessionInfoService, 'getPreauthInfo')
-                 .mockResolvedValue({ info: { test: 'data' } } as any);
+                mockGetPreauthInfo = jest
+                    .spyOn(sessionInfoService, 'getPreauthInfo')
+                    .mockResolvedValue({ info: { test: 'data' } } as any);
             }
 
-            const mockPreauthInfoFetch = jest.spyOn(authService, 'fetchPreauthInfoService')
+            const mockPreauthInfoFetch = jest
+                .spyOn(authService, 'fetchPreauthInfoService')
                 .mockResolvedValueOnce({
                     ok: true,
                     headers: new Headers({ 'content-type': 'application/json' }),
@@ -1568,7 +1599,12 @@ describe('Unit test case for ts embed', () => {
         });
 
         test('should disable preauth cache for FullAppEmbed with disablePreauthCache = true', async () => {
-            const { mockGetPreauthInfo } = await setupPreauthTest('AppEmbed', false, undefined, true);
+            const { mockGetPreauthInfo } = await setupPreauthTest(
+                'AppEmbed',
+                false,
+                undefined,
+                true,
+            );
 
             await executeAfterWait(() => {
                 expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
@@ -1634,9 +1670,12 @@ describe('Unit test case for ts embed', () => {
 
         test('mixpanel should call with VISUAL_SDK_RENDER_FAILED', () => {
             expect(mockMixPanelEvent).toHaveBeenCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
-            expect(mockMixPanelEvent).toHaveBeenCalledWith(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
-                error: 'false',
-            });
+            expect(mockMixPanelEvent).toHaveBeenCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED,
+                {
+                    error: 'false',
+                },
+            );
         });
     });
 
@@ -2003,8 +2042,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&foo=bar&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -2032,8 +2071,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&foo=bar&foo2=bar2&foo3=false&baz=1&bool=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&foo=bar&foo2=bar2&foo3=false&baz=1&bool=true${defaultParamsPost}#/home`,
             );
         });
 
@@ -2048,8 +2087,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&showAlerts=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&showAlerts=true${defaultParamsPost}#/home`,
             );
         });
         it('Sets the locale param', async () => {
@@ -2063,8 +2102,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&locale=ja-JP${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&locale=ja-JP${defaultParamsPost}#/home`,
             );
         });
         it('Sets both params when enableLinkOverridesV2 is set', async () => {
@@ -2110,8 +2149,8 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}`
-                + `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}` +
+                    `&iconSprite=iconSprite.com${defaultParamsPost}#/home`,
             );
         });
 
@@ -2391,8 +2430,9 @@ describe('Unit test case for ts embed', () => {
             tsEmbedDiv.style.height = '100px';
 
             let resizeObserverCb: any;
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation((resizeObserverCbParam) => {
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation((resizeObserverCbParam) => {
                     resizeObserverCb = resizeObserverCbParam;
                     return {
                         disconnect: jest.fn(),
@@ -2476,8 +2516,9 @@ describe('Unit test case for ts embed', () => {
         it('should set overflow:hidden when hidePreRender and remove when showPreRender', async () => {
             createRootEleForEmbed();
 
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation(() => ({
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
                     observe: jest.fn(),
                     unobserve: jest.fn(),
@@ -2514,8 +2555,9 @@ describe('Unit test case for ts embed', () => {
         it('it should connect with another object', async () => {
             createRootEleForEmbed();
             mockMessageChannel();
-            (window as any).ResizeObserver = window.ResizeObserver
-                || jest.fn().mockImplementation(() => ({
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
                     observe: jest.fn(),
                     unobserve: jest.fn(),
@@ -2714,7 +2756,10 @@ describe('Unit test case for ts embed', () => {
             document.body.innerHTML = getDocumentBody();
         });
         test('Pre-render should wait for init to complete', async () => {
-            const lib = new LiveboardEmbed(getRootEl(), { preRenderId: 'test', liveboardId: 'test' });
+            const lib = new LiveboardEmbed(getRootEl(), {
+                preRenderId: 'test',
+                liveboardId: 'test',
+            });
             lib.preRender();
             await executeAfterWait(() => {
                 expect(errorSpy).toHaveBeenCalledWith(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
@@ -2789,10 +2834,12 @@ describe('Unit test case for ts embed', () => {
             jest.clearAllMocks();
             document.body.innerHTML = getDocumentBody();
             mockPort.postMessage.mockClear();
-            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('mock-test-token-placeholder');
+            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue(
+                'mock-test-token-placeholder',
+            );
 
             jest.spyOn(baseInstance, 'handleAuth').mockImplementation(() => Promise.resolve(true));
-            jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => { });
+            jest.spyOn(baseInstance, 'notifyAuthFailure').mockImplementation(() => {});
         });
 
         const renderAndTriggerAuthExpire = async () => {
@@ -2905,7 +2952,7 @@ describe('Unit test case for ts embed', () => {
 
         afterEach(() => {
             expect(baseInstance.notifyAuthFailure).toHaveBeenCalledWith(
-                authInstance.AuthFailureType.EXPIRY
+                authInstance.AuthFailureType.EXPIRY,
             );
         });
     });
@@ -2918,8 +2965,10 @@ describe('Unit test case for ts embed', () => {
             jest.clearAllMocks();
             document.body.innerHTML = getDocumentBody();
             mockPort.postMessage.mockClear();
-            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue('mock-test-token-placeholder');
-            jest.spyOn(processData, 'processAuthFailure').mockImplementation(() => ({} as any));
+            jest.spyOn(authToken, 'getAuthenticationToken').mockResolvedValue(
+                'mock-test-token-placeholder',
+            );
+            jest.spyOn(processData, 'processAuthFailure').mockImplementation(() => ({}) as any);
             jest.spyOn(logger, 'error').mockImplementation(() => {});
         });
 
@@ -2949,7 +2998,7 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expect(authToken.getAuthenticationToken).toHaveBeenCalledWith(
                     expect.any(Object),
-                    true
+                    true,
                 );
             });
         });
@@ -2966,7 +3015,7 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expect(authToken.getAuthenticationToken).toHaveBeenCalledWith(
                     expect.any(Object),
-                    true
+                    true,
                 );
             });
         });
@@ -3001,17 +3050,19 @@ describe('Unit test case for ts embed', () => {
             await executeAfterWait(() => {
                 expect(authToken.getAuthenticationToken).toHaveBeenCalledWith(
                     expect.any(Object),
-                    true
+                    true,
                 );
                 // Check that logger.error was called with the token refresh
                 // error
                 const errorCalls = (logger.error as jest.Mock).mock.calls.filter(
-                    (call) => call[0]?.includes(ERROR_MESSAGE.INVALID_TOKEN_ERROR) && call[0]?.includes('Token fetch failed')
+                    (call) =>
+                        call[0]?.includes(ERROR_MESSAGE.INVALID_TOKEN_ERROR) &&
+                        call[0]?.includes('Token fetch failed'),
                 );
                 expect(errorCalls.length).toBeGreaterThan(0);
                 expect(processData.processAuthFailure).toHaveBeenCalledWith(
                     error,
-                    expect.any(Element)
+                    expect.any(Element),
                 );
                 expect(mockPort.postMessage).not.toHaveBeenCalled();
             });
@@ -3200,7 +3251,9 @@ describe('Unit test case for ts embed', () => {
                 isEmbedContainerLoaded: true,
             };
 
-            jest.spyOn(searchEmbed as any, 'getPreRenderObj').mockReturnValue(mockPreRenderObj as any);
+            jest.spyOn(searchEmbed as any, 'getPreRenderObj').mockReturnValue(
+                mockPreRenderObj as any,
+            );
 
             const result = searchEmbed['checkEmbedContainerLoaded']();
 
@@ -3276,7 +3329,8 @@ describe('Unit test case for ts embed', () => {
                 const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
                 searchEmbed.isEmbedContainerLoaded = true;
 
-                const triggerSpy = jest.spyOn(searchEmbed, 'trigger')
+                const triggerSpy = jest
+                    .spyOn(searchEmbed, 'trigger')
                     .mockResolvedValue(mockContext);
 
                 const context = await searchEmbed.getCurrentContext();
@@ -3289,7 +3343,8 @@ describe('Unit test case for ts embed', () => {
                 const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
                 searchEmbed.isEmbedContainerLoaded = false;
 
-                const triggerSpy = jest.spyOn(searchEmbed, 'trigger')
+                const triggerSpy = jest
+                    .spyOn(searchEmbed, 'trigger')
                     .mockResolvedValue(mockContext);
 
                 const contextPromise = searchEmbed.getCurrentContext();
@@ -3341,7 +3396,9 @@ describe('Unit test case for ts embed', () => {
         test('should handle handleEmbedContainerLoaded with EmbedListenerReady source', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
 
-            const handler = searchEmbed['createEmbedContainerHandler'](EmbedEvent.EmbedListenerReady);
+            const handler = searchEmbed['createEmbedContainerHandler'](
+                EmbedEvent.EmbedListenerReady,
+            );
 
             expect(searchEmbed.isEmbedContainerLoaded).toBe(false);
 
@@ -3411,7 +3468,7 @@ describe('Unit test case for ts embed', () => {
                 new Error('Auth failed'),
             );
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+            const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
             await searchEmbed.render();
             await executeAfterWait(() => {
                 expect(getRootEl().innerHTML).toContain('Not logged in');
@@ -3533,11 +3590,13 @@ describe('Unit test case for ts embed', () => {
             await appEmbed.render();
 
             jest.spyOn(appEmbed, 'trigger').mockRejectedValue(new Error('trigger failed'));
-            const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+            const removeChildSpy = jest
+                .spyOn(Node.prototype, 'removeChild')
+                .mockImplementation(() => getRootEl());
 
             appEmbed.destroy();
 
-            await new Promise(resolve => setTimeout(resolve, 50));
+            await new Promise((resolve) => setTimeout(resolve, 50));
 
             expect(removeChildSpy).toHaveBeenCalled();
 
@@ -3570,7 +3629,9 @@ describe('Unit test case for ts embed', () => {
                 await appEmbed.render();
 
                 const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+                const removeChildSpy = jest
+                    .spyOn(Node.prototype, 'removeChild')
+                    .mockImplementation(() => getRootEl());
 
                 appEmbed.destroy();
 
@@ -3594,7 +3655,9 @@ describe('Unit test case for ts embed', () => {
                 await appEmbed.render();
 
                 const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockResolvedValue(null);
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+                const removeChildSpy = jest
+                    .spyOn(Node.prototype, 'removeChild')
+                    .mockImplementation(() => getRootEl());
 
                 appEmbed.destroy();
 
@@ -3602,7 +3665,7 @@ describe('Unit test case for ts embed', () => {
                 expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
 
                 // Wait for the timeout to complete
-                await new Promise(resolve => setTimeout(resolve, 1100));
+                await new Promise((resolve) => setTimeout(resolve, 1100));
 
                 expect(removeChildSpy).toHaveBeenCalled();
             });
@@ -3623,15 +3686,19 @@ describe('Unit test case for ts embed', () => {
                 await appEmbed.render();
 
                 // Mock trigger to resolve quickly (before timeout)
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() =>
-                    new Promise(resolve => setTimeout(() => resolve(null), 100))
-                );
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+                const triggerSpy = jest
+                    .spyOn(appEmbed, 'trigger')
+                    .mockImplementation(
+                        () => new Promise((resolve) => setTimeout(() => resolve(null), 100)),
+                    );
+                const removeChildSpy = jest
+                    .spyOn(Node.prototype, 'removeChild')
+                    .mockImplementation(() => getRootEl());
 
                 appEmbed.destroy();
 
                 // Wait for the trigger to complete
-                await new Promise(resolve => setTimeout(resolve, 200));
+                await new Promise((resolve) => setTimeout(resolve, 200));
 
                 expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
                 expect(removeChildSpy).toHaveBeenCalled();
@@ -3653,15 +3720,19 @@ describe('Unit test case for ts embed', () => {
                 await appEmbed.render();
 
                 // Mock trigger to take longer than timeout
-                const triggerSpy = jest.spyOn(appEmbed, 'trigger').mockImplementation(() =>
-                    new Promise(resolve => setTimeout(() => resolve(null), 500))
-                );
-                const removeChildSpy = jest.spyOn(Node.prototype, 'removeChild').mockImplementation(() => getRootEl());
+                const triggerSpy = jest
+                    .spyOn(appEmbed, 'trigger')
+                    .mockImplementation(
+                        () => new Promise((resolve) => setTimeout(() => resolve(null), 500)),
+                    );
+                const removeChildSpy = jest
+                    .spyOn(Node.prototype, 'removeChild')
+                    .mockImplementation(() => getRootEl());
 
                 appEmbed.destroy();
 
                 // Wait for the timeout to complete
-                await new Promise(resolve => setTimeout(resolve, 200));
+                await new Promise((resolve) => setTimeout(resolve, 200));
 
                 expect(triggerSpy).toHaveBeenCalledWith(HostEvent.DestroyEmbed);
                 expect(removeChildSpy).toHaveBeenCalled();
@@ -3693,11 +3764,11 @@ describe('Unit test case for ts embed', () => {
                         body: JSON.stringify({
                             variables: {
                                 session: { sessionId: 'session-123' },
-                                contextBookId: 'viz-456'
-                            }
-                        })
-                    }
-                })
+                                contextBookId: 'viz-456',
+                            },
+                        }),
+                    },
+                }),
             };
 
             const mockPort: any = {
@@ -3734,8 +3805,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -3776,8 +3847,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -3799,7 +3870,7 @@ describe('Unit test case for ts embed', () => {
                 // handleInterceptEvent
                 const result = await capturedGetUnsavedAnswerTml({
                     sessionId: 'session-123',
-                    vizId: 'viz-456'
+                    vizId: 'viz-456',
                 });
 
                 expect(mockProcessTrigger).toHaveBeenCalled();
@@ -3810,8 +3881,8 @@ describe('Unit test case for ts embed', () => {
                     type: 'getUnsavedAnswerTML',
                     parameters: {
                         sessionId: 'session-123',
-                        vizId: 'viz-456'
-                    }
+                        vizId: 'viz-456',
+                    },
                 });
                 expect(result).toEqual(mockTmlResponse);
             });
@@ -3831,8 +3902,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/api/test',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -3861,8 +3932,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -3914,16 +3985,16 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockEventData2 = {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=LoadContextBook',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -3959,8 +4030,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -4000,8 +4071,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=GetChartWithData',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -4018,7 +4089,7 @@ describe('Unit test case for ts embed', () => {
 
                 const result = await capturedGetUnsavedAnswerTml({
                     sessionId: 'session-123',
-                    vizId: 'viz-456'
+                    vizId: 'viz-456',
                 });
 
                 expect(result).toBeUndefined();
@@ -4036,8 +4107,8 @@ describe('Unit test case for ts embed', () => {
                 type: EmbedEvent.ApiIntercept,
                 data: JSON.stringify({
                     input: '/prism/?op=LoadContextBook',
-                    init: {}
-                })
+                    init: {},
+                }),
             };
 
             const mockPort: any = {
@@ -4054,13 +4125,12 @@ describe('Unit test case for ts embed', () => {
                 expect(mockHandleInterceptEvent).toHaveBeenCalledWith(
                     expect.objectContaining({
                         eventData: mockEventData,
-                    })
+                    }),
                 );
             });
         });
     });
 });
-
 
 describe('Additional Coverage Tests', () => {
     beforeAll(() => {
@@ -4166,9 +4236,7 @@ describe('Trigger method edge cases', () => {
     });
 
     test('should return null when trigger is called before iframe is ready', async () => {
-        jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(
-            new Error('Auth failed'),
-        );
+        jest.spyOn(baseInstance, 'getAuthPromise').mockRejectedValueOnce(new Error('Auth failed'));
         const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
         jest.spyOn(logger, 'debug');
         await searchEmbed.render();
@@ -4336,12 +4404,16 @@ describe('Fullscreen change handler behavior', () => {
 });
 
 describe('ShowPreRender with UpdateEmbedParams', () => {
-    const setupPreRenderTest = async (preRenderId: string, initialConfig: Partial<LiveboardViewConfig>) => {
+    const setupPreRenderTest = async (
+        preRenderId: string,
+        initialConfig: Partial<LiveboardViewConfig>,
+    ) => {
         createRootEleForEmbed();
         mockMessageChannel();
 
-        (window as any).ResizeObserver = window.ResizeObserver
-            || jest.fn().mockImplementation(() => ({
+        (window as any).ResizeObserver =
+            window.ResizeObserver ||
+            jest.fn().mockImplementation(() => ({
                 disconnect: jest.fn(),
                 observe: jest.fn(),
                 unobserve: jest.fn(),
@@ -4597,12 +4669,13 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
             embed.on(EmbedEvent.Error, errorHandler);
 
-            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData('nested error'));
+            (embed as any).executeCallbacks(
+                EmbedEvent.Error,
+                makeNestedValidationData('nested error'),
+            );
 
             expect(errorHandler).not.toHaveBeenCalled();
-            expect(logger.warn).toHaveBeenCalledWith(
-                'Host Event Validation failed: nested error',
-            );
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: nested error');
         });
 
         test('skips Error event when errorType is resolved from data.errorType (flat format)', () => {
@@ -4618,7 +4691,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         test('delivers Error event to handler when useHostEventsV2 is true and shouldBypassPayloadValidation is undefined', () => {
             const errorHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: undefined });
+            const embed = makeEmbed({
+                useHostEventsV2: true,
+                shouldBypassPayloadValidation: undefined,
+            });
             embed.on(EmbedEvent.Error, errorHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
@@ -4628,7 +4704,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         test('delivers Error event to handler when useHostEventsV2 is true and shouldBypassPayloadValidation is false', () => {
             const errorHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            const embed = makeEmbed({
+                useHostEventsV2: true,
+                shouldBypassPayloadValidation: false,
+            });
             embed.on(EmbedEvent.Error, errorHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
@@ -4639,7 +4718,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         test('skips Error event when useHostEventsV2 is false regardless of shouldBypassPayloadValidation', () => {
             jest.spyOn(logger, 'warn');
             const errorHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: false, shouldBypassPayloadValidation: undefined });
+            const embed = makeEmbed({
+                useHostEventsV2: false,
+                shouldBypassPayloadValidation: undefined,
+            });
             embed.on(EmbedEvent.Error, errorHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
@@ -4663,13 +4745,18 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         test('skips Error event when useHostEventsV2 is false and shouldBypassPayloadValidation is true', () => {
             jest.spyOn(logger, 'warn');
             const errorHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: false, shouldBypassPayloadValidation: true });
+            const embed = makeEmbed({
+                useHostEventsV2: false,
+                shouldBypassPayloadValidation: true,
+            });
             embed.on(EmbedEvent.Error, errorHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
 
             expect(errorHandler).not.toHaveBeenCalled();
-            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: invalid payload');
+            expect(logger.warn).toHaveBeenCalledWith(
+                'Host Event Validation failed: invalid payload',
+            );
         });
 
         test('skips via handleError when shouldBypassPayloadValidation is true', () => {
@@ -4694,7 +4781,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         test('delivers Error event to EmbedEvent.ALL handler when not skipped', () => {
             const allHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            const embed = makeEmbed({
+                useHostEventsV2: true,
+                shouldBypassPayloadValidation: false,
+            });
             embed.on(EmbedEvent.ALL, allHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
@@ -4704,7 +4794,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         test('does not skip non-Error events even with HOST_EVENT_VALIDATION error code', () => {
             const customActionHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            const embed = makeEmbed({
+                useHostEventsV2: true,
+                shouldBypassPayloadValidation: false,
+            });
             embed.on(EmbedEvent.CustomAction, customActionHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.CustomAction, {
@@ -4716,7 +4809,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         test('does not skip Error events with unrelated error codes', () => {
             const errorHandler = jest.fn();
-            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            const embed = makeEmbed({
+                useHostEventsV2: true,
+                shouldBypassPayloadValidation: false,
+            });
             embed.on(EmbedEvent.Error, errorHandler);
 
             (embed as any).executeCallbacks(EmbedEvent.Error, {
@@ -4725,6 +4821,145 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
 
             expect(errorHandler).toHaveBeenCalled();
+        });
+    });
+
+    describe('constructor init-path branching (SCAL-315058)', () => {
+        beforeEach(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        it('sets hostElement from domSelector', () => {
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect((embed as any).hostElement).toBe(getRootEl());
+        });
+
+        it('skips isReadyForRenderPromise when init already completed', () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(true);
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect((embed as any).shouldWaitForRenderPromise).toBe(false);
+            expect((embed as any).isReadyForRenderPromise).toBeUndefined();
+        });
+
+        it('sets isReadyForRenderPromise when init not yet completed', () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(false);
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect((embed as any).shouldWaitForRenderPromise).toBe(true);
+            expect((embed as any).isReadyForRenderPromise).toBeInstanceOf(Promise);
+        });
+
+        it('afterInit runs synchronously when init already completed', () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(true);
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            // thoughtSpotHost is set by afterInit;
+            // must be non-empty after constructor
+            expect((embed as any).thoughtSpotHost).toBeTruthy();
+        });
+
+        it('does not set isReadyForRenderPromise when shouldWaitForRenderPromise is false', () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(true);
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect((embed as any).shouldWaitForRenderPromise).toBe(false);
+            // isReadyForRenderPromise must be undefined
+            //  so no unnecessary await occurs
+            expect((embed as any).isReadyForRenderPromise).toBeUndefined();
+        });
+
+        it('shouldWaitForRenderPromise flips to false after promise settles', async () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(false);
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            expect((embed as any).shouldWaitForRenderPromise).toBe(true);
+            await (embed as any).isReadyForRenderPromise;
+            expect((embed as any).shouldWaitForRenderPromise).toBe(false);
+        });
+    });
+
+    describe('preRender ID object includes placeHolder (SCAL-315058)', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        it('getPreRenderIds returns placeHolder key', () => {
+            createRootEleForEmbed();
+            const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'ph-test',
+                liveboardId: 'lb-id',
+            });
+            const ids = embed.getPreRenderIds();
+            expect(ids.placeHolder).toBe('tsEmbed-pre-render-placeholder-ph-test');
+        });
+    });
+
+    describe('isPreRenderConnected logic (SCAL-315058)', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        it('returns false when preRenderWrapper is absent', () => {
+            createRootEleForEmbed();
+            const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'conn-test',
+                liveboardId: 'lb-id',
+            });
+            expect((embed as any).isPreRenderConnected()).toBe(false);
+        });
+
+        it('returns true once preRenderWrapper and preRenderChild are set', () => {
+            createRootEleForEmbed();
+            const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'conn-test-2',
+                liveboardId: 'lb-id',
+            });
+            (embed as any).preRenderWrapper = document.createElement('div');
+            (embed as any).preRenderChild = document.createElement('div');
+            expect((embed as any).isPreRenderConnected()).toBe(true);
+        });
+    });
+
+    describe('showPreRender inserts placeholder into hostElement (SCAL-315058)', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+        });
+
+        it('showPreRender creates a placeholder element with the correct id', async () => {
+            createRootEleForEmbed();
+            const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'ph-lifecycle-test',
+                liveboardId: 'lb-id',
+            });
+            await embed.preRender();
+            await waitFor(
+                () => !!document.querySelector('#tsEmbed-pre-render-child-ph-lifecycle-test'),
+            );
+
+            await embed.showPreRender();
+
+            const placeholderEle = (
+                embed as any
+            ).getPreRenderPlaceHolderElement() as HTMLDivElement;
+            expect(placeholderEle).not.toBeNull();
+            expect(placeholderEle.id).toBe('tsEmbed-pre-render-placeholder-ph-lifecycle-test');
+            // placeholder is attached to a parent element (inside hostElement)
+            expect(placeholderEle.parentElement).not.toBeNull();
+
+            embed.destroy();
         });
     });
 });

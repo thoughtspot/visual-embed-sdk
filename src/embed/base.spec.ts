@@ -10,7 +10,7 @@ import * as base from './base';
 import * as embedConfigInstance from './embedConfig';
 import * as resetService from '../utils/resetServices';
 import * as processTrigger from '../utils/processTrigger';
-import { createAndSetInitPromise, getInitPromise, getIsInitCalled, reloadIframe } from './base';
+import { createAndSetInitPromise, getInitPromise, getIsInitCalled, getIsInitCompleted, reloadIframe } from './base';
 
 import {
     executeAfterWait,
@@ -606,5 +606,29 @@ describe('Init Promise Functions', () => {
         createAndSetInitPromise();
         const secondPromise = getInitPromise();
         expect(firstPromise).toBe(secondPromise);
+    });
+
+    test('getIsInitCompleted returns false (not undefined) before init resolves', () => {
+        // fresh store via beforeEach; init not yet called
+        const result = getIsInitCompleted();
+        expect(result).toBe(false);
+        expect(typeof result).toBe('boolean');
+    });
+
+    test('getIsInitCompleted returns true after init resolves', async () => {
+        base.init({
+            thoughtSpotHost: 'tshost',
+            authType: index.AuthType.None,
+        });
+        await getInitPromise();
+        // flush the finally() microtask
+        await new Promise((r) => setTimeout(r, 0));
+        expect(getIsInitCompleted()).toBe(true);
+    });
+
+    test('getIsInitCompleted returns false when window store is absent', () => {
+        // clear the store from window
+        (window as any)._tsEmbedSDK = {};
+        expect(getIsInitCompleted()).toBe(false);
     });
 });
