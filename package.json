@@ -24,7 +24,8 @@
         "./webpack": {
             "import": "./lib/src/index.js",
             "require": "./cjs/src/index.js",
-            "types": "./lib/src/index.d.ts"
+            "types": "./lib/src/index.d.ts",
+            "browser": "./lib/src/index.js"
         },
         "./react": {
             "import": "./lib/src/react/all-types-export.js",
