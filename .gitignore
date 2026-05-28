@@ -81,7 +81,6 @@ docs/.cache/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 lib
 public/
 docs/public/

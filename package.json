@@ -3,16 +3,27 @@
     "version": "1.48.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
-    "main": "dist/tsembed.js",
+    "main": "dist/tsembed.es.js",
     "types": "lib/src/index.d.ts",
     "files": [
         "dist/**",
         "lib/**",
         "src/**",
-        "cjs/**"
+        "src/**/*.*",
+        "cjs/**",
+        "*.js",
+        "*.mjs",
+        "tsconfig*.json"
     ],
     "exports": {
         ".": {
+            "browser": "./dist/tsembed.es.js",
+            "import": "./lib/src/index.js",
+            "require": "./cjs/src/index.js",
+            "types": "./lib/src/index.d.ts"
+        },
+        "./webpack": {
+            "browser": "./dist/tsembed.es.js",
             "import": "./lib/src/index.js",
             "require": "./cjs/src/index.js",
             "types": "./lib/src/index.d.ts"
@@ -153,7 +164,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/thoughtspot/visual-embed-sdk.git"
+        "url": "git+https://github.com/nickiannone-fis/visual-embed-sdk.git"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org"
@@ -167,9 +178,9 @@
         "analytics"
     ],
     "bugs": {
-        "url": "https://github.com/thoughtspot/visual-embed-sdk/issues"
+        "url": "https://github.com/nickiannone-fis/visual-embed-sdk/issues"
     },
-    "homepage": "https://github.com/thoughtspot/visual-embed-sdk#readme",
+    "homepage": "https://github.com/nickiannone-fis/visual-embed-sdk#readme",
     "globals": {
         "window": {}
     }

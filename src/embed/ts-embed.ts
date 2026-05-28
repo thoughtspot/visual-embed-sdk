@@ -68,7 +68,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
-import { version } from '../../package.json';
+import { default as packageInfo } from '../../package.json';
 import {
     getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
     getInitPromise,
@@ -87,6 +87,7 @@ import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const TS_EMBED_ID = '_thoughtspot-embed';
+const VERSION = packageInfo.version;
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -207,6 +208,7 @@ export class TsEmbed {
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
+            sdkVersion: VERSION,
         });
         const embedConfig = getEmbedConfig();
         if(embedConfig) {
@@ -674,7 +676,7 @@ export class TsEmbed {
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
         queryParams[Param.ViewPortWidth] = window.innerWidth;
-        queryParams[Param.Version] = version;
+        queryParams[Param.Version] = VERSION;
         queryParams[Param.AuthType] = this.embedConfig.authType;
         queryParams[Param.blockNonEmbedFullAppAccess] = blockNonEmbedFullAppAccess;
         queryParams[Param.AutoLogin] = this.embedConfig.autoLogin;

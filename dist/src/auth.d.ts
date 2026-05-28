@@ -1,0 +1,241 @@
+import EventEmitter from 'eventemitter3';
+import { EmbedConfig } from './types';
+export declare let loggedInStatus: boolean;
+export declare let samlAuthWindow: Window;
+export declare let samlCompletionPromise: Promise<void>;
+export declare const SSO_REDIRECTION_MARKER_GUID = "5e16222e-ef02-43e9-9fbd-24226bf3ce5b";
+/**
+ * Enum for auth failure types.
+ * This value is passed to the listener for {@link AuthStatus.FAILURE}.
+ * @group Authentication / Init
+ */
+export declare enum AuthFailureType {
+    /**
+     * Authentication failed in the SDK authentication flow.
+     *
+     * Emitted when `init()` or auto-authentication cannot establish a logged-in session.
+     * For example, this can happen because of an invalid token, an auth request failure,
+     * or an auth promise rejection.
+     */
+    SDK = "SDK",
+    /**
+     * Browser cookie access is blocked for the embedded app.
+     *
+     * Emitted when the iframe reports that required cookies
+     * cannot be read or sent, commonly due to third-party cookie restrictions.
+     */
+    NO_COOKIE_ACCESS = "NO_COOKIE_ACCESS",
+    /**
+     * The current authentication token or session has expired.
+     *
+     * Emitted when the embed receives an auth-expiry signal and starts auth refresh
+     * handling.
+     */
+    EXPIRY = "EXPIRY",
+    /**
+     * A generic authentication failure that does not match a more specific type.
+     *
+     * Emitted as a fallback for app-reported auth failures in standard auth flows.
+     */
+    OTHER = "OTHER",
+    /**
+     * The user session timed out due to inactivity.
+     *
+     * Emitted when the app reports an idle-session timeout.
+     */
+    IDLE_SESSION_TIMEOUT = "IDLE_SESSION_TIMEOUT",
+    /**
+     * The app reports that the user is unauthenticated.
+     *
+     * Used primarily to classify unauthenticated failures in Embedded SSO flows.
+     */
+    UNAUTHENTICATED_FAILURE = "UNAUTHENTICATED_FAILURE"
+}
+/**
+ * Enum for auth status emitted by the emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
+export declare enum AuthStatus {
+    /**
+     * Emits when the SDK fails to authenticate.
+     */
+    FAILURE = "FAILURE",
+    /**
+     * Emits when the SDK authentication step completes
+     * successfully (e.g., token exchange, cookie set).
+     * This fires before any iframe is rendered. Use
+     * this to know that auth passed and it is safe to
+     * proceed with rendering. The callback receives no
+     * arguments.
+     * @example
+     * ```js
+     * const authEE = init({ ... });
+     * authEE.on(AuthStatus.SDK_SUCCESS, () => {
+     *     // Auth done, iframe not loaded yet
+     * });
+     * ```
+     */
+    SDK_SUCCESS = "SDK_SUCCESS",
+    /**
+     * @hidden
+     * Emits when iframe is loaded and session
+     * information is available.
+     */
+    SESSION_INFO_SUCCESS = "SESSION_INFO_SUCCESS",
+    /**
+     * Emits when the ThoughtSpot app inside the
+     * embedded iframe confirms its session is active.
+     * This fires after the iframe loads and sends back an `AuthInit` event.
+     * @param sessionInfo Information about the user session, with details like `userGUID`.
+     * @see EmbedEvent.AuthInit
+     * @example
+     * ```js
+     * const authEE = init({ ... });
+     * authEE.on(AuthStatus.SUCCESS, (sessionInfo) => {
+     *     // App is loaded and authenticated
+     *     console.log(sessionInfo.userGUID);
+     * });
+     * ```
+     */
+    SUCCESS = "SUCCESS",
+    /**
+     * Emits when a user logs out
+     */
+    LOGOUT = "LOGOUT",
+    /**
+     * Emitted when inPopup is true in the SAMLRedirect flow and the
+     * popup is waiting to be triggered either programmatically
+     * or by the trigger button.
+     * @version SDK: 1.19.0
+     */
+    WAITING_FOR_POPUP = "WAITING_FOR_POPUP",
+    /**
+     * Emitted when the SAML popup is closed without authentication
+     */
+    SAML_POPUP_CLOSED_NO_AUTH = "SAML_POPUP_CLOSED_NO_AUTH"
+}
+/**
+ * Event emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
+export interface AuthEventEmitter {
+    /**
+     * Register a listener on Auth failure.
+     * @param event
+     * @param listener
+     */
+    on(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
+    /**
+     * Register a listener on Auth SDK success.
+     * @param event
+     * @param listener
+     */
+    on(event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP | AuthStatus.SAML_POPUP_CLOSED_NO_AUTH, listener: () => void): this;
+    on(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
+    once(event: AuthStatus.FAILURE, listener: (failureType: AuthFailureType) => void): this;
+    once(event: AuthStatus.SDK_SUCCESS | AuthStatus.LOGOUT | AuthStatus.WAITING_FOR_POPUP | AuthStatus.SAML_POPUP_CLOSED_NO_AUTH, listener: () => void): this;
+    once(event: AuthStatus.SUCCESS, listener: (sessionInfo: any) => void): this;
+    /**
+     * Trigger an event on the emitter returned from init.
+     * @param {@link AuthEvent}
+     */
+    emit(event: AuthEvent, ...args: any[]): boolean;
+    /**
+     * Remove listener from the emitter returned from init.
+     * @param event
+     * @param listener
+     * @param context
+     * @param once
+     */
+    off(event: AuthStatus, listener: (...args: any[]) => void, context: any, once: boolean): this;
+    /**
+     * Remove all the event listeners
+     * @param event
+     */
+    removeAllListeners(event: AuthStatus): this;
+}
+/**
+ * Events which can be triggered on the emitter returned from {@link init}.
+ * @group Authentication / Init
+ */
+export declare enum AuthEvent {
+    /**
+     * Manually trigger the SSO popup. This is useful when
+     * authStatus is SAMLRedirect/OIDCRedirect and inPopup is set to true
+     */
+    TRIGGER_SSO_POPUP = "TRIGGER_SSO_POPUP"
+}
+/**
+ *
+ */
+export declare function getAuthEE(): EventEmitter<AuthStatus | AuthEvent>;
+/**
+ *
+ * @param eventEmitter
+ */
+export declare function setAuthEE(eventEmitter: EventEmitter<AuthStatus | AuthEvent>): void;
+/**
+ *
+ */
+export declare function notifyAuthSDKSuccess(): void;
+/**
+ *
+ */
+export declare function notifyAuthSuccess(): Promise<void>;
+/**
+ *
+ * @param failureType
+ */
+export declare function notifyAuthFailure(failureType: AuthFailureType): void;
+/**
+ *
+ */
+export declare function notifyLogout(): void;
+/**
+ * Services to be called after the login is successful,
+ * This should be called after the cookie is set for cookie auth or
+ * after the token is set for cookieless.
+ * @return {Promise<void>}
+ * @example
+ * ```js
+ * await postLoginService();
+ * ```
+ * @version SDK: 1.28.3 | ThoughtSpot: *
+ */
+export declare function postLoginService(): Promise<void>;
+/**
+ * Return releaseVersion if available
+ */
+export declare function getReleaseVersion(): string;
+/**
+ * Perform token based authentication
+ * @param embedConfig The embed configuration
+ */
+export declare const doTokenAuth: (embedConfig: EmbedConfig) => Promise<boolean>;
+/**
+ * Validate embedConfig parameters required for cookielessTokenAuth
+ * @param embedConfig The embed configuration
+ */
+export declare const doCookielessTokenAuth: (embedConfig: EmbedConfig) => Promise<boolean>;
+/**
+ * Perform basic authentication to the ThoughtSpot cluster using the cluster
+ * credentials.
+ *
+ * Warning: This feature is primarily intended for developer testing. It is
+ * strongly advised not to use this authentication method in production.
+ * @param embedConfig The embed configuration
+ */
+export declare const doBasicAuth: (embedConfig: EmbedConfig) => Promise<boolean>;
+export declare const doSamlAuth: (embedConfig: EmbedConfig) => Promise<boolean>;
+export declare const doOIDCAuth: (embedConfig: EmbedConfig) => Promise<boolean>;
+export declare const logout: (embedConfig: EmbedConfig) => Promise<boolean>;
+/**
+ * Perform authentication on the ThoughtSpot cluster
+ * @param embedConfig The embed configuration
+ */
+export declare const authenticate: (embedConfig: EmbedConfig) => Promise<boolean>;
+/**
+ * Check if we are authenticated to the ThoughtSpot cluster
+ */
+export declare const isAuthenticated: () => boolean;
+//# sourceMappingURL=auth.d.ts.map
