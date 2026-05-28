@@ -251,6 +251,7 @@ export class TsEmbed {
                 .then(afterInit)
                 .catch((err) => {
                     logger.error('SDK init failed before embed could be configured', err);
+                    this.throwInitError();
                 })
                 .finally(() => {
                     this.shouldWaitForRenderPromise = false;

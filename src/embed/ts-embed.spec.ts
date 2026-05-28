@@ -4875,6 +4875,27 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             await (embed as any).isReadyForRenderPromise;
             expect((embed as any).shouldWaitForRenderPromise).toBe(false);
         });
+
+        it('calls throwInitError when getInitPromise rejects', async () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(false);
+            jest.spyOn(baseInstance, 'getInitPromise').mockReturnValue(
+                Promise.reject(new Error('init failed')),
+            );
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            const throwInitErrorSpy = jest.spyOn(embed as any, 'throwInitError');
+            await (embed as any).isReadyForRenderPromise;
+            expect(throwInitErrorSpy).toHaveBeenCalled();
+        });
+
+        it('shouldWaitForRenderPromise flips to false even when getInitPromise rejects', async () => {
+            jest.spyOn(baseInstance, 'getIsInitCompleted').mockReturnValue(false);
+            jest.spyOn(baseInstance, 'getInitPromise').mockReturnValue(
+                Promise.reject(new Error('init failed')),
+            );
+            const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+            await (embed as any).isReadyForRenderPromise;
+            expect((embed as any).shouldWaitForRenderPromise).toBe(false);
+        });
     });
 
     describe('preRender ID object includes placeHolder (SCAL-315058)', () => {
