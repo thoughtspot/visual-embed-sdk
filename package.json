@@ -3,7 +3,7 @@
     "version": "1.48.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
-    "main": "dist/tsembed.js",
+    "main": "dist/tsembed.es.js",
     "types": "lib/src/index.d.ts",
     "files": [
         "dist/**",
