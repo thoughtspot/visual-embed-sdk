@@ -4623,7 +4623,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
         });
 
-        // Matches the structure produced by createValidationError / embedErrorDetails
+        // Matches the structure produced by createValidationError /
+        // embedErrorDetails
         const makeNestedValidationData = (message = 'invalid payload') => ({
             type: EmbedEvent.Error,
             data: {
@@ -4634,7 +4635,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             },
         });
 
-        // Matches the flat structure where errorType sits at the top level of data
+        // Matches the flat structure where errorType sits at the top level of
+        // data
         const makeFlatValidationData = (message = 'invalid payload') => ({
             errorType: EmbedErrorCodes.HOST_EVENT_VALIDATION,
             message,
@@ -4948,6 +4950,13 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
     describe('showPreRender inserts placeholder into hostElement (SCAL-315058)', () => {
         beforeAll(() => {
+            // Clear spy implementations that may have leaked from prior
+            // describe blocks (e.g. getIsInitCompleted/getInitPromise mocks set
+            // in 'constructor init-path branching' persist across describes
+            // because clearAllMocks only clears call history, not
+            // implementations).
+            jest.restoreAllMocks();
+            jest.spyOn(authInstance, 'postLoginService').mockResolvedValue(undefined);
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
