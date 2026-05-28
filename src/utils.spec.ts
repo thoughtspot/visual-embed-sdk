@@ -532,6 +532,15 @@ describe('calculateVisibleElementData', () => {
         });
     });
 
+    it('should return zero dimensions when element is missing', () => {
+        expect(calculateVisibleElementData(null as unknown as HTMLElement)).toEqual({
+            top: 0,
+            height: 0,
+            left: 0,
+            width: 0,
+        });
+    });
+
     it('should calculate data for element clipped from top', () => {
         // Mock getBoundingClientRect for element partially above viewport
         jest.spyOn(mockElement, 'getBoundingClientRect').mockReturnValue({
@@ -789,6 +798,10 @@ describe('calculateVisibleElementData', () => {
 });
 
 describe('getScrollableAncestors', () => {
+    it('should return an empty list when element is missing', () => {
+        expect(getScrollableAncestors(null as unknown as HTMLElement)).toEqual([]);
+    });
+
     it('should find scrollable ancestors inside a shadow root', () => {
         const host = document.createElement('div');
         document.body.appendChild(host);
@@ -807,9 +820,27 @@ describe('getScrollableAncestors', () => {
 
         host.remove();
     });
+
+    it('should ignore ancestors when computed style is unavailable', () => {
+        const parent = document.createElement('div');
+        const iframe = document.createElement('iframe');
+        parent.appendChild(iframe);
+
+        const getComputedStyleSpy = jest
+            .spyOn(window, 'getComputedStyle')
+            .mockReturnValue(null as unknown as CSSStyleDeclaration);
+
+        expect(getScrollableAncestors(iframe)).toEqual([]);
+
+        getComputedStyleSpy.mockRestore();
+    });
 });
 
 describe('getClippingAncestors', () => {
+    it('should return an empty list when element is missing', () => {
+        expect(getClippingAncestors(null as unknown as HTMLElement)).toEqual([]);
+    });
+
     it('should include scrollable and non-scroll clipping ancestors', () => {
         const scrollContainer = document.createElement('div');
         scrollContainer.style.overflow = 'auto';
@@ -825,6 +856,10 @@ describe('getClippingAncestors', () => {
 });
 
 describe('getEffectiveClippingAncestors', () => {
+    it('should return an empty list when element is missing', () => {
+        expect(getEffectiveClippingAncestors(null as unknown as HTMLElement)).toEqual([]);
+    });
+
     it('should ignore overflow ancestors that do not clip the element', () => {
         const clippingContainer = document.createElement('div');
         clippingContainer.style.overflow = 'hidden';
