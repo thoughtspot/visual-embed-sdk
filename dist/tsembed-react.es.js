@@ -6893,24 +6893,23 @@ const checkReleaseVersionInBeta = (releaseVersion, suppressBetaWarning) => {
     return false;
 };
 const getCustomisations = (embedConfig, viewConfig) => {
-    var _a, _b, _c, _d;
     const customizationsFromViewConfig = viewConfig.customizations;
     const customizationsFromEmbedConfig = embedConfig.customizations
         || embedConfig.customisations;
     const customizations = {
         style: {
-            ...customizationsFromEmbedConfig === null || customizationsFromEmbedConfig === void 0 ? void 0 : customizationsFromEmbedConfig.style,
-            ...customizationsFromViewConfig === null || customizationsFromViewConfig === void 0 ? void 0 : customizationsFromViewConfig.style,
+            ...customizationsFromEmbedConfig?.style,
+            ...customizationsFromViewConfig?.style,
             customCSS: {
-                ...(_a = customizationsFromEmbedConfig === null || customizationsFromEmbedConfig === void 0 ? void 0 : customizationsFromEmbedConfig.style) === null || _a === void 0 ? void 0 : _a.customCSS,
-                ...(_b = customizationsFromViewConfig === null || customizationsFromViewConfig === void 0 ? void 0 : customizationsFromViewConfig.style) === null || _b === void 0 ? void 0 : _b.customCSS,
+                ...customizationsFromEmbedConfig?.style?.customCSS,
+                ...customizationsFromViewConfig?.style?.customCSS,
             },
-            customCSSUrl: ((_c = customizationsFromViewConfig === null || customizationsFromViewConfig === void 0 ? void 0 : customizationsFromViewConfig.style) === null || _c === void 0 ? void 0 : _c.customCSSUrl)
-                || ((_d = customizationsFromEmbedConfig === null || customizationsFromEmbedConfig === void 0 ? void 0 : customizationsFromEmbedConfig.style) === null || _d === void 0 ? void 0 : _d.customCSSUrl),
+            customCSSUrl: customizationsFromViewConfig?.style?.customCSSUrl
+                || customizationsFromEmbedConfig?.style?.customCSSUrl,
         },
         content: {
-            ...customizationsFromEmbedConfig === null || customizationsFromEmbedConfig === void 0 ? void 0 : customizationsFromEmbedConfig.content,
-            ...customizationsFromViewConfig === null || customizationsFromViewConfig === void 0 ? void 0 : customizationsFromViewConfig.content,
+            ...customizationsFromEmbedConfig?.content,
+            ...customizationsFromViewConfig?.content,
         },
     };
     return customizations;
@@ -6928,7 +6927,7 @@ const deepMerge = (target, source) => merge(target, source);
 const getOperationNameFromQuery = (query) => {
     const regex = /(?:query|mutation)\s+(\w+)/;
     const matches = query.match(regex);
-    return matches === null || matches === void 0 ? void 0 : matches[1];
+    return matches?.[1];
 };
 /**
  *
@@ -6962,7 +6961,7 @@ function removeTypename(obj) {
  * setStyleProperties(element, styles);
  */
 const setStyleProperties = (element, styleProperties) => {
-    if (!(element === null || element === void 0 ? void 0 : element.style))
+    if (!element?.style)
         return;
     Object.keys(styleProperties).forEach((styleProperty) => {
         const styleKey = styleProperty;
@@ -6984,7 +6983,7 @@ const setStyleProperties = (element, styleProperties) => {
  * removeStyleProperties(element, propertiesToRemove);
  */
 const removeStyleProperties = (element, styleProperties) => {
-    if (!(element === null || element === void 0 ? void 0 : element.style))
+    if (!element?.style)
         return;
     styleProperties.forEach((styleProperty) => {
         element.style.removeProperty(styleProperty);
@@ -7034,10 +7033,9 @@ function storeValueInWindow(key, value, options = {}) {
  * Returns undefined in SSR environment.
  */
 const getValueFromWindow = (key) => {
-    var _a;
     if (isWindowUndefined())
         return undefined;
-    return (_a = window === null || window === void 0 ? void 0 : window[sdkWindowKey]) === null || _a === void 0 ? void 0 : _a[key];
+    return window?.[sdkWindowKey]?.[key];
 };
 /**
  * Check if an array includes a string value
@@ -8120,9 +8118,8 @@ const EndPoints = {
  */
 function failureLoggedFetch(url, options = {}) {
     return fetch(url, options).then(async (r) => {
-        var _a;
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            logger$3.error('Failure', await ((_a = r.text) === null || _a === void 0 ? void 0 : _a.call(r)));
+            logger$3.error('Failure', await r.text?.());
         }
         return r;
     });
@@ -9012,7 +9009,7 @@ class AnswerService {
             thoughtSpotHost: this.thoughtSpotHost,
             isCompositeQuery: false,
         });
-        this.session = deepMerge(this.session, (data === null || data === void 0 ? void 0 : data.id) || {});
+        this.session = deepMerge(this.session, data?.id || {});
         return data;
     }
     /**
@@ -9026,7 +9023,7 @@ class AnswerService {
         if (this.answer) {
             return this.answer;
         }
-        this.answer = this.executeQuery(getAnswer, {}).then((data) => data === null || data === void 0 ? void 0 : data.answer);
+        this.answer = this.executeQuery(getAnswer, {}).then((data) => data?.answer);
         return this.answer;
     }
     async getTML() {
@@ -9079,7 +9076,6 @@ function getSelectedPointsForUnderlyingDataQuery(selectedPoints) {
      * @param colVal
      */
     function addPointFromColVal(colVal) {
-        var _a;
         const dataType = colVal.column.dataType;
         colVal.column.id;
         let dataValue;
@@ -9092,7 +9088,7 @@ function getSelectedPointsForUnderlyingDataQuery(selectedPoints) {
                     }];
                 // Case for custom calendar.
             }
-            else if ((_a = colVal.value) === null || _a === void 0 ? void 0 : _a.v) {
+            else if (colVal.value?.v) {
                 dataValue = [{
                         epochRange: {
                             startEpoch: colVal.value.v.s,
@@ -18169,7 +18165,6 @@ function emptyQueue() {
  * @param sessionInfo
  */
 function initMixpanel(sessionInfo) {
-    var _a;
     if (!sessionInfo || !sessionInfo.mixpanelToken) {
         logger$3.error(ERROR_MESSAGE.MIXPANEL_TOKEN_NOT_FOUND);
         return;
@@ -18188,7 +18183,7 @@ function initMixpanel(sessionInfo) {
                 clusterId: sessionInfo.clusterId,
                 clusterName: sessionInfo.clusterName,
                 releaseVersion: sessionInfo.releaseVersion,
-                hostAppUrl: ((_a = window === null || window === void 0 ? void 0 : window.location) === null || _a === void 0 ? void 0 : _a.host) || '',
+                hostAppUrl: window?.location?.host || '',
                 sdkVersion: VERSION$1,
             });
             isMixpanelInitialized = true;
@@ -18597,9 +18592,8 @@ function resetGlobalReportingObserver() {
  */
 function tokenizedFailureLoggedFetch(url, options = {}) {
     return tokenizedFetch(url, options).then(async (r) => {
-        var _a;
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            logger$3.error(`Failed to fetch ${url}`, await ((_a = r.text) === null || _a === void 0 ? void 0 : _a.call(r)));
+            logger$3.error(`Failed to fetch ${url}`, await r.text?.());
         }
         return r;
     });
@@ -18680,11 +18674,10 @@ let preauthInfo = null;
  * @version SDK: 1.28.3 | ThoughtSpot: *
  */
 const formatPreauthInfo = async (preauthInfoResp) => {
-    var _a;
     try {
         // Convert Headers to a plain object
         const headers = {};
-        (_a = preauthInfoResp === null || preauthInfoResp === void 0 ? void 0 : preauthInfoResp.headers) === null || _a === void 0 ? void 0 : _a.forEach((value, key) => {
+        preauthInfoResp?.headers?.forEach((value, key) => {
             headers[key] = value;
         });
         const data = await preauthInfoResp.json();
@@ -19155,7 +19148,7 @@ async function samlPopupFlow(ssoURL, triggerContainer, triggerText) {
                     if (samlAuthWindow.closed) {
                         clearInterval(popupClosedCheck);
                         if (samlCompletionPromise && !samlCompletionResolved) {
-                            authEE === null || authEE === void 0 ? void 0 : authEE.emit(AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
+                            authEE?.emit(AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
                         }
                     }
                 }, 500);
@@ -19166,7 +19159,7 @@ async function samlPopupFlow(ssoURL, triggerContainer, triggerText) {
         }
     };
     let samlCompletionResolved = false;
-    authEE === null || authEE === void 0 ? void 0 : authEE.emit(AuthStatus.WAITING_FOR_POPUP);
+    authEE?.emit(AuthStatus.WAITING_FOR_POPUP);
     const containerEl = getDOMNode(triggerContainer);
     if (containerEl) {
         containerEl.innerHTML = '<button id="ts-auth-btn" class="ts-auth-btn" style="margin: auto;"></button>';
@@ -19190,7 +19183,7 @@ async function samlPopupFlow(ssoURL, triggerContainer, triggerText) {
             }
         });
     });
-    authEE === null || authEE === void 0 ? void 0 : authEE.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
+    authEE?.once(AuthEvent.TRIGGER_SSO_POPUP, openPopup);
     return samlCompletionPromise;
 }
 /**
@@ -19314,8 +19307,7 @@ const reload = (iFrame) => {
  * @param channel
  */
 function postIframeMessage(iFrame, message, thoughtSpotHost, channel) {
-    var _a;
-    return (_a = iFrame.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(message, thoughtSpotHost, [channel === null || channel === void 0 ? void 0 : channel.port2]);
+    return iFrame.contentWindow?.postMessage(message, thoughtSpotHost, [channel?.port2]);
 }
 const TRIGGER_TIMEOUT = 30000;
 /**
@@ -19328,14 +19320,13 @@ const TRIGGER_TIMEOUT = 30000;
  */
 function processTrigger(iFrame, messageType, thoughtSpotHost, data, context) {
     return new Promise((res, rej) => {
-        var _a;
         if (messageType === HostEvent.Reload) {
             reload(iFrame);
             return res(null);
         }
         if (messageType === HostEvent.Present) {
             const embedConfig = getEmbedConfig();
-            const disableFullscreenPresentation = (_a = embedConfig === null || embedConfig === void 0 ? void 0 : embedConfig.disableFullscreenPresentation) !== null && _a !== void 0 ? _a : true;
+            const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
             if (!disableFullscreenPresentation) {
                 handlePresentEvent(iFrame);
             }
@@ -19345,9 +19336,8 @@ function processTrigger(iFrame, messageType, thoughtSpotHost, data, context) {
         }
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
-            var _a;
             channel.port1.close();
-            const error = (responseData === null || responseData === void 0 ? void 0 : responseData.error) || ((_a = responseData === null || responseData === void 0 ? void 0 : responseData.data) === null || _a === void 0 ? void 0 : _a.error);
+            const error = responseData?.error || responseData?.data?.error;
             if (error) {
                 rej(error);
             }
@@ -19417,7 +19407,6 @@ const hostUrlToFeatureUrl = {
  * @group Global methods
  */
 const prefetch = (url, prefetchFeatures, additionalFlags) => {
-    var _a;
     if (url === '') {
         logger$3.warn('The prefetch method does not have a valid URL');
     }
@@ -19426,7 +19415,7 @@ const prefetch = (url, prefetchFeatures, additionalFlags) => {
         let hostUrl = url || getEmbedConfig().thoughtSpotHost;
         const prefetchFlags = {
             [Param.EmbedApp]: true,
-            ...(_a = getEmbedConfig()) === null || _a === void 0 ? void 0 : _a.additionalFlags,
+            ...getEmbedConfig()?.additionalFlags,
             ...additionalFlags,
         };
         hostUrl = hostUrl[hostUrl.length - 1] === '/' ? hostUrl : `${hostUrl}/`;
@@ -19501,9 +19490,9 @@ const createAndSetInitPromise = () => {
     });
 };
 createAndSetInitPromise();
-const getInitPromise = () => { var _a; return (_a = getValueFromWindow(initFlagKey)) === null || _a === void 0 ? void 0 : _a.initPromise; };
-const getIsInitCompleted = () => { var _a; return (_a = getValueFromWindow(initFlagKey)) === null || _a === void 0 ? void 0 : _a.isInitCompleted; };
-const getIsInitCalled = () => { var _a; return !!((_a = getValueFromWindow(initFlagKey)) === null || _a === void 0 ? void 0 : _a.isInitCalled); };
+const getInitPromise = () => getValueFromWindow(initFlagKey)?.initPromise;
+const getIsInitCompleted = () => getValueFromWindow(initFlagKey)?.isInitCompleted;
+const getIsInitCalled = () => !!getValueFromWindow(initFlagKey)?.isInitCalled;
 /**
  * Initializes the Visual Embed SDK globally and perform
  * authentication if applicable. This function needs to be called before any ThoughtSpot
@@ -19525,7 +19514,6 @@ const getIsInitCalled = () => { var _a; return !!((_a = getValueFromWindow(initF
  * @group Authentication / Init
  */
 const init = (embedConfig) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     if (isWindowUndefined())
         return null;
     sanity(embedConfig);
@@ -19543,11 +19531,11 @@ const init = (embedConfig) => {
     const { password, ...configToTrack } = getEmbedConfig();
     uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CALLED_INIT, {
         ...configToTrack,
-        usedCustomizationSheet: ((_b = (_a = embedConfig.customizations) === null || _a === void 0 ? void 0 : _a.style) === null || _b === void 0 ? void 0 : _b.customCSSUrl) != null,
-        usedCustomizationVariables: ((_e = (_d = (_c = embedConfig.customizations) === null || _c === void 0 ? void 0 : _c.style) === null || _d === void 0 ? void 0 : _d.customCSS) === null || _e === void 0 ? void 0 : _e.variables) != null,
-        usedCustomizationRules: ((_h = (_g = (_f = embedConfig.customizations) === null || _f === void 0 ? void 0 : _f.style) === null || _g === void 0 ? void 0 : _g.customCSS) === null || _h === void 0 ? void 0 : _h.rules_UNSTABLE) != null,
-        usedCustomizationStrings: !!((_k = (_j = embedConfig.customizations) === null || _j === void 0 ? void 0 : _j.content) === null || _k === void 0 ? void 0 : _k.strings),
-        usedCustomizationIconSprite: !!((_l = embedConfig.customizations) === null || _l === void 0 ? void 0 : _l.iconSpriteUrl),
+        usedCustomizationSheet: embedConfig.customizations?.style?.customCSSUrl != null,
+        usedCustomizationVariables: embedConfig.customizations?.style?.customCSS?.variables != null,
+        usedCustomizationRules: embedConfig.customizations?.style?.customCSS?.rules_UNSTABLE != null,
+        usedCustomizationStrings: !!embedConfig.customizations?.content?.strings,
+        usedCustomizationIconSprite: !!embedConfig.customizations?.iconSpriteUrl,
     });
     if (getEmbedConfig().callPrefetch) {
         prefetch(getEmbedConfig().thoughtSpotHost);
@@ -19584,9 +19572,8 @@ const renderInQueue = (fn) => {
  * @param e - The event data
  */
 function processExitPresentMode(e) {
-    var _a;
     const embedConfig = getEmbedConfig();
-    const disableFullscreenPresentation = (_a = embedConfig === null || embedConfig === void 0 ? void 0 : embedConfig.disableFullscreenPresentation) !== null && _a !== void 0 ? _a : true;
+    const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
     if (!disableFullscreenPresentation) {
         handleExitPresentMode();
     }
@@ -19605,7 +19592,7 @@ function processClearInfoCache() {
  */
 function processCustomAction(e, thoughtSpotHost) {
     const { session, embedAnswerData, contextMenuPoints } = e.data;
-    const answerService = new AnswerService(session, embedAnswerData || {}, thoughtSpotHost, contextMenuPoints === null || contextMenuPoints === void 0 ? void 0 : contextMenuPoints.selectedPoints);
+    const answerService = new AnswerService(session, embedAnswerData || {}, thoughtSpotHost, contextMenuPoints?.selectedPoints);
     return {
         ...e,
         answerService,
@@ -19617,13 +19604,12 @@ function processCustomAction(e, thoughtSpotHost) {
  * @returns {any}
  */
 function processAuthInit(e) {
-    var _a, _b;
     notifyAuthSuccess();
     // Expose only allowed details (eg: userGUID) back to SDK users.
     return {
         ...e,
         data: {
-            userGUID: ((_a = e.data) === null || _a === void 0 ? void 0 : _a.userGUID) || ((_b = e.payload) === null || _b === void 0 ? void 0 : _b.userGUID),
+            userGUID: e.data?.userGUID || e.payload?.userGUID,
         },
     };
 }
@@ -19649,11 +19635,10 @@ function processNoCookieAccess(e, containerEl) {
  * @param containerEl
  */
 function processAuthFailure(e, containerEl) {
-    var _a;
     const { loginFailedMessage, authType, disableLoginFailurePage, autoLogin, } = getEmbedConfig();
     const isEmbeddedSSO = authType === AuthType.EmbeddedSSO;
     const isTrustedAuth = authType === AuthType.TrustedAuthToken || authType === AuthType.TrustedAuthTokenCookieless;
-    const isEmbeddedSSOInfoFailure = isEmbeddedSSO && ((_a = e === null || e === void 0 ? void 0 : e.data) === null || _a === void 0 ? void 0 : _a.type) === AuthFailureType.UNAUTHENTICATED_FAILURE;
+    const isEmbeddedSSOInfoFailure = isEmbeddedSSO && e?.data?.type === AuthFailureType.UNAUTHENTICATED_FAILURE;
     if (autoLogin && isTrustedAuth) {
         containerEl.innerHTML = loginFailedMessage;
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
@@ -19797,15 +19782,15 @@ class HostEventClient {
         return processTrigger(this.iFrame, message, thoughtspotHost, data, context);
     }
     async handleHostEventWithParam(apiName, parameters, context) {
-        var _a, _b, _c, _d;
-        const response = (_b = (_a = (await this.triggerUIPassthroughApi(apiName, parameters, context))) === null || _a === void 0 ? void 0 : _a.find) === null || _b === void 0 ? void 0 : _b.call(_a, (r) => r.error || r.value);
+        const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
+            ?.find?.((r) => r.error || r.value);
         if (!response) {
             const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
             throw { error };
         }
         const errors = response.error
-            || ((_c = response.value) === null || _c === void 0 ? void 0 : _c.errors)
-            || ((_d = response.value) === null || _d === void 0 ? void 0 : _d.error);
+            || response.value?.errors
+            || response.value?.error;
         if (errors) {
             const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
             throw { error: message };
@@ -19821,15 +19806,14 @@ class HostEventClient {
      * the legacy host event channel. Real errors are thrown as-is.
      */
     async getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context) {
-        var _a, _b, _c;
         const response = await this.triggerUIPassthroughApi(passthroughEvent, payload || {}, context);
-        const matched = (_a = response === null || response === void 0 ? void 0 : response.find) === null || _a === void 0 ? void 0 : _a.call(response, (r) => r.error || r.value);
+        const matched = response?.find?.((r) => r.error || r.value);
         if (!matched) {
             return this.hostEventFallback(hostEvent, payload, context);
         }
         const errors = matched.error
-            || ((_b = matched.value) === null || _b === void 0 ? void 0 : _b.errors)
-            || ((_c = matched.value) === null || _c === void 0 ? void 0 : _c.error);
+            || matched.value?.errors
+            || matched.value?.error;
         if (errors) {
             const message = typeof errors === 'string' ? errors : JSON.stringify(errors);
             throw new Error(message);
@@ -19848,14 +19832,13 @@ class HostEventClient {
      * Result is cached for the session. Returns empty array on failure.
      */
     async getAvailableUIPassthroughKeys(context) {
-        var _a, _b;
         if (this.availablePassthroughKeysCache !== null) {
             return this.availablePassthroughKeysCache;
         }
         try {
             const response = await this.triggerUIPassthroughApi(UIPassthroughEvent.GetAvailableUIPassthroughs, {}, context);
-            const matched = (_a = response === null || response === void 0 ? void 0 : response.find) === null || _a === void 0 ? void 0 : _a.call(response, (r) => r.value && !r.error);
-            const keys = (_b = matched === null || matched === void 0 ? void 0 : matched.value) === null || _b === void 0 ? void 0 : _b.keys;
+            const matched = response?.find?.((r) => r.value && !r.error);
+            const keys = matched?.value?.keys;
             this.availablePassthroughKeysCache = Array.isArray(keys) ? keys : [];
             return this.availablePassthroughKeysCache;
         }
@@ -19871,14 +19854,13 @@ class HostEventClient {
         return res;
     }
     async handlePinEvent(payload, context) {
-        var _a, _b;
         if (!payload || !('newVizName' in payload)) {
             return this.hostEventFallback(HostEvent.Pin, payload, context);
         }
         const formattedPayload = {
             ...payload,
-            pinboardId: (_a = payload.liveboardId) !== null && _a !== void 0 ? _a : payload.pinboardId,
-            newPinboardName: (_b = payload.newLiveboardName) !== null && _b !== void 0 ? _b : payload.newPinboardName,
+            pinboardId: payload.liveboardId ?? payload.pinboardId,
+            newPinboardName: payload.newLiveboardName ?? payload.newPinboardName,
         };
         const data = await this.handleHostEventWithParam(UIPassthroughEvent.PinAnswerToLiveboard, formattedPayload, context);
         return {
@@ -19887,7 +19869,6 @@ class HostEventClient {
         };
     }
     async handleSaveAnswerEvent(payload, context) {
-        var _a, _b, _c, _d;
         if (!payload || !('name' in payload) || !('description' in payload)) {
             // Save is the fallback for SaveAnswer
             return this.hostEventFallback(HostEvent.Save, payload, context);
@@ -19895,7 +19876,7 @@ class HostEventClient {
         const data = await this.handleHostEventWithParam(UIPassthroughEvent.SaveAnswer, payload, context);
         return {
             ...data,
-            answerId: (_d = (_c = (_b = (_a = data === null || data === void 0 ? void 0 : data.saveResponse) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.Answer__save) === null || _c === void 0 ? void 0 : _c.answer) === null || _d === void 0 ? void 0 : _d.id,
+            answerId: data?.saveResponse?.data?.Answer__save?.answer?.id,
         };
     }
     handleUpdateFiltersEvent(payload, context) {
@@ -20037,7 +20018,6 @@ const getUrlType = (url) => {
  * @returns
  */
 const handleInterceptEvent = async (params) => {
-    var _a, _b, _c, _d, _e;
     const { eventData, executeEvent, viewConfig, getUnsavedAnswerTml } = params;
     const [interceptData, bodyParseError] = parseInterceptData(eventData.data);
     if (bodyParseError) {
@@ -20052,8 +20032,8 @@ const handleInterceptEvent = async (params) => {
         return;
     }
     const { input: requestUrl, init } = interceptData;
-    const sessionId = (_c = (_b = (_a = init === null || init === void 0 ? void 0 : init.body) === null || _a === void 0 ? void 0 : _a.variables) === null || _b === void 0 ? void 0 : _b.session) === null || _c === void 0 ? void 0 : _c.sessionId;
-    const vizId = (_e = (_d = init === null || init === void 0 ? void 0 : init.body) === null || _d === void 0 ? void 0 : _d.variables) === null || _e === void 0 ? void 0 : _e.contextBookId;
+    const sessionId = init?.body?.variables?.session?.sessionId;
+    const vizId = init?.body?.variables?.contextBookId;
     const answerDataUrls = DefaultInterceptUrlsMap[InterceptedApiType.AnswerData];
     const legacyInterceptEnabled = viewConfig.isOnBeforeGetVizDataInterceptEnabled;
     const isAnswerDataUrl = answerDataUrls.includes(requestUrl);
@@ -20079,19 +20059,17 @@ const handleInterceptEvent = async (params) => {
  * @returns
  */
 const processApiInterceptResponse = (payload) => {
-    var _a;
-    const isLegacyFormat = (_a = payload === null || payload === void 0 ? void 0 : payload.data) === null || _a === void 0 ? void 0 : _a.error;
+    const isLegacyFormat = payload?.data?.error;
     if (isLegacyFormat) {
         return processLegacyInterceptResponse(payload);
     }
     return payload;
 };
 const processLegacyInterceptResponse = (payload) => {
-    var _a, _b, _c, _d, _e;
-    const errorText = (_b = (_a = payload === null || payload === void 0 ? void 0 : payload.data) === null || _a === void 0 ? void 0 : _a.error) === null || _b === void 0 ? void 0 : _b.errorText;
-    const errorDescription = (_d = (_c = payload === null || payload === void 0 ? void 0 : payload.data) === null || _c === void 0 ? void 0 : _c.error) === null || _d === void 0 ? void 0 : _d.errorDescription;
+    const errorText = payload?.data?.error?.errorText;
+    const errorDescription = payload?.data?.error?.errorDescription;
     const payloadToSend = {
-        execute: (_e = payload === null || payload === void 0 ? void 0 : payload.data) === null || _e === void 0 ? void 0 : _e.execute,
+        execute: payload?.data?.execute,
         response: {
             body: {
                 errors: [
@@ -20189,11 +20167,11 @@ class TsEmbed {
                 });
             }
             catch (e) {
-                logger$3.error(`AppInit failed, Error : ${e === null || e === void 0 ? void 0 : e.message}`);
+                logger$3.error(`AppInit failed, Error : ${e?.message}`);
             }
         };
         this.handleAuthFailure = (error) => {
-            logger$3.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${error === null || error === void 0 ? void 0 : error.message}`);
+            logger$3.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${error?.message}`);
             processAuthFailure(error, this.isPreRendered ? this.preRenderWrapper : this.hostElement);
         };
         /**
@@ -20218,7 +20196,7 @@ class TsEmbed {
             const { authType, autoLogin: autoLoginConfig } = this.embedConfig;
             // Default autoLogin: true for cookieless if undefined/null, otherwise
             // false
-            const autoLogin = autoLoginConfig !== null && autoLoginConfig !== void 0 ? autoLoginConfig : (authType === AuthType.TrustedAuthTokenCookieless);
+            const autoLogin = autoLoginConfig ?? (authType === AuthType.TrustedAuthTokenCookieless);
             try {
                 await this.refreshAuthTokenForCookieless(responder, EmbedEvent.AuthExpire, false);
             }
@@ -20249,7 +20227,7 @@ class TsEmbed {
                     this.handleAuthFailure(e);
                 }
             }).catch((e) => {
-                logger$3.error(`Auto Login failed, Error : ${e === null || e === void 0 ? void 0 : e.message}`);
+                logger$3.error(`Auto Login failed, Error : ${e?.message}`);
             });
             notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
         };
@@ -20385,8 +20363,7 @@ class TsEmbed {
      * @param event The window message event
      */
     getEventType(event) {
-        var _a, _b;
-        return ((_a = event.data) === null || _a === void 0 ? void 0 : _a.type) || ((_b = event.data) === null || _b === void 0 ? void 0 : _b.__type);
+        return event.data?.type || event.data?.__type;
     }
     /**
      * Extracts the port field from the event payload
@@ -20475,9 +20452,8 @@ class TsEmbed {
             this.executeCallbacks(_eventType, data, eventPort);
         };
         const getUnsavedAnswerTml = async (props) => {
-            var _a, _b;
             const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
-            return (_b = (_a = response.filter((item) => item.value)) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.value;
+            return response.filter((item) => item.value)?.[0]?.value;
         };
         handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
     }
@@ -20536,7 +20512,6 @@ class TsEmbed {
         return authToken;
     }
     async getDefaultAppInitData() {
-        var _a, _b, _c;
         const authToken = await this.getAuthTokenForCookielessInit();
         const customActionsResult = getCustomActions([
             ...(this.viewConfig.customActions || []),
@@ -20562,13 +20537,13 @@ class TsEmbed {
             hiddenHomepageModules: this.viewConfig.hiddenHomepageModules || [],
             reorderedHomepageModules: this.viewConfig.reorderedHomepageModules || [],
             hostConfig: this.embedConfig.hostConfig,
-            hiddenHomeLeftNavItems: ((_a = this.viewConfig) === null || _a === void 0 ? void 0 : _a.hiddenHomeLeftNavItems)
-                ? (_b = this.viewConfig) === null || _b === void 0 ? void 0 : _b.hiddenHomeLeftNavItems
+            hiddenHomeLeftNavItems: this.viewConfig?.hiddenHomeLeftNavItems
+                ? this.viewConfig?.hiddenHomeLeftNavItems
                 : [],
             customVariablesForThirdPartyTools: this.embedConfig.customVariablesForThirdPartyTools || {},
             hiddenListColumns: this.viewConfig.hiddenListColumns || [],
             customActions: customActionsResult.actions,
-            embedExpiryInAuthToken: (_c = this.viewConfig.refreshAuthTokenOnNearExpiry) !== null && _c !== void 0 ? _c : true,
+            embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry ?? true,
             ...getInterceptInitData(this.viewConfig),
             ...getHostEventsConfig(this.viewConfig),
         };
@@ -20586,7 +20561,7 @@ class TsEmbed {
      */
     async refreshAuthTokenForCookieless(responder, eventType, forceRefresh = false) {
         const { authType, autoLogin } = this.embedConfig;
-        const isAutoLoginTrue = autoLogin !== null && autoLogin !== void 0 ? autoLogin : (authType === AuthType.TrustedAuthTokenCookieless);
+        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
         if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
             const authToken = await getAuthenticationToken(this.embedConfig, forceRefresh);
             responder({
@@ -20621,14 +20596,13 @@ class TsEmbed {
      * @returns queryParams
      */
     getBaseQueryParams(queryParams = {}) {
-        var _a, _b, _c, _d;
-        let hostAppUrl = ((_a = window === null || window === void 0 ? void 0 : window.location) === null || _a === void 0 ? void 0 : _a.host) || '';
+        let hostAppUrl = window?.location?.host || '';
         // The below check is needed because TS Cloud firewall, blocks
         // localhost/127.0.0.1 in any url param.
         if (hostAppUrl.includes('localhost') || hostAppUrl.includes('127.0.0.1')) {
             hostAppUrl = 'local-host';
         }
-        const blockNonEmbedFullAppAccess = (_b = this.embedConfig.blockNonEmbedFullAppAccess) !== null && _b !== void 0 ? _b : true;
+        const blockNonEmbedFullAppAccess = this.embedConfig.blockNonEmbedFullAppAccess ?? true;
         queryParams[Param.EmbedApp] = true;
         queryParams[Param.HostAppUrl] = encodeURIComponent(hostAppUrl);
         queryParams[Param.ViewPortHeight] = window.innerHeight;
@@ -20685,7 +20659,7 @@ class TsEmbed {
         if (primaryAction) {
             queryParams[Param.PrimaryAction] = primaryAction;
         }
-        if (disabledActions === null || disabledActions === void 0 ? void 0 : disabledActions.length) {
+        if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;
         }
         if (disabledActionReason) {
@@ -20694,7 +20668,7 @@ class TsEmbed {
         if (exposeTranslationIDs) {
             queryParams[Param.ExposeTranslationIDs] = exposeTranslationIDs;
         }
-        queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions !== null && hiddenActions !== void 0 ? hiddenActions : [])];
+        queryParams[Param.HideActions] = [...this.defaultHiddenActions, ...(hiddenActions ?? [])];
         if (Array.isArray(visibleActions)) {
             queryParams[Param.VisibleActions] = visibleActions;
         }
@@ -20719,12 +20693,12 @@ class TsEmbed {
             queryParams[Param.ContextMenuTrigger] = 'both';
         }
         const embedCustomizations = this.embedConfig.customizations;
-        const spriteUrl = (customizations === null || customizations === void 0 ? void 0 : customizations.iconSpriteUrl) || (embedCustomizations === null || embedCustomizations === void 0 ? void 0 : embedCustomizations.iconSpriteUrl);
+        const spriteUrl = customizations?.iconSpriteUrl || embedCustomizations?.iconSpriteUrl;
         if (spriteUrl) {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
-        const stringIDsUrl = ((_c = customizations === null || customizations === void 0 ? void 0 : customizations.content) === null || _c === void 0 ? void 0 : _c.stringIDsUrl)
-            || ((_d = embedCustomizations === null || embedCustomizations === void 0 ? void 0 : embedCustomizations.content) === null || _d === void 0 ? void 0 : _d.stringIDsUrl);
+        const stringIDsUrl = customizations?.content?.stringIDsUrl
+            || embedCustomizations?.content?.stringIDsUrl;
         if (stringIDsUrl) {
             queryParams[Param.StringIDsUrl] = stringIDsUrl;
         }
@@ -20857,7 +20831,6 @@ class TsEmbed {
         }
         if (url.length > URL_MAX_LENGTH) ;
         return renderInQueue((nextInQueue) => {
-            var _a;
             const initTimestamp = Date.now();
             this.executeCallbacks(EmbedEvent.Init, {
                 data: {
@@ -20868,7 +20841,8 @@ class TsEmbed {
             uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_START);
             // Always subscribe to network events, regardless of auth status
             this.subscribeToNetworkEvents();
-            return (_a = getAuthPromise()) === null || _a === void 0 ? void 0 : _a.then((isLoggedIn) => {
+            return getAuthPromise()
+                ?.then((isLoggedIn) => {
                 if (!isLoggedIn) {
                     this.handleInsertionIntoDOM(this.embedConfig.loginFailedMessage);
                     return;
@@ -20891,7 +20865,7 @@ class TsEmbed {
                     // Send info event  if preauth cache is enabled
                     if (this.isPreAuthCacheEnabled()) {
                         getPreauthInfo().then((data) => {
-                            if (data === null || data === void 0 ? void 0 : data.info) {
+                            if (data?.info) {
                                 this.trigger(HostEvent.InfoSuccess, data);
                             }
                         });
@@ -20913,7 +20887,8 @@ class TsEmbed {
                 // Subscribe to message events only after successful
                 // auth and iframe setup
                 this.subscribeToMessageEvents();
-            }).catch((error) => {
+            })
+                .catch((error) => {
                 nextInQueue();
                 uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_FAILED, {
                     error: JSON.stringify(error),
@@ -20929,9 +20904,8 @@ class TsEmbed {
         });
     }
     createPreRenderWrapper() {
-        var _a;
         const preRenderIds = this.getPreRenderIds();
-        (_a = document.getElementById(preRenderIds.wrapper)) === null || _a === void 0 ? void 0 : _a.remove();
+        document.getElementById(preRenderIds.wrapper)?.remove();
         const preRenderWrapper = document.createElement('div');
         preRenderWrapper.id = preRenderIds.wrapper;
         const initialPreRenderWrapperStyle = {
@@ -20970,9 +20944,8 @@ class TsEmbed {
         return (Boolean(this.preRenderWrapper && this.preRenderChild));
     }
     createPreRenderChild(child) {
-        var _a;
         const preRenderIds = this.getPreRenderIds();
-        (_a = document.getElementById(preRenderIds.child)) === null || _a === void 0 ? void 0 : _a.remove();
+        document.getElementById(preRenderIds.child)?.remove();
         if (child instanceof HTMLElement) {
             child.id = preRenderIds.child;
             return child;
@@ -21027,7 +21000,6 @@ class TsEmbed {
         document.body.appendChild(preRenderWrapper);
     }
     insertIntoDOM(child) {
-        var _a;
         if (this.viewConfig.insertAsSibling) {
             if (typeof child === 'string') {
                 const div = document.createElement('div');
@@ -21035,7 +21007,7 @@ class TsEmbed {
                 div.id = TS_EMBED_ID;
                 child = div;
             }
-            if (((_a = this.hostElement.nextElementSibling) === null || _a === void 0 ? void 0 : _a.id) === TS_EMBED_ID) {
+            if (this.hostElement.nextElementSibling?.id === TS_EMBED_ID) {
                 this.hostElement.nextElementSibling.remove();
             }
             this.hostElement.parentElement.insertBefore(child, this.hostElement.nextSibling);
@@ -21068,12 +21040,11 @@ class TsEmbed {
         }
     }
     shouldSkipEvent(eventType, data) {
-        var _a, _b, _c;
-        const errorType = (_a = data === null || data === void 0 ? void 0 : data.errorType) !== null && _a !== void 0 ? _a : (_b = data === null || data === void 0 ? void 0 : data.data) === null || _b === void 0 ? void 0 : _b.code;
+        const errorType = data?.errorType ?? data?.data?.code;
         if (eventType === EmbedEvent.Error
             && errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION
             && (!getHostEventsConfig(this.viewConfig).useHostEventsV2 || getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)) {
-            logger$3.warn(`Host Event Validation failed: ${(_c = data === null || data === void 0 ? void 0 : data.data) === null || _c === void 0 ? void 0 : _c.message}`);
+            logger$3.warn(`Host Event Validation failed: ${data?.data?.message}`);
             return true;
         }
         return false;
@@ -21090,7 +21061,7 @@ class TsEmbed {
         const eventHandlers = this.eventHandlerMap.get(eventType) || [];
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
         const callbacks = [...eventHandlers, ...allHandlers];
-        const dataStatus = (data === null || data === void 0 ? void 0 : data.status) || embedEventStatus.END;
+        const dataStatus = data?.status || embedEventStatus.END;
         callbacks.forEach((callbackObj) => {
             if (
             // When start status is true it trigger only start releated
@@ -21233,8 +21204,7 @@ class TsEmbed {
         }
     }
     getPreRenderObj() {
-        var _a;
-        const embedObj = (_a = this.preRenderWrapper) === null || _a === void 0 ? void 0 : _a[this.embedNodeKey];
+        const embedObj = this.preRenderWrapper?.[this.embedNodeKey];
         if (embedObj === this) {
             logger$3.info('embedObj is same as this');
         }
@@ -21252,7 +21222,7 @@ class TsEmbed {
     executeEmbedContainerReadyCallbacks() {
         logger$3.debug('executePendingEvents', this.embedContainerReadyCallbacks);
         this.embedContainerReadyCallbacks.forEach((callback) => {
-            callback === null || callback === void 0 ? void 0 : callback();
+            callback?.();
         });
         this.embedContainerReadyCallbacks = [];
     }
@@ -21262,7 +21232,7 @@ class TsEmbed {
      */
     executeAfterEmbedContainerLoaded(callback) {
         if (this.checkEmbedContainerLoaded()) {
-            callback === null || callback === void 0 ? void 0 : callback();
+            callback?.();
         }
         else {
             logger$3.debug('pushing callback to embedContainerReadyCallbacks', callback);
@@ -21317,9 +21287,8 @@ class TsEmbed {
         }
         // send an empty object, this is needed for liveboard default handlers
         return this.hostEventClient.triggerHostEvent(messageType, data, context).catch((err) => {
-            var _a;
-            if (err === null || err === void 0 ? void 0 : err.isValidationError) {
-                const errorDetails = (_a = err.embedErrorDetails) !== null && _a !== void 0 ? _a : {
+            if (err?.isValidationError) {
+                const errorDetails = err.embedErrorDetails ?? {
                     errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                     message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
                     code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
@@ -21465,17 +21434,16 @@ class TsEmbed {
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     destroy() {
-        var _a, _b, _c;
         try {
             this.removeFullscreenChangeHandler();
             this.unsubscribeToEvents();
-            (_a = this.preRenderWrapper) === null || _a === void 0 ? void 0 : _a.remove();
+            this.preRenderWrapper?.remove();
             if (!this.isRendered) {
                 return;
             }
             if (!getEmbedConfig().waitForCleanupOnDestroy) {
                 this.trigger(HostEvent.DestroyEmbed);
-                (_c = (_b = this.insertedDomEl) === null || _b === void 0 ? void 0 : _b.parentNode) === null || _c === void 0 ? void 0 : _c.removeChild(this.insertedDomEl);
+                this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
             }
             else {
                 const cleanupTimeout = getEmbedConfig().cleanupTimeout;
@@ -21485,9 +21453,8 @@ class TsEmbed {
                 ]).catch((e) => {
                     logger$3.log('Error destroying TS Embed', e);
                 }).finally(() => {
-                    var _a, _b;
                     try {
-                        (_b = (_a = this.insertedDomEl) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(this.insertedDomEl);
+                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
                     }
                     catch (e) {
                         logger$3.log('Error removing DOM element on destroy', e);
@@ -21533,9 +21500,9 @@ class TsEmbed {
                 logger$3.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                 this.handleError({
                     errorType: ErrorDetailsTypes.API,
-                    message: (error === null || error === void 0 ? void 0 : error.message) || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
                     code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: (error === null || error === void 0 ? void 0 : error.message) || error,
+                    error: error?.message || error,
                 });
             }
         });
@@ -21547,7 +21514,6 @@ class TsEmbed {
      * wrapper to overlay it.
      */
     async showPreRender() {
-        var _a;
         if (this.shouldWaitForRenderPromise)
             await this.isReadyForRenderPromise;
         if (!this.viewConfig.preRenderId) {
@@ -21578,7 +21544,7 @@ class TsEmbed {
             this.hostElement.appendChild(this.insertedDomEl);
             this.syncPreRenderStyle();
             if (!this.viewConfig.doNotTrackPreRenderSize) {
-                const observeTarget = (_a = this.insertedDomEl) !== null && _a !== void 0 ? _a : this.hostElement;
+                const observeTarget = this.insertedDomEl ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
                         if (entry.contentRect && entry.target === observeTarget) {
@@ -21684,9 +21650,8 @@ class TsEmbed {
      * when user exits fullscreen mode
      */
     setupFullscreenChangeHandler() {
-        var _a;
         const embedConfig = getEmbedConfig();
-        const disableFullscreenPresentation = (_a = embedConfig === null || embedConfig === void 0 ? void 0 : embedConfig.disableFullscreenPresentation) !== null && _a !== void 0 ? _a : true;
+        const disableFullscreenPresentation = embedConfig?.disableFullscreenPresentation ?? true;
         if (disableFullscreenPresentation) {
             return;
         }
@@ -21798,17 +21763,16 @@ let SearchBarEmbed$1 = class SearchBarEmbed extends TsEmbed {
         this.viewConfig = viewConfig;
     }
     getEmbedParamsObject() {
-        var _a;
         const { searchOptions, dataSource, dataSources, useLastSelectedSources = false, excludeSearchTokenStringFromURL, } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
-        queryParams[Param.HideActions] = [...((_a = queryParams[Param.HideActions]) !== null && _a !== void 0 ? _a : [])];
+        queryParams[Param.HideActions] = [...(queryParams[Param.HideActions] ?? [])];
         if (dataSources && dataSources.length) {
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
         }
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions === null || searchOptions === void 0 ? void 0 : searchOptions.searchTokenString) {
+        if (searchOptions?.searchTokenString) {
             if (!excludeSearchTokenStringFromURL) {
                 queryParams[Param.searchTokenString] = encodeURIComponent(searchOptions.searchTokenString);
             }
@@ -21925,11 +21889,10 @@ let SearchEmbed$1 = class SearchEmbed extends TsEmbed {
         return dataSourceMode;
     }
     getSearchInitData() {
-        var _a;
         return {
             ...(this.viewConfig.excludeSearchTokenStringFromURL ? {
                 searchOptions: {
-                    searchTokenString: (_a = this.viewConfig.searchOptions) === null || _a === void 0 ? void 0 : _a.searchTokenString,
+                    searchTokenString: this.viewConfig.searchOptions?.searchTokenString,
                 },
             } : {}),
         };
@@ -21949,11 +21912,10 @@ let SearchEmbed$1 = class SearchEmbed extends TsEmbed {
         return result;
     }
     getEmbedParamsObject() {
-        var _a;
         const { hideResults, enableSearchAssist, forceTable, searchOptions, runtimeFilters, dataSource, dataSources, excludeRuntimeFiltersfromURL, hideSearchBar, dataPanelV2 = true, useLastSelectedSources = false, runtimeParameters, collapseSearchBarInitially = false, enableCustomColumnGroups = false, dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState$1.EXPAND_ALL, focusSearchBarOnRender = true, excludeRuntimeParametersfromURL, excludeSearchTokenStringFromURL, collapseSearchBar = true, isThisPeriodInDateFiltersEnabled, newChartsLibrary, } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.HideActions] = [
-            ...((_a = queryParams[Param.HideActions]) !== null && _a !== void 0 ? _a : []),
+            ...(queryParams[Param.HideActions] ?? []),
             ...HiddenActionItemByDefaultForSearchEmbed,
         ];
         if (dataSources && dataSources.length) {
@@ -21962,7 +21924,7 @@ let SearchEmbed$1 = class SearchEmbed extends TsEmbed {
         if (dataSource) {
             queryParams[Param.DataSources] = `["${dataSource}"]`;
         }
-        if (searchOptions === null || searchOptions === void 0 ? void 0 : searchOptions.searchTokenString) {
+        if (searchOptions?.searchTokenString) {
             if (!excludeSearchTokenStringFromURL) {
                 queryParams[Param.searchTokenString] = encodeURIComponent(searchOptions.searchTokenString);
             }
@@ -22069,7 +22031,7 @@ const resolveEnablePastConversationsSidebar = (params) => (params.spotterSidebar
 function buildSpotterSidebarAppInitData(defaultAppInitData, viewConfig, handleError) {
     const { spotterSidebarConfig, enablePastConversationsSidebar, visualOverrides } = viewConfig;
     const resolvedEnablePastConversations = resolveEnablePastConversationsSidebar({
-        spotterSidebarConfigValue: spotterSidebarConfig === null || spotterSidebarConfig === void 0 ? void 0 : spotterSidebarConfig.enablePastConversationsSidebar,
+        spotterSidebarConfigValue: spotterSidebarConfig?.enablePastConversationsSidebar,
         standaloneValue: enablePastConversationsSidebar,
     });
     const hasConfig = spotterSidebarConfig || resolvedEnablePastConversations !== undefined;
@@ -22095,7 +22057,7 @@ function buildSpotterSidebarAppInitData(defaultAppInitData, viewConfig, handleEr
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
                 code: EmbedErrorCodes.INVALID_URL,
-                error: (validationError === null || validationError === void 0 ? void 0 : validationError.message) || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
+                error: validationError?.message || ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
             });
             delete resolvedSidebarConfig.spotterDocumentationUrl;
         }
@@ -22953,7 +22915,7 @@ let LiveboardEmbed$1 = class LiveboardEmbed extends V1Embed {
         // embedded in path
         let liveboardGuid = liveboardId;
         let legacyViewId;
-        if (liveboardId === null || liveboardId === void 0 ? void 0 : liveboardId.includes('?')) {
+        if (liveboardId?.includes('?')) {
             const [id, query] = liveboardId.split('?');
             liveboardGuid = id;
             const params = new URLSearchParams(query);
@@ -22982,9 +22944,8 @@ let LiveboardEmbed$1 = class LiveboardEmbed extends V1Embed {
      * to be loaded within the iFrame.
      */
     getIFrameSrc() {
-        var _a;
         const { vizId, activeTabId, personalizedViewId } = this.viewConfig;
-        const liveboardId = (_a = this.viewConfig.liveboardId) !== null && _a !== void 0 ? _a : this.viewConfig.pinboardId;
+        const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
         if (!liveboardId) {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
@@ -23533,9 +23494,8 @@ let ConversationMessage$1 = class ConversationMessage extends TsEmbed {
         this.viewConfig = viewConfig;
     }
     getEmbedParamsObject() {
-        var _a;
         const queryParams = this.getBaseQueryParams();
-        queryParams[Param.HideActions] = [...((_a = queryParams[Param.HideActions]) !== null && _a !== void 0 ? _a : [])];
+        queryParams[Param.HideActions] = [...(queryParams[Param.HideActions] ?? [])];
         queryParams[Param.isSpotterAgentEmbed] = true;
         return queryParams;
     }
@@ -23747,7 +23707,7 @@ let SpotterEmbed$1 = class SpotterEmbed extends TsEmbed {
         }
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
             worksheet: worksheetId,
-            query: (searchOptions === null || searchOptions === void 0 ? void 0 : searchOptions.searchQuery) || '',
+            query: searchOptions?.searchQuery || '',
         });
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
