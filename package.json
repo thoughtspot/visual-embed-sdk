@@ -17,6 +17,7 @@
     ],
     "exports": {
         ".": {
+            "browser": "./dist/tsembed.es.js",
             "import": "./lib/src/index.js",
             "require": "./cjs/src/index.js",
             "types": "./lib/src/index.d.ts"
