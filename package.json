@@ -17,6 +17,11 @@
     ],
     "exports": {
         ".": {
+            "import": "./lib/src/index.js",
+            "require": "./cjs/src/index.js",
+            "types": "./lib/src/index.d.ts"
+        },
+        "./webpack": {
             "browser": "./lib/src/index.js",
             "import": "./lib/src/index.js",
             "require": "./cjs/src/index.js",
