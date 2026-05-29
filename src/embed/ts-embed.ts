@@ -1878,7 +1878,7 @@ export class TsEmbed {
             preRenderId: this.viewConfig.preRenderId,
             embedComponentType: this.viewConfig.embedComponentType,
         });
-        if (!this.isPreRenderAvailable()) {
+
         logger.debug('HidePreRender Called');
         if (!this.isPreRenderConnected()) {
             // if the embed component is not preRendered , nothing to hide
