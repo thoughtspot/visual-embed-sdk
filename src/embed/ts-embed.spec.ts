@@ -2082,7 +2082,7 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&enableLinkOverridesV2=true&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
             );
         });
-        it('Sets only linkOverride when enableLinkOverridesV2 is not set', async () => {
+        it('Auto-upgrades V1 linkOverride to V2 (sends both flags)', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -2092,10 +2092,40 @@ describe('Unit test case for ts embed', () => {
                 linkOverride: true,
             });
             await liveboardEmbed.render();
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
-            );
+            const src = getIFrameSrc();
+            expect(src).toContain('linkOverride=true');
+            expect(src).toContain('enableLinkOverridesV2=true');
+        });
+        it('Auto-disables V2 link overrides when disableRedirectionLinksInNewTab is true', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                enableLinkOverridesV2: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            await liveboardEmbed.render();
+            const src = getIFrameSrc();
+            expect(src).not.toContain('enableLinkOverridesV2=true');
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
+        });
+        it('Auto-disables V1 link override when disableRedirectionLinksInNewTab is true', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                linkOverride: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            await liveboardEmbed.render();
+            const src = getIFrameSrc();
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
         });
         it('Sets the iconSprite url', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {

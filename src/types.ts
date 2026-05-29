@@ -1140,6 +1140,14 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * This flag can be used to disable links inside the embedded app,
      * and disable redirection of links in a new tab.
      *
+     * Note: When set to `true`, this flag automatically disables
+     * {@link enableLinkOverridesV2} for the
+     * embed session. The two features are mutually exclusive — link
+     * overrides mutate anchors (delete `href`, attach a JS click handler),
+     * which breaks native browser behavior (Cmd/Ctrl+Click, middle-click,
+     * right-click "Open in new tab") when combined with the disable flag.
+     * The disable flag preserves native anchor semantics instead.
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      * @example
@@ -1175,8 +1183,13 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Flag to override the *Open Link in New Tab* context
      * menu option.
      *
-     * For improved link override handling, use
-     * {@link enableLinkOverridesV2} instead.
+     * Note: Setting this flag implicitly enables
+     * {@link enableLinkOverridesV2}. V1 is auto-upgraded to
+     * V2 to ensure consistent link-override behavior; the
+     * legacy V1-only path is no longer used in isolation.
+     *
+     * Note: This flag is ignored when
+     * {@link disableRedirectionLinksInNewTab} is `true`.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
      * `SearchEmbed`, `SpotterAgentEmbed`,
@@ -1201,6 +1214,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The SDK automatically sends {@link linkOverride}
      * alongside this flag for backward compatibility with
      * older ThoughtSpot versions.
+     *
+     * Note: This flag is ignored when
+     * {@link disableRedirectionLinksInNewTab} is `true`.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
      * `SearchEmbed`, `SpotterAgentEmbed`,
