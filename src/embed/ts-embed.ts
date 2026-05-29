@@ -70,7 +70,10 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../../package.json';
 import {
-    getAuthPromise, renderInQueue, handleAuth, notifyAuthFailure,
+    getAuthPromise,
+    renderInQueue,
+    handleAuth,
+    notifyAuthFailure,
     getInitPromise,
     getIsInitCalled,
     getIsInitCompleted,
@@ -80,7 +83,12 @@ import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
-import { getInterceptInitData, handleInterceptEvent, processApiInterceptResponse, processLegacyInterceptResponse } from '../api-intercept';
+import {
+    getInterceptInitData,
+    handleInterceptEvent,
+    processApiInterceptResponse,
+    processLegacyInterceptResponse,
+} from '../api-intercept';
 
 /**
  * Global prefix for all ThoughtSpot postHash Params.
@@ -137,7 +145,11 @@ export class TsEmbed {
         this.hostEventClient.setIframeElement(iFrame);
     }
 
-    protected viewConfig: ViewConfig & { visibleTabs?: string[], hiddenTabs?: string[], showAlerts?: boolean };
+    protected viewConfig: ViewConfig & {
+        visibleTabs?: string[];
+        hiddenTabs?: string[];
+        showAlerts?: boolean;
+    };
 
     protected embedConfig: EmbedConfig;
 
@@ -209,7 +221,7 @@ export class TsEmbed {
             ...viewConfig,
         });
         const embedConfig = getEmbedConfig();
-        if(embedConfig) {
+        if (embedConfig) {
             this.embedConfig = embedConfig;
             this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
             this.thoughtSpotV2Base = getV2BasePath(embedConfig);
@@ -217,20 +229,33 @@ export class TsEmbed {
         this.hostEventClient = new HostEventClient(this.iFrame);
         this.shouldWaitForRenderPromise = !getIsInitCompleted();
         const afterInit = () => {
-            this.embedConfig = embedConfig;
-            if (!embedConfig.authTriggerContainer && !embedConfig.useEventForSAMLPopup) {
+            // Prefer the config captured at construction time; fall back to
+            // getEmbedConfig() for the case where init()
+            // hadn't been called yet.
+            this.embedConfig = embedConfig ?? getEmbedConfig();
+            if (!this.embedConfig) {
+                logger.error('embedConfig unavailable in afterInit; init() may not have completed');
+                return;
+            }
+            if (!this.embedConfig.authTriggerContainer && !this.embedConfig.useEventForSAMLPopup) {
                 this.embedConfig.authTriggerContainer = domSelector;
             }
-            this.thoughtSpotHost = getThoughtSpotHost(embedConfig);
-            this.thoughtSpotV2Base = getV2BasePath(embedConfig);
-            this.shouldEncodeUrlQueryParams = embedConfig.shouldEncodeUrlQueryParams;
-        }
+            this.thoughtSpotHost = getThoughtSpotHost(this.embedConfig);
+            this.thoughtSpotV2Base = getV2BasePath(this.embedConfig);
+            this.shouldEncodeUrlQueryParams = this.embedConfig.shouldEncodeUrlQueryParams;
+        };
         if (!this.shouldWaitForRenderPromise) {
             afterInit();
         } else {
-            this.isReadyForRenderPromise = getInitPromise().then(afterInit).finally(() => {
-                this.shouldWaitForRenderPromise = true;
-            })
+            this.isReadyForRenderPromise = getInitPromise()
+                .then(afterInit)
+                .catch((err) => {
+                    logger.error('SDK init failed before embed could be configured', err);
+                    this.throwInitError();
+                })
+                .finally(() => {
+                    this.shouldWaitForRenderPromise = false;
+                });
         }
     }
 
@@ -263,7 +288,6 @@ export class TsEmbed {
      * @param event The window message event
      */
     private getEventType(event: MessageEvent) {
-
         return event.data?.type || event.data?.__type;
     }
 
@@ -293,11 +317,10 @@ export class TsEmbed {
         // 3. FullAppEmbed has primary navbar visible since:
         //    - primary navbar requires fresh auth state for navigation
         //    - cached auth may not reflect current user permissions
-        const isDisabled = (
-            this.viewConfig.overrideOrgId !== undefined
-            || this.embedConfig.disablePreauthCache === true
-            || this.isFullAppEmbedWithVisiblePrimaryNavbar()
-        );
+        const isDisabled =
+            this.viewConfig.overrideOrgId !== undefined ||
+            this.embedConfig.disablePreauthCache === true ||
+            this.isFullAppEmbedWithVisiblePrimaryNavbar();
         return !isDisabled;
     }
 
@@ -311,8 +334,8 @@ export class TsEmbed {
         // Check if this is a FullAppEmbed (AppEmbed)
         // showPrimaryNavbar defaults to true if not explicitly set to false
         return (
-            appViewConfig.embedComponentType === 'AppEmbed'
-            && appViewConfig.showPrimaryNavbar === true
+            appViewConfig.embedComponentType === 'AppEmbed' &&
+            appViewConfig.showPrimaryNavbar === true
         );
     }
 
@@ -364,15 +387,29 @@ export class TsEmbed {
         this.subscribedListeners.offline = offlineEventListener;
     }
 
-    private handleApiInterceptEvent({ eventData, eventPort }: { eventData: any, eventPort: MessagePort | void }) {
+    private handleApiInterceptEvent({
+        eventData,
+        eventPort,
+    }: {
+        eventData: any;
+        eventPort: MessagePort | void;
+    }) {
         const executeEvent = (_eventType: EmbedEvent, data: any) => {
             this.executeCallbacks(_eventType, data, eventPort);
-        }
-        const getUnsavedAnswerTml = async (props: { sessionId?: string, vizId?: string }) => {
-            const response = await this.triggerUIPassThrough(UIPassthroughEvent.GetUnsavedAnswerTML, props);
+        };
+        const getUnsavedAnswerTml = async (props: { sessionId?: string; vizId?: string }) => {
+            const response = await this.triggerUIPassThrough(
+                UIPassthroughEvent.GetUnsavedAnswerTML,
+                props,
+            );
             return response.filter((item) => item.value)?.[0]?.value;
-        }
-        handleInterceptEvent({ eventData, executeEvent, viewConfig: this.viewConfig, getUnsavedAnswerTml });
+        };
+        handleInterceptEvent({
+            eventData,
+            executeEvent,
+            viewConfig: this.viewConfig,
+            getUnsavedAnswerTml,
+        });
     }
 
     private messageEventListener = (event: MessageEvent<any>) => {
@@ -392,11 +429,7 @@ export class TsEmbed {
                 return;
             }
 
-            this.executeCallbacks(
-                eventType,
-                processedEventData,
-                eventPort,
-            );
+            this.executeCallbacks(eventType, processedEventData, eventPort);
         }
     };
     /**
@@ -410,7 +443,6 @@ export class TsEmbed {
         this.subscribedListeners.message = this.messageEventListener;
     }
 
-
     /**
      * Adds event listeners for both network and message events.
      * This maintains backward compatibility with the existing method.
@@ -423,7 +455,6 @@ export class TsEmbed {
         this.subscribeToNetworkEvents();
         this.subscribeToMessageEvents();
     }
-
 
     private unsubscribeToNetworkEvents() {
         if (this.subscribedListeners.online) {
@@ -467,14 +498,17 @@ export class TsEmbed {
         const authToken = await this.getAuthTokenForCookielessInit();
         const customActionsResult = getCustomActions([
             ...(this.viewConfig.customActions || []),
-            ...(this.embedConfig.customActions || [])
+            ...(this.embedConfig.customActions || []),
         ]);
         if (customActionsResult.errors.length > 0) {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: customActionsResult.errors,
                 code: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION,
-                error: { type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION, message: customActionsResult.errors }
+                error: {
+                    type: EmbedErrorCodes.CUSTOM_ACTION_VALIDATION,
+                    message: customActionsResult.errors,
+                },
             });
         }
         const baseInitData = {
@@ -536,10 +570,10 @@ export class TsEmbed {
     private async refreshAuthTokenForCookieless(
         responder: (data: any) => void,
         eventType: EmbedEvent,
-        forceRefresh: boolean = false
+        forceRefresh: boolean = false,
     ): Promise<void> {
         const { authType, autoLogin } = this.embedConfig;
-        const isAutoLoginTrue = autoLogin ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        const isAutoLoginTrue = autoLogin ?? authType === AuthType.TrustedAuthTokenCookieless;
 
         if (isAutoLoginTrue && authType === AuthType.TrustedAuthTokenCookieless) {
             const authToken = await getAuthenticationToken(this.embedConfig, forceRefresh);
@@ -553,20 +587,23 @@ export class TsEmbed {
     private handleAuthFailure = (error: Error) => {
         logger.error(`${ERROR_MESSAGE.INVALID_TOKEN_ERROR} Error : ${error?.message}`);
         processAuthFailure(error, this.isPreRendered ? this.preRenderWrapper : this.hostElement);
-    }
+    };
 
     /**
      * Refresh the auth token if the autoLogin is true and the authType is TrustedAuthTokenCookieless
      * @param _
      * @param responder
      */
-    private tokenRefresh = async (_: MessagePayload, responder: (data: { type: EmbedEvent, data: { authToken: string } }) => void) => {
+    private tokenRefresh = async (
+        _: MessagePayload,
+        responder: (data: { type: EmbedEvent; data: { authToken: string } }) => void,
+    ) => {
         try {
             await this.refreshAuthTokenForCookieless(responder, EmbedEvent.RefreshAuthToken, true);
         } catch (e) {
             this.handleAuthFailure(e);
         }
-    }
+    };
 
     /**
      * Sends updated auth token to the iFrame to avoid user logout
@@ -577,7 +614,7 @@ export class TsEmbed {
         const { authType, autoLogin: autoLoginConfig } = this.embedConfig;
         // Default autoLogin: true for cookieless if undefined/null, otherwise
         // false
-        const autoLogin = autoLoginConfig ?? (authType === AuthType.TrustedAuthTokenCookieless);
+        const autoLogin = autoLoginConfig ?? authType === AuthType.TrustedAuthTokenCookieless;
 
         try {
             await this.refreshAuthTokenForCookieless(responder, EmbedEvent.AuthExpire, false);
@@ -597,20 +634,22 @@ export class TsEmbed {
      * @param responder
      */
     private idleSessionTimeout = (_: any, responder: any) => {
-        handleAuth().then(async () => {
-            let authToken = '';
-            try {
-                authToken = await getAuthenticationToken(this.embedConfig);
-                responder({
-                    type: EmbedEvent.IdleSessionTimeout,
-                    data: { authToken },
-                });
-            } catch (e) {
-                this.handleAuthFailure(e);
-            }
-        }).catch((e) => {
-            logger.error(`Auto Login failed, Error : ${e?.message}`);
-        });
+        handleAuth()
+            .then(async () => {
+                let authToken = '';
+                try {
+                    authToken = await getAuthenticationToken(this.embedConfig);
+                    responder({
+                        type: EmbedEvent.IdleSessionTimeout,
+                        data: { authToken },
+                    });
+                } catch (e) {
+                    this.handleAuthFailure(e);
+                }
+            })
+            .catch((e) => {
+                logger.error(`Auto Login failed, Error : ${e?.message}`);
+            });
         notifyAuthFailure(AuthFailureType.IDLE_SESSION_TIMEOUT);
     };
 
@@ -622,7 +661,9 @@ export class TsEmbed {
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
 
-        const embedListenerReadyHandler = this.createEmbedContainerHandler(EmbedEvent.EmbedListenerReady);
+        const embedListenerReadyHandler = this.createEmbedContainerHandler(
+            EmbedEvent.EmbedListenerReady,
+        );
         this.on(EmbedEvent.EmbedListenerReady, embedListenerReadyHandler, { start: false }, true);
 
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
@@ -789,8 +830,8 @@ export class TsEmbed {
             queryParams[Param.IconSpriteUrl] = spriteUrl.replace('https://', '');
         }
 
-        const stringIDsUrl = customizations?.content?.stringIDsUrl
-            || embedCustomizations?.content?.stringIDsUrl;
+        const stringIDsUrl =
+            customizations?.content?.stringIDsUrl || embedCustomizations?.content?.stringIDsUrl;
         if (stringIDsUrl) {
             queryParams[Param.StringIDsUrl] = stringIDsUrl;
         }
@@ -1067,9 +1108,7 @@ export class TsEmbed {
     }
 
     protected isPreRenderConnected(): boolean {
-        return (
-            Boolean(this.preRenderWrapper && this.preRenderChild)
-        );
+        return Boolean(this.preRenderWrapper && this.preRenderChild);
     }
 
     protected createPreRenderChild(child: string | Node): HTMLElement {
@@ -1171,10 +1210,11 @@ export class TsEmbed {
      */
     protected setIFrameHeight(height: number | string): void {
         if (this.isPreRendered) {
-            if (this.insertedDomEl)
+            if (this.insertedDomEl) {
                 (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
-            else 
+            } else if (this.preRenderWrapper) {
                 this.preRenderWrapper.style.height = getCssDimension(height);
+            }
         } else {
             // normal (non-preRender) mode: size the iframe directly
             this.iFrame.style.height = getCssDimension(height);
@@ -1186,10 +1226,12 @@ export class TsEmbed {
      * Embed event handler -> responder -> createEmbedEventResponder -> send response
      * @param eventPort The event port for a specific MessageChannel
      * @param eventType The event type
-     * @returns 
+     * @returns
      */
-    protected createEmbedEventResponder = (eventPort: MessagePort | void, eventType: EmbedEvent) => {
-
+    protected createEmbedEventResponder = (
+        eventPort: MessagePort | void,
+        eventType: EmbedEvent,
+    ) => {
         const getPayloadToSend = (payload: any) => {
             if (eventType === EmbedEvent.OnBeforeGetVizDataIntercept) {
                 return processLegacyInterceptResponse(payload);
@@ -1198,25 +1240,26 @@ export class TsEmbed {
                 return processApiInterceptResponse(payload);
             }
             return payload;
-        }
+        };
         return (payload: any) => {
             const payloadToSend = getPayloadToSend(payload);
             this.triggerEventOnPort(eventPort, payloadToSend);
-        }
-    }
+        };
+    };
 
-    private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {                                                                                                         
-        const errorType = data?.errorType ?? data?.data?.code;                                                                                                              
-        if (                                                                                                                                                                     
-            eventType === EmbedEvent.Error
-            && errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION                                                                                                                  
-            && (!getHostEventsConfig(this.viewConfig).useHostEventsV2 || getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)                                                                                                                                
+    private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {
+        const errorType = data?.errorType ?? data?.data?.code;
+        if (
+            eventType === EmbedEvent.Error &&
+            errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION &&
+            (!getHostEventsConfig(this.viewConfig).useHostEventsV2 ||
+                getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)
         ) {
             logger.warn(`Host Event Validation failed: ${data?.data?.message}`);
-            return true;                                                                                                                                                         
-        }           
+            return true;
+        }
         return false;
-    }                                                                                                                                                                            
+    }
     /**
      * Executes all registered event handlers for a particular event type
      * @param eventType The event type
@@ -1237,10 +1280,10 @@ export class TsEmbed {
             if (
                 // When start status is true it trigger only start releated
                 // payload
-                (callbackObj.options.start && dataStatus === embedEventStatus.START)
+                (callbackObj.options.start && dataStatus === embedEventStatus.START) ||
                 // When start status is false it trigger only end releated
                 // payload
-                || (!callbackObj.options.start && dataStatus === embedEventStatus.END)
+                (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
                 const responder = this.createEmbedEventResponder(eventPort, eventType);
                 callbackObj.callback(data, responder);
@@ -1386,15 +1429,15 @@ export class TsEmbed {
     }
 
     /**
-    * @hidden
-    * Internal state to track if the embed container is loaded.
-    * This is used to trigger events after the embed container is loaded.
-    */
+     * @hidden
+     * Internal state to track if the embed container is loaded.
+     * This is used to trigger events after the embed container is loaded.
+     */
     public isEmbedContainerLoaded = false;
 
     /**
      * @hidden
-     * Internal state to track the callbacks to be executed after the embed container 
+     * Internal state to track the callbacks to be executed after the embed container
      * is loaded.
      * This is used to trigger events after the embed container is loaded.
      */
@@ -1439,22 +1482,23 @@ export class TsEmbed {
         }
     }
 
-    protected createEmbedContainerHandler = (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
-        const processEmbedContainerReady = () => {
-            logger.debug('processEmbedContainerReady');
-            this.isEmbedContainerLoaded = true;
-            this.executeEmbedContainerReadyCallbacks();
-        }
-        if (source === EmbedEvent.AuthInit) {
-            const AUTH_INIT_FALLBACK_DELAY = 1000;
-            // Wait for 1 second to ensure the embed container is loaded
-            // This is a workaround to ensure the embed container is loaded
-            // this is needed until all clusters have EmbedListenerReady event
-            setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
-        } else if (source === EmbedEvent.EmbedListenerReady) {
-            processEmbedContainerReady();
-        }
-    }
+    protected createEmbedContainerHandler =
+        (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
+            const processEmbedContainerReady = () => {
+                logger.debug('processEmbedContainerReady');
+                this.isEmbedContainerLoaded = true;
+                this.executeEmbedContainerReadyCallbacks();
+            };
+            if (source === EmbedEvent.AuthInit) {
+                const AUTH_INIT_FALLBACK_DELAY = 1000;
+                // Wait for 1 second to ensure the embed container is loaded
+                // This is a workaround to ensure the embed container is loaded
+                // this is needed until all clusters have EmbedListenerReady event
+                setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
+            } else if (source === EmbedEvent.EmbedListenerReady) {
+                processEmbedContainerReady();
+            }
+        };
 
     /**
      * Triggers an event to the embedded app
@@ -1503,7 +1547,7 @@ export class TsEmbed {
             return null;
         }
 
-        // Check if iframe exists before triggering - 
+        // Check if iframe exists before triggering -
         // this prevents the error when auth fails
         if (!this.iFrame) {
             logger.debug(
@@ -1513,21 +1557,30 @@ export class TsEmbed {
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch((err: Error & {
-            isValidationError?: boolean;
-            embedErrorDetails?: { errorType: ErrorDetailsTypes; message: string; code: EmbedErrorCodes; error: string };
-        }): Promise<null> => {
-            if (err?.isValidationError) {
-                const errorDetails = err.embedErrorDetails ?? {
-                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                    message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
-                    code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
-                    error: err.message,
-                };
-                this.handleError(errorDetails);
-            }
-            throw err;
-        });
+        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
+            (
+                err: Error & {
+                    isValidationError?: boolean;
+                    embedErrorDetails?: {
+                        errorType: ErrorDetailsTypes;
+                        message: string;
+                        code: EmbedErrorCodes;
+                        error: string;
+                    };
+                },
+            ): Promise<null> => {
+                if (err?.isValidationError) {
+                    const errorDetails = err.embedErrorDetails ?? {
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
+                        code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
+                        error: err.message,
+                    };
+                    this.handleError(errorDetails);
+                }
+                throw err;
+            },
+        );
     }
 
     /**
@@ -1555,8 +1608,7 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        if (this.shouldWaitForRenderPromise)
-            await this.isReadyForRenderPromise;
+        if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
         this.isRendered = true;
 
         return this;
@@ -1571,33 +1623,33 @@ export class TsEmbed {
     }
 
     /**
-    * Context object for the embedded component.
-    * @returns {ContextObject} The current context object containing the page type and object ids.
-    * @example
-    * ```js
-    * const context = await embed.getCurrentContext();
-    * console.log(context);
-    * 
-    * // Example output
-    * {
-    *   stack: [
-    *     {
-    *       name: 'Liveboard',
-    *       type: ContextType.Liveboard,
-    *       objectIds: {
-    *         liveboardId: '123',
-    *       },
-    *     },
-    *   ],
-    *   currentContext: {
-    *     name: 'Liveboard',
-    *     type: ContextType.Liveboard,
-    *     objectIds: {
-    *       liveboardId: '123',
-    *     },
-    *   },
-    * }
-    * ```
+     * Context object for the embedded component.
+     * @returns {ContextObject} The current context object containing the page type and object ids.
+     * @example
+     * ```js
+     * const context = await embed.getCurrentContext();
+     * console.log(context);
+     *
+     * // Example output
+     * {
+     *   stack: [
+     *     {
+     *       name: 'Liveboard',
+     *       type: ContextType.Liveboard,
+     *       objectIds: {
+     *         liveboardId: '123',
+     *       },
+     *     },
+     *   ],
+     *   currentContext: {
+     *     name: 'Liveboard',
+     *     type: ContextType.Liveboard,
+     *     objectIds: {
+     *       liveboardId: '123',
+     *     },
+     *   },
+     * }
+     * ```
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      */
     public async getCurrentContext(): Promise<ContextObject> {
@@ -1617,7 +1669,7 @@ export class TsEmbed {
      *
      * @param eventName - The host or action event to generate the subscribed event name for.
      * @returns The formatted event name (e.g., "Save Subscribed").
-     * 
+     *
      * @version SDK: 1.47.2 | ThoughtSpot: 26.3.0.cl
      */
     public subscribedEvent(eventName: HostEvent | Action): string {
@@ -1629,14 +1681,16 @@ export class TsEmbed {
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
      */
 
-    public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
+    public async preRender(
+        showPreRenderByDefault = false,
+        replaceExistingPreRender = false,
+    ): Promise<TsEmbed> {
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
         this.isPreRendered = true;
         this.showPreRenderByDefault = showPreRenderByDefault;
-
 
         const isAlreadyRendered = this.connectPreRendered();
         if (isAlreadyRendered && !replaceExistingPreRender) {
@@ -1694,22 +1748,24 @@ export class TsEmbed {
                 return;
             }
             if (!getEmbedConfig().waitForCleanupOnDestroy) {
-                this.trigger(HostEvent.DestroyEmbed)
+                this.trigger(HostEvent.DestroyEmbed);
                 this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
             } else {
                 const cleanupTimeout = getEmbedConfig().cleanupTimeout;
                 Promise.race([
                     this.trigger(HostEvent.DestroyEmbed),
                     new Promise((resolve) => setTimeout(resolve, cleanupTimeout)),
-                ]).catch((e) => {
-                    logger.log('Error destroying TS Embed', e);
-                }).finally(() => {
-                    try {
-                        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
-                    } catch (e) {
-                        logger.log('Error removing DOM element on destroy', e);
-                    }
-                });
+                ])
+                    .catch((e) => {
+                        logger.log('Error destroying TS Embed', e);
+                    })
+                    .finally(() => {
+                        try {
+                            this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
+                        } catch (e) {
+                            logger.log('Error removing DOM element on destroy', e);
+                        }
+                    });
             }
         } catch (e) {
             logger.log('Error destroying TS Embed', e);
@@ -1731,8 +1787,7 @@ export class TsEmbed {
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
-        if (this.shouldWaitForRenderPromise)
-            await this.isReadyForRenderPromise;
+        if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
         const prerenderFrameSrc = this.getRootIframeSrc();
         this.isRendered = true;
@@ -1740,7 +1795,7 @@ export class TsEmbed {
     }
 
     protected beforePrerenderVisible(): void {
-        // We can ignore this as its a bit expensive and the newer customers 
+        // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
@@ -1760,7 +1815,6 @@ export class TsEmbed {
         });
     }
 
-
     /**
      * Displays the pre-rendered component inside the host element.
      * If the component has not been pre-rendered yet, it initiates rendering first.
@@ -1768,8 +1822,7 @@ export class TsEmbed {
      * wrapper to overlay it.
      */
     public async showPreRender(): Promise<TsEmbed> {
-        if (this.shouldWaitForRenderPromise)
-            await this.isReadyForRenderPromise;
+        if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
@@ -1819,9 +1872,14 @@ export class TsEmbed {
             }
         }
 
-        removeStyleProperties(this.preRenderWrapper, ['z-index', 'opacity', 'pointer-events', 'overflow']);
+        removeStyleProperties(this.preRenderWrapper, [
+            'z-index',
+            'opacity',
+            'pointer-events',
+            'overflow',
+        ]);
         this.subscribeToEvents();
-        
+
         // Setup fullscreen change handler for prerendered components
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
@@ -1854,7 +1912,7 @@ export class TsEmbed {
             left: `${elBoundingClient.x + window.scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
-            position: 'absolute'
+            position: 'absolute',
         });
     }
 
