@@ -23,6 +23,7 @@ import {
     ErrorDetailsTypes,
     EmbedErrorCodes,
     ContextType,
+    DefaultAppInitData,
 } from '../types';
 import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
@@ -31,6 +32,17 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig } from './conversation';
+import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+
+/**
+ * APP_INIT data shape for LiveboardEmbed.
+ * @internal
+ */
+export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
+    embedParams?: {
+        spotterVizConfig?: SpotterVizConfig;
+    };
+}
 
 
 /**
@@ -388,9 +400,9 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page 
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages. 
-     * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
+     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
+     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -508,6 +520,15 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Enables the stop answer generation button in the Spotter embed UI,
+     * allowing users to interrupt an ongoing answer generation.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default false
+     */
+    enableStopAnswerGenerationEmbed?: boolean;
+    /**
      * Configuration for customizing Spotter chat UI
      * branding in tool response cards.
      *
@@ -525,6 +546,42 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for the SpotterViz interface shown on the Liveboard.
+     * Customize the brand name, description, chat input placeholder,
+     * starter prompts, and visibility of starter prompts in the SpotterViz panel.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *        brandHeadline: 'Hi, there! I\'m',
+     *        description: 'Ask questions about your data',
+     *        inputChatPlaceholder: 'Ask a question...',
+     *        hideStarterPrompts: false,
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
+     * If set to true, enables visualization data caching on the Liveboard.
+     * @type {boolean}
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options
+     *    enableLiveboardDataCache: true,
+     * })
+     * ```
+     */
+    enableLiveboardDataCache?: boolean;
 }
 
 /**
@@ -564,6 +621,11 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
+    protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
+        const defaultAppInitData = await super.getAppInitData();
+        return buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
+    }
+
     /**
      * Construct a map of params to be passed on to the
      * embedded Liveboard or visualization.
@@ -597,6 +659,7 @@ export class LiveboardEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
+            newChartsLibrary,
             isEnhancedFilterInteractivityEnabled = false,
             enableAskSage,
             enable2ColumnLayout,
@@ -614,9 +677,11 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled,
+            isContinuousLiveboardPDFEnabled = false,
+            enableLiveboardDataCache,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -640,6 +705,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(enableStopAnswerGenerationEmbed)) {
+            params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
         }
         if (visibleVizs) {
             params[Param.visibleVizs] = visibleVizs;
@@ -707,10 +775,18 @@ export class LiveboardEmbed extends V1Embed {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            if (spotterFileUploadEnabled !== undefined) {
+                params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (spotterFileUploadFileTypes !== undefined) {
+                params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         if (isLinkParametersEnabled !== undefined) {
@@ -729,6 +805,14 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isContinuousLiveboardPDFEnabled !== undefined) {
             params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
+        }
+
+        if (enableLiveboardDataCache !== undefined) {
+            params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
+        }
+
+        if (newChartsLibrary !== undefined) {
+            params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
@@ -902,8 +986,8 @@ export class LiveboardEmbed extends V1Embed {
                 </div>
                 `;
             const previewDiv = div.firstElementChild as HTMLElement;
-            this.el.appendChild(previewDiv);
-            this.el.style.position = 'relative';
+            this.hostElement.appendChild(previewDiv);
+            this.hostElement.style.position = 'relative';
             this.on(EmbedEvent.Data, () => {
                 previewDiv.remove();
             });
@@ -925,6 +1009,7 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(() => {

@@ -10,6 +10,7 @@ import {
     getRootEl,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     postMessageToParent,
     executeAfterWait,
 } from '../test/test-utils';
@@ -349,6 +350,39 @@ describe('ConversationEmbed', () => {
             getIFrameSrc(),
             `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&toolResponseCardBrandingLabel=MyBrand#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
+    });
+
+    it('should render the conversation embed with spotterFileUploadEnabled', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterChatConfig: { spotterFileUploadEnabled: true },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterFileUploadEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with spotterFileUploadFileTypes', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterChatConfig: { spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] } },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+            spotterFileUploadFileTypes: JSON.stringify({ types: ['image/png', 'application/pdf'] }),
+        });
     });
 
     it('should ensure deprecated ConversationEmbed class maintains same functionality as SpotterEmbed', async () => {

@@ -1,0 +1,49 @@
+name: Auto Documentation Generation
+
+on:
+  schedule:
+    # '30 8' = 08:30 UTC | '*' = every day/month | '1' = Monday
+    - cron: '30 8 * * 1'
+  workflow_dispatch: # Allows you to trigger it manually via the Actions tab
+
+# Added permissions to allow the bot to push code
+permissions:
+  contents: write
+
+jobs:
+  docgen:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.4'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Generate documentation
+        run: npm run docgen
+
+      - name: Commit and push documentation updates
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          
+          # Add only the specific file
+          git add static/typedoc/typedoc.json
+          
+          # Only commit if there are actually changes to that file
+          if git diff --staged --quiet; then
+            echo "No changes to documentation. Skipping push."
+          else
+            git commit -m "chore: auto-update generated documentation [skip ci]"
+            git push origin main
+          fi

@@ -18,10 +18,13 @@ import {
     MessagePayload,
     AllEmbedViewConfig,
     DefaultAppInitData,
+    VisualizationOverrides,
+    SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -115,6 +118,14 @@ export enum HomePage {
      * with styling changes.
      */
     ModularWithStylingChanges = 'v3',
+    /**
+     * Focused (v4) introduces the V4 homepage experience
+     * in which Watchlist and recents and incorporated together 
+     * to form a more focused homepage.
+     * Pre-requisite : spotter enablement
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     */
+    Focused = 'v4',
 }
 
 /**
@@ -535,6 +546,38 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     homePageSearchBarMode?: HomePageSearchBarMode;
     /**
+     * This flag is used to enable unified search experience for full app embed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.34.0 | ThoughtSpot: 10.5.0.cl
+     * @default true
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    isUnifiedSearchExperienceEnabled: true,
+     * })
+     * ```
+     */
+    isUnifiedSearchExperienceEnabled?: boolean;
+
+    /**
+     * This flag is used to enable the new connection experience for AppEmbed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    newConnectionsExperience: true,
+     * })
+     * ```
+     */
+    newConnectionsExperience?: boolean;
+
+    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
      * @deprecated This flag is deprecated.
      *
@@ -573,7 +616,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl and is enabled by default on embed deployments.
+     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -728,6 +771,38 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the SpotterViz interface shown on the Liveboard.
+     * Customize the brand name, description, chat input placeholder,
+     * starter prompts, and visibility of starter prompts in the SpotterViz panel.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#embed-container', {
+     *    ... // other options
+     *    spotterViz: {
+     *        brandName: 'MyBrand',
+     *        brandHeadline: 'Hi, there! I\'m',
+     *        description: 'Ask questions about your data',
+     *        inputChatPlaceholder: 'Ask a question...',
+     *        hideStarterPrompts: false,
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }]
+     *    },
+     * })
+     * ```
+     */
+    spotterViz?: SpotterVizConfig;
+    /**
+     * Enables the stop answer generation button in the Spotter embed UI,
+     * allowing users to interrupt an ongoing answer generation.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default false
+     */
+    enableStopAnswerGenerationEmbed?: boolean;
+    /**
      * This is the minimum height (in pixels) for a full-height App.
      * Setting this height helps resolve issues with empty Apps and
      * other screens navigable from an App.
@@ -760,6 +835,25 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     enableHomepageAnnouncement?: boolean;
+    /**
+     * If set to true, enables visualization data caching on the Liveboard.
+     * @type {boolean}
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    enableLiveboardDataCache: true,
+     * })
+     * ```
+     */
+    enableLiveboardDataCache?: boolean;
+
+    /**
+     * Visual overrides to customize the chart or table properties.
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    visualOverrides?: VisualizationOverrides;
 }
 
 /**
@@ -769,6 +863,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        spotterVizConfig?: SpotterVizConfig;
     };
 }
 
@@ -809,7 +904,12 @@ export class AppEmbed extends V1Embed {
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+        const sidebarInitData = buildSpotterSidebarAppInitData(
+            defaultAppInitData,
+            this.viewConfig,
+            this.handleError.bind(this),
+        );
+        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
     }
 
     /**
@@ -830,6 +930,7 @@ export class AppEmbed extends V1Embed {
             hideApplicationSwitcher,
             hideOrgSwitcher,
             enableSearchAssist,
+            newConnectionsExperience,
             fullHeight,
             dataPanelV2 = true,
             hideLiveboardHeader = false,
@@ -837,6 +938,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardDescription = true,
             showMaskedFilterChip = false,
             isLiveboardMasterpiecesEnabled = false,
+            newChartsLibrary,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
             isLiveboardHeaderSticky = true,
@@ -852,6 +954,7 @@ export class AppEmbed extends V1Embed {
             hideIrrelevantChipsInLiveboardTabs = false,
             isEnhancedFilterInteractivityEnabled = false,
             homePageSearchBarMode,
+            isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
             coverAndFilterOptionInPDF = false,
@@ -862,11 +965,13 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isContinuousLiveboardPDFEnabled,
+            isContinuousLiveboardPDFEnabled = false,
+            enableLiveboardDataCache,
         } = this.viewConfig;
 
         let params: any = {};
@@ -879,6 +984,9 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
         params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        if (newChartsLibrary !== undefined) {
+            params[Param.EnableNewChartLibrary] = newChartsLibrary;
+        }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
         params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
@@ -886,6 +994,9 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
         params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (isUnifiedSearchExperienceEnabled !== undefined) {
+            params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
+        }
         params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
 
         params = this.getBaseQueryParams(params);
@@ -893,16 +1004,27 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        if (!isUndefined(enableStopAnswerGenerationEmbed)) {
+            params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
+        }
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            if (spotterFileUploadEnabled !== undefined) {
+                params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (spotterFileUploadFileTypes !== undefined) {
+                params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         if (hideObjectSearch) {
@@ -939,6 +1061,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (newConnectionsExperience !== undefined) {
+            params[Param.EnableConnectionNewExperience] = newConnectionsExperience;
         }
 
         if (enable2ColumnLayout !== undefined) {
@@ -1003,6 +1129,10 @@ export class AppEmbed extends V1Embed {
 
         this.defaultHeight = minimumHeight || this.defaultHeight;
 
+        if (enableLiveboardDataCache !== undefined) {
+            params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
+        }
+
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
         params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
@@ -1059,6 +1189,10 @@ export class AppEmbed extends V1Embed {
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
+            }
+
+            if (discoveryExperience.homePage === HomePage.Focused) {
+                params[Param.HomepageVersion] = HomePage.Focused;
             }
         }
 

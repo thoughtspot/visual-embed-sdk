@@ -450,7 +450,7 @@ describe('Unit test for auth', () => {
 
         it('should support emitting SAML_POPUP_CLOSED_NO_AUTH event', () => {
             const emitSpy = jest.fn();
-            const mockEventEmitter = { 
+            const mockEventEmitter = {
                 emit: emitSpy,
                 once: jest.fn()
             };
@@ -458,6 +458,60 @@ describe('Unit test for auth', () => {
             authInstance.getAuthEE().emit(authInstance.AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
             expect(emitSpy).toHaveBeenCalledWith(authInstance.AuthStatus.SAML_POPUP_CLOSED_NO_AUTH);
             authInstance.setAuthEE(null);
+        });
+
+        it('should set loggedInStatus from cachedAuthToken without calling isLoggedIn again after popup flow', async () => {
+            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
+            checkReleaseVersionInBetaInstance.storeValueInWindow('cachedAuthToken', 'test-cached-token');
+            (authInstance as any).samlCompletionPromise = Promise.resolve();
+            global.window.open = jest.fn();
+
+            jest.spyOn(tokenAuthService, 'isActiveService')
+                .mockReturnValueOnce(Promise.resolve(false));
+
+            await authInstance.doSamlAuth({ ...embedConfig.doSamlAuthNoRedirect });
+
+            expect(authInstance.loggedInStatus).toBe(true);
+            expect(tokenAuthService.isActiveService).toHaveBeenCalledTimes(1);
+        });
+
+        it('should store decoded accessToken in window when SAMLComplete event includes accessToken', async () => {
+            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
+            global.window.open = jest.fn().mockReturnValue({ closed: false, focus: jest.fn(), close: jest.fn() });
+
+            (authInstance as any).samlCompletionPromise = null;
+
+            let capturedMessageHandler: ((e: any) => void) | null = null;
+            jest.spyOn(window, 'addEventListener').mockImplementation((type: any, handler: any) => {
+                if (type === 'message') {
+                    capturedMessageHandler = handler;
+                }
+            });
+
+            jest.spyOn(tokenAuthService, 'isActiveService')
+                .mockReturnValueOnce(Promise.resolve(false));
+
+            const authPromise = authInstance.doSamlAuth({ ...embedConfig.doSamlAuthNoRedirect });
+
+            await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+            expect(capturedMessageHandler).not.toBeNull();
+
+            const accessToken = 'my-access-token';
+            capturedMessageHandler!({
+                data: {
+                    type: EmbedEvent.SAMLComplete,
+                    accessToken: encodeURIComponent(accessToken),
+                },
+                source: { close: jest.fn() },
+            });
+
+            await authPromise;
+
+            expect(
+                checkReleaseVersionInBetaInstance.getValueFromWindow('cachedAuthToken'),
+            ).toBe(accessToken);
+            expect(authInstance.loggedInStatus).toBe(true);
         });
 
     });

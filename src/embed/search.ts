@@ -15,6 +15,7 @@ import {
     SearchLiveboardCommonViewConfig,
     DefaultAppInitData,
     BaseViewConfig,
+    VisualizationOverrides,
 } from '../types';
 import {
     getQueryParamString,
@@ -317,6 +318,27 @@ export interface SearchViewConfig
      * ```
      */
     focusSearchBarOnRender?: boolean;
+    /**
+     * Enable or disable Muze chart phase 1 GA
+     *
+     * Supported embed types: `SearchEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SearchEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    newChartsLibrary: true,
+     * })
+     * ```
+     */
+    newChartsLibrary?: boolean;
+
+    /**
+     * Visual overrides to customize the chart or table properties.
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    visualOverrides?: VisualizationOverrides;
 }
 
 export const HiddenActionItemByDefaultForSearchEmbed = [
@@ -329,6 +351,9 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 export interface SearchAppInitData extends DefaultAppInitData {
     searchOptions?: SearchOptions;
+    embedParams?: {
+        visualOverridesParams?: VisualizationOverrides | null;
+    };
 }
 
 /**
@@ -380,7 +405,19 @@ export class SearchEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return { ...defaultAppInitData, ...this.getSearchInitData() };
+        const result: SearchAppInitData = {
+            ...defaultAppInitData,
+            ...this.getSearchInitData(),
+        };
+
+        if (this.viewConfig.visualOverrides) {
+            result.embedParams = {
+                ...((defaultAppInitData as any).embedParams || {}),
+                visualOverridesParams: this.viewConfig.visualOverrides,
+            };
+        }
+
+        return result;
     }
 
     protected getEmbedParamsObject() {
@@ -405,6 +442,7 @@ export class SearchEmbed extends TsEmbed {
             excludeSearchTokenStringFromURL,
             collapseSearchBar = true,
             isThisPeriodInDateFiltersEnabled,
+            newChartsLibrary,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -449,6 +487,10 @@ export class SearchEmbed extends TsEmbed {
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             queryParams[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
+        }
+
+        if (newChartsLibrary !== undefined) {
+            queryParams[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
 
         queryParams[Param.DataPanelV2Enabled] = dataPanelV2;

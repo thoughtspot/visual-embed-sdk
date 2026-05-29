@@ -1,6 +1,6 @@
 {
     "name": "@thoughtspot/visual-embed-sdk",
-    "version": "1.47.0",
+    "version": "1.48.0",
     "description": "ThoughtSpot Embed SDK",
     "module": "lib/src/index.js",
     "main": "dist/tsembed.js",
@@ -70,7 +70,7 @@
     "dependencies": {
         "classnames": "^2.3.1",
         "eventemitter3": "^4.0.7",
-        "lodash": "^4.17.23",
+        "lodash": "^4.18.1",
         "mixpanel-browser": "2.47.0",
         "ts-deepmerge": "^6.0.2",
         "tslib": "^2.5.3",
@@ -126,7 +126,7 @@
         "jest-environment-jsdom": "^29.7.0",
         "jest-fetch-mock": "^3.0.3",
         "jsdom": "^17.0.0",
-        "prettier": "2.1.2",
+        "prettier": "3.8.1",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
         "react-resizable": "^1.11.0",

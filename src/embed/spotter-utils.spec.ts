@@ -53,4 +53,56 @@ describe('buildSpotterSidebarAppInitData', () => {
         }));
         expect(result.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
     });
+
+    it('returns base with visualOverridesParams when only visualOverrides is provided', () => {
+        const visualOverrides = {
+            chart: {
+                legend: { show: true, position: 'bottom' as const },
+            },
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            visualOverrides,
+        }, noopError);
+        expect(result).toEqual({
+            ...base,
+            embedParams: { visualOverridesParams: visualOverrides },
+        });
+    });
+
+    it('includes visualOverridesParams with spotterSidebarConfig', () => {
+        const visualOverrides = {
+            table: {
+                display: { tableTheme: 'ZEBRA' },
+            },
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+            visualOverrides,
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        expect(result.embedParams?.visualOverridesParams).toEqual(visualOverrides);
+    });
+
+    it('includes visualOverridesParams with standalone enablePastConversationsSidebar flag', () => {
+        const visualOverrides = {
+            chart: {
+                legend: { show: false },
+            },
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            enablePastConversationsSidebar: true,
+            visualOverrides,
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        expect(result.embedParams?.visualOverridesParams).toEqual(visualOverrides);
+    });
+
+    it('does not include visualOverridesParams when it is undefined', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+            visualOverrides: undefined,
+        }, noopError);
+        expect(result.embedParams?.visualOverridesParams).toBeUndefined();
+        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+    });
 });

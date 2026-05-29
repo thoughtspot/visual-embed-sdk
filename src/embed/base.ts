@@ -182,9 +182,10 @@ function backwardCompat(embedConfig: EmbedConfig): EmbedConfig {
 }
 
 type InitFlagStore = {
-  initPromise: Promise<ReturnType<typeof init>>;
-  isInitCalled: boolean;
-  initPromiseResolve: (value: ReturnType<typeof init>) => void;
+    initPromise: Promise<ReturnType<typeof init>>;
+    isInitCalled: boolean;
+    isInitCompleted: boolean;
+    initPromiseResolve: (value: ReturnType<typeof init>) => void;
 }
 const initFlagKey = 'initFlagKey';
 
@@ -199,11 +200,17 @@ export const createAndSetInitPromise = (): void => {
     const initFlagStore: InitFlagStore = {
         initPromise,
         isInitCalled: false,
+        isInitCompleted: false,
         initPromiseResolve,
     };
     storeValueInWindow(initFlagKey, initFlagStore, {
         // In case of diff imports the promise might be already set
         ignoreIfAlreadyExists: true,
+    });
+    initPromise.finally(() => {
+        const curVal = getValueFromWindow<InitFlagStore>(initFlagKey);
+        curVal.isInitCompleted = true;
+        storeValueInWindow(initFlagKey, curVal);
     });
 };
 
@@ -211,8 +218,11 @@ createAndSetInitPromise();
 
 export const getInitPromise = ():
     Promise<
-      ReturnType<typeof init>
+        ReturnType<typeof init>
     > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
+
+export const getIsInitCompleted = (): boolean => 
+    getValueFromWindow<InitFlagStore>(initFlagKey)?.isInitCompleted;
 
 export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
 
@@ -319,7 +329,7 @@ export const renderInQueue = (fn: (next?: (val?: any) => void) => Promise<any>):
         return renderQueue;
     }
     // Sending an empty function to keep it consistent with the above usage.
-    return fn(() => {});
+    return fn(() => { });
 };
 
 /**

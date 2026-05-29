@@ -1,6 +1,6 @@
 import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
-import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData } from '../types';
+import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
@@ -113,6 +113,21 @@ export interface SpotterChatViewConfig {
      * External MCP tool branding is not affected.
      */
     toolResponseCardBrandingLabel?: string;
+    /**
+     * Enables file upload in the Spotter chat interface.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     * @default false
+     */
+    spotterFileUploadEnabled?: boolean;
+    /**
+     * Restricts the allowed file types for Spotter file upload.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
+     */
+    spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
 }
 
 /**
@@ -285,6 +300,15 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Enables the stop answer generation button in the Spotter embed UI,
+     * allowing users to interrupt an ongoing answer generation.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default false
+     */
+    enableStopAnswerGenerationEmbed?: boolean;
+    /**
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `SpotterEmbed`
@@ -351,6 +375,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 export interface SpotterAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        visualOverridesParams?: VisualizationOverrides | null;
     };
 }
 
@@ -411,6 +436,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            enableStopAnswerGenerationEmbed,
             spotterChatConfig,
         } = this.viewConfig;
 
@@ -432,16 +458,23 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
             const {
                 hideToolResponseCardBranding,
                 toolResponseCardBrandingLabel,
+                spotterFileUploadEnabled,
+                spotterFileUploadFileTypes,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
+            setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
+            if (spotterFileUploadFileTypes !== undefined) {
+                queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
+            }
         }
 
         return queryParams;

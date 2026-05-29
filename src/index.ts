@@ -33,6 +33,7 @@ import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterVizConfig, SpotterVizStarterPrompt } from './embed/spotter-viz-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -71,6 +72,14 @@ import {
     ErrorDetailsTypes,
     ContextType,
     AutoMCPFrameRendererViewConfig,
+    LegendPosition,
+    BackgroundFormatType,
+    ConditionalFormattingComparisonType,
+    ConditionalFormattingOperator,
+    DataLabelFilterOperator,
+    TableTheme,
+    TableContentDensity,
+    VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
@@ -132,6 +141,8 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    SpotterVizConfig,
+    SpotterVizStarterPrompt,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -165,6 +176,14 @@ export {
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     AutoMCPFrameRendererViewConfig,
+    VisualizationOverrides,
+    LegendPosition,
+    BackgroundFormatType,
+    ConditionalFormattingComparisonType,
+    ConditionalFormattingOperator,
+    DataLabelFilterOperator,
+    TableTheme,
+    TableContentDensity,
 };
 
 export { resetCachedAuthToken } from './authToken';

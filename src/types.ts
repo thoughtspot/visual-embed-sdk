@@ -926,9 +926,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     styleSheet__unstable?: string;
     /**
      * The list of actions to disable from the primary menu, more menu
-     * (...), and the contextual menu. These actions will be disabled
-     * for the user.
-     * Use this to disable actions.
+     * (...), and the contextual menu. Disabled actions are grayed out
+     * and still visible to the user, but cannot be clicked.
+     * Use this when you want to disable an action (keep it visible but non-interactive).
+     * To completely remove an action from the UI, use {@link hiddenActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -959,9 +960,10 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     disabledActionReason?: string;
     /**
-     * The list of actions to hide from the embedded view.
-     * These actions will be hidden from the user.
-     * Use this to hide an action.
+     * The list of actions to completely remove from the embedded view.
+     * Hidden actions are not visible to the user at all (fully removed from the UI).
+     * Use this when you want to remove an action entirely.
+     * To keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -980,9 +982,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The list of actions to display from the primary menu, more menu
      * (...), and the contextual menu. These will be only actions that
      * are visible to the user.
-     * Use this to hide all actions except the ones you want to show.
-     *
-     * Use either this or hiddenActions.
+     * Use this as an allowlist — only the actions listed here will be shown.
+     * All other actions will be hidden. Use either this or {@link hiddenActions}, not both.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -1139,6 +1140,14 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * This flag can be used to disable links inside the embedded app,
      * and disable redirection of links in a new tab.
      *
+     * Note: When set to `true`, this flag automatically disables
+     * {@link enableLinkOverridesV2} for the
+     * embed session. The two features are mutually exclusive — link
+     * overrides mutate anchors (delete `href`, attach a JS click handler),
+     * which breaks native browser behavior (Cmd/Ctrl+Click, middle-click,
+     * right-click "Open in new tab") when combined with the disable flag.
+     * The disable flag preserves native anchor semantics instead.
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.32.1 | ThoughtSpot: 10.3.0.cl
      * @example
@@ -1174,8 +1183,13 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Flag to override the *Open Link in New Tab* context
      * menu option.
      *
-     * For improved link override handling, use
-     * {@link enableLinkOverridesV2} instead.
+     * Note: Setting this flag implicitly enables
+     * {@link enableLinkOverridesV2}. V1 is auto-upgraded to
+     * V2 to ensure consistent link-override behavior; the
+     * legacy V1-only path is no longer used in isolation.
+     *
+     * Note: This flag is ignored when
+     * {@link disableRedirectionLinksInNewTab} is `true`.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
      * `SearchEmbed`, `SpotterAgentEmbed`,
@@ -1200,6 +1214,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The SDK automatically sends {@link linkOverride}
      * alongside this flag for backward compatibility with
      * older ThoughtSpot versions.
+     *
+     * Note: This flag is ignored when
+     * {@link disableRedirectionLinksInNewTab} is `true`.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`,
      * `SearchEmbed`, `SpotterAgentEmbed`,
@@ -1437,6 +1454,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * Refresh the auth token when the token is near expiry.
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -1475,8 +1493,29 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     useHostEventsV2?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface AutoMCPFrameRendererViewConfig extends BaseViewConfig {}
+/**
+ * Configuration for {@link startAutoMCPFrameRenderer}.
+ *
+ * Extends {@link BaseViewConfig} but omits params that are not applicable
+ * to the auto-frame renderer:
+ * - `preRenderId` / `usePrerenderedIfAvailable` / `doNotTrackPreRenderSize` —
+ *   the renderer always replaces a live iframe in-place; prerender pools are not used.
+ * - `insertAsSibling` — insertion is always a same-position `replaceWith`; the
+ *   container-append path is never taken.
+ * - `primaryAction` — a Liveboard/AppEmbed-specific feature; the renderer renders
+ *   whatever route the MCP server specifies.
+ * - `enableV2Shell_experimental` — the renderer always uses the v2 URL format;
+ *   this flag has no effect.
+ */
+export type AutoMCPFrameRendererViewConfig = Omit<
+    BaseViewConfig,
+    | 'preRenderId'
+    | 'usePrerenderedIfAvailable'
+    | 'doNotTrackPreRenderSize'
+    | 'insertAsSibling'
+    | 'primaryAction'
+    | 'enableV2Shell_experimental'
+>;
 
 /**
  * The configuration object for Home page embeds configs.
@@ -1994,6 +2033,22 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isLiveboardMasterpiecesEnabled?: boolean;
+    /**
+     * Enable or disable Muze chart phase 1 GA
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    newChartsLibrary: true,
+     * })
+     * ```
+     */
+    newChartsLibrary?: boolean;
 }
 
 export interface AllEmbedViewConfig
@@ -2447,38 +2502,54 @@ export enum EmbedEvent {
      */
     VizPointClick = 'vizPointClick',
     /**
-     * An error has occurred. This event is fired for the following error types:
+     * Fired when an error occurs in the embedded component.
      *
+     * **Important:** This event fires for many reasons — including internal
+     * validation warnings (e.g. `HOST_EVENT_VALIDATION`), configuration issues,
+     * and transient errors that ThoughtSpot already handles gracefully inside the
+     * iframe. **Do not call `embed.destroy()` or unmount the embed component on
+     * every error.** Doing so will tear down the iframe and abort all in-flight
+     * requests, causing the embed to fail entirely.
+     *
+     * Only treat the following codes as unrecoverable:
+     * - `INIT_ERROR` — SDK was not initialised before render
+     * - `LOGIN_FAILED` — authentication could not be completed
+     *
+     * All other error codes should be logged and inspected, not acted upon
+     * destructively.
+     *
+     * **Note:** There is currently no dedicated event for a true unrecoverable
+     * crash. A future `EmbedEvent.FatalError` event is planned to give customers
+     * a clean signal for when the embed cannot recover and needs to be torn down.
+     *
+     * Error types include:
      * `API` - API call failure.
-     * `FULLSCREEN` - Error when presenting a Liveboard or visualization in full screen
-     * mode. `SINGLE_VALUE_FILTER` - Error due to multiple values in the single value
-     * filter. `NON_EXIST_FILTER` - Error due to a non-existent filter.
-     * `INVALID_DATE_VALUE` - Invalid date value error.
-     * `INVALID_OPERATOR` - Use of invalid operator during filter application.
+     * `FULLSCREEN` - Error when presenting a Liveboard in full screen mode.
+     * `VALIDATION_ERROR` - Internal host event or configuration validation warning.
      *
      * For more information, see https://developers.thoughtspot.com/docs/events-app-integration#errorType
      * @returns error - An error object or message
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
-     * // API error
-     * SearchEmbed.on(EmbedEvent.Error, (error) => {
-     *   console.log(error);
-     *  // { type: "Error", data: { errorType: "API", error: { message: '...', error: '...' } } }
-     *  // { errorType: "API", message: '...', code: '...' } new format
+     * // Recommended pattern — only destroy on truly fatal errors
+     * embed.on(EmbedEvent.Error, (error) => {
+     *   const FATAL_CODES = ['INIT_ERROR', 'LOGIN_FAILED'];
+     *   if (FATAL_CODES.includes(error.data?.code)) {
+     *     embed.destroy();
+     *     return;
+     *   }
+     *   // Log all other errors — do not destroy
+     *   console.warn('Embed error (non-fatal):', error);
      * });
      * ```
      * @example
      * ```js
-     * // Fullscreen error (Errors during presenting of a liveboard)
-     * LiveboardEmbed.on(EmbedEvent.Error, (error) => {
+     * // API error
+     * SearchEmbed.on(EmbedEvent.Error, (error) => {
      *   console.log(error);
-     *   // { type: "Error", data: { errorType: "FULLSCREEN", error: {
-     *   //   message: "Fullscreen API is not enabled",
-     *   //   stack: "..."
-     *   // } }}
-     *   // { errorType: "FULLSCREEN", message: "Fullscreen API is not enabled", code: '...' } new format
-     * })
+     *   // { errorType: "API", message: '...', code: '...' }
+     * });
      * ```
      */
     Error = 'Error',
@@ -3636,6 +3707,159 @@ export enum EmbedEvent {
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      */
     RefreshAuthToken = 'RefreshAuthToken',
+
+    /**
+     * Triggered whenever the page context changes, returning the current context along with the navigation stack.
+     * @example
+     * ```js
+     * embed.on(EmbedEvent.EmbedPageContextChanged, (payload) => {
+     *     console.log('payload', payload);
+     * })
+     * ```
+     * @version SDK: 1.47.2 | ThoughtSpot: 26.3.0.cl
+     */
+    EmbedPageContextChanged = 'EmbedPageContextChanged',
+
+    /**
+     * Represents a special embed event that is triggered whenever any host event is subscribed.
+     *
+     * You can listen to this event when you need to dispatch a host event during load or render,
+     * particularly in situations where timing issues may occur.
+     *
+     * @example
+     * ```js
+     * embed.on(`${HostEvent.Save} Subscribed`, () => {
+     *     // make action
+     * });
+     * ```
+     * 
+     * @example
+     * ```js
+     * embed.on(subscribedEvent(HostEvent.Save), () => {
+     *     // make action
+     * });
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.4.0.cl
+     */
+    Subscribed = 'Subscribed',
+    
+    /**
+     * Emitted when a user clicks the **Send Test Email** button in the
+     * Liveboard schedule modal. Requires `isSendNowLiveboardSchedulingEnabled`
+     * to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SendTestScheduleEmail, (payload) => {
+     *     console.log('Send test email', payload);
+     *     // payload: { liveboardId: string, sendToSelf: boolean }
+     * })
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * Emitted when the SpotterViz panel mounts in embed mode.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizInit, (payload) => {
+     *     console.log('SpotterViz initialized', payload);
+     *     // payload: { liveboardId: string }
+     * })
+     * ```
+     */
+    SpotterVizInit = 'SpotterVizInit',
+
+    /**
+     * Emitted when the user submits a prompt in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizQueryTriggered, (payload) => {
+     *     console.log('SpotterViz query triggered', payload);
+     *     // payload: { query: string, sessionId: string }
+     * })
+     * ```
+     */
+    SpotterVizQueryTriggered = 'SpotterVizQueryTriggered',
+
+    /**
+     * Emitted when the SpotterViz agent finishes responding.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizResponseComplete, (payload) => {
+     *     console.log('SpotterViz response complete', payload);
+     *     // payload: { sessionId: string, messageId: string }
+     * })
+     * ```
+     */
+    SpotterVizResponseComplete = 'SpotterVizResponseComplete',
+
+    /**
+     * Emitted when a checkpoint is created in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizCheckpointCreated, (payload) => {
+     *     console.log('SpotterViz checkpoint created', payload);
+     *     // payload: { checkpointId: string, source: string, label: string }
+     * })
+     * ```
+     */
+    SpotterVizCheckpointCreated = 'SpotterVizCheckpointCreated',
+
+    /**
+     * Emitted when a checkpoint is restored in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizCheckpointRestored, (payload) => {
+     *     console.log('SpotterViz checkpoint restored', payload);
+     *     // payload: { checkpointId: string, newGenNumber: number }
+     * })
+     * ```
+     */
+    SpotterVizCheckpointRestored = 'SpotterVizCheckpointRestored',
+
+    /**
+     * Emitted when an error occurs in the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizError, (payload) => {
+     *     console.log('SpotterViz error', payload);
+     * })
+     * ```
+     */
+    SpotterVizError = 'SpotterVizError',
+
+    /**
+     * Emitted when the SpotterViz panel is closed.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SpotterVizClosed, (payload) => {
+     *     console.log('SpotterViz panel closed', payload);
+     * })
+     * ```
+     */
+    SpotterVizClosed = 'SpotterVizClosed',
+    /**
+     * Emitted when a user clicks the **Refresh** button in the
+     * Liveboard header. Requires `enableLiveboardDataCache`
+     * to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.RefreshLiveboardBrowserCache, (payload) => {
+     *     console.log('Liveboard browser cache refreshed', payload);
+     *     // payload: { liveboardId: string }
+     * })
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 
 /**
@@ -5336,7 +5560,8 @@ export enum HostEvent {
      * ```js
      * // Get parameters from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * liveboardEmbed.trigger(HostEvent.GetParameters, {}, ContextType.Liveboard).then((parameters) => {
+     * liveboardEmbed.trigger(HostEvent.GetParameters, {},
+     * ContextType.Liveboard).then((parameters) => {
      *     console.log('parameters', parameters);
      * });
      * ```
@@ -5690,6 +5915,59 @@ export enum HostEvent {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      */
     GetPageContext = 'GetPageContext',
+    /**
+     * Trigger the **Send Test Email** action in the Liveboard schedule modal.
+     * Sends a test schedule email to self or all recipients.
+     * Requires `isSendNowLiveboardSchedulingEnabled` to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SendTestScheduleEmail, {
+     *     sendToSelf: true,
+     * })
+     * ```
+     * @example
+     * ```js
+     * // Send to all recipients
+     * liveboardEmbed.trigger(HostEvent.SendTestScheduleEmail, {
+     *     sendToSelf: false,
+     * })
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * Sends a user message (prompt) to the SpotterViz panel programmatically.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @param query - the prompt text to send.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SpotterVizSendUserMessage, {
+     *     query: 'Show me revenue by region',
+     * });
+     * ```
+     */
+    SpotterVizSendUserMessage = 'SpotterVizSendUserMessage',
+
+    /**
+     * Initializes a new SpotterViz conversation.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.InitSpotterVizConversation);
+     * ```
+     */
+    InitSpotterVizConversation = 'InitSpotterVizConversation',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.RefreshLiveboardBrowserCache);
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -5732,6 +6010,7 @@ export enum Param {
     HostAppUrl = 'hostAppUrl',
     EnableVizTransformations = 'enableVizTransform',
     EnableSearchAssist = 'enableSearchAssist',
+    EnableConnectionNewExperience = 'newConnectionsExperience',
     EnablePendoHelp = 'enablePendoHelp',
     HideResult = 'hideResult',
     UseLastSelectedDataSource = 'useLastSelectedSources',
@@ -5791,6 +6070,7 @@ export enum Param {
     ShowLiveboardTitle = 'showLiveboardTitle',
     ShowMaskedFilterChip = 'showMaskedFilterChip',
     IsLiveboardMasterpiecesEnabled = 'isLiveboardMasterpiecesEnabled',
+    EnableNewChartLibrary = 'muzeChartPhase1EnabledGA',
     HiddenTabs = 'hideTabs',
     VisibleTabs = 'visibleTabs',
     HideTabPanel = 'hideTabPanel',
@@ -5829,6 +6109,7 @@ export enum Param {
     HideIrrelevantFiltersInTab = 'hideIrrelevantFiltersAtTabLevel',
     IsEnhancedFilterInteractivityEnabled = 'isLiveboardPermissionV2Enabled',
     SpotterEnabled = 'isSpotterExperienceEnabled',
+    IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
@@ -5845,10 +6126,12 @@ export enum Param {
     IsWYSIWYGLiveboardPDFEnabled = 'isWYSIWYGLiveboardPDFEnabled',
     isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
+    isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    EnableStopAnswerGenerationEmbed = 'enableStopAnswerGenerationEmbed',
     SpotterSidebarTitle = 'spotterSidebarTitle',
     SpotterSidebarDefaultExpanded = 'spotterSidebarDefaultExpanded',
     SpotterChatRenameLabel = 'spotterChatRenameLabel',
@@ -5863,15 +6146,30 @@ export enum Param {
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',
     EnableHomepageAnnouncement = 'enableHomepageAnnouncement',
+    EnableLiveboardDataCache = 'enableLiveboardDataCache',
+    SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
+    SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
 }
+
+/**
+ * Configuration for allowed file types in Spotter file upload.
+ * @group Embed components
+ */
+export type SpotterFileUploadFileTypes = {
+    types?: string[];
+};
 
 /**
  * ThoughtSpot application pages include actions and menu commands
  * for various user-initiated operations. These actions are represented
- * as enumeration members in the SDK. To show, hide, or disable
- * specific actions in the embedded view, define the Action
- * enumeration members in the `disabledActions`, `visibleActions`,
- * or `hiddenActions` array.
+ * as enumeration members in the SDK. To control actions in the embedded view:
+ * - disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).
+ * - hiddenActions — the action is completely removed from the UI (user cannot see it at all).
+ * - visibleActions — allowlist, only these actions are shown; all others are hidden.
+ *
+ * Use disabledActions to disable (gray out) an action.
+ * Use hiddenActions to hide (fully remove) an action.
+ * Use visibleActions to show only specific actions.
  * @example
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -6185,7 +6483,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.DownloadLiveboard]
      * ```
-     * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DownloadLiveboard = 'downloadLiveboard',
     /**
@@ -6198,6 +6496,40 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
+    /**
+     * The Download Liveboard as A4 PDF menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as an A4 PDF.
+     * Requires {@link Action.DownloadLiveboard} as a parent action when
+     * {@link LiveboardViewConfig.isLiveboardXLSXCSVDownloadEnabled} or
+     * {@link LiveboardViewConfig.isContinuousLiveboardPDFEnabled} flags are enabled.
+     * Use this instead of {@link Action.DownloadAsPdf} when either flag is on.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsA4Pdf]
+     * ```
+     */
+    DownloadLiveboardAsA4Pdf = 'downloadLiveboardAsA4Pdf',
+    /**
+     * The **Download Liveboard as XLSX** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as an XLSX file.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsXlsx]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsXlsx = 'downloadLiveboardAsXlsx',
+    /**
+     * The **Download Liveboard as CSV** menu action on a Liveboard.
+     * Allows downloading the entire Liveboard as a CSV file.
+     * @example
+     * ```js
+     * disabledActions: [Action.DownloadLiveboardAsCsv]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     */
+    DownloadLiveboardAsCsv = 'downloadLiveboardAsCsv',
     /**
      * @hidden
      */
@@ -6702,6 +7034,26 @@ export enum Action {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.5.1.sw
      */
     AxisMenuRemove = 'axisMenuRemove',
+    /**
+     * The **Compare with** action in the chart axis customization menu.
+     * Allows comparing data across dimensions or measures.
+     * @example
+     * ```js
+     * disabledActions: [Action.AxisMenuCompare]
+     * ```
+     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
+     */
+    AxisMenuCompare = 'axisMenuCompare',
+    /**
+     * The **Merge with** action in the chart axis customization menu.
+     * Allows merging data across dimensions or measures.
+     * @example
+     * ```js
+     * disabledActions: [Action.AxisMenuMerge]
+     * ```
+     * @version SDK: 1.50.0 | ThoughtSpot: 26.7.0.cl
+     */
+    AxisMenuMerge = 'axisMenuMerge',
     /**
      * @hidden
      */
@@ -7479,6 +7831,65 @@ export enum Action {
      * @version SDK: 1.45.0 | ThoughtSpot: 26.4.0.cl
      */
     IncludeCurrentPeriod = 'includeCurrentPeriod',
+    /**
+     * The **Send Test Email** button in the Liveboard schedule modal.
+     * Allows sending a test schedule email to self or all recipients.
+     * Requires `isSendNowLiveboardSchedulingEnabled` to be enabled.
+     * @example
+     * ```js
+     * disabledActions: [Action.SendTestScheduleEmail]
+     * hiddenActions: [Action.SendTestScheduleEmail]
+     * ```
+     * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     */
+    SendTestScheduleEmail = 'sendTestScheduleEmail',
+
+    /**
+     * The thumbs up/down feedback buttons in the SpotterViz panel.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizFeedback]
+     * disabledActions: [Action.SpotterVizFeedback]
+     * ```
+     */
+    SpotterVizFeedback = 'spotterVizFeedback',
+
+    /**
+     * The version restore button on checkpoint cards in the SpotterViz panel.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizCheckpointRestore]
+     * disabledActions: [Action.SpotterVizCheckpointRestore]
+     * ```
+     */
+    SpotterVizCheckpointRestore = 'spotterVizCheckpointRestore',
+
+    /**
+     * The **SpotterViz** button in the top edit header.
+     * Visible by default.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterViz]
+     * disabledActions: [Action.SpotterViz]
+     * ```
+     */
+    SpotterViz = 'spotterViz',
+    /**
+     * Clears browser cache and fetches new data for liveboard ChartViz Containers.
+     * Requires `enableLiveboardDataCache` to be enabled.
+     * @example
+     * ```js
+     * disabledActions: [Action.RefreshLiveboardBrowserCache]
+     * hiddenActions: [Action.RefreshLiveboardBrowserCache]
+     * ```
+     * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
+     */
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -7969,6 +8380,9 @@ export interface DefaultAppInitData {
     customActions: CustomAction[];
     interceptTimeout: number | undefined;
     interceptUrls: (string | InterceptedApiType)[];
+    embedExpiryInAuthToken:boolean;
+    shouldBypassPayloadValidation?:boolean
+    useHostEventsV2?:boolean
 }
 
 /**
@@ -8089,4 +8503,441 @@ export interface ContextObject {
         type: ContextType;
         objectIds: ObjectIds;
     };
+}
+
+
+// ─── Visual Overrides ────────────────────────────────────────────────────────
+
+export interface FontProperties {
+    color?: string;
+    bold?: boolean;
+    italic?: boolean;
+    strikeThrough?: boolean;
+    underline?: boolean;
+}
+
+export interface SolidBackgroundAttrs {
+    color?: string;
+}
+
+export interface GradientBackgroundAttrs {
+    backgroundFormatMidpoint?: number;
+    colors?: string[];
+    backgroundFormatRange?: number[];
+    isAutoScaled?: boolean;
+}
+
+/**
+ * Data label filter operators
+ * @group Visual Overrides
+ */
+export enum DataLabelFilterOperator {
+    /** Greater than */
+    GreaterThan = 'GREATER_THAN',
+    /** Less than */
+    LessThan = 'LESS_THAN',
+    /** Greater than or equal to */
+    GreaterThanOrEqualTo = 'GREATER_THAN_OR_EQUAL_TO',
+    /** Less than or equal to */
+    LessThanOrEqualTo = 'LESS_THAN_OR_EQUAL_TO',
+    /** Equal to */
+    EqualTo = 'EQUAL_TO',
+    /** Not equal to */
+    NotEqualTo = 'NOT_EQUAL_TO',
+}
+
+/**
+ * Conditional formatting operators
+ * @group Visual Overrides
+ */
+export enum ConditionalFormattingOperator {
+    /** Is equal to */
+    Is = 'IS',
+    /** Is not equal to */
+    IsNot = 'IS_NOT',
+    /** Contains */
+    Contains = 'CONTAINS',
+    /** Does not contain */
+    DoesNotContain = 'DOES_NOT_CONTAIN',
+    /** Starts with */
+    StartsWith = 'STARTS_WITH',
+    /** Ends with */
+    EndsWith = 'ENDS_WITH',
+    /** Greater than */
+    GreaterThan = 'GREATER_THAN',
+    /** Less than */
+    LessThan = 'LESS_THAN',
+    /** Greater than or equal to */
+    GreaterThanEqualTo = 'GREATER_THAN_EQUAL_TO',
+    /** Less than or equal to */
+    LessThanEqualTo = 'LESS_THAN_EQUAL_TO',
+    /** Equal to */
+    EqualTo = 'EQUAL_TO',
+    /** Not equal to */
+    NotEqualTo = 'NOT_EQUAL_TO',
+    /** Is between */
+    IsBetween = 'IS_BETWEEN',
+    /** Is null */
+    IsNull = 'IS_NULL',
+    /** Is not null */
+    IsNotNull = 'IS_NOT_NULL',
+}
+
+/**
+ * Background format types for conditional formatting
+ * @group Visual Overrides
+ */
+export enum BackgroundFormatType {
+    /** Solid color background */
+    Solid = 'SOLID',
+    /** Gradient background */
+    Gradient = 'GRADIENT',
+}
+
+/**
+ * Comparison types for conditional formatting
+ * @group Visual Overrides
+ */
+export enum ConditionalFormattingComparisonType {
+    /** Value-based comparison */
+    ValueBased = 'VALUE_BASED',
+    /** Column-based comparison */
+    ColumnBased = 'COLUMN_BASED',
+    /** Parameter-based comparison */
+    ParameterBased = 'PARAMETER_BASED',
+}
+
+/**
+ * A single conditional formatting rule row
+ * @group Visual Overrides
+ */
+export interface ConditionalFormattingRow {
+    /** Comparison operator */
+    operator: ConditionalFormattingOperator | string;
+    /** Value to compare against */
+    value?: string;
+    /** Range values for range-based comparisons */
+    rangeValues?: { min: number; max: number };
+    /** Plot the formatting as a band/area */
+    plotAsBand?: boolean;
+    /** Highlight this row if the condition is met */
+    isHighlightRow?: boolean;
+    /** Type of comparison: value-based, column-based, or parameter-based */
+    comparisonType?: ConditionalFormattingComparisonType | string;
+    /** Column ID to apply the formatting to (left-hand side) */
+    lhsColumnId?: string;
+    /** Column name to compare against (right-hand side) */
+    columnToCompare?: string;
+    /** Parameter ID to compare against */
+    comparisonParameterId?: string;
+    /** Font properties to apply (color, bold, italic, etc.) */
+    fontProperties?: FontProperties;
+    /** Background format type: solid color or gradient */
+    backgroundFormatType?: BackgroundFormatType | string;
+    /** Solid background color attributes */
+    solidBackgroundAttrs?: SolidBackgroundAttrs;
+    /** Gradient background attributes */
+    gradientBackgroundAttrs?: GradientBackgroundAttrs;
+}
+
+/**
+ * Conditional formatting configuration
+ * @group Visual Overrides
+ */
+export interface ConditionalFormatting {
+    /** Array of conditional formatting rules */
+    rows?: ConditionalFormattingRow[];
+}
+
+/**
+ * Color palette for charts
+ * @group Visual Overrides
+ */
+export interface ColorPalette {
+    /** Array of color values (hex codes or color names) */
+    colors?: string[];
+}
+
+/**
+ * Legend position options
+ * @group Visual Overrides
+ */
+export enum LegendPosition {
+    /** Position legend at the top */
+    Top = 'top',
+    /** Position legend at the bottom */
+    Bottom = 'bottom',
+    /** Position legend on the left */
+    Left = 'left',
+    /** Position legend on the right */
+    Right = 'right',
+}
+
+/**
+ * Table theme options
+ * @group Visual Overrides
+ */
+export enum TableTheme {
+    /** Outline theme */
+    Outline = 'OUTLINE',
+    /** Row theme */
+    Row = 'ROW',
+    /** Zebra theme */
+    Zebra = 'ZEBRA',
+}
+
+/**
+ * Table content density options
+ * @group Visual Overrides
+ */
+export enum TableContentDensity {
+    /** Regular density */
+    Regular = 'REGULAR',
+    /** Compact density */
+    Compact = 'COMPACT',
+}
+
+/**
+ * Chart legend configuration
+ * @group Visual Overrides
+ */
+export interface ChartLegend {
+    /** Show or hide the legend */
+    show?: boolean;
+    /** Position of the legend */
+    position?: LegendPosition | string;
+    /** Color palette to use for legend colors */
+    colorPalette?: ColorPalette;
+}
+
+/**
+ * Filter for data labels
+ * @group Visual Overrides
+ */
+export interface DataLabelFilter {
+    /** Filter threshold value */
+    value?: number;
+    /** Filter operator */
+    operator?: DataLabelFilterOperator | string;
+}
+
+/**
+ * Data label configuration for a specific column
+ * @group Visual Overrides
+ */
+export interface ColumnDataLabel {
+    /** Column name to apply data label overrides to */
+    name: string;
+    /** Show or hide data labels for this column */
+    visible?: boolean;
+    /** Filter to apply to data labels */
+    filter?: DataLabelFilter | null;
+}
+
+/**
+ * Chart data label configuration
+ * @group Visual Overrides
+ */
+export interface ChartDataLabel {
+    /** Show labels for all data points */
+    allLabels?: boolean;
+    /** Show labels for stacked values */
+    stackLabels?: boolean;
+    /** Per-column data label configurations */
+    columnDataLabel?: ColumnDataLabel[];
+}
+
+/**
+ * Chart summaries and totals configuration
+ * @group Visual Overrides
+ */
+export interface ChartSummaries {
+    /** Show row totals */
+    showRowTotals?: boolean;
+    /** Show column totals */
+    showColumnTotals?: boolean;
+    /** Show row grand totals */
+    showRowGrandTotals?: boolean;
+    /** Show column grand totals */
+    showColumnGrandTotals?: boolean;
+}
+
+/**
+ * Gridline configuration
+ * @group Visual Overrides
+ */
+export interface GridLine {
+    /** Show vertical gridlines */
+    x?: boolean;
+    /** Show horizontal gridlines */
+    y?: boolean;
+}
+
+/**
+ * Chart display configuration
+ * @group Visual Overrides
+ */
+export interface ChartDisplay {
+    /** Summary and totals configuration */
+    summaries?: ChartSummaries;
+    /** Show regression line on chart */
+    regressionLine?: boolean;
+    /** Gridline visibility configuration */
+    gridLine?: GridLine;
+}
+
+/**
+ * Y-axis range configuration
+ * @group Visual Overrides
+ */
+export interface YAxisRange {
+    /** Minimum value for Y-axis */
+    min?: number;
+    /** Maximum value for Y-axis */
+    max?: number;
+}
+
+/**
+ * Chart axis configuration
+ * @group Visual Overrides
+ */
+export interface ChartAxis {
+    /** Column names to link to this axis */
+    linkedColumns?: string[];
+    /** Show the axis name */
+    showName?: boolean;
+    /** Show the axis label values */
+    showLabelValue?: boolean;
+    /** Y-axis range configuration */
+    yAxisRange?: YAxisRange;
+}
+
+/**
+ * Chart column override configuration
+ * @group Visual Overrides
+ */
+export interface ChartColumn {
+    /** Column name to apply overrides to */
+    name: string;
+    /** Color for the column (hex code) */
+    color?: string;
+    /** Conditional formatting rules to apply to the column */
+    conditionalFormatting?: ConditionalFormatting;
+}
+
+/**
+ * Chart visualization overrides
+ * @group Visual Overrides
+ */
+export interface ChartOverrides {
+    /** Legend configuration */
+    legend?: ChartLegend;
+    /** Data label configuration */
+    dataLabel?: ChartDataLabel;
+    /** Display properties (summaries, regression line, gridlines) */
+    display?: ChartDisplay;
+    /** Per-axis configurations */
+    axis?: ChartAxis[];
+    /** Per-column configurations */
+    columns?: ChartColumn[];
+    /** Update mask paths for partial updates */
+    updateMaskPaths?: string[];
+}
+
+/**
+ * Table column override configuration
+ * @group Visual Overrides
+ */
+export interface TableColumn {
+    /**
+     * Name of the column to apply overrides to
+     */
+    name: string;
+    /**
+     * Enable or disable text wrapping for the column
+     */
+    wrapText?: boolean;
+    /**
+     * Show or hide the column
+     */
+    show?: boolean;
+    /**
+     * Conditional formatting rules to apply to the column
+     */
+    conditionalFormatting?: ConditionalFormatting;
+}
+
+/**
+ * Table display configuration
+ * @group Visual Overrides
+ */
+export interface TableDisplay {
+    /** Table theme */
+    tableTheme?: TableTheme | string;
+    /** Table content density */
+    tableContentDensity?: TableContentDensity | string;
+}
+
+/**
+ * Column summary visibility configuration
+ * @group Visual Overrides
+ */
+export interface ColumnSummaryVisibility {
+    /** Column ID to control summary visibility for */
+    columnId: string;
+    /** Show or hide summary for this column */
+    visible: boolean;
+}
+
+/**
+ * Display summary configuration
+ * @group Visual Overrides
+ */
+export interface DisplaySummaryConfig {
+    /** Show all column summaries by default */
+    showAllSummaries?: boolean;
+    /** Per-column summary visibility overrides */
+    columnVisibility?: ColumnSummaryVisibility[];
+}
+
+/**
+ * Table visualization overrides
+ * @group Visual Overrides
+ */
+export interface TableOverrides {
+    /** Per-column configurations (properties, conditional formatting) */
+    columns?: TableColumn[];
+    /** Table display properties (theme, density) */
+    display?: TableDisplay;
+    /** Summary/headline column visibility configuration */
+    displaySummaryConfig?: DisplaySummaryConfig;
+    /** Update mask paths for partial updates */
+    updateMaskPaths?: string[];
+}
+
+/**
+ * Visualization overrides to customize chart and table rendering
+ * within embedded ThoughtSpot components.
+ *
+ * @group Visual Overrides
+ * @example
+ * ```js
+ * const embed = new AppEmbed('#tsEmbed', {
+ *   visualOverrides: {
+ *     chart: {
+ *       legend: { show: true, position: 'bottom' },
+ *       columns: [{ name: 'Revenue', color: '#1f77b4' }],
+ *     },
+ *     table: {
+ *       display: { tableTheme: 'ZEBRA', tableContentDensity: 'COMPACT' },
+ *     },
+ *   },
+ * });
+ * ```
+ */
+export interface VisualizationOverrides {
+    /** Chart visualization overrides */
+    chart?: ChartOverrides;
+    /** Table visualization overrides */
+    table?: TableOverrides;
 }

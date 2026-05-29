@@ -97,6 +97,7 @@ beforeAll(() => {
 const customisations = {
     style: {
         customCSS: {},
+        customCSSUrl: undefined as string | undefined,
     },
     content: {},
 };
@@ -132,6 +133,9 @@ const getMockAppInitPayload = (data: any) => {
         customVariablesForThirdPartyTools,
         interceptTimeout: undefined,
         interceptUrls: [],
+        shouldBypassPayloadValidation:undefined,
+        useHostEventsV2:undefined,
+        embedExpiryInAuthToken:true
     };
     return {
         type: EmbedEvent.APP_INIT,
@@ -640,6 +644,37 @@ describe('Unit test case for ts embed', () => {
                 }));
             });
         });
+
+        test.each([
+            ['not set', undefined, true],
+            ['false', false, false],
+            ['true', true, true],
+        ] as [string, boolean | undefined, boolean][])(
+            'embedExpiryInAuthToken is %s when refreshAuthTokenOnNearExpiry is %s',
+            async (_label, refreshAuthTokenOnNearExpiry, expectedEmbedExpiry) => {
+                const mockEmbedEventPayload = {
+                    type: EmbedEvent.APP_INIT,
+                    data: {},
+                };
+                const searchEmbed = new AppEmbed(getRootEl(), {
+                    ...defaultViewConfig,
+                    refreshAuthTokenOnNearExpiry,
+                });
+                searchEmbed.render();
+                const mockPort: any = {
+                    postMessage: jest.fn(),
+                };
+                await executeAfterWait(() => {
+                    const iframe = getIFrameEl();
+                    postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+                });
+                await executeAfterWait(() => {
+                    expect(mockPort.postMessage).toHaveBeenCalledWith(
+                        getMockAppInitPayload({ embedExpiryInAuthToken: expectedEmbedExpiry }),
+                    );
+                });
+            },
+        );
 
         test('when Embed event status have start status', (done) => {
             const mockEmbedEventPayload = {
@@ -2047,7 +2082,7 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&enableLinkOverridesV2=true&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
             );
         });
-        it('Sets only linkOverride when enableLinkOverridesV2 is not set', async () => {
+        it('Auto-upgrades V1 linkOverride to V2 (sends both flags)', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 frameParams: {
                     width: '100%',
@@ -2057,10 +2092,40 @@ describe('Unit test case for ts embed', () => {
                 linkOverride: true,
             });
             await liveboardEmbed.render();
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsForPinboardEmbed}&linkOverride=true${defaultParamsPost}#/embed/viz/test-lb`,
-            );
+            const src = getIFrameSrc();
+            expect(src).toContain('linkOverride=true');
+            expect(src).toContain('enableLinkOverridesV2=true');
+        });
+        it('Auto-disables V2 link overrides when disableRedirectionLinksInNewTab is true', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                enableLinkOverridesV2: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            await liveboardEmbed.render();
+            const src = getIFrameSrc();
+            expect(src).not.toContain('enableLinkOverridesV2=true');
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
+        });
+        it('Auto-disables V1 link override when disableRedirectionLinksInNewTab is true', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                liveboardId: 'test-lb',
+                linkOverride: true,
+                disableRedirectionLinksInNewTab: true,
+            });
+            await liveboardEmbed.render();
+            const src = getIFrameSrc();
+            expect(src).not.toContain('linkOverride=true');
+            expect(src).toContain('disableRedirectionLinksInNewTab=true');
         });
         it('Sets the iconSprite url', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
@@ -2371,9 +2436,12 @@ describe('Unit test case for ts embed', () => {
             libEmbed.showPreRender();
             expect(warnSpy).toHaveBeenCalledTimes(1);
 
+            // The ResizeObserver now tracks the placeholder inside this.el,
+            // not this.el itself, so pass it as the target.
+            const preRenderPlaceholder = tsEmbedDiv.firstElementChild as HTMLElement;
             resizeObserverCb([
                 {
-                    target: tsEmbedDiv,
+                    target: preRenderPlaceholder,
                     contentRect: { height: 297, width: 987 },
                 },
             ]);
@@ -2489,7 +2557,6 @@ describe('Unit test case for ts embed', () => {
 
             libEmbed.preRender();
             await waitFor(() => !!getIFrameEl());
-            const warnSpy = jest.spyOn(logger, 'warn');
             const newEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'i-am-preRendered',
                 liveboardId: 'awdawda',
@@ -2497,9 +2564,10 @@ describe('Unit test case for ts embed', () => {
                 frameParams: { height: 90 },
             });
 
-            newEmbed.showPreRender();
+            await newEmbed.showPreRender();
 
-            expect(warnSpy).toHaveBeenCalledTimes(2);
+            // Verify newEmbed successfully connected to the existing preRender
+            expect((newEmbed as any).isPreRenderConnected()).toBe(true);
         });
         it('showPreRender should not preRender if not available', async () => {
             createRootEleForEmbed();
@@ -3174,8 +3242,8 @@ describe('Unit test case for ts embed', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
             const loggerSpy = jest.spyOn(logger, 'info');
 
-            // Mock insertedDomEl to have the embed object
-            (searchEmbed as any).insertedDomEl = {
+            // getPreRenderObj reads the embed reference from preRenderWrapper
+            (searchEmbed as any).preRenderWrapper = {
                 [searchEmbed['embedNodeKey']]: searchEmbed,
             };
 
@@ -4503,5 +4571,190 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         expect(iframe.allow).toContain('fullscreen');
         expect(iframe.allow).toContain('clipboard-read');
         expect(iframe.allow).toContain('clipboard-write');
+    });
+
+    describe('shouldSkipEvent', () => {
+        beforeAll(() => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+        });
+
+        // Matches the structure produced by createValidationError / embedErrorDetails
+        const makeNestedValidationData = (message = 'invalid payload') => ({
+            type: EmbedEvent.Error,
+            data: {
+                errorType: 'VALIDATION_ERROR',
+                message,
+                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                error: message,
+            },
+        });
+
+        // Matches the flat structure where errorType sits at the top level of data
+        const makeFlatValidationData = (message = 'invalid payload') => ({
+            errorType: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+            message,
+            code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+        });
+
+        const makeEmbed = (viewConfig: Partial<SearchViewConfig>) => {
+            const embed = new SearchEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                ...viewConfig,
+            });
+            return embed;
+        };
+
+        test('skips Error event and logs warning when useHostEventsV2 is true and shouldBypassPayloadValidation is true', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith(
+                'Host Event Validation failed: invalid payload',
+            );
+        });
+
+        test('skips Error event when errorType is resolved from data.data.code (nested format)', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData('nested error'));
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith(
+                'Host Event Validation failed: nested error',
+            );
+        });
+
+        test('skips Error event when errorType is resolved from data.errorType (flat format)', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeFlatValidationData());
+
+            expect(errorHandler).not.toHaveBeenCalled();
+        });
+
+        test('delivers Error event to handler when useHostEventsV2 is true and shouldBypassPayloadValidation is undefined', () => {
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: undefined });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).toHaveBeenCalled();
+        });
+
+        test('delivers Error event to handler when useHostEventsV2 is true and shouldBypassPayloadValidation is false', () => {
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).toHaveBeenCalled();
+        });
+
+        test('skips Error event when useHostEventsV2 is false regardless of shouldBypassPayloadValidation', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: false, shouldBypassPayloadValidation: undefined });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith(
+                'Host Event Validation failed: invalid payload',
+            );
+        });
+
+        test('logs warning with undefined message when flat format has no nested data', () => {
+            jest.spyOn(logger, 'warn');
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, jest.fn());
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeFlatValidationData());
+
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: undefined');
+        });
+
+        test('skips Error event when useHostEventsV2 is false and shouldBypassPayloadValidation is true', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: false, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: invalid payload');
+        });
+
+        test('skips via handleError when shouldBypassPayloadValidation is true', () => {
+            jest.spyOn(logger, 'warn');
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: true });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).handleError({
+                type: EmbedEvent.Error,
+                data: {
+                    errorType: 'VALIDATION_ERROR',
+                    message: 'bad payload',
+                    code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                    error: 'bad payload',
+                },
+            });
+
+            expect(errorHandler).not.toHaveBeenCalled();
+            expect(logger.warn).toHaveBeenCalledWith('Host Event Validation failed: bad payload');
+        });
+
+        test('delivers Error event to EmbedEvent.ALL handler when not skipped', () => {
+            const allHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            embed.on(EmbedEvent.ALL, allHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(allHandler).toHaveBeenCalled();
+        });
+
+        test('does not skip non-Error events even with HOST_EVENT_VALIDATION error code', () => {
+            const customActionHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            embed.on(EmbedEvent.CustomAction, customActionHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.CustomAction, {
+                data: { code: EmbedErrorCodes.HOST_EVENT_VALIDATION },
+            });
+
+            expect(customActionHandler).toHaveBeenCalled();
+        });
+
+        test('does not skip Error events with unrelated error codes', () => {
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: true, shouldBypassPayloadValidation: false });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, {
+                errorType: 'SOME_OTHER_ERROR',
+                message: 'something else failed',
+            });
+
+            expect(errorHandler).toHaveBeenCalled();
+        });
     });
 });

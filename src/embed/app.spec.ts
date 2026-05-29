@@ -21,6 +21,9 @@ import {
     defaultParamsForPinboardEmbed,
     defaultParamsWithoutHiddenActions,
     expectUrlMatchesWithParams,
+    postMessageToParent,
+    testVisualOverridesInEmbed,
+    expectUrlToHaveParamsWithValues,
 } from '../test/test-utils';
 import { version } from '../../package.json';
 import * as config from '../config';
@@ -61,7 +64,7 @@ const testSetIframeHeightBehavior = (
         ...defaultViewConfig,
         fullHeight: true,
     } as AppViewConfig) as any;
-    
+
     const spySetIFrameHeight = shouldBeCalled
         ? jest.spyOn(appEmbed, 'setIFrameHeight').mockImplementation(jest.fn())
         : jest.spyOn(appEmbed, 'setIFrameHeight');
@@ -478,6 +481,19 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set isLinkParametersEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -504,6 +520,18 @@ describe('App embed tests', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=false${defaultParamsPost}#/home`,
             );
         });
+    });
+
+    test('Should add homepageVersion=v4 when homePage is Focused to the iframe src', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Focused,
+                },
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+        );
     });
 
     test('should set isLiveboardXLSXCSVDownloadEnabled to true in url', async () => {
@@ -564,6 +592,141 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
+        const spotterViz = {
+            brandName: 'MyBrand',
+            brandHeadline: "Hi, there! I'm",
+            description: 'Ask questions about your data',
+            inputChatPlaceholder: 'Ask a question...',
+            hideStarterPrompts: false,
+            customStarterPrompts: [
+                {
+                    id: '001',
+                    displayText: 'Show revenue by region',
+                    fullPrompt: 'Show revenue by region',
+                },
+                { id: '002', displayText: 'Top customers', fullPrompt: 'Top customers by sales' },
+            ],
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: spotterViz,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
+        const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: expect.objectContaining({
+                            brandHeadline: "Hi, there! I'm",
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include spotterVizConfig in APP_INIT when spotterViz is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.spotterVizConfig).toBeUndefined();
+            }
+        });
+    });
+
+    test('should include spotterVizConfig alongside spotterSidebarConfig in APP_INIT', async () => {
+        const spotterViz = { brandName: 'MyBrand' };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterVizConfig: spotterViz,
+                        spotterSidebarConfig: expect.objectContaining({
+                            enablePastConversationsSidebar: true,
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
     test('should set toolResponseCardBrandingLabel in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -577,6 +740,33 @@ describe('App embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&toolResponseCardBrandingLabel=MyBrand${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set spotterFileUploadEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { spotterFileUploadEnabled: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterFileUploadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set spotterFileUploadFileTypes in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { spotterFileUploadFileTypes: { types: ['image/png', 'application/pdf'] } },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                spotterFileUploadFileTypes: JSON.stringify({ types: ['image/png', 'application/pdf'] }),
+            });
         });
     });
 
@@ -805,6 +995,53 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add newChartsLibrary true to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            newChartsLibrary: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add newChartsLibrary false to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+            newChartsLibrary: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should not add newChartsLibrary to the iframe src when not specified', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showPrimaryNavbar: false,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add enableSearchAssist flagto the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -876,6 +1113,92 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardReverifyBanner=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('Should add isUnifiedSearchExperienceEnabled flag to the iframe src', async () => {
+        // Case 1: explicitly true
+        const appEmbedTrue = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isUnifiedSearchExperienceEnabled: true,
+        } as AppViewConfig);
+
+        appEmbedTrue.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+        appEmbedTrue.destroy();
+
+        // Case 2: explicitly false
+        const appEmbedFalse = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isUnifiedSearchExperienceEnabled: false,
+        } as AppViewConfig);
+
+        appEmbedFalse.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+        appEmbedFalse.destroy();
+
+        // Case 3: not provided — defaults to false
+        const appEmbedDefault = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        appEmbedDefault.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set newConnectionsExperience to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newConnectionsExperience: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&newConnectionsExperience=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set newConnectionsExperience to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newConnectionsExperience: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&newConnectionsExperience=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should disable connection new experience by default in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1160,6 +1483,44 @@ describe('App embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?enablePendoHelp=false&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set enableLiveboardDataCache to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableLiveboardDataCache: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set enableLiveboardDataCache to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableLiveboardDataCache: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set enableLiveboardDataCache in url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('enableLiveboardDataCache');
         });
     });
 
@@ -1726,6 +2087,98 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
         } as AppViewConfig);
         await appEmbed.render();
         expect(appEmbed['defaultHeight']).toBe(700);
+    });
+});
+
+describe('AppEmbed visualOverrides tests', () => {
+    test('should include visualOverridesParams in APP_INIT when visualOverrides config is provided', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'bottom' as const,
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
+    });
+
+    test('should not include visualOverridesParams when visualOverrides is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        const mockEmbedEventPayload = {
+            type: EmbedEvent.APP_INIT,
+            data: {},
+        };
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = {
+            postMessage: jest.fn(),
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+        });
+
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.visualOverridesParams).toBeUndefined();
+            }
+        });
+    });
+
+    test('should pass visualOverrides with table config in AppEmbed', async () => {
+        const visualOverrides = {
+            table: {
+                display: {
+                    tableTheme: 'ZEBRA',
+                    tableContentDensity: 'COMPACT',
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
+    });
+
+    test('should pass visualOverrides with both chart and table configs', async () => {
+        const visualOverrides = {
+            chart: {
+                legend: {
+                    show: true,
+                    position: 'right' as const,
+                },
+            },
+            table: {
+                display: {
+                    tableTheme: 'STRIPED',
+                },
+            },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            visualOverrides,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
 

@@ -1,6 +1,6 @@
 import { has } from 'lodash';
 import { version } from '../../package.json';
-import { Action, AuthType } from '../types';
+import { Action, AuthType, EmbedEvent } from '../types';
 
 /**
  Initialises fetch to the global object
@@ -165,4 +165,36 @@ export const mockSessionInfo = {
         sessionId: 'cb202c48-b14b-4466-8a70-899ea666d46q',
         genNo: 5,
     },
+};
+
+export const testVisualOverridesInEmbed = async (
+    embed: any,
+    visualOverrides: any,
+) => {
+    const mockEmbedEventPayload = {
+        type: EmbedEvent.APP_INIT,
+        data: {},
+    };
+
+    embed.render();
+
+    const mockPort: any = {
+        postMessage: jest.fn(),
+    };
+
+    await executeAfterWait(() => {
+        const iframe = getIFrameEl();
+        postMessageToParent(iframe.contentWindow, mockEmbedEventPayload, mockPort);
+    });
+
+    await executeAfterWait(() => {
+        expect(mockPort.postMessage).toHaveBeenCalledWith({
+            type: EmbedEvent.APP_INIT,
+            data: expect.objectContaining({
+                embedParams: expect.objectContaining({
+                    visualOverridesParams: visualOverrides,
+                }),
+            }),
+        });
+    });
 };

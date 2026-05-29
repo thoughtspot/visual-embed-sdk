@@ -6,8 +6,8 @@ import { logger } from './utils/logger';
 
 const cacheAuthTokenKey = 'cachedAuthToken';
 
-const getCacheAuthToken = (): string | null => getValueFromWindow(cacheAuthTokenKey);
-const storeAuthTokenInCache = (token: string): void => {
+export const getCacheAuthToken = (): string | null => getValueFromWindow(cacheAuthTokenKey);
+export const storeAuthTokenInCache = (token: string): void => {
     storeValueInWindow(cacheAuthTokenKey, token);
 };
 

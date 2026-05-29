@@ -2,6 +2,7 @@ import { DefaultAppInitData, ErrorDetailsTypes, EmbedErrorCodes } from '../types
 import { validateHttpUrl } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
 import type { SpotterSidebarViewConfig } from './conversation';
+import type { VisualizationOverrides } from '../types';
 
 /**
  * Resolves enablePastConversationsSidebar with
@@ -22,10 +23,16 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     viewConfig: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         enablePastConversationsSidebar?: boolean;
+        visualOverrides?: VisualizationOverrides;
     },
     handleError: (err: any) => void,
-): T & { embedParams?: { spotterSidebarConfig?: SpotterSidebarViewConfig } } {
-    const { spotterSidebarConfig, enablePastConversationsSidebar } = viewConfig;
+): T & {
+    embedParams?: {
+        spotterSidebarConfig?: SpotterSidebarViewConfig;
+        visualOverridesParams?: VisualizationOverrides | null;
+    };
+} {
+    const { spotterSidebarConfig, enablePastConversationsSidebar, visualOverrides } = viewConfig;
 
     const resolvedEnablePastConversations = resolveEnablePastConversationsSidebar({
         spotterSidebarConfigValue: spotterSidebarConfig?.enablePastConversationsSidebar,
@@ -33,7 +40,15 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     });
 
     const hasConfig = spotterSidebarConfig || resolvedEnablePastConversations !== undefined;
-    if (!hasConfig) return defaultAppInitData;
+    if (!hasConfig) {
+        if (visualOverrides === undefined) {
+            return defaultAppInitData;
+        }
+        return {
+            ...defaultAppInitData,
+            embedParams: { visualOverridesParams: visualOverrides },
+        };
+    }
 
     const resolvedSidebarConfig: SpotterSidebarViewConfig = {
         ...spotterSidebarConfig,
@@ -60,6 +75,7 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
         embedParams: {
             ...((defaultAppInitData as any).embedParams || {}),
             spotterSidebarConfig: resolvedSidebarConfig,
+            ...(visualOverrides !== undefined ? { visualOverridesParams: visualOverrides } : {}),
         },
     };
 }

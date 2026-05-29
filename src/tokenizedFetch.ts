@@ -1,4 +1,4 @@
-import { getAuthenticationToken } from './authToken';
+import { getAuthenticationToken, getCacheAuthToken } from './authToken';
 import { getEmbedConfig } from './embed/embedConfig';
 
 import { AuthType } from './types';
@@ -20,18 +20,21 @@ import { AuthType } from './types';
  */
 export const tokenizedFetch: typeof fetch = async (input, init): Promise<Response> => {
     const embedConfig = getEmbedConfig();
+    const options: RequestInit = { ...init };
+    let token: string | undefined;
     if (embedConfig.authType !== AuthType.TrustedAuthTokenCookieless) {
-        return fetch(input, {
-            // ensure cookies are included for the non cookie-less api calls.
-            credentials: 'include',
-            ...init,
-        });
+        token = getCacheAuthToken();
+        if (!token) {
+            return fetch(input, { ...options, credentials: 'include' });
+        }
+    } else {
+        token = await getAuthenticationToken(embedConfig);
+    }
+    const req = new Request(input, options);
+
+    if (token) {
+        req.headers.append('Authorization', `Bearer ${token}`);
     }
 
-    const req = new Request(input, init);
-    const authToken = await getAuthenticationToken(embedConfig);
-    if (authToken) {
-        req.headers.append('Authorization', `Bearer ${authToken}`);
-    }
     return fetch(req);
 };
