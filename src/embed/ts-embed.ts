@@ -1552,6 +1552,9 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
@@ -1630,6 +1633,10 @@ export class TsEmbed {
      */
 
     public async preRender(showPreRenderByDefault = false, replaceExistingPreRender = false): Promise<TsEmbed> {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_PRE_RENDER, {
+            showPreRenderByDefault,
+            replaceExistingPreRender,
+        });
         if (!this.viewConfig.preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
@@ -1768,6 +1775,10 @@ export class TsEmbed {
      * wrapper to overlay it.
      */
     public async showPreRender(): Promise<TsEmbed> {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_SHOW_PRE_RENDER, {
+            preRenderId: this.viewConfig.preRenderId,
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
         if (this.shouldWaitForRenderPromise)
             await this.isReadyForRenderPromise;
 
@@ -1863,6 +1874,11 @@ export class TsEmbed {
      * If the component is not preRendered, it issues a warning.
      */
     public hidePreRender(): void {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HIDE_PRE_RENDER, {
+            preRenderId: this.viewConfig.preRenderId,
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
+
         logger.debug('HidePreRender Called');
         if (!this.isPreRenderConnected()) {
             // if the embed component is not preRendered , nothing to hide
