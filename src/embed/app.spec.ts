@@ -1736,6 +1736,116 @@ describe('App embed tests', () => {
                 'Please call render before invoking this method',
             );
         });
+
+        describe('overrideHistoryState flag', () => {
+            test('navigateToPage with overrideHistoryState=true should trigger HostEvent.Navigate', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: true,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(path, false);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: path,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=true and path as number should trigger HostEvent.Navigate', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: true,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(-1, false);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: -1,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=false and noReload=false should update iframe src', async () => {
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: false,
+                });
+                await appEmbed.render();
+                appEmbed.navigateToPage(path, false);
+
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=undefined and noReload=false should update iframe src', async () => {
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+                appEmbed.navigateToPage(path, false);
+
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+                );
+            });
+
+            test('navigateToPage respects noReload priority over overrideHistoryState', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: false,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(path, true);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: path,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+        });
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
