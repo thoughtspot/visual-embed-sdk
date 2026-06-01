@@ -1852,7 +1852,7 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
-                enableContainerAwareLazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
             } as LiveboardViewConfig);
 
             await liveboardEmbed.render();

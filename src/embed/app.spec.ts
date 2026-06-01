@@ -1736,7 +1736,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
-                enableContainerAwareLazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
             } as AppViewConfig);
 
             await appEmbed.render();

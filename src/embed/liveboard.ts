@@ -462,7 +462,7 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * @type {boolean}
      * @default false
      */
-    enableContainerAwareLazyLoadingForFullHeight?: boolean;
+    enableScrollableContainerLazyLoading?: boolean;
     /**
      * The margin to be used for lazy loading.
      *
@@ -841,7 +841,7 @@ export class LiveboardEmbed extends V1Embed {
     private sendFullHeightLazyLoadData = () => {
         const data = calculateVisibleElementData(
             this.iFrame,
-            this.viewConfig.enableContainerAwareLazyLoadingForFullHeight,
+            this.viewConfig.enableScrollableContainerLazyLoading,
         );
         // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
         if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
@@ -859,7 +859,7 @@ export class LiveboardEmbed extends V1Embed {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
         const visibleCoordinatesData = calculateVisibleElementData(
             this.iFrame,
-            this.viewConfig.enableContainerAwareLazyLoadingForFullHeight,
+            this.viewConfig.enableScrollableContainerLazyLoading,
         );
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
@@ -1051,7 +1051,7 @@ export class LiveboardEmbed extends V1Embed {
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
-            if (!this.viewConfig.enableContainerAwareLazyLoadingForFullHeight) {
+            if (!this.viewConfig.enableScrollableContainerLazyLoading) {
                 return;
             }
             this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
