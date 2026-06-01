@@ -1192,25 +1192,10 @@ export class AppEmbed extends V1Embed {
             params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         }
 
-        // Set navigation to v2 by default to avoid problems like the app
-        // switcher (9-dot menu) not showing when v3 navigation is turned on
-        // at the cluster level.
-        // To use v3 navigation, we must manually set the discoveryExperience
-        // settings.
-        params[Param.NavigationVersion] = 'v2';
-        // Set homePageVersion to v3 by default to reset the LD flag value
-        // for the homepageVersion. V1 and V2 home page experiences are
-        // deprecated; v3 (ModularWithStylingChanges) is the new baseline.
-        params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
+        // Navigation v1/v2 and home page v1/v2 are deprecated. v3 is the
+        // default so navigationVersion and homepageVersion need to be 
+        // sent by default.
         if (discoveryExperience) {
-            // primaryNavbarVersion v3 will enabled the new left navigation
-            if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
-                params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
-                // Enable the modularHomeExperience when Sliding is enabled.
-                params[Param.ModularHomeExperienceEnabled] = true;
-            }
-
-
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
