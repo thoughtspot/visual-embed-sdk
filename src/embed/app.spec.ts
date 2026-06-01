@@ -1936,6 +1936,36 @@ describe('App embed tests', () => {
             addEventListenerSpy.mockRestore();
         });
 
+        test('should listen to scroll and resize changes from scrollable iframe ancestors', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerAddEventListenerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerAddEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            appEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+        });
+
         test('should remove window event listeners on destroy when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
 
@@ -1950,7 +1980,7 @@ describe('App embed tests', () => {
             appEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
 
             removeEventListenerSpy.mockRestore();
         });
@@ -2181,5 +2211,3 @@ describe('AppEmbed visualOverrides tests', () => {
         await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
-
-
