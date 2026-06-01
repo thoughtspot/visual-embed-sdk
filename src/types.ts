@@ -7880,6 +7880,20 @@ export enum Action {
      */
     SpotterViz = 'spotterViz',
     /**
+     * The reference-mode toggle button inside the SpotterViz chat input.
+     * When users enable reference mode, clicking tiles, filters, or
+     * parameters adds them as chat context. Hide this action to remove
+     * the reference-mode capability entirely.
+     * Visible by default.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizReferenceMode]
+     * disabledActions: [Action.SpotterVizReferenceMode]
+     * ```
+     */
+    SpotterVizReferenceMode = 'spotterVizReferenceMode',
+    /**
      * Clears browser cache and fetches new data for liveboard ChartViz Containers.
      * Requires `enableLiveboardDataCache` to be enabled.
      * @example
