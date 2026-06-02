@@ -89,6 +89,7 @@ import {
     processApiInterceptResponse,
     processLegacyInterceptResponse,
 } from '../api-intercept';
+import { buildEmbedParamsPayload, type EmbedParamsSourceConfig } from './embedParams-builder';
 
 /**
  * Global prefix for all ThoughtSpot postHash Params.
@@ -511,7 +512,14 @@ export class TsEmbed {
                 },
             });
         }
-        const baseInitData = {
+        // Subclass viewConfigs carry the embedParams source fields; the base
+        // ViewConfig type does not declare them, so narrow here.
+        const embedParams = buildEmbedParamsPayload(
+            this.viewConfig as EmbedParamsSourceConfig,
+            this.handleError.bind(this),
+        );
+
+        const baseInitData: DefaultAppInitData = {
             customisations: getCustomisations(this.embedConfig, this.viewConfig),
             authToken,
             runtimeFilterParams: this.viewConfig.excludeRuntimeFiltersfromURL
@@ -533,6 +541,7 @@ export class TsEmbed {
             embedExpiryInAuthToken: this.viewConfig.refreshAuthTokenOnNearExpiry ?? true,
             ...getInterceptInitData(this.viewConfig),
             ...getHostEventsConfig(this.viewConfig),
+            ...(embedParams && { embedParams }),
         };
 
         return baseInitData;

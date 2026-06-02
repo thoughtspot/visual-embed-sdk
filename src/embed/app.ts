@@ -23,8 +23,7 @@ import {
 } from '../types';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
-import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { SpotterVizConfig } from './spotter-viz-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -905,27 +904,6 @@ export class AppEmbed extends V1Embed {
         }
     }
 
-    /**
-     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
-     * so the conv-assist app can read sidebar configuration on initialisation.
-     *
-     * Precedence for `enablePastConversationsSidebar`:
-     * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
-     * deprecated top-level `enablePastConversationsSidebar` flag; if the former
-     * is absent the latter is used as a fallback.
-     *
-     * An invalid `spotterDocumentationUrl` triggers a validation error and is
-     * excluded from the payload rather than forwarded to the app.
-     */
-    protected async getAppInitData(): Promise<AppEmbedAppInitData> {
-        const defaultAppInitData = await super.getAppInitData();
-        const sidebarInitData = buildSpotterSidebarAppInitData(
-            defaultAppInitData,
-            this.viewConfig,
-            this.handleError.bind(this),
-        );
-        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-    }
 
     /**
      * Constructs a map of parameters to be passed on to the

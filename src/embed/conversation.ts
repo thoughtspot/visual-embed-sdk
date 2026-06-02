@@ -2,7 +2,6 @@ import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -405,22 +404,6 @@ export class SpotterEmbed extends TsEmbed {
         super(container, viewConfig);
     }
 
-    /**
-     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
-     * so the conv-assist app can read sidebar configuration on initialisation.
-     *
-     * Precedence for `enablePastConversationsSidebar`:
-     * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
-     * deprecated top-level `enablePastConversationsSidebar` flag; if the former
-     * is absent the latter is used as a fallback.
-     *
-     * An invalid `spotterDocumentationUrl` triggers a validation error and is
-     * excluded from the payload rather than forwarded to the app.
-     */
-    protected async getAppInitData(): Promise<SpotterAppInitData> {
-        const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
-    }
 
     protected getEmbedParamsObject() {
         const {

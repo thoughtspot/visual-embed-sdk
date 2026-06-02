@@ -405,19 +405,10 @@ export class SearchEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const result: SearchAppInitData = {
+        return {
             ...defaultAppInitData,
             ...this.getSearchInitData(),
         };
-
-        if (this.viewConfig.visualOverrides) {
-            result.embedParams = {
-                ...((defaultAppInitData as any).embedParams || {}),
-                visualOverridesParams: this.viewConfig.visualOverrides,
-            };
-        }
-
-        return result;
     }
 
     protected getEmbedParamsObject() {
