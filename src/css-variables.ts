@@ -1170,19 +1170,19 @@ export interface CustomCssVariables {
      * Background color of the reference-mode toggle button in the SpotterViz
      * chat input when it is unselected and the user hovers over it.
      */
-    '--ts-var-liveboard-reference-icon-hover-background'?: string;
+    '--ts-var-spotterviz-reference-icon-hover-background'?: string;
 
     /**
-     * Icon (glyph) color for the reference-mode selected state — applies to
+     * Icon color for the reference-mode selected state — applies to
      * both the toggle button when active and the icon badge on each
      * referenced-entity chip in the chat input.
      */
-    '--ts-var-liveboard-reference-selected-icon-color'?: string;
+    '--ts-var-spotterviz-reference-icon-selected-color'?: string;
 
     /**
      * Background color for the reference-mode selected state — applies to
-     * both the toggle button when active and the icon badge on each
-     * referenced-entity chip in the chat input.
+     * both the reference mode toggle button when active and the icon badge
+     * on each referenced-entity chip in the chat input.
      */
-    '--ts-var-liveboard-reference-selected-background'?: string;
+    '--ts-var-spotterviz-reference-icon-selected-background'?: string;
 }

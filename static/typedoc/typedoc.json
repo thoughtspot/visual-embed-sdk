@@ -36345,75 +36345,6 @@
 					}
 				},
 				{
-					"id": 3012,
-					"name": "--ts-var-liveboard-reference-icon-hover-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color of the reference-mode toggle button in the SpotterViz\nchat input when it is unselected and the user hovers over it."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 1173,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 3014,
-					"name": "--ts-var-liveboard-reference-selected-background",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Background color for the reference-mode selected state — applies to\nboth the toggle button when active and the icon badge on each\nreferenced-entity chip in the chat input."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 1187,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
-					"id": 3013,
-					"name": "--ts-var-liveboard-reference-selected-icon-color",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isOptional": true
-					},
-					"comment": {
-						"shortText": "Icon (glyph) color for the reference-mode selected state — applies to\nboth the toggle button when active and the icon badge on each\nreferenced-entity chip in the chat input."
-					},
-					"sources": [
-						{
-							"fileName": "css-variables.ts",
-							"line": 1180,
-							"character": 4
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "string"
-					}
-				},
-				{
 					"id": 2919,
 					"name": "--ts-var-liveboard-single-column-breakpoint",
 					"kind": 1024,
@@ -38346,6 +38277,75 @@
 					}
 				},
 				{
+					"id": 3012,
+					"name": "--ts-var-spotterviz-reference-icon-hover-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color of the reference-mode toggle button in the SpotterViz\nchat input when it is unselected and the user hovers over it."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 1173,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 3014,
+					"name": "--ts-var-spotterviz-reference-icon-selected-background",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Background color for the reference-mode selected state — applies to\nboth the reference mode toggle button when active and the icon badge\non each referenced-entity chip in the chat input."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 1187,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
+					"id": 3013,
+					"name": "--ts-var-spotterviz-reference-icon-selected-color",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isOptional": true
+					},
+					"comment": {
+						"shortText": "Icon color for the reference-mode selected state — applies to\nboth the toggle button when active and the icon badge on each\nreferenced-entity chip in the chat input."
+					},
+					"sources": [
+						{
+							"fileName": "css-variables.ts",
+							"line": 1180,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					}
+				},
+				{
 					"id": 2986,
 					"name": "--ts-var-spotterviz-text-primary",
 					"kind": 1024,
@@ -39033,9 +39033,6 @@
 						2888,
 						2906,
 						2905,
-						3012,
-						3014,
-						3013,
 						2919,
 						2974,
 						2971,
@@ -39120,6 +39117,9 @@
 						2978,
 						2984,
 						2985,
+						3012,
+						3014,
+						3013,
 						2986,
 						2987,
 						2992,
