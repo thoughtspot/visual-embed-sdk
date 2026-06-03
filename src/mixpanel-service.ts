@@ -2,7 +2,7 @@ import * as mixpanel from 'mixpanel-browser';
 import { logger } from './utils/logger';
 import { SessionInfo } from './utils/sessionInfoService';
 import { ERROR_MESSAGE } from './errors';
-import { version } from '../package.json';
+import { version } from './utils/sdk-version';
 
 export const EndPoints = {
     CONFIG: '/callosum/v1/system/config',

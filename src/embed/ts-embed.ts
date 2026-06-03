@@ -68,7 +68,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
-import { version } from '../../package.json';
+import { version } from '../utils/sdk-version';
 import {
     getAuthPromise,
     renderInQueue,
