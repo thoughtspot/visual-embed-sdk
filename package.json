@@ -149,7 +149,7 @@
         "ts-jest": "^29.4.6",
         "ts-loader": "8.0.4",
         "typedoc": "0.21.6",
-        "typedoc-plugin-markdown": "^4.8.1",
+        "typedoc-plugin-toc-group": "git+https://github.com/tangkunyin/typedoc-plugin-toc-group.git",
         "typescript": "^4.9.4",
         "typescript-eslint": "^8.29.1",
         "url-search-params-polyfill": "^8.1.0",
