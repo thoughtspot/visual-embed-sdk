@@ -1,1 +1,1 @@
-{"version":3,"file":"ts-embed.spec.d.ts","sourceRoot":"","sources":["ts-embed.spec.ts"],"names":[],"mappings":"AAqFA,eAAO,MAAM,iCAAiC,QAAgJ,CAAC;AAC/L,eAAO,MAAM,aAAa,QAAmF,CAAC"}
+{"version":3,"file":"ts-embed.spec.d.ts","sourceRoot":"","sources":["../../../src/embed/ts-embed.spec.ts"],"names":[],"mappings":"AAqFA,eAAO,MAAM,iCAAiC,QAAgJ,CAAC;AAC/L,eAAO,MAAM,aAAa,QAAmF,CAAC"}

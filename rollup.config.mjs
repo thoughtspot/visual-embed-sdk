@@ -6,7 +6,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
@@ -15,13 +15,17 @@ import replace from '@rollup/plugin-replace';
 import pkg from './package.json' with {type: "json"};
 
 const plugins = [
-    typescript(),
     nodeResolve(),
     commonjs(),
+    typescript({
+        tsconfig: 'tsconfig.json',
+        outDir: 'dist',
+    }),
     json({
         compact: true,
     }),
     replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
     }),
 ];
@@ -46,6 +50,9 @@ export default [{
             banner,
         },
     ],
+    treeshake: {
+        moduleSideEffects: false,
+    },
     external: [
         ...Object.keys(pkg.peerDependencies || {}),
     ],

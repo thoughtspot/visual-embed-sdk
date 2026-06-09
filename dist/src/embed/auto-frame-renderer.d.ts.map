@@ -1,1 +1,1 @@
-{"version":3,"file":"auto-frame-renderer.d.ts","sourceRoot":"","sources":["auto-frame-renderer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,8BAA8B,EAAS,MAAM,UAAU,CAAC;AAKjE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GAqCG;AACH,wBAAgB,yBAAyB,CAAC,UAAU,GAAE,8BAAmC,oBA2BxF"}
+{"version":3,"file":"auto-frame-renderer.d.ts","sourceRoot":"","sources":["../../../src/embed/auto-frame-renderer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,8BAA8B,EAAS,MAAM,UAAU,CAAC;AAKjE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GAqCG;AACH,wBAAgB,yBAAyB,CAAC,UAAU,GAAE,8BAAmC,oBA2BxF"}

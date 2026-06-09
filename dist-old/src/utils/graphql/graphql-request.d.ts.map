@@ -1,0 +1,1 @@
+{"version":3,"file":"graphql-request.d.ts","sourceRoot":"","sources":["graphql-request.ts"],"names":[],"mappings":"AAGA;;;;;;;GAOG;AACH,wBAAsB,YAAY,CAAC,EAC/B,KAAK,EACL,SAAS,EACT,eAAe,EACf,gBAAwB,GAC3B,EAAE;IACC,KAAK,EAAE,MAAM,CAAC;IACd,SAAS,EAAE,GAAG,CAAC;IACf,eAAe,EAAE,MAAM,CAAC;IACxB,gBAAgB,CAAC,EAAE,OAAO,CAAA;CAC7B,GAAG,OAAO,CAAC,GAAG,CAAC,CAwBf"}

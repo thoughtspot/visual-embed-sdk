@@ -1,1 +1,1 @@
-{"version":3,"file":"tokenizedFetch.d.ts","sourceRoot":"","sources":["tokenizedFetch.ts"],"names":[],"mappings":"AAKA;;;;;;;;;;;;;;GAcG;AACH,eAAO,MAAM,cAAc,EAAE,OAAO,KAmBnC,CAAC"}
+{"version":3,"file":"tokenizedFetch.d.ts","sourceRoot":"","sources":["../../src/tokenizedFetch.ts"],"names":[],"mappings":"AAKA;;;;;;;;;;;;;;GAcG;AACH,eAAO,MAAM,cAAc,EAAE,OAAO,KAmBnC,CAAC"}

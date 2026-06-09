@@ -1,1 +1,1 @@
-{"version":3,"file":"liveboardService.spec.d.ts","sourceRoot":"","sources":["liveboardService.spec.ts"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,CAAC"}
+{"version":3,"file":"liveboardService.spec.d.ts","sourceRoot":"","sources":["../../../../src/utils/liveboardService/liveboardService.spec.ts"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,CAAC"}

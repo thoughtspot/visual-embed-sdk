@@ -6494,7 +6494,7 @@ const isObject$1 = (obj) => {
     }
     return false;
 };
-const merge = (...objects) => objects.reduce((result, current) => {
+const merge$1 = (...objects) => objects.reduce((result, current) => {
     if (Array.isArray(current)) {
         throw new TypeError("Arguments provided to ts-deepmerge must be objects, not arrays.");
     }
@@ -6503,19 +6503,19 @@ const merge = (...objects) => objects.reduce((result, current) => {
             return;
         }
         if (Array.isArray(result[key]) && Array.isArray(current[key])) {
-            result[key] = merge.options.mergeArrays
-                ? merge.options.uniqueArrayItems
+            result[key] = merge$1.options.mergeArrays
+                ? merge$1.options.uniqueArrayItems
                     ? Array.from(new Set(result[key].concat(current[key])))
                     : [...result[key], ...current[key]]
                 : current[key];
         }
         else if (isObject$1(result[key]) && isObject$1(current[key])) {
-            result[key] = merge(result[key], current[key]);
+            result[key] = merge$1(result[key], current[key]);
         }
         else {
             result[key] =
                 current[key] === undefined
-                    ? merge.options.allowUndefinedOverrides
+                    ? merge$1.options.allowUndefinedOverrides
                         ? current[key]
                         : result[key]
                     : current[key];
@@ -6528,11 +6528,11 @@ const defaultOptions = {
     mergeArrays: true,
     uniqueArrayItems: true,
 };
-merge.options = defaultOptions;
-merge.withOptions = (options, ...objects) => {
-    merge.options = Object.assign(Object.assign({}, defaultOptions), options);
-    const result = merge(...objects);
-    merge.options = defaultOptions;
+merge$1.options = defaultOptions;
+merge$1.withOptions = (options, ...objects) => {
+    merge$1.options = Object.assign(Object.assign({}, defaultOptions), options);
+    const result = merge$1(...objects);
+    merge$1.options = defaultOptions;
     return result;
 };
 
@@ -6807,7 +6807,7 @@ const getRuntimeFilters = (runtimefilters) => getFilterQuery(runtimefilters || [
 function getDOMNode(domSelector) {
     return typeof domSelector === 'string' ? document.querySelector(domSelector) : domSelector;
 }
-const deepMerge = (target, source) => merge(target, source);
+const deepMerge = (target, source) => merge$1(target, source);
 const getOperationNameFromQuery = (query) => {
     const regex = /(?:query|mutation)\s+(\w+)/;
     const matches = query.match(regex);
@@ -8913,7 +8913,7 @@ class AnswerService {
     async getTML() {
         const { object } = await this.executeQuery(getAnswerTML, {});
         const edoc = object[0].edoc;
-        const YAML = await import('./index-Ck-r09gt.js');
+        const YAML = await import('./index-DAqoAorK.js');
         const parsedDoc = YAML.parse(edoc);
         return {
             answer: {
@@ -19185,18 +19185,6 @@ const authenticate = async (embedConfig) => {
             return Promise.resolve(true);
     }
 };
-
-if (typeof Promise.withResolvers === 'undefined') {
-    Promise.withResolvers = () => {
-        let resolve;
-        let reject;
-        const promise = new Promise((res, rej) => {
-            resolve = res;
-            reject = rej;
-        });
-        return { promise, resolve, reject };
-    };
-}
 
 /**
  * Reloads the ThoughtSpot iframe.

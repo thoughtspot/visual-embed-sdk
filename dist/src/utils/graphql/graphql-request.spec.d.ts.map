@@ -1,1 +1,1 @@
-{"version":3,"file":"graphql-request.spec.d.ts","sourceRoot":"","sources":["graphql-request.spec.ts"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,CAAC"}
+{"version":3,"file":"graphql-request.spec.d.ts","sourceRoot":"","sources":["../../../../src/utils/graphql/graphql-request.spec.ts"],"names":[],"mappings":"AAAA,OAAO,iBAAiB,CAAC"}

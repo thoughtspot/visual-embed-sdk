@@ -1,1 +1,1 @@
-{"version":3,"file":"nls-answer-queries.d.ts","sourceRoot":"","sources":["nls-answer-queries.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,yBAAyB,m6SA8Y5B,CAAC"}
+{"version":3,"file":"nls-answer-queries.d.ts","sourceRoot":"","sources":["../../../../../src/utils/graphql/nlsService/nls-answer-queries.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,yBAAyB,m6SA8Y5B,CAAC"}

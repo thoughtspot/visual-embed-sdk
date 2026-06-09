@@ -42,7 +42,7 @@ const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     logLevel: LogLevel.ERROR,
     waitForCleanupOnDestroy: false,
     cleanupTimeout: 5000,
-};
+} as Partial<EmbedConfig>;
 
 export interface executeTMLInput {
     metadata_tmls: string[];
