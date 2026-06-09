@@ -2660,6 +2660,77 @@ describe('Unit test case for ts embed', () => {
             );
             (logger.error as any).mockClear();
         });
+
+        describe('preRenderContainer', () => {
+            it('should append preRenderWrapper to document.body when preRenderContainer is not set', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-default',
+                    liveboardId: 'myLiveboardId',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+            });
+
+            it('should append preRenderWrapper to the element matching a CSS selector string', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-container';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#custom-pre-render-container',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(customContainer.contains(preRenderWrapper)).toBe(true);
+
+                customContainer.remove();
+            });
+
+            it('should fall back to document.body when the CSS selector string matches nothing', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector-miss',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#does-not-exist',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+            });
+
+            it('should append preRenderWrapper to an Element passed directly as preRenderContainer', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-element';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-element',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(customContainer.contains(preRenderWrapper)).toBe(true);
+
+                customContainer.remove();
+            });
+        });
     });
 
     describe('IdleSessionTimeout embedEvent for TrustedAuthTokenCookieless authType with autoLogin true', () => {

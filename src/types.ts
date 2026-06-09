@@ -1109,6 +1109,25 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     doNotTrackPreRenderSize?: boolean;
     /**
+     * The DOM element or CSS selector string specifying the container into which
+     * the pre-rendered wrapper should be inserted. Defaults to `document.body`
+     * when not specified.
+     *
+     * Use this when the body has `overflow: hidden` and scrolling is handled by
+     * an inner container, or when you need to control stacking context.
+     *
+     * @type {string | HTMLElement}
+     * @version SDK: 1.49.2 | ThoughtSpot: *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   preRenderId: 'my-liveboard',
+     *   preRenderContainer: '#my-scroll-container',
+     * });
+     * ```
+     */
+    preRenderContainer?: string | HTMLElement;
+    /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighter-weight shell.
      *

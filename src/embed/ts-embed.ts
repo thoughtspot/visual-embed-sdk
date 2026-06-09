@@ -1175,7 +1175,12 @@ export class TsEmbed {
             this.hidePreRender();
         }
 
-        document.body.appendChild(preRenderWrapper);
+        const containerConfig = this.viewConfig.preRenderContainer;
+        const container =
+            typeof containerConfig === 'string'
+                ? (document.querySelector(containerConfig) ?? document.body)
+                : containerConfig ?? document.body;
+        container.appendChild(preRenderWrapper);
     }
 
     private showPreRenderByDefault = false;
