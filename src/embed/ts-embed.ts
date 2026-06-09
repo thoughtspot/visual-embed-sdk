@@ -1176,11 +1176,18 @@ export class TsEmbed {
         }
 
         const containerConfig = this.viewConfig.preRenderContainer;
-        const container =
-            typeof containerConfig === 'string'
-                ? (document.querySelector(containerConfig) ?? document.body)
-                : containerConfig ?? document.body;
-        container.appendChild(preRenderWrapper);
+        let container: Element | null = null;
+        if (typeof containerConfig === 'string') {
+            try {
+                container = document.querySelector(containerConfig);
+            } catch (e) {
+                logger.error(`Invalid CSS selector for preRenderContainer: ${containerConfig}`, e);
+            }
+        } else {
+            container = containerConfig;
+        }
+        const targetContainer = container ?? document.body;
+        targetContainer.appendChild(preRenderWrapper);
     }
 
     private showPreRenderByDefault = false;

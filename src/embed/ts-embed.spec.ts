@@ -2711,6 +2711,27 @@ describe('Unit test case for ts embed', () => {
                 expect(document.body.contains(preRenderWrapper)).toBe(true);
             });
 
+            it('should fall back to document.body and log an error when the CSS selector is invalid', async () => {
+                createRootEleForEmbed();
+                jest.spyOn(logger, 'error').mockImplementation(jest.fn());
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector-invalid',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '###invalid###',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining('Invalid CSS selector for preRenderContainer'),
+                    expect.any(Error),
+                );
+                (logger.error as any).mockClear();
+            });
+
             it('should append preRenderWrapper to an Element passed directly as preRenderContainer', async () => {
                 createRootEleForEmbed();
                 const customContainer = document.createElement('div');
