@@ -21,6 +21,8 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
 
             # Use NodeJS v14.19.0
             - uses: actions/setup-node@v2
@@ -31,6 +33,32 @@ jobs:
             - name: Run npm install
               run: npm install --legacy-peer-deps
             
+            # Check if generated documentation is up to date when version changes
+            - name: Verify generated documentation is committed
+              run: |
+                # Ensure we have the latest main branch reference locally to compare against
+                git fetch origin main:main
+
+                # Check if package.json version changed compared to main branch
+                if git diff main package.json | grep -q '"version"'; then
+                  echo "Package version was updated"
+
+                  # Regenerate documentation to verify it's current
+                  npm run docgen
+
+                  # Check if there are any changes to typedoc.json after regeneration
+                  if ! git diff --exit-code static/typedoc/typedoc.json > /dev/null; then
+                    echo "::error::Generated documentation is out of date!"
+                    echo "::error::The committed static/typedoc/typedoc.json does not match the generated output."
+                    echo "::error::Please run 'npm run docgen' locally and commit the updated static/typedoc/typedoc.json file"
+                    exit 1
+                  else
+                    echo "✓ Documentation is up to date after regeneration"
+                  fi
+                else
+                  echo "Package version was not updated. Skipping doc check."
+                fi
+
              # Verify lockfile is up to date
             - name: Verify package-lock.json is up to date
               run: |
