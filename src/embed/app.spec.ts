@@ -4,7 +4,6 @@ import {
     DataPanelCustomColumnGroupsAccordionState,
     Page,
     HomePageSearchBarMode,
-    PrimaryNavbarVersion,
     HomePage,
     ListPage,
 } from './app';
@@ -1285,7 +1284,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=true&hideLiveboardHeader=false&showLiveboardDescription=true&showLiveboardTitle=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=true&hideLiveboardHeader=false&showLiveboardDescription=true&showLiveboardTitle=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1376,26 +1375,24 @@ describe('App embed tests', () => {
         );
     });
 
-    test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
+    test('Should send navigationVersion=v3 & homepageVersion=v3 by default when no discoveryExperience is provided', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
-    test('Should add listpageVersion=v2 by default when discoveryExperience is provided but listPageVersion is not specified', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.Modular,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`
-        );
+    test('Should not send modularHomeExperience param by default when not specified', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const url = new URL(getIFrameSrc());
+            expect(url.searchParams.has('modularHomeExperience')).toBe(false);
+        });
     });
 
 
@@ -1404,12 +1401,10 @@ describe('App embed tests', () => {
             {
                 ...defaultViewConfig,
                 discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.Modular,
                     listPageVersion: ListPage.ListWithUXChanges,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 

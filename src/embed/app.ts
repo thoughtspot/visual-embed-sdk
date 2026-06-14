@@ -1192,15 +1192,21 @@ export class AppEmbed extends V1Embed {
             params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         }
 
-        // Navigation v1/v2 and home page v1/v2 are deprecated. v3 is the
-        // default so navigationVersion and homepageVersion need to be 
-        // sent by default.
+        // Navigation v1/v2 and home page v1/v2 are deprecated. v3 is now the
+        // default experience, Need to send navigationVersion=v3 and
+        // homepageVersion=v3 even when the no discoveryExperience / 
+        // modularHomeExperience config is set. Without these
+        // params, older TSA versions (< 26.7) fall back to v2 for nav and
+        // home page, so the defaults must be sent explicitly from the SDK.
+        params[Param.NavigationVersion] = PrimaryNavbarVersion.Sliding;
+        params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
+
         if (discoveryExperience) {
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-
+            
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
                 // The Focused (V4) homepage experience requires the updated
