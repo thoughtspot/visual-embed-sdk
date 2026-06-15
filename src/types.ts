@@ -4163,6 +4163,9 @@ export enum HostEvent {
      *
      * @example
      * ```js
+     * // Preferred: use navigateToPage directly
+     * appEmbed.navigateToPage(-1);
+     * 
      * // Numeric delta — go back one step
      * appEmbed.trigger(HostEvent.Navigate, -1);
      *
