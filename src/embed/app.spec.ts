@@ -2120,6 +2120,101 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
     });
 });
 
+describe('AppEmbed uncovered branch tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should set enableStopAnswerGenerationEmbed param when provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableStopAnswerGenerationEmbed: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableStopAnswerGenerationEmbed: 'true',
+            });
+        });
+    });
+
+    test('should set enableStopAnswerGenerationEmbed=false when set to false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableStopAnswerGenerationEmbed: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableStopAnswerGenerationEmbed: 'false',
+            });
+        });
+    });
+
+    test('should set hideObjects param when non-empty array is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideObjects: ['guid-123', 'guid-456'],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideObjects: JSON.stringify(['guid-123', 'guid-456']),
+            });
+        });
+    });
+
+    test('should not set hideObjects param when array is empty', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideObjects: [],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const src = getIFrameSrc();
+            expect(src).not.toContain('hideObjects');
+        });
+    });
+
+    test('should set liveboardV2 param when provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardV2: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                isPinboardV2Enabled: 'true',
+            });
+        });
+    });
+
+    test('should strip leading slash from path in getIFrameSrc', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            path: '/pinboards',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const src = getIFrameSrc();
+            expect(src).toContain('#/pinboards');
+            expect(src).not.toContain('#//pinboards');
+        });
+    });
+
+    test('registerLazyLoadEvents should return early when iFrame is not set', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            lazyLoadingForFullHeight: true,
+        } as AppViewConfig);
+        // iFrame is not set (render not called), should not throw
+        expect(() => {
+            (appEmbed as any).registerLazyLoadEvents();
+        }).not.toThrow();
+    });
+});
+
 describe('AppEmbed visualOverrides tests', () => {
     test('should include visualOverridesParams in APP_INIT when visualOverrides config is provided', async () => {
         const visualOverrides = {
