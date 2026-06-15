@@ -197,6 +197,10 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    private preRenderContainerEl: Element;
+
+    private containerScrollListener: (() => void) | null = null;
+
     protected hostEventClient: HostEventClient;
 
     protected isReadyForRenderPromise;
@@ -1187,6 +1191,13 @@ export class TsEmbed {
             container = containerConfig;
         }
         const targetContainer = container ?? document.body;
+        this.preRenderContainerEl = targetContainer;
+        if (targetContainer !== document.body) {
+            const pos = window.getComputedStyle(targetContainer).position;
+            if (pos === 'static') {
+                (targetContainer as HTMLElement).style.position = 'relative';
+            }
+        }
         targetContainer.appendChild(preRenderWrapper);
     }
 
@@ -1754,6 +1765,14 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
+            if (this.containerScrollListener) {
+                const customContainer =
+                    this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                        ? (this.preRenderContainerEl as HTMLElement)
+                        : null;
+                customContainer?.removeEventListener('scroll', this.containerScrollListener);
+                this.containerScrollListener = null;
+            }
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             if (!this.isRendered) {
@@ -1868,6 +1887,15 @@ export class TsEmbed {
 
             this.syncPreRenderStyle();
 
+            const customContainer =
+                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                    ? (this.preRenderContainerEl as HTMLElement)
+                    : null;
+            if (customContainer && !this.containerScrollListener) {
+                this.containerScrollListener = () => this.syncPreRenderStyle();
+                customContainer.addEventListener('scroll', this.containerScrollListener);
+            }
+
             if (!this.viewConfig.doNotTrackPreRenderSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
@@ -1919,9 +1947,17 @@ export class TsEmbed {
         }
         const elBoundingClient = this.getPreRenderPlaceHolderElement().getBoundingClientRect();
 
+        const containerEl =
+            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                ? (this.preRenderContainerEl as HTMLElement)
+                : null;
+        const containerRect = containerEl?.getBoundingClientRect() ?? { x: 0, y: 0 };
+        const scrollX = containerEl ? containerEl.scrollLeft : window.scrollX;
+        const scrollY = containerEl ? containerEl.scrollTop : window.scrollY;
+
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y + window.scrollY}px`,
-            left: `${elBoundingClient.x + window.scrollX}px`,
+            top: `${elBoundingClient.y - containerRect.y + scrollY}px`,
+            left: `${elBoundingClient.x - containerRect.x + scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
             position: 'absolute',
@@ -1949,6 +1985,15 @@ export class TsEmbed {
             overflow: 'hidden',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
+
+        if (this.containerScrollListener) {
+            const customContainer =
+                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                    ? (this.preRenderContainerEl as HTMLElement)
+                    : null;
+            customContainer?.removeEventListener('scroll', this.containerScrollListener);
+            this.containerScrollListener = null;
+        }
 
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
