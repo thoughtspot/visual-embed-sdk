@@ -71,6 +71,7 @@ export function processTrigger(
         
         const channel = new MessageChannel();
         channel.port1.onmessage = ({ data: responseData }) => {
+            clearTimeout(timeoutId);
             channel.port1.close();
             const error = responseData?.error || responseData?.data?.error;
             if (error) {
@@ -81,7 +82,7 @@ export function processTrigger(
         };
 
         // Close the messageChannel and resolve the promise if timeout.
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             channel.port1.close();
             res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
         }, TRIGGER_TIMEOUT);
