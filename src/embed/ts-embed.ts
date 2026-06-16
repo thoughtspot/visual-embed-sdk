@@ -1885,8 +1885,6 @@ export class TsEmbed {
 
             this.hostElement.appendChild(this.insertedDomEl);
 
-            this.syncPreRenderStyle();
-
             const customContainer =
                 this.preRenderContainerEl && this.preRenderContainerEl !== document.body
                     ? (this.preRenderContainerEl as HTMLElement)
@@ -1896,20 +1894,15 @@ export class TsEmbed {
                 customContainer.addEventListener('scroll', this.containerScrollListener);
             }
 
-            if (!this.viewConfig.doNotTrackPreRenderSize) {
-                const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
-                this.resizeObserver = new ResizeObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.contentRect && entry.target === observeTarget) {
-                            setStyleProperties(this.preRenderWrapper, {
-                                width: `${entry.contentRect.width}px`,
-                                height: `${entry.contentRect.height}px`,
-                            });
-                        }
-                    });
+            const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
+            this.resizeObserver = new ResizeObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.target === observeTarget) {
+                        this.syncPreRenderStyle();
+                    }
                 });
-                this.resizeObserver.observe(observeTarget);
-            }
+            });
+            this.resizeObserver.observe(observeTarget);
         }
 
         removeStyleProperties(this.preRenderWrapper, [
