@@ -1885,6 +1885,8 @@ export class TsEmbed {
 
             this.hostElement.appendChild(this.insertedDomEl);
 
+            this.syncPreRenderStyle();
+
             const customContainer =
                 this.preRenderContainerEl && this.preRenderContainerEl !== document.body
                     ? (this.preRenderContainerEl as HTMLElement)
