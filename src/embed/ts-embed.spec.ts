@@ -2479,6 +2479,10 @@ describe('Unit test case for ts embed', () => {
             // The ResizeObserver now tracks the placeholder inside this.el,
             // not this.el itself, so pass it as the target.
             const preRenderPlaceholder = tsEmbedDiv.firstElementChild as HTMLElement;
+            preRenderPlaceholder.getBoundingClientRect = jest.fn().mockReturnValue({
+                x: 0, y: 0, width: 987, height: 297,
+                top: 0, left: 0, bottom: 297, right: 987,
+            });
             resizeObserverCb([
                 {
                     target: preRenderPlaceholder,
