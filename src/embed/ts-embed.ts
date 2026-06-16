@@ -1894,15 +1894,17 @@ export class TsEmbed {
                 customContainer.addEventListener('scroll', this.containerScrollListener);
             }
 
-            const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
-            this.resizeObserver = new ResizeObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.target === observeTarget) {
-                        this.syncPreRenderStyle();
-                    }
+            if (!this.viewConfig.doNotTrackPreRenderSize) {
+                const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.target === observeTarget) {
+                            this.syncPreRenderStyle();
+                        }
+                    });
                 });
-            });
-            this.resizeObserver.observe(observeTarget);
+                this.resizeObserver.observe(observeTarget);
+            }
         }
 
         removeStyleProperties(this.preRenderWrapper, [
