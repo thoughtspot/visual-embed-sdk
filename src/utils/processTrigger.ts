@@ -70,6 +70,7 @@ export function processTrigger(
         }
         
         const channel = new MessageChannel();
+        let timeoutId: any;
         channel.port1.onmessage = ({ data: responseData }) => {
             clearTimeout(timeoutId);
             channel.port1.close();
