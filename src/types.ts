@@ -4167,16 +4167,15 @@ export enum HostEvent {
      * appEmbed.navigateToPage(-1);
      * 
      * // Numeric delta — go back one step
-     * appEmbed.trigger(HostEvent.Navigate, -1);
+     * appEmbed.trigger(HostEvent.Navigate, -1); // SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      *
      * // String path — push a new history entry
-     * appEmbed.trigger(HostEvent.Navigate, 'home');
+     * appEmbed.trigger(HostEvent.Navigate, 'home'); // SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      *
      * // Object format — replace current history entry
-     * appEmbed.trigger(HostEvent.Navigate, { path: 'home', replace: true });
+     * appEmbed.trigger(HostEvent.Navigate, { path: 'home', replace: true }); // SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      * ```
      * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
-     * @version Object format support — SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      */
     Navigate = 'Navigate',
     /**
