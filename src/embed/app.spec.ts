@@ -757,6 +757,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enableStarterPrompts to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set spotterFileUploadFileTypes in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

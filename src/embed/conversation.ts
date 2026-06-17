@@ -128,6 +128,14 @@ export interface SpotterChatViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
+    /**
+     * Enables starter prompts in the Spotter chat interface.
+     *
+     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @default false
+     */
+    enableStarterPrompts?: boolean;
 }
 
 /**
@@ -467,11 +475,13 @@ export class SpotterEmbed extends TsEmbed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
+                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
+            setParamIfDefined(queryParams, Param.IsStarterPromptsEnabled, enableStarterPrompts, true);
             if (spotterFileUploadFileTypes !== undefined) {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }

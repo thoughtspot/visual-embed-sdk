@@ -1281,6 +1281,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set enableStarterPrompts parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableStarterPrompts=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set spotterFileUploadFileTypes parameter in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

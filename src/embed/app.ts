@@ -1030,12 +1030,16 @@ export class AppEmbed extends V1Embed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
+                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             if (spotterFileUploadEnabled !== undefined) {
                 params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (enableStarterPrompts !== undefined) {
+                params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
