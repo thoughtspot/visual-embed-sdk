@@ -374,3 +374,10 @@ describe('Americanized enum alias values', () => {
         expect(Action.OrganizeFavorites).toBe(Action.OrganiseFavourites);
     });
 });
+
+describe('Action enum values', () => {
+   
+    test('RemoveFromFavorites should resolve to its string value', () => {
+        expect(Action.RemoveFromFavorites).toBe('removeFromFavorites');
+    });
+});
