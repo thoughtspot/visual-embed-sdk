@@ -6804,7 +6804,7 @@ export enum Action {
     /**
      * Remove from Favorites option in home page v3 sidebar.
      * Allows removing an object from the user's favorites list from home-page v3 sidebar.
-     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      * @example
      * ```js
      * disabledActions: [Action.RemoveFromFavorites]
