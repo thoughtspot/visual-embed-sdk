@@ -94,6 +94,29 @@ describe('Unit test for processTrigger', () => {
         await expect(triggerPromise).resolves.toEqual(null);
     });
 
+    test('should clear the timeout when response arrives before TRIGGER_TIMEOUT', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        const data = {};
+        mockMessageChannel();
+        const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+
+        const triggerPromise = _processTriggerInstance.processTrigger(
+            iFrame,
+            messageType,
+            thoughtSpotHost,
+            data,
+        );
+
+        const res = { data: { test: '123' } };
+        messageChannelMock.port1.onmessage(res);
+
+        expect(clearTimeoutSpy).toHaveBeenCalled();
+        await expect(triggerPromise).resolves.toEqual(res.data);
+
+        clearTimeoutSpy.mockRestore();
+    });
+
     test('should close channel.port1 when timeout exceeds TRIGGER_TIMEOUT', async () => {
         const messageType = HostEvent.Search;
         const thoughtSpotHost = 'http://localhost:3000';
