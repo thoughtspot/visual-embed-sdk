@@ -6802,6 +6802,16 @@ export enum Action {
      */
     AddToFavorites = 'addToFavorites',
     /**
+     * Remove from Favorites option in home page v3 sidebar.
+     * Allows removing an object from the user's favorites list from home-page v3 sidebar.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveFromFavorites]
+     * ```
+     */
+    RemoveFromFavorites = 'removeFromFavorites',
+    /**
      * The edit icon on Liveboards (Classic experience).
      * @example
      * ```js
