@@ -465,6 +465,12 @@ describe('ConversationEmbed', () => {
             ['SpotterChatConnectorResources', Action.SpotterChatConnectorResources],
             ['SpotterChatConnectors', Action.SpotterChatConnectors],
             ['SpotterChatModeSwitcher', Action.SpotterChatModeSwitcher],
+            ['SpotterAnalystShare', Action.SpotterAnalystShare],
+            ['SpotterAnalystEdit', Action.SpotterAnalystEdit],
+            ['SpotterAnalystCreate', Action.SpotterAnalystCreate],
+            ['SpotterAnalystDelete', Action.SpotterAnalystDelete],
+            ['SpotterAnalystMakeACopy', Action.SpotterAnalystMakeACopy],
+            ['SpotterAnalystSidebar', Action.SpotterAnalystSidebar],
         ])('should render with hiddenActions for %s', async (_, action) => {
             const viewConfig: SpotterEmbedViewConfig = {
                 worksheetId: 'worksheetId',
@@ -503,6 +509,12 @@ describe('ConversationEmbed', () => {
             ['SpotterChatConnectorResources', Action.SpotterChatConnectorResources],
             ['SpotterChatConnectors', Action.SpotterChatConnectors],
             ['SpotterChatModeSwitcher', Action.SpotterChatModeSwitcher],
+            ['SpotterAnalystShare', Action.SpotterAnalystShare],
+            ['SpotterAnalystEdit', Action.SpotterAnalystEdit],
+            ['SpotterAnalystCreate', Action.SpotterAnalystCreate],
+            ['SpotterAnalystDelete', Action.SpotterAnalystDelete],
+            ['SpotterAnalystMakeACopy', Action.SpotterAnalystMakeACopy],
+            ['SpotterAnalystSidebar', Action.SpotterAnalystSidebar],
         ])('should render with disabledActions for %s', async (_, action) => {
             const disabledReason = 'testing disabled reason';
             const viewConfig: SpotterEmbedViewConfig = {
@@ -610,6 +622,16 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
     it('should not include embedParams when neither spotterSidebarConfig nor standalone flag is set', async () => {
         const response = await getAppInitResponse({ worksheetId: 'ws1' });
         expect(response.data.embedParams).toBeUndefined();
+    });
+
+    it('should include spotterAnalystLabel in embedParams.spotterSidebarConfig when set', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                spotterAnalystLabel: 'My Analyst',
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.spotterAnalystLabel).toBe('My Analyst');
     });
 
     it('should call handleError and exclude spotterDocumentationUrl from embedParams when URL is invalid', async () => {

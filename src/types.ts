@@ -7933,7 +7933,73 @@ export enum Action {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Controls visibility and disable state of the share action
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystShare]
+     * disabledActions: [Action.SpotterAnalystShare]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystShare = 'spotterAnalystShare',
+    /**
+     * Controls visibility and disable state of the edit action
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystEdit]
+     * disabledActions: [Action.SpotterAnalystEdit]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystEdit = 'spotterAnalystEdit',
+    /**
+     * Controls visibility and disable state of the create action
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystCreate]
+     * disabledActions: [Action.SpotterAnalystCreate]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystCreate = 'spotterAnalystCreate',
+    /**
+     * Controls visibility and disable state of the delete action
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystDelete]
+     * disabledActions: [Action.SpotterAnalystDelete]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystDelete = 'spotterAnalystDelete',
+    /**
+     * Controls visibility and disable state of the make a copy action
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystMakeACopy]
+     * disabledActions: [Action.SpotterAnalystMakeACopy]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystMakeACopy = 'spotterAnalystMakeACopy',
+    /**
+     * Controls visibility and disable state of the sidebar
+     * in the Spotter Analyst interface.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystSidebar]
+     * disabledActions: [Action.SpotterAnalystSidebar]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterAnalystSidebar = 'spotterAnalystSidebar',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
