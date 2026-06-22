@@ -6168,6 +6168,7 @@ export enum Param {
     EnableLiveboardDataCache = 'enableLiveboardDataCache',
     SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
     SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
+    IsStarterPromptsEnabled = 'enableStarterPrompts',
 }
 
 /**
