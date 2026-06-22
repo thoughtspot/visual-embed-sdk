@@ -1874,9 +1874,9 @@ export class TsEmbed {
         if (!this.containerScrollListener) {
             return;
         }
-        const customContainer =
+        const customContainer = 
             this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? (this.preRenderContainerEl as HTMLElement)
+                ? this.preRenderContainerEl
                 : null;
         customContainer?.removeEventListener('scroll', this.containerScrollListener);
         this.containerScrollListener = null;
