@@ -1845,10 +1845,13 @@ export class TsEmbed {
      * same container — a shared container still needs the positioning context.
      */
     private restorePreRenderContainerPosition(): void {
-        const container = this.preRenderContainerEl as HTMLElement;
+        const container = this.preRenderContainerEl as HTMLElement | null;
         if (!container || container === document.body) {
             return;
         }
+        // Drop our reference up front so a destroyed embed never pins a
+        // detached container in memory; restoration uses the local handle.
+        this.preRenderContainerEl = null;
         const originalPosition = container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
         if (originalPosition === undefined) {
             // We never overrode this container's position; nothing to restore.

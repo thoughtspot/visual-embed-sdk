@@ -2794,6 +2794,9 @@ describe('Unit test case for ts embed', () => {
 
                 // Reverts to the exact value the container had before.
                 expect(customContainer.style.position).toBe('static');
+                // The container reference is dropped so a destroyed embed does
+                // not pin the (possibly detached) element in memory.
+                expect((libEmbed as any).preRenderContainerEl).toBeNull();
 
                 customContainer.remove();
             });
