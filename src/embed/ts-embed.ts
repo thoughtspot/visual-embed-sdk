@@ -206,7 +206,7 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
-    private preRenderContainerEl: Element;
+    private preRenderContainerEl: HTMLElement | null = null;
 
     private containerScrollListener: (() => void) | null = null;
 
