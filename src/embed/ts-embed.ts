@@ -2067,7 +2067,7 @@ export class TsEmbed {
 
         const containerEl =
             this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? (this.preRenderContainerEl as HTMLElement)
+                ? this.preRenderContainerEl
                 : null;
         const containerRect = containerEl?.getBoundingClientRect() ?? { x: 0, y: 0 };
         const scrollX = containerEl ? containerEl.scrollLeft : window.scrollX;
