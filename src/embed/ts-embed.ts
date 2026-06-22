@@ -2007,7 +2007,7 @@ export class TsEmbed {
 
             const customContainer =
                 this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                    ? (this.preRenderContainerEl as HTMLElement)
+                    ? this.preRenderContainerEl
                     : null;
             if (customContainer && !this.containerScrollListener) {
                 this.containerScrollListener = () => this.syncPreRenderStyle();
