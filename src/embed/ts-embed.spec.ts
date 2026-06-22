@@ -2853,6 +2853,32 @@ describe('Unit test case for ts embed', () => {
 
                 customContainer.remove();
             });
+
+            it('should resolve a selector container inside the host shadow root', async () => {
+                const host = document.createElement('div');
+                document.body.appendChild(host);
+                const shadow = host.attachShadow({ mode: 'open' });
+                const hostEl = document.createElement('div');
+                const shadowContainer = document.createElement('div');
+                shadowContainer.id = 'shadow-pre-render-container';
+                shadow.appendChild(hostEl);
+                shadow.appendChild(shadowContainer);
+
+                const libEmbed = new LiveboardEmbed(hostEl, {
+                    preRenderId: 'container-shadow',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#shadow-pre-render-container',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = shadow.querySelector(`#${preRenderIds.wrapper}`);
+                // The wrapper lands in the shadow container, not the body.
+                expect(shadowContainer.contains(preRenderWrapper)).toBe(true);
+                expect(document.getElementById(preRenderIds.wrapper)).toBeNull();
+
+                host.remove();
+            });
         });
     });
 

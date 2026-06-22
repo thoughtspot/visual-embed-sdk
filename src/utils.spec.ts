@@ -26,6 +26,7 @@ import {
     resetValueFromWindow,
     validateHttpUrl,
     setParamIfDefined,
+    querySelectorAcrossShadowRoot,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -852,6 +853,68 @@ describe('getClippingAncestors', () => {
         clippingContainer.appendChild(iframe);
 
         expect(getClippingAncestors(iframe)).toEqual([clippingContainer, scrollContainer]);
+    });
+});
+
+describe('querySelectorAcrossShadowRoot', () => {
+    it('should resolve a selector from the light DOM document', () => {
+        const el = document.createElement('div');
+        el.id = 'light-dom-target';
+        document.body.appendChild(el);
+
+        expect(querySelectorAcrossShadowRoot('#light-dom-target')).toBe(el);
+
+        el.remove();
+    });
+
+    it('should resolve a selector inside the reference node shadow root when the document misses', () => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const shadow = host.attachShadow({ mode: 'open' });
+        const container = document.createElement('div');
+        container.id = 'shadow-target';
+        const reference = document.createElement('div');
+        shadow.appendChild(container);
+        shadow.appendChild(reference);
+
+        // document.querySelector cannot see into the shadow root.
+        expect(document.querySelector('#shadow-target')).toBeNull();
+        expect(querySelectorAcrossShadowRoot('#shadow-target', reference)).toBe(container);
+
+        host.remove();
+    });
+
+    it('should prefer the document match over the shadow root', () => {
+        const lightEl = document.createElement('div');
+        lightEl.id = 'shared-id';
+        document.body.appendChild(lightEl);
+
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const shadow = host.attachShadow({ mode: 'open' });
+        const shadowEl = document.createElement('div');
+        shadowEl.id = 'shared-id';
+        const reference = document.createElement('div');
+        shadow.appendChild(shadowEl);
+        shadow.appendChild(reference);
+
+        expect(querySelectorAcrossShadowRoot('#shared-id', reference)).toBe(lightEl);
+
+        lightEl.remove();
+        host.remove();
+    });
+
+    it('should return null when nothing matches and the reference node is in the light DOM', () => {
+        const reference = document.createElement('div');
+        document.body.appendChild(reference);
+
+        expect(querySelectorAcrossShadowRoot('#does-not-exist', reference)).toBeNull();
+
+        reference.remove();
+    });
+
+    it('should return null when no reference node is provided and the document misses', () => {
+        expect(querySelectorAcrossShadowRoot('#does-not-exist')).toBeNull();
     });
 });
 

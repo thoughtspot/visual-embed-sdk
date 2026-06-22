@@ -1116,6 +1116,11 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * Use this when the body has `overflow: hidden` and scrolling is handled by
      * an inner container, or when you need to control stacking context.
      *
+     * When the embed host lives inside a Shadow DOM, a selector string is
+     * resolved against that shadow root as well (since `document.querySelector`
+     * cannot pierce shadow boundaries); pass the element directly if the
+     * container lives in a different root.
+     *
      * @type {string | HTMLElement}
      * @version SDK: 1.49.2 | ThoughtSpot: *
      * @example

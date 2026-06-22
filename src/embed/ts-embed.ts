@@ -28,6 +28,7 @@ import {
     getCustomisations,
     getRuntimeFilters,
     getDOMNode,
+    querySelectorAcrossShadowRoot,
     getFilterQuery,
     getQueryParamString,
     getRuntimeParameters,
@@ -1191,7 +1192,10 @@ export class TsEmbed {
         let container: Element | null = null;
         if (typeof containerConfig === 'string') {
             try {
-                container = document.querySelector(containerConfig);
+                // Resolve against the host's shadow root too, so a selector can
+                // target a container inside the same shadow DOM as the embed —
+                // document.querySelector alone cannot pierce shadow boundaries.
+                container = querySelectorAcrossShadowRoot(containerConfig, this.hostElement);
             } catch (e) {
                 logger.error(`Invalid CSS selector for preRenderContainer: ${containerConfig}`, e);
             }
