@@ -1220,7 +1220,7 @@ export class TsEmbed {
      */
     private reconcilePreRenderContainer(): void {
         const wrapper = this.preRenderWrapper;
-        const stored = this.preRenderContainerEl as HTMLElement | null;
+        const stored = this.preRenderContainerEl;
         // Nothing to reconcile until this instance resolved its container.
         if (!wrapper || !stored) {
             return;
