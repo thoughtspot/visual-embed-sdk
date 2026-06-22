@@ -1168,7 +1168,7 @@ export class TsEmbed {
     /**
      * Resolves the configured preRenderContainer to a live element, falling
      * back to `document.body`. A string selector is re-queried on every call so
-     * a remounted container (e.g. React replacing the node) resolves to the
+     * a remounted container (E.g.: React replacing the node) resolves to the
      * fresh element; an element passed directly cannot be re-resolved.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
