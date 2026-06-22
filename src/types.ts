@@ -4150,11 +4150,30 @@ export enum HostEvent {
     /**
      * Navigate to a specific page in the embedded ThoughtSpot application.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`.
-     * @param - `path` - the path to navigate to go forward or back. The path value can
-     * be a number; for example, `1`, `-1`.
+     *
+     * Accepts either a plain value or an object with `path`
+     * and an optional `replace` flag.
+     *
+     * @param data - A string path, a numeric history delta, or an object
+     *   `{ path: string | number, replace?: boolean }`.
+     *   - `path` — the route to navigate to, or a history delta such as `1`
+     *     or `-1` (calls `window.history.go()`).
+     *   - `replace` — when `true`, replaces the current history entry instead
+     *     of pushing a new one (uses `window.location.replace`).
+     *
      * @example
      * ```js
-     * appEmbed.navigateToPage(-1)
+     * // Preferred: use navigateToPage directly
+     * appEmbed.navigateToPage(-1);
+     * 
+     * // Numeric delta — go back one step
+     * appEmbed.trigger(HostEvent.Navigate, -1);
+     *
+     * // String path — push a new history entry
+     * appEmbed.trigger(HostEvent.Navigate, 'home');
+     *
+     * // Object format — replace current history entry
+     * appEmbed.trigger(HostEvent.Navigate, { path: 'home', replace: true }); // SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      * ```
      * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      */
