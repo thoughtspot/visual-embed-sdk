@@ -2879,6 +2879,77 @@ describe('Unit test case for ts embed', () => {
 
                 host.remove();
             });
+
+            it('should re-attach the wrapper when a selector container is remounted', async () => {
+                createRootEleForEmbed();
+                const oldContainer = document.createElement('div');
+                oldContainer.id = 'remount-container';
+                document.body.appendChild(oldContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-remount',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#remount-container',
+                    doNotTrackPreRenderSize: true,
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const wrapper = document.getElementById(preRenderIds.wrapper);
+                expect(oldContainer.contains(wrapper)).toBe(true);
+
+                // Simulate React remounting the container: the old node (with
+                // our wrapper) is detached and a fresh node takes its place.
+                const removeSpy = jest.spyOn(oldContainer, 'removeEventListener');
+                oldContainer.remove();
+                const newContainer = document.createElement('div');
+                newContainer.id = 'remount-container';
+                document.body.appendChild(newContainer);
+                const addSpy = jest.spyOn(newContainer, 'addEventListener');
+
+                // A reposition (scroll/resize/re-show) heals the stale ref.
+                libEmbed.syncPreRenderStyle();
+
+                expect(newContainer.contains(wrapper)).toBe(true);
+                expect(oldContainer.contains(wrapper)).toBe(false);
+                // The scroll listener is migrated to the live container.
+                expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(addSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+
+                libEmbed.destroy();
+                newContainer.remove();
+            });
+
+            it('should leave an element-passed container untouched when it is detached', async () => {
+                createRootEleForEmbed();
+                const container = document.createElement('div');
+                document.body.appendChild(container);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-element-remount',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: container,
+                    doNotTrackPreRenderSize: true,
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const wrapper = document.getElementById(preRenderIds.wrapper);
+                expect(container.contains(wrapper)).toBe(true);
+
+                // Detach the element container; it cannot be re-resolved, so
+                // the wrapper stays with it (no crash, no body fallback).
+                container.remove();
+                libEmbed.syncPreRenderStyle();
+
+                expect(container.contains(wrapper)).toBe(true);
+
+                libEmbed.destroy();
+            });
         });
     });
 
