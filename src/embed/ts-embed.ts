@@ -95,6 +95,14 @@ import {
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const TS_EMBED_ID = '_thoughtspot-embed';
+/**
+ * dataset key used to stash a custom preRenderContainer's original inline
+ * `position` while we override it to `relative`. Stored on the container (not
+ * per-instance) so the override can be reverted on destroy even when multiple
+ * pre-rendered embeds share the same container.
+ */
+const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
+const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -1193,9 +1201,21 @@ export class TsEmbed {
         const targetContainer = container ?? document.body;
         this.preRenderContainerEl = targetContainer;
         if (targetContainer !== document.body) {
-            const pos = window.getComputedStyle(targetContainer).position;
+            const targetEl = targetContainer as HTMLElement;
+            const pos = window.getComputedStyle(targetEl).position;
             if (pos === 'static') {
-                (targetContainer as HTMLElement).style.position = 'relative';
+                // Stash the original inline value on the container (once) so
+                // destroy() can restore it exactly, leaving no trace. Recording
+                // it on the element rather than per-instance lets the override
+                // be reverted even when embeds share the same container.
+                if (
+                    targetEl.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY] === undefined
+                ) {
+                    targetEl.dataset[
+                        PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY
+                    ] = targetEl.style.position;
+                }
+                targetEl.style.position = 'relative';
             }
         }
         targetContainer.appendChild(preRenderWrapper);
@@ -1759,6 +1779,37 @@ export class TsEmbed {
     }
 
     /**
+     * Reverts the custom preRenderContainer's `position` to the value it had
+     * before we overrode it to `relative` (see insertIntoDOMForPreRender).
+     *
+     * We restore the original inline value rather than forcing `static`, and we
+     * skip the restore if another preRender wrapper is still mounted inside the
+     * same container — a shared container still needs the positioning context.
+     */
+    private restorePreRenderContainerPosition(): void {
+        const container = this.preRenderContainerEl as HTMLElement;
+        if (!container || container === document.body) {
+            return;
+        }
+        const originalPosition = container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
+        if (originalPosition === undefined) {
+            // We never overrode this container's position; nothing to restore.
+            return;
+        }
+        // This instance's own wrapper has already been removed by now, so any
+        // match here belongs to another embed still sharing the container — it
+        // continues to rely on the positioning context, so leave it in place.
+        const hasOtherWrapper = container.querySelector(
+            `[id^="${PRERENDER_WRAPPER_ID_PREFIX}"]`,
+        );
+        if (hasOtherWrapper) {
+            return;
+        }
+        container.style.position = originalPosition;
+        delete container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
+    }
+
+    /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
@@ -1775,6 +1826,7 @@ export class TsEmbed {
             }
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
+            this.restorePreRenderContainerPosition();
             if (!this.isRendered) {
                 return;
             }
@@ -2013,7 +2065,7 @@ export class TsEmbed {
      */
     public getPreRenderIds() {
         return {
-            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
+            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${this.viewConfig.preRenderId}`,
             child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
             placeHolder: `tsEmbed-pre-render-placeholder-${this.viewConfig.preRenderId}`,
         };

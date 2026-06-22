@@ -2755,6 +2755,104 @@ describe('Unit test case for ts embed', () => {
 
                 customContainer.remove();
             });
+
+            it('should set the container position to relative when it is static', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-static';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-static',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+
+                expect(customContainer.style.position).toBe('relative');
+
+                customContainer.remove();
+            });
+
+            it('should restore the original container position on destroy', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-restore';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-restore',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+                expect(customContainer.style.position).toBe('relative');
+
+                libEmbed.destroy();
+
+                // Reverts to the exact value the container had before.
+                expect(customContainer.style.position).toBe('static');
+
+                customContainer.remove();
+            });
+
+            it('should not touch the container position when it is already positioned', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-positioned';
+                customContainer.style.position = 'absolute';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-positioned',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+                expect(customContainer.style.position).toBe('absolute');
+
+                libEmbed.destroy();
+                expect(customContainer.style.position).toBe('absolute');
+
+                customContainer.remove();
+            });
+
+            it('should keep the container positioned on destroy while another preRender wrapper remains', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-shared';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-shared-first',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await firstEmbed.preRender();
+
+                const secondEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-shared-second',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await secondEmbed.preRender();
+
+                expect(customContainer.style.position).toBe('relative');
+
+                // Destroying the first embed must not strip the positioning
+                // context the second embed still relies on.
+                firstEmbed.destroy();
+                expect(customContainer.style.position).toBe('relative');
+
+                // Once the last embed is destroyed, the override is reverted.
+                secondEmbed.destroy();
+                expect(customContainer.style.position).toBe('static');
+
+                customContainer.remove();
+            });
         });
     });
 
