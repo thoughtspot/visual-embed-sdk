@@ -1868,20 +1868,28 @@ export class TsEmbed {
     }
 
     /**
+     * Detaches and clears the container scroll listener, if one is attached.
+     */
+    private removeContainerScrollListener(): void {
+        if (!this.containerScrollListener) {
+            return;
+        }
+        const customContainer =
+            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                ? (this.preRenderContainerEl as HTMLElement)
+                : null;
+        customContainer?.removeEventListener('scroll', this.containerScrollListener);
+        this.containerScrollListener = null;
+    }
+
+    /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            if (this.containerScrollListener) {
-                const customContainer =
-                    this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                        ? (this.preRenderContainerEl as HTMLElement)
-                        : null;
-                customContainer?.removeEventListener('scroll', this.containerScrollListener);
-                this.containerScrollListener = null;
-            }
+            this.removeContainerScrollListener();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2096,14 +2104,7 @@ export class TsEmbed {
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
-        if (this.containerScrollListener) {
-            const customContainer =
-                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                    ? (this.preRenderContainerEl as HTMLElement)
-                    : null;
-            customContainer?.removeEventListener('scroll', this.containerScrollListener);
-            this.containerScrollListener = null;
-        }
+        this.removeContainerScrollListener();
 
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
