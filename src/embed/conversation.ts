@@ -91,7 +91,7 @@ export interface SpotterSidebarViewConfig {
     spotterNewChatButtonTitle?: string;
     /**
      * Custom label text for the Spotter Analyst section in the sidebar.
-     * @default Analyst
+     * Defaults to translated "Analyst" text.
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      */
     spotterAnalystLabel?: string;
