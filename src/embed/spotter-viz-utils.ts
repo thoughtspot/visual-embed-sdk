@@ -32,6 +32,12 @@ export interface SpotterVizStarterPrompt {
  *        customStarterPrompts: [
  *            { id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }
  *        ],
+ *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+ *        loaderHeadline: 'Crunching the numbers...',
+ *        loaderTips: [
+ *            { label: 'Tip', text: 'try asking about revenue by region' },
+ *            { label: 'Tip', text: 'use natural language' },
+ *        ],
  *    },
  * })
  * ```
@@ -76,6 +82,30 @@ export interface SpotterVizConfig {
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
      */
     inputChatPlaceholder?: string;
+    /**
+     * Custom headline text shown in the SpotterViz loading state.
+     * Replaces the default loading headline.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    loaderHeadline?: string;
+    /**
+     * Custom tips shown in the SpotterViz loading state.
+     * Replaces the default loading tips with the provided list.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    loaderTips?: SpotterVizLoaderTip[];
+}
+
+/**
+ * A single tip shown in the SpotterViz loading state.
+ * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+ * @group Embed components
+ */
+export interface SpotterVizLoaderTip {
+    /** Short label rendered alongside the tip (e.g. "Tip"). */
+    label: string;
+    /** Tip body text. */
+    text: string;
 }
 
 export function buildSpotterVizAppInitData<T extends DefaultAppInitData>(

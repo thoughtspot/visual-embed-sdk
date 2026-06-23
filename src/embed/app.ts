@@ -798,7 +798,13 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *        description: 'Ask questions about your data',
      *        inputChatPlaceholder: 'Ask a question...',
      *        hideStarterPrompts: false,
-     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }]
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
+     *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     *        loaderHeadline: 'Crunching the numbers...',
+     *        loaderTips: [
+     *            { label: 'Tip', text: 'try asking about revenue by region' },
+     *            { label: 'Tip', text: 'use natural language' },
+     *        ],
      *    },
      * })
      * ```
