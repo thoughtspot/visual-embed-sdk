@@ -18,8 +18,8 @@ dependencies:
     specifier: 2.47.0
     version: 2.47.0
   ts-deepmerge:
-    specifier: ^6.0.2
-    version: 6.2.1
+    specifier: ^8.0.0
+    version: 8.0.0
   tslib:
     specifier: ^2.5.3
     version: 2.8.1
@@ -9841,8 +9841,8 @@ packages:
       typescript: 4.9.5
     dev: true
 
-  /ts-deepmerge@6.2.1:
-    resolution: {integrity: sha512-8CYSLazCyj0DJDpPIxOFzJG46r93uh6EynYjuey+bxcLltBeqZL7DMfaE5ZPzZNFlav7wx+2TDa/mBl8gkTYzw==}
+  /ts-deepmerge@8.0.0:
+    resolution: {integrity: sha512-133O+10nJmVI8w5xeVZPEv5PIrv7iaUae07wv1aH8XJH95Ur6YIhWAPhPyP1YPlbPS9fCVcNIZTu7m8urRVF0A==}
     engines: {node: '>=14.13.1'}
     dev: false
 
