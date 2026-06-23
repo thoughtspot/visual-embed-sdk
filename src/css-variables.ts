@@ -45,6 +45,51 @@ export interface CustomCssVariables {
     '--ts-var-nav-color'?: string;
 
     /**
+     * Background color of the left navigation panel.
+     */
+    '--ts-var-left-nav-background'?: string;
+
+    /**
+     * Background color of the active tab in the left navigation panel.
+     */
+    '--ts-var-left-nav-active-tab-background'?: string;
+
+    /**
+     * Border color of the active tab in the left navigation panel.
+     */
+    '--ts-var-left-nav-active-tab-border-color'?: string;
+
+    /**
+     * Font color of the section title in the left navigation panel.
+     */
+    '--ts-var-left-nav-section-title-color'?: string;
+
+    /**
+     * Font color of the items in the left navigation panel.
+     */
+    '--ts-var-left-nav-item-color'?: string;
+
+    /**
+     * Font color of the selected item in the left navigation panel.
+     */
+    '--ts-var-left-nav-item-selection-color'?: string;
+
+    /**
+     * Background color of the selected item in the left navigation panel.
+     */
+    '--ts-var-left-nav-item-selection-background'?: string;
+
+    /**
+     * Color of the active tab icon in the left navigation panel.
+     */
+    '--ts-var-left-nav-tab-icon-active-color'?: string;
+
+    /**
+     * Color of the inactive tab icon in the left navigation panel.
+     */
+    '--ts-var-left-nav-tab-icon-inactive-color'?: string;
+
+    /**
      * Background color of the *Search data* button.
      */
     '--ts-var-search-data-button-background'?: string;
