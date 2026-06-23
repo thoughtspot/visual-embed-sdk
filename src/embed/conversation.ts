@@ -95,6 +95,12 @@ export interface SpotterSidebarViewConfig {
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      */
     spotterAnalystLabel?: string;
+    /**
+     * Custom label text for the Spotter Analysts section in the sidebar.
+     * Defaults to translated "Analysts" text.
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     */
+    spotterAnalystsLabel?: string;
 }
 
 /**

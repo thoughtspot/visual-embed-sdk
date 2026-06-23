@@ -634,6 +634,16 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         expect(response.data.embedParams.spotterSidebarConfig.spotterAnalystLabel).toBe('My Analyst');
     });
 
+    it('should include spotterAnalystsLabel in embedParams.spotterSidebarConfig when set', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                spotterAnalystsLabel: 'My Analysts',
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.spotterAnalystsLabel).toBe('My Analysts');
+    });
+
     it('should call handleError and exclude spotterDocumentationUrl from embedParams when URL is invalid', async () => {
         const embed = new SpotterEmbed(getRootEl(), {
             worksheetId: 'ws1',
