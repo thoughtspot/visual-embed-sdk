@@ -115,9 +115,9 @@ export enum HomePage {
     /**
      * Modular (v2) introduces the updated Modular Home Experience.
      * It serves as the foundational version of the home page.
-     * Use {@link HomePage.ModularWithStylingChanges} (v3) or
-     * {@link HomePage.Focused} (v4) instead.
-     * @deprecated v1 and v2 home page experiences are deprecated.
+     * Use {@link HomePage.ModularWithStylingChanges} (V3) or
+     * {@link HomePage.Focused} (V4) instead.
+     * @deprecated V1 and V2 home page experiences are deprecated.
      */
     Modular = 'v2',
     /**
@@ -201,7 +201,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * The `showPrimaryNavbar` flag takes precedence over the `hideHomepageLeftNav`.
      *
      * **Note**: The classic (V1) and Modular (V2) home page experiences are
-     * deprecated. This attribute applies to v3 and v4 home page experiences.
+     * deprecated. This attribute applies to V3 and V4 home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -490,8 +490,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
      * Use the discoveryExperience.homePage option with
-     * {@link HomePage.ModularWithStylingChanges} (v3) or
-     * {@link HomePage.Focused} (v4) instead.
+     * {@link HomePage.ModularWithStylingChanges} (V3) or
+     * {@link HomePage.Focused} (V4) instead.
      * @deprecated The V1 and V2 home page experiences are deprecated.
      * @example
      * ```js
@@ -1192,11 +1192,11 @@ export class AppEmbed extends V1Embed {
             params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         }
 
-        // Navigation v1/v2 and home page v1/v2 are deprecated. v3 is now the
+        // Navigation V1/V2 and home page V1/V2 are deprecated. V3 is now the
         // default experience, Need to send navigationVersion=v3 and
         // homepageVersion=v3 even when the no discoveryExperience / 
         // modularHomeExperience config is set. Without these
-        // params, older TSA versions (< 26.7) fall back to v2 for nav and
+        // params, older TSA versions (< 26.7) fall back to V2 for nav and
         // home page, so the defaults must be sent explicitly from the SDK.
         params[Param.NavigationVersion] = PrimaryNavbarVersion.Sliding;
         params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;

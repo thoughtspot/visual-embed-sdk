@@ -177,8 +177,8 @@ export enum AuthType {
 /**
  *
  * **Note**: The classic (V1) and Modular (V2) home page experiences are
- * deprecated. This attribute applies to v3 (ModularWithStylingChanges) and
- * v4 (Focused) home page experiences.
+ * deprecated. This attribute applies to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  *
  */
 
@@ -1599,9 +1599,9 @@ export interface HomePageConfig {
      * To specify the modules, import the `HomepageModule` enum.
      * For example: `hiddenHomepageModules = [HomepageModule.MyLibrary]`
      *
-     * **Note**: The classic (v1) and Modular (v2) home page experiences are
-     * deprecated. This attribute applies to v3 (ModularWithStylingChanges)
-     * and v4 (Focused) home page experiences.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1623,9 +1623,9 @@ export interface HomePageConfig {
      * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary,
      * HomepageModule.Watchlist]`
      *
-     * **Note**: The classic (v1) and Modular (v2) home page experiences are
-     * deprecated. This attribute applies to v3 (ModularWithStylingChanges)
-     * and v4 (Focused) home page experiences.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1646,9 +1646,9 @@ export interface HomePageConfig {
      * on the home page left navigation panel.
      * To specify the menu items, import the `HomeLeftNavItem` enum.
      *
-     * **Note**: The classic (v1) and Modular (v2) home page experiences are
-     * deprecated. This attribute applies to v3 (ModularWithStylingChanges)
-     * and v4 (Focused) home page experiences.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -2242,9 +2242,9 @@ export enum RuntimeFilterOp {
  * via `hiddenHomepageModules` and reordered via
  * `reorderedHomepageModules`.
  *
- * **Note**: The classic (v1) and Modular (v2) home page experiences are
- * deprecated. These modules apply to v3 (ModularWithStylingChanges) and
- * v4 (Focused) home page experiences.
+ * **Note**: The classic (V1) and Modular (V2) home page experiences are
+ * deprecated. These modules apply to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
 
