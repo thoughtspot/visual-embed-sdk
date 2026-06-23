@@ -291,6 +291,30 @@ export function getDOMNode(domSelector: DOMSelector): HTMLElement {
     return typeof domSelector === 'string' ? document.querySelector(domSelector) : domSelector;
 }
 
+/**
+ * Resolves a CSS selector to an element. `document.querySelector` cannot pierce
+ * shadow boundaries, so when the document lookup misses and a reference node is
+ * provided, this also searches the shadow root the reference node lives in —
+ * letting a selector target an element inside the same shadow root as the embed
+ * instead of silently falling back to the light DOM.
+ * @param selector CSS selector string.
+ * @param referenceNode Node whose shadow root is searched when the document lookup misses.
+ */
+export function querySelectorAcrossShadowRoot(
+    selector: string,
+    referenceNode?: Node | null,
+): Element | null {
+    const fromDocument = document.querySelector(selector);
+    if (fromDocument) {
+        return fromDocument;
+    }
+    const rootNode = referenceNode?.getRootNode?.();
+    if (typeof ShadowRoot !== 'undefined' && rootNode instanceof ShadowRoot) {
+        return rootNode.querySelector(selector);
+    }
+    return null;
+}
+
 export const deepMerge = (target: any, source: any) => merge(target, source);
 
 export const getOperationNameFromQuery = (query: string) => {

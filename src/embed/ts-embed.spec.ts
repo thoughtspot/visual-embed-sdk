@@ -2479,6 +2479,10 @@ describe('Unit test case for ts embed', () => {
             // The ResizeObserver now tracks the placeholder inside this.el,
             // not this.el itself, so pass it as the target.
             const preRenderPlaceholder = tsEmbedDiv.firstElementChild as HTMLElement;
+            preRenderPlaceholder.getBoundingClientRect = jest.fn().mockReturnValue({
+                x: 0, y: 0, width: 987, height: 297,
+                top: 0, left: 0, bottom: 297, right: 987,
+            });
             resizeObserverCb([
                 {
                     target: preRenderPlaceholder,
@@ -2659,6 +2663,296 @@ describe('Unit test case for ts embed', () => {
                 'PreRender should be called before using syncPreRenderStyle',
             );
             (logger.error as any).mockClear();
+        });
+
+        describe('preRenderContainer', () => {
+            it('should append preRenderWrapper to document.body when preRenderContainer is not set', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-default',
+                    liveboardId: 'myLiveboardId',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+            });
+
+            it('should append preRenderWrapper to the element matching a CSS selector string', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-container';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#custom-pre-render-container',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(customContainer.contains(preRenderWrapper)).toBe(true);
+
+                customContainer.remove();
+            });
+
+            it('should fall back to document.body when the CSS selector string matches nothing', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector-miss',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#does-not-exist',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+            });
+
+            it('should fall back to document.body and log an error when the CSS selector is invalid', async () => {
+                createRootEleForEmbed();
+                jest.spyOn(logger, 'error').mockImplementation(jest.fn());
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-selector-invalid',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '###invalid###',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(document.body.contains(preRenderWrapper)).toBe(true);
+                expect(logger.error).toHaveBeenCalledWith(
+                    expect.stringContaining('Invalid CSS selector for preRenderContainer'),
+                    expect.any(Error),
+                );
+                (logger.error as any).mockClear();
+            });
+
+            it('should append preRenderWrapper to an Element passed directly as preRenderContainer', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-element';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-element',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(customContainer.contains(preRenderWrapper)).toBe(true);
+
+                customContainer.remove();
+            });
+
+            it('should set the container position to relative when it is static', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-static';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-static',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+
+                expect(customContainer.style.position).toBe('relative');
+
+                customContainer.remove();
+            });
+
+            it('should restore the original container position on destroy', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-restore';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-restore',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+                expect(customContainer.style.position).toBe('relative');
+
+                libEmbed.destroy();
+
+                // Reverts to the exact value the container had before.
+                expect(customContainer.style.position).toBe('static');
+                // The container reference is dropped so a destroyed embed does
+                // not pin the (possibly detached) element in memory.
+                expect((libEmbed as any).preRenderContainerEl).toBeNull();
+
+                customContainer.remove();
+            });
+
+            it('should not touch the container position when it is already positioned', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-positioned';
+                customContainer.style.position = 'absolute';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-position-positioned',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await libEmbed.preRender();
+                expect(customContainer.style.position).toBe('absolute');
+
+                libEmbed.destroy();
+                expect(customContainer.style.position).toBe('absolute');
+
+                customContainer.remove();
+            });
+
+            it('should keep the container positioned on destroy while another preRender wrapper remains', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'custom-pre-render-shared';
+                customContainer.style.position = 'static';
+                document.body.appendChild(customContainer);
+
+                const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-shared-first',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await firstEmbed.preRender();
+
+                const secondEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-shared-second',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: customContainer,
+                });
+                await secondEmbed.preRender();
+
+                expect(customContainer.style.position).toBe('relative');
+
+                // Destroying the first embed must not strip the positioning
+                // context the second embed still relies on.
+                firstEmbed.destroy();
+                expect(customContainer.style.position).toBe('relative');
+
+                // Once the last embed is destroyed, the override is reverted.
+                secondEmbed.destroy();
+                expect(customContainer.style.position).toBe('static');
+
+                customContainer.remove();
+            });
+
+            it('should resolve a selector container inside the host shadow root', async () => {
+                const host = document.createElement('div');
+                document.body.appendChild(host);
+                const shadow = host.attachShadow({ mode: 'open' });
+                const hostEl = document.createElement('div');
+                const shadowContainer = document.createElement('div');
+                shadowContainer.id = 'shadow-pre-render-container';
+                shadow.appendChild(hostEl);
+                shadow.appendChild(shadowContainer);
+
+                const libEmbed = new LiveboardEmbed(hostEl, {
+                    preRenderId: 'container-shadow',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#shadow-pre-render-container',
+                });
+                await libEmbed.preRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = shadow.querySelector(`#${preRenderIds.wrapper}`);
+                // The wrapper lands in the shadow container, not the body.
+                expect(shadowContainer.contains(preRenderWrapper)).toBe(true);
+                expect(document.getElementById(preRenderIds.wrapper)).toBeNull();
+
+                host.remove();
+            });
+
+            it('should re-attach the wrapper when a selector container is remounted', async () => {
+                createRootEleForEmbed();
+                const oldContainer = document.createElement('div');
+                oldContainer.id = 'remount-container';
+                document.body.appendChild(oldContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-remount',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#remount-container',
+                    doNotTrackPreRenderSize: true,
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const wrapper = document.getElementById(preRenderIds.wrapper);
+                expect(oldContainer.contains(wrapper)).toBe(true);
+
+                // Simulate React remounting the container: the old node (with
+                // our wrapper) is detached and a fresh node takes its place.
+                const removeSpy = jest.spyOn(oldContainer, 'removeEventListener');
+                oldContainer.remove();
+                const newContainer = document.createElement('div');
+                newContainer.id = 'remount-container';
+                document.body.appendChild(newContainer);
+                const addSpy = jest.spyOn(newContainer, 'addEventListener');
+
+                // A reposition (scroll/resize/re-show) heals the stale ref.
+                libEmbed.syncPreRenderStyle();
+
+                expect(newContainer.contains(wrapper)).toBe(true);
+                expect(oldContainer.contains(wrapper)).toBe(false);
+                // The scroll listener is migrated to the live container.
+                expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(addSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+
+                libEmbed.destroy();
+                newContainer.remove();
+            });
+
+            it('should leave an element-passed container untouched when it is detached', async () => {
+                createRootEleForEmbed();
+                const container = document.createElement('div');
+                document.body.appendChild(container);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-element-remount',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: container,
+                    doNotTrackPreRenderSize: true,
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const wrapper = document.getElementById(preRenderIds.wrapper);
+                expect(container.contains(wrapper)).toBe(true);
+
+                // Detach the element container; it cannot be re-resolved, so
+                // the wrapper stays with it (no crash, no body fallback).
+                container.remove();
+                libEmbed.syncPreRenderStyle();
+
+                expect(container.contains(wrapper)).toBe(true);
+
+                libEmbed.destroy();
+            });
         });
     });
 

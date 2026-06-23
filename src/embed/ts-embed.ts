@@ -28,6 +28,7 @@ import {
     getCustomisations,
     getRuntimeFilters,
     getDOMNode,
+    querySelectorAcrossShadowRoot,
     getFilterQuery,
     getQueryParamString,
     getRuntimeParameters,
@@ -95,6 +96,14 @@ import {
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
 const TS_EMBED_ID = '_thoughtspot-embed';
+/**
+ * dataset key used to stash a custom preRenderContainer's original inline
+ * `position` while we override it to `relative`. Stored on the container (not
+ * per-instance) so the override can be reverted on destroy even when multiple
+ * pre-rendered embeds share the same container.
+ */
+const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
+const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -196,6 +205,10 @@ export class TsEmbed {
     private defaultHiddenActions = [Action.ReportError];
 
     private resizeObserver: ResizeObserver;
+
+    private preRenderContainerEl: HTMLElement | null = null;
+
+    private containerScrollListener: (() => void) | null = null;
 
     protected hostEventClient: HostEventClient;
 
@@ -1152,6 +1165,91 @@ export class TsEmbed {
         return placeholder;
     }
 
+    /**
+     * Resolves the configured preRenderContainer to a live element, falling
+     * back to `document.body`. A string selector is re-queried on every call so
+     * a remounted container (E.g.: React replacing the node) resolves to the
+     * fresh element; an element passed directly cannot be re-resolved.
+     */
+    private resolvePreRenderContainerTarget(): HTMLElement {
+        const containerConfig = this.viewConfig.preRenderContainer;
+        let container: Element | null = null;
+        if (typeof containerConfig === 'string') {
+            try {
+                // Resolve against the host's shadow root too, so a selector can
+                // target a container inside the same shadow DOM as the embed —
+                // document.querySelector alone cannot pierce shadow boundaries.
+                container = querySelectorAcrossShadowRoot(containerConfig, this.hostElement);
+            } catch (e) {
+                logger.error(`Invalid CSS selector for preRenderContainer: ${containerConfig}`, e);
+            }
+        } else if (containerConfig) {
+            container = containerConfig;
+        }
+        return (container as HTMLElement) ?? document.body;
+    }
+
+    /**
+     * Makes the container a positioning context for the absolutely positioned
+     * wrapper, stashing the original inline `position` on the element (once) so
+     * destroy() can restore it exactly, leaving no trace. Recording it on the
+     * element rather than per-instance lets the override be reverted even when
+     * embeds share the same container.
+     */
+    private applyPreRenderContainerPositioning(container: HTMLElement): void {
+        if (container === document.body) {
+            return;
+        }
+        const pos = window.getComputedStyle(container).position;
+        if (pos === 'static') {
+            if (container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY] === undefined) {
+                container.dataset[
+                    PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY
+                ] = container.style.position;
+            }
+            container.style.position = 'relative';
+        }
+    }
+
+    /**
+     * Re-attaches the wrapper to a live container when the previously resolved
+     * one has been detached or no longer holds the wrapper — e.g. the host app
+     * remounted a custom preRenderContainer, which would otherwise leave a stale
+     * reference and collapse the wrapper. Only string selectors can be
+     * re-resolved; a container passed as an element is left untouched.
+     */
+    private reconcilePreRenderContainer(): void {
+        const wrapper = this.preRenderWrapper;
+        const stored = this.preRenderContainerEl;
+        // Nothing to reconcile until this instance resolved its container.
+        if (!wrapper || !stored) {
+            return;
+        }
+        const storedIsLive = stored === document.body || document.contains(stored);
+        if (storedIsLive && stored.contains(wrapper)) {
+            return;
+        }
+        const resolved = this.resolvePreRenderContainerTarget();
+        // Re-resolution yielded the same (still stale) element — nothing we can
+        // do, e.g. a detached container passed as an HTMLElement.
+        if (resolved === stored && stored.contains(wrapper)) {
+            return;
+        }
+        if (this.containerScrollListener && stored !== resolved) {
+            if (stored !== document.body) {
+                stored.removeEventListener('scroll', this.containerScrollListener);
+            }
+            if (resolved !== document.body) {
+                resolved.addEventListener('scroll', this.containerScrollListener);
+            }
+        }
+        this.applyPreRenderContainerPositioning(resolved);
+        if (wrapper.parentNode !== resolved) {
+            resolved.appendChild(wrapper);
+        }
+        this.preRenderContainerEl = resolved;
+    }
+
     protected insertIntoDOMForPreRender(child: string | Node): void {
         const preRenderChild = this.createPreRenderChild(child);
         const preRenderWrapper = this.createPreRenderWrapper();
@@ -1175,7 +1273,10 @@ export class TsEmbed {
             this.hidePreRender();
         }
 
-        document.body.appendChild(preRenderWrapper);
+        const targetContainer = this.resolvePreRenderContainerTarget();
+        this.preRenderContainerEl = targetContainer;
+        this.applyPreRenderContainerPositioning(targetContainer);
+        targetContainer.appendChild(preRenderWrapper);
     }
 
     private showPreRenderByDefault = false;
@@ -1736,14 +1837,65 @@ export class TsEmbed {
     }
 
     /**
+     * Reverts the custom preRenderContainer's `position` to the value it had
+     * before we overrode it to `relative` (see insertIntoDOMForPreRender).
+     *
+     * We restore the original inline value rather than forcing `static`, and we
+     * skip the restore if another preRender wrapper is still mounted inside the
+     * same container — a shared container still needs the positioning context.
+     */
+    private restorePreRenderContainerPosition(): void {
+        const container = this.preRenderContainerEl as HTMLElement | null;
+        if (!container || container === document.body) {
+            return;
+        }
+        // Drop our reference up front so a destroyed embed never pins a
+        // detached container in memory; restoration uses the local handle.
+        this.preRenderContainerEl = null;
+        const originalPosition = container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
+        if (originalPosition === undefined) {
+            // We never overrode this container's position; nothing to restore.
+            return;
+        }
+        // This instance's own wrapper has already been removed by now, so any
+        // match here belongs to another embed still sharing the container — it
+        // continues to rely on the positioning context, so leave it in place.
+        const hasOtherWrapper = container.querySelector(
+            `[id^="${PRERENDER_WRAPPER_ID_PREFIX}"]`,
+        );
+        if (hasOtherWrapper) {
+            return;
+        }
+        container.style.position = originalPosition;
+        delete container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
+    }
+
+    /**
+     * Detaches and clears the container scroll listener, if one is attached.
+     */
+    private removeContainerScrollListener(): void {
+        if (!this.containerScrollListener) {
+            return;
+        }
+        const customContainer = 
+            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                ? this.preRenderContainerEl
+                : null;
+        customContainer?.removeEventListener('scroll', this.containerScrollListener);
+        this.containerScrollListener = null;
+    }
+
+    /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
+            this.removeContainerScrollListener();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
+            this.restorePreRenderContainerPosition();
             if (!this.isRendered) {
                 return;
             }
@@ -1856,15 +2008,21 @@ export class TsEmbed {
 
             this.syncPreRenderStyle();
 
+            const customContainer =
+                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                    ? this.preRenderContainerEl
+                    : null;
+            if (customContainer && !this.containerScrollListener) {
+                this.containerScrollListener = () => this.syncPreRenderStyle();
+                customContainer.addEventListener('scroll', this.containerScrollListener);
+            }
+
             if (!this.viewConfig.doNotTrackPreRenderSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
-                        if (entry.contentRect && entry.target === observeTarget) {
-                            setStyleProperties(this.preRenderWrapper, {
-                                width: `${entry.contentRect.width}px`,
-                                height: `${entry.contentRect.height}px`,
-                            });
+                        if (entry.target === observeTarget) {
+                            this.syncPreRenderStyle();
                         }
                     });
                 });
@@ -1905,11 +2063,22 @@ export class TsEmbed {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
             return;
         }
+        // Self-heal if the resolved container was remounted/detached, so we
+        // never measure a stale node (which would collapse the wrapper).
+        this.reconcilePreRenderContainer();
         const elBoundingClient = this.getPreRenderPlaceHolderElement().getBoundingClientRect();
 
+        const containerEl =
+            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
+                ? this.preRenderContainerEl
+                : null;
+        const containerRect = containerEl?.getBoundingClientRect() ?? { x: 0, y: 0 };
+        const scrollX = containerEl ? containerEl.scrollLeft : window.scrollX;
+        const scrollY = containerEl ? containerEl.scrollTop : window.scrollY;
+
         setStyleProperties(this.preRenderWrapper, {
-            top: `${elBoundingClient.y + window.scrollY}px`,
-            left: `${elBoundingClient.x + window.scrollX}px`,
+            top: `${elBoundingClient.y - containerRect.y + scrollY}px`,
+            left: `${elBoundingClient.x - containerRect.x + scrollX}px`,
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
             position: 'absolute',
@@ -1938,6 +2107,8 @@ export class TsEmbed {
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
+        this.removeContainerScrollListener();
+
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
         }
@@ -1959,7 +2130,7 @@ export class TsEmbed {
      */
     public getPreRenderIds() {
         return {
-            wrapper: `tsEmbed-pre-render-wrapper-${this.viewConfig.preRenderId}`,
+            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${this.viewConfig.preRenderId}`,
             child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
             placeHolder: `tsEmbed-pre-render-placeholder-${this.viewConfig.preRenderId}`,
         };

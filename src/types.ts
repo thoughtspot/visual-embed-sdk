@@ -1109,6 +1109,45 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     doNotTrackPreRenderSize?: boolean;
     /**
+     * The DOM element or CSS selector string specifying the container into which
+     * the pre-rendered wrapper is inserted. Defaults to `document.body` when not
+     * specified.
+     *
+     * **When to use a target container:** set this when the pre-render should
+     * live somewhere other than `document.body` — for example when `<body>` has
+     * `overflow: hidden` and scrolling is handled by an inner element, or when
+     * you need the wrapper to sit inside a specific stacking/positioning context.
+     * The wrapper is positioned to track the embedding element within this
+     * container, so choose the scrollable/positioned ancestor you want it
+     * aligned to.
+     *
+     * **Pass a stable container:** the wrapper is mounted into the resolved
+     * container once, during `preRender()`. The container must stay mounted for
+     * the lifetime of the pre-render — if the host app unmounts and remounts it
+     * (for example React replacing the node), the wrapper is orphaned on the
+     * detached node. Mount the container above the part of the tree that
+     * re-renders so its identity is stable. Prefer a CSS selector string over a
+     * raw element: a selector can be re-resolved to the fresh node on the next
+     * reposition, whereas an element reference cannot be recovered once detached.
+     *
+     * When the embed host lives inside a Shadow DOM, a selector string is
+     * resolved against that shadow root as well (since `document.querySelector`
+     * cannot pierce shadow boundaries); pass the element directly if the
+     * container lives in a different root.
+     *
+     * @type {string | HTMLElement}
+     * @version SDK: 1.49.2 | ThoughtSpot: *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   preRenderId: 'my-liveboard',
+     *   // Prefer a selector for a stable, scrollable container.
+     *   preRenderContainer: '#my-scroll-container',
+     * });
+     * ```
+     */
+    preRenderContainer?: string | HTMLElement;
+    /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighter-weight shell.
      *
