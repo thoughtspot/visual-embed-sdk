@@ -1142,6 +1142,12 @@ export class AppEmbed extends V1Embed {
 
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
+                // The Focused (V4) homepage experience requires the updated
+                // Spotter chat prompt. Enable it automatically unless the
+                // developer has explicitly set updatedSpotterChatPrompt.
+                if (isUndefined(updatedSpotterChatPrompt)) {
+                    params[Param.UpdatedSpotterChatPrompt] = true;
+                }
             }
         }
 

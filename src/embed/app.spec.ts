@@ -522,7 +522,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add homepageVersion=v4 when homePage is Focused to the iframe src', async () => {
+    test('Should add homepageVersion=v4 and updatedSpotterChatPrompt=true when homePage is Focused to the iframe src', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
@@ -530,7 +530,20 @@ describe('App embed tests', () => {
                     homePage: HomePage.Focused,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=true${defaultParams}${defaultParamsPost}#/home`,
+        );
+    });
+
+    test('Should respect explicit updatedSpotterChatPrompt=false even when homePage is Focused', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Focused,
+                },
+                updatedSpotterChatPrompt: false,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=false${defaultParams}${defaultParamsPost}#/home`,
         );
     });
 
