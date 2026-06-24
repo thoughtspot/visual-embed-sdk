@@ -1390,7 +1390,7 @@ describe('App embed tests', () => {
         );
     });
 
-    test('Should add homepageVersion=v3 & modularHomeExperience=false when homePage is ModularWithStylingChanges to the iframe src', async () => {
+    test('Should add homepageVersion=v3 & modularHomeExperience=false to the iframe src when homePage is ModularWithStylingChanges', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
