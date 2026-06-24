@@ -530,7 +530,7 @@ describe('App embed tests', () => {
                     homePage: HomePage.Focused,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
         );
     });
 
@@ -1390,27 +1390,27 @@ describe('App embed tests', () => {
         );
     });
 
-    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when homePage is ModularWithStylingChanges to the iframe src', async () => {
+    test('Should add homepageVersion=v3 & modularHomeExperience=false when homePage is ModularWithStylingChanges to the iframe src', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
                 // primaryNavbarVersion is not included under
-                // discoveryExperience, then it set navigationVersion=v2 and
-                // modularHomeExperience=false.
+                // discoveryExperience, so navigationVersion is left unset and
+                // the server's GA default applies. modularHomeExperience=false.
                 discoveryExperience: {
                     homePage: HomePage.ModularWithStylingChanges,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
-    test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
+    test('Should not add navigationVersion when primaryNavbarVersion is not added to the iframe src', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
@@ -1441,7 +1441,7 @@ describe('App embed tests', () => {
             {
                 ...defaultViewConfig,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
