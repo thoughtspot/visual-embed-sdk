@@ -1396,7 +1396,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 // primaryNavbarVersion is not included under
                 // discoveryExperience, so navigationVersion is left unset and
-                // the server's GA default applies. modularHomeExperience=false.
+                // the server's GA default applies, while modularHomeExperience is set to false.
                 discoveryExperience: {
                     homePage: HomePage.ModularWithStylingChanges,
                 },
