@@ -50,8 +50,8 @@ jobs:
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Branch will be $NEW_VERSION"
 
-      - name: Install (lockfile refresh if needed)
-        run: npm install --package-lock-only
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: Generate documentation
         run: npm run docgen
