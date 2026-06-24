@@ -119,3 +119,9 @@ static/typedoc/*
 
 # Except the typedoc.json file
 !static/typedoc/typedoc.json
+
+# Non-npm lockfiles. This project standardizes on npm (CI uses npm ci),
+# so package-lock.json is the only committed lockfile. Contributors may
+# use pnpm/yarn locally, but their lockfiles must not be committed.
+pnpm-lock.yaml
+yarn.lock
