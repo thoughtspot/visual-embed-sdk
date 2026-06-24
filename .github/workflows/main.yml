@@ -37,10 +37,10 @@ jobs:
             - name: Verify generated documentation is committed
               run: |
                 # Ensure we have the latest main branch reference locally to compare against
-                git fetch origin main:main-test
+                git fetch origin main
 
                 # Check if package.json version changed compared to main branch
-                if git diff main-test package.json | grep -q '"version"'; then
+                if git diff origin/main package.json | grep -q '"version"'; then
                   echo "Package version was updated"
 
                   # Regenerate documentation to verify it's current
