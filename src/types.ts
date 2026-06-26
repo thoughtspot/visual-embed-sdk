@@ -6016,6 +6016,27 @@ export enum HostEvent {
      * ```
      */
     InitSpotterVizConversation = 'InitSpotterVizConversation',
+
+    /**
+     * Opens the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenSpotterVizPanel);
+     * ```
+     */
+    OpenSpotterVizPanel = 'OpenSpotterVizPanel',
+
+    /**
+     * Closes the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.CloseSpotterVizPanel);
+     * ```
+     */
+    CloseSpotterVizPanel = 'CloseSpotterVizPanel',
+
     /**
      * Clears browser cache and fetches new data for liveboard ChartViz Containers.
      * Requires `enableLiveboardDataCache` to be enabled.
