@@ -89,4 +89,19 @@ describe('Unit test for mixpanel', () => {
         expect(logger.error).toHaveBeenCalled();
         expect(mixpanel.register_once).not.toHaveBeenCalled();
     });
+
+    test('logs error when mixpanel.init throws (covers catch block)', () => {
+        testResetMixpanel();
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
+        (mixpanel.init as jest.Mock).mockImplementationOnce(() => {
+            throw new Error('mixpanel init failed');
+        });
+        const sessionInfo = {
+            mixpanelToken: 'abc123',
+            userGUID: '12345',
+            isPublicUser: false,
+        } as SessionInfo;
+        initMixpanel(sessionInfo);
+        expect(logger.error).toHaveBeenCalledWith('Error initializing mixpanel', expect.any(Error));
+    });
 });

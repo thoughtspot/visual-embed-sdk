@@ -88,4 +88,31 @@ describe('ReportingObserver', () => {
 
         (window as any).ReportingObserver = currentObserver;
     });
+
+    test('should suppress alert but still log error when suppressErrorAlerts is true', () => {
+        let callBackPassed: any;
+        const NewMockRO = jest.fn().mockImplementation((callback: any) => {
+            callBackPassed = callback;
+            return ({ observe: jest.fn(), disconnect: jest.fn(), takeRecords: jest.fn() });
+        });
+        const currentObserver = (window as any).ReportingObserver;
+        (window as any).ReportingObserver = NewMockRO;
+
+        setEmbedConfig({
+            thoughtSpotHost: 'testHost',
+            authType: AuthType.None,
+            suppressErrorAlerts: true,
+        } as any);
+
+        const mockAlert = jest.fn();
+        window.alert = mockAlert;
+
+        registerReportingObserver(true);
+        callBackPassed([{ type: 'csp-violation', url: 'testHost', body: { effectiveDirective: 'frame-ancestors' } }]);
+
+        expect(mockAlert).not.toHaveBeenCalled();
+        expect(logger.error).toHaveBeenCalledWith(ERROR_MESSAGE.CSP_FRAME_HOST_VIOLATION_LOG_MESSAGE);
+
+        (window as any).ReportingObserver = currentObserver;
+    });
 });
