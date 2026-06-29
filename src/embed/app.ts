@@ -22,8 +22,8 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -1002,6 +1002,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -1052,7 +1053,8 @@ export class AppEmbed extends V1Embed {
             this.handleError.bind(this),
         );
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-        return buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
     }
 
     /**
@@ -1189,16 +1191,12 @@ export class AppEmbed extends V1Embed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
-                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             if (spotterFileUploadEnabled !== undefined) {
                 params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
-            }
-            if (enableStarterPrompts !== undefined) {
-                params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
