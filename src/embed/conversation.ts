@@ -2,7 +2,7 @@ import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -92,6 +92,100 @@ export interface SpotterSidebarViewConfig {
 }
 
 /**
+ * A single configurable starter prompt question shown under a category pill.
+ * Both fields are plain, localizable strings (not i18n keys).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptQuestion {
+    /**
+     * Short label shown to the user as a clickable suggestion.
+     * Truncated to 80 characters downstream.
+     */
+    label: string;
+    /**
+     * Full prompt text submitted to Spotter when the question is clicked.
+     * Truncated to 300 characters downstream.
+     */
+    prompt: string;
+}
+
+/**
+ * Configuration for a question-bearing onboarding category
+ * (`quick` → Basic Search, `research` → Deep Analysis).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptCategory {
+    /**
+     * Custom label for the category pill. Localizable string that overrides
+     * the default i18n title. Truncated to 30 characters downstream.
+     */
+    label?: string;
+    /**
+     * Controls whether the category pill is shown. When `false`, the pill is
+     * hidden and the onboarding row reflows.
+     * @default true
+     */
+    visibility?: boolean;
+    /**
+     * Custom questions for the category. When provided, these fully replace the
+     * backend-generated prompts (no merge) and are capped at the top 4.
+     */
+    questions?: StarterPromptQuestion[];
+}
+
+/**
+ * Configuration for the Data Literacy (`preview-data`) onboarding category.
+ * Only the label and visibility are customizable; the submitted prompt text
+ * continues to come from the backend.
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPreviewDataCategory {
+    /**
+     * Custom label for the Data Literacy pill. Localizable string that overrides
+     * the default i18n title. Truncated to 30 characters downstream.
+     */
+    label?: string;
+    /**
+     * Controls whether the Data Literacy pill is shown.
+     * @default true
+     */
+    visibility?: boolean;
+}
+
+/**
+ * Configuration for the Spotter onboarding starter-prompts surface.
+ *
+ * Category keys are fixed: `quick` → Basic Search, `research` → Deep Analysis,
+ * `preview-data` → Data Literacy. For `quick` and `research`, `questions` is
+ * capped at the top 4. All `label`s are plain, localizable strings (not i18n
+ * keys).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptsConfig {
+    /**
+     * Master switch for the entire onboarding starter-prompts surface.
+     * When `false`, the whole surface is hidden.
+     */
+    enabled?: boolean;
+    /**
+     * Basic Search category configuration.
+     */
+    quick?: StarterPromptCategory;
+    /**
+     * Deep Analysis category configuration.
+     */
+    research?: StarterPromptCategory;
+    /**
+     * Data Literacy category configuration (label + visibility only).
+     */
+    'preview-data'?: StarterPreviewDataCategory;
+}
+
+/**
  * Configuration for customizing Spotter chat UI branding.
  * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
  * @group Embed components
@@ -129,13 +223,40 @@ export interface SpotterChatViewConfig {
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
     /**
-     * Enables starter prompts in the Spotter chat interface.
+     * Configures the Spotter onboarding starter-prompts surface: a master
+     * switch, per-category visibility and label, and custom question lists for
+     * the two question-bearing categories.
      *
-     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * Category keys are fixed: `quick` → Basic Search, `research` → Deep
+     * Analysis, `preview-data` → Data Literacy. For `quick` and `research`,
+     * `questions` is capped at the top 4 and fully replaces backend-generated
+     * prompts for that category (no merge). All `label`s are plain, localizable
+     * strings (not i18n keys).
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
-     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    spotterChatConfig: {
+     *        starterPrompts: {
+     *            enabled: true,
+     *            quick: {
+     *                label: 'Quick questions',
+     *                visibility: true,
+     *                questions: [
+     *                    { label: 'Top products', prompt: 'What are the top products by revenue?' },
+     *                ],
+     *            },
+     *            research: { visibility: false },
+     *            'preview-data': { label: 'Explore your data' },
+     *        },
+     *    },
+     * })
+     * ```
      */
-    enableStarterPrompts?: boolean;
+    starterPrompts?: StarterPromptsConfig;
 }
 
 /**
@@ -384,6 +505,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -427,7 +549,12 @@ export class SpotterEmbed extends TsEmbed {
      */
     protected async getAppInitData(): Promise<SpotterAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+        const sidebarInitData = buildSpotterSidebarAppInitData(
+            defaultAppInitData,
+            this.viewConfig,
+            this.handleError.bind(this),
+        );
+        return buildStarterPromptsAppInitData(sidebarInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
@@ -475,13 +602,11 @@ export class SpotterEmbed extends TsEmbed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
-                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
-            setParamIfDefined(queryParams, Param.IsStarterPromptsEnabled, enableStarterPrompts, true);
             if (spotterFileUploadFileTypes !== undefined) {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }

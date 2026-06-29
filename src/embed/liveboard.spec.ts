@@ -1281,21 +1281,6 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should set enableStarterPrompts parameter in url params', async () => {
-        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            liveboardId,
-            spotterChatConfig: { enableStarterPrompts: true },
-        } as LiveboardViewConfig);
-        await liveboardEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableStarterPrompts=true#/embed/viz/${liveboardId}`,
-            );
-        });
-    });
-
     test('should set spotterFileUploadFileTypes parameter in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1407,6 +1392,44 @@ describe('Liveboard/viz embed tests', () => {
                     }),
                 }),
             });
+        });
+    });
+
+    test('should include starterPrompts in APP_INIT embedParams (truncated and clamped)', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: {
+                starterPrompts: {
+                    enabled: true,
+                    quick: {
+                        label: 'L'.repeat(50),
+                        questions: [
+                            { label: 'Q1', prompt: 'P1' },
+                            { label: 'Q2', prompt: 'P2' },
+                            { label: 'Q3', prompt: 'P3' },
+                            { label: 'Q4', prompt: 'P4' },
+                            { label: 'Q5', prompt: 'P5' },
+                        ],
+                    },
+                    research: { visibility: false },
+                },
+            },
+        } as LiveboardViewConfig);
+
+        mockMessageChannel();
+        await liveboardEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+        });
+        await executeAfterWait(() => {
+            const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
+            expect(starterPrompts.enabled).toBe(true);
+            expect(starterPrompts.quick.label).toHaveLength(30);
+            expect(starterPrompts.quick.questions).toHaveLength(4);
+            expect(starterPrompts.research.visibility).toBe(false);
         });
     });
 

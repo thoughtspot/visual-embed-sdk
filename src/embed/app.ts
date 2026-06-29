@@ -22,8 +22,8 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, StarterPromptsConfig } from './conversation';
+import { buildSpotterSidebarAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -881,6 +881,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -930,7 +931,8 @@ export class AppEmbed extends V1Embed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
     }
 
     /**
@@ -1036,16 +1038,12 @@ export class AppEmbed extends V1Embed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
-                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             if (spotterFileUploadEnabled !== undefined) {
                 params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
-            }
-            if (enableStarterPrompts !== undefined) {
-                params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);

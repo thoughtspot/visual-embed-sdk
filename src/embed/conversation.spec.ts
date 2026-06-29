@@ -369,23 +369,6 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should render the conversation embed with enableStarterPrompts', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterChatConfig: { enableStarterPrompts: true },
-        };
-
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enableStarterPrompts=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
     it('should render the conversation embed with spotterFileUploadFileTypes', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
@@ -634,5 +617,100 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         expect(mockPort.postMessage.mock.calls[0]?.[0].data.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
     });
 
+});
+
+describe('SpotterEmbed APP_INIT starterPrompts', () => {
+    const mockEmbedEventPayload = { type: EmbedEvent.APP_INIT, data: {} };
+
+    async function getAppInitResponse(viewConfig: SpotterEmbedViewConfig) {
+        const embed = new SpotterEmbed(getRootEl(), viewConfig);
+        embed.render();
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, mockEmbedEventPayload, mockPort);
+        });
+        await executeAfterWait(() => {});
+        return mockPort.postMessage.mock.calls[0]?.[0];
+    }
+
+    it('should include starterPrompts in embedParams when configured', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    enabled: true,
+                    quick: {
+                        label: 'Quick',
+                        visibility: true,
+                        questions: [{ label: 'Q1', prompt: 'P1' }],
+                    },
+                    research: { visibility: false },
+                    'preview-data': { label: 'Explore' },
+                },
+            },
+        });
+        expect(response.data.embedParams.starterPrompts).toEqual({
+            enabled: true,
+            quick: {
+                label: 'Quick',
+                visibility: true,
+                questions: [{ label: 'Q1', prompt: 'P1' }],
+            },
+            research: { visibility: false },
+            'preview-data': { label: 'Explore' },
+        });
+    });
+
+    it('should truncate questions to the top 4', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    enabled: true,
+                    quick: {
+                        questions: [
+                            { label: 'Q1', prompt: 'P1' },
+                            { label: 'Q2', prompt: 'P2' },
+                            { label: 'Q3', prompt: 'P3' },
+                            { label: 'Q4', prompt: 'P4' },
+                            { label: 'Q5', prompt: 'P5' },
+                        ],
+                    },
+                },
+            },
+        });
+        expect(response.data.embedParams.starterPrompts.quick.questions).toHaveLength(4);
+        expect(response.data.embedParams.starterPrompts.quick.questions.map((q: any) => q.label))
+            .toEqual(['Q1', 'Q2', 'Q3', 'Q4']);
+    });
+
+    it('should clamp over-limit strings', async () => {
+        const longLabel = 'L'.repeat(50);
+        const longQuestionLabel = 'Q'.repeat(100);
+        const longPrompt = 'P'.repeat(400);
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    enabled: true,
+                    quick: {
+                        label: longLabel,
+                        questions: [{ label: longQuestionLabel, prompt: longPrompt }],
+                    },
+                    'preview-data': { label: longLabel },
+                },
+            },
+        });
+        const { quick, 'preview-data': previewData } = response.data.embedParams.starterPrompts;
+        expect(quick.label).toHaveLength(30);
+        expect(quick.questions[0].label).toHaveLength(80);
+        expect(quick.questions[0].prompt).toHaveLength(300);
+        expect(previewData.label).toHaveLength(30);
+    });
+
+    it('should not include starterPrompts in embedParams when not configured', async () => {
+        const response = await getAppInitResponse({ worksheetId: 'ws1' });
+        expect(response.data.embedParams?.starterPrompts).toBeUndefined();
+    });
 });
 
