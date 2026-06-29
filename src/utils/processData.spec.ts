@@ -279,6 +279,38 @@ describe('Unit test for process data', () => {
         mockHandleExitPresentMode.mockReset();
     });
 
+    test('AuthInit with payload.userGUID fallback when data.userGUID is absent', () => {
+        const e = {
+            type: EmbedEvent.AuthInit,
+            payload: { userGUID: 'payloadGUID' },
+        };
+        jest.spyOn(base, 'notifyAuthSuccess');
+        expect(processDataInstance.processEventData(e.type, e, '', null)).toEqual({
+            type: e.type,
+            payload: { userGUID: 'payloadGUID' },
+            data: { userGUID: 'payloadGUID' },
+        });
+        expect(base.notifyAuthSuccess).toHaveBeenCalled();
+    });
+
+    test('process authFailure EmbeddedSSO with UNAUTHENTICATED_FAILURE suppresses login page', () => {
+        const e = {
+            type: EmbedEvent.AuthFailure,
+            data: { type: auth.AuthFailureType.UNAUTHENTICATED_FAILURE },
+        };
+        jest.spyOn(base, 'notifyAuthFailure');
+        jest.spyOn(embedConfigInstance, 'getEmbedConfig').mockReturnValue({
+            loginFailedMessage: 'Hello',
+            authType: AuthType.EmbeddedSSO,
+            disableLoginFailurePage: false,
+        } as any);
+        const el: any = {};
+        processDataInstance.processEventData(e.type, e, '', el);
+        // isEmbeddedSSOInfoFailure=true so neither branch fires, innerHTML stays unset
+        expect(el.innerHTML).toBeUndefined();
+        expect(base.notifyAuthFailure).not.toHaveBeenCalled();
+    });
+
     test('should handle ClearInfoCache', () => {
         const mockResetCachedPreauthInfo = jest.spyOn(sessionInfoService, 'resetCachedPreauthInfo').mockImplementation(() => {});
         const mockResetCachedSessionInfo = jest.spyOn(sessionInfoService, 'resetCachedSessionInfo').mockImplementation(() => {});

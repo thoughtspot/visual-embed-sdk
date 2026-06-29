@@ -27,6 +27,13 @@ import {
     validateHttpUrl,
     setParamIfDefined,
     querySelectorAcrossShadowRoot,
+    getSSOMarker,
+    deepMerge,
+    getHostEventsConfig,
+    isWindowUndefined,
+    getOffsetTop,
+    getDOMNode,
+    getOperationNameFromQuery,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
@@ -386,6 +393,18 @@ describe('Fullscreen Utility Functions', () => {
             handlePresentEvent(mockIframe);
 
             expect(logger.error).toHaveBeenCalledWith('Fullscreen API is not supported by this browser.');
+        });
+
+        it('should catch error and log warning when requestFullscreen throws (covers line 506)', async () => {
+            // Covers line 506: catch block inside fullscreen method attempt
+            (mockIframe.requestFullscreen as jest.Mock).mockRejectedValue(new Error('permission denied'));
+
+            await handlePresentEvent(mockIframe);
+
+            expect(logger.warn).toHaveBeenCalledWith(
+                expect.stringContaining('Failed to enter fullscreen'),
+                expect.any(Error),
+            );
         });
 
         it('should not attempt fullscreen when already in fullscreen mode', () => {
@@ -1009,6 +1028,24 @@ describe('isValidCssMargin', () => {
         expect(isValidCssMargin('invalid')).toBe(false);
         expect(isValidCssMargin('10')).toBe(false); // missing unit
     });
+
+    it('should return false and log error when value is not a string (non-string type)', () => {
+        // Covers line 147-148: typeof value !== 'string' branch
+        expect(isValidCssMargin(42 as any)).toBe(false);
+        expect(logger.error).toHaveBeenCalledWith('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+    });
+
+    it('should return false when more than 4 space-separated parts are given', () => {
+        // Covers line 157-158: parts.length > 4 branch
+        expect(isValidCssMargin('10px 20px 30px 40px 50px')).toBe(false);
+        expect(logger.error).toHaveBeenCalledWith('Please provide a valid lazyLoadingMargin value (e.g., "10px")');
+    });
+
+    it('should return true for valid multi-part margin (up to 4 parts)', () => {
+        expect(isValidCssMargin('10px 20px')).toBe(true);
+        expect(isValidCssMargin('10px 20px 30px 40px')).toBe(true);
+        expect(isValidCssMargin('auto')).toBe(true);
+    });
 });
 
 describe('getValueFromWindow and storeValueInWindow', () => {
@@ -1138,5 +1175,163 @@ describe('getValueFromWindow and storeValueInWindow', () => {
             setParamIfDefined(queryParams, 'testParam', undefined);
             expect(queryParams.testParam).toBeUndefined();
         });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// getSSOMarker
+// ---------------------------------------------------------------------------
+describe('getSSOMarker', () => {
+    test('returns tsSSOMarker query string with encoded markerId', () => {
+        expect(getSSOMarker('abc123')).toBe('tsSSOMarker=abc123');
+    });
+
+    test('URL-encodes special characters in markerId', () => {
+        expect(getSSOMarker('hello world')).toBe('tsSSOMarker=hello%20world');
+        expect(getSSOMarker('foo=bar&baz')).toBe('tsSSOMarker=foo%3Dbar%26baz');
+    });
+
+    test('handles empty string markerId', () => {
+        expect(getSSOMarker('')).toBe('tsSSOMarker=');
+    });
+});
+
+// ---------------------------------------------------------------------------
+// deepMerge
+// ---------------------------------------------------------------------------
+describe('deepMerge', () => {
+    test('merges two flat objects', () => {
+        const result = deepMerge({ a: 1 }, { b: 2 });
+        expect(result).toEqual({ a: 1, b: 2 });
+    });
+
+    test('source overrides target for same keys', () => {
+        const result = deepMerge({ a: 1, b: 2 }, { b: 99 });
+        expect(result).toEqual({ a: 1, b: 99 });
+    });
+
+    test('deep merges nested objects', () => {
+        const result = deepMerge({ a: { x: 1, y: 2 } }, { a: { y: 99, z: 3 } });
+        expect(result).toEqual({ a: { x: 1, y: 99, z: 3 } });
+    });
+
+    test('handles empty source', () => {
+        const result = deepMerge({ a: 1 }, {});
+        expect(result).toEqual({ a: 1 });
+    });
+
+    test('handles empty target', () => {
+        const result = deepMerge({}, { b: 2 });
+        expect(result).toEqual({ b: 2 });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// getHostEventsConfig
+// ---------------------------------------------------------------------------
+describe('getHostEventsConfig', () => {
+    test('returns shouldBypassPayloadValidation and useHostEventsV2 from viewConfig', () => {
+        const viewConfig: any = { shouldBypassPayloadValidation: true, useHostEventsV2: false };
+        expect(getHostEventsConfig(viewConfig)).toEqual({
+            shouldBypassPayloadValidation: true,
+            useHostEventsV2: false,
+        });
+    });
+
+    test('returns undefined for missing keys', () => {
+        const result = getHostEventsConfig({} as any);
+        expect(result.shouldBypassPayloadValidation).toBeUndefined();
+        expect(result.useHostEventsV2).toBeUndefined();
+    });
+
+    test('ignores unrelated config properties', () => {
+        const viewConfig: any = {
+            shouldBypassPayloadValidation: false,
+            useHostEventsV2: true,
+            liveboardId: 'lb-1',
+        };
+        expect(getHostEventsConfig(viewConfig)).toEqual({
+            shouldBypassPayloadValidation: false,
+            useHostEventsV2: true,
+        });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// isWindowUndefined
+// ---------------------------------------------------------------------------
+describe('isWindowUndefined', () => {
+    test('returns false when window is defined (browser/jsdom env)', () => {
+        // In jest/jsdom, window is always defined
+        expect(isWindowUndefined()).toBe(false);
+    });
+});
+
+// ---------------------------------------------------------------------------
+// getOffsetTop
+// ---------------------------------------------------------------------------
+describe('getOffsetTop', () => {
+    test('returns rect.top + window.scrollY', () => {
+        const mockElement = {
+            getBoundingClientRect: () => ({ top: 50 }),
+        };
+        Object.defineProperty(window, 'scrollY', { value: 100, configurable: true });
+        expect(getOffsetTop(mockElement)).toBe(150);
+    });
+
+    test('returns rect.top when scrollY is 0', () => {
+        const mockElement = {
+            getBoundingClientRect: () => ({ top: 30 }),
+        };
+        Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
+        expect(getOffsetTop(mockElement)).toBe(30);
+    });
+});
+
+// ---------------------------------------------------------------------------
+// getDOMNode
+// ---------------------------------------------------------------------------
+describe('getDOMNode', () => {
+    test('returns the element from document.querySelector when passed a string selector', () => {
+        const div = document.createElement('div');
+        div.id = 'test-dom-node';
+        document.body.appendChild(div);
+        expect(getDOMNode('#test-dom-node')).toBe(div);
+        document.body.removeChild(div);
+    });
+
+    test('returns the element directly when passed an HTMLElement', () => {
+        const div = document.createElement('div');
+        expect(getDOMNode(div)).toBe(div);
+    });
+
+    test('returns null for a selector that matches nothing', () => {
+        expect(getDOMNode('#nonexistent-element-xyz')).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// getOperationNameFromQuery
+// ---------------------------------------------------------------------------
+describe('getOperationNameFromQuery', () => {
+    test('extracts operation name from a query string', () => {
+        expect(getOperationNameFromQuery('query GetUser { user { id } }')).toBe('GetUser');
+    });
+
+    test('extracts operation name from a mutation string', () => {
+        expect(getOperationNameFromQuery('mutation CreateUser { createUser { id } }')).toBe('CreateUser');
+    });
+
+    test('returns undefined when no operation name is present', () => {
+        expect(getOperationNameFromQuery('{ user { id } }')).toBeUndefined();
+    });
+
+    test('handles multiline query strings', () => {
+        const query = `
+            query FetchData {
+                data { id }
+            }
+        `;
+        expect(getOperationNameFromQuery(query)).toBe('FetchData');
     });
 });
