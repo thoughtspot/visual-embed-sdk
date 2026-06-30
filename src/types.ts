@@ -963,7 +963,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The list of actions to completely remove from the embedded view.
      * Hidden actions are not visible to the user at all (fully removed from the UI).
      * Use this when you want to remove an action entirely.
-     * To keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.
+     * To keep an action visible but non-interactive (grayed out), use {@link
+     * disabledActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -983,7 +984,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * (...), and the contextual menu. These will be only actions that
      * are visible to the user.
      * Use this as an allowlist — only the actions listed here will be shown.
-     * All other actions will be hidden. Use either this or {@link hiddenActions}, not both.
+     * All other actions will be hidden. Use either this or {@link hiddenActions}, not
+     * both.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -3760,10 +3762,11 @@ export enum EmbedEvent {
     EmbedPageContextChanged = 'EmbedPageContextChanged',
 
     /**
-     * Represents a special embed event that is triggered whenever any host event is subscribed.
+     * Represents a special embed event that is triggered whenever any host event is
+     * subscribed.
      *
-     * You can listen to this event when you need to dispatch a host event during load or render,
-     * particularly in situations where timing issues may occur.
+     * You can listen to this event when you need to dispatch a host event during load or
+     * render, particularly in situations where timing issues may occur.
      *
      * @example
      * ```js
@@ -7993,7 +7996,73 @@ export enum Action {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Controls visibility and disable state of the share action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystShare]
+     * disabledActions: [Action.SpotterAnalystShare]
+     * ```
+     */
+    SpotterAnalystShare = 'spotterAnalystShare',
+    /**
+     * Controls visibility and disable state of the edit action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystEdit]
+     * disabledActions: [Action.SpotterAnalystEdit]
+     * ```
+     */
+    SpotterAnalystEdit = 'spotterAnalystEdit',
+    /**
+     * Controls visibility and disable state of the create action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystCreate]
+     * disabledActions: [Action.SpotterAnalystCreate]
+     * ```
+     */
+    SpotterAnalystCreate = 'spotterAnalystCreate',
+    /**
+     * Controls visibility and disable state of the delete action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystDelete]
+     * disabledActions: [Action.SpotterAnalystDelete]
+     * ```
+     */
+    SpotterAnalystDelete = 'spotterAnalystDelete',
+    /**
+     * Controls visibility and disable state of the make a copy action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystMakeACopy]
+     * disabledActions: [Action.SpotterAnalystMakeACopy]
+     * ```
+     */
+    SpotterAnalystMakeACopy = 'spotterAnalystMakeACopy',
+    /**
+     * Controls visibility and disable state of the sidebar
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystSidebar]
+     * disabledActions: [Action.SpotterAnalystSidebar]
+     * ```
+     */
+    SpotterAnalystSidebar = 'spotterAnalystSidebar',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
