@@ -887,11 +887,6 @@ export class TsEmbed {
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
-        // `additionalFlags` are applied as the final override via
-        // `applyAdditionalFlagsOverride` at the end of each embed's param
-        // builder, so they win even over flags added by individual embeds
-        // after `getBaseQueryParams` runs. They are intentionally NOT applied
-        // here for that reason.
         return queryParams;
     }
 
