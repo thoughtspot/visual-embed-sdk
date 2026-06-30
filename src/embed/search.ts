@@ -516,7 +516,7 @@ export class SearchEmbed extends TsEmbed {
 
             queryParams[Param.DataPanelCustomGroupsAccordionInitialState] = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL;
         }
-        return queryParams;
+        return this.applyAdditionalFlagsOverride(queryParams);
     }
 
     protected getEmbedParams() {

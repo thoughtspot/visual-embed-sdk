@@ -2076,6 +2076,126 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
+        describe('getAdditionalFlags', () => {
+            it('returns an empty object when no additional flags are set', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                expect((searchEmbed as any).getAdditionalFlags()).toEqual({});
+            });
+
+            it('returns only the init-level additional flags when view config has none', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                    additionalFlags: {
+                        foo: 'bar',
+                        baz: 1,
+                    },
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                expect((searchEmbed as any).getAdditionalFlags()).toEqual({
+                    foo: 'bar',
+                    baz: 1,
+                });
+            });
+
+            it('returns only the view-level additional flags when init config has none', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {
+                    additionalFlags: {
+                        viewFlag: true,
+                    },
+                });
+                expect((searchEmbed as any).getAdditionalFlags()).toEqual({
+                    viewFlag: true,
+                });
+            });
+
+            it('merges init and view additional flags, with view config taking precedence', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                    additionalFlags: {
+                        foo: 'fromInit',
+                        initOnly: 1,
+                    },
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {
+                    additionalFlags: {
+                        foo: 'fromView',
+                        viewOnly: false,
+                    },
+                });
+                expect((searchEmbed as any).getAdditionalFlags()).toEqual({
+                    foo: 'fromView',
+                    initOnly: 1,
+                    viewOnly: false,
+                });
+            });
+        });
+
+        describe('applyAdditionalFlagsOverride', () => {
+            it('applies additional flags onto the provided query params', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                    additionalFlags: {
+                        foo: 'bar',
+                    },
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                const queryParams = { existing: 'value' };
+                const result = (searchEmbed as any).applyAdditionalFlagsOverride(queryParams);
+                expect(result).toEqual({ existing: 'value', foo: 'bar' });
+            });
+
+            it('overrides existing query params with the same key', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                    additionalFlags: {
+                        foo: 'fromAdditionalFlags',
+                    },
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                const queryParams = { foo: 'fromDirectFlag' };
+                const result = (searchEmbed as any).applyAdditionalFlagsOverride(queryParams);
+                expect(result.foo).toBe('fromAdditionalFlags');
+            });
+
+            it('mutates and returns the same query params object', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                    additionalFlags: {
+                        foo: 'bar',
+                    },
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                const queryParams: Record<string, any> = {};
+                const result = (searchEmbed as any).applyAdditionalFlagsOverride(queryParams);
+                expect(result).toBe(queryParams);
+                expect(queryParams.foo).toBe('bar');
+            });
+
+            it('does not add any keys when there are no additional flags', () => {
+                init({
+                    thoughtSpotHost: 'http://tshost',
+                    authType: AuthType.None,
+                });
+                const searchEmbed = new SearchEmbed(getRootEl(), {});
+                const queryParams = { existing: 'value' };
+                const result = (searchEmbed as any).applyAdditionalFlagsOverride(queryParams);
+                expect(result).toEqual({ existing: 'value' });
+            });
+        });
+
         it('Sets the showAlerts param', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {

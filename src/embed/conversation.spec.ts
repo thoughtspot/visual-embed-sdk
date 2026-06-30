@@ -45,6 +45,24 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('additionalFlags override the directly-set conversation flags', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            additionalFlags: {
+                isSpotterExperienceEnabled: false,
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+            isSpotterExperienceEnabled: false,
+        });
+    });
+
     it('should render the conversation embed with worksheets disabled', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',

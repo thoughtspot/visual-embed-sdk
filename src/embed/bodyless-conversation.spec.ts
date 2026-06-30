@@ -232,10 +232,93 @@ describe('SpotterAgentEmbed', () => {
 
         const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
         const result = await spotterAgentEmbed.sendMessage('userMessage');
-        
+
         // Verify the iframe src contains the hideActions parameter
         const iframeSrc = getIFrameSrc(result.container);
         expect(iframeSrc).toContain('hideAction');
+    });
+
+    test('additionalFlags override the directly-set spotter agent flags', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    ConvAssist__createConversation: {
+                        convId: 'conversationId',
+                        initialCtx: {
+                            type: 'TS_ANSWER',
+                            tsAnsCtx: {
+                                sessionId: 'sessionId',
+                                genNo: 1,
+                                stateKey: {
+                                    transactionId: 'transactionId',
+                                    generationNumber: 1,
+                                },
+                                worksheet: {
+                                    worksheetId: 'worksheetId',
+                                    worksheetName: 'GTM',
+                                },
+                            },
+                        },
+                    },
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    ConvAssist__sendMessage: {
+                        responses: [
+                            {
+                                msgId: 'msgId',
+                                data: {
+                                    asstRespData: {
+                                        tool: 'TS_NLS',
+                                        asstRespText: '',
+                                        nlsAnsData: {
+                                            sageQuerySuggestions: [
+                                                {
+                                                    tokens: ['sum sales'],
+                                                    tmlTokens: ['sum [sales]'],
+                                                    worksheetId: 'worksheetId',
+                                                    sessionId: 'sessionId',
+                                                    genNo: 2,
+                                                    stateKey: {
+                                                        transactionId: 'transactionId',
+                                                        generationNumber: 1,
+                                                        __typename: 'sage_auto_complete_v2_ACStateKey',
+                                                    },
+                                                    __typename: 'eureka_SageQuerySuggestion',
+                                                },
+                                            ],
+                                            responseType: 'ANSWER',
+                                            __typename: 'convassist_nls_tool_NLSToolAsstRespData',
+                                        },
+                                        __typename: 'convassist_AsstResponseData',
+                                    },
+                                    __typename: 'convassist_MessageData',
+                                },
+                                type: 'ASST_RESPONSE',
+                                __typename: 'convassist_MessagePayload',
+                            },
+                        ],
+                        __typename: 'convassist_SendMessageResponse',
+                    },
+                },
+            }),
+        );
+
+        const viewConfig: SpotterAgentEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            additionalFlags: {
+                isSpotterAgentEmbed: false,
+            },
+        };
+
+        const spotterAgentEmbed = new SpotterAgentEmbed(viewConfig);
+        const result = await spotterAgentEmbed.sendMessage('userMessage');
+
+        const iframeSrc = getIFrameSrc(result.container);
+        expectUrlToHaveParamsWithValues(iframeSrc, {
+            isSpotterAgentEmbed: false,
+        });
     });
 
     test('should handle disabledActions and disabledActionReason parameters correctly', async () => {

@@ -851,9 +851,7 @@ export class LiveboardEmbed extends V1Embed {
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
 
-        const queryParams = getQueryParamString(params, true);
-
-        return params;
+        return this.applyAdditionalFlagsOverride(params);
     }
 
     private getIframeSuffixSrc(

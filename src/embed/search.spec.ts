@@ -15,6 +15,7 @@ import {
     fixedEncodeURI,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
+    expectUrlToHaveParamsWithValues,
     getIFrameEl,
     postMessageToParent,
     testVisualOverridesInEmbed,
@@ -59,6 +60,22 @@ describe('Search embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
+        });
+    });
+
+    test('additionalFlags override the directly-set search flags', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataPanelV2: true,
+            additionalFlags: {
+                enableDataPanelV2: false,
+            },
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableDataPanelV2: false,
+            });
         });
     });
 

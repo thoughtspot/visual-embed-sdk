@@ -80,6 +80,26 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('additionalFlags override the directly-set liveboard flags', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardHeaderSticky: true,
+            dataPanelV2: true,
+            additionalFlags: {
+                isLiveboardHeaderSticky: false,
+                enableDataPanelV2: false,
+            },
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                isLiveboardHeaderSticky: false,
+                enableDataPanelV2: false,
+            });
+        });
+    });
+
     test('should render liveboard with data panel v2 flag set to false by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

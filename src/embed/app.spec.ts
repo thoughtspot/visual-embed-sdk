@@ -143,6 +143,23 @@ describe('App embed tests', () => {
         });
     });
 
+    test('additionalFlags override the directly-set app flags', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            additionalFlags: {
+                isFullAppEmbed: false,
+                enableDataPanelV2: false,
+            },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                isFullAppEmbed: false,
+                enableDataPanelV2: false,
+            });
+        });
+    });
+
     test('should hide the primary nav bar', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

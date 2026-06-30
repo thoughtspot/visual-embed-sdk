@@ -499,7 +499,7 @@ export class SpotterEmbed extends TsEmbed {
             }
         }
 
-        return queryParams;
+        return this.applyAdditionalFlagsOverride(queryParams);
     }
 
     public getIframeSrc(): string {

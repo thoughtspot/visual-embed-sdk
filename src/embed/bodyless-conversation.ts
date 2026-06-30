@@ -43,7 +43,7 @@ export class ConversationMessage extends TsEmbed {
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.HideActions] = [...(queryParams[Param.HideActions] ?? [])];
         queryParams[Param.isSpotterAgentEmbed] = true;
-        return queryParams;
+        return this.applyAdditionalFlagsOverride(queryParams);
     }
 
     public getIframeSrc() {

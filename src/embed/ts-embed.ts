@@ -710,6 +710,24 @@ export class TsEmbed {
         return queryParams;
     }
 
+    protected getAdditionalFlags(): { [key: string]: string | number | boolean } {
+        return {
+            ...this.embedConfig?.additionalFlags,
+            ...this.viewConfig?.additionalFlags,
+        };
+    }
+
+    protected applyAdditionalFlagsOverride(queryParams: Record<any, any>) {
+        if (!queryParams) {
+            return queryParams;
+        }
+        const additionalFlags = this.getAdditionalFlags();
+        if (isObject(additionalFlags) && !isEmpty(additionalFlags)) {
+            Object.assign(queryParams, additionalFlags);
+        }
+        return queryParams;
+    }
+
     /**
      * Common query params set for all the embed modes.
      * @param queryParams
@@ -762,7 +780,6 @@ export class TsEmbed {
             hiddenTabs,
             visibleTabs,
             showAlerts,
-            additionalFlags: additionalFlagsFromView,
             locale,
             customizations,
             contextMenuTrigger,
@@ -774,13 +791,6 @@ export class TsEmbed {
             exposeTranslationIDs,
             primaryAction,
         } = this.viewConfig;
-
-        const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
-
-        const additionalFlags = {
-            ...additionalFlagsFromInit,
-            ...additionalFlagsFromView,
-        };
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError({
@@ -877,13 +887,11 @@ export class TsEmbed {
         queryParams[Param.OverrideNativeConsole] = true;
         queryParams[Param.ClientLogLevel] = this.embedConfig.logLevel;
 
-        if (isObject(additionalFlags) && !isEmpty(additionalFlags)) {
-            Object.assign(queryParams, additionalFlags);
-        }
-
-        // Do not add any flags below this, as we want additional flags to
-        // override other flags
-
+        // `additionalFlags` are applied as the final override via
+        // `applyAdditionalFlagsOverride` at the end of each embed's param
+        // builder, so they win even over flags added by individual embeds
+        // after `getBaseQueryParams` runs. They are intentionally NOT applied
+        // here for that reason.
         return queryParams;
     }
 
@@ -910,7 +918,7 @@ export class TsEmbed {
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
-        return params;
+        return this.applyAdditionalFlagsOverride(params);
     }
 
     protected getRootIframeSrc() {

@@ -1227,6 +1227,8 @@ export class AppEmbed extends V1Embed {
             }
         }
 
+        params = this.applyAdditionalFlagsOverride(params);
+
         const queryParams = getQueryParamString(params, true);
 
         return queryParams;
