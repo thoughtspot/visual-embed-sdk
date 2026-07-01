@@ -22,7 +22,7 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode } from './conversation';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
@@ -734,6 +734,25 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Sets the default query mode when Spotter loads — Fast Search or
+     * Research Mode. Applies fresh on every new session for this embed
+     * instance only; it does not persist as a user preference and does
+     * not affect other embeds or native ThoughtSpot usage.
+     * Only applicable when navigating to Spotter within the app.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @default SpotterQueryMode.FAST_SEARCH
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    defaultQueryMode: SpotterQueryMode.RESEARCH,
+     * })
+     * ```
+     */
+    defaultQueryMode?: SpotterQueryMode;
+    /**
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `AppEmbed`
@@ -986,6 +1005,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             minimumHeight,
@@ -1024,6 +1044,9 @@ export class AppEmbed extends V1Embed {
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(defaultQueryMode)) {
+            params[Param.DefaultQueryMode] = defaultQueryMode;
         }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
