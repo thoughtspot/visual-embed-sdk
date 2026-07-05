@@ -32,7 +32,7 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig } from './conversation';
-import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { SpotterVizConfig } from './spotter-viz-utils';
 
 /**
  * APP_INIT data shape for LiveboardEmbed.
@@ -641,10 +641,6 @@ export class LiveboardEmbed extends V1Embed {
         }
     }
 
-    protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
-        const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
-    }
 
     /**
      * Construct a map of params to be passed on to the
