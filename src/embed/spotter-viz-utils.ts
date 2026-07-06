@@ -94,6 +94,21 @@ export interface SpotterVizConfig {
      * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      */
     loaderTips?: SpotterVizLoaderTip[];
+    /**
+     * Custom label for the "View plan" text shown in the insight tile toolbar menu.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    insightTileViewPlanLabel?: string;
+    /**
+     * Custom loader text shown on the insight tile.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    insightTileLoaderText?: string;
+    /**
+     * Custom brand name shown on the insight tile.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    insightTileBrandName?: string;
 }
 
 /**
