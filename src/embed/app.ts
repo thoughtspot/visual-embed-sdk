@@ -821,6 +821,33 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterShareConversationConfig?: SpotterShareConversationConfig;
     /**
+     * Sets the default data sources (Models) for the Spotter experience shown on
+     * the home page of the full app embed. Accepts a list of Model GUIDs to
+     * preselect the data sources available to Spotter, or the literal
+     * `'auto_mode'` sentinel to load Spotter with the "Auto" model selected by
+     * default. This is consistent with how `worksheetId: 'auto_mode'` enables
+     * Auto mode in `SpotterEmbed`.
+     *
+     * **Note**: If `'auto_mode'` is included alongside one or more Model GUIDs,
+     * `'auto_mode'` takes precedence and is selected by default.
+     *
+     * **Note**: `'auto_mode'` requires the Spotter 3 experience with data source
+     * discovery enabled on your instance, and a Spotter-enabled home page (for
+     * example, `discoveryExperience.homePage: HomePage.Focused`).
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    discoveryExperience: { homePage: HomePage.Focused },
+     *    spotterDataSources: ['model-guid-1', 'model-guid-2'], // or ['auto_mode']
+     * })
+     * ```
+     */
+    spotterDataSources?: string[];
+    /**
      * Configuration for the SpotterViz interface shown on the Liveboard.
      * Customize the brand name, description, chat input placeholder,
      * starter prompts, and visibility of starter prompts in the SpotterViz panel.
@@ -1036,6 +1063,7 @@ export class AppEmbed extends V1Embed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterDataSources,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
@@ -1078,6 +1106,10 @@ export class AppEmbed extends V1Embed {
         }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
+        }
+
+        if (spotterDataSources && spotterDataSources.length) {
+            params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
         }
 
         // Handle spotterChatConfig params

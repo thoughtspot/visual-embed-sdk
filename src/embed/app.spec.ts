@@ -635,6 +635,41 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set spotterDataSources to a list of Model GUIDs in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDataSources: ['model-guid-123', 'model-guid-456'],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDataSources=${encodeURIComponent(JSON.stringify(['model-guid-123', 'model-guid-456']))}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not add spotterDataSources to url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDataSources');
+        });
+    });
+
+    test('should not add spotterDataSources to url when empty array', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDataSources: [],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDataSources');
+        });
+    });
+
     test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
         const spotterViz = {
             brandName: 'MyBrand',
