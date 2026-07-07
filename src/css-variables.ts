@@ -1185,4 +1185,55 @@ export interface CustomCssVariables {
      * on each referenced-entity chip in the chat input.
      */
     '--ts-var-spotterviz-reference-icon-selected-background'?: string;
+
+    /**
+     * Background color of the shared conversation header (recipient's read-only view).
+     */
+    '--ts-var-shared-conv-header-bg'?: string;
+
+    /**
+     * Border color of the shared conversation header.
+     */
+    '--ts-var-shared-conv-header-border-color'?: string;
+
+    /**
+     * Font color of the title text in the shared conversation header.
+     */
+    '--ts-var-shared-conv-title-color'?: string;
+
+    /**
+     * Background color of the share chat header (sender's pre-share header).
+     */
+    '--ts-var-share-chat-header-bg'?: string;
+
+    /**
+     * Font color of the title text in the share chat header.
+     */
+    '--ts-var-share-chat-header-title-color'?: string;
+
+    /**
+     * Font color of the title input field in the share chat header.
+     */
+    '--ts-var-share-chat-header-input-text-color'?: string;
+
+    /**
+     * Background color of the title input field in the share chat header.
+     */
+    '--ts-var-share-chat-header-input-bg'?: string;
+
+    /**
+     * Border color of the title input field in the share chat header.
+     */
+    '--ts-var-share-chat-header-input-border-color'?: string;
+
+    /**
+     * Background color of the shimmer loading effect. Also affects the
+     * saved chats sidebar's new-chat shimmer, which shares the same style.
+     */
+    '--ts-var-shimmer-bg'?: string;
+
+    /**
+     * Background color of the shimmer sweep animation's gradient mid-stop.
+     */
+    '--ts-var-shimmer-sweep-bg'?: string;
 }
