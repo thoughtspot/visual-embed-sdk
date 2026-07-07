@@ -633,6 +633,44 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set spotterDefaultModel to a Model GUID in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDefaultModel: 'model-guid-123',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDefaultModel=model-guid-123${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set spotterDefaultModel to auto_mode in url for Auto model', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDefaultModel: 'auto_mode',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDefaultModel=auto_mode${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not add spotterDefaultModel to url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDefaultModel');
+        });
+    });
+
     test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
         const spotterViz = {
             brandName: 'MyBrand',
