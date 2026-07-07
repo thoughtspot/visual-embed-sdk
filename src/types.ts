@@ -3737,6 +3737,31 @@ export enum EmbedEvent {
     SpotterConversationSelected = 'spotterConversationSelected',
 
     /**
+     * Emitted when the Spotter agent finishes streaming/rendering a response.
+     * Includes the conversation and message identifiers so the host app can
+     * fetch the full conversation history via the REST API if needed.
+     *
+     * The payload data has the shape `{ convId: string, messageId: string }`.
+     *
+     * Works with SpotterEmbed as well as AppEmbed (when Spotter is reached
+     * inside the full application).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterResponseComplete, (payload) => {
+     *     console.log('Spotter response complete', payload);
+     * })
+     * ```
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.SpotterResponseComplete, (payload) => {
+     *     console.log('Spotter response complete', payload);
+     * })
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterResponseComplete = 'spotterResponseComplete',
+
+    /**
      * @hidden
      * Emitted when the auth token is about to get expired and needs to be refreshed.
      * @example
