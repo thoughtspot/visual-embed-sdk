@@ -1167,6 +1167,11 @@ export interface CustomCssVariables {
     '--ts-var-spotterviz-border-color'?: string;
 
     /**
+     * Expanded user chat message bubble border color in SpotterViz.
+     */
+    '--ts-var-spotterviz-expanded-border-color'?: string;
+
+    /**
      * Background color of the reference-mode toggle button in the SpotterViz
      * chat input when it is unselected and the user hovers over it.
      */
