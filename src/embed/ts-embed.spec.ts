@@ -5461,5 +5461,45 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
             embed.destroy();
         });
+
+        // showPreRender located the stale placeholder with a subtree-wide
+        // querySelector but removed it with hostElement.removeChild(), which
+        // only accepts direct children. With fullHeight the placeholder can be
+        // nested deeper than a direct child, so removeChild threw
+        // "NotFoundError: Failed to execute 'removeChild' on 'Node'".
+        it('showPreRender removes a placeholder nested below a direct child without throwing', async () => {
+            createRootEleForEmbed();
+            const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'ph-nested-test',
+                liveboardId: 'lb-id',
+                fullHeight: true,
+            } as any);
+            await embed.preRender();
+            await waitFor(
+                () => !!document.querySelector('#tsEmbed-pre-render-child-ph-nested-test'),
+            );
+
+            const hostElement = document.querySelector('#tsEmbedDiv') as HTMLElement;
+            const placeHolderId = 'tsEmbed-pre-render-placeholder-ph-nested-test';
+            // Simulate the fullHeight layout where the placeholder ends up as
+            // a grandchild of the host element rather than a direct child.
+            const intermediateWrapper = document.createElement('div');
+            const staleNestedPlaceholder = document.createElement('div');
+            staleNestedPlaceholder.id = placeHolderId;
+            intermediateWrapper.appendChild(staleNestedPlaceholder);
+            hostElement.appendChild(intermediateWrapper);
+
+            expect(hostElement.querySelector(`#${placeHolderId}`)).toBe(staleNestedPlaceholder);
+            // Before the fix this threw NotFoundError.
+            await expect(embed.showPreRender()).resolves.toBeDefined();
+            // The stale nested placeholder is gone; the fresh one is a direct child.
+            expect(staleNestedPlaceholder.isConnected).toBe(false);
+            const currentPlaceholder = (
+                embed as any
+            ).getPreRenderPlaceHolderElement() as HTMLDivElement;
+            expect(currentPlaceholder.parentElement).toBe(hostElement);
+
+            embed.destroy();
+        });
     });
 });
