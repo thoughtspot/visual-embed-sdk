@@ -1,7 +1,7 @@
 import { DefaultAppInitData, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { validateHttpUrl } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
-import type { SpotterSidebarViewConfig } from './conversation';
+import type { SpotterSidebarViewConfig, SpotterShareConversationConfig } from './conversation';
 import type { VisualizationOverrides } from '../types';
 
 /**
@@ -76,6 +76,21 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
             ...((defaultAppInitData as any).embedParams || {}),
             spotterSidebarConfig: resolvedSidebarConfig,
             ...(visualOverrides !== undefined ? { visualOverridesParams: visualOverrides } : {}),
+        },
+    };
+}
+
+export function buildSpotterShareConversationAppInitData<T extends DefaultAppInitData>(
+    initData: T,
+    viewConfig: { spotterShareConversationConfig?: SpotterShareConversationConfig },
+): T & { embedParams?: { spotterShareConversationConfig?: SpotterShareConversationConfig } } {
+    const { spotterShareConversationConfig } = viewConfig;
+    if (!spotterShareConversationConfig) return initData;
+    return {
+        ...initData,
+        embedParams: {
+            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
+            spotterShareConversationConfig,
         },
     };
 }

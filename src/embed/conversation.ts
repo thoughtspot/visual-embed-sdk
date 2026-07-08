@@ -1,8 +1,7 @@
-import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -110,6 +109,97 @@ export interface SpotterSidebarViewConfig {
      * @default Analysts
      */
     spotterAnalystsLabel?: string;
+}
+
+/**
+ * Configuration for the Spotter conversation sharing feature.
+ * Can be used in SpotterEmbed and AppEmbed.
+ * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+ * @group Embed components
+ */
+export interface SpotterShareConversationConfig {
+    /**
+     * Enables sharing of the conversation.
+     * @default false
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    enableShareConversation?: boolean;
+    /**
+     * Header Share button + sidebar Share item label.
+     * @default "Share"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareLabel?: string;
+    /**
+     * Share modal title.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareModalTitle?: string;
+    /**
+     * Modal confirm button label.
+     * @default "Share"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareConfirmLabel?: string;
+    /**
+     * Modal cancel button label.
+     * @default "Cancel"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareCancelLabel?: string;
+    /**
+     * "Add users or groups" label.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareAddUsersLabel?: string;
+    /**
+     * Empty-state title ("No users added yet").
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareEmptyTitle?: string;
+    /**
+     * Empty-state subtitle ("Not shared with any user").
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareEmptySubtitle?: string;
+    /**
+     * "Include new messages since last shared version" checkbox label.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareIncludeNewMessagesLabel?: string;
+    /**
+     * Footer note when the snapshot is current ("…up to the current moment…").
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareUpToCurrentLabel?: string;
+    /**
+     * Stale-snapshot info banner text ("All added users and groups will receive…").
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareStaleInfoLabel?: string;
+    /**
+     * Read-only shared-view data-access banner message.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterSharedConversationBannerMessage?: string;
+    /**
+     * Read-only shared-view Exit button label.
+     * @default "Exit"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterSharedConversationExitLabel?: string;
+    /**
+     * Share icon id (radiant IconID string).
+     * @default "share"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareIcon?: string;
+    /**
+     * Empty-state group icon id (radiant IconID string).
+     * @default "userGroup"
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    spotterShareGroupIcon?: string;
 }
 
 /**
@@ -404,6 +494,44 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for the Spotter conversation sharing feature.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterShareConversationConfig: {
+     *        enableShareConversation: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
+     * The ID of a shared Spotter conversation to open directly in the read-only
+     * reader view. Use this to land a share recipient in the shared conversation
+     * when they open a host-configured `CONVERSATION_URL` share link: read the
+     * `{conversation-id}` from your page URL and pass it here.
+     *
+     * Requires the Spotter conversation-sharing feature to be enabled
+     * (`spotterShareConversationConfig.enableShareConversation`). The recipient
+     * must be an authorized sharee — the server returns access-denied otherwise.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @example
+     * ```js
+     * const convId = new URLSearchParams(window.location.search).get('conversation-id');
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    sharedConversationId: convId,
+     * })
+     * ```
+     */
+    sharedConversationId?: string;
 }
 
 /**
@@ -422,6 +550,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 export interface SpotterAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
     };
 }
@@ -466,7 +595,12 @@ export class SpotterEmbed extends TsEmbed {
      */
     protected async getAppInitData(): Promise<SpotterAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+        const sidebarInitData = buildSpotterSidebarAppInitData(
+            defaultAppInitData,
+            this.viewConfig,
+            this.handleError.bind(this),
+        );
+        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
@@ -539,8 +673,15 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            sharedConversationId,
         } = this.viewConfig;
-        const path = 'insights/conv-assist';
+        // Deep-link into the read-only shared-conversation reader view when a
+        // shared conversation id is supplied (e.g. a recipient landing from a
+        // host-configured CONVERSATION_URL share link); otherwise the normal
+        // Spotter conversation surface.
+        const path = sharedConversationId
+            ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
+            : 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
 
         let query = '';

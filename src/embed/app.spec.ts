@@ -770,6 +770,66 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include spotterShareConversationConfig in APP_INIT embedParams when provided', async () => {
+        const spotterShareConversationConfig = {
+            enableShareConversation: true,
+            spotterShareLabel: 'Share',
+            spotterShareModalTitle: 'Share conversation',
+            spotterShareIcon: 'share',
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterShareConversationConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterShareConversationConfig,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include spotterShareConversationConfig in APP_INIT when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.spotterShareConversationConfig).toBeUndefined();
+            }
+        });
+    });
+
     test('should set toolResponseCardBrandingLabel in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

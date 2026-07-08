@@ -22,8 +22,8 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode } from './conversation';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig } from './conversation';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -805,6 +805,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the Spotter conversation sharing feature.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterShareConversationConfig: {
+     *        enableShareConversation: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
      * Configuration for the SpotterViz interface shown on the Liveboard.
      * Customize the brand name, description, chat input placeholder,
      * starter prompts, and visibility of starter prompts in the SpotterViz panel.
@@ -910,6 +926,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
+        spotterShareConversationConfig?: SpotterShareConversationConfig;
     };
 }
 
@@ -959,7 +976,8 @@ export class AppEmbed extends V1Embed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        return buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
     }
 
     /**

@@ -3751,6 +3751,134 @@ export enum EmbedEvent {
      */
     SpotterConversationDeleted = 'spotterConversationDeleted',
     /**
+     * Emitted when the header Share button is clicked. Fires `Start` then `End`
+     * to bracket the interaction. App→host counterpart of the
+     * `ShareSpotterConversation` host event (user-driven vs programmatic open).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareConversationButtonHeaderClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareConversationButtonHeaderClicked = 'spotterShareConversationButtonHeaderClicked',
+    /**
+     * Emitted when the sidebar Share item is clicked. Fires `Start` then `End`
+     * to bracket the interaction.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareConversationMenuItemSidebarClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareConversationMenuItemSidebarClicked = 'spotterShareConversationMenuItemSidebarClicked',
+    /**
+     * Emitted when a Spotter conversation is shared (recipients added, or a new
+     * share created). The host builds its own link from shareId/convId + its
+     * configured CONVERSATION_URL — no link string is sent. Distinct from
+     * `SpotterShareModalConfirmButtonClicked`, which fires at click time before
+     * the save resolves.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationShared, (payload) => {
+     *     // payload: { convId: string, shareId: string,
+     *     //            recipientsAdded: string[], recipientsRemoved: string[] }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterConversationShared = 'spotterConversationShared',
+    /**
+     * Emitted when access to a shared Spotter conversation is revoked
+     * (recipients removed). `fullyRevoked` is true when the last sharee is removed
+     * and the share is deleted entirely.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationShareRevoked, (payload) => {
+     *     // payload: { convId: string, shareId: string,
+     *     //            recipientsRemoved: string[], fullyRevoked: boolean }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterConversationShareRevoked = 'spotterConversationShareRevoked',
+    /**
+     * Emitted when a recipient opens a shared Spotter conversation (read-only
+     * view). No shareId available viewer-side.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterSharedConversationViewed, (payload) => {
+     *     // payload: { convId: string, sourceConvId: string }
+     *     // convId = resolved snapshot conv id; sourceConvId = the shared URL id
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterSharedConversationViewed = 'spotterSharedConversationViewed',
+    /**
+     * Emitted when the user toggles the share-modal "include new messages since
+     * last shared version" checkbox.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareIncludeNewMessagesCheckboxToggled, (payload) => {
+     *     // payload: { convId: string, includeNewMessages: boolean }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareIncludeNewMessagesCheckboxToggled = 'spotterShareIncludeNewMessagesCheckboxToggled',
+    /**
+     * Emitted when the user dismisses the stale-snapshot info banner via its
+     * cross (distinct from the include-new-messages checkbox toggle).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareStaleInfoBannerDismissed, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareStaleInfoBannerDismissed = 'spotterShareStaleInfoBannerDismissed',
+    /**
+     * Emitted when the modal Share (confirm) button is clicked — fires at click
+     * time, before the save resolves. Distinct from the `SpotterConversationShared`
+     * / `SpotterConversationShareRevoked` result events.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareModalConfirmButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareModalConfirmButtonClicked = 'spotterShareModalConfirmButtonClicked',
+    /**
+     * Emitted when the share modal is dismissed via the Cancel button.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareModalCancelButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareModalCancelButtonClicked = 'spotterShareModalCancelButtonClicked',
+    /**
+     * Emitted when a recipient leaves the read-only shared view via the Exit
+     * button.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterSharedConversationExitButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
+    /**
      * Emitted when a Spotter conversation is selected/clicked.
      * @example
      * ```js
@@ -5983,6 +6111,36 @@ export enum HostEvent {
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
+     * Opens the Spotter share-conversation modal for the given conversation.
+     * `conversationId` is **required** — blink emits a validation error and no-ops
+     * if it is missing. Also no-op when sharing is disabled (enableShareConversation
+     * off) or when already in the read-only shared view.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ShareSpotterConversation, { conversationId: 'abc' });
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    ShareSpotterConversation = 'ShareSpotterConversation',
+    /**
+     * Closes the Spotter share-conversation modal. No-op if none is open.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.CloseSpotterShareConversation);
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    CloseSpotterShareConversation = 'CloseSpotterShareConversation',
+    /**
+     * Exits the read-only shared-conversation view.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ExitSpotterSharedConversation);
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    ExitSpotterSharedConversation = 'ExitSpotterSharedConversation',
+    /**
      * Deletes the last prompt in spotter embed.
      * @example
      * ```js
@@ -7975,6 +8133,89 @@ export enum Action {
      * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      */
     SpotterChatRename = 'spotterChatRename',
+    /**
+     * Controls visibility and disable state of the Spotter conversation Share
+     * button in the chat header. Only takes effect once sharing is enabled
+     * (enableShareConversation on).
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareConversationButtonHeader]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareConversationButtonHeader = 'spotterShareConversationButtonHeader',
+    /**
+     * Controls visibility and disable state of the Share item in the Spotter
+     * conversation history (sidebar) edit menu. Independent of the header button
+     * above, so a host can show Share in one entry point and hide it in the other.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareConversationMenuItemSidebar]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareConversationMenuItemSidebar = 'spotterShareConversationMenuItemSidebar',
+    /**
+     * Controls visibility of the entire read-only shared-conversation data-access
+     * banner shown when a recipient opens a shared view. Hide-only.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationBanner]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterSharedConversationBanner = 'spotterSharedConversationBanner',
+    /**
+     * Controls visibility and disable state of the cross/close button on the
+     * read-only shared-conversation data-access banner (keeps the banner itself).
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationBannerDismissButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterSharedConversationBannerDismissButton = 'spotterSharedConversationBannerDismissButton',
+    /**
+     * Controls visibility and disable state of the Exit button in the read-only
+     * shared-view header. Hiding it does not disable the ExitSpotterSharedConversation
+     * host event.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationExitButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterSharedConversationExitButton = 'spotterSharedConversationExitButton',
+    /**
+     * Controls visibility of the share-modal footer note ("Chat will be shared up
+     * to the current moment…"). Hide-only.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterShareUpToCurrentInfo]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareUpToCurrentInfo = 'spotterShareUpToCurrentInfo',
+    /**
+     * Controls visibility and disable state of the share-modal "include new
+     * messages since last shared version" checkbox.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareIncludeNewMessagesCheckbox]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareIncludeNewMessagesCheckbox = 'spotterShareIncludeNewMessagesCheckbox',
+    /**
+     * Controls visibility and disable state of the cross on the share-modal
+     * stale-snapshot info banner.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterShareStaleInfoBannerDismissButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     */
+    SpotterShareStaleInfoBannerDismissButton = 'spotterShareStaleInfoBannerDismissButton',
     /**
      * Controls visibility and disable state of the delete action
      * in the Spotter conversation edit menu.
