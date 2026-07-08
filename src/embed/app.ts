@@ -63,6 +63,10 @@ export enum Page {
      *  Monitor Alerts Page
      */
     Monitor = 'monitor',
+    /**
+     * Collections listing page
+     */
+    Collections = 'collections',
 }
 
 /**
@@ -1332,6 +1336,8 @@ export class AppEmbed extends V1Embed {
                 return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
             case Page.Monitor:
                 return modularHomeExperience ? 'home/monitor-alerts' : 'insights/monitor-alerts';
+            case Page.Collections:
+                return 'collections';
             case Page.Home:
             default:
                 return 'home';
