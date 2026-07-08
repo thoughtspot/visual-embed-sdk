@@ -1,4 +1,4 @@
-import { startAutoMCPFrameRenderer } from './auto-frame-renderer';
+import { startAutoMCPFrameRenderer, HiddenActionItemByDefaultForMCPAnswers } from './auto-frame-renderer';
 import { Action, AuthType, AutoMCPFrameRendererViewConfig, EmbedEvent, InterceptedApiType, Param } from '../types';
 import { init } from '../index';
 import * as authInstance from '../auth';
@@ -261,9 +261,15 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(src).toContain('disableHint');
         });
 
-        test('hiddenActions → hideAction in rendered src as JSON array', async () => {
+        test('hiddenActions → hideAction in rendered src as JSON array (unioned with MCP denylist)', async () => {
             const src = await captureRenderedSrc({ hiddenActions: [Action.Pin] });
-            expect(src).toContain(`hideAction=${JSON.stringify([Action.ReportError, Action.Pin])}`);
+            expect(src).toContain(
+                `hideAction=${JSON.stringify([
+                    Action.ReportError,
+                    Action.Pin,
+                    ...HiddenActionItemByDefaultForMCPAnswers,
+                ])}`,
+            );
         });
 
         test('visibleActions → visibleAction in rendered src', async () => {
@@ -391,6 +397,82 @@ describe('startAutoMCPFrameRenderer', () => {
         test('rendered src always contains a query string before the hash', async () => {
             const src = await captureRenderedSrc();
             expect(src).toMatch(/\?[^#]+#/);
+        });
+    });
+
+    // ─── MCP-answer default hidden actions (denylist) ─────────────────────────
+
+    describe('MCP-answer default hidden actions', () => {
+        /** Parse the hideAction JSON array out of a rendered iframe src. */
+        function parseHideAction(src: string): string[] {
+            const raw = decodeURIComponent(src.split('hideAction=')[1]?.split('&')[0] ?? '');
+            return raw ? JSON.parse(raw) : [];
+        }
+
+        /** Actions that must stay visible for MCP-rendered answers. */
+        const shouldStayVisible = [
+            Action.Pin,
+            Action.Save,
+            Action.Download,
+            Action.AxisMenuAggregate,
+            Action.AxisMenuFilter,
+            Action.AxisMenuSort,
+            Action.AxisMenuPosition,
+            Action.DrillExclude,
+            Action.DrillInclude,
+            Action.DrillDown,
+            Action.ShowUnderlyingData,
+        ];
+
+        test('empty config hides the full MCP denylist by default', async () => {
+            const src = await captureRenderedSrc();
+            const hidden = parseHideAction(src);
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(hidden).toContain(action));
+        });
+
+        test('empty config keeps the curated visible actions visible', async () => {
+            const src = await captureRenderedSrc();
+            const hidden = parseHideAction(src);
+            shouldStayVisible.forEach((action) => expect(hidden).not.toContain(action));
+        });
+
+        test('caller hiddenActions are unioned with the MCP denylist', async () => {
+            const src = await captureRenderedSrc({ hiddenActions: [Action.Share] });
+            const hidden = parseHideAction(src);
+            expect(hidden).toContain(Action.Share);
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(hidden).toContain(action));
+        });
+
+        test('allowlist wins: visibleActions skips the MCP denylist', async () => {
+            const src = await captureRenderedSrc({ visibleActions: [Action.Pin] });
+            expect(src).toContain('visibleAction');
+            const hidden = parseHideAction(src);
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(hidden).not.toContain(action));
+        });
+
+        test('source-iframe hideAction is unioned, not clobbered', async () => {
+            let capturedSrc = '';
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                .mockImplementation(async function (this: any, src: string) {
+                    capturedSrc = src;
+                });
+
+            const observer = startAutoMCPFrameRenderer();
+            const iframe = document.createElement('iframe');
+            const sourceHide = encodeURIComponent(JSON.stringify([Action.Save]));
+            iframe.src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true&hideAction=${sourceHide}#/embed/answer`;
+            document.body.appendChild(iframe);
+            await new Promise((r) => setTimeout(r, 50));
+
+            const hidden = parseHideAction(capturedSrc);
+            expect(hidden).toContain(Action.Save);
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(hidden).toContain(action));
+            observer.disconnect();
         });
     });
 
@@ -628,8 +710,9 @@ describe('startAutoMCPFrameRenderer', () => {
             return new URLSearchParams(qs).get(param);
         }
 
+        // hiddenActions is covered separately below: the auto-renderer unions the
+        // MCP denylist into hideAction, so its value is a superset of LiveboardEmbed's.
         test.each([
-            ['hiddenActions', { hiddenActions: [Action.Pin] }, 'hideAction'],
             ['disabledActions', { disabledActions: [Action.Pin] }, 'disableAction'],
             ['visibleActions', { visibleActions: [Action.Download] }, 'visibleAction'],
         ])(
@@ -647,7 +730,7 @@ describe('startAutoMCPFrameRenderer', () => {
             },
         );
 
-        test('hideAction value is a JSON array, not CSV', async () => {
+        test('hideAction value is a JSON array, not CSV, and is a superset of LiveboardEmbed', async () => {
             const autoSrc = await captureRenderedSrc({ hiddenActions: [Action.Pin] });
             const liveboardSrc = await captureLiveboardSrc({ hiddenActions: [Action.Pin] });
 
@@ -657,9 +740,14 @@ describe('startAutoMCPFrameRenderer', () => {
             // Both must parse as a JSON array — not CSV like "reportError,pin"
             expect(() => JSON.parse(autoValue)).not.toThrow();
             expect(() => JSON.parse(liveboardValue)).not.toThrow();
-            expect(Array.isArray(JSON.parse(autoValue))).toBe(true);
-            expect(Array.isArray(JSON.parse(liveboardValue))).toBe(true);
-            expect(JSON.parse(autoValue)).toEqual(JSON.parse(liveboardValue));
+            const autoParsed = JSON.parse(autoValue);
+            const liveboardParsed = JSON.parse(liveboardValue);
+            expect(Array.isArray(autoParsed)).toBe(true);
+            expect(Array.isArray(liveboardParsed)).toBe(true);
+            // Auto-renderer hides everything LiveboardEmbed does, plus the MCP denylist.
+            liveboardParsed.forEach((action: string) => expect(autoParsed).toContain(action));
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(autoParsed).toContain(action));
         });
     });
 });
