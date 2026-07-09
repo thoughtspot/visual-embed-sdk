@@ -125,3 +125,5 @@ static/typedoc/*
 # use pnpm/yarn locally, but their lockfiles must not be committed.
 pnpm-lock.yaml
 yarn.lock
+
+agents_knowledge_base/

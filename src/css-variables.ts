@@ -1189,7 +1189,7 @@ export interface CustomCssVariables {
     /**
      * Background color of the shared conversation header (recipient's read-only view).
      */
-    '--ts-var-shared-conv-header-bg'?: string;
+    '--ts-var-shared-conv-header-background'?: string;
 
     /**
      * Border color of the shared conversation header.
@@ -1202,9 +1202,16 @@ export interface CustomCssVariables {
     '--ts-var-shared-conv-title-color'?: string;
 
     /**
-     * Background color of the share chat header (sender's pre-share header).
+     * Background gradient color-stop of the share chat header's outer container
+     * (sender's pre-share header). Defaults to transparent.
      */
-    '--ts-var-share-chat-header-bg'?: string;
+    '--ts-var-share-chat-header-container-background'?: string;
+
+    /**
+     * Background color of the share chat header's inner title/actions row.
+     * Defaults to transparent.
+     */
+    '--ts-var-share-chat-header-background'?: string;
 
     /**
      * Font color of the title text in the share chat header.
@@ -1219,7 +1226,7 @@ export interface CustomCssVariables {
     /**
      * Background color of the title input field in the share chat header.
      */
-    '--ts-var-share-chat-header-input-bg'?: string;
+    '--ts-var-share-chat-header-input-background'?: string;
 
     /**
      * Border color of the title input field in the share chat header.
@@ -1230,10 +1237,10 @@ export interface CustomCssVariables {
      * Background color of the shimmer loading effect. Also affects the
      * saved chats sidebar's new-chat shimmer, which shares the same style.
      */
-    '--ts-var-shimmer-bg'?: string;
+    '--ts-var-shimmer-background'?: string;
 
     /**
      * Background color of the shimmer sweep animation's gradient mid-stop.
      */
-    '--ts-var-shimmer-sweep-bg'?: string;
+    '--ts-var-shimmer-sweep-background'?: string;
 }
