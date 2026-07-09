@@ -1409,6 +1409,40 @@ describe('Unit test case for ts embed', () => {
             const { mockGetPreauthInfo } = await setup(true, 123);
             expect(mockGetPreauthInfo).toHaveBeenCalledTimes(0);
         });
+
+        test('should NOT trigger InfoSuccess when getPreauthInfo resolves with no .info field', async () => {
+            jest.spyOn(window, 'addEventListener').mockImplementationOnce(
+                (event, handler) => {
+                    (handler as EventListener)({
+                        data: { type: 'xyz' },
+                        ports: [3000],
+                        source: null,
+                    } as any);
+                },
+            );
+            mockProcessTrigger.mockResolvedValueOnce({ session: 'test' });
+            jest.spyOn(authService, 'fetchPreauthInfoService').mockResolvedValueOnce({
+                ok: true,
+                headers: new Headers({ 'content-type': 'application/json' }),
+                json: async () => ({}), // no .info field
+            } as any);
+            const iFrame: any = document.createElement('div');
+            jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValueOnce(true as any);
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            iFrame.contentWindow = { postMessage: jest.fn() };
+            jest.spyOn(iFrame, 'addEventListener').mockImplementationOnce(
+                (event, handler) => { (handler as EventListener)({} as Event); },
+            );
+            jest.spyOn(document, 'createElement').mockReturnValueOnce(iFrame);
+            await tsEmbed.render();
+
+            await executeAfterWait(() => {
+                const infoSuccessCall = mockProcessTrigger.mock.calls.find(
+                    (call) => call[1] === HostEvent.InfoSuccess,
+                );
+                expect(infoSuccessCall).toBeUndefined();
+            });
+        });
     });
 
     describe('Preauth Cache for FullAppEmbed with PrimaryNavBar', () => {
@@ -4724,6 +4758,52 @@ describe('Fullscreen change handler behavior', () => {
                 expect.any(Object),
             );
         });
+    });
+
+    test('disableFullscreenPresentation undefined defaults to true — no fullscreenchange listener registered', () => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+            // disableFullscreenPresentation not set → defaults to true via ?? true
+        });
+
+        const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const addEventListenerSpy = jest.spyOn(document, 'addEventListener');
+
+        embed['setupFullscreenChangeHandler']();
+
+        expect(addEventListenerSpy).not.toHaveBeenCalledWith('fullscreenchange', expect.any(Function));
+
+        addEventListenerSpy.mockRestore();
+        // Restore for other tests in this describe
+        init({ thoughtSpotHost: 'tshost', authType: AuthType.None, disableFullscreenPresentation: false });
+    });
+
+    test('fullscreenchange fires but iFrame.contentWindow is null — trigger NOT called, debug log emitted', () => {
+        const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        // Give the embed a fake iFrame with null contentWindow
+        (embed as any).iFrame = { contentWindow: null };
+
+        const addEventListenerSpy = jest.spyOn(document, 'addEventListener');
+        const loggerDebugSpy = jest.spyOn(logger, 'debug').mockImplementation(() => {});
+        const triggerSpy = jest.spyOn(embed, 'trigger' as any).mockImplementation(() => Promise.resolve(null));
+
+        embed['setupFullscreenChangeHandler']();
+
+        // Capture the registered handler directly instead of dispatching to document
+        const fullscreenCall = addEventListenerSpy.mock.calls.find((c) => c[0] === 'fullscreenchange');
+        expect(fullscreenCall).toBeTruthy();
+        const handler = fullscreenCall[1] as EventListener;
+
+        Object.defineProperty(document, 'fullscreenElement', { value: null, writable: true, configurable: true });
+        handler(new Event('fullscreenchange'));
+
+        expect(triggerSpy).not.toHaveBeenCalled();
+        expect(loggerDebugSpy).toHaveBeenCalledWith(expect.stringContaining('Skipping ExitPresentMode'));
+
+        addEventListenerSpy.mockRestore();
+        loggerDebugSpy.mockRestore();
+        triggerSpy.mockRestore();
     });
 });
 

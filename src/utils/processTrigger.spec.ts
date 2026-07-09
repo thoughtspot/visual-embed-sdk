@@ -216,5 +216,96 @@ describe('Unit test for processTrigger', () => {
                 'Fullscreen presentation mode is disabled. Set disableFullscreenPresentation: false to enable this feature.',
             );
         });
+
+        test('postMessage is called with type=present when disableFullscreenPresentation is false', () => {
+            mockGetEmbedConfig.mockReturnValue({ disableFullscreenPresentation: false });
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            _processTriggerInstance.processTrigger(iFrame, HostEvent.Present, thoughtSpotHost, {});
+            expect(iFrame.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: HostEvent.Present }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+
+        test('postMessage is still called with type=present when disableFullscreenPresentation is true', () => {
+            mockGetEmbedConfig.mockReturnValue({ disableFullscreenPresentation: true });
+            const thoughtSpotHost = 'https://example.thoughtspot.com';
+            _processTriggerInstance.processTrigger(iFrame, HostEvent.Present, thoughtSpotHost, {});
+            expect(iFrame.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: HostEvent.Present }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+
+        test('handlePresentEvent receives the exact iFrame reference passed to processTrigger', () => {
+            mockGetEmbedConfig.mockReturnValue({ disableFullscreenPresentation: false });
+            _processTriggerInstance.processTrigger(
+                iFrame, HostEvent.Present, 'https://example.thoughtspot.com', {},
+            );
+            expect(mockHandlePresentEvent).toHaveBeenCalledWith(iFrame);
+        });
+    });
+
+    test('nested responseData.data.error causes promise rejection', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        mockMessageChannel();
+        const triggerPromise = _processTriggerInstance.processTrigger(
+            iFrame, messageType, thoughtSpotHost, {},
+        );
+        messageChannelMock.port1.onmessage({ data: { data: { error: 'nested-error' } } });
+        await expect(triggerPromise).rejects.toEqual('nested-error');
+    });
+
+    test('context parameter is forwarded as context field in the postMessage payload', async () => {
+        const messageType = HostEvent.Search;
+        const thoughtSpotHost = 'http://localhost:3000';
+        const context = 'Liveboard' as any;
+        mockMessageChannel();
+        _processTriggerInstance.processTrigger(iFrame, messageType, thoughtSpotHost, {}, context);
+        expect(iFrame.contentWindow.postMessage).toHaveBeenCalledWith(
+            expect.objectContaining({ context }),
+            thoughtSpotHost,
+            expect.anything(),
+        );
+    });
+
+    describe('Reload timing and side-effects', () => {
+        test('src is cleared immediately but not restored until exactly 100ms', () => {
+            jest.useFakeTimers();
+            const iFrameElement = document.createElement('iframe');
+            iFrameElement.src = 'http://localhost:3000';
+            const originalSrc = iFrameElement.src; // normalized by jsdom
+
+            _processTriggerInstance.reload(iFrameElement);
+
+            expect(iFrameElement.src).not.toBe(originalSrc); // cleared
+            jest.advanceTimersByTime(99);
+            expect(iFrameElement.src).not.toBe(originalSrc); // not yet restored
+            jest.advanceTimersByTime(1);
+            expect(iFrameElement.src).toBe(originalSrc); // restored at 100ms
+            jest.useRealTimers();
+        });
+
+        test('processTrigger(Reload) does not call iFrame.contentWindow.postMessage', () => {
+            jest.useFakeTimers();
+            // Use the outer iFrame mock which has a mockable contentWindow
+            jest.clearAllMocks();
+            _processTriggerInstance.processTrigger(
+                iFrame, HostEvent.Reload, 'http://localhost:3000', {},
+            );
+            jest.advanceTimersByTime(200);
+            expect(iFrame.contentWindow.postMessage).not.toHaveBeenCalled();
+            jest.useRealTimers();
+        });
+
+        test('processTrigger(Reload) resolves with null', async () => {
+            const result = await _processTriggerInstance.processTrigger(
+                iFrame, HostEvent.Reload, 'http://localhost:3000', {},
+            );
+            expect(result).toBeNull();
+        });
     });
 });

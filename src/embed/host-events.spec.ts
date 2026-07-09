@@ -7,6 +7,7 @@ import {
     init,
     AuthType,
     LiveboardEmbed,
+    AppEmbed,
     HostEvent,
     EmbedErrorCodes,
 } from '../index';
@@ -1631,5 +1632,130 @@ describe('context parameter forwarded in postMessage payload', () => {
                 expect.anything(),
             );
         });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// SetVisibleVizs — array vizId injection (NOT in the parametrized arrayEvents)
+// ---------------------------------------------------------------------------
+describe('HostEvent.SetVisibleVizs — array payload vizId injection', () => {
+    test('vizId is added as a non-indexed property on the array — array.length unchanged', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard({ vizId });
+        const arrayPayload = ['viz1', 'viz2'];
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.SetVisibleVizs, arrayPayload as any);
+            const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
+            const sentData = call[0].data;
+            expect((sentData as any).vizId).toBe(vizId);
+            expect(sentData.length).toBe(2);
+        });
+    });
+
+    test('without viewConfig.vizId — array payload is sent as-is (no vizId property)', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard(); // no vizId
+        const arrayPayload = ['viz1'];
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.SetVisibleVizs, arrayPayload as any);
+            const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
+            const sentData = call[0].data;
+            expect((sentData as any).vizId).toBeUndefined();
+        });
+    });
+
+    test('returns null and calls handleError when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.SetVisibleVizs, ['viz1'] as any);
+        expect(result).toBeNull();
+        expect((lb as any).handleError).toHaveBeenCalledWith(
+            expect.objectContaining({ code: EmbedErrorCodes.RENDER_NOT_CALLED }),
+        );
+    });
+});
+
+// ---------------------------------------------------------------------------
+// UpdateRuntimeFilters — AppEmbed path (no vizId injection)
+// ---------------------------------------------------------------------------
+describe('HostEvent.UpdateRuntimeFilters — AppEmbed path', () => {
+    async function renderApp() {
+        const app = new AppEmbed(getRootEl(), {
+            frameParams: { width: '100%', height: '100%' },
+        });
+        await app.render();
+        const iframe = getIFrameEl();
+        jest.spyOn(iframe.contentWindow, 'postMessage');
+        return { app, iframe };
+    }
+
+    test('AppEmbed sends payload directly without vizId injection', async () => {
+        mockMessageChannel();
+        const { app, iframe } = await renderApp();
+        const filters = [{ columnName: 'col', operator: 'EQ', values: ['v1'] }];
+        await executeAfterWait(() => {
+            app.trigger(HostEvent.UpdateRuntimeFilters, filters as any);
+            const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
+            const sentData = call[0].data;
+            // Array payload with no vizId property injected
+            expect((sentData as any).vizId).toBeUndefined();
+            expect(sentData).toEqual(filters);
+        });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Present — vizId injection on LiveboardEmbed
+// ---------------------------------------------------------------------------
+describe('HostEvent.Present — vizId injection on LiveboardEmbed', () => {
+    test('viewConfig.vizId is injected into the Present payload', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard({ vizId });
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.Present, {} as any);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    data: expect.objectContaining({ vizId }),
+                }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// DownloadAsCsv — additional cases
+// ---------------------------------------------------------------------------
+describe('HostEvent.DownloadAsCsv — additional cases', () => {
+    test('viewConfig.vizId overwrites an explicit payload vizId', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard({ vizId });
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.DownloadAsCsv, { vizId: 'explicit-id' } as any);
+            const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
+            const sentData = call[0].data;
+            expect(sentData.vizId).toBe(vizId); // viewConfig.vizId wins
+        });
+    });
+
+    test('returns null and calls handleError when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.DownloadAsCsv, {} as any);
+        expect(result).toBeNull();
+        expect((lb as any).handleError).toHaveBeenCalledWith(
+            expect.objectContaining({ code: EmbedErrorCodes.RENDER_NOT_CALLED }),
+        );
+    });
+
+    test('returns null and logs debug when !iFrame', async () => {
+        const lb = new LiveboardEmbed(getRootEl(), {
+            frameParams: { width: '100%', height: '100%' },
+            liveboardId,
+        });
+        // Don't render — iFrame is null
+        jest.spyOn(lb as any, 'handleError').mockImplementation(() => {});
+        const result = await lb.trigger(HostEvent.DownloadAsCsv, {} as any);
+        // !isRendered is checked before !iFrame, so handleError fires for RENDER_NOT_CALLED
+        expect(result).toBeNull();
     });
 });
