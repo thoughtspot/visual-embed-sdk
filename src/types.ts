@@ -5319,6 +5319,9 @@ export enum HostEvent {
     /**
      * Get details of filters applied on the Liveboard.
      * Returns arrays containing Liveboard filter and runtime filter elements.
+     * Each Liveboard filter may include an `applicability` attribute
+     * (`{ level, targetId }`) indicating the scope of the filter,
+     * for example, a specific Liveboard tab.
      * @example
      * ```js
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
@@ -5358,6 +5361,12 @@ export enum HostEvent {
      *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
+     *
+     * `applicability` - Optional. Scopes the filter to a specific target,
+     * for example, a single Liveboard tab. Includes the following attributes:
+     *
+     *  - `level`: The scope of the filter, for example, `TAB`.
+     *  - `targetId`: The GUID of the target, for example, the tab GUID.
      * @example
      * ```js
      *
@@ -5433,6 +5442,21 @@ export enum HostEvent {
      *         values: ["shoes", "boots"]
      *     }
      * }, ContextType.Liveboard);
+     * ```
+     * @example
+     * ```js
+     * // Scope the filter to a specific Liveboard tab
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "item type",
+     *         oper: "IN",
+     *         values: ["bags", "shirts"],
+     *         applicability: {
+     *             level: "TAB",
+     *             targetId: "e0836cad-4fdf-42d4-bd97-567a6b2a6058"
+     *         }
+     *     }
+     * });
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
@@ -5609,6 +5633,9 @@ export enum HostEvent {
     UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
+     * Each parameter may include an `applicability` attribute
+     * (`{ level, targetId }`) indicating the scope of the parameter,
+     * for example, a specific Liveboard tab.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {

@@ -114,6 +114,84 @@ describe('hostEventClient utils', () => {
                 filters: [{ column: 'y' }], // invalid
             } as any)).toBe(true);
         });
+
+        it('returns true for filter without applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: ['a'] },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for filter with valid applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for filters array with applicability on some filters', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    {
+                        column: 'x',
+                        oper: 'IN',
+                        values: ['a', 'b'],
+                        applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+                    },
+                    { column: 'y', oper: 'EQ', values: ['c'] },
+                ],
+            } as any)).toBe(true);
+        });
+
+        it('returns false for applicability missing targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for applicability missing level', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for applicability with non-string level', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 123, targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false if one filter in filters array has invalid applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    { column: 'x', oper: 'EQ', values: ['a'] },
+                    {
+                        column: 'y',
+                        oper: 'EQ',
+                        values: ['b'],
+                        applicability: { level: 'TAB' }, // missing targetId
+                    },
+                ],
+            } as any)).toBe(false);
+        });
     });
 
     // =========================

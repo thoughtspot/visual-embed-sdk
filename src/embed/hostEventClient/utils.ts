@@ -8,20 +8,26 @@ export function isValidUpdateFiltersPayload(
 ): boolean {
   if (!payload) return false;
 
-  const isValidFilter = (f: { 
-    column?: string; 
-    oper?: string; 
-    values?: unknown[]; 
-    type?: string; 
-    columnName?: string; 
-    operator?: string 
+  const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
+    if (!a) return true;
+    return typeof a.level === 'string' && typeof a.targetId === 'string';
+  };
+
+  const isValidFilter = (f: {
+    column?: string;
+    oper?: string;
+    values?: unknown[];
+    type?: string;
+    columnName?: string;
+    operator?: string;
+    applicability?: { level?: string; targetId?: string };
   }) => {
     const hasColumn = typeof f.column === 'string' || typeof f.columnName === 'string';
     const hasOperator = typeof f.oper === 'string' || typeof f.operator === 'string';
     const hasValues = Array.isArray(f.values);
     const validType = !f.type || typeof f.type === 'string';
-  
-    return hasColumn && hasOperator && hasValues && validType;
+
+    return hasColumn && hasOperator && hasValues && validType && isValidApplicability(f.applicability);
   };
 
   const hasValidFilter = payload.filter && isValidFilter(payload.filter);
