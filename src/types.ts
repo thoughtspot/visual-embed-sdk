@@ -3749,7 +3749,7 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
-    SpotterResponseComplete = 'SpotterResponseComplete',
+    SpotterResponseComplete = 'spotterResponseComplete',
 
     /**
      * @hidden
