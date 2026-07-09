@@ -80,6 +80,11 @@ describe('Unit test for process data', () => {
         );
     });
 
+    test('ProcessData QueryChanged default branch returns payload unchanged', () => {
+        const e = { type: EmbedEvent.QueryChanged, data: { query: 'revenue by region' } };
+        expect(processDataInstance.processEventData(EmbedEvent.QueryChanged, e, thoughtSpotHost, null)).toEqual(e);
+    });
+
     test('ProcessData, when Action is non CustomAction', () => {
         const processedData = { type: EmbedEvent.Data };
         jest.spyOn(processDataInstance, 'processCustomAction').mockImplementation(async () => ({}));
@@ -309,6 +314,98 @@ describe('Unit test for process data', () => {
         // isEmbeddedSSOInfoFailure=true so neither branch fires, innerHTML stays unset
         expect(el.innerHTML).toBeUndefined();
         expect(base.notifyAuthFailure).not.toHaveBeenCalled();
+    });
+
+    test('processEventData default branch returns payload unchanged for non-special events', () => {
+        const events = [
+            EmbedEvent.Drilldown,
+            EmbedEvent.DataSourceSelected,
+            EmbedEvent.AddRemoveColumns,
+            EmbedEvent.VizPointDoubleClick,
+            EmbedEvent.VizPointClick,
+            EmbedEvent.Alert,
+            EmbedEvent.GetDataClick,
+            EmbedEvent.DialogClose,
+            EmbedEvent.Download,
+            EmbedEvent.DownloadAsPng,
+            EmbedEvent.DownloadAsPdf,
+            EmbedEvent.DownloadAsCsv,
+            EmbedEvent.DownloadAsXlsx,
+            EmbedEvent.DownloadLiveboardAsContinuousPDF,
+            EmbedEvent.AnswerDelete,
+            EmbedEvent.AIHighlights,
+            EmbedEvent.Pin,
+            EmbedEvent.SpotIQAnalyze,
+            EmbedEvent.Share,
+            EmbedEvent.DrillInclude,
+            EmbedEvent.DrillExclude,
+            EmbedEvent.CopyToClipboard,
+            EmbedEvent.UpdateTML,
+            EmbedEvent.EditTML,
+            EmbedEvent.ExportTML,
+            EmbedEvent.SaveAsView,
+            EmbedEvent.CopyAEdit,
+            EmbedEvent.ShowUnderlyingData,
+            EmbedEvent.AnswerChartSwitcher,
+            EmbedEvent.LiveboardInfo,
+            EmbedEvent.AddToFavorites,
+            EmbedEvent.Schedule,
+            EmbedEvent.Edit,
+            EmbedEvent.MakeACopy,
+            EmbedEvent.Present,
+            EmbedEvent.Delete,
+            EmbedEvent.SchedulesList,
+            EmbedEvent.Cancel,
+            EmbedEvent.Explore,
+            EmbedEvent.CopyLink,
+            EmbedEvent.CrossFilterChanged,
+            EmbedEvent.VizPointRightClick,
+            EmbedEvent.InsertIntoSlide,
+            EmbedEvent.FilterChanged,
+            EmbedEvent.UpdateConnection,
+            EmbedEvent.CreateConnection,
+            EmbedEvent.ResetLiveboard,
+            EmbedEvent.ChangePersonalizedView,
+            EmbedEvent.CreateWorksheet,
+            EmbedEvent.AskSageInit,
+            EmbedEvent.Rename,
+            EmbedEvent.ParameterChanged,
+            EmbedEvent.TableVizRendered,
+            EmbedEvent.CreateLiveboard,
+            EmbedEvent.CreateModel,
+            EmbedEvent.SpotterData,
+            EmbedEvent.PreviewSpotterData,
+            EmbedEvent.AddToCoaching,
+            EmbedEvent.DataModelInstructions,
+            EmbedEvent.SpotterQueryTriggered,
+            EmbedEvent.LastPromptEdited,
+            EmbedEvent.LastPromptDeleted,
+            EmbedEvent.ResetSpotterConversation,
+            EmbedEvent.SpotterInit,
+            EmbedEvent.SpotterLoadComplete,
+            EmbedEvent.OrgSwitched,
+            EmbedEvent.SpotterConversationRenamed,
+            EmbedEvent.SpotterConversationDeleted,
+            EmbedEvent.SpotterConversationSelected,
+            EmbedEvent.EmbedPageContextChanged,
+            EmbedEvent.Subscribed,
+            EmbedEvent.SendTestScheduleEmail,
+            EmbedEvent.SpotterVizInit,
+            EmbedEvent.SpotterVizQueryTriggered,
+            EmbedEvent.SpotterVizResponseComplete,
+            EmbedEvent.SpotterVizCheckpointCreated,
+            EmbedEvent.SpotterVizCheckpointRestored,
+            EmbedEvent.SpotterVizError,
+            EmbedEvent.SpotterVizClosed,
+            EmbedEvent.RefreshLiveboardBrowserCache,
+            EmbedEvent.V1Data,
+        ];
+        events.forEach((eventType) => {
+            const e = { type: eventType, data: 'test-payload' };
+            expect(
+                processDataInstance.processEventData(eventType, e, thoughtSpotHost, null),
+            ).toEqual(e);
+        });
     });
 
     test('should handle ClearInfoCache', () => {
