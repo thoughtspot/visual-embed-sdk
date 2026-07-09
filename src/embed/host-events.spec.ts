@@ -1752,10 +1752,8 @@ describe('HostEvent.DownloadAsCsv — additional cases', () => {
             frameParams: { width: '100%', height: '100%' },
             liveboardId,
         });
-        // Don't render — iFrame is null
-        jest.spyOn(lb as any, 'handleError').mockImplementation(() => {});
+        (lb as any).isRendered = true;
         const result = await lb.trigger(HostEvent.DownloadAsCsv, {} as any);
-        // !isRendered is checked before !iFrame, so handleError fires for RENDER_NOT_CALLED
         expect(result).toBeNull();
     });
 });

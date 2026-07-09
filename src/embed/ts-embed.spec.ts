@@ -4636,6 +4636,10 @@ describe('PreRender replaceExistingPreRender scenarios', () => {
         });
     });
 
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
     afterEach(() => {
         const rootEle = document.getElementById('myRoot');
         rootEle?.remove();
