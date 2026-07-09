@@ -4604,6 +4604,28 @@ describe('Trigger method edge cases', () => {
             expect(result).toBeNull();
         });
     });
+
+    test('isValidationError catch: handleError called with embedErrorDetails and error is rethrown', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+        const handleErrorSpy = jest.spyOn(searchEmbed as any, 'handleError').mockImplementation(() => {});
+        await searchEmbed.render();
+
+        // First processTrigger call is getAvailableUIPassthroughKeys for DrillDown
+        mockProcessTrigger.mockResolvedValueOnce([
+            { value: { keys: Object.values(UIPassthroughEvent) } },
+        ]);
+
+        // DrillDown with no points → throwDrillDownValidationError → isValidationError=true
+        await expect(
+            searchEmbed.trigger(HostEvent.DrillDown, {} as any),
+        ).rejects.toThrow('DrillDown requires a valid points object');
+
+        expect(handleErrorSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.objectContaining({ code: EmbedErrorCodes.HOST_EVENT_VALIDATION }),
+            }),
+        );
+    });
 });
 
 describe('PreRender replaceExistingPreRender scenarios', () => {
