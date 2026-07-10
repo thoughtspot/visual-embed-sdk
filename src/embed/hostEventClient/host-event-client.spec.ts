@@ -816,4 +816,266 @@ describe('HostEventClient', () => {
             expect(result).toEqual({ ok: true });
         });
     });
+
+    describe('availablePassthroughKeysCache reuse', () => {
+        const allKeys = () => [{ value: { keys: Object.values(UIPassthroughEvent) } }];
+
+        it('GetFilters: second call reuses cache — GetAvailableUIPassthroughs called only once', async () => {
+            const { client } = createHostEventClient();
+            const filterResponse = [{ value: { liveboardFilters: [] as any[], runtimeFilters: [] as any[] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(filterResponse)
+                .mockResolvedValueOnce(filterResponse);
+
+            await client.triggerHostEvent(HostEvent.GetFilters, {});
+            await client.triggerHostEvent(HostEvent.GetFilters, {});
+
+            // 3 calls total: 1 GetAvailableUIPassthroughs + 2 GetFilters
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
+            expect(mockProcessTrigger).not.toHaveBeenNthCalledWith(
+                3,
+                expect.anything(),
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                expect.objectContaining({ type: UIPassthroughEvent.GetAvailableUIPassthroughs }),
+                undefined,
+            );
+        });
+
+        it('GetTabs: second call reuses cache — GetAvailableUIPassthroughs called only once', async () => {
+            const { client } = createHostEventClient();
+            const tabResponse = [{ value: { orderedTabIds: [] as any[], numberOfTabs: 0, Tabs: [] as any[] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(tabResponse)
+                .mockResolvedValueOnce(tabResponse);
+
+            await client.triggerHostEvent(HostEvent.GetTabs, {});
+            await client.triggerHostEvent(HostEvent.GetTabs, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
+        });
+
+        it('GetParameters: second call reuses cache — GetAvailableUIPassthroughs called only once', async () => {
+            const { client } = createHostEventClient();
+            const paramResponse = [{ value: { parameters: [] as any[] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(paramResponse)
+                .mockResolvedValueOnce(paramResponse);
+
+            await client.triggerHostEvent(HostEvent.GetParameters, {});
+            await client.triggerHostEvent(HostEvent.GetParameters, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
+        });
+
+        it('GetAnswerSession: second call reuses cache — GetAvailableUIPassthroughs called only once', async () => {
+            const { client } = createHostEventClient();
+            const sessionResponse = [{ value: { session: 's1' } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(sessionResponse)
+                .mockResolvedValueOnce(sessionResponse);
+
+            await client.triggerHostEvent(HostEvent.GetAnswerSession, {});
+            await client.triggerHostEvent(HostEvent.GetAnswerSession, {});
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
+        });
+
+        it('UIPassthrough direct trigger does not populate the cache', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockResolvedValue([{ value: { result: 'ok' } }]);
+
+            await client.triggerHostEvent(HostEvent.UIPassthrough, {});
+            // Cache not populated — next GetFilters call must still fetch keys
+            mockProcessTrigger.mockResolvedValueOnce(allKeys());
+            mockProcessTrigger.mockResolvedValueOnce([{ value: { liveboardFilters: [], runtimeFilters: [] as any[] } }]);
+            await client.triggerHostEvent(HostEvent.GetFilters, {});
+
+            // UIPassthrough call + GetAvailableUIPassthroughs + GetFilters = 3
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(3);
+        });
+
+        it('GetAnswerSession: catch in getAvailableUIPassthroughKeys does not cache, so next call retries GetAvailableUIPassthroughs', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockReset();
+
+            // Flow per triggerHostEvent call when GetAvailableUIPassthroughs rejects:
+            //   1. getAvailableUIPassthroughKeys → processTrigger(UIPassthrough, GetAvailableUIPassthroughs) → rejects → returns []
+            //   2. keys=[] so getDataWithPassthroughFallback is called →
+            //      triggerUIPassthroughApi(GetAnswerSession) → processTrigger(UIPassthrough) → null → hostEventFallback called
+            //   3. hostEventFallback → processTrigger(GetAnswerSession) → legacy result
+
+            // First triggerHostEvent: 3 calls
+            mockProcessTrigger.mockRejectedValueOnce(new Error('network error')); // call 1
+            mockProcessTrigger.mockResolvedValueOnce(null);                       // call 2
+            mockProcessTrigger.mockResolvedValueOnce({ session: 'leg1' });        // call 3
+
+            await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '1' });
+
+            // Second triggerHostEvent: cache was NOT set, so GetAvailableUIPassthroughs is retried: 3 more calls
+            mockProcessTrigger.mockRejectedValueOnce(new Error('network error')); // call 4
+            mockProcessTrigger.mockResolvedValueOnce(null);                       // call 5
+            mockProcessTrigger.mockResolvedValueOnce({ session: 'leg2' });        // call 6
+
+            await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '2' });
+
+            // 6 total calls: GetAvailableUIPassthroughs was called TWICE (cache not set after catch)
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(6);
+            const availableCallsCount = mockProcessTrigger.mock.calls.filter(
+                (call) => call[3]?.type === UIPassthroughEvent.GetAvailableUIPassthroughs,
+            ).length;
+            expect(availableCallsCount).toBe(2);
+        });
+    });
+
+    describe('GetTML edge cases', () => {
+        const allKeys = () => [{ value: { keys: Object.values(UIPassthroughEvent) } }];
+
+        it('includeNonExecutedSearchTokens flag is forwarded in UIPassthrough parameters', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce([{ value: { tml: 'data' } }]);
+
+            await client.triggerHostEvent(HostEvent.GetTML, { includeNonExecutedSearchTokens: true } as any);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    type: UIPassthroughEvent.GetTML,
+                    parameters: { includeNonExecutedSearchTokens: true },
+                },
+                undefined,
+            );
+        });
+
+        it('value.error (singular) throws — distinct from value.errors', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce([{ value: { error: 'TML fetch failed' } }]);
+
+            await expect(client.triggerHostEvent(HostEvent.GetTML, {}))
+                .rejects.toThrow('TML fetch failed');
+        });
+
+        it('GetTML key absent from non-empty keys array falls back to legacy hostEventFallback', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            // Return keys that do NOT include GetTML
+            mockProcessTrigger
+                .mockResolvedValueOnce([{ value: { keys: [UIPassthroughEvent.GetFilters] } }])
+                .mockResolvedValueOnce({ answer: { search_query: 'revenue' } });
+
+            const result = await client.triggerHostEvent(HostEvent.GetTML, {});
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.GetTML,
+                mockThoughtSpotHost,
+                {},
+                undefined,
+            );
+            expect(result).toEqual({ answer: { search_query: 'revenue' } });
+        });
+    });
+
+    describe('SaveAnswer key-presence edge cases', () => {
+        const allKeys = () => [{ value: { keys: Object.values(UIPassthroughEvent) } }];
+        const saveResponse = [{
+            value: {
+                saveResponse: {
+                    data: {
+                        Answer__save: {
+                            answer: { id: 'ans123' },
+                        },
+                    },
+                },
+            },
+            refId: 'viz1',
+        }];
+
+        it('name+description both empty string route through passthrough, not Save fallback', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(saveResponse);
+
+            await client.triggerHostEvent(HostEvent.SaveAnswer, { name: '', description: '' } as any);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.SaveAnswer, parameters: { name: '', description: '' } },
+                undefined,
+            );
+        });
+
+        it('description: undefined (key present) routes through passthrough, not Save fallback', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(saveResponse);
+
+            await client.triggerHostEvent(HostEvent.SaveAnswer, { name: 'Test', description: undefined } as any);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                { type: UIPassthroughEvent.SaveAnswer, parameters: { name: 'Test', description: undefined } },
+                undefined,
+            );
+        });
+
+        it('name key absent falls back to HostEvent.Save', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce([saveResponse[0].value]);
+
+            await client.triggerHostEvent(HostEvent.SaveAnswer, { description: 'desc only' } as any);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.Save,
+                mockThoughtSpotHost,
+                { description: 'desc only' },
+                undefined,
+            );
+        });
+
+        it('answerId is undefined when saveResponse.data.Answer__save.answer.id is missing', async () => {
+            const { client } = createHostEventClient();
+            const noIdSaveResponse = [{
+                value: {
+                    saveResponse: {
+                        data: {
+                            Answer__save: {
+                                answer: {},
+                            },
+                        },
+                    },
+                },
+                refId: 'viz1',
+            }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(allKeys())
+                .mockResolvedValueOnce(noIdSaveResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.SaveAnswer, { name: 'Test', description: 'Desc' } as any);
+
+            expect(result.answerId).toBeUndefined();
+        });
+    });
 });
