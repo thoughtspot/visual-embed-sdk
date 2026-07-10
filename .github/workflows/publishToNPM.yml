@@ -107,20 +107,31 @@ jobs:
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
 
-          # This repo does not create version tags — each release is marked by a
-          # "chore: release vX.Y.Z" commit (see bumpVersion.yml). Anchor the
-          # changelog on the PREVIOUS release commit so we only list the changes
-          # included in this release, not the entire history.
-          PREV_REL=$(git log --pretty=format:'%H %s' | grep -m2 'chore: release' | tail -n1 | awk '{print $1}')
-          echo "Building changelog for $CURRENT_VERSION (since ${PREV_REL:-<no previous release commit>})"
+          # Pick the boundary for "changes in this release".
+          #
+          # PREFERRED: the most recent PUBLISHED version tag (vX.Y.Z). This
+          # pipeline creates a tag on every publish, so tags mark real releases
+          # regardless of HOW the version was bumped — a manual package.json edit
+          # in a feature PR can't bypass it. We exclude the current version in
+          # case its tag already exists (e.g. a re-run). Filtering on 'v[0-9]*'
+          # ignores non-version tags like objectSearchEmbedTag, and
+          # --sort=-v:refname is a correct version sort.
+          PREV_TAG=$(git tag -l 'v[0-9]*' --sort=-v:refname --merged HEAD \
+                     | grep -vx "v$CURRENT_VERSION" | head -n1)
 
-          if [ -n "$PREV_REL" ]; then
-            RANGE="$PREV_REL..HEAD"
+          if [ -n "$PREV_TAG" ]; then
+            BOUNDARY="$PREV_TAG"
           else
-            # No prior release commit found — fall back to the last commit only,
-            # never dump full history.
-            RANGE="HEAD~1..HEAD"
+            # FALLBACK (transition / first release before any version tag exists):
+            # the previous "chore: release vX.Y.Z" commit. Anchored to the START
+            # of the subject so commits that merely mention the phrase don't match.
+            BOUNDARY=$(git log --pretty=format:'%H %s' | grep -m2 -E '^[0-9a-f]{40} chore: release' | tail -n1 | awk '{print $1}')
           fi
+
+          # Last resort: never dump full history if we found no boundary at all.
+          BOUNDARY="${BOUNDARY:-HEAD~1}"
+          RANGE="$BOUNDARY..HEAD"
+          echo "Building changelog for $CURRENT_VERSION (since $BOUNDARY)"
 
           ALL=$(git log --pretty=format:"%s" $RANGE | grep -viE '^(chore: )?bump|^chore: release' || true)
 

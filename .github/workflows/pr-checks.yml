@@ -2,6 +2,9 @@ name: PR Checks
 
 on:
   pull_request:
+    # 'edited' is required so the checks re-run when a PR title is changed —
+    # the default set (opened/synchronize/reopened) does NOT include it.
+    types: [opened, synchronize, reopened, edited]
     branches: [main, release]
 
 jobs:
@@ -32,3 +35,37 @@ jobs:
             echo "::error::Add the Jira ticket ID, or prefix with chore:/fix: if it's not ticket-backed."
             exit 1
           fi
+
+  guard-version-bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Block manual version bumps outside release PRs
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          # The bump-version-and-pr workflow (chore: release PRs) is the ONLY
+          # sanctioned way to change the package.json version. Any other PR that
+          # touches it is rejected so the version never drifts out of that flow.
+          if echo "$PR_TITLE" | grep -qiE '^chore: release'; then
+            echo "✓ Release PR — version bump allowed."
+            exit 0
+          fi
+
+          git fetch --quiet origin "$BASE_REF"
+          BASE_VERSION=$(git show "origin/$BASE_REF:package.json" | jq -r .version)
+          HEAD_VERSION=$(jq -r .version package.json)
+          echo "base version: $BASE_VERSION | this PR: $HEAD_VERSION"
+
+          if [ "$BASE_VERSION" != "$HEAD_VERSION" ]; then
+            echo "::error::This PR changes the package.json version ($BASE_VERSION -> $HEAD_VERSION)."
+            echo "::error::Version bumps must go through the 'bump-version-and-pr' workflow (chore: release PRs)."
+            echo "::error::Please revert the version change from this PR and use that workflow instead."
+            exit 1
+          fi
+          echo "✓ package.json version unchanged."
