@@ -5365,8 +5365,10 @@ export enum HostEvent {
      * `applicability` - Optional. Scopes the filter to a specific target,
      * for example, a single Liveboard tab. Includes the following attributes:
      *
-     *  - `level`: The scope of the filter, for example, `TAB`.
+     *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
      *  - `targetId`: The GUID of the target, for example, the tab GUID.
+     *    Not required when `level` is `LIVEBOARD`, since the filter applies
+     *    to the whole Liveboard.
      * @example
      * ```js
      *

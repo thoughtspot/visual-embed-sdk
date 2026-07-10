@@ -8,11 +8,14 @@ export interface LiveboardTab {
 }
 
 /**
- * Scopes a filter or parameter to a specific target, e.g. a single Liveboard tab.
+ * Scopes a filter or parameter to a specific target.
+ * Supported levels are `LIVEBOARD`, `TAB`, and `GROUP`.
+ * At `LIVEBOARD` level the filter applies to the whole Liveboard, so `targetId`
+ * is not required.
  */
 export interface Applicability {
-  level: 'TAB';
-  targetId: string;
+  level: string;
+  targetId?: string;
 }
 
 export interface UpdateFiltersFilter {

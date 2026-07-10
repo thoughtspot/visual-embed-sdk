@@ -9,8 +9,11 @@ export function isValidUpdateFiltersPayload(
   if (!payload) return false;
 
   const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
-    if (!a) return true;
-    return typeof a.level === 'string' && typeof a.targetId === 'string';
+    if (a === undefined) return true;
+    // targetId is not required at LIVEBOARD level, since the filter applies to the whole Liveboard
+    return typeof a === 'object' && a !== null
+        && typeof a.level === 'string'
+        && (a.level === 'LIVEBOARD' || typeof a.targetId === 'string');
   };
 
   const isValidFilter = (f: {

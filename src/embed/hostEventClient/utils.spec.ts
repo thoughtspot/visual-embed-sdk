@@ -157,6 +157,39 @@ describe('hostEventClient utils', () => {
             } as any)).toBe(false);
         });
 
+        it('returns false for null applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: null,
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for non-object applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: 'TAB',
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns true for LIVEBOARD level applicability without targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'LIVEBOARD' },
+                },
+            } as any)).toBe(true);
+        });
+
         it('returns false for applicability missing level', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: {
