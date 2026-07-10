@@ -81,21 +81,57 @@ jobs:
             npm publish --tag $NPM_TAG
           fi
 
-      - name: Create Draft Release
-        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
+      - name: Generate changelog
+        id: changelog
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'main'
         run: |
-            CURRENT_VERSION=$(node -p "require('./package.json').version")
-            echo "Current Version: $CURRENT_VERSION"
-            
-            PREV_TAG=$(git tag -l | sort -V | tail -n 1)
-            echo "LAST TAG: $PREV_TAG"
-            
-            # Extract commit messages between previous and current versions
-            COMMIT_MESSAGES=$(git log --pretty=format:"%s" $PREV_TAG..HEAD | uniq | sed -E 's/\(#[0-9]+\)//g')
-            echo "commit : $COMMIT_MESSAGES"
-          
-            # Create draft Release
-            gh release create "$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -n "$COMMIT_MESSAGES" -d   
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PREV_TAG=$(git tag -l | sort -V | tail -n 1)
+          echo "Building changelog for $CURRENT_VERSION (since ${PREV_TAG:-<no previous tag>})"
+
+          # Diff against the last published version. If there are NO tags yet,
+          # fall back to the most recent commit only — never dump full history.
+          if [ -n "$PREV_TAG" ]; then
+            RANGE="$PREV_TAG..HEAD"
+          else
+            RANGE="HEAD~1..HEAD"
+          fi
+
+          ALL=$(git log --pretty=format:"%s" $RANGE | grep -viE '^(chore: )?bump|^chore: release' || true)
+
+          # Classify by description, ignoring any SCAL-ID / conventional prefix.
+          FIXES=""; FEATURES=""; OTHER=""
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            desc=$(echo "$line" | sed -E 's/^(SCAL-[0-9]+[: ]*)?((fix|feat|chore|refactor|docs)(\([^)]*\))?: *)?//I')
+            if echo "$line $desc" | grep -qiE '(^|[^a-z])(fix|fixes|fixed|bug|patch)([^a-z]|$)'; then
+              FIXES="${FIXES}- ${line}"$'\n'
+            elif echo "$line $desc" | grep -qiE '(^|[^a-z])(feat|feature|add|added|support|introduce)([^a-z]|$)'; then
+              FEATURES="${FEATURES}- ${line}"$'\n'
+            else
+              OTHER="${OTHER}- ${line}"$'\n'
+            fi
+          done <<< "$ALL"
+
+          {
+            echo "## Release $CURRENT_VERSION"
+            echo ""
+            if [ -z "$FEATURES$FIXES$OTHER" ]; then
+              echo "_No notable changes since ${PREV_TAG:-previous release}._"
+            else
+              [ -n "$FEATURES" ] && { echo "### ✨ Features";  echo "$FEATURES"; }
+              [ -n "$FIXES" ]    && { echo "### 🐛 Bug Fixes"; echo "$FIXES"; }
+              [ -n "$OTHER" ]    && { echo "### 🔧 Other";     echo "$OTHER"; }
+            fi
+          } > release_notes.md
+
+          cat release_notes.md
+
+      - name: Create Draft Release
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'main'
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          gh release create "$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -F release_notes.md -d
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

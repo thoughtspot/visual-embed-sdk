@@ -1,0 +1,34 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main, release]
+
+jobs:
+  validate-scal-id:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require SCAL-ID in PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          echo "PR title: $PR_TITLE"
+
+          # Exempt release / chore / fix / dependency PRs (matches repo history)
+          if echo "$PR_TITLE" | grep -qiE '^(chore|fix)(\(.*\))?:' \
+             || echo "$PR_TITLE" | grep -qiE 'release' \
+             || [ "$PR_AUTHOR" = "dependabot[bot]" ]; then
+            echo "✓ Exempt PR type (chore/fix/release/bot) — skipping SCAL-ID check."
+            exit 0
+          fi
+
+          # Require a SCAL-ID like SCAL-320861
+          if echo "$PR_TITLE" | grep -qE 'SCAL-[0-9]+'; then
+            echo "✓ Found SCAL-ID in PR title."
+          else
+            echo "::error::PR title must contain a valid SCAL-ID (e.g. SCAL-320861)."
+            echo "::error::Current title: \"$PR_TITLE\""
+            echo "::error::Add the Jira ticket ID, or prefix with chore:/fix: if it's not ticket-backed."
+            exit 1
+          fi
