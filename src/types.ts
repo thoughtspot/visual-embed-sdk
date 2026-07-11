@@ -3896,7 +3896,7 @@ export enum EmbedEvent {
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
      *     console.log('Conversation unpinned', payload);
-     *     // payload: { conversationId: string }
+     *     // payload: { conversationId: string, unpinnedAt: string (ISO 8601) }
      * })
      * ```
      * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
