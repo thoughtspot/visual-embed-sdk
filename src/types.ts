@@ -6303,6 +6303,16 @@ export enum Action {
      */
     SaveAsView = 'saveAsView',
     /**
+     * The **EditInputTable** action on a Liveboard
+     * page. Helps to edit an input table used in answer directly from
+     * liveboard. 
+     * @example
+     * ```js
+     * disabledActions: [Action.EditInputTable]
+     * ```
+     */
+    EditInputTable = 'editInputTable',
+    /**
      * The **Make a copy** action on a Liveboard or Answer
      * page. Creates a copy of the Liveboard.
      * In LiveboardEmbed, the **Make a copy** action is not available for

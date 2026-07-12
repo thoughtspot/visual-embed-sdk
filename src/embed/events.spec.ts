@@ -418,6 +418,13 @@ describe('Action enum values', () => {
     });
 });
 
+describe('Action edit input table', () => {
+
+    test('EditInputTable should resolve to its string value', () => {
+        expect(Action.EditInputTable).toBe('editInputTable');
+    });
+});
+
 describe('EmbedEvent basic routing', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
