@@ -210,6 +210,7 @@ describe('App embed tests', () => {
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'insights/results',
             [Page.Monitor]: 'insights/monitor-alerts',
+            [Page.Collections]: 'collections',
         };
 
         const pageIds = Object.keys(pageRouteMap);
@@ -243,6 +244,7 @@ describe('App embed tests', () => {
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'home/spotiq-analysis',
             [Page.Monitor]: 'home/monitor-alerts',
+            [Page.Collections]: 'collections',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);

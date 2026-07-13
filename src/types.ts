@@ -244,6 +244,13 @@ export enum HomeLeftNavItem {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     Favorites = 'favorites',
+    /**
+     * The *Collections* menu option in
+     * the *Insights* left navigation panel.
+     * Shown when collections are enabled on the cluster.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    Collections = 'collections',
 }
 export type DOMSelector = string | HTMLElement;
 
