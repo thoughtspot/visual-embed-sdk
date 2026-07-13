@@ -566,4 +566,5 @@ export {
     getSessionInfo,
     ListPageColumns,
     CustomActionsPosition,
+    SpotterQueryMode,
 } from '../index';

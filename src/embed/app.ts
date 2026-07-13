@@ -22,7 +22,7 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode } from './conversation';
 import { buildSpotterSidebarAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
@@ -738,6 +738,25 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Sets the default query mode when Spotter loads — Fast Search or
+     * Research Mode. Applies fresh on every new session for this embed
+     * instance only; it does not persist as a user preference and does
+     * not affect other embeds or native ThoughtSpot usage.
+     * Only applicable when navigating to Spotter within the app.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @default SpotterQueryMode.FAST_SEARCH
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    defaultQueryMode: SpotterQueryMode.RESEARCH,
+     * })
+     * ```
+     */
+    defaultQueryMode?: SpotterQueryMode;
+    /**
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `AppEmbed`
@@ -785,6 +804,29 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Sets the default data source (Model) for the Spotter experience shown on
+     * the home page of the full app embed. Accepts a Model GUID to preselect a
+     * specific data source, or the literal `'auto_mode'` sentinel to load
+     * Spotter with the "Auto" model selected by default. This is consistent with
+     * how `worksheetId: 'auto_mode'` enables Auto mode in `SpotterEmbed`.
+     *
+     * **Note**: `'auto_mode'` requires the Spotter 3 experience with data source
+     * discovery enabled on your instance, and a Spotter-enabled home page (for
+     * example, `discoveryExperience.homePage: HomePage.Focused`).
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    discoveryExperience: { homePage: HomePage.Focused },
+     *    spotterDefaultModel: 'auto_mode', // or a Model GUID
+     * })
+     * ```
+     */
+    spotterDefaultModel?: string;
     /**
      * Configuration for the SpotterViz interface shown on the Liveboard.
      * Customize the brand name, description, chat input placeholder,
@@ -990,8 +1032,10 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterDefaultModel,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
@@ -1029,9 +1073,14 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        if (!isUndefined(defaultQueryMode)) {
+            params[Param.DefaultQueryMode] = defaultQueryMode;
+        }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
         }
+
+        setParamIfDefined(params, Param.SpotterDefaultModel, spotterDefaultModel);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {

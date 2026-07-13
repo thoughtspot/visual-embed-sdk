@@ -8,6 +8,7 @@ import {
     HomePage,
     ListPage,
 } from './app';
+import { SpotterQueryMode } from './conversation';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
@@ -591,6 +592,33 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set defaultQueryMode to research in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            defaultQueryMode: SpotterQueryMode.RESEARCH,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&defaultQueryMode=research${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set defaultQueryMode in url when unset', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set hideToolResponseCardBranding to true in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -604,6 +632,44 @@ describe('App embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&hideToolResponseCardBranding=true${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set spotterDefaultModel to a Model GUID in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDefaultModel: 'model-guid-123',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDefaultModel=model-guid-123${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set spotterDefaultModel to auto_mode in url for Auto model', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDefaultModel: 'auto_mode',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDefaultModel=auto_mode${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not add spotterDefaultModel to url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDefaultModel');
         });
     });
 
