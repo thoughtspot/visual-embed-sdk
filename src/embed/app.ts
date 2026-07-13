@@ -805,6 +805,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *            { label: 'Tip', text: 'try asking about revenue by region' },
      *            { label: 'Tip', text: 'use natural language' },
      *        ],
+     *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     *        liveboardBrandName: 'Reports',
+     *        spotterBrandName: 'Analyst',
+     *        insightTileBrandName: 'Insight card',
+     *        insightTileViewPlanLabel: 'View plan',
+     *        insightTileLoaderText: 'Generating insight',
      *    },
      * })
      * ```
