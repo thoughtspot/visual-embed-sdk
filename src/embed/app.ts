@@ -808,7 +808,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Configuration for the Spotter conversation sharing feature.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {

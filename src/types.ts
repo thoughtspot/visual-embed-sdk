@@ -3760,7 +3760,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareConversationButtonHeaderClicked = 'spotterShareConversationButtonHeaderClicked',
     /**
@@ -3772,7 +3772,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareConversationMenuItemSidebarClicked = 'spotterShareConversationMenuItemSidebarClicked',
     /**
@@ -3788,7 +3788,7 @@ export enum EmbedEvent {
      *     //            recipientsAdded: string[], recipientsRemoved: string[] }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterConversationShared = 'spotterConversationShared',
     /**
@@ -3802,7 +3802,7 @@ export enum EmbedEvent {
      *     //            recipientsRemoved: string[], fullyRevoked: boolean }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterConversationShareRevoked = 'spotterConversationShareRevoked',
     /**
@@ -3815,7 +3815,7 @@ export enum EmbedEvent {
      *     // convId = resolved snapshot conv id; sourceConvId = the shared URL id
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterSharedConversationViewed = 'spotterSharedConversationViewed',
     /**
@@ -3827,7 +3827,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string, includeNewMessages: boolean }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareIncludeNewMessagesCheckboxToggled = 'spotterShareIncludeNewMessagesCheckboxToggled',
     /**
@@ -3839,7 +3839,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareStaleInfoBannerDismissed = 'spotterShareStaleInfoBannerDismissed',
     /**
@@ -3852,7 +3852,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareModalConfirmButtonClicked = 'spotterShareModalConfirmButtonClicked',
     /**
@@ -3863,7 +3863,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareModalCancelButtonClicked = 'spotterShareModalCancelButtonClicked',
     /**
@@ -3875,7 +3875,7 @@ export enum EmbedEvent {
      *     // payload: { convId: string }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
@@ -6111,15 +6111,23 @@ export enum HostEvent {
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
-     * Opens the Spotter share-conversation modal for the given conversation.
-     * `conversationId` is **required** — blink emits a validation error and no-ops
-     * if it is missing. Also no-op when sharing is disabled (enableShareConversation
-     * off) or when already in the read-only shared view.
+     * Opens the Spotter share-conversation modal. `conversationId` is optional
+     * and defaults to the active conversation; pass it only to share a different
+     * (non-active) conversation. No-op when sharing is disabled
+     * (enableShareConversation off) or when already in the read-only shared view,
+     * and — only when there is neither a `conversationId` nor an active
+     * conversation — blink emits a validation error and no-ops.
      * @example
      * ```js
+     * // Share the active conversation.
+     * spotterEmbed.trigger(HostEvent.ShareSpotterConversation);
+     * ```
+     * @example
+     * ```js
+     * // Share a specific (non-active) conversation.
      * spotterEmbed.trigger(HostEvent.ShareSpotterConversation, { conversationId: 'abc' });
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     ShareSpotterConversation = 'ShareSpotterConversation',
     /**
@@ -6128,7 +6136,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.CloseSpotterShareConversation);
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     CloseSpotterShareConversation = 'CloseSpotterShareConversation',
     /**
@@ -6137,7 +6145,7 @@ export enum HostEvent {
      * ```js
      * spotterEmbed.trigger(HostEvent.ExitSpotterSharedConversation);
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     ExitSpotterSharedConversation = 'ExitSpotterSharedConversation',
     /**
@@ -8141,7 +8149,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SpotterShareConversationButtonHeader]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareConversationButtonHeader = 'spotterShareConversationButtonHeader',
     /**
@@ -8152,7 +8160,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SpotterShareConversationMenuItemSidebar]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareConversationMenuItemSidebar = 'spotterShareConversationMenuItemSidebar',
     /**
@@ -8162,7 +8170,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.SpotterSharedConversationBanner]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterSharedConversationBanner = 'spotterSharedConversationBanner',
     /**
@@ -8172,7 +8180,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.SpotterSharedConversationBannerDismissButton]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterSharedConversationBannerDismissButton = 'spotterSharedConversationBannerDismissButton',
     /**
@@ -8183,7 +8191,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.SpotterSharedConversationExitButton]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterSharedConversationExitButton = 'spotterSharedConversationExitButton',
     /**
@@ -8193,7 +8201,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.SpotterShareUpToCurrentInfo]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareUpToCurrentInfo = 'spotterShareUpToCurrentInfo',
     /**
@@ -8203,7 +8211,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.SpotterShareIncludeNewMessagesCheckbox]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareIncludeNewMessagesCheckbox = 'spotterShareIncludeNewMessagesCheckbox',
     /**
@@ -8213,7 +8221,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.SpotterShareStaleInfoBannerDismissButton]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterShareStaleInfoBannerDismissButton = 'spotterShareStaleInfoBannerDismissButton',
     /**

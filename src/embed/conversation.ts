@@ -114,90 +114,90 @@ export interface SpotterSidebarViewConfig {
 /**
  * Configuration for the Spotter conversation sharing feature.
  * Can be used in SpotterEmbed and AppEmbed.
- * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
  * @group Embed components
  */
 export interface SpotterShareConversationConfig {
     /**
      * Enables sharing of the conversation.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default false
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     enableShareConversation?: boolean;
     /**
      * Header Share button + sidebar Share item label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "Share"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterShareLabel?: string;
     /**
      * Share modal title.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareModalTitle?: string;
     /**
      * Modal confirm button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "Share"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterShareConfirmLabel?: string;
     /**
      * Modal cancel button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "Cancel"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterShareCancelLabel?: string;
     /**
      * "Add users or groups" label.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareAddUsersLabel?: string;
     /**
      * Empty-state title ("No users added yet").
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareEmptyTitle?: string;
     /**
      * Empty-state subtitle ("Not shared with any user").
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareEmptySubtitle?: string;
     /**
      * "Include new messages since last shared version" checkbox label.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareIncludeNewMessagesLabel?: string;
     /**
      * Footer note when the snapshot is current ("…up to the current moment…").
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareUpToCurrentLabel?: string;
     /**
      * Stale-snapshot info banner text ("All added users and groups will receive…").
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterShareStaleInfoLabel?: string;
     /**
      * Read-only shared-view data-access banner message.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterSharedConversationBannerMessage?: string;
     /**
      * Read-only shared-view Exit button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "Exit"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterSharedConversationExitLabel?: string;
     /**
      * Share icon id (radiant IconID string).
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "share"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterShareIcon?: string;
     /**
      * Empty-state group icon id (radiant IconID string).
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default "userGroup"
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     spotterShareGroupIcon?: string;
 }
@@ -498,7 +498,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * Configuration for the Spotter conversation sharing feature.
      *
      * Supported embed types: `SpotterEmbed`, `AppEmbed`
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -521,7 +521,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * must be an authorized sharee — the server returns access-denied otherwise.
      *
      * Supported embed types: `SpotterEmbed`
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * const convId = new URLSearchParams(window.location.search).get('conversation-id');
