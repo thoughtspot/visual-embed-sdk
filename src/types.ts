@@ -5322,6 +5322,8 @@ export enum HostEvent {
      * Each Liveboard filter may include an `applicability` attribute
      * (`{ level, targetId }`) indicating the scope of the filter,
      * for example, a specific Liveboard tab.
+     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * @example
      * ```js
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
@@ -5363,7 +5365,8 @@ export enum HostEvent {
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
      *
      * `applicability` - Optional. Scopes the filter to a specific target,
-     * for example, a single Liveboard tab. Includes the following attributes:
+     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
      *  - `targetId`: The GUID of the target, for example, the tab GUID.
@@ -5638,6 +5641,8 @@ export enum HostEvent {
      * Each parameter may include an `applicability` attribute
      * (`{ level, targetId }`) indicating the scope of the parameter,
      * for example, a specific Liveboard tab.
+     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {

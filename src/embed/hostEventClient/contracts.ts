@@ -18,18 +18,11 @@ export interface Applicability {
   targetId?: string;
 }
 
-export interface UpdateFiltersFilter {
+export interface FilterUpdate {
   column: string;
   oper: string;
   values: string[];
   type?: string;
-  applicability?: Applicability;
-}
-
-export interface UpdateParametersParameter {
-  name: string;
-  value: unknown;
-  isVisibleToUser?: boolean;
   applicability?: Applicability;
 }
 
@@ -179,8 +172,8 @@ export type UIPassthroughContractBase = {
   };
   [UIPassthroughEvent.UpdateFilters]: {
     request: {
-      filter?: UpdateFiltersFilter;
-      filters?: UpdateFiltersFilter[];
+      filter?: FilterUpdate;
+      filters?: FilterUpdate[];
     };
     response: unknown;
   };
