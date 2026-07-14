@@ -10,17 +10,17 @@
 
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
 
-interface LiveboardFilterContentValue {
+export interface LiveboardFilterContentValue {
     key?: string | number | boolean;
 }
 
-interface LiveboardFilterContent {
+export interface LiveboardFilterContent {
     filterType?: string;
     negate?: boolean;
     value?: LiveboardFilterContentValue[];
 }
 
-interface LiveboardDateFilterValue {
+export interface LiveboardDateFilterValue {
     type?: string;
     op?: string;
     epoch?: string | number;
@@ -36,17 +36,17 @@ interface LiveboardDateFilterValue {
     includeCurrentPeriod?: boolean;
 }
 
-interface LiveboardDateFilterContent {
+export interface LiveboardDateFilterContent {
     negate?: boolean;
     dateFilter?: LiveboardDateFilterValue;
 }
 
-interface LiveboardFilter {
+export interface LiveboardFilter {
     filterContent?: LiveboardFilterContent[];
     dateFilterContent?: LiveboardDateFilterContent[];
 }
 
-interface LiveboardFilterGroup {
+export interface LiveboardFilterGroup {
     columnInfo?: {
         name?: string;
     };
@@ -109,6 +109,11 @@ const DATE_FILTER_VALUE_EXTRACTORS: Record<string, DateFilterValueExtractor> = {
     ),
 };
 
+// Date filter types with no `values` (e.g. TODAY needs no operand).
+const PERIOD_ONLY_DATE_FILTER_TYPES = new Set([
+    'THIS_PERIOD', 'PERIOD_TO_DATE', 'TODAY', 'YESTERDAY', 'TOMORROW',
+]);
+
 function convertDateFilterToParam(
     columnName: string,
     dateFilterContent: LiveboardDateFilterContent,
@@ -116,12 +121,25 @@ function convertDateFilterToParam(
     const dateFilter = dateFilterContent?.dateFilter;
     if (!dateFilter?.type) return null;
 
-    const getValues = DATE_FILTER_VALUE_EXTRACTORS[dateFilter.type] ?? (() => []);
+    let values: (string | number)[];
+    const getValues = DATE_FILTER_VALUE_EXTRACTORS[dateFilter.type];
+    if (getValues) {
+        values = getValues(dateFilter);
+        // Required fields (e.g. epoch, yearName) are missing - the source data
+        // can't be reconstructed faithfully, so skip rather than emit a filter
+        // that would clear/corrupt this column when re-applied.
+        if (values.length === 0) return null;
+    } else if (PERIOD_ONLY_DATE_FILTER_TYPES.has(dateFilter.type)) {
+        values = [];
+    } else {
+        // Unrecognized date filter type - skip rather than guess.
+        return null;
+    }
 
     const param: UpdateFiltersFilterParam = {
         columnName,
         operator: dateFilter.op ?? RuntimeFilterOp.EQ,
-        values: getValues(dateFilter),
+        values,
         type: dateFilter.type,
     };
     if (dateFilter.datePeriod) {
@@ -159,20 +177,21 @@ function convertFilterContentToParam(
     return param;
 }
 
+function convertFilterToParams(columnName: string, filter: LiveboardFilter): UpdateFiltersFilterParam[] {
+    const dateParams = (filter?.dateFilterContent ?? [])
+        .map((dateFilterContent) => convertDateFilterToParam(columnName, dateFilterContent));
+    const contentParams = (filter?.filterContent ?? [])
+        .map((filterContent) => convertFilterContentToParam(columnName, filterContent));
+
+    return [...dateParams, ...contentParams]
+        .filter((param): param is UpdateFiltersFilterParam => param !== null);
+}
+
 function convertFilterGroupToParams(filterGroup: LiveboardFilterGroup): UpdateFiltersFilterParam[] {
     const columnName = filterGroup?.columnInfo?.name;
     if (!columnName) return [];
 
-    return (filterGroup.filters ?? [])
-        .map((filter) => {
-            const dateFilterContent = filter?.dateFilterContent?.[0];
-            if (dateFilterContent) {
-                return convertDateFilterToParam(columnName, dateFilterContent);
-            }
-            const filterContent = filter?.filterContent?.[0];
-            return filterContent ? convertFilterContentToParam(columnName, filterContent) : null;
-        })
-        .filter((param): param is UpdateFiltersFilterParam => param !== null);
+    return (filterGroup.filters ?? []).flatMap((filter) => convertFilterToParams(columnName, filter));
 }
 
 /**
@@ -183,6 +202,11 @@ function convertFilterGroupToParams(filterGroup: LiveboardFilterGroup): UpdateFi
  *
  * Both the Liveboard filters and the runtime filters present in the
  * `FilterChanged` payload are included in the returned `filters` array.
+ *
+ * Note: a column with multiple date-filter conditions (e.g. an OR of two
+ * date ranges) is not guaranteed to round-trip losslessly - `HostEvent.UpdateFilters`
+ * treats date filters as replace-not-merge per column, so only the last
+ * converted entry for such a column will apply.
  * @param filterChangedPayload The payload received in the
  * `EmbedEvent.FilterChanged` callback.
  * @example

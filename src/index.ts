@@ -83,6 +83,12 @@ import { UIPassthroughEvent } from './embed/hostEventClient/contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
+    LiveboardFilterGroup,
+    LiveboardFilter,
+    LiveboardFilterContent,
+    LiveboardFilterContentValue,
+    LiveboardDateFilterContent,
+    LiveboardDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 } from './utils/filterConverter';
@@ -173,6 +179,12 @@ export {
     AutoMCPFrameRendererViewConfig,
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
+    LiveboardFilterGroup,
+    LiveboardFilter,
+    LiveboardFilterContent,
+    LiveboardFilterContentValue,
+    LiveboardDateFilterContent,
+    LiveboardDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 };
