@@ -6111,20 +6111,12 @@ export enum HostEvent {
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
-     * Opens the Spotter share-conversation modal. `conversationId` is optional
-     * and defaults to the active conversation; pass it only to share a different
-     * (non-active) conversation. No-op when sharing is disabled
-     * (enableShareConversation off) or when already in the read-only shared view,
-     * and — only when there is neither a `conversationId` nor an active
-     * conversation — blink emits a validation error and no-ops.
+     * Opens the Spotter share-conversation modal for the given conversation.
+     * `conversationId` is **mandatory** — you must pass the id of the
+     * conversation to share. Also no-op when sharing is disabled
+     * (enableShareConversation off) or when already in the read-only shared view.
      * @example
      * ```js
-     * // Share the active conversation.
-     * spotterEmbed.trigger(HostEvent.ShareSpotterConversation);
-     * ```
-     * @example
-     * ```js
-     * // Share a specific (non-active) conversation.
      * spotterEmbed.trigger(HostEvent.ShareSpotterConversation, { conversationId: 'abc' });
      * ```
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
