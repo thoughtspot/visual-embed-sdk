@@ -33,10 +33,32 @@ export interface Applicability {
 }
 
 export interface FilterUpdate {
-  column: string;
-  oper: string;
-  values: string[];
+  /**
+   * Name of the column to filter on. `columnName` is an accepted alias, so a
+   * payload produced by `convertFilterChangedToUpdateFiltersPayload` can be
+   * passed straight through.
+   */
+  column?: string;
+  columnName?: string;
+  /**
+   * Operator to apply. `operator` is an accepted alias.
+   */
+  oper?: string;
+  operator?: string;
+  values: (string | number | boolean | bigint)[];
   type?: string;
+  /**
+   * Period for relative date filters, e.g. `DAY`, `MONTH`.
+   */
+  datePeriod?: string;
+  /**
+   * Inverts the filter condition.
+   */
+  negate?: boolean;
+  /**
+   * Whether a relative date filter includes the in-progress period.
+   */
+  includeCurrentPeriod?: boolean;
   applicability?: Applicability;
 }
 
