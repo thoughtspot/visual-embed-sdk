@@ -64,6 +64,24 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    test('should capture SpotterResponseComplete event from ThoughtSpot app', (done) => {
+        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
+        appEmbed
+            .on(EmbedEvent.SpotterResponseComplete, (data) => {
+                expect(data.data).toEqual({ convId: 'c1', messageId: 'm1' });
+                done();
+            })
+            .render();
+
+        executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.SpotterResponseComplete,
+                data: { convId: 'c1', messageId: 'm1' },
+            });
+        });
+    });
+
     // TODO: enable test once we are actually able to load stuff in the iframe
     xtest('should trigger iframe load event', async () => {
         const onLoadSpy = jest.fn();
