@@ -60,4 +60,8 @@ export {
     InterceptedApiType,
     CustomActionsPosition,
     CustomActionTarget,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 } from '../index';

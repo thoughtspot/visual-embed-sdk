@@ -143,16 +143,26 @@ export type UIPassthroughContractBase = {
   [UIPassthroughEvent.UpdateFilters]: {
     request: {
       filter?: {
-        column: string;
-        oper: string;
-        values: string[];
+        column?: string;
+        columnName?: string;
+        oper?: string;
+        operator?: string;
+        values: (string | number | boolean | bigint)[];
         type?: string;
+        datePeriod?: string;
+        negate?: boolean;
+        includeCurrentPeriod?: boolean;
       };
       filters?: {
-        column: string;
-        oper: string;
-        values: string[];
+        column?: string;
+        columnName?: string;
+        oper?: string;
+        operator?: string;
+        values: (string | number | boolean | bigint)[];
         type?: string;
+        datePeriod?: string;
+        negate?: boolean;
+        includeCurrentPeriod?: boolean;
       }[];
     };
     response: unknown;

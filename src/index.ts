@@ -80,6 +80,12 @@ import { tokenizedFetch } from './tokenizedFetch';
 import { getAnswerFromQuery } from './utils/graphql/nlsService/nls-answer-service';
 import { createLiveboardWithAnswers } from './utils/liveboardService/liveboardService';
 import { UIPassthroughEvent } from './embed/hostEventClient/contracts';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -165,6 +171,10 @@ export {
     EmbedErrorDetailsEvent,
     ErrorDetailsTypes,
     AutoMCPFrameRendererViewConfig,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';
