@@ -8,13 +8,21 @@ export interface LiveboardTab {
 }
 
 /**
+ * Levels at which a filter or parameter can be applied.
+ */
+export enum ApplicabilityLevel {
+  Liveboard = 'LIVEBOARD',
+  Tab = 'TAB',
+  Group = 'GROUP',
+}
+
+/**
  * Scopes a filter or parameter to a specific target.
- * Supported levels are `LIVEBOARD`, `TAB`, and `GROUP`.
  * At `LIVEBOARD` level the filter applies to the whole Liveboard, so `targetId`
  * is not required.
  */
 export interface Applicability {
-  level: string;
+  level: ApplicabilityLevel;
   targetId?: string;
 }
 

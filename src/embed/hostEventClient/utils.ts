@@ -3,7 +3,7 @@ import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
 import { EmbedErrorCodes, EmbedEvent, ErrorDetailsTypes, HostEvent } from '../../types';
 import { ERROR_MESSAGE } from '../../errors';
-import { HostEventRequest } from './contracts';
+import { ApplicabilityLevel, HostEventRequest } from './contracts';
 import { embedEventStatus } from '../../utils';
 
 export function isValidUpdateFiltersPayload(
@@ -15,8 +15,8 @@ export function isValidUpdateFiltersPayload(
     if (isUndefined(a)) return true;
     // targetId is not required at LIVEBOARD level, since the filter applies to the whole Liveboard
     return isPlainObject(a)
-        && isString(a.level)
-        && (a.level === 'LIVEBOARD' || isString(a.targetId));
+        && Object.values(ApplicabilityLevel).includes(a.level as ApplicabilityLevel)
+        && (a.level === ApplicabilityLevel.Liveboard || isString(a.targetId));
   };
 
   const isValidFilter = (f: {

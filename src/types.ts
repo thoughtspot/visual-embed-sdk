@@ -5320,8 +5320,11 @@ export enum HostEvent {
      * Get details of filters applied on the Liveboard.
      * Returns arrays containing Liveboard filter and runtime filter elements.
      * Each Liveboard filter may include an `applicability` attribute
-     * (`{ level, targetId }`) indicating the scope of the filter,
-     * for example, a specific Liveboard tab.
+     * indicating the scope of the filter. It contains a `level`
+     * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
+     * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
+     * level there is no `targetId`, since the filter applies to the
+     * whole Liveboard.
      * The `applicability` attribute is available from SDK: 1.51.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @example
@@ -5370,8 +5373,9 @@ export enum HostEvent {
      *
      *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
      *  - `targetId`: The GUID of the target, for example, the tab GUID.
-     *    Not required when `level` is `LIVEBOARD`, since the filter applies
-     *    to the whole Liveboard.
+     *    Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *    `level` is `LIVEBOARD`, since the filter applies to the whole
+     *    Liveboard.
      * @example
      * ```js
      *
@@ -5614,6 +5618,15 @@ export enum HostEvent {
      * - `name`: Name of the parameter.
      * - `value`: The value to set for the parameter.
      * - `isVisibleToUser`: Optional. To control the visibility of the parameter chip.
+     * - `applicability`: Optional. Scopes the parameter to a specific target,
+     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
+     *
+     *    - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.
+     *    - `targetId`: The GUID of the target, for example, the tab GUID.
+     *      Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *      `level` is `LIVEBOARD`, since the parameter applies to the whole
+     *      Liveboard.
      *
      * @example
      * ```js
@@ -5621,6 +5634,18 @@ export enum HostEvent {
      *   name: "Integer Range Param",
      *   value: 10,
      *   isVisibleToUser: false
+     * }])
+     * ```
+     * @example
+     * ```js
+     * // Scope the parameter to a specific Liveboard tab
+     * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
+     *   name: "Integer Range Param",
+     *   value: 10,
+     *   applicability: {
+     *     level: "TAB",
+     *     targetId: "e0836cad-4fdf-42d4-bd97-567a6b2a6058"
+     *   }
      * }])
      * ```
      * @example
@@ -5639,8 +5664,11 @@ export enum HostEvent {
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
      * Each parameter may include an `applicability` attribute
-     * (`{ level, targetId }`) indicating the scope of the parameter,
-     * for example, a specific Liveboard tab.
+     * indicating the scope of the parameter. It contains a `level`
+     * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
+     * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
+     * level there is no `targetId`, since the parameter applies to the
+     * whole Liveboard.
      * The `applicability` attribute is available from SDK: 1.51.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
