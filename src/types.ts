@@ -8505,6 +8505,9 @@ export enum EmbedErrorCodes {
 
     /** DrillDown payload is invalid - missing or malformed points */
     DRILLDOWN_INVALID_PAYLOAD = 'DRILLDOWN_INVALID_PAYLOAD',
+
+    /** UpdateParameters payload is invalid - malformed applicability */
+    UPDATEPARAMETERS_INVALID_PAYLOAD = 'UPDATEPARAMETERS_INVALID_PAYLOAD',
 }
 
 /**

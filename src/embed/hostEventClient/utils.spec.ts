@@ -1,8 +1,10 @@
 import {
     isValidUpdateFiltersPayload,
+    isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     createValidationError,
     throwUpdateFiltersValidationError,
+    throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
 import { ERROR_MESSAGE } from '../../errors';
@@ -157,6 +159,17 @@ describe('hostEventClient utils', () => {
             } as any)).toBe(false);
         });
 
+        it('returns false for applicability with empty targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB', targetId: '' },
+                },
+            } as any)).toBe(false);
+        });
+
         it('returns false for null applicability', () => {
             expect(isValidUpdateFiltersPayload({
                 filter: {
@@ -224,6 +237,79 @@ describe('hostEventClient utils', () => {
                     },
                 ],
             } as any)).toBe(false);
+        });
+    });
+
+    // =========================
+    // UpdateParameters Validation
+    // =========================
+    describe('isValidUpdateParametersPayload', () => {
+        it('returns true for undefined payload', () => {
+            expect(isValidUpdateParametersPayload(undefined)).toBe(true);
+        });
+
+        it('returns true for non-array payload', () => {
+            expect(isValidUpdateParametersPayload({ name: 'p', value: 1 })).toBe(true);
+        });
+
+        it('returns true for parameters without applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p1', value: 1 },
+                { name: 'p2', value: 'a' },
+            ])).toBe(true);
+        });
+
+        it('returns true for null applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: null },
+            ])).toBe(true);
+        });
+
+        it('returns true for valid TAB applicability with targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'TAB', targetId: 'tab-guid-1' } },
+            ])).toBe(true);
+        });
+
+        it('returns true for LIVEBOARD level applicability without targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'LIVEBOARD' } },
+            ])).toBe(true);
+        });
+
+        it('returns false for applicability missing targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'TAB' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for applicability with empty targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'GROUP', targetId: ' ' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for applicability with invalid level', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'VIZ', targetId: 'guid-1' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for non-object applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: 'TAB' },
+            ])).toBe(false);
+        });
+
+        it('returns false if one parameter has invalid applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p1', value: 1 },
+                { name: 'p2', value: 2, applicability: { level: 'GROUP' } }, // missing targetId
+            ])).toBe(false);
+        });
+
+        it('returns true for non-object entries', () => {
+            expect(isValidUpdateParametersPayload(['p', 1, null])).toBe(true);
         });
     });
 
@@ -324,6 +410,13 @@ describe('hostEventClient utils', () => {
         it('throws with UPDATEFILTERS_INVALID_PAYLOAD message', () => {
             expect(() => throwUpdateFiltersValidationError())
                 .toThrow(ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD);
+        });
+    });
+
+    describe('throwUpdateParametersValidationError', () => {
+        it('throws with UPDATEPARAMETERS_INVALID_PAYLOAD message', () => {
+            expect(() => throwUpdateParametersValidationError())
+                .toThrow(ERROR_MESSAGE.UPDATEPARAMETERS_INVALID_PAYLOAD);
         });
     });
 

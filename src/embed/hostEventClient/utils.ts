@@ -1,3 +1,4 @@
+import isNil from 'lodash/isNil';
 import isPlainObject from 'lodash/isPlainObject';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
@@ -6,18 +7,18 @@ import { ERROR_MESSAGE } from '../../errors';
 import { ApplicabilityLevel, HostEventRequest } from './contracts';
 import { embedEventStatus } from '../../utils';
 
+const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
+  if (isUndefined(a)) return true;
+  // targetId is not required at LIVEBOARD level, since the filter applies to the whole Liveboard
+  return isPlainObject(a)
+      && Object.values(ApplicabilityLevel).includes(a.level as ApplicabilityLevel)
+      && (a.level === ApplicabilityLevel.Liveboard || (isString(a.targetId) && a.targetId.trim().length > 0));
+};
+
 export function isValidUpdateFiltersPayload(
   payload: HostEventRequest<HostEvent.UpdateFilters> | undefined,
 ): boolean {
   if (!payload) return false;
-
-  const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
-    if (isUndefined(a)) return true;
-    // targetId is not required at LIVEBOARD level, since the filter applies to the whole Liveboard
-    return isPlainObject(a)
-        && Object.values(ApplicabilityLevel).includes(a.level as ApplicabilityLevel)
-        && (a.level === ApplicabilityLevel.Liveboard || isString(a.targetId));
-  };
 
   const isValidFilter = (f: {
     column?: string;
@@ -40,6 +41,16 @@ export function isValidUpdateFiltersPayload(
   const hasValidFilters = Array.isArray(payload.filters) && payload.filters.length > 0 && payload.filters.every(isValidFilter);
 
   return !!(hasValidFilter || hasValidFilters);
+}
+
+export function isValidUpdateParametersPayload(payload: unknown): boolean {
+  // Only validates the applicability of each parameter (null treated as absent); the rest is forwarded as-is for backward compatibility.
+  if (!Array.isArray(payload)) return true;
+  return payload.every((p) => {
+      if (!isPlainObject(p)) return true;
+      const { applicability } = p as { applicability?: { level?: string; targetId?: string } };
+      return isNil(applicability) || isValidApplicability(applicability);
+  });
 }
 
 export function isValidDrillDownPayload(
@@ -83,4 +94,8 @@ export function throwUpdateFiltersValidationError(): never {
 
 export function throwDrillDownValidationError(): never {
   createValidationError(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
+}
+
+export function throwUpdateParametersValidationError(): never {
+  createValidationError(ERROR_MESSAGE.UPDATEPARAMETERS_INVALID_PAYLOAD);
 }
