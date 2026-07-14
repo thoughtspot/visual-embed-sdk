@@ -1384,7 +1384,8 @@ export class AppEmbed extends V1Embed {
             logger.log('Please call render before invoking this method');
             return;
         }
-        if (noReload) {
+        const overrideHistoryState = this.viewConfig?.overrideHistoryState;
+        if (noReload || overrideHistoryState) {
             this.trigger(HostEvent.Navigate, path);
         } else {
             if (typeof path !== 'string') {

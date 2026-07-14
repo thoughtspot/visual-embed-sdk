@@ -2315,6 +2315,46 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
+        it('Sets the overrideHistoryState param', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                overrideHistoryState: true,
+            });
+            await appEmbed.render();
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                overrideHistoryState: true,
+            });
+        });
+
+        it('Sets the overrideHistoryState param to false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                overrideHistoryState: false,
+            });
+            await appEmbed.render();
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                overrideHistoryState: false,
+            });
+        });
+
+        it('Should not add overrideHistoryState param when it is undefined', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+            });
+            await appEmbed.render();
+            const url = getIFrameSrc();
+            expect(url).not.toContain('overrideHistoryState');
+        });
+
         it('Should not add contextMenuEnabledOnWhichClick flag to the iframe src when it is not passed', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
