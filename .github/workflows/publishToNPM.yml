@@ -15,7 +15,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: read
+  contents: write  # Required to push the release git tag
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -81,21 +81,93 @@ jobs:
             npm publish --tag $NPM_TAG
           fi
 
-      - name: Create Draft Release
-        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'release'
+      - name: Tag the release
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'main'
         run: |
-            CURRENT_VERSION=$(node -p "require('./package.json').version")
-            echo "Current Version: $CURRENT_VERSION"
-            
-            PREV_TAG=$(git tag -l | sort -V | tail -n 1)
-            echo "LAST TAG: $PREV_TAG"
-            
-            # Extract commit messages between previous and current versions
-            COMMIT_MESSAGES=$(git log --pretty=format:"%s" $PREV_TAG..HEAD | uniq | sed -E 's/\(#[0-9]+\)//g')
-            echo "commit : $COMMIT_MESSAGES"
-          
-            # Create draft Release
-            gh release create "$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -n "$COMMIT_MESSAGES" -d   
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          TAG="v$CURRENT_VERSION"
+
+          # A tag only exists for something that actually published, so consumers
+          # can `git checkout $TAG` to get the exact source for a release.
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists — skipping tag creation."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag -a "$TAG" -m "Release $CURRENT_VERSION"
+            git push origin "$TAG"
+            echo "Created and pushed tag $TAG"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate changelog
+        id: changelog
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'main'
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+          # Pick the boundary for "changes in this release".
+          #
+          # PREFERRED: the most recent PUBLISHED version tag (vX.Y.Z). This
+          # pipeline creates a tag on every publish, so tags mark real releases
+          # regardless of HOW the version was bumped — a manual package.json edit
+          # in a feature PR can't bypass it. We exclude the current version in
+          # case its tag already exists (e.g. a re-run). Filtering on 'v[0-9]*'
+          # ignores non-version tags like objectSearchEmbedTag, and
+          # --sort=-v:refname is a correct version sort.
+          PREV_TAG=$(git tag -l 'v[0-9]*' --sort=-v:refname --merged HEAD \
+                     | grep -vx "v$CURRENT_VERSION" | head -n1)
+
+          if [ -n "$PREV_TAG" ]; then
+            BOUNDARY="$PREV_TAG"
+          else
+            # FALLBACK (transition / first release before any version tag exists):
+            # the previous "chore: release vX.Y.Z" commit. Anchored to the START
+            # of the subject so commits that merely mention the phrase don't match.
+            BOUNDARY=$(git log --pretty=format:'%H %s' | grep -m2 -E '^[0-9a-f]{40} chore: release' | tail -n1 | awk '{print $1}')
+          fi
+
+          # Last resort: never dump full history if we found no boundary at all.
+          BOUNDARY="${BOUNDARY:-HEAD~1}"
+          RANGE="$BOUNDARY..HEAD"
+          echo "Building changelog for $CURRENT_VERSION (since $BOUNDARY)"
+
+          ALL=$(git log --pretty=format:"%s" $RANGE | grep -viE '^(chore: )?bump|^chore: release' || true)
+
+          # Classify by description, ignoring any SCAL-ID / conventional prefix.
+          FIXES=""; FEATURES=""; OTHER=""
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            desc=$(echo "$line" | sed -E 's/^(SCAL-[0-9]+[: ]*)?((fix|feat|chore|refactor|docs)(\([^)]*\))?: *)?//I')
+            if echo "$line $desc" | grep -qiE '(^|[^a-z])(fix|fixes|fixed|bug|patch)([^a-z]|$)'; then
+              FIXES="${FIXES}- ${line}"$'\n'
+            elif echo "$line $desc" | grep -qiE '(^|[^a-z])(feat|feature|add|added|support|introduce)([^a-z]|$)'; then
+              FEATURES="${FEATURES}- ${line}"$'\n'
+            else
+              OTHER="${OTHER}- ${line}"$'\n'
+            fi
+          done <<< "$ALL"
+
+          {
+            echo "## Release $CURRENT_VERSION"
+            echo ""
+            if [ -z "$FEATURES$FIXES$OTHER" ]; then
+              echo "_No notable changes since the previous release._"
+            else
+              [ -n "$FEATURES" ] && { echo "### ✨ Features";  echo "$FEATURES"; }
+              [ -n "$FIXES" ]    && { echo "### 🐛 Bug Fixes"; echo "$FIXES"; }
+              [ -n "$OTHER" ]    && { echo "### 🔧 Other";     echo "$OTHER"; }
+            fi
+          } > release_notes.md
+
+          cat release_notes.md
+
+      - name: Create Draft Release
+        if: success() && steps.branch_name.outputs.BRANCH_NAME == 'main'
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          gh release create "v$CURRENT_VERSION" -t "Release $CURRENT_VERSION" -F release_notes.md -d
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
