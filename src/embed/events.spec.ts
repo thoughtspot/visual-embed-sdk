@@ -523,6 +523,16 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterVizClosed', EmbedEvent.SpotterVizClosed],
         ['RefreshLiveboardBrowserCache', EmbedEvent.RefreshLiveboardBrowserCache],
         ['V1Data', EmbedEvent.V1Data],
+        ['SpotterShareConversationButtonHeaderClicked', EmbedEvent.SpotterShareConversationButtonHeaderClicked],
+        ['SpotterShareConversationMenuItemSidebarClicked', EmbedEvent.SpotterShareConversationMenuItemSidebarClicked],
+        ['SpotterConversationShared', EmbedEvent.SpotterConversationShared],
+        ['SpotterConversationShareRevoked', EmbedEvent.SpotterConversationShareRevoked],
+        ['SpotterSharedConversationViewed', EmbedEvent.SpotterSharedConversationViewed],
+        ['SpotterShareIncludeNewMessagesCheckboxToggled', EmbedEvent.SpotterShareIncludeNewMessagesCheckboxToggled],
+        ['SpotterShareStaleInfoBannerDismissed', EmbedEvent.SpotterShareStaleInfoBannerDismissed],
+        ['SpotterShareModalConfirmButtonClicked', EmbedEvent.SpotterShareModalConfirmButtonClicked],
+        ['SpotterShareModalCancelButtonClicked', EmbedEvent.SpotterShareModalCancelButtonClicked],
+        ['SpotterSharedConversationExitButtonClicked', EmbedEvent.SpotterSharedConversationExitButtonClicked],
     ];
 
     test.each(UNCOVERED_EVENTS)(
