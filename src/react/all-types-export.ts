@@ -84,6 +84,12 @@ export {
     StarterPromptQuestion,
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
+    LiveboardFilterGroup,
+    LiveboardFilter,
+    LiveboardFilterContent,
+    LiveboardFilterContentValue,
+    LiveboardDateFilterContent,
+    LiveboardDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 } from '../index';

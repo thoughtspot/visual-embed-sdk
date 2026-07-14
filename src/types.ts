@@ -5875,6 +5875,10 @@ export enum HostEvent {
      *     }
      * });
      * ```
+     * `columnName` and `operator` are also accepted as aliases for `column`
+     * and `oper` respectively. To reapply the filter state captured from
+     * {@link EmbedEvent.FilterChanged}, use `convertFilterChangedToUpdateFiltersPayload`
+     * to convert its payload into the shape expected here.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',

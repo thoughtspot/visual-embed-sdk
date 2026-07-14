@@ -1,4 +1,5 @@
 import { RuntimeFilterOp } from '../types';
+import { isValidUpdateFiltersPayload } from '../embed/hostEventClient/utils';
 import { convertFilterChangedToUpdateFiltersPayload, FilterChangedPayload } from './filterConverter';
 
 describe('convertFilterChangedToUpdateFiltersPayload', () => {
@@ -339,6 +340,143 @@ describe('convertFilterChangedToUpdateFiltersPayload', () => {
                 { columnName: 'date', operator: RuntimeFilterOp.EQ, values: [], type: 'TODAY' },
             ],
         });
+    });
+
+    test('converts every filterContent entry on a filter, not just the first', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'quantity' },
+                    filters: [
+                        {
+                            filterContent: [
+                                { filterType: 'GE', value: [{ key: 5 }] },
+                                { filterType: 'LE', value: [{ key: 10 }] },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+            filters: [
+                { columnName: 'quantity', operator: 'GE', values: [5] },
+                { columnName: 'quantity', operator: 'LE', values: [10] },
+            ],
+        });
+    });
+
+    test('converts every Filter entry in a filter group, not just the first', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'region' },
+                    filters: [
+                        { filterContent: [{ filterType: 'EQ', value: [{ key: 'west' }] }] },
+                        { filterContent: [{ filterType: 'EQ', value: [{ key: 'east' }] }] },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+            filters: [
+                { columnName: 'region', operator: 'EQ', values: ['west'] },
+                { columnName: 'region', operator: 'EQ', values: ['east'] },
+            ],
+        });
+    });
+
+    test('keeps falsy-but-defined filter values such as 0 and false', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'flag' },
+                    filters: [
+                        {
+                            filterContent: [
+                                { filterType: 'IN', value: [{ key: 0 }, { key: false }] },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+            filters: [
+                { columnName: 'flag', operator: 'IN', values: [0, false] },
+            ],
+        });
+    });
+
+    test('skips an EXACT_DATE filter missing its epoch instead of emitting empty values', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'date' },
+                    filters: [
+                        { dateFilterContent: [{ dateFilter: { type: 'EXACT_DATE', op: 'EQ' } }] },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+    });
+
+    test('skips a MONTH_YEAR filter missing yearName instead of emitting empty values', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'date' },
+                    filters: [
+                        {
+                            dateFilterContent: [
+                                { dateFilter: { type: 'MONTH_YEAR', op: 'EQ', monthName: 'JULY' } },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+    });
+
+    test('skips an unrecognized date filter type rather than guessing', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'date' },
+                    filters: [
+                        { dateFilterContent: [{ dateFilter: { type: 'SOME_FUTURE_TYPE', op: 'EQ' } }] },
+                    ],
+                },
+            ],
+        };
+
+        expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+    });
+
+    test('output satisfies isValidUpdateFiltersPayload', () => {
+        const payload: FilterChangedPayload = {
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'item type' },
+                    filters: [
+                        { filterContent: [{ filterType: 'IN', value: [{ key: 'bags' }] }] },
+                    ],
+                },
+            ],
+            runtimeFilters: [
+                { columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['west'] },
+            ],
+        };
+
+        const converted = convertFilterChangedToUpdateFiltersPayload(payload);
+        expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
     });
 
     test('combines multiple liveboard filters and runtime filters', () => {

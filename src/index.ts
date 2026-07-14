@@ -109,6 +109,12 @@ import {
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
+    LiveboardFilterGroup,
+    LiveboardFilter,
+    LiveboardFilterContent,
+    LiveboardFilterContentValue,
+    LiveboardDateFilterContent,
+    LiveboardDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 } from './utils/filterConverter';
@@ -236,6 +242,12 @@ export {
     TableContentDensity,
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
+    LiveboardFilterGroup,
+    LiveboardFilter,
+    LiveboardFilterContent,
+    LiveboardFilterContentValue,
+    LiveboardDateFilterContent,
+    LiveboardDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 };
