@@ -8,6 +8,7 @@ import {
     HomePage,
     ListPage,
 } from './app';
+import { SpotterQueryMode } from './conversation';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
@@ -587,6 +588,33 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set defaultQueryMode to research in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            defaultQueryMode: SpotterQueryMode.RESEARCH,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&defaultQueryMode=research${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set defaultQueryMode in url when unset', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false${defaultParamsPost}#/home`,
             );
         });
     });

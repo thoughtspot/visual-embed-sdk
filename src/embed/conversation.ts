@@ -16,6 +16,15 @@ export interface SearchOptions {
 }
 
 /**
+ * The query mode Spotter uses when answering a question.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ */
+export enum SpotterQueryMode {
+    FAST_SEARCH = 'fastSearch',
+    RESEARCH = 'research',
+}
+
+/**
  * Configuration for the Spotter sidebar.
  * Can be used in SpotterEmbed and AppEmbed.
  * @group Embed components
@@ -320,6 +329,24 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Sets the default query mode when Spotter loads — Fast Search or
+     * Research Mode. Applies fresh on every new session for this embed
+     * instance only; it does not persist as a user preference and does
+     * not affect other embeds or native ThoughtSpot usage.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default SpotterQueryMode.FAST_SEARCH
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    defaultQueryMode: SpotterQueryMode.RESEARCH,
+     * })
+     * ```
+     */
+    defaultQueryMode?: SpotterQueryMode;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -456,6 +483,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
         } = this.viewConfig;
@@ -478,6 +506,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
 
         // Handle spotterChatConfig params
