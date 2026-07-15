@@ -7,6 +7,43 @@ export interface LiveboardTab {
   [key: string]: any;
 }
 
+/**
+ * Levels at which a filter or parameter can be applied.
+ */
+export enum ApplicabilityLevel {
+  Liveboard = 'LIVEBOARD',
+  Tab = 'TAB',
+  Group = 'GROUP',
+}
+
+/**
+ * Scopes a filter or parameter to a specific target.
+ * At `LIVEBOARD` level the filter applies to the whole Liveboard, so `targetId`
+ * is not required.
+ */
+export interface Applicability {
+  level: ApplicabilityLevel;
+  targetId?: string;
+}
+
+export interface FilterUpdate {
+  column: string;
+  oper: string;
+  values: string[];
+  type?: string;
+  applicability?: Applicability;
+}
+
+export interface LiveboardFilter {
+  applicability?: Applicability;
+  [key: string]: any;
+}
+
+export interface LiveboardParameter {
+  applicability?: Applicability;
+  [key: string]: any;
+}
+
 export enum UIPassthroughEvent {
   PinAnswerToLiveboard = 'addVizToPinboard',
   SaveAnswer = 'saveAnswer',
@@ -103,7 +140,7 @@ export type UIPassthroughContractBase = {
       vizId?: string;
     };
     response: {
-      liveboardFilters: Record<string, any>[];
+      liveboardFilters: LiveboardFilter[];
       runtimeFilters: RuntimeFilter[];
     };
   };
@@ -116,7 +153,7 @@ export type UIPassthroughContractBase = {
   [UIPassthroughEvent.GetParameters]: {
     request: Record<string, never>;
     response: {
-      parameters: Record<string, any>[];
+      parameters: LiveboardParameter[];
     };
   };
   [UIPassthroughEvent.GetTML]: {
@@ -143,18 +180,8 @@ export type UIPassthroughContractBase = {
   };
   [UIPassthroughEvent.UpdateFilters]: {
     request: {
-      filter?: {
-        column: string;
-        oper: string;
-        values: string[];
-        type?: string;
-      };
-      filters?: {
-        column: string;
-        oper: string;
-        values: string[];
-        type?: string;
-      }[];
+      filter?: FilterUpdate;
+      filters?: FilterUpdate[];
     };
     response: unknown;
   };

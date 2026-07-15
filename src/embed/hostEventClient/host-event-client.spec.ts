@@ -311,6 +311,70 @@ describe('HostEventClient', () => {
             );
         });
 
+        it('should dispatch UpdateParameters over the legacy channel', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = [
+                { name: 'param1', value: 10, applicability: { level: 'TAB', targetId: 'tab-guid-1' } },
+            ] as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            const result = await client.triggerHostEvent(HostEvent.UpdateParameters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UpdateParameters,
+                mockThoughtSpotHost,
+                payload,
+                undefined,
+            );
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should forward UpdateParameters with null applicability', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = [{ name: 'param1', value: 10, applicability: null }] as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.UpdateParameters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UpdateParameters,
+                mockThoughtSpotHost,
+                payload,
+                undefined,
+            );
+        });
+
+        it('should throw when UpdateParameters entry has invalid applicability', async () => {
+            const { client } = createHostEventClient();
+            const invalidPayload = [
+                { name: 'param1', value: 10, applicability: { level: 'TAB' } }, // missing targetId
+            ] as any;
+
+            await expect(client.triggerHostEvent(HostEvent.UpdateParameters, invalidPayload))
+                .rejects.toThrow('UpdateParameters received an invalid applicability');
+            expect(mockProcessTrigger).not.toHaveBeenCalled();
+        });
+
+        it('should pass context to UpdateParameters event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = [{ name: 'param1', value: 10 }] as any;
+            const context = { vizId: 'viz-1' } as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.UpdateParameters, payload, context);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UpdateParameters,
+                mockThoughtSpotHost,
+                payload,
+                context,
+            );
+        });
+
         it('should throw when DrillDown payload has no valid points', async () => {
             const { client } = createHostEventClient();
             const invalidPayload = {} as any;

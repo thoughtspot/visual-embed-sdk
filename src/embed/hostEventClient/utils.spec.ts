@@ -1,8 +1,10 @@
 import {
     isValidUpdateFiltersPayload,
+    isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     createValidationError,
     throwUpdateFiltersValidationError,
+    throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
 import { ERROR_MESSAGE } from '../../errors';
@@ -114,6 +116,201 @@ describe('hostEventClient utils', () => {
                 filters: [{ column: 'y' }], // invalid
             } as any)).toBe(true);
         });
+
+        it('returns true for filter without applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: { column: 'x', oper: 'EQ', values: ['a'] },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for filter with valid applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(true);
+        });
+
+        it('returns true for filters array with applicability on some filters', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    {
+                        column: 'x',
+                        oper: 'IN',
+                        values: ['a', 'b'],
+                        applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+                    },
+                    { column: 'y', oper: 'EQ', values: ['c'] },
+                ],
+            } as any)).toBe(true);
+        });
+
+        it('returns false for applicability missing targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for applicability with empty targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'TAB', targetId: '' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for null applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: null,
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for non-object applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: 'TAB',
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns true for LIVEBOARD level applicability without targetId', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 'LIVEBOARD' },
+                },
+            } as any)).toBe(true);
+        });
+
+        it('returns false for applicability missing level', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false for applicability with non-string level', () => {
+            expect(isValidUpdateFiltersPayload({
+                filter: {
+                    column: 'x',
+                    oper: 'EQ',
+                    values: ['a'],
+                    applicability: { level: 123, targetId: 'tab-guid-1' },
+                },
+            } as any)).toBe(false);
+        });
+
+        it('returns false if one filter in filters array has invalid applicability', () => {
+            expect(isValidUpdateFiltersPayload({
+                filters: [
+                    { column: 'x', oper: 'EQ', values: ['a'] },
+                    {
+                        column: 'y',
+                        oper: 'EQ',
+                        values: ['b'],
+                        applicability: { level: 'TAB' }, // missing targetId
+                    },
+                ],
+            } as any)).toBe(false);
+        });
+    });
+
+    // =========================
+    // UpdateParameters Validation
+    // =========================
+    describe('isValidUpdateParametersPayload', () => {
+        it('returns true for undefined payload', () => {
+            expect(isValidUpdateParametersPayload(undefined)).toBe(true);
+        });
+
+        it('returns true for non-array payload', () => {
+            expect(isValidUpdateParametersPayload({ name: 'p', value: 1 })).toBe(true);
+        });
+
+        it('returns true for parameters without applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p1', value: 1 },
+                { name: 'p2', value: 'a' },
+            ])).toBe(true);
+        });
+
+        it('returns true for null applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: null },
+            ])).toBe(true);
+        });
+
+        it('returns true for valid TAB applicability with targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'TAB', targetId: 'tab-guid-1' } },
+            ])).toBe(true);
+        });
+
+        it('returns true for LIVEBOARD level applicability without targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'LIVEBOARD' } },
+            ])).toBe(true);
+        });
+
+        it('returns false for applicability missing targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'TAB' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for applicability with empty targetId', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'GROUP', targetId: ' ' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for applicability with invalid level', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: { level: 'VIZ', targetId: 'guid-1' } },
+            ])).toBe(false);
+        });
+
+        it('returns false for non-object applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p', value: 1, applicability: 'TAB' },
+            ])).toBe(false);
+        });
+
+        it('returns false if one parameter has invalid applicability', () => {
+            expect(isValidUpdateParametersPayload([
+                { name: 'p1', value: 1 },
+                { name: 'p2', value: 2, applicability: { level: 'GROUP' } }, // missing targetId
+            ])).toBe(false);
+        });
+
+        it('returns true for non-object entries', () => {
+            expect(isValidUpdateParametersPayload(['p', 1, null])).toBe(true);
+        });
     });
 
     // =========================
@@ -213,6 +410,13 @@ describe('hostEventClient utils', () => {
         it('throws with UPDATEFILTERS_INVALID_PAYLOAD message', () => {
             expect(() => throwUpdateFiltersValidationError())
                 .toThrow(ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD);
+        });
+    });
+
+    describe('throwUpdateParametersValidationError', () => {
+        it('throws with UPDATEPARAMETERS_INVALID_PAYLOAD message', () => {
+            expect(() => throwUpdateParametersValidationError())
+                .toThrow(ERROR_MESSAGE.UPDATEPARAMETERS_INVALID_PAYLOAD);
         });
     });
 
