@@ -2003,10 +2003,14 @@ export class TsEmbed {
             }
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
-            const oldEle = this.hostElement.querySelector(`#${placeHolderId}`);
-            if (oldEle) {
-                this.hostElement.removeChild(oldEle);
-            }
+            // Remove any stale placeholder from a previous cycle. It is located
+            // via a subtree-wide querySelector, so it may be nested deeper than a
+            // direct child (E.g.: with fullHeight the host app can wrap it). Use
+            // Element.remove() — which detaches from whatever the real parent is —
+            // rather than hostElement.removeChild(), which throws NotFoundError
+            // when the match is not a direct child. Mirrors the wrapper/child
+            // cleanup in createPreRenderWrapper()/createPreRenderChild().
+            this.hostElement.querySelector(`#${placeHolderId}`)?.remove();
 
             this.hostElement.appendChild(this.insertedDomEl);
 
