@@ -6419,6 +6419,17 @@ export enum Action {
      */
     SaveAsView = 'saveAsView',
     /**
+     * The **EditInputTable** action on a Liveboard
+     * page. Allows users to edit an input table used in an Answer directly from
+     * a Liveboard.
+     * @example
+     * ```js
+     * disabledActions: [Action.EditInputTable]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    EditInputTable = 'editInputTable',
+    /**
      * The **Make a copy** action on a Liveboard or Answer
      * page. Creates a copy of the Liveboard.
      * In LiveboardEmbed, the **Make a copy** action is not available for

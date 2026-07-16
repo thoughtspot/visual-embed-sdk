@@ -434,6 +434,10 @@ describe('Action enum values', () => {
     test('RemoveFromFavorites should resolve to its string value', () => {
         expect(Action.RemoveFromFavorites).toBe('removeFromFavorites');
     });
+
+    test('EditInputTable should resolve to its string value', () => {
+        expect(Action.EditInputTable).toBe('editInputTable');
+    });
 });
 
 describe('EmbedEvent basic routing', () => {
