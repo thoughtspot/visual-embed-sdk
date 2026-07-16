@@ -6304,12 +6304,13 @@ export enum Action {
     SaveAsView = 'saveAsView',
     /**
      * The **EditInputTable** action on a Liveboard
-     * page. Helps to edit an input table used in answer directly from
-     * liveboard. 
+     * page. Allows users to edit an input table used in an Answer directly from
+     * a Liveboard.
      * @example
      * ```js
      * disabledActions: [Action.EditInputTable]
      * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     EditInputTable = 'editInputTable',
     /**

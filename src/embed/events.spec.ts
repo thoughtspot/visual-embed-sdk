@@ -416,9 +416,6 @@ describe('Action enum values', () => {
     test('RemoveFromFavorites should resolve to its string value', () => {
         expect(Action.RemoveFromFavorites).toBe('removeFromFavorites');
     });
-});
-
-describe('Action edit input table', () => {
 
     test('EditInputTable should resolve to its string value', () => {
         expect(Action.EditInputTable).toBe('editInputTable');
