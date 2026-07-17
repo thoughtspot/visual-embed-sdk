@@ -184,7 +184,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *     dataSources: ['id-2345', 'id-2345'],
      * });
      * ```
-     * @version SDK: 1.50.1 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     dataSources?: string[];
     /**
