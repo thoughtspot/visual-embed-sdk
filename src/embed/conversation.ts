@@ -169,6 +169,24 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * this object to query data and generate Answers.
      */
     worksheetId: string;
+        /**
+     * The array of data source GUIDs to set on load. Spotter uses
+     * these GUIDs to query data and generate Answers.
+     * dataSources is preferred over worksheetId if both are provided.
+     * The feature is currently behind a feature flag. 
+     * Supported embed types: `SpotterEmbed`.
+     * 
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.50.1 | ThoughtSpot: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    dataSources:['id-2345','id-2345'],
+     * })
+     * ```
+     */
+    dataSources?: string[];
     /**
      * Ability to pass a starting search query to the conversation.
      */
@@ -482,13 +500,14 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            dataSources,
             updatedSpotterChatPrompt,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
         } = this.viewConfig;
 
-        if (!worksheetId) {
+        if (!worksheetId && !dataSources) {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
@@ -539,6 +558,7 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            dataSources,
         } = this.viewConfig;
         const path = 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
@@ -560,8 +580,9 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
-            worksheet: worksheetId,
-            query: searchOptions?.searchQuery || '',
+            ...(worksheetId && { worksheet: worksheetId }),
+            ...(searchOptions?.searchQuery && { query: searchOptions.searchQuery }),
+            ...(Array.isArray(dataSources) && { dataSources: JSON.stringify(dataSources) }),
         });
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }

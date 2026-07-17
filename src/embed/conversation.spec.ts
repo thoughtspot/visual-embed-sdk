@@ -133,6 +133,75 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should not handle error when dataSources is provided but worksheetId is not', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: '',
+            dataSources: ['ds-1', 'ds-2'],
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        (conversationEmbed as any).handleError = jest.fn();
+        await conversationEmbed.render();
+        expect((conversationEmbed as any).handleError).not.toHaveBeenCalled();
+    });
+
+    it('should render the conversation embed with dataSources and no worksheetId in the hash params', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: '',
+            dataSources: ['ds-1', 'ds-2'],
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?dataSources=${encodeURIComponent(JSON.stringify(['ds-1', 'ds-2']))}`,
+        );
+    });
+
+    it('should render the conversation embed with both worksheetId and dataSources in the hash params', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            dataSources: ['ds-1', 'ds-2'],
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery&dataSources=${encodeURIComponent(JSON.stringify(['ds-1', 'ds-2']))}`,
+        );
+    });
+
+    it('should render the conversation embed without searchOptions and worksheetId when neither is set', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: '',
+            dataSources: ['ds-1'],
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        const src = getIFrameSrc();
+        expect(src).not.toContain('worksheet=');
+        expect(src).not.toContain('query=');
+    });
+
+    it('should render the conversation embed with enableStopAnswerGenerationEmbed', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            enableStopAnswerGenerationEmbed: true,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enableStopAnswerGenerationEmbed=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should render the conversation embed if data panel v2 flag is true', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
