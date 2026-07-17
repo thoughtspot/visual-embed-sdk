@@ -113,9 +113,8 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should handle error when worksheetId is not provided', async () => {
+    it('should not handle error when neither worksheetId nor dataSources is provided', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: '',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
@@ -123,14 +122,36 @@ describe('ConversationEmbed', () => {
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         (conversationEmbed as any).handleError = jest.fn();
         await conversationEmbed.render();
-        expect((conversationEmbed as any).handleError).toHaveBeenCalledWith(
-            {
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-                code: EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND,
-                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-            },
-        );
+        expect((conversationEmbed as any).handleError).not.toHaveBeenCalled();
+    });
+
+    it('should not handle error when dataSources is an empty array and worksheetId is not provided', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            dataSources: [],
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        (conversationEmbed as any).handleError = jest.fn();
+        await conversationEmbed.render();
+        expect((conversationEmbed as any).handleError).not.toHaveBeenCalled();
+    });
+
+    it('should render without worksheet and dataSources params when neither is provided', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {};
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        const src = getIFrameSrc();
+        expect(src).not.toContain('worksheet=');
+        expect(src).not.toContain('dataSources=');
+    });
+
+    it('should not append dataSources to the URL when it is an empty array', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            dataSources: [],
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('dataSources=');
     });
 
     it('should not handle error when dataSources is provided but worksheetId is not', async () => {
