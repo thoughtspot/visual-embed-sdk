@@ -34213,7 +34213,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The ID of the data source object. For example, Model, View, or Table. Spotter uses\nthis object to query data and generate Answers.\nThis field is optional. If not provided, Spotter loads without a\npreviously selected user data source."
+						"shortText": "The ID of the data source object. For example, Model, View, or Table. Spotter uses\nthis object to query data and generate Answers.\nThis field is optional. If not provided, Spotter loads using the\npreviously selected user data source."
 					},
 					"sources": [
 						{
@@ -53077,7 +53077,7 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "The ID of the data source object. For example, Model, View, or Table. Spotter uses\nthis object to query data and generate Answers.\nThis field is optional. If not provided, Spotter loads without a\npreviously selected user data source."
+						"shortText": "The ID of the data source object. For example, Model, View, or Table. Spotter uses\nthis object to query data and generate Answers.\nThis field is optional. If not provided, Spotter loads using the\npreviously selected user data source."
 					},
 					"sources": [
 						{

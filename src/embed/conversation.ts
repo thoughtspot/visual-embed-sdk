@@ -166,7 +166,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
-     * This field is optional. If not provided, Spotter loads without a
+     * This field is optional. If not provided, Spotter loads using the
      * previously selected user data source.
      */
     worksheetId?: string;
