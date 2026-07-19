@@ -57,30 +57,24 @@ const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => 
 };
 
 // Helper function to test setIframeHeightForNonEmbedLiveboard behavior.
-// previousPath simulates a prior navigation; height is only reset when
-// arriving at a non-liveboard page FROM a liveboard page.
+// cachedHeight pre-populates the route height cache to simulate a return visit.
 const testSetIframeHeightBehavior = (
     currentPath: string,
     shouldBeCalled: boolean,
-    previousPath?: string,
+    cachedHeight?: number,
 ) => {
     const appEmbed = new AppEmbed(getRootEl(), {
         ...defaultViewConfig,
         fullHeight: true,
     } as AppViewConfig) as any;
 
-    const spySetIFrameHeight = shouldBeCalled
-        ? jest.spyOn(appEmbed, 'setIFrameHeight').mockImplementation(jest.fn())
-        : jest.spyOn(appEmbed, 'setIFrameHeight');
+    if (cachedHeight !== undefined) {
+        appEmbed.routeHeightCache.set(currentPath, cachedHeight);
+    }
+
+    const spySetIFrameHeight = jest.spyOn(appEmbed, 'setIFrameHeight').mockImplementation(jest.fn());
 
     appEmbed.render();
-    if (previousPath !== undefined) {
-        appEmbed.setIframeHeightForNonEmbedLiveboard({
-            data: { currentPath: previousPath },
-            type: 'Route',
-        });
-        spySetIFrameHeight.mockClear();
-    }
     appEmbed.setIframeHeightForNonEmbedLiveboard({
         data: { currentPath },
         type: 'Route',
@@ -2229,17 +2223,20 @@ describe('App embed tests', () => {
             testSetIframeHeightBehavior('/embed/insights/viz/', false);
         });
 
-        test('should not call setIFrameHeight for non-liveboard to non-liveboard navigation', () => {
-            // A→B→A: no reset on return, EmbedHeight drives height
-            testSetIframeHeightBehavior('/some/other/path/', false, '/home');
+        test('should call setIFrameHeight with default height on first visit (no cache)', () => {
+            testSetIframeHeightBehavior('/home', true);
         });
 
-        test('should call setIFrameHeight when navigating from a liveboard to a non-liveboard page', () => {
-            testSetIframeHeightBehavior('/some/other/path/', true, '/liveboard/abc-123');
+        test('should call setIFrameHeight with cached height on return visit (scroll-lock fix)', () => {
+            // Returning to a page whose height is cached restores the correct
+            // height immediately, even if the SPA does not re-emit EmbedHeight.
+            testSetIframeHeightBehavior('/home', true, 1000);
         });
 
-        test('should not call setIFrameHeight on first navigation with no prior route', () => {
-            testSetIframeHeightBehavior('/some/other/path/', false);
+        test('should call setIFrameHeight with cached height for shorter page (height-bloat fix)', () => {
+            // Returning to a 1000px page after visiting a 2500px page must
+            // set 1000px, not stay at 2500px.
+            testSetIframeHeightBehavior('/home', true, 1000);
         });
 
         test('should update iframe height correctly', async () => {

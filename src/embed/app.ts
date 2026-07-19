@@ -922,7 +922,9 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
-    private previousRoutePath: string | null = null;
+    private currentRoutePath: string | null = null;
+
+    private routeHeightCache: Map<string, number> = new Map();
 
     private lazyLoadScrollContainers: HTMLElement[] = [];
 
@@ -1314,7 +1316,11 @@ export class AppEmbed extends V1Embed {
      * @param data The event payload
      */
     protected updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
+        const height = Math.max(data.data, this.defaultHeight);
+        this.setIFrameHeight(height);
+        if (this.currentRoutePath) {
+            this.routeHeightCache.set(this.currentRoutePath, height);
+        }
         this.sendFullHeightLazyLoadData();
     };
 
@@ -1343,27 +1349,26 @@ export class AppEmbed extends V1Embed {
         if (liveboardRelatedRoutes.some((path) => currentPath.startsWith(path))) {
             // Ignore the height reset of the frame, if the navigation is
             // only within the liveboard page.
-            this.previousRoutePath = currentPath;
+            this.currentRoutePath = currentPath;
             return;
         }
 
-        // Only reset iframe height when navigating away FROM a liveboard route.
-        // For non-liveboard → non-liveboard transitions, skip the reset and let
-        // EmbedHeight events drive the height. Without this guard, SPA navigation
-        // (navV3) returning to a cached page never re-emits EmbedHeight (the
-        // ResizeObserver inside the iframe only fires on actual size changes), so
-        // the iframe stays permanently at the reset height and scroll breaks.
-        const comingFromLiveboard =
-            this.previousRoutePath !== null &&
-            liveboardRelatedRoutes.some((path) =>
-                this.previousRoutePath.startsWith(path),
-            );
+        this.currentRoutePath = currentPath;
 
-        this.previousRoutePath = currentPath;
-
-        if (comingFromLiveboard) {
-            this.setIFrameHeight(frameHeight || this.defaultHeight);
-        }
+        // Restore the previously observed height for this route, or fall back
+        // to the configured frame height / default. This prevents two issues:
+        //
+        // 1. Scroll lock on SPA back-navigation (navV3): returning to a cached
+        //    page does not trigger the TS app's ResizeObserver, so EmbedHeight
+        //    is never re-emitted. Without a cache, a blind reset to 500 px
+        //    would leave the iframe permanently too short.
+        //
+        // 2. Height bloat: when going from a taller page to a shorter page, the
+        //    cached height for the shorter route ensures the iframe shrinks
+        //    immediately rather than waiting for EmbedHeight, which may not
+        //    arrive if the SPA page was already rendered at that height.
+        const cachedHeight = this.routeHeightCache.get(currentPath);
+        this.setIFrameHeight(cachedHeight ?? frameHeight ?? this.defaultHeight);
     };
 
     /**
