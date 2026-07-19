@@ -57,10 +57,10 @@ const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => 
 };
 
 // Helper function to test setIframeHeightForNonEmbedLiveboard behavior.
-// cachedHeight pre-populates the route height cache to simulate a return visit.
+// cachedHeight pre-seeds the route height cache to simulate a return visit.
 const testSetIframeHeightBehavior = (
     currentPath: string,
-    shouldBeCalled: boolean,
+    expectedHeight: number | null,
     cachedHeight?: number,
 ) => {
     const appEmbed = new AppEmbed(getRootEl(), {
@@ -80,10 +80,10 @@ const testSetIframeHeightBehavior = (
         type: 'Route',
     });
 
-    if (shouldBeCalled) {
-        expect(spySetIFrameHeight).toHaveBeenCalled();
-    } else {
+    if (expectedHeight === null) {
         expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    } else {
+        expect(spySetIFrameHeight).toHaveBeenCalledWith(expectedHeight);
     }
 };
 
@@ -2216,27 +2216,21 @@ describe('App embed tests', () => {
         });
 
         test('should not call setIFrameHeight if currentPath starts with "/embed/viz/"', () => {
-            testSetIframeHeightBehavior('/embed/viz/', false);
+            testSetIframeHeightBehavior('/embed/viz/', null);
         });
 
         test('should not call setIFrameHeight if currentPath starts with "/embed/insights/viz/"', () => {
-            testSetIframeHeightBehavior('/embed/insights/viz/', false);
+            testSetIframeHeightBehavior('/embed/insights/viz/', null);
         });
 
-        test('should call setIFrameHeight with default height on first visit (no cache)', () => {
-            testSetIframeHeightBehavior('/home', true);
+        test('should call setIFrameHeight with frameHeight on first visit (no cache)', () => {
+            // No cache → falls back to frameParams.height (720 from defaultViewConfig)
+            testSetIframeHeightBehavior('/home', 720);
         });
 
-        test('should call setIFrameHeight with cached height on return visit (scroll-lock fix)', () => {
-            // Returning to a page whose height is cached restores the correct
-            // height immediately, even if the SPA does not re-emit EmbedHeight.
-            testSetIframeHeightBehavior('/home', true, 1000);
-        });
-
-        test('should call setIFrameHeight with cached height for shorter page (height-bloat fix)', () => {
-            // Returning to a 1000px page after visiting a 2500px page must
-            // set 1000px, not stay at 2500px.
-            testSetIframeHeightBehavior('/home', true, 1000);
+        test('should restore cached height on return visit (scroll-lock + height-bloat fix)', () => {
+            // Page was previously at 1000px; returning must set 1000px not 2500px
+            testSetIframeHeightBehavior('/home', 1000, 1000);
         });
 
         test('should update iframe height correctly', async () => {
