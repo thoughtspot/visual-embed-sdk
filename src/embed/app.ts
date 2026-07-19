@@ -922,6 +922,8 @@ export class AppEmbed extends V1Embed {
 
     private defaultHeight = 500;
 
+    private previousRoutePath: string | null = null;
+
     private lazyLoadScrollContainers: HTMLElement[] = [];
 
     private lazyLoadResizeObserver: ResizeObserver | undefined;
@@ -1336,12 +1338,32 @@ export class AppEmbed extends V1Embed {
             '/import-tsl/PINBOARD_ANSWER_BOOK/',
         ];
 
-        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
+        const currentPath = data.data.currentPath;
+
+        if (liveboardRelatedRoutes.some((path) => currentPath.startsWith(path))) {
             // Ignore the height reset of the frame, if the navigation is
             // only within the liveboard page.
+            this.previousRoutePath = currentPath;
             return;
         }
-        this.setIFrameHeight(frameHeight || this.defaultHeight);
+
+        // Only reset iframe height when navigating away FROM a liveboard route.
+        // For non-liveboard → non-liveboard transitions, skip the reset and let
+        // EmbedHeight events drive the height. Without this guard, SPA navigation
+        // (navV3) returning to a cached page never re-emits EmbedHeight (the
+        // ResizeObserver inside the iframe only fires on actual size changes), so
+        // the iframe stays permanently at the reset height and scroll breaks.
+        const comingFromLiveboard =
+            this.previousRoutePath !== null &&
+            liveboardRelatedRoutes.some((path) =>
+                this.previousRoutePath.startsWith(path),
+            );
+
+        this.previousRoutePath = currentPath;
+
+        if (comingFromLiveboard) {
+            this.setIFrameHeight(frameHeight || this.defaultHeight);
+        }
     };
 
     /**

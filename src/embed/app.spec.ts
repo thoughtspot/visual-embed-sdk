@@ -56,10 +56,13 @@ const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => 
     });
 };
 
-// Helper function to test setIframeHeightForNonEmbedLiveboard behavior
+// Helper function to test setIframeHeightForNonEmbedLiveboard behavior.
+// previousPath simulates a prior navigation; height is only reset when
+// arriving at a non-liveboard page FROM a liveboard page.
 const testSetIframeHeightBehavior = (
     currentPath: string,
-    shouldBeCalled: boolean
+    shouldBeCalled: boolean,
+    previousPath?: string,
 ) => {
     const appEmbed = new AppEmbed(getRootEl(), {
         ...defaultViewConfig,
@@ -71,6 +74,13 @@ const testSetIframeHeightBehavior = (
         : jest.spyOn(appEmbed, 'setIFrameHeight');
 
     appEmbed.render();
+    if (previousPath !== undefined) {
+        appEmbed.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: previousPath },
+            type: 'Route',
+        });
+        spySetIFrameHeight.mockClear();
+    }
     appEmbed.setIframeHeightForNonEmbedLiveboard({
         data: { currentPath },
         type: 'Route',
@@ -2219,8 +2229,17 @@ describe('App embed tests', () => {
             testSetIframeHeightBehavior('/embed/insights/viz/', false);
         });
 
-        test('should call setIFrameHeight if currentPath starts with "/some/other/path/"', () => {
-            testSetIframeHeightBehavior('/some/other/path/', true);
+        test('should not call setIFrameHeight for non-liveboard to non-liveboard navigation', () => {
+            // A→B→A: no reset on return, EmbedHeight drives height
+            testSetIframeHeightBehavior('/some/other/path/', false, '/home');
+        });
+
+        test('should call setIFrameHeight when navigating from a liveboard to a non-liveboard page', () => {
+            testSetIframeHeightBehavior('/some/other/path/', true, '/liveboard/abc-123');
+        });
+
+        test('should not call setIFrameHeight on first navigation with no prior route', () => {
+            testSetIframeHeightBehavior('/some/other/path/', false);
         });
 
         test('should update iframe height correctly', async () => {
