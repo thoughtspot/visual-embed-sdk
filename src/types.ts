@@ -3880,6 +3880,7 @@ export enum EmbedEvent {
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
      * Emitted when a Spotter conversation is pinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationPinned, (payload) => {
@@ -3887,11 +3888,11 @@ export enum EmbedEvent {
      *     // payload: { conversationId: string, pinnedAt: string (ISO 8601) }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     SpotterConversationPinned = 'spotterConversationPinned',
     /**
      * Emitted when a Spotter conversation is unpinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
@@ -3899,7 +3900,6 @@ export enum EmbedEvent {
      *     // payload: { conversationId: string, unpinnedAt: string (ISO 8601) }
      * })
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     SpotterConversationUnpinned = 'spotterConversationUnpinned',
     /**
@@ -6270,13 +6270,13 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.PinSpotterConversation, {
      *     conversationId: '<conversation-id>',
      * });
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     PinSpotterConversation = 'PinSpotterConversation',
 
@@ -6288,13 +6288,13 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.UnpinSpotterConversation, {
      *     conversationId: '<conversation-id>',
      * });
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     UnpinSpotterConversation = 'UnpinSpotterConversation',
 
@@ -8290,11 +8290,11 @@ export enum Action {
     /**
      * Controls visibility and disable state of the pin/unpin action
      * in the Spotter conversation edit menu.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * disabledActions: [Action.SpotterChatPin]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     SpotterChatPin = 'spotterChatPin',
     /**

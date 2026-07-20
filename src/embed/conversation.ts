@@ -66,26 +66,26 @@ export interface SpotterSidebarViewConfig {
      * the pin glyph are hidden and the PinSpotterConversation /
      * UnpinSpotterConversation host events are no-ops. Native (non-embedded)
      * Spotter is unaffected and ships pin enabled.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default false
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
      */
     enablePinConversation?: boolean;
     /**
      * Custom label text for the pin action in the conversation edit menu.
      * Defaults to translated "Pin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterChatPinLabel?: string;
     /**
      * Custom label text for the unpin action in the conversation edit menu.
      * Defaults to translated "Unpin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterChatUnpinLabel?: string;
     /**
      * Custom icon for the pin glyph and the pin menu item. Accepts an icon id
      * from the icon sprite. Defaults to the built-in PIN icon.
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     spotterChatPinIcon?: string;
     /**
