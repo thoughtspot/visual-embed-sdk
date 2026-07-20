@@ -1757,3 +1757,42 @@ describe('HostEvent.DownloadAsCsv — additional cases', () => {
         expect(result).toBeNull();
     });
 });
+
+// ---------------------------------------------------------------------------
+// Spotter share-conversation HostEvents 
+// ---------------------------------------------------------------------------
+describe('Spotter share-conversation HostEvents', () => {
+    const shareEvents: Array<[string, HostEvent, string, any]> = [
+        ['ShareSpotterConversation', HostEvent.ShareSpotterConversation, 'ShareSpotterConversation', { conversationId: 'abc' }],
+        ['CloseSpotterShareConversation', HostEvent.CloseSpotterShareConversation, 'CloseSpotterShareConversation', {}],
+        ['ExitSpotterSharedConversation', HostEvent.ExitSpotterSharedConversation, 'ExitSpotterSharedConversation', {}],
+    ];
+
+    test.each(shareEvents)(
+        '%s: postMessage type is the matching string value',
+        async (name, event, typeString, payload) => {
+            mockMessageChannel();
+            const { lb, iframe } = await renderLiveboard();
+            await executeAfterWait(() => {
+                lb.trigger(event, payload as any);
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({ type: typeString }),
+                    thoughtSpotHost,
+                    expect.anything(),
+                );
+            });
+        },
+    );
+
+    test.each(shareEvents)(
+        '%s: returns null and calls handleError when !isRendered',
+        async (name, event, typeString, payload) => {
+            const lb = unrenderedLiveboard();
+            const result = await lb.trigger(event, payload as any);
+            expect(result).toBeNull();
+            expect((lb as any).handleError).toHaveBeenCalledWith(
+                expect.objectContaining({ code: EmbedErrorCodes.RENDER_NOT_CALLED }),
+            );
+        },
+    );
+});
