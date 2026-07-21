@@ -45,6 +45,40 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should deep-link to the shared-conversation reader view when sharedConversationId is set', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            sharedConversationId: 'conv-123',
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist/s/conv-123?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should URL-encode the sharedConversationId in the reader-view path', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            sharedConversationId: 'conv/1',
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist/s/conv%2F1?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
     it('should render the conversation embed with worksheets disabled', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
@@ -785,6 +819,40 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
             }),
         );
         expect(mockPort.postMessage.mock.calls[0]?.[0].data.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
+    });
+
+    it('should include spotterShareConversationConfig in embedParams when provided', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterShareConversationConfig: { enableShareConversation: true },
+        });
+        expect(response.data.embedParams.spotterShareConversationConfig).toEqual({
+            enableShareConversation: true,
+        });
+    });
+
+    it('should pass spotterShareConversationConfig label/icon overrides through embedParams', async () => {
+        const spotterShareConversationConfig = {
+            enableShareConversation: true,
+            spotterShareLabel: 'Share',
+            spotterShareModalTitle: 'Share conversation',
+            spotterShareIcon: 'share',
+        };
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterShareConversationConfig,
+        });
+        expect(response.data.embedParams.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
+    });
+
+    it('should include spotterShareConversationConfig alongside spotterSidebarConfig', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+            spotterShareConversationConfig: { enableShareConversation: true },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.embedParams.spotterShareConversationConfig.enableShareConversation).toBe(true);
     });
 
 });

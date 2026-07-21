@@ -1,4 +1,8 @@
-import { resolveEnablePastConversationsSidebar, buildSpotterSidebarAppInitData } from './spotter-utils';
+import {
+    resolveEnablePastConversationsSidebar,
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+} from './spotter-utils';
 import { ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { ERROR_MESSAGE } from '../errors';
 
@@ -104,5 +108,53 @@ describe('buildSpotterSidebarAppInitData', () => {
         }, noopError);
         expect(result.embedParams?.visualOverridesParams).toBeUndefined();
         expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+    });
+});
+
+describe('buildSpotterShareConversationAppInitData', () => {
+    const base = { type: 'APP_INIT' } as any;
+
+    it('returns base unchanged when no spotterShareConversationConfig', () => {
+        const result = buildSpotterShareConversationAppInitData(base, {});
+        expect(result).toBe(base);
+    });
+
+    it('nests spotterShareConversationConfig under embedParams', () => {
+        const result = buildSpotterShareConversationAppInitData(base, {
+            spotterShareConversationConfig: { enableShareConversation: true },
+        });
+        expect(result.embedParams?.spotterShareConversationConfig).toEqual({
+            enableShareConversation: true,
+        });
+    });
+
+    it('passes label/icon override fields through untouched', () => {
+        const spotterShareConversationConfig = {
+            enableShareConversation: true,
+            spotterShareLabel: 'Share',
+            spotterShareModalTitle: 'Share conversation',
+            spotterShareConfirmLabel: 'Share',
+            spotterShareCancelLabel: 'Cancel',
+            spotterShareAddUsersLabel: 'Add users or groups',
+            spotterShareEmptyTitle: 'No users added yet',
+            spotterShareEmptySubtitle: 'Not shared with any user',
+            spotterShareIncludeNewMessagesLabel: 'Include new messages',
+            spotterShareUpToCurrentLabel: 'Share up to current moment',
+            spotterShareStaleInfoLabel: 'This snapshot may be stale',
+            spotterShareIcon: 'share',
+        };
+        const result = buildSpotterShareConversationAppInitData(base, {
+            spotterShareConversationConfig,
+        });
+        expect(result.embedParams?.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
+    });
+
+    it('preserves existing embedParams when nesting the share config', () => {
+        const withParams = { type: 'APP_INIT', embedParams: { existing: 'keep' } } as any;
+        const result = buildSpotterShareConversationAppInitData(withParams, {
+            spotterShareConversationConfig: { enableShareConversation: true },
+        });
+        expect(result.embedParams?.existing).toBe('keep');
+        expect(result.embedParams?.spotterShareConversationConfig?.enableShareConversation).toBe(true);
     });
 });
