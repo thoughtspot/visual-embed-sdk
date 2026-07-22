@@ -1,0 +1,28 @@
+{
+    "answer": {
+        "sync": [
+            "sync-to-sheets",
+            "sync-to-other-apps",
+            "manage-pipeline"
+        ]
+    },
+    "liveboard": {
+        "tml": [
+            "exportTSL",
+            "updateTSL",
+            "editTSL"
+        ],
+        "schedule": [
+            "subscription",
+            "schedule-list"
+        ],
+        "publish": [
+            "managePublishing",
+            "unpublish"
+        ],
+        "sync": [
+            "syncToSlack",
+            "syncToTeams"
+        ]
+    }
+}

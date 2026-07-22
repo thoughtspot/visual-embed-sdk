@@ -191,3 +191,10 @@ export {
 
 export { resetCachedAuthToken } from './authToken';
 export { startAutoMCPFrameRenderer } from './embed/auto-frame-renderer';
+export {
+    ACTION_GROUPS,
+    CASCADING_MENU_ACTIONS,
+    TARGETABLE_CASCADING_PARENTS,
+    CascadingMenuSurface,
+    CascadingMenuParentId,
+} from './cascading-menu-actions';
