@@ -947,7 +947,7 @@ export class AppEmbed extends V1Embed {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
-            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            // this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
             this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
             this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
             this.on(
