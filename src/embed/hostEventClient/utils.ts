@@ -53,6 +53,14 @@ export function isValidUpdateParametersPayload(payload: unknown): boolean {
   });
 }
 
+// Shared by OpenFilter and OpenParameter, which have identical rules: validate the optional
+// applicability (null treated as absent); the rest is forwarded as-is for backward compatibility.
+export function isValidOptionalApplicabilityPayload(payload: unknown): boolean {
+  if (!isPlainObject(payload)) return true;
+  const { applicability } = payload as { applicability?: { level?: string; targetId?: string } };
+  return isNil(applicability) || isValidApplicability(applicability);
+}
+
 export function isValidDrillDownPayload(
   payload: HostEventRequest<HostEvent.DrillDown> | undefined,
 ): boolean {
@@ -98,4 +106,12 @@ export function throwDrillDownValidationError(): never {
 
 export function throwUpdateParametersValidationError(): never {
   createValidationError(ERROR_MESSAGE.UPDATEPARAMETERS_INVALID_PAYLOAD);
+}
+
+export function throwOpenFilterValidationError(): never {
+  createValidationError(ERROR_MESSAGE.OPENFILTER_INVALID_PAYLOAD);
+}
+
+export function throwOpenParameterValidationError(): never {
+  createValidationError(ERROR_MESSAGE.OPENPARAMETER_INVALID_PAYLOAD);
 }

@@ -375,6 +375,117 @@ describe('HostEventClient', () => {
             );
         });
 
+        it('should dispatch OpenFilter over the legacy channel', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                column: { columnId: 'col-1' },
+                applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+            } as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            const result = await client.triggerHostEvent(HostEvent.OpenFilter, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.OpenFilter,
+                mockThoughtSpotHost,
+                payload,
+                undefined,
+            );
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should dispatch OpenFilter without applicability', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = { column: { columnId: 'col-1' } } as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.OpenFilter, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.OpenFilter,
+                mockThoughtSpotHost,
+                payload,
+                undefined,
+            );
+        });
+
+        it('should throw when OpenFilter has invalid applicability', async () => {
+            const { client } = createHostEventClient();
+            const invalidPayload = {
+                column: { columnId: 'col-1' },
+                applicability: { level: 'TAB' }, // missing targetId
+            } as any;
+
+            await expect(client.triggerHostEvent(HostEvent.OpenFilter, invalidPayload))
+                .rejects.toThrow('OpenFilter received an invalid applicability');
+            expect(mockProcessTrigger).not.toHaveBeenCalled();
+        });
+
+        it('should pass context to OpenFilter event', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = { column: { columnId: 'col-1' } } as any;
+            const context = { liveboardId: 'lb-1' } as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.OpenFilter, payload, context);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.OpenFilter,
+                mockThoughtSpotHost,
+                payload,
+                context,
+            );
+        });
+
+        it('should dispatch OpenParameter over the legacy channel', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                parameter: { parameterId: 'p-1' },
+                applicability: { level: 'GROUP', targetId: 'group-guid-1' },
+            } as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            const result = await client.triggerHostEvent(HostEvent.OpenParameter, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledTimes(1);
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.OpenParameter,
+                mockThoughtSpotHost,
+                payload,
+                undefined,
+            );
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should throw when OpenParameter has invalid applicability', async () => {
+            const { client } = createHostEventClient();
+            const invalidPayload = {
+                parameter: { parameterId: 'p-1' },
+                applicability: { level: 'GROUP' }, // missing targetId
+            } as any;
+
+            await expect(client.triggerHostEvent(HostEvent.OpenParameter, invalidPayload))
+                .rejects.toThrow('OpenParameter received an invalid applicability');
+            expect(mockProcessTrigger).not.toHaveBeenCalled();
+        });
+
+        it('should route GetGroups through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            const mockResponse = [{ value: { orderedGroupIds: ['g1', 'g2'], numberOfGroups: 2, Groups: [] as any[] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.GetGroups, {});
+
+            expect(result).toEqual({ orderedGroupIds: ['g1', 'g2'], numberOfGroups: 2, Groups: [] });
+        });
+
         it('should throw when DrillDown payload has no valid points', async () => {
             const { client } = createHostEventClient();
             const invalidPayload = {} as any;

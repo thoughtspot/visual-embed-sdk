@@ -5,9 +5,12 @@ import {
     isValidUpdateFiltersPayload,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
+    isValidOptionalApplicabilityPayload,
     throwUpdateFiltersValidationError,
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
+    throwOpenFilterValidationError,
+    throwOpenParameterValidationError,
 } from './utils';
 import {
     UIPassthroughArrayResponse,
@@ -38,6 +41,7 @@ const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
     [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters,
     [HostEvent.GetTML]: UIPassthroughEvent.GetTML,
     [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs,
+    [HostEvent.GetGroups]: UIPassthroughEvent.GetGroups,
     [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
 };
 
@@ -61,6 +65,8 @@ export class HostEventClient {
           [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
           [HostEvent.UpdateFilters]: (p, c) => this.handleUpdateFiltersEvent(p, c),
           [HostEvent.UpdateParameters]: (p, c) => this.handleUpdateParametersEvent(p, c),
+          [HostEvent.OpenFilter]: (p, c) => this.handleOpenFilterEvent(p, c),
+          [HostEvent.OpenParameter]: (p, c) => this.handleOpenParameterEvent(p, c),
           [HostEvent.DrillDown]: (p, c) => this.handleDrillDownEvent(p, c),
       };
   }
@@ -256,6 +262,30 @@ export class HostEventClient {
 
     // UpdateParameters has no UI passthrough contract; dispatch over the legacy channel
     return this.hostEventFallback(HostEvent.UpdateParameters, payload, context);
+  }
+
+  protected handleOpenFilterEvent(
+    payload: HostEventRequest<HostEvent.OpenFilter>,
+    context?: ContextType,
+  ): Promise<any> {
+    if (!isValidOptionalApplicabilityPayload(payload)) {
+      throwOpenFilterValidationError();
+    }
+
+    // OpenFilter has no UI passthrough contract; dispatch over the legacy channel
+    return this.hostEventFallback(HostEvent.OpenFilter, payload, context);
+  }
+
+  protected handleOpenParameterEvent(
+    payload: HostEventRequest<HostEvent.OpenParameter>,
+    context?: ContextType,
+  ): Promise<any> {
+    if (!isValidOptionalApplicabilityPayload(payload)) {
+      throwOpenParameterValidationError();
+    }
+
+    // OpenParameter has no UI passthrough contract; dispatch over the legacy channel
+    return this.hostEventFallback(HostEvent.OpenParameter, payload, context);
   }
 
   protected handleDrillDownEvent(

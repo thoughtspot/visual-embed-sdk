@@ -2,10 +2,13 @@ import {
     isValidUpdateFiltersPayload,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
+    isValidOptionalApplicabilityPayload,
     createValidationError,
     throwUpdateFiltersValidationError,
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
+    throwOpenFilterValidationError,
+    throwOpenParameterValidationError,
 } from './utils';
 import { ERROR_MESSAGE } from '../../errors';
 import { EmbedEvent } from '../../types';
@@ -377,6 +380,77 @@ describe('hostEventClient utils', () => {
     });
 
     // =========================
+    // Optional Applicability Validation (OpenFilter / OpenParameter)
+    // =========================
+    describe('isValidOptionalApplicabilityPayload', () => {
+        it('returns true for undefined payload', () => {
+            expect(isValidOptionalApplicabilityPayload(undefined)).toBe(true);
+        });
+
+        it('returns true for non-object payload', () => {
+            expect(isValidOptionalApplicabilityPayload('openFilter')).toBe(true);
+        });
+
+        it('returns true for payload without applicability', () => {
+            expect(isValidOptionalApplicabilityPayload({ column: { columnId: 'col-1' } })).toBe(true);
+            expect(isValidOptionalApplicabilityPayload({ parameter: { parameterId: 'p-1' } })).toBe(true);
+        });
+
+        it('returns true for null applicability', () => {
+            expect(isValidOptionalApplicabilityPayload({ column: { columnId: 'col-1' }, applicability: null })).toBe(true);
+        });
+
+        it('returns true for valid TAB applicability with targetId', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                column: { columnId: 'col-1' },
+                applicability: { level: 'TAB', targetId: 'tab-guid-1' },
+            })).toBe(true);
+        });
+
+        it('returns true for valid GROUP applicability with targetId', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                parameter: { parameterId: 'p-1' },
+                applicability: { level: 'GROUP', targetId: 'group-guid-1' },
+            })).toBe(true);
+        });
+
+        it('returns true for LIVEBOARD level applicability without targetId', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                column: { columnId: 'col-1' },
+                applicability: { level: 'LIVEBOARD' },
+            })).toBe(true);
+        });
+
+        it('returns false for applicability missing targetId', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                column: { columnId: 'col-1' },
+                applicability: { level: 'TAB' },
+            })).toBe(false);
+        });
+
+        it('returns false for applicability with empty targetId', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                parameter: { parameterId: 'p-1' },
+                applicability: { level: 'TAB', targetId: '  ' },
+            })).toBe(false);
+        });
+
+        it('returns false for applicability with invalid level', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                column: { columnId: 'col-1' },
+                applicability: { level: 'VIZ', targetId: 'guid-1' },
+            })).toBe(false);
+        });
+
+        it('returns false for non-object applicability', () => {
+            expect(isValidOptionalApplicabilityPayload({
+                column: { columnId: 'col-1' },
+                applicability: 'TAB',
+            })).toBe(false);
+        });
+    });
+
+    // =========================
     // Error Handling
     // =========================
     describe('createValidationError', () => {
@@ -424,6 +498,20 @@ describe('hostEventClient utils', () => {
         it('throws with DRILLDOWN_INVALID_PAYLOAD message', () => {
             expect(() => throwDrillDownValidationError())
                 .toThrow(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
+        });
+    });
+
+    describe('throwOpenFilterValidationError', () => {
+        it('throws with OPENFILTER_INVALID_PAYLOAD message', () => {
+            expect(() => throwOpenFilterValidationError())
+                .toThrow(ERROR_MESSAGE.OPENFILTER_INVALID_PAYLOAD);
+        });
+    });
+
+    describe('throwOpenParameterValidationError', () => {
+        it('throws with OPENPARAMETER_INVALID_PAYLOAD message', () => {
+            expect(() => throwOpenParameterValidationError())
+                .toThrow(ERROR_MESSAGE.OPENPARAMETER_INVALID_PAYLOAD);
         });
     });
 });
