@@ -781,6 +781,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    spotterSidebarConfig: {
      *        enablePastConversationsSidebar: true,
      *        spotterSidebarTitle: 'My Conversations',
+     *        // Opt in to pin/unpin conversations in embedded Spotter
+     *        spotterChatPinConfig: {
+     *            enabled: true,
+     *        },
      *    },
      * })
      * ```
