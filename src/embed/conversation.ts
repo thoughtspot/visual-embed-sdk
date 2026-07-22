@@ -28,7 +28,7 @@ export enum SpotterQueryMode {
  * Grouped into one object because pin exposes several related settings
  * (enable + label/icon overrides), unlike single-item actions like rename or
  * delete.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
  */
 export interface SpotterChatPinConfig {
     /**
@@ -37,26 +37,26 @@ export interface SpotterChatPinConfig {
      * the pin glyph are hidden and the PinSpotterConversation /
      * UnpinSpotterConversation host events are no-ops. Native (non-embedded)
      * Spotter is unaffected and ships pin enabled.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @default false
      */
     enabled?: boolean;
     /**
      * Custom label text for the pin action in the conversation edit menu.
      * Defaults to translated "Pin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     pinLabel?: string;
     /**
      * Custom label text for the unpin action in the conversation edit menu.
      * Defaults to translated "Unpin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     unpinLabel?: string;
     /**
      * Custom icon for the pin glyph and the pin menu item. Accepts an icon id
      * from the icon sprite. Defaults to the built-in PIN icon.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     icon?: string;
 }
@@ -101,7 +101,7 @@ export interface SpotterSidebarViewConfig {
     /**
      * Pin/unpin conversation feature config (enable + label/icon overrides).
      * Off by default in embed — hosts opt in via `enabled`.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     spotterChatPinConfig?: SpotterChatPinConfig;
     /**
