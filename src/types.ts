@@ -3879,6 +3879,30 @@ export enum EmbedEvent {
      */
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
+     * Emitted when a Spotter conversation is pinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationPinned, (payload) => {
+     *     console.log('Conversation pinned', payload);
+     *     // payload: { conversationId: string, pinnedAt: string (ISO 8601) }
+     * })
+     * ```
+     */
+    SpotterConversationPinned = 'spotterConversationPinned',
+    /**
+     * Emitted when a Spotter conversation is unpinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
+     *     console.log('Conversation unpinned', payload);
+     *     // payload: { conversationId: string, unpinnedAt: string (ISO 8601) }
+     * })
+     * ```
+     */
+    SpotterConversationUnpinned = 'spotterConversationUnpinned',
+    /**
      * Emitted when a Spotter conversation is selected/clicked.
      * @example
      * ```js
@@ -6238,6 +6262,43 @@ export enum HostEvent {
     StartNewSpotterConversation = 'StartNewSpotterConversation',
 
     /**
+     * Pins a saved Spotter conversation so it floats to the top of the past
+     * conversations sidebar. The `conversationId` of the conversation to pin is
+     * required.
+     *
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
+     *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PinSpotterConversation, {
+     *     conversationId: '<conversation-id>',
+     * });
+     * ```
+     */
+    PinSpotterConversation = 'PinSpotterConversation',
+
+    /**
+     * Unpins a previously pinned Spotter conversation. The `conversationId` of the
+     * conversation to unpin is required.
+     *
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
+     *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.UnpinSpotterConversation, {
+     *     conversationId: '<conversation-id>',
+     * });
+     * ```
+     */
+    UnpinSpotterConversation = 'UnpinSpotterConversation',
+
+    /**
      * @hidden
      * Get the current context of the embedded page.
      *
@@ -8226,6 +8287,16 @@ export enum Action {
      * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      */
     SpotterChatDelete = 'spotterChatDelete',
+    /**
+     * Controls visibility and disable state of the pin/unpin action
+     * in the Spotter conversation edit menu.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatPin]
+     * ```
+     */
+    SpotterChatPin = 'spotterChatPin',
     /**
      * Controls visibility and disable state of the documentation/best practices
      * link in the Spotter sidebar footer.
