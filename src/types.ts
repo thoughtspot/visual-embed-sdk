@@ -176,7 +176,9 @@ export enum AuthType {
 }
 /**
  *
- * **Note**:  This attribute is not supported in the classic (V1) homepage experience.
+ * **Note**: The classic (V1) and Modular (V2) home page experiences are
+ * deprecated. This attribute applies to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  *
  */
 
@@ -1617,7 +1619,9 @@ export interface HomePageConfig {
      * To specify the modules, import the `HomepageModule` enum.
      * For example: `hiddenHomepageModules = [HomepageModule.MyLibrary]`
      *
-     * **Note**: This attribute is not supported in the classic (v1) experience.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1626,7 +1630,7 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // V2/V3 navigation and home page experience attributes
+     *    ... // V3 navigation and home page experience attributes
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
      *    //...other embed view configuration attributes
      * })
@@ -1637,8 +1641,11 @@ export interface HomePageConfig {
      * Reorder home page modules.
      * To specify the modules, import the `HomepageModule` enum.
      * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary,
-     * HomepageModule.Watchlist]` **Note**: This attribute is not supported in the
-     * classic (v1) homepage.
+     * HomepageModule.Watchlist]`
+     *
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1647,7 +1654,7 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ...//V2/V3 navigation and home page experience attributes
+     *    ...//V3 navigation and home page experience attributes
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
      *    //... other embed view configuration attributes
      * })
@@ -1659,7 +1666,9 @@ export interface HomePageConfig {
      * on the home page left navigation panel.
      * To specify the menu items, import the `HomeLeftNavItem` enum.
      *
-     * **Note**: This attribute is not supported in the classic (v1) homepage.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -2253,7 +2262,9 @@ export enum RuntimeFilterOp {
  * via `hiddenHomepageModules` and reordered via
  * `reorderedHomepageModules`.
  *
- * **Note**: This option is not supported in the classic (v1) experience.
+ * **Note**: The classic (V1) and Modular (V2) home page experiences are
+ * deprecated. These modules apply to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
 
