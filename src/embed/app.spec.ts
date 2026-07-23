@@ -746,7 +746,6 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             spotterChatConfig: {
                 starterPrompts: {
-                    enabled: true,
                     quick: {
                         label: 'L'.repeat(50),
                         visibility: true,
@@ -776,7 +775,6 @@ describe('App embed tests', () => {
         });
         await executeAfterWait(() => {
             const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
-            expect(starterPrompts.enabled).toBe(true);
             expect(starterPrompts.quick.label).toHaveLength(30);
             expect(starterPrompts.quick.questions).toHaveLength(4);
             expect(starterPrompts.research.visibility).toBe(false);
