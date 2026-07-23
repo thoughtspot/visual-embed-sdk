@@ -7909,6 +7909,20 @@ export enum Action {
      */
     SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
     /**
+     * Controls visibility and disable state of the onboarding
+     * starter-prompts surface in the Spotter chat interface.
+     *
+     * The surface is **visible by default** when embedded. Hide it with
+     * `hiddenActions`, or omit it from a non-empty `visibleActions` allowlist.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterStarterPrompts]
+     * disabledActions: [Action.SpotterStarterPrompts]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    SpotterStarterPrompts = 'spotterStarterPrompts',
+    /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
      * the current time period in filter results.

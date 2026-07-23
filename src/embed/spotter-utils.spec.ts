@@ -134,9 +134,16 @@ describe('buildStarterPromptsAppInitData', () => {
 
     it('nests starterPrompts under embedParams', () => {
         const result = buildStarterPromptsAppInitData(base, {
-            spotterChatConfig: { starterPrompts: { enabled: true } },
+            spotterChatConfig: { starterPrompts: { quick: { visibility: true } } },
         });
-        expect(result.embedParams?.starterPrompts).toEqual({ enabled: true });
+        expect(result.embedParams?.starterPrompts).toEqual({ quick: { visibility: true } });
+    });
+
+    it('forwards a content-only config (no enabled toggle)', () => {
+        const result = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts: { research: { visibility: false } } },
+        });
+        expect(result.embedParams?.starterPrompts).toEqual({ research: { visibility: false } });
     });
 
     it('preserves existing embedParams keys', () => {
@@ -145,10 +152,10 @@ describe('buildStarterPromptsAppInitData', () => {
             embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } },
         } as any;
         const result = buildStarterPromptsAppInitData(withExisting, {
-            spotterChatConfig: { starterPrompts: { enabled: true } },
+            spotterChatConfig: { starterPrompts: { quick: { visibility: true } } },
         });
         expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
-        expect(result.embedParams?.starterPrompts).toEqual({ enabled: true });
+        expect(result.embedParams?.starterPrompts).toEqual({ quick: { visibility: true } });
     });
 
     it('caps each category questions at the top MAX_STARTER_PROMPT_QUESTIONS', () => {

@@ -638,7 +638,6 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    enabled: true,
                     quick: {
                         label: 'Quick',
                         visibility: true,
@@ -650,7 +649,6 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             },
         });
         expect(response.data.embedParams.starterPrompts).toEqual({
-            enabled: true,
             quick: {
                 label: 'Quick',
                 visibility: true,
@@ -666,7 +664,6 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    enabled: true,
                     quick: {
                         questions: [
                             { label: 'Q1', prompt: 'P1' },
@@ -692,7 +689,6 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    enabled: true,
                     quick: {
                         label: longLabel,
                         questions: [{ label: longQuestionLabel, prompt: longPrompt }],
@@ -711,6 +707,24 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
     it('should not include starterPrompts in embedParams when not configured', async () => {
         const response = await getAppInitResponse({ worksheetId: 'ws1' });
         expect(response.data.embedParams?.starterPrompts).toBeUndefined();
+    });
+
+    it('exposes the SpotterStarterPrompts action with the string the app gates on', () => {
+        expect(Action.SpotterStarterPrompts).toBe('spotterStarterPrompts');
+    });
+
+    it('forwards a content-only starterPrompts config without an enabled toggle', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    quick: { visibility: true, questions: [{ label: 'Q1', prompt: 'P1' }] },
+                },
+            },
+        });
+        expect(response.data.embedParams.starterPrompts).toEqual({
+            quick: { visibility: true, questions: [{ label: 'Q1', prompt: 'P1' }] },
+        });
     });
 });
 

@@ -156,7 +156,11 @@ export interface StarterPreviewDataCategory {
 }
 
 /**
- * Configuration for the Spotter onboarding starter-prompts surface.
+ * Content configuration for the Spotter onboarding starter-prompts surface.
+ *
+ * This object only configures the *content* of the surface. Its visibility is
+ * controlled through the standard action model via `Action.SpotterStarterPrompts`
+ * (`hiddenActions` / `visibleActions`); the surface is visible by default.
  *
  * Category keys are fixed: `quick` → Basic Search, `research` → Deep Analysis,
  * `preview-data` → Data Literacy. For `quick` and `research`, `questions` is
@@ -166,11 +170,6 @@ export interface StarterPreviewDataCategory {
  * @group Embed components
  */
 export interface StarterPromptsConfig {
-    /**
-     * Master switch for the entire onboarding starter-prompts surface.
-     * When `false`, the whole surface is hidden.
-     */
-    enabled?: boolean;
     /**
      * Basic Search category configuration.
      */
@@ -223,9 +222,14 @@ export interface SpotterChatViewConfig {
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
     /**
-     * Configures the Spotter onboarding starter-prompts surface: a master
-     * switch, per-category visibility and label, and custom question lists for
+     * Configures the *content* of the Spotter onboarding starter-prompts
+     * surface: per-category visibility and label, and custom question lists for
      * the two question-bearing categories.
+     *
+     * The surface's own visibility is controlled through the standard action
+     * model via `Action.SpotterStarterPrompts` — it is visible by default; hide
+     * it with `hiddenActions: [Action.SpotterStarterPrompts]`, or omit it from a
+     * non-empty `visibleActions` allowlist.
      *
      * Category keys are fixed: `quick` → Basic Search, `research` → Deep
      * Analysis, `preview-data` → Data Literacy. For `quick` and `research`,
@@ -239,9 +243,10 @@ export interface SpotterChatViewConfig {
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
      *    worksheetId: 'worksheet-id',
+     *    // Starter prompts show by default; hide via hiddenActions if needed:
+     *    // hiddenActions: [Action.SpotterStarterPrompts],
      *    spotterChatConfig: {
      *        starterPrompts: {
-     *            enabled: true,
      *            quick: {
      *                label: 'Quick questions',
      *                visibility: true,

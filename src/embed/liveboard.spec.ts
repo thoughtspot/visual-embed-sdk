@@ -1401,7 +1401,6 @@ describe('Liveboard/viz embed tests', () => {
             liveboardId,
             spotterChatConfig: {
                 starterPrompts: {
-                    enabled: true,
                     quick: {
                         label: 'L'.repeat(50),
                         questions: [
@@ -1426,7 +1425,6 @@ describe('Liveboard/viz embed tests', () => {
         });
         await executeAfterWait(() => {
             const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
-            expect(starterPrompts.enabled).toBe(true);
             expect(starterPrompts.quick.label).toHaveLength(30);
             expect(starterPrompts.quick.questions).toHaveLength(4);
             expect(starterPrompts.research.visibility).toBe(false);
