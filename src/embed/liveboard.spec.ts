@@ -275,7 +275,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should not set isWYSIWYGLiveboardPDFEnabled in url by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -284,7 +284,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isWYSIWYGLiveboardPDFEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });

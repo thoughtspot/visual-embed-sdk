@@ -484,7 +484,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should not set isWYSIWYGLiveboardPDFEnabled in url by default', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
@@ -492,7 +492,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false${defaultParamsPost}#/home`,
             );
         });
     });
