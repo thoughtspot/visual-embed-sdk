@@ -402,11 +402,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -419,10 +420,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isContinuousLiveboardPDFEnabled?: boolean;
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -435,10 +438,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isLiveboardXLSXCSVDownloadEnabled?: boolean;
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -697,8 +702,8 @@ export class LiveboardEmbed extends V1Embed {
             coverAndFilterOptionInPDF = false,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
@@ -706,7 +711,7 @@ export class LiveboardEmbed extends V1Embed {
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
