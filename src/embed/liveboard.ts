@@ -530,6 +530,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -703,6 +718,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
@@ -731,6 +747,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(showSpotterRadiance)) {
+            params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;

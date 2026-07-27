@@ -592,6 +592,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set showSpotterRadiance to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterRadiance: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterRadiance=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set showSpotterRadiance to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterRadiance: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterRadiance=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set defaultQueryMode to research in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -6547,6 +6547,7 @@ export enum Param {
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    ShowSpotterRadiance = 'showSpotterRadiance',
     DefaultQueryMode = 'defaultQueryMode',
     EnableStopAnswerGenerationEmbed = 'enableStopAnswerGenerationEmbed',
     SpotterSidebarTitle = 'spotterSidebarTitle',
