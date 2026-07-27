@@ -259,12 +259,6 @@ export interface StarterPromptCategory {
      */
     label?: string;
     /**
-     * Controls whether the category pill is shown. When `false`, the pill is
-     * hidden and the onboarding row reflows.
-     * @default true
-     */
-    visibility?: boolean;
-    /**
      * Custom questions for the category. When provided, these fully replace the
      * backend-generated prompts (no merge) and are capped at the top 4.
      */
@@ -273,8 +267,9 @@ export interface StarterPromptCategory {
 
 /**
  * Configuration for the Data Literacy (`preview-data`) onboarding category.
- * Only the label and visibility are customizable; the submitted prompt text
- * continues to come from the backend.
+ * Only the label is customizable; the submitted prompt text continues to come
+ * from the backend. Pill visibility is controlled through the action model via
+ * `Action.DataLiteracyPill`.
  * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
  * @group Embed components
  */
@@ -284,19 +279,21 @@ export interface StarterPreviewDataCategory {
      * the default i18n title. Truncated to 30 characters downstream.
      */
     label?: string;
-    /**
-     * Controls whether the Data Literacy pill is shown.
-     * @default true
-     */
-    visibility?: boolean;
 }
 
 /**
  * Content configuration for the Spotter onboarding starter-prompts surface.
  *
- * This object only configures the *content* of the surface. Its visibility is
- * controlled through the standard action model via `Action.SpotterStarterPrompts`
- * (`hiddenActions` / `visibleActions`); the surface is visible by default.
+ * `enableStarterPrompts` is the overall on/off switch for the feature. When
+ * `false`, the entire starter-prompts surface is turned off regardless of any
+ * per-category content provided here.
+ *
+ * When enabled, this object configures the *content* of the surface. The
+ * visibility of each category pill is controlled through the standard action
+ * model (`hiddenActions` / `visibleActions`), one action per pill:
+ * `Action.QuickSearchPill` (Basic Search), `Action.DeepAnalysisPill` (Deep
+ * Analysis), `Action.DataLiteracyPill` (Data Literacy). There is no per-category
+ * `visibility` flag and no disable behaviour.
  *
  * Category keys are fixed: `quick` → Basic Search, `research` → Deep Analysis,
  * `preview-data` → Data Literacy. For `quick` and `research`, `questions` is
@@ -307,6 +304,13 @@ export interface StarterPreviewDataCategory {
  */
 export interface StarterPromptsConfig {
     /**
+     * Overall feature flag for the starter-prompts surface. When `false`, the
+     * surface is turned off entirely and no category content is rendered.
+     * Consumed by the ThoughtSpot application to gate the whole feature.
+     * @default true
+     */
+    enableStarterPrompts?: boolean;
+    /**
      * Basic Search category configuration.
      */
     quick?: StarterPromptCategory;
@@ -315,7 +319,7 @@ export interface StarterPromptsConfig {
      */
     research?: StarterPromptCategory;
     /**
-     * Data Literacy category configuration (label + visibility only).
+     * Data Literacy category configuration (label only).
      */
     'preview-data'?: StarterPreviewDataCategory;
 }
@@ -358,14 +362,16 @@ export interface SpotterChatViewConfig {
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
     /**
-     * Configures the *content* of the Spotter onboarding starter-prompts
-     * surface: per-category visibility and label, and custom question lists for
-     * the two question-bearing categories.
+     * Configures the Spotter onboarding starter-prompts surface: the overall
+     * `enableStarterPrompts` feature flag, per-category labels, and custom
+     * question lists for the two question-bearing categories.
      *
-     * The surface's own visibility is controlled through the standard action
-     * model via `Action.SpotterStarterPrompts` — it is visible by default; hide
-     * it with `hiddenActions: [Action.SpotterStarterPrompts]`, or omit it from a
-     * non-empty `visibleActions` allowlist.
+     * The overall feature is gated by `enableStarterPrompts`. Each category pill
+     * is shown/hidden through the standard action model (`hiddenActions` /
+     * `visibleActions`), one action per pill — `Action.QuickSearchPill`,
+     * `Action.DeepAnalysisPill`, `Action.DataLiteracyPill` — all visible by
+     * default. There is no per-category `visibility` flag and no disable
+     * behaviour.
      *
      * Category keys are fixed: `quick` → Basic Search, `research` → Deep
      * Analysis, `preview-data` → Data Literacy. For `quick` and `research`,
@@ -379,18 +385,17 @@ export interface SpotterChatViewConfig {
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
      *    worksheetId: 'worksheet-id',
-     *    // Starter prompts show by default; hide via hiddenActions if needed:
-     *    // hiddenActions: [Action.SpotterStarterPrompts],
+     *    // Hide individual pills via the action model, e.g. hide Deep Analysis:
+     *    // hiddenActions: [Action.DeepAnalysisPill],
      *    spotterChatConfig: {
      *        starterPrompts: {
+     *            enableStarterPrompts: true,
      *            quick: {
      *                label: 'Quick questions',
-     *                visibility: true,
      *                questions: [
      *                    { label: 'Top products', prompt: 'What are the top products by revenue?' },
      *                ],
      *            },
-     *            research: { visibility: false },
      *            'preview-data': { label: 'Explore your data' },
      *        },
      *    },

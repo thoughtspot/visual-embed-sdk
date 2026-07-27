@@ -1471,6 +1471,7 @@ describe('Liveboard/viz embed tests', () => {
             liveboardId,
             spotterChatConfig: {
                 starterPrompts: {
+                    enableStarterPrompts: true,
                     quick: {
                         label: 'L'.repeat(50),
                         questions: [
@@ -1481,7 +1482,7 @@ describe('Liveboard/viz embed tests', () => {
                             { label: 'Q5', prompt: 'P5' },
                         ],
                     },
-                    research: { visibility: false },
+                    research: { label: 'Research' },
                 },
             },
         } as LiveboardViewConfig);
@@ -1495,9 +1496,10 @@ describe('Liveboard/viz embed tests', () => {
         });
         await executeAfterWait(() => {
             const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
+            expect(starterPrompts.enableStarterPrompts).toBe(true);
             expect(starterPrompts.quick.label).toHaveLength(30);
             expect(starterPrompts.quick.questions).toHaveLength(4);
-            expect(starterPrompts.research.visibility).toBe(false);
+            expect(starterPrompts.research.label).toBe('Research');
         });
     });
 

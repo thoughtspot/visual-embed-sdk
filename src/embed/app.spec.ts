@@ -746,9 +746,9 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             spotterChatConfig: {
                 starterPrompts: {
+                    enableStarterPrompts: true,
                     quick: {
                         label: 'L'.repeat(50),
-                        visibility: true,
                         questions: [
                             { label: 'Q1', prompt: 'P1' },
                             { label: 'Q2', prompt: 'P2' },
@@ -757,7 +757,7 @@ describe('App embed tests', () => {
                             { label: 'Q5', prompt: 'P5' },
                         ],
                     },
-                    research: { visibility: false },
+                    research: { label: 'Research' },
                 },
             },
         } as AppViewConfig);
@@ -775,9 +775,10 @@ describe('App embed tests', () => {
         });
         await executeAfterWait(() => {
             const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
+            expect(starterPrompts.enableStarterPrompts).toBe(true);
             expect(starterPrompts.quick.label).toHaveLength(30);
             expect(starterPrompts.quick.questions).toHaveLength(4);
-            expect(starterPrompts.research.visibility).toBe(false);
+            expect(starterPrompts.research.label).toBe('Research');
         });
     });
 

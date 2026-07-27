@@ -925,23 +925,23 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
+                    enableStarterPrompts: true,
                     quick: {
                         label: 'Quick',
-                        visibility: true,
                         questions: [{ label: 'Q1', prompt: 'P1' }],
                     },
-                    research: { visibility: false },
+                    research: { label: 'Research' },
                     'preview-data': { label: 'Explore' },
                 },
             },
         });
         expect(response.data.embedParams.starterPrompts).toEqual({
+            enableStarterPrompts: true,
             quick: {
                 label: 'Quick',
-                visibility: true,
                 questions: [{ label: 'Q1', prompt: 'P1' }],
             },
-            research: { visibility: false },
+            research: { label: 'Research' },
             'preview-data': { label: 'Explore' },
         });
     });
@@ -996,21 +996,25 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
         expect(response.data.embedParams?.starterPrompts).toBeUndefined();
     });
 
-    it('exposes the SpotterStarterPrompts action with the string the app gates on', () => {
-        expect(Action.SpotterStarterPrompts).toBe('spotterStarterPrompts');
+    it('exposes per-pill starter-prompt actions with the strings the app gates on', () => {
+        expect(Action.QuickSearchPill).toBe('quickSearchPill');
+        expect(Action.DeepAnalysisPill).toBe('deepAnalysisPill');
+        expect(Action.DataLiteracyPill).toBe('dataLiteracyPill');
     });
 
-    it('forwards a content-only starterPrompts config without an enabled toggle', async () => {
+    it('forwards the enableStarterPrompts feature flag when disabled', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    quick: { visibility: true, questions: [{ label: 'Q1', prompt: 'P1' }] },
+                    enableStarterPrompts: false,
+                    quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
                 },
             },
         });
         expect(response.data.embedParams.starterPrompts).toEqual({
-            quick: { visibility: true, questions: [{ label: 'Q1', prompt: 'P1' }] },
+            enableStarterPrompts: false,
+            quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
         });
     });
 });
