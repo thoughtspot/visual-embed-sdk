@@ -9,7 +9,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import {
     Param,
     DOMSelector,
@@ -22,8 +22,8 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig } from './conversation';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig } from './conversation';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -63,6 +63,10 @@ export enum Page {
      *  Monitor Alerts Page
      */
     Monitor = 'monitor',
+    /**
+     * Collections listing page
+     */
+    Collections = 'collections',
 }
 
 /**
@@ -562,6 +566,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isUnifiedSearchExperienceEnabled?: boolean;
 
     /**
+     * This flag is used to enable the new connection experience for AppEmbed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    newConnectionsExperience: true,
+     * })
+     * ```
+     */
+    newConnectionsExperience?: boolean;
+
+    /**
      * This flag is used to enable/disable the styling and grouping in a Liveboard. Use {@link isLiveboardMasterpiecesEnabled} instead.
      * @deprecated This flag is deprecated.
      *
@@ -666,6 +686,17 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     lazyLoadingForFullHeight?: boolean;
+    /**
+     * This flag is used to enable container-aware full height lazy loading.
+     *
+     * Use this when the embed is rendered inside a scrollable or clipping
+     * container instead of relying on the browser window as the only viewport.
+     *
+     * @type {boolean}
+     * @default false
+     * @hidden
+     */
+    enableScrollableContainerLazyLoading?: boolean;
 
     /**
      * The margin to be used for lazy loading.
@@ -707,6 +738,25 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Sets the default query mode when Spotter loads — Fast Search or
+     * Research Mode. Applies fresh on every new session for this embed
+     * instance only; it does not persist as a user preference and does
+     * not affect other embeds or native ThoughtSpot usage.
+     * Only applicable when navigating to Spotter within the app.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default SpotterQueryMode.FAST_SEARCH
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    defaultQueryMode: SpotterQueryMode.RESEARCH,
+     * })
+     * ```
+     */
+    defaultQueryMode?: SpotterQueryMode;
+    /**
      * Controls the visibility of the past conversations sidebar.
      *
      * Supported embed types: `AppEmbed`
@@ -731,6 +781,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *    spotterSidebarConfig: {
      *        enablePastConversationsSidebar: true,
      *        spotterSidebarTitle: 'My Conversations',
+     *        // Opt in to pin/unpin conversations in embedded Spotter
+     *        spotterChatPinConfig: {
+     *            enabled: true,
+     *        },
      *    },
      * })
      * ```
@@ -755,6 +809,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterChatConfig?: SpotterChatViewConfig;
     /**
+     * Configuration for the Spotter conversation sharing feature.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterShareConversationConfig: {
+     *        enableShareConversation: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
      * Configuration for the SpotterViz interface shown on the Liveboard.
      * Customize the brand name, description, chat input placeholder,
      * starter prompts, and visibility of starter prompts in the SpotterViz panel.
@@ -771,7 +841,19 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *        description: 'Ask questions about your data',
      *        inputChatPlaceholder: 'Ask a question...',
      *        hideStarterPrompts: false,
-     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }]
+     *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
+     *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     *        loaderHeadline: 'Crunching the numbers...',
+     *        loaderTips: [
+     *            { label: 'Tip', text: 'try asking about revenue by region' },
+     *            { label: 'Tip', text: 'use natural language' },
+     *        ],
+     *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     *        liveboardBrandName: 'Reports',
+     *        spotterBrandName: 'Analyst',
+     *        insightTileBrandName: 'Insight card',
+     *        insightTileViewPlanLabel: 'View plan',
+     *        insightTileLoaderText: 'Generating insight',
      *    },
      * })
      * ```
@@ -848,6 +930,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
+        spotterShareConversationConfig?: SpotterShareConversationConfig;
     };
 }
 
@@ -859,6 +942,10 @@ export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
     private defaultHeight = 500;
+
+    private lazyLoadScrollContainers: HTMLElement[] = [];
+
+    private lazyLoadResizeObserver: ResizeObserver | undefined;
 
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
@@ -893,7 +980,8 @@ export class AppEmbed extends V1Embed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
+        return buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
     }
 
     /**
@@ -914,6 +1002,7 @@ export class AppEmbed extends V1Embed {
             hideApplicationSwitcher,
             hideOrgSwitcher,
             enableSearchAssist,
+            newConnectionsExperience,
             fullHeight,
             dataPanelV2 = true,
             hideLiveboardHeader = false,
@@ -948,6 +1037,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             minimumHeight,
@@ -998,6 +1088,9 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        if (!isUndefined(defaultQueryMode)) {
+            params[Param.DefaultQueryMode] = defaultQueryMode;
+        }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
         }
@@ -1009,12 +1102,16 @@ export class AppEmbed extends V1Embed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
+                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             if (spotterFileUploadEnabled !== undefined) {
                 params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (enableStarterPrompts !== undefined) {
+                params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
@@ -1055,6 +1152,10 @@ export class AppEmbed extends V1Embed {
 
         if (enableSearchAssist !== undefined) {
             params[Param.EnableSearchAssist] = enableSearchAssist;
+        }
+
+        if (newConnectionsExperience !== undefined) {
+            params[Param.EnableConnectionNewExperience] = newConnectionsExperience;
         }
 
         if (enable2ColumnLayout !== undefined) {
@@ -1183,6 +1284,12 @@ export class AppEmbed extends V1Embed {
 
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
+                // The Focused (V4) homepage experience requires the updated
+                // Spotter chat prompt. Enable it automatically unless the
+                // developer has explicitly set updatedSpotterChatPrompt.
+                if (isUndefined(updatedSpotterChatPrompt)) {
+                    params[Param.UpdatedSpotterChatPrompt] = true;
+                }
             }
         }
 
@@ -1192,7 +1299,10 @@ export class AppEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
-        const data = calculateVisibleElementData(this.iFrame);
+        const data = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableScrollableContainerLazyLoading,
+        );
         // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
         if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
             this.trigger(HostEvent.VisibleEmbedCoordinates, data);
@@ -1207,7 +1317,10 @@ export class AppEmbed extends V1Embed {
      */
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
-        const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
+        const visibleCoordinatesData = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableScrollableContainerLazyLoading,
+        );
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
@@ -1285,6 +1398,8 @@ export class AppEmbed extends V1Embed {
                 return modularHomeExperience ? 'home/spotiq-analysis' : 'insights/results';
             case Page.Monitor:
                 return modularHomeExperience ? 'home/monitor-alerts' : 'insights/monitor-alerts';
+            case Page.Collections:
+                return 'collections';
             case Page.Home:
             default:
                 return 'home';
@@ -1325,7 +1440,8 @@ export class AppEmbed extends V1Embed {
             logger.log('Please call render before invoking this method');
             return;
         }
-        if (noReload) {
+        const overrideHistoryState = this.viewConfig?.overrideHistoryState;
+        if (noReload || overrideHistoryState) {
             this.trigger(HostEvent.Navigate, path);
         } else {
             if (typeof path !== 'string') {
@@ -1356,17 +1472,44 @@ export class AppEmbed extends V1Embed {
     }
 
     private registerLazyLoadEvents() {
+        if (!this.iFrame) {
+            return;
+        }
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            this.unregisterLazyLoadEvents();
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            if (!this.viewConfig.enableScrollableContainerLazyLoading) {
+                return;
+            }
+            this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            if (typeof ResizeObserver !== 'undefined') {
+                const resizeTargets = new Set([
+                    this.iFrame.parentElement,
+                    ...getEffectiveClippingAncestors(this.iFrame),
+                ].filter(Boolean) as HTMLElement[]);
+                this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
+                resizeTargets.forEach((resizeTarget) => {
+                    this.lazyLoadResizeObserver.observe(resizeTarget);
+                });
+            }
         }
     }
 
     private unregisterLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            this.lazyLoadResizeObserver?.disconnect();
+            this.lazyLoadResizeObserver = undefined;
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            this.lazyLoadScrollContainers = [];
         }
     }
 

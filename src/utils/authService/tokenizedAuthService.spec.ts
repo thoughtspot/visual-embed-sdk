@@ -79,8 +79,9 @@ describe('fetchPreauthInfoService', () => {
     });
     it('fetchPreauthInfoService if fetch fails', async () => {
         const mockFetch = jest.spyOn(tokenizedFetchModule, 'tokenizedFetch');
+        // Prevent logger.error from reaching console.error (which throws in test env)
+        jest.spyOn(logger, 'error').mockImplementation(() => {});
 
-        // Mock for fetchPreauthInfoService
         mockFetch.mockResolvedValueOnce({
             ok: false,
             status: 500,
@@ -89,11 +90,10 @@ describe('fetchPreauthInfoService', () => {
             text: jest.fn().mockResolvedValue('Internal Server Error'),
         } as any);
 
-        try {
-            await fetchPreauthInfoService(thoughtspotHost);
-        } catch (e) {
-            expect(e.message).toContain(`Failed to fetch ${thoughtspotHost}${EndPoints.PREAUTH_INFO}`);
-        }
+        const response = await fetchPreauthInfoService(thoughtspotHost);
+        expect(response.ok).toBe(false);
+        expect(response.status).toBe(500);
+        expect(logger.error).toHaveBeenCalled();
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(mockFetch).toHaveBeenCalledWith(`${thoughtspotHost}${EndPoints.PREAUTH_INFO}`, {});
     });

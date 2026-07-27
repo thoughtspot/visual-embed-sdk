@@ -25,7 +25,7 @@ import {
     ContextType,
     DefaultAppInitData,
 } from '../types';
-import { calculateVisibleElementData, getQueryParamString, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -466,6 +466,16 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     lazyLoadingForFullHeight?: boolean;
     /**
+     * This flag is used to enable container-aware full height lazy loading.
+     *
+     * Use this when the embed is rendered inside a scrollable or clipping
+     * container instead of relying on the browser window as the only viewport.
+     *
+     * @type {boolean}
+     * @default false
+     */
+    enableScrollableContainerLazyLoading?: boolean;
+    /**
      * The margin to be used for lazy loading.
      *
      * For example, if the margin is set to '10px',
@@ -564,6 +574,18 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *        inputChatPlaceholder: 'Ask a question...',
      *        hideStarterPrompts: false,
      *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
+     *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     *        loaderHeadline: 'Crunching the numbers...',
+     *        loaderTips: [
+     *            { label: 'Tip', text: 'try asking about revenue by region' },
+     *            { label: 'Tip', text: 'use natural language' },
+     *        ],
+     *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     *        liveboardBrandName: 'Reports',
+     *        spotterBrandName: 'Analyst',
+     *        insightTileBrandName: 'Insight card',
+     *        insightTileViewPlanLabel: 'View plan',
+     *        insightTileLoaderText: 'Generating insight',
      *    },
      * })
      * ```
@@ -603,6 +625,10 @@ export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
     private defaultHeight = 500;
+
+    private lazyLoadScrollContainers: HTMLElement[] = [];
+
+    private lazyLoadResizeObserver: ResizeObserver | undefined;
 
 
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
@@ -777,12 +803,16 @@ export class LiveboardEmbed extends V1Embed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
+                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(params, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             if (spotterFileUploadEnabled !== undefined) {
                 params[Param.SpotterFileUploadEnabled] = spotterFileUploadEnabled;
+            }
+            if (enableStarterPrompts !== undefined) {
+                params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
@@ -884,7 +914,10 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private sendFullHeightLazyLoadData = () => {
-        const data = calculateVisibleElementData(this.iFrame);
+        const data = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableScrollableContainerLazyLoading,
+        );
         // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
         if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
             this.trigger(HostEvent.VisibleEmbedCoordinates, data);
@@ -899,7 +932,10 @@ export class LiveboardEmbed extends V1Embed {
      */
     private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
         logger.info('Sending RequestVisibleEmbedCoordinates', data);
-        const visibleCoordinatesData = calculateVisibleElementData(this.iFrame);
+        const visibleCoordinatesData = calculateVisibleElementData(
+            this.iFrame,
+            this.viewConfig.enableScrollableContainerLazyLoading,
+        );
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
@@ -997,8 +1033,8 @@ export class LiveboardEmbed extends V1Embed {
                 </div>
                 `;
             const previewDiv = div.firstElementChild as HTMLElement;
-            this.el.appendChild(previewDiv);
-            this.el.style.position = 'relative';
+            this.hostElement.appendChild(previewDiv);
+            this.hostElement.style.position = 'relative';
             this.on(EmbedEvent.Data, () => {
                 previewDiv.remove();
             });
@@ -1020,6 +1056,7 @@ export class LiveboardEmbed extends V1Embed {
     };
 
     protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(() => {
@@ -1082,17 +1119,44 @@ export class LiveboardEmbed extends V1Embed {
     }
 
     private registerLazyLoadEvents() {
+        if(!this.iFrame) {
+            return;
+        }
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
+            this.unregisterLazyLoadEvents();
             // TODO: Use passive: true, install modernizr to check for passive
             window.addEventListener('resize', this.sendFullHeightLazyLoadData);
             window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            if (!this.viewConfig.enableScrollableContainerLazyLoading) {
+                return;
+            }
+            this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            if (typeof ResizeObserver !== 'undefined') {
+                const resizeTargets = new Set([
+                    this.iFrame.parentElement,
+                    ...getEffectiveClippingAncestors(this.iFrame),
+                ].filter(Boolean) as HTMLElement[]);
+                this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
+                resizeTargets.forEach((resizeTarget) => {
+                    this.lazyLoadResizeObserver.observe(resizeTarget);
+                });
+            }
         }
     }
 
     private unregisterLazyLoadEvents() {
         if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
             window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
+            this.lazyLoadResizeObserver?.disconnect();
+            this.lazyLoadResizeObserver = undefined;
+            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
+                scrollContainer.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
+            });
+            this.lazyLoadScrollContainers = [];
         }
     }
 

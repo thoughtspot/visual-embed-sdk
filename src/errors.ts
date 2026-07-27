@@ -31,6 +31,7 @@ export const ERROR_MESSAGE = {
     INVALID_SPOTTER_DOCUMENTATION_URL: 'Invalid spotterDocumentationUrl. Please provide a valid http or https URL.',
     UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { column, oper, values } } or { filters: [{ column, oper, values }, ...] }',
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
+    UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

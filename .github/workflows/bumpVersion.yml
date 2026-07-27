@@ -50,15 +50,18 @@ jobs:
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Branch will be $NEW_VERSION"
 
-      - name: Install (lockfile refresh if needed)
-        run: npm install --package-lock-only
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Generate documentation
+        run: npm run docgen
 
       - name: Commit changes
         run: |
           BRANCH="${{ steps.bump.outputs.new_version }}"
           git checkout -b "$BRANCH"
           git status
-          git add package.json package-lock.json
+          git add package.json package-lock.json static/typedoc/typedoc.json
           git commit -m "chore: bump version to v${{ steps.bump.outputs.new_version }}"
 
       - name: Push branch

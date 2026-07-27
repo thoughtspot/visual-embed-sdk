@@ -707,4 +707,22 @@ describe('Answer service tests', () => {
         expect(answer.name).toBe('name');
         expect(answer.id).toBe('bar');
     });
+
+    test('getTML parses nested objects and arrays from the YAML edoc', async () => {
+        const edoc = [
+            'answer:',
+            '  name: Revenue answer',
+            '  visualizations:',
+            '    - id: viz-1',
+            '      type: TABLE',
+        ].join('\n');
+        fetchMock.mockResponseOnce(JSON.stringify({
+            data: { UnsavedAnswer_getTML: { object: [{ edoc }] } },
+        }));
+
+        const { answer } = await createAnswerService().getTML();
+
+        expect(answer.name).toBe('Revenue answer');
+        expect(answer.visualizations).toEqual([{ id: 'viz-1', type: 'TABLE' }]);
+    });
 });

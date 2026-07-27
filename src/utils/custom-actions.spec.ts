@@ -429,6 +429,34 @@ describe('getCustomActions function', () => {
         });
     });
 
+    describe('Empty allowed IDs edge cases', () => {
+        test('should show "none" as supported metadata IDs when target has no allowed metadata IDs (SPOTTER)', () => {
+            const action = {
+                id: 'test-id',
+                name: 'Test Action',
+                target: CustomActionTarget.SPOTTER,
+                position: CustomActionsPosition.MENU,
+                metadataIds: { liveboardIds: ['lb-1'] },
+            } as any;
+            const result = getCustomActions([action]);
+            // Expect an error containing 'none' for unsupported metadataIds on SPOTTER
+            expect(result.errors.some((e) => e.includes('none'))).toBe(true);
+        });
+
+        test('should show "none" as supported data model IDs when target has no allowed data model IDs (LIVEBOARD)', () => {
+            const action = {
+                id: 'test-id',
+                name: 'Test Action',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                dataModelIds: { modelIds: ['model-1'] },
+            } as any;
+            const result = getCustomActions([action]);
+            // Expect an error containing 'none' for unsupported dataModelIds on LIVEBOARD
+            expect(result.errors.some((e) => e.includes('none'))).toBe(true);
+        });
+    });
+
     describe('Warnings', () => {
         test('should warn when action name length exceeds 30 characters', () => {
             // Arrange

@@ -8,6 +8,8 @@ const consoleInfoSpy = jest.spyOn(console, 'info');
 const consoleDebugSpy = jest.spyOn(console, 'debug');
 const consoleTraceSpy = jest.spyOn(console, 'trace');
 
+const versionPrefix = expect.stringMatching(/^\[vesdk-/);
+
 describe('Logger', () => {
     beforeAll(async () => {
         const a = await import('./logger');
@@ -52,7 +54,7 @@ describe('Logger', () => {
         logger.error('Error message');
         logger.warn('Warning message');
         logger.debug('Debug message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith(versionPrefix, 'Error message');
         expect(consoleWarnSpy).not.toHaveBeenCalled();
         expect(consoleDebugSpy).not.toHaveBeenCalled();
 
@@ -65,17 +67,17 @@ describe('Logger', () => {
         logger.error('Warning message');
         logger.warn('Warning message');
         logger.debug('Debug message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Warning message');
-        expect(consoleWarnSpy).toHaveBeenCalledWith('Warning message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith(versionPrefix, 'Warning message');
+        expect(consoleWarnSpy).toHaveBeenCalledWith(versionPrefix, 'Warning message');
         expect(consoleDebugSpy).not.toHaveBeenCalled();
 
         logger.setLogLevel(LogLevel.DEBUG);
         logger.error('Warning message');
         logger.warn('Warning message');
         logger.debug('Debug message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Warning message');
-        expect(consoleWarnSpy).toHaveBeenCalledWith('Warning message');
-        expect(consoleDebugSpy).toHaveBeenCalledWith('Debug message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith(versionPrefix, 'Warning message');
+        expect(consoleWarnSpy).toHaveBeenCalledWith(versionPrefix, 'Warning message');
+        expect(consoleDebugSpy).toHaveBeenCalledWith(versionPrefix, 'Debug message');
     });
 
     it('should log messages with the global log level override', () => {
@@ -85,8 +87,8 @@ describe('Logger', () => {
         logger.warn('Warn message');
         logger.info('Info message');
         logger.trace('Trace message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
-        expect(consoleWarnSpy).toHaveBeenCalledWith('Warn message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith(versionPrefix, 'Error message');
+        expect(consoleWarnSpy).toHaveBeenCalledWith(versionPrefix, 'Warn message');
         expect(consoleInfoSpy).not.toHaveBeenCalled();
         expect(consoleDebugSpy).not.toHaveBeenCalled();
         expect(consoleTraceSpy).not.toHaveBeenCalled();
@@ -99,7 +101,7 @@ describe('Logger', () => {
         logger.warn('Warn message');
         logger.info('Info message');
         logger.trace('Trace message');
-        expect(consoleErrorSpy).toHaveBeenCalledWith('Error message');
+        expect(consoleErrorSpy).toHaveBeenCalledWith(versionPrefix, 'Error message');
         expect(consoleWarnSpy).not.toHaveBeenCalled();
         expect(consoleInfoSpy).not.toHaveBeenCalled();
         expect(consoleDebugSpy).not.toHaveBeenCalled();

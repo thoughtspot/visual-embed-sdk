@@ -8,6 +8,7 @@ import {
     HomePage,
     ListPage,
 } from './app';
+import { SpotterQueryMode } from './conversation';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
@@ -210,6 +211,7 @@ describe('App embed tests', () => {
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'insights/results',
             [Page.Monitor]: 'insights/monitor-alerts',
+            [Page.Collections]: 'collections',
         };
 
         const pageIds = Object.keys(pageRouteMap);
@@ -243,6 +245,7 @@ describe('App embed tests', () => {
             [Page.Home]: 'home',
             [Page.SpotIQ]: 'home/spotiq-analysis',
             [Page.Monitor]: 'home/monitor-alerts',
+            [Page.Collections]: 'collections',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
@@ -522,7 +525,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add homepageVersion=v4 when homePage is Focused to the iframe src', async () => {
+    test('Should add homepageVersion=v4 and updatedSpotterChatPrompt=true when homePage is Focused to the iframe src', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
@@ -530,7 +533,20 @@ describe('App embed tests', () => {
                     homePage: HomePage.Focused,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4${defaultParams}${defaultParamsPost}#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=true${defaultParams}${defaultParamsPost}#/home`,
+        );
+    });
+
+    test('Should respect explicit updatedSpotterChatPrompt=false even when homePage is Focused', async () => {
+        await testUrlParams(
+            {
+                ...defaultViewConfig,
+                discoveryExperience: {
+                    homePage: HomePage.Focused,
+                },
+                updatedSpotterChatPrompt: false,
+            } as AppViewConfig,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=false${defaultParams}${defaultParamsPost}#/home`,
         );
     });
 
@@ -572,6 +588,33 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set defaultQueryMode to research in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            defaultQueryMode: SpotterQueryMode.RESEARCH,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&defaultQueryMode=research${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set defaultQueryMode in url when unset', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -727,6 +770,66 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include spotterShareConversationConfig in APP_INIT embedParams when provided', async () => {
+        const spotterShareConversationConfig = {
+            enableShareConversation: true,
+            spotterShareLabel: 'Share',
+            spotterShareModalTitle: 'Share conversation',
+            spotterShareIcon: 'share',
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterShareConversationConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterShareConversationConfig,
+                    }),
+                }),
+            });
+        });
+    });
+
+    test('should not include spotterShareConversationConfig in APP_INIT when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            const callArgs = mockPort.postMessage.mock.calls[0][0];
+            expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
+            if (callArgs.data.embedParams) {
+                expect(callArgs.data.embedParams.spotterShareConversationConfig).toBeUndefined();
+            }
+        });
+    });
+
     test('should set toolResponseCardBrandingLabel in url via spotterChatConfig', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -753,6 +856,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterFileUploadEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set enableStarterPrompts to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1143,6 +1260,47 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set newConnectionsExperience to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newConnectionsExperience: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&newConnectionsExperience=true${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set newConnectionsExperience to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            newConnectionsExperience: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&newConnectionsExperience=false${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should disable connection new experience by default in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1653,6 +1811,116 @@ describe('App embed tests', () => {
                 'Please call render before invoking this method',
             );
         });
+
+        describe('overrideHistoryState flag', () => {
+            test('navigateToPage with overrideHistoryState=true should trigger HostEvent.Navigate', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: true,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(path, false);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: path,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=true and path as number should trigger HostEvent.Navigate', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: true,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(-1, false);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: -1,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=false and noReload=false should update iframe src', async () => {
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: false,
+                });
+                await appEmbed.render();
+                appEmbed.navigateToPage(path, false);
+
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+                );
+            });
+
+            test('navigateToPage with overrideHistoryState=undefined and noReload=false should update iframe src', async () => {
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                });
+                await appEmbed.render();
+                appEmbed.navigateToPage(path, false);
+
+                expectUrlMatchesWithParams(
+                    getIFrameSrc(),
+                    `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+                );
+            });
+
+            test('navigateToPage respects noReload priority over overrideHistoryState', async () => {
+                mockMessageChannel();
+                const appEmbed = new AppEmbed(getRootEl(), {
+                    frameParams: {
+                        width: '100%',
+                        height: '100%',
+                    },
+                    overrideHistoryState: false,
+                });
+                await appEmbed.render();
+
+                const iframe = getIFrameEl();
+                iframe.contentWindow.postMessage = jest.fn();
+                appEmbed.navigateToPage(path, true);
+
+                expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: HostEvent.Navigate,
+                        data: path,
+                    }),
+                    `http://${thoughtSpotHost}`,
+                    expect.anything(),
+                );
+            });
+        });
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
@@ -1880,6 +2148,36 @@ describe('App embed tests', () => {
             addEventListenerSpy.mockRestore();
         });
 
+        test('should listen to scroll and resize changes from scrollable iframe ancestors', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerAddEventListenerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerAddEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            appEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+        });
+
         test('should remove window event listeners on destroy when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
 
@@ -1894,7 +2192,7 @@ describe('App embed tests', () => {
             appEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
 
             removeEventListenerSpy.mockRestore();
         });
@@ -2034,6 +2332,101 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
     });
 });
 
+describe('AppEmbed uncovered branch tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should set enableStopAnswerGenerationEmbed param when provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableStopAnswerGenerationEmbed: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableStopAnswerGenerationEmbed: 'true',
+            });
+        });
+    });
+
+    test('should set enableStopAnswerGenerationEmbed=false when set to false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableStopAnswerGenerationEmbed: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableStopAnswerGenerationEmbed: 'false',
+            });
+        });
+    });
+
+    test('should set hideObjects param when non-empty array is provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideObjects: ['guid-123', 'guid-456'],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideObjects: JSON.stringify(['guid-123', 'guid-456']),
+            });
+        });
+    });
+
+    test('should not set hideObjects param when array is empty', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideObjects: [],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const src = getIFrameSrc();
+            expect(src).not.toContain('hideObjects');
+        });
+    });
+
+    test('should set liveboardV2 param when provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardV2: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                isPinboardV2Enabled: 'true',
+            });
+        });
+    });
+
+    test('should strip leading slash from path in getIFrameSrc', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            path: '/pinboards',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const src = getIFrameSrc();
+            expect(src).toContain('#/pinboards');
+            expect(src).not.toContain('#//pinboards');
+        });
+    });
+
+    test('registerLazyLoadEvents should return early when iFrame is not set', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            lazyLoadingForFullHeight: true,
+        } as AppViewConfig);
+        // iFrame is not set (render not called), should not throw
+        expect(() => {
+            (appEmbed as any).registerLazyLoadEvents();
+        }).not.toThrow();
+    });
+});
+
 describe('AppEmbed visualOverrides tests', () => {
     test('should include visualOverridesParams in APP_INIT when visualOverrides config is provided', async () => {
         const visualOverrides = {
@@ -2125,5 +2518,3 @@ describe('AppEmbed visualOverrides tests', () => {
         await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
-
-

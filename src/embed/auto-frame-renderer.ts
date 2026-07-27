@@ -146,8 +146,12 @@ class AutoFrameRenderer extends TsEmbed {
      */
     public async replaceIframe(iframe: HTMLIFrameElement): Promise<void> {
         this.frameToReplace = iframe;
+        if (this.shouldWaitForRenderPromise) {
+            await this.isReadyForRenderPromise;
+        }
         const src = this.getMCPIframeSrc(iframe.src);
         await this.renderIFrame(src);
+        this.isRendered = true;
     }
 }
 

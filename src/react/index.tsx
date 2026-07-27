@@ -95,6 +95,9 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
             const preRenderStyles = isPreRenderedComponent ? { display: 'none' } : {};
 
+            // We dont add any component for preRenderedComponent
+            if (isPreRenderedComponent) return <></>;
+
             return viewConfig.insertAsSibling ? (
                 <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute', ...preRenderStyles }}></span>
             ) : (

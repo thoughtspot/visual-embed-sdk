@@ -3,8 +3,10 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
+    isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     throwUpdateFiltersValidationError,
+    throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
 import {
@@ -58,6 +60,7 @@ export class HostEventClient {
           [HostEvent.Pin]: (p, c) => this.handlePinEvent(p, c),
           [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
           [HostEvent.UpdateFilters]: (p, c) => this.handleUpdateFiltersEvent(p, c),
+          [HostEvent.UpdateParameters]: (p, c) => this.handleUpdateParametersEvent(p, c),
           [HostEvent.DrillDown]: (p, c) => this.handleDrillDownEvent(p, c),
       };
   }
@@ -241,6 +244,18 @@ export class HostEventClient {
     }
 
     return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+  }
+
+  protected handleUpdateParametersEvent(
+    payload: HostEventRequest<HostEvent.UpdateParameters>,
+    context?: ContextType,
+  ): Promise<any> {
+    if (!isValidUpdateParametersPayload(payload)) {
+      throwUpdateParametersValidationError();
+    }
+
+    // UpdateParameters has no UI passthrough contract; dispatch over the legacy channel
+    return this.hostEventFallback(HostEvent.UpdateParameters, payload, context);
   }
 
   protected handleDrillDownEvent(
