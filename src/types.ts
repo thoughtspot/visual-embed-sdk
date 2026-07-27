@@ -8476,19 +8476,47 @@ export enum Action {
      */
     SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
     /**
-     * Controls visibility and disable state of the onboarding
-     * starter-prompts surface in the Spotter chat interface.
+     * Controls the visibility of the **Basic Search** (`quick`) starter-prompt
+     * pill in the Spotter chat interface.
      *
-     * The surface is **visible by default** when embedded. Hide it with
-     * `hiddenActions`, or omit it from a non-empty `visibleActions` allowlist.
+     * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
+     * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
+     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
      * @example
      * ```js
-     * hiddenActions: [Action.SpotterStarterPrompts]
-     * disabledActions: [Action.SpotterStarterPrompts]
+     * hiddenActions: [Action.QuickSearchPill]
      * ```
      * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      */
-    SpotterStarterPrompts = 'spotterStarterPrompts',
+    QuickSearchPill = 'quickSearchPill',
+    /**
+     * Controls the visibility of the **Deep Analysis** (`research`)
+     * starter-prompt pill in the Spotter chat interface.
+     *
+     * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
+     * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
+     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DeepAnalysisPill]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    DeepAnalysisPill = 'deepAnalysisPill',
+    /**
+     * Controls the visibility of the **Data Literacy** (`preview-data`)
+     * starter-prompt pill in the Spotter chat interface.
+     *
+     * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
+     * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
+     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DataLiteracyPill]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    DataLiteracyPill = 'dataLiteracyPill',
     /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
