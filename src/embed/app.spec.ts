@@ -775,7 +775,6 @@ describe('App embed tests', () => {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
             spotterShareModalTitle: 'Share conversation',
-            spotterShareIcon: 'share',
         };
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

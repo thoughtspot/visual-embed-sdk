@@ -26,7 +26,7 @@ export enum SpotterQueryMode {
 /**
  * Configuration for the pin/unpin conversation feature in the Spotter sidebar.
  * Grouped into one object because pin exposes several related settings
- * (enable + label/icon overrides), unlike single-item actions like rename or
+ * (enable + label overrides), unlike single-item actions like rename or
  * delete.
  * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
  */
@@ -53,12 +53,6 @@ export interface SpotterChatPinConfig {
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     unpinLabel?: string;
-    /**
-     * Custom icon for the pin glyph and the pin menu item. Accepts an icon id
-     * from the icon sprite. Defaults to the built-in PIN icon.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
-     */
-    icon?: string;
 }
 
 /**
@@ -99,7 +93,7 @@ export interface SpotterSidebarViewConfig {
      */
     spotterChatDeleteLabel?: string;
     /**
-     * Pin/unpin conversation feature config (enable + label/icon overrides).
+     * Pin/unpin conversation feature config (enable + label overrides).
      * Off by default in embed — hosts opt in via `enabled`.
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
@@ -232,18 +226,6 @@ export interface SpotterShareConversationConfig {
      * @default "Exit"
      */
     spotterSharedConversationExitLabel?: string;
-    /**
-     * Share icon id (radiant IconID string).
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
-     * @default "share"
-     */
-    spotterShareIcon?: string;
-    /**
-     * Empty-state group icon id (radiant IconID string).
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
-     * @default "userGroup"
-     */
-    spotterShareGroupIcon?: string;
 }
 
 /**

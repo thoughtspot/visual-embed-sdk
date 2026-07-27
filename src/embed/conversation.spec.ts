@@ -741,12 +741,11 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         });
     });
 
-    it('should pass spotterShareConversationConfig label/icon overrides through embedParams', async () => {
+    it('should pass spotterShareConversationConfig label overrides through embedParams', async () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
             spotterShareModalTitle: 'Share conversation',
-            spotterShareIcon: 'share',
         };
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
