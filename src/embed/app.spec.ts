@@ -484,7 +484,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should enable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
@@ -492,7 +492,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=true${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1086,21 +1086,6 @@ describe('App embed tests', () => {
             ...defaultViewConfig,
             showPrimaryNavbar: false,
             isLiveboardMasterpiecesEnabled: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=false${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
-    test('Should add default isLiveboardMasterpiecesEnabled false when not specified', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            showPrimaryNavbar: false,
         } as AppViewConfig);
 
         appEmbed.render();

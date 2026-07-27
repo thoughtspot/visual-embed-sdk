@@ -402,11 +402,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -419,10 +420,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isContinuousLiveboardPDFEnabled?: boolean;
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -435,10 +438,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isLiveboardXLSXCSVDownloadEnabled?: boolean;
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -679,14 +684,14 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
-            isLiveboardCompactHeaderEnabled = false,
+            isLiveboardCompactHeaderEnabled,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
-            hideIrrelevantChipsInLiveboardTabs = false,
+            hideIrrelevantChipsInLiveboardTabs,
             showMaskedFilterChip = false,
-            isLiveboardMasterpiecesEnabled = false,
+            isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
-            isEnhancedFilterInteractivityEnabled = false,
+            isEnhancedFilterInteractivityEnabled,
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = true,
@@ -694,11 +699,11 @@ export class LiveboardEmbed extends V1Embed {
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
-            coverAndFilterOptionInPDF = false,
+            coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
@@ -706,7 +711,7 @@ export class LiveboardEmbed extends V1Embed {
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -784,13 +789,8 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-        if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
-            params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
-        }
-
-        if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
-            params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
-        }
+        params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled ?? true;
+        params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled ?? true;
 
         if (showSpotterLimitations !== undefined) {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
@@ -833,9 +833,7 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
 
-        if (isContinuousLiveboardPDFEnabled !== undefined) {
-            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
-        }
+        params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled ?? true;
 
         if (enableLiveboardDataCache !== undefined) {
             params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
@@ -846,16 +844,27 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        if (!isUndefined(isLiveboardCompactHeaderEnabled)) {
+            params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        }
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (!isUndefined(hideIrrelevantChipsInLiveboardTabs)) {
+            params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        }
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
-        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
-        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
+        if (!isUndefined(isLiveboardMasterpiecesEnabled)) {
+            params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        }
+        if (!isUndefined(isEnhancedFilterInteractivityEnabled)) {
+            params[Param.IsEnhancedFilterInteractivityEnabled] =
+                isEnhancedFilterInteractivityEnabled;
+        }
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        if (!isUndefined(coverAndFilterOptionInPDF)) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        }
 
         const queryParams = getQueryParamString(params, true);
 

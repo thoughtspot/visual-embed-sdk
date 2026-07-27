@@ -620,11 +620,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -638,10 +639,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -655,10 +658,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.50.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -1009,7 +1014,7 @@ export class AppEmbed extends V1Embed {
             showLiveboardTitle = true,
             showLiveboardDescription = true,
             showMaskedFilterChip = false,
-            isLiveboardMasterpiecesEnabled = false,
+            isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
             hideHomepageLeftNav = false,
             modularHomeExperience = false,
@@ -1020,20 +1025,20 @@ export class AppEmbed extends V1Embed {
             enableCustomColumnGroups = false,
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
-            isLiveboardCompactHeaderEnabled = false,
+            isLiveboardCompactHeaderEnabled,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
-            hideIrrelevantChipsInLiveboardTabs = false,
-            isEnhancedFilterInteractivityEnabled = false,
+            hideIrrelevantChipsInLiveboardTabs,
+            isEnhancedFilterInteractivityEnabled,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
-            coverAndFilterOptionInPDF = false,
+            coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
@@ -1043,7 +1048,7 @@ export class AppEmbed extends V1Embed {
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -1056,21 +1061,32 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
-        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        if (!isUndefined(isLiveboardMasterpiecesEnabled)) {
+            params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        }
         if (newChartsLibrary !== undefined) {
             params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
-        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
+        if (!isUndefined(isLiveboardCompactHeaderEnabled)) {
+            params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        }
+        if (!isUndefined(isEnhancedFilterInteractivityEnabled)) {
+            params[Param.IsEnhancedFilterInteractivityEnabled] =
+                isEnhancedFilterInteractivityEnabled;
+        }
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (!isUndefined(hideIrrelevantChipsInLiveboardTabs)) {
+            params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        }
         if (isUnifiedSearchExperienceEnabled !== undefined) {
             params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         }
-        params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        if (!isUndefined(coverAndFilterOptionInPDF)) {
+            params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        }
 
         params = this.getBaseQueryParams(params);
 
@@ -1173,13 +1189,8 @@ export class AppEmbed extends V1Embed {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
 
-        if (isLiveboardXLSXCSVDownloadEnabled !== undefined) {
-            params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
-        }
-
-        if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
-            params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
-        }
+        params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled ?? true;
+        params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled ?? true;
 
         if (hideTagFilterChips !== undefined) {
             params[Param.HideTagFilterChips] = hideTagFilterChips;
@@ -1203,9 +1214,7 @@ export class AppEmbed extends V1Embed {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
 
-        if (isContinuousLiveboardPDFEnabled !== undefined) {
-            params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
-        }
+        params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled ?? true;
 
         this.defaultHeight = minimumHeight || this.defaultHeight;
 
