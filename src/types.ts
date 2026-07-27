@@ -6578,6 +6578,7 @@ export enum Param {
     SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
     SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
     IsStarterPromptsEnabled = 'enableStarterPrompts',
+    UpdatedSpotterExperience = 'updatedSpotterExperience',
 }
 
 /**

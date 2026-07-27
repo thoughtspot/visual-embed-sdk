@@ -2545,3 +2545,37 @@ describe('AppEmbed getEmbedParamsObject', () => {
         expect(params.isFullHeightPinboard).toBeUndefined();
     });
 });
+
+describe('AppEmbed updatedSpotterExperience tests', () => {
+    beforeEach(() => {
+        cleanUp();
+    });
+
+    test('should set updatedSpotterExperience to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterExperience: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterExperience to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterExperience: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterExperience=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+});

@@ -933,6 +933,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
+
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -1023,6 +1039,7 @@ export class AppEmbed extends V1Embed {
             newConnectionsExperience,
             fullHeight,
             dataPanelV2 = true,
+            updatedSpotterExperience,
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,
@@ -1134,6 +1151,10 @@ export class AppEmbed extends V1Embed {
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
+        }
+
+        if (!isUndefined(updatedSpotterExperience)) {
+            params[Param.UpdatedSpotterExperience] = !!updatedSpotterExperience;
         }
 
         if (hideObjectSearch) {
