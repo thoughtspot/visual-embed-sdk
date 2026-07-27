@@ -4305,6 +4305,7 @@ export enum HostEvent {
      * const url = await appEmbed.trigger(HostEvent.GetIframeUrl, {}, ContextType.Answer);
      * console.log("iFrameURL", url);
      * ```
+     * @returns iframeUrl - The URL currently loaded in the embedded iframe.
      * @version SDK: 1.35.0 | ThoughtSpot: 10.4.0.cl
      */
     GetIframeUrl = 'GetIframeUrl',
@@ -4501,6 +4502,10 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.getExportRequestForCurrentPinboard).then(
      * data=>console.log(data))
      * ```
+     * @returns data - Object with a `v2Content` string: the export request
+     * payload for the current Liveboard.
+     * @returns type - The passthrough event name,
+     * `getExportRequestForCurrentPinboard`.
      * @version SDK: 1.13.0 | ThoughtSpot: 8.5.0.cl, 8.8.1.sw
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
@@ -4603,6 +4608,9 @@ export enum HostEvent {
      *  }, ContextType.Spotter);
      * ```
      *
+     * @returns liveboardId - GUID of the Liveboard the Answer was pinned to.
+     * @returns tabId - GUID of the tab within that Liveboard.
+     * @returns vizId - GUID of the newly created visualization.
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     Pin = 'pin',
@@ -5092,6 +5100,7 @@ export enum HostEvent {
      *   console.log(tml.answer);
      * });
      * ```
+     * @returns The TML representation of the current Answer, as an object.
      * @version SDK: 1.18.0 | ThoughtSpot: 8.10.0.cl, 9.0.1.sw
      * @important
      */
@@ -5536,6 +5545,8 @@ export enum HostEvent {
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters, {}, ContextType.Liveboard);
      * console.log('filters', data);
      * ```
+     * @returns liveboardFilters - Filters applied on the Liveboard.
+     * @returns runtimeFilters - Runtime filters applied on the Liveboard.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     GetFilters = 'getFilters',
@@ -5685,6 +5696,9 @@ export enum HostEvent {
      *     console.log('tabs', tabDetails);
      * });
      * ```
+     * @returns orderedTabIds - Tab GUIDs in the order they appear.
+     * @returns numberOfTabs - Total number of tabs on the Liveboard.
+     * @returns Tabs - Tab details, each with at least `id` and `name`.
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     GetTabs = 'getTabs',
@@ -5759,6 +5773,9 @@ export enum HostEvent {
      * // Alternative direct usage (not recommended)
      * const {session} = await embed.trigger( HostEvent.GetAnswerSession )
      * ```
+     * @returns session - Session identifier for the Answer, for use with the
+     * `AnswerService`.
+     * @returns embedAnswerData - Data backing the Answer, when available.
      * @version SDK: 1.26.0 | ThoughtSpot: 9.10.0.cl, 10.1.0.sw
      */
     GetAnswerSession = 'getAnswerSession',
@@ -5892,6 +5909,7 @@ export enum HostEvent {
      *     console.log('parameters', parameters);
      * });
      * ```
+     * @returns parameters - Parameters currently applied on the Liveboard.
      * @version SDK: 1.29.0 | ThoughtSpot: 10.1.0.cl, 10.1.0.sw
      */
     GetParameters = 'GetParameters',
@@ -6021,6 +6039,10 @@ export enum HostEvent {
      *      description: "Generated from Spotter"
      *   }, ContextType.Spotter);
      * ```
+     * @returns answerId - GUID of the saved Answer.
+     * @returns saveResponse - Raw response from the save operation.
+     * @returns shareResponse - Raw response from the share operation, when the
+     * Answer was also made discoverable.
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      */
     SaveAnswer = 'saveAnswer',
