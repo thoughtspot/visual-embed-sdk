@@ -17410,7 +17410,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 950,
+							"line": 955,
 							"character": 4
 						}
 					],
@@ -17464,7 +17464,7 @@
 					}
 				},
 				{
-					"id": 945,
+					"id": 947,
 					"name": "destroy",
 					"kind": 2048,
 					"kindString": "Method",
@@ -17474,13 +17474,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1465,
+							"line": 1473,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 946,
+							"id": 948,
 							"name": "destroy",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -17638,7 +17638,7 @@
 					}
 				},
 				{
-					"id": 922,
+					"id": 924,
 					"name": "getIFrameSrc",
 					"kind": 2048,
 					"kindString": "Method",
@@ -17648,13 +17648,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1331,
+							"line": 1339,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 923,
+							"id": 925,
 							"name": "getIFrameSrc",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -17988,7 +17988,7 @@
 					}
 				},
 				{
-					"id": 941,
+					"id": 943,
 					"name": "navigateToPage",
 					"kind": 2048,
 					"kindString": "Method",
@@ -17998,13 +17998,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1438,
+							"line": 1446,
 							"character": 11
 						}
 					],
 					"signatures": [
 						{
-							"id": 942,
+							"id": 944,
 							"name": "navigateToPage",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -18020,7 +18020,7 @@
 							},
 							"parameters": [
 								{
-									"id": 943,
+									"id": 945,
 									"name": "path",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -18043,7 +18043,7 @@
 									}
 								},
 								{
-									"id": 944,
+									"id": 946,
 									"name": "noReload",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -18144,7 +18144,7 @@
 					}
 				},
 				{
-					"id": 960,
+					"id": 962,
 					"name": "on",
 					"kind": 2048,
 					"kindString": "Method",
@@ -18160,7 +18160,7 @@
 					],
 					"signatures": [
 						{
-							"id": 961,
+							"id": 963,
 							"name": "on",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -18183,7 +18183,7 @@
 							},
 							"parameters": [
 								{
-									"id": 962,
+									"id": 964,
 									"name": "messageType",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -18195,7 +18195,7 @@
 									}
 								},
 								{
-									"id": 963,
+									"id": 965,
 									"name": "callback",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -18207,7 +18207,7 @@
 									}
 								},
 								{
-									"id": 964,
+									"id": 966,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -18364,7 +18364,7 @@
 					}
 				},
 				{
-					"id": 953,
+					"id": 955,
 					"name": "render",
 					"kind": 2048,
 					"kindString": "Method",
@@ -18374,13 +18374,13 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 1521,
+							"line": 1529,
 							"character": 17
 						}
 					],
 					"signatures": [
 						{
-							"id": 954,
+							"id": 956,
 							"name": "render",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -18854,21 +18854,21 @@
 					"title": "Methods",
 					"kind": 2048,
 					"children": [
-						945,
+						947,
 						1132,
 						1097,
-						922,
+						924,
 						1093,
 						1126,
 						1106,
 						1112,
 						1124,
-						941,
+						943,
 						1062,
-						960,
+						962,
 						1102,
 						1114,
-						953,
+						955,
 						1118,
 						1099,
 						1122,
@@ -18880,7 +18880,7 @@
 			"sources": [
 				{
 					"fileName": "embed/app.ts",
-					"line": 941,
+					"line": 946,
 					"character": 13
 				}
 			],
@@ -20912,7 +20912,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 634,
+							"line": 639,
 							"character": 4
 						}
 					],
@@ -20976,7 +20976,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1112,
+							"line": 1117,
 							"character": 11
 						}
 					],
@@ -21187,7 +21187,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1204,
+							"line": 1209,
 							"character": 11
 						}
 					],
@@ -21501,7 +21501,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1179,
+							"line": 1184,
 							"character": 11
 						}
 					],
@@ -21880,7 +21880,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1168,
+							"line": 1173,
 							"character": 17
 						}
 					],
@@ -22094,7 +22094,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1093,
+							"line": 1098,
 							"character": 11
 						}
 					],
@@ -22373,7 +22373,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 624,
+					"line": 629,
 					"character": 13
 				}
 			],
@@ -27621,7 +27621,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 758,
+							"line": 763,
 							"character": 4
 						}
 					],
@@ -28016,7 +28016,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 903,
+							"line": 908,
 							"character": 4
 						}
 					],
@@ -28087,7 +28087,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 916,
+							"line": 921,
 							"character": 4
 						}
 					],
@@ -28125,7 +28125,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 768,
+							"line": 773,
 							"character": 4
 						}
 					],
@@ -28235,7 +28235,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 870,
+							"line": 875,
 							"character": 4
 						}
 					],
@@ -29216,12 +29216,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.",
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -29232,7 +29236,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 637,
+							"line": 638,
 							"character": 4
 						}
 					],
@@ -29288,12 +29292,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the granular XLSX/CSV schedules feature",
+						"shortText": "This flag is used to enable/disable the granular XLSX/CSV schedules feature\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -29304,7 +29312,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 671,
+							"line": 676,
 							"character": 4
 						}
 					],
@@ -29519,12 +29527,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the XLSX/CSV download option for Liveboards",
+						"shortText": "This flag is used to enable/disable the XLSX/CSV download option for Liveboards\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -29535,7 +29547,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 654,
+							"line": 657,
 							"character": 4
 						}
 					],
@@ -29716,7 +29728,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 688,
+							"line": 693,
 							"character": 4
 						}
 					],
@@ -29750,7 +29762,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 723,
+							"line": 728,
 							"character": 4
 						}
 					],
@@ -29863,7 +29875,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 887,
+							"line": 892,
 							"character": 4
 						}
 					],
@@ -30775,7 +30787,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 810,
+							"line": 815,
 							"character": 4
 						}
 					],
@@ -30810,7 +30822,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 826,
+							"line": 831,
 							"character": 4
 						}
 					],
@@ -30845,7 +30857,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 792,
+							"line": 797,
 							"character": 4
 						}
 					],
@@ -30880,7 +30892,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 861,
+							"line": 866,
 							"character": 4
 						}
 					],
@@ -30953,7 +30965,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 739,
+							"line": 744,
 							"character": 4
 						}
 					],
@@ -31069,7 +31081,7 @@
 					"sources": [
 						{
 							"fileName": "embed/app.ts",
-							"line": 922,
+							"line": 927,
 							"character": 4
 						}
 					],
@@ -43821,7 +43833,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 606,
+							"line": 611,
 							"character": 4
 						}
 					],
@@ -43851,7 +43863,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 477,
+							"line": 482,
 							"character": 4
 						}
 					],
@@ -43885,7 +43897,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 540,
+							"line": 545,
 							"character": 4
 						}
 					],
@@ -44518,12 +44530,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.",
+						"shortText": "Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page\nfollowing the exact UI layout, instead of splitting visualizations across multiple A4 pages.\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -44534,7 +44550,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 419,
+							"line": 420,
 							"character": 4
 						}
 					],
@@ -44590,12 +44606,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the granular XLSX/CSV schedules feature",
+						"shortText": "This flag is used to enable/disable the granular XLSX/CSV schedules feature\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -44606,7 +44626,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 451,
+							"line": 456,
 							"character": 4
 						}
 					],
@@ -44821,12 +44841,16 @@
 						"isOptional": true
 					},
 					"comment": {
-						"shortText": "This flag is used to enable/disable the XLSX/CSV download option for Liveboards",
+						"shortText": "This flag is used to enable/disable the XLSX/CSV download option for Liveboards\nThis feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.",
 						"text": "Supported embed types: `AppEmbed`, `LiveboardEmbed`",
 						"tags": [
 							{
 								"tag": "version",
 								"text": "SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl"
+							},
+							{
+								"tag": "default",
+								"text": "true"
 							},
 							{
 								"tag": "example",
@@ -44837,7 +44861,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 435,
+							"line": 438,
 							"character": 4
 						}
 					],
@@ -44980,7 +45004,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 467,
+							"line": 472,
 							"character": 4
 						}
 					],
@@ -45014,7 +45038,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 500,
+							"line": 505,
 							"character": 4
 						}
 					],
@@ -45984,7 +46008,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 516,
+							"line": 521,
 							"character": 4
 						}
 					],
@@ -46018,7 +46042,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 558,
+							"line": 563,
 							"character": 4
 						}
 					],
@@ -46053,7 +46077,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 593,
+							"line": 598,
 							"character": 4
 						}
 					],
@@ -46092,7 +46116,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 531,
+							"line": 536,
 							"character": 4
 						}
 					],
