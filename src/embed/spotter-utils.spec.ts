@@ -40,6 +40,22 @@ describe('buildSpotterSidebarAppInitData', () => {
         });
     });
 
+    it('forwards a nested spotterChatPinConfig object through untouched', () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.spotterChatPinConfig)
+            .toEqual(spotterChatPinConfig);
+    });
+
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
         const result = buildSpotterSidebarAppInitData(base, { enablePastConversationsSidebar: true }, noopError);
         expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
