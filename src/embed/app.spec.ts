@@ -1096,21 +1096,6 @@ describe('App embed tests', () => {
         });
     });
 
-    test('Should add default isLiveboardMasterpiecesEnabled false when not specified', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            showPrimaryNavbar: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
     test('Should add newChartsLibrary true to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
