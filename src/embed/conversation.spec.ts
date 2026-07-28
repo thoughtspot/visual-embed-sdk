@@ -649,6 +649,24 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         });
     });
 
+    it('should forward spotterChatPinConfig nested in spotterSidebarConfig', async () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        });
+        expect(
+            response.data.embedParams.spotterSidebarConfig.spotterChatPinConfig,
+        ).toEqual(spotterChatPinConfig);
+    });
+
     it('should populate enablePastConversationsSidebar from deprecated standalone flag', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
