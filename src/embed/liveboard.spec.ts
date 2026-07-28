@@ -275,7 +275,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should not set isWYSIWYGLiveboardPDFEnabled in url by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -284,7 +284,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isWYSIWYGLiveboardPDFEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -1281,6 +1281,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set enableStarterPrompts parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableStarterPrompts=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set spotterFileUploadFileTypes parameter in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1952,6 +1967,37 @@ describe('Liveboard/viz embed tests', () => {
             addEventListenerSpy.mockRestore();
         });
 
+        test('should listen to scroll and resize changes from scrollable iframe ancestors', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerAddEventListenerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerAddEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            liveboardEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+        });
+
         test('should remove window event listeners on destroy when fullHeight and lazyLoadingForFullHeight are enabled', async () => {
             const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
 
@@ -1967,7 +2013,7 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed.destroy();
 
             expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
-            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
 
             removeEventListenerSpy.mockRestore();
         });

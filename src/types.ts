@@ -244,6 +244,13 @@ export enum HomeLeftNavItem {
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
     Favorites = 'favorites',
+    /**
+     * The *Collections* menu option in
+     * the *Insights* left navigation panel.
+     * Shown when collections are enabled on the cluster.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    Collections = 'collections',
 }
 export type DOMSelector = string | HTMLElement;
 
@@ -963,7 +970,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * The list of actions to completely remove from the embedded view.
      * Hidden actions are not visible to the user at all (fully removed from the UI).
      * Use this when you want to remove an action entirely.
-     * To keep an action visible but non-interactive (grayed out), use {@link disabledActions} instead.
+     * To keep an action visible but non-interactive (grayed out), use {@link
+     * disabledActions} instead.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -983,7 +991,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * (...), and the contextual menu. These will be only actions that
      * are visible to the user.
      * Use this as an allowlist — only the actions listed here will be shown.
-     * All other actions will be hidden. Use either this or {@link hiddenActions}, not both.
+     * All other actions will be hidden. Use either this or {@link hiddenActions}, not
+     * both.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -1109,6 +1118,45 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     doNotTrackPreRenderSize?: boolean;
     /**
+     * The DOM element or CSS selector string specifying the container into which
+     * the pre-rendered wrapper is inserted. Defaults to `document.body` when not
+     * specified.
+     *
+     * **When to use a target container:** set this when the pre-render should
+     * live somewhere other than `document.body` — for example when `<body>` has
+     * `overflow: hidden` and scrolling is handled by an inner element, or when
+     * you need the wrapper to sit inside a specific stacking/positioning context.
+     * The wrapper is positioned to track the embedding element within this
+     * container, so choose the scrollable/positioned ancestor you want it
+     * aligned to.
+     *
+     * **Pass a stable container:** the wrapper is mounted into the resolved
+     * container once, during `preRender()`. The container must stay mounted for
+     * the lifetime of the pre-render — if the host app unmounts and remounts it
+     * (for example React replacing the node), the wrapper is orphaned on the
+     * detached node. Mount the container above the part of the tree that
+     * re-renders so its identity is stable. Prefer a CSS selector string over a
+     * raw element: a selector can be re-resolved to the fresh node on the next
+     * reposition, whereas an element reference cannot be recovered once detached.
+     *
+     * When the embed host lives inside a Shadow DOM, a selector string is
+     * resolved against that shadow root as well (since `document.querySelector`
+     * cannot pierce shadow boundaries); pass the element directly if the
+     * container lives in a different root.
+     *
+     * @type {string | HTMLElement}
+     * @version SDK: 1.49.2 | ThoughtSpot: *
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   preRenderId: 'my-liveboard',
+     *   // Prefer a selector for a stable, scrollable container.
+     *   preRenderContainer: '#my-scroll-container',
+     * });
+     * ```
+     */
+    preRenderContainer?: string | HTMLElement;
+    /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighter-weight shell.
      *
@@ -1179,6 +1227,26 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     overrideOrgId?: number;
+    /**
+     * Overrides the browser history behavior for embedding application users.
+     * This parameter changes standard history navigation (pushState) into a
+     * state replacement (replaceState), preventing users from getting trapped in
+     * back-button loops inside the embedded iframe environment.
+     * The overrideHistoryState setting is honored only if the
+     * application is running within an embedded context.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *     // ... other embed view config
+     *     overrideHistoryState: true,
+     * });
+     * ```
+     */
+    overrideHistoryState?: boolean;
     /**
      * Flag to override the *Open Link in New Tab* context
      * menu option.
@@ -3683,6 +3751,158 @@ export enum EmbedEvent {
      */
     SpotterConversationDeleted = 'spotterConversationDeleted',
     /**
+     * Emitted when the header Share button is clicked. Fires `Start` then `End`
+     * to bracket the interaction. App→host counterpart of the
+     * `ShareSpotterConversation` host event (user-driven vs programmatic open).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareConversationButtonHeaderClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareConversationButtonHeaderClicked = 'spotterShareConversationButtonHeaderClicked',
+    /**
+     * Emitted when the sidebar Share item is clicked. Fires `Start` then `End`
+     * to bracket the interaction.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareConversationMenuItemSidebarClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareConversationMenuItemSidebarClicked = 'spotterShareConversationMenuItemSidebarClicked',
+    /**
+     * Emitted when a Spotter conversation is shared (recipients added, or a new
+     * share created). The host builds its own link from shareId/convId + its
+     * configured CONVERSATION_URL — no link string is sent. Distinct from
+     * `SpotterShareModalConfirmButtonClicked`, which fires at click time before
+     * the save resolves.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationShared, (payload) => {
+     *     // payload: { convId: string, shareId: string,
+     *     //            recipientsAdded: string[], recipientsRemoved: string[] }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterConversationShared = 'spotterConversationShared',
+    /**
+     * Emitted when access to a shared Spotter conversation is revoked
+     * (recipients removed). `fullyRevoked` is true when the last sharee is removed
+     * and the share is deleted entirely.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationShareRevoked, (payload) => {
+     *     // payload: { convId: string, shareId: string,
+     *     //            recipientsRemoved: string[], fullyRevoked: boolean }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterConversationShareRevoked = 'spotterConversationShareRevoked',
+    /**
+     * Emitted when a recipient opens a shared Spotter conversation (read-only
+     * view). No shareId available viewer-side.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterSharedConversationViewed, (payload) => {
+     *     // payload: { convId: string, sourceConvId: string }
+     *     // convId = resolved snapshot conv id; sourceConvId = the shared URL id
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterSharedConversationViewed = 'spotterSharedConversationViewed',
+    /**
+     * Emitted when the user toggles the share-modal "include new messages since
+     * last shared version" checkbox.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareIncludeNewMessagesCheckboxToggled, (payload) => {
+     *     // payload: { convId: string, includeNewMessages: boolean }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareIncludeNewMessagesCheckboxToggled = 'spotterShareIncludeNewMessagesCheckboxToggled',
+    /**
+     * Emitted when the user dismisses the stale-snapshot info banner via its
+     * cross (distinct from the include-new-messages checkbox toggle).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareStaleInfoBannerDismissed, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareStaleInfoBannerDismissed = 'spotterShareStaleInfoBannerDismissed',
+    /**
+     * Emitted when the modal Share (confirm) button is clicked — fires at click
+     * time, before the save resolves. Distinct from the `SpotterConversationShared`
+     * / `SpotterConversationShareRevoked` result events.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareModalConfirmButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareModalConfirmButtonClicked = 'spotterShareModalConfirmButtonClicked',
+    /**
+     * Emitted when the share modal is dismissed via the Cancel button.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterShareModalCancelButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareModalCancelButtonClicked = 'spotterShareModalCancelButtonClicked',
+    /**
+     * Emitted when a recipient leaves the read-only shared view via the Exit
+     * button.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterSharedConversationExitButtonClicked, (payload) => {
+     *     // payload: { convId: string }
+     * })
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
+    /**
+     * Emitted when a Spotter conversation is pinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationPinned, (payload) => {
+     *     console.log('Conversation pinned', payload);
+     *     // payload: { conversationId: string, pinnedAt: string (ISO 8601) }
+     * })
+     * ```
+     */
+    SpotterConversationPinned = 'spotterConversationPinned',
+    /**
+     * Emitted when a Spotter conversation is unpinned.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
+     *     console.log('Conversation unpinned', payload);
+     *     // payload: { conversationId: string, unpinnedAt: string (ISO 8601) }
+     * })
+     * ```
+     */
+    SpotterConversationUnpinned = 'spotterConversationUnpinned',
+    /**
      * Emitted when a Spotter conversation is selected/clicked.
      * @example
      * ```js
@@ -3694,6 +3914,31 @@ export enum EmbedEvent {
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     SpotterConversationSelected = 'spotterConversationSelected',
+
+    /**
+     * Emitted when the Spotter agent finishes streaming/rendering a response.
+     * Includes the conversation and message identifiers so the host app can
+     * fetch the full conversation history via the REST API if needed.
+     *
+     * The payload data has the shape `{ convId: string, messageId: string }`.
+     *
+     * Works with SpotterEmbed as well as AppEmbed (when Spotter is reached
+     * inside the full application).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterResponseComplete, (payload) => {
+     *     console.log('Spotter response complete', payload);
+     * })
+     * ```
+     * @example
+     * ```js
+     * appEmbed.on(EmbedEvent.SpotterResponseComplete, (payload) => {
+     *     console.log('Spotter response complete', payload);
+     * })
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterResponseComplete = 'spotterResponseComplete',
 
     /**
      * @hidden
@@ -3721,10 +3966,11 @@ export enum EmbedEvent {
     EmbedPageContextChanged = 'EmbedPageContextChanged',
 
     /**
-     * Represents a special embed event that is triggered whenever any host event is subscribed.
+     * Represents a special embed event that is triggered whenever any host event is
+     * subscribed.
      *
-     * You can listen to this event when you need to dispatch a host event during load or render,
-     * particularly in situations where timing issues may occur.
+     * You can listen to this event when you need to dispatch a host event during load or
+     * render, particularly in situations where timing issues may occur.
      *
      * @example
      * ```js
@@ -4150,11 +4396,30 @@ export enum HostEvent {
     /**
      * Navigate to a specific page in the embedded ThoughtSpot application.
      * This is the same as calling `appEmbed.navigateToPage(path, true)`.
-     * @param - `path` - the path to navigate to go forward or back. The path value can
-     * be a number; for example, `1`, `-1`.
+     *
+     * Accepts either a plain value or an object with `path`
+     * and an optional `replace` flag.
+     *
+     * @param data - A string path, a numeric history delta, or an object
+     *   `{ path: string | number, replace?: boolean }`.
+     *   - `path` — the route to navigate to, or a history delta such as `1`
+     *     or `-1` (calls `window.history.go()`).
+     *   - `replace` — when `true`, replaces the current history entry instead
+     *     of pushing a new one (uses `window.location.replace`).
+     *
      * @example
      * ```js
-     * appEmbed.navigateToPage(-1)
+     * // Preferred: use navigateToPage directly
+     * appEmbed.navigateToPage(-1);
+     * 
+     * // Numeric delta — go back one step
+     * appEmbed.trigger(HostEvent.Navigate, -1);
+     *
+     * // String path — push a new history entry
+     * appEmbed.trigger(HostEvent.Navigate, 'home');
+     *
+     * // Object format — replace current history entry
+     * appEmbed.trigger(HostEvent.Navigate, { path: 'home', replace: true }); // SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
      * ```
      * @version SDK: 1.12.0 | ThoughtSpot: 8.4.0.cl, 8.4.1.sw
      */
@@ -5251,6 +5516,14 @@ export enum HostEvent {
     /**
      * Get details of filters applied on the Liveboard.
      * Returns arrays containing Liveboard filter and runtime filter elements.
+     * Each Liveboard filter may include an `applicability` attribute
+     * indicating the scope of the filter. It contains a `level`
+     * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
+     * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
+     * level there is no `targetId`, since the filter applies to the
+     * whole Liveboard.
+     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * @example
      * ```js
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
@@ -5290,6 +5563,16 @@ export enum HostEvent {
      *
      * `type`  - To update filters for date time, specify the date format type.
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
+     *
+     * `applicability` - Optional. Scopes the filter to a specific target,
+     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
+     *
+     *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
+     *  - `targetId`: The GUID of the target, for example, the tab GUID.
+     *    Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *    `level` is `LIVEBOARD`, since the filter applies to the whole
+     *    Liveboard.
      * @example
      * ```js
      *
@@ -5365,6 +5648,21 @@ export enum HostEvent {
      *         values: ["shoes", "boots"]
      *     }
      * }, ContextType.Liveboard);
+     * ```
+     * @example
+     * ```js
+     * // Scope the filter to a specific Liveboard tab
+     * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
+     *     filter: {
+     *         column: "item type",
+     *         oper: "IN",
+     *         values: ["bags", "shirts"],
+     *         applicability: {
+     *             level: "TAB",
+     *             targetId: "e0836cad-4fdf-42d4-bd97-567a6b2a6058"
+     *         }
+     *     }
+     * });
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
@@ -5517,6 +5815,15 @@ export enum HostEvent {
      * - `name`: Name of the parameter.
      * - `value`: The value to set for the parameter.
      * - `isVisibleToUser`: Optional. To control the visibility of the parameter chip.
+     * - `applicability`: Optional. Scopes the parameter to a specific target,
+     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
+     *
+     *    - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.
+     *    - `targetId`: The GUID of the target, for example, the tab GUID.
+     *      Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *      `level` is `LIVEBOARD`, since the parameter applies to the whole
+     *      Liveboard.
      *
      * @example
      * ```js
@@ -5524,6 +5831,18 @@ export enum HostEvent {
      *   name: "Integer Range Param",
      *   value: 10,
      *   isVisibleToUser: false
+     * }])
+     * ```
+     * @example
+     * ```js
+     * // Scope the parameter to a specific Liveboard tab
+     * liveboardEmbed.trigger(HostEvent.UpdateParameters, [{
+     *   name: "Integer Range Param",
+     *   value: 10,
+     *   applicability: {
+     *     level: "TAB",
+     *     targetId: "e0836cad-4fdf-42d4-bd97-567a6b2a6058"
+     *   }
      * }])
      * ```
      * @example
@@ -5541,6 +5860,14 @@ export enum HostEvent {
     UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
+     * Each parameter may include an `applicability` attribute
+     * indicating the scope of the parameter. It contains a `level`
+     * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
+     * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
+     * level there is no `targetId`, since the parameter applies to the
+     * whole Liveboard.
+     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
      * liveboardEmbed.trigger(HostEvent.GetParameters).then((parameter) => {
@@ -5808,6 +6135,36 @@ export enum HostEvent {
      */
     ResetSpotterConversation = 'ResetSpotterConversation',
     /**
+     * Opens the Spotter share-conversation modal for the given conversation.
+     * `conversationId` is **mandatory** — you must pass the id of the
+     * conversation to share. Also no-op when sharing is disabled
+     * (enableShareConversation off) or when already in the read-only shared view.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ShareSpotterConversation, { conversationId: 'abc' });
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    ShareSpotterConversation = 'ShareSpotterConversation',
+    /**
+     * Closes the Spotter share-conversation modal. No-op if none is open.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.CloseSpotterShareConversation);
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    CloseSpotterShareConversation = 'CloseSpotterShareConversation',
+    /**
+     * Exits the read-only shared-conversation view.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.ExitSpotterSharedConversation);
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    ExitSpotterSharedConversation = 'ExitSpotterSharedConversation',
+    /**
      * Deletes the last prompt in spotter embed.
      * @example
      * ```js
@@ -5905,6 +6262,43 @@ export enum HostEvent {
     StartNewSpotterConversation = 'StartNewSpotterConversation',
 
     /**
+     * Pins a saved Spotter conversation so it floats to the top of the past
+     * conversations sidebar. The `conversationId` of the conversation to pin is
+     * required.
+     *
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
+     *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.PinSpotterConversation, {
+     *     conversationId: '<conversation-id>',
+     * });
+     * ```
+     */
+    PinSpotterConversation = 'PinSpotterConversation',
+
+    /**
+     * Unpins a previously pinned Spotter conversation. The `conversationId` of the
+     * conversation to unpin is required.
+     *
+     * This feature is available only when chat history is enabled on your ThoughtSpot
+     * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
+     * instance.
+     *
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.UnpinSpotterConversation, {
+     *     conversationId: '<conversation-id>',
+     * });
+     * ```
+     */
+    UnpinSpotterConversation = 'UnpinSpotterConversation',
+
+    /**
      * @hidden
      * Get the current context of the embedded page.
      *
@@ -5958,6 +6352,27 @@ export enum HostEvent {
      * ```
      */
     InitSpotterVizConversation = 'InitSpotterVizConversation',
+
+    /**
+     * Opens the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenSpotterVizPanel);
+     * ```
+     */
+    OpenSpotterVizPanel = 'OpenSpotterVizPanel',
+
+    /**
+     * Closes the SpotterViz panel.
+     * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.CloseSpotterVizPanel);
+     * ```
+     */
+    CloseSpotterVizPanel = 'CloseSpotterVizPanel',
+
     /**
      * Clears browser cache and fetches new data for liveboard ChartViz Containers.
      * Requires `enableLiveboardDataCache` to be enabled.
@@ -6111,6 +6526,7 @@ export enum Param {
     SpotterEnabled = 'isSpotterExperienceEnabled',
     IsUnifiedSearchExperienceEnabled = 'isUnifiedSearchExperienceEnabled',
     OverrideOrgId = 'orgId',
+    OverrideHistoryState = 'overrideHistoryState',
     OauthPollingInterval = 'oAuthPollingInterval',
     IsForceRedirect = 'isForceRedirect',
     DataSourceId = 'dataSourceId',
@@ -6131,6 +6547,7 @@ export enum Param {
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    DefaultQueryMode = 'defaultQueryMode',
     EnableStopAnswerGenerationEmbed = 'enableStopAnswerGenerationEmbed',
     SpotterSidebarTitle = 'spotterSidebarTitle',
     SpotterSidebarDefaultExpanded = 'spotterSidebarDefaultExpanded',
@@ -6149,6 +6566,7 @@ export enum Param {
     EnableLiveboardDataCache = 'enableLiveboardDataCache',
     SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
     SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
+    IsStarterPromptsEnabled = 'enableStarterPrompts',
 }
 
 /**
@@ -6801,6 +7219,16 @@ export enum Action {
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      */
     AddToFavorites = 'addToFavorites',
+    /**
+     * Remove from Favorites option in home page v3 sidebar.
+     * Allows removing an object from the user's favorites list from home-page v3 sidebar.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveFromFavorites]
+     * ```
+     */
+    RemoveFromFavorites = 'removeFromFavorites',
     /**
      * The edit icon on Liveboards (Classic experience).
      * @example
@@ -7767,6 +8195,89 @@ export enum Action {
      */
     SpotterChatRename = 'spotterChatRename',
     /**
+     * Controls visibility and disable state of the Spotter conversation Share
+     * button in the chat header. Only takes effect once sharing is enabled
+     * (enableShareConversation on).
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareConversationButtonHeader]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareConversationButtonHeader = 'spotterShareConversationButtonHeader',
+    /**
+     * Controls visibility and disable state of the Share item in the Spotter
+     * conversation history (sidebar) edit menu. Independent of the header button
+     * above, so a host can show Share in one entry point and hide it in the other.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareConversationMenuItemSidebar]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareConversationMenuItemSidebar = 'spotterShareConversationMenuItemSidebar',
+    /**
+     * Controls visibility of the entire read-only shared-conversation data-access
+     * banner shown when a recipient opens a shared view. Hide-only.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationBanner]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterSharedConversationBanner = 'spotterSharedConversationBanner',
+    /**
+     * Controls visibility and disable state of the cross/close button on the
+     * read-only shared-conversation data-access banner (keeps the banner itself).
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationBannerDismissButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterSharedConversationBannerDismissButton = 'spotterSharedConversationBannerDismissButton',
+    /**
+     * Controls visibility and disable state of the Exit button in the read-only
+     * shared-view header. Hiding it does not disable the ExitSpotterSharedConversation
+     * host event.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterSharedConversationExitButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterSharedConversationExitButton = 'spotterSharedConversationExitButton',
+    /**
+     * Controls visibility of the share-modal footer note ("Chat will be shared up
+     * to the current moment…"). Hide-only.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterShareUpToCurrentInfo]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareUpToCurrentInfo = 'spotterShareUpToCurrentInfo',
+    /**
+     * Controls visibility and disable state of the share-modal "include new
+     * messages since last shared version" checkbox.
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterShareIncludeNewMessagesCheckbox]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareIncludeNewMessagesCheckbox = 'spotterShareIncludeNewMessagesCheckbox',
+    /**
+     * Controls visibility and disable state of the cross on the share-modal
+     * stale-snapshot info banner.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterShareStaleInfoBannerDismissButton]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    SpotterShareStaleInfoBannerDismissButton = 'spotterShareStaleInfoBannerDismissButton',
+    /**
      * Controls visibility and disable state of the delete action
      * in the Spotter conversation edit menu.
      * @example
@@ -7776,6 +8287,16 @@ export enum Action {
      * @version SDK: 1.46.0 | ThoughtSpot Cloud: 26.3.0.cl
      */
     SpotterChatDelete = 'spotterChatDelete',
+    /**
+     * Controls visibility and disable state of the pin/unpin action
+     * in the Spotter conversation edit menu.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.SpotterChatPin]
+     * ```
+     */
+    SpotterChatPin = 'spotterChatPin',
     /**
      * Controls visibility and disable state of the documentation/best practices
      * link in the Spotter sidebar footer.
@@ -7880,6 +8401,20 @@ export enum Action {
      */
     SpotterViz = 'spotterViz',
     /**
+     * The reference-mode toggle button inside the SpotterViz chat input.
+     * When users enable reference mode, clicking tiles, filters, or
+     * parameters adds them as chat context. Hide this action to remove
+     * the reference-mode capability entirely.
+     * Visible by default.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterVizReferenceMode]
+     * disabledActions: [Action.SpotterVizReferenceMode]
+     * ```
+     */
+    SpotterVizReferenceMode = 'spotterVizReferenceMode',
+    /**
      * Clears browser cache and fetches new data for liveboard ChartViz Containers.
      * Requires `enableLiveboardDataCache` to be enabled.
      * @example
@@ -7889,7 +8424,73 @@ export enum Action {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Controls visibility and disable state of the share action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystShare]
+     * disabledActions: [Action.SpotterAnalystShare]
+     * ```
+     */
+    SpotterAnalystShare = 'spotterAnalystShare',
+    /**
+     * Controls visibility and disable state of the edit action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystEdit]
+     * disabledActions: [Action.SpotterAnalystEdit]
+     * ```
+     */
+    SpotterAnalystEdit = 'spotterAnalystEdit',
+    /**
+     * Controls visibility and disable state of the create action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystCreate]
+     * disabledActions: [Action.SpotterAnalystCreate]
+     * ```
+     */
+    SpotterAnalystCreate = 'spotterAnalystCreate',
+    /**
+     * Controls visibility and disable state of the delete action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystDelete]
+     * disabledActions: [Action.SpotterAnalystDelete]
+     * ```
+     */
+    SpotterAnalystDelete = 'spotterAnalystDelete',
+    /**
+     * Controls visibility and disable state of the make a copy action
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystMakeACopy]
+     * disabledActions: [Action.SpotterAnalystMakeACopy]
+     * ```
+     */
+    SpotterAnalystMakeACopy = 'spotterAnalystMakeACopy',
+    /**
+     * Controls visibility and disable state of the sidebar
+     * in the Spotter Analyst interface.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystSidebar]
+     * disabledActions: [Action.SpotterAnalystSidebar]
+     * ```
+     */
+    SpotterAnalystSidebar = 'spotterAnalystSidebar',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -8263,6 +8864,9 @@ export enum EmbedErrorCodes {
 
     /** DrillDown payload is invalid - missing or malformed points */
     DRILLDOWN_INVALID_PAYLOAD = 'DRILLDOWN_INVALID_PAYLOAD',
+
+    /** UpdateParameters payload is invalid - malformed applicability */
+    UPDATEPARAMETERS_INVALID_PAYLOAD = 'UPDATEPARAMETERS_INVALID_PAYLOAD',
 }
 
 /**

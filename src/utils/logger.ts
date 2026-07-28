@@ -1,5 +1,5 @@
 import { LogLevel } from '../types';
-import { version } from '../../package.json';
+import { version } from './sdk-version';
 const logFunctions: {
     [key: string]: (...args: any[]) => void;
 } = {

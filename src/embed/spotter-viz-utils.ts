@@ -32,6 +32,18 @@ export interface SpotterVizStarterPrompt {
  *        customStarterPrompts: [
  *            { id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }
  *        ],
+ *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+ *        loaderHeadline: 'Crunching the numbers...',
+ *        loaderTips: [
+ *            { label: 'Tip', text: 'try asking about revenue by region' },
+ *            { label: 'Tip', text: 'use natural language' },
+ *        ],
+ *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ *        liveboardBrandName: 'Reports',
+ *        spotterBrandName: 'Analyst',
+ *        insightTileBrandName: 'Insight card',
+ *        insightTileViewPlanLabel: 'View plan',
+ *        insightTileLoaderText: 'Generating insight',
  *    },
  * })
  * ```
@@ -76,6 +88,58 @@ export interface SpotterVizConfig {
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
      */
     inputChatPlaceholder?: string;
+    /**
+     * Custom headline text shown in the SpotterViz loading state.
+     * Replaces the default loading headline.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    loaderHeadline?: string;
+    /**
+     * Custom tips shown in the SpotterViz loading state.
+     * Replaces the default loading tips with the provided list.
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    loaderTips?: SpotterVizLoaderTip[];
+    /**
+     * Custom term used to replace "Liveboard" in the agent's responses.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default ''
+     */
+    liveboardBrandName?: string;
+    /**
+     * Custom term used to replace "Spotter" in the agent's responses.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default ''
+     */
+    spotterBrandName?: string;
+    /**
+     * Custom term used to replace "Insight tile" in the UI and in the agent's responses.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default ''
+     */
+    insightTileBrandName?: string;
+    /**
+     * Custom term used to replace "View plan" in the insight tile menu.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    insightTileViewPlanLabel?: string;
+    /**
+     * Custom loader text shown on the insight tile.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    insightTileLoaderText?: string;
+}
+
+/**
+ * A single tip shown in the SpotterViz loading state.
+ * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+ * @group Embed components
+ */
+export interface SpotterVizLoaderTip {
+    /** Short label rendered alongside the tip (e.g. "Tip"). */
+    label: string;
+    /** Tip body text. */
+    text: string;
 }
 
 export function buildSpotterVizAppInitData<T extends DefaultAppInitData>(

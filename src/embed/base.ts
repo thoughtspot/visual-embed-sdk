@@ -209,6 +209,10 @@ export const createAndSetInitPromise = (): void => {
     });
     initPromise.finally(() => {
         const curVal = getValueFromWindow<InitFlagStore>(initFlagKey);
+        if (!curVal) {
+            logger.error('initFlagStore missing when marking init complete');
+            return;
+        }
         curVal.isInitCompleted = true;
         storeValueInWindow(initFlagKey, curVal);
     });
@@ -221,8 +225,8 @@ export const getInitPromise = ():
         ReturnType<typeof init>
     > => getValueFromWindow<InitFlagStore>(initFlagKey)?.initPromise;
 
-export const getIsInitCompleted = (): boolean => 
-    getValueFromWindow<InitFlagStore>(initFlagKey)?.isInitCompleted;
+export const getIsInitCompleted = (): boolean =>
+    !!getValueFromWindow<InitFlagStore>(initFlagKey)?.isInitCompleted;
 
 export const getIsInitCalled = (): boolean => !!getValueFromWindow(initFlagKey)?.isInitCalled;
 

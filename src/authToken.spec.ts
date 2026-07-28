@@ -77,6 +77,12 @@ describe('AuthToken Unit tests', () => {
         loggerSpy.mockRestore();
     });
 
+    test('validateAuthToken: returns false when verifyTokenService throws (covers catch block)', async () => {
+        jest.spyOn(authServiceInstance, 'verifyTokenService').mockRejectedValueOnce(new Error('network error'));
+        const result = await validateAuthToken({ thoughtSpotHost: 'test', disableTokenVerification: false } as EmbedConfig, 'valid-token-string');
+        expect(result).toBe(false);
+    });
+
     describe('getAuthenticationToken: cached token skip validation condition', () => {
         beforeEach(() => {
             resetCachedAuthToken();

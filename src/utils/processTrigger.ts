@@ -70,7 +70,15 @@ export function processTrigger(
         }
         
         const channel = new MessageChannel();
+
+        // Close the messageChannel and resolve the promise if timeout.
+        const timeoutId = setTimeout(() => {
+            channel.port1.close();
+            res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
+        }, TRIGGER_TIMEOUT);
+
         channel.port1.onmessage = ({ data: responseData }) => {
+            clearTimeout(timeoutId);
             channel.port1.close();
             const error = responseData?.error || responseData?.data?.error;
             if (error) {
@@ -79,12 +87,6 @@ export function processTrigger(
                 res(responseData);
             }
         };
-
-        // Close the messageChannel and resolve the promise if timeout.
-        setTimeout(() => {
-            channel.port1.close();
-            res(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
-        }, TRIGGER_TIMEOUT);
 
         return postIframeMessage(iFrame, { type: messageType, data, context }, thoughtSpotHost, channel);
     });

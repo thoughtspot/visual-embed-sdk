@@ -1,8 +1,7 @@
-import isUndefined from 'lodash/isUndefined';
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -13,6 +12,53 @@ export interface SearchOptions {
      * The query string to pass to start the Conversation.
      */
     searchQuery: string;
+}
+
+/**
+ * The query mode Spotter uses when answering a question.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ */
+export enum SpotterQueryMode {
+    FAST_SEARCH = 'fastSearch',
+    RESEARCH = 'research',
+}
+
+/**
+ * Configuration for the pin/unpin conversation feature in the Spotter sidebar.
+ * Grouped into one object because pin exposes several related settings
+ * (enable + label/icon overrides), unlike single-item actions like rename or
+ * delete.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+ */
+export interface SpotterChatPinConfig {
+    /**
+     * Enables the pin/unpin conversation feature in embedded Spotter. Disabled
+     * by default — hosts must opt in. When off, the Pin/Unpin menu entry and
+     * the pin glyph are hidden and the PinSpotterConversation /
+     * UnpinSpotterConversation host events are no-ops. Native (non-embedded)
+     * Spotter is unaffected and ships pin enabled.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default false
+     */
+    enabled?: boolean;
+    /**
+     * Custom label text for the pin action in the conversation edit menu.
+     * Defaults to translated "Pin" text.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    pinLabel?: string;
+    /**
+     * Custom label text for the unpin action in the conversation edit menu.
+     * Defaults to translated "Unpin" text.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    unpinLabel?: string;
+    /**
+     * Custom icon for the pin glyph and the pin menu item. Accepts an icon id
+     * from the icon sprite. Defaults to the built-in PIN icon.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    icon?: string;
 }
 
 /**
@@ -53,6 +99,12 @@ export interface SpotterSidebarViewConfig {
      */
     spotterChatDeleteLabel?: string;
     /**
+     * Pin/unpin conversation feature config (enable + label/icon overrides).
+     * Off by default in embed — hosts opt in via `enabled`.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    spotterChatPinConfig?: SpotterChatPinConfig;
+    /**
      * Custom title text for the delete conversation confirmation modal.
      * Defaults to translated "Delete chat" text.
      * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
@@ -89,6 +141,109 @@ export interface SpotterSidebarViewConfig {
      * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      */
     spotterNewChatButtonTitle?: string;
+    /**
+     * Custom label text for the Spotter Analyst section in the sidebar.
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @default Analyst
+     */
+    spotterAnalystLabel?: string;
+    /**
+     * Custom label text for the Spotter Analysts section in the sidebar.
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @default Analysts
+     */
+    spotterAnalystsLabel?: string;
+}
+
+/**
+ * Configuration for the Spotter conversation sharing feature.
+ * Can be used in SpotterEmbed and AppEmbed.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface SpotterShareConversationConfig {
+    /**
+     * Enables sharing of the conversation.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     */
+    enableShareConversation?: boolean;
+    /**
+     * Header Share button + sidebar Share item label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "Share"
+     */
+    spotterShareLabel?: string;
+    /**
+     * Share modal title.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareModalTitle?: string;
+    /**
+     * Modal confirm button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "Share"
+     */
+    spotterShareConfirmLabel?: string;
+    /**
+     * Modal cancel button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "Cancel"
+     */
+    spotterShareCancelLabel?: string;
+    /**
+     * "Add users or groups" label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareAddUsersLabel?: string;
+    /**
+     * Empty-state title ("No users added yet").
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareEmptyTitle?: string;
+    /**
+     * Empty-state subtitle ("Not shared with any user").
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareEmptySubtitle?: string;
+    /**
+     * "Include new messages since last shared version" checkbox label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareIncludeNewMessagesLabel?: string;
+    /**
+     * Footer note when the snapshot is current ("…up to the current moment…").
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareUpToCurrentLabel?: string;
+    /**
+     * Stale-snapshot info banner text ("All added users and groups will receive…").
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterShareStaleInfoLabel?: string;
+    /**
+     * Read-only shared-view data-access banner message.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    spotterSharedConversationBannerMessage?: string;
+    /**
+     * Read-only shared-view Exit button label.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "Exit"
+     */
+    spotterSharedConversationExitLabel?: string;
+    /**
+     * Share icon id (radiant IconID string).
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "share"
+     */
+    spotterShareIcon?: string;
+    /**
+     * Empty-state group icon id (radiant IconID string).
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default "userGroup"
+     */
+    spotterShareGroupIcon?: string;
 }
 
 /**
@@ -128,6 +283,14 @@ export interface SpotterChatViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
+    /**
+     * Enables starter prompts in the Spotter chat interface.
+     *
+     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @default false
+     */
+    enableStarterPrompts?: boolean;
 }
 
 /**
@@ -300,6 +463,24 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * Sets the default query mode when Spotter loads — Fast Search or
+     * Research Mode. Applies fresh on every new session for this embed
+     * instance only; it does not persist as a user preference and does
+     * not affect other embeds or native ThoughtSpot usage.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default SpotterQueryMode.FAST_SEARCH
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    defaultQueryMode: SpotterQueryMode.RESEARCH,
+     * })
+     * ```
+     */
+    defaultQueryMode?: SpotterQueryMode;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -357,6 +538,44 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     spotterChatConfig?: SpotterChatViewConfig;
+    /**
+     * Configuration for the Spotter conversation sharing feature.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterShareConversationConfig: {
+     *        enableShareConversation: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
+     * The ID of a shared Spotter conversation to open directly in the read-only
+     * reader view. Use this to land a share recipient in the shared conversation
+     * when they open a host-configured `CONVERSATION_URL` share link: read the
+     * `{conversation-id}` from your page URL and pass it here.
+     *
+     * Requires the Spotter conversation-sharing feature to be enabled
+     * (`spotterShareConversationConfig.enableShareConversation`). The recipient
+     * must be an authorized sharee — the server returns access-denied otherwise.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const convId = new URLSearchParams(window.location.search).get('conversation-id');
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    sharedConversationId: convId,
+     * })
+     * ```
+     */
+    sharedConversationId?: string;
 }
 
 /**
@@ -375,6 +594,7 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
 export interface SpotterAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
+        spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
     };
 }
@@ -419,7 +639,12 @@ export class SpotterEmbed extends TsEmbed {
      */
     protected async getAppInitData(): Promise<SpotterAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterSidebarAppInitData(defaultAppInitData, this.viewConfig, this.handleError.bind(this));
+        const sidebarInitData = buildSpotterSidebarAppInitData(
+            defaultAppInitData,
+            this.viewConfig,
+            this.handleError.bind(this),
+        );
+        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
@@ -436,6 +661,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
         } = this.viewConfig;
@@ -458,6 +684,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
 
         // Handle spotterChatConfig params
@@ -467,11 +694,13 @@ export class SpotterEmbed extends TsEmbed {
                 toolResponseCardBrandingLabel,
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
+                enableStarterPrompts,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
+            setParamIfDefined(queryParams, Param.IsStarterPromptsEnabled, enableStarterPrompts, true);
             if (spotterFileUploadFileTypes !== undefined) {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
@@ -488,8 +717,15 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeFiltersfromURL,
             runtimeParameters,
             excludeRuntimeParametersfromURL,
+            sharedConversationId,
         } = this.viewConfig;
-        const path = 'insights/conv-assist';
+        // Deep-link into the read-only shared-conversation reader view when a
+        // shared conversation id is supplied (e.g. a recipient landing from a
+        // host-configured CONVERSATION_URL share link); otherwise the normal
+        // Spotter conversation surface.
+        const path = sharedConversationId
+            ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
+            : 'insights/conv-assist';
         const queryParams = this.getEmbedParamsObject();
 
         let query = '';
