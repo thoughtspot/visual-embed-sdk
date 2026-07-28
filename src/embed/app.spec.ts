@@ -2518,3 +2518,72 @@ describe('AppEmbed visualOverrides tests', () => {
         await testVisualOverridesInEmbed(appEmbed, visualOverrides);
     });
 });
+
+describe('AppEmbed getEmbedParamsObject', () => {
+    beforeEach(() => {
+        cleanUp();
+        jest.spyOn(TsEmbed.prototype as any, 'getAppInitData').mockResolvedValue({});
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('getEmbedParams should use getEmbedParamsObject internally', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const getEmbedParamsObjectSpy = jest.spyOn(appEmbed as any, 'getEmbedParamsObject');
+
+        await appEmbed.render();
+
+        expect(getEmbedParamsObjectSpy).toHaveBeenCalled();
+    });
+
+    test('getEmbedParamsObject should contain isFullHeightPinboard when fullHeight is true', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBe(true);
+        expect(params.fullHeight).toBeUndefined();
+    });
+
+    test('getEmbedParamsObject should not contain isFullHeightPinboard when fullHeight is false', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: false,
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBeUndefined();
+    });
+
+    test('getUpdateEmbedParamsObject should contain isFullHeightPinboard when fullHeight is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const params = await (appEmbed as any).getUpdateEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBe(true);
+    });
+
+    test('getUpdateEmbedParamsObject should not contain isFullHeightPinboard when fullHeight is false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: false,
+        } as AppViewConfig);
+
+        const params = await (appEmbed as any).getUpdateEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBeUndefined();
+    });
+});
