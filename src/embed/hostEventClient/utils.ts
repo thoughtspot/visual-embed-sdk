@@ -115,3 +115,7 @@ export function throwOpenFilterValidationError(): never {
 export function throwOpenParameterValidationError(): never {
   createValidationError(ERROR_MESSAGE.OPENPARAMETER_INVALID_PAYLOAD);
 }
+
+export function throwOpenParameterMissingIdentifierError(): never {
+  createValidationError(ERROR_MESSAGE.OPENPARAMETER_MISSING_IDENTIFIER);
+}

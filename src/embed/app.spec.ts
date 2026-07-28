@@ -994,6 +994,44 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isScopedLiveboardFilteringEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isScopedLiveboardFilteringEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isScopedLiveboardFilteringEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isScopedLiveboardFilteringEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isScopedLiveboardFilteringEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isScopedLiveboardFilteringEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isScopedLiveboardFilteringEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isScopedLiveboardFilteringEnabled');
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

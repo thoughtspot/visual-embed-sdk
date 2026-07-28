@@ -11,6 +11,7 @@ import {
     throwDrillDownValidationError,
     throwOpenFilterValidationError,
     throwOpenParameterValidationError,
+    throwOpenParameterMissingIdentifierError,
 } from './utils';
 import {
     UIPassthroughArrayResponse,
@@ -280,6 +281,14 @@ export class HostEventClient {
     payload: HostEventRequest<HostEvent.OpenParameter>,
     context?: ContextType,
   ): Promise<any> {
+    // The app rejects OpenParameter without a parameter identifier; fail fast on the SDK side
+    const parameter = (payload as any)?.parameter;
+    const hasIdentifier = [parameter?.parameterId, parameter?.parameterName]
+        .some((id) => typeof id === 'string' && id.trim().length > 0);
+    if (!hasIdentifier) {
+      throwOpenParameterMissingIdentifierError();
+    }
+
     if (!isValidOptionalApplicabilityPayload(payload)) {
       throwOpenParameterValidationError();
     }

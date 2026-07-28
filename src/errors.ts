@@ -34,6 +34,7 @@ export const ERROR_MESSAGE = {
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
     OPENFILTER_INVALID_PAYLOAD: 'OpenFilter received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
     OPENPARAMETER_INVALID_PAYLOAD: 'OpenParameter received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
+    OPENPARAMETER_MISSING_IDENTIFIER: 'OpenParameter requires parameter.parameterId or parameter.parameterName',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

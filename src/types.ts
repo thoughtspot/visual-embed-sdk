@@ -2047,6 +2047,24 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isCentralizedLiveboardFilterUXEnabled?: boolean;
     /**
+     * This flag is used to enable or disable scoped Liveboard filtering.
+     * When enabled, filters and parameters can be scoped to a group of
+     * visualizations on a Liveboard, in addition to the Liveboard and
+     * tab levels.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isScopedLiveboardFilteringEnabled: true,
+     * })
+     * ```
+     */
+    isScopedLiveboardFilteringEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -6644,6 +6662,7 @@ export enum Param {
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
+    isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
@@ -7958,17 +7977,18 @@ export enum Action {
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 
     /**
-     * Action ID to show, hide, or disable group-level filters.
-     * Applies to all group-level filter chips across the Liveboard.
+     * Action ID to show, hide, or disable all filter surfaces on a Liveboard,
+     * including filter, parameter, and cross-filter chips at the liveboard,
+     * tab, and group levels. Parameter and cross-filter chips are hide-only.
      *
      *  @example
      * ```js
-     * hiddenActions: [Action.GroupFilters]
-     * disabledActions: [Action.GroupFilters]
+     * hiddenActions: [Action.AllLiveboardFilters]
+     * disabledActions: [Action.AllLiveboardFilters]
      * ```
      *  @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
      */
-    GroupFilters = 'groupFilters',
+    AllLiveboardFilters = 'allLiveboardFilters',
 
     /**
      * The **Data model instructions** button on the Spotter interface.
