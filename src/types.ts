@@ -3891,7 +3891,7 @@ export enum EmbedEvent {
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
      * Emitted when a Spotter conversation is pinned.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationPinned, (payload) => {
@@ -3903,7 +3903,7 @@ export enum EmbedEvent {
     SpotterConversationPinned = 'spotterConversationPinned',
     /**
      * Emitted when a Spotter conversation is unpinned.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
@@ -6281,7 +6281,7 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.PinSpotterConversation, {
@@ -6299,7 +6299,7 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.UnpinSpotterConversation, {
@@ -8301,7 +8301,7 @@ export enum Action {
     /**
      * Controls visibility and disable state of the pin/unpin action
      * in the Spotter conversation edit menu.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * disabledActions: [Action.SpotterChatPin]

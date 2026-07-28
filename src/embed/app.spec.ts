@@ -769,12 +769,50 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should forward spotterChatPinConfig nested in spotterSidebarConfig in APP_INIT', async () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterSidebarConfig: expect.objectContaining({
+                            spotterChatPinConfig,
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
     test('should include spotterShareConversationConfig in APP_INIT embedParams when provided', async () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
             spotterShareModalTitle: 'Share conversation',
-            spotterShareIcon: 'share',
         };
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

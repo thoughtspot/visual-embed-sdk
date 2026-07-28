@@ -40,6 +40,22 @@ describe('buildSpotterSidebarAppInitData', () => {
         });
     });
 
+    it('forwards a nested spotterChatPinConfig object through untouched', () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.spotterChatPinConfig)
+            .toEqual(spotterChatPinConfig);
+    });
+
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
         const result = buildSpotterSidebarAppInitData(base, { enablePastConversationsSidebar: true }, noopError);
         expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
@@ -128,7 +144,7 @@ describe('buildSpotterShareConversationAppInitData', () => {
         });
     });
 
-    it('passes label/icon override fields through untouched', () => {
+    it('passes label override fields through untouched', () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
@@ -141,7 +157,6 @@ describe('buildSpotterShareConversationAppInitData', () => {
             spotterShareIncludeNewMessagesLabel: 'Include new messages',
             spotterShareUpToCurrentLabel: 'Share up to current moment',
             spotterShareStaleInfoLabel: 'This snapshot may be stale',
-            spotterShareIcon: 'share',
         };
         const result = buildSpotterShareConversationAppInitData(base, {
             spotterShareConversationConfig,
