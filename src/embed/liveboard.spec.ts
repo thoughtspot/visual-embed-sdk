@@ -2335,3 +2335,39 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 });
+
+describe('LiveboardEmbed updatedSpotterExperience tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should render the liveboard embed with updatedSpotterExperience', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterExperience: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterExperience=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should render the liveboard embed with updatedSpotterExperience disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterExperience: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterExperience=false#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+});

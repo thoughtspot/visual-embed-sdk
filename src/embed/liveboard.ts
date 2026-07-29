@@ -624,6 +624,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     enableLiveboardDataCache?: boolean;
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -710,6 +725,7 @@ export class LiveboardEmbed extends V1Embed {
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = true,
+            updatedSpotterExperience,
             enableCustomColumnGroups = false,
             oAuthPollingInterval,
             isForceRedirect,
@@ -818,6 +834,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (showSpotterLimitations !== undefined) {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
+        }
+
+        if (!isUndefined(updatedSpotterExperience)) {
+            params[Param.UpdatedSpotterExperience] = !!updatedSpotterExperience;
         }
 
         // Handle spotterChatConfig params

@@ -573,6 +573,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     sharedConversationId?: string;
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -651,6 +666,7 @@ export class SpotterEmbed extends TsEmbed {
             disableSourceSelection,
             hideSourceSelection,
             dataPanelV2,
+            updatedSpotterExperience,
             showSpotterLimitations,
             hideSampleQuestions,
             runtimeFilters,
@@ -704,6 +720,8 @@ export class SpotterEmbed extends TsEmbed {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
         }
+
+        setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
 
         return queryParams;
     }
