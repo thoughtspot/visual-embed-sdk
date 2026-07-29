@@ -5,13 +5,9 @@ import {
     isValidUpdateFiltersPayload,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
-    isValidOptionalApplicabilityPayload,
     throwUpdateFiltersValidationError,
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
-    throwOpenFilterValidationError,
-    throwOpenParameterValidationError,
-    throwOpenParameterMissingIdentifierError,
 } from './utils';
 import {
     UIPassthroughArrayResponse,
@@ -66,8 +62,6 @@ export class HostEventClient {
           [HostEvent.SaveAnswer]: (p, c) => this.handleSaveAnswerEvent(p, c),
           [HostEvent.UpdateFilters]: (p, c) => this.handleUpdateFiltersEvent(p, c),
           [HostEvent.UpdateParameters]: (p, c) => this.handleUpdateParametersEvent(p, c),
-          [HostEvent.OpenFilter]: (p, c) => this.handleOpenFilterEvent(p, c),
-          [HostEvent.OpenParameter]: (p, c) => this.handleOpenParameterEvent(p, c),
           [HostEvent.DrillDown]: (p, c) => this.handleDrillDownEvent(p, c),
       };
   }
@@ -263,38 +257,6 @@ export class HostEventClient {
 
     // UpdateParameters has no UI passthrough contract; dispatch over the legacy channel
     return this.hostEventFallback(HostEvent.UpdateParameters, payload, context);
-  }
-
-  protected handleOpenFilterEvent(
-    payload: HostEventRequest<HostEvent.OpenFilter>,
-    context?: ContextType,
-  ): Promise<any> {
-    if (!isValidOptionalApplicabilityPayload(payload)) {
-      throwOpenFilterValidationError();
-    }
-
-    // OpenFilter has no UI passthrough contract; dispatch over the legacy channel
-    return this.hostEventFallback(HostEvent.OpenFilter, payload, context);
-  }
-
-  protected handleOpenParameterEvent(
-    payload: HostEventRequest<HostEvent.OpenParameter>,
-    context?: ContextType,
-  ): Promise<any> {
-    // The app rejects OpenParameter without a parameter identifier; fail fast on the SDK side
-    const parameter = (payload as any)?.parameter;
-    const hasIdentifier = [parameter?.parameterId, parameter?.parameterName]
-        .some((id) => typeof id === 'string' && id.trim().length > 0);
-    if (!hasIdentifier) {
-      throwOpenParameterMissingIdentifierError();
-    }
-
-    if (!isValidOptionalApplicabilityPayload(payload)) {
-      throwOpenParameterValidationError();
-    }
-
-    // OpenParameter has no UI passthrough contract; dispatch over the legacy channel
-    return this.hostEventFallback(HostEvent.OpenParameter, payload, context);
   }
 
   protected handleDrillDownEvent(

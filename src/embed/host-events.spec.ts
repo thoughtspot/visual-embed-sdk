@@ -178,16 +178,6 @@ describe('HostEvent.OpenParameter', () => {
             );
         });
     });
-
-    test('rejects a payload with no parameter identifier', async () => {
-        mockMessageChannel();
-        const { lb } = await renderLiveboard();
-        jest.spyOn(lb as any, 'handleError').mockImplementation(() => {});
-        await executeAfterWait(async () => {
-            await expect(lb.trigger(HostEvent.OpenParameter, {} as any))
-                .rejects.toThrow('OpenParameter requires parameter.parameterId or parameter.parameterName');
-        });
-    });
 });
 
 // ---------------------------------------------------------------------------
