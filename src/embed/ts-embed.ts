@@ -206,6 +206,8 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    private mutationObserver: MutationObserver | null = null;
+
     private preRenderContainerEl: HTMLElement | null = null;
 
     private containerScrollListener: (() => void) | null = null;
@@ -1897,6 +1899,63 @@ export class TsEmbed {
     }
 
     /**
+     * Starts a MutationObserver that watches the placeholder's ancestor chain
+     * for `class` and `style` attribute changes. On each mutation batch,
+     * calls `getBoundingClientRect()` on the placeholder and only invokes
+     * `syncPreRenderStyle()` when the top/left position has actually changed.
+     * This covers layout shifts (e.g. sidebar collapse, theme toggle) that
+     * move the placeholder without resizing it — a gap ResizeObserver cannot fill.
+     */
+    private startPositionObserver(): void {
+        if (this.mutationObserver) {
+            return;
+        }
+        const placeholder = this.getPreRenderPlaceHolderElement();
+        if (!placeholder) {
+            return;
+        }
+
+        let lastRect: DOMRect | null = null;
+
+        this.mutationObserver = new MutationObserver(() => {
+            if (!this.isPreRenderConnected()) {
+                return;
+            }
+            const rect = placeholder.getBoundingClientRect();
+            if (rect.top !== lastRect?.top || rect.left !== lastRect?.left) {
+                lastRect = rect;
+                this.syncPreRenderStyle();
+            }
+        });
+
+        // Walk ancestors from the placeholder up to (and including) the
+        // container boundary. Class or style changes on any of these nodes
+        // can shift the placeholder's position without changing its size.
+        const boundary = this.preRenderContainerEl ?? document.body;
+        let el: Element | null = placeholder.parentElement;
+        while (el) {
+            this.mutationObserver.observe(el, {
+                attributes: true,
+                attributeFilter: ['class', 'style'],
+            });
+            if (el === boundary) {
+                break;
+            }
+            el = el.parentElement;
+        }
+    }
+
+    /**
+     * Disconnects the position MutationObserver and clears the reference.
+     */
+    private stopPositionObserver(): void {
+        if (this.mutationObserver) {
+            this.mutationObserver.disconnect();
+            this.mutationObserver = null;
+        }
+    }
+
+    /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
@@ -1904,6 +1963,7 @@ export class TsEmbed {
         try {
             this.removeFullscreenChangeHandler();
             this.removeContainerScrollListener();
+            this.stopPositionObserver();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2048,6 +2108,7 @@ export class TsEmbed {
                     });
                 });
                 this.resizeObserver.observe(observeTarget);
+                this.startPositionObserver();
             }
         }
 
@@ -2138,6 +2199,7 @@ export class TsEmbed {
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
         }
+        this.stopPositionObserver();
 
         const placeHolderEle = this.getPreRenderPlaceHolderElement();
         if (placeHolderEle) {

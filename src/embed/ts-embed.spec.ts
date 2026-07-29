@@ -2580,6 +2580,100 @@ describe('Unit test case for ts embed', () => {
             expect(document.getElementById(preRenderIds.wrapper)).toBe(null);
         });
 
+        it('showPreRender should start a MutationObserver on placeholder ancestors', async () => {
+            createRootEleForEmbed();
+
+            // Give the host element a parent so there is at least one ancestor to
+            // observe between the placeholder and document.body.
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'outer-wrapper';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+            const disconnectSpy = jest.spyOn(MutationObserver.prototype, 'disconnect');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-test',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // At least one observe() call should have been made on an ancestor.
+            expect(observeSpy).toHaveBeenCalled();
+            // Each observed node should use the class/style attribute filter.
+            observeSpy.mock.calls.forEach(([, options]) => {
+                expect(options.attributes).toBe(true);
+                expect(options.attributeFilter).toEqual(
+                    expect.arrayContaining(['class', 'style']),
+                );
+            });
+
+            libEmbed.hidePreRender();
+            expect(disconnectSpy).toHaveBeenCalled();
+
+            observeSpy.mockRestore();
+            disconnectSpy.mockRestore();
+            outerDiv.remove();
+        });
+
+        it('showPreRender syncs position when an ancestor class changes', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'layout-root';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-class-change',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Toggle a class on the ancestor — this is the "sidebar collapse" pattern.
+            // lastRect is null on the first mutation, so getBoundingClientRect will
+            // always detect a change and trigger sync.
+            outerDiv.classList.add('sidebar-collapsed');
+
+            // MutationObserver callbacks are microtasks; one await flushes them.
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('MutationObserver is NOT created when doNotTrackPreRenderSize is true', async () => {
+            createRootEleForEmbed();
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-disabled',
+                liveboardId: 'myLiveboardId',
+                doNotTrackPreRenderSize: true,
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            expect(observeSpy).not.toHaveBeenCalled();
+
+            observeSpy.mockRestore();
+            libEmbed.destroy();
+        });
+
         it('preRender called without preRenderId should log error ', () => {
             createRootEleForEmbed();
 
