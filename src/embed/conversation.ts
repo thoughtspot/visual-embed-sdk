@@ -445,6 +445,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
+    /**
      * Sets the default query mode when Spotter loads — Fast Search or
      * Research Mode. Applies fresh on every new session for this embed
      * instance only; it does not persist as a user preference and does
@@ -643,6 +658,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
@@ -666,6 +682,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
 

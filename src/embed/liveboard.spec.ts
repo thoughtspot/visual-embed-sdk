@@ -1339,6 +1339,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should render the liveboard embed with showSpotterRadiance', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showSpotterRadiance: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterRadiance=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+    test('should render the liveboard embed with showSpotterRadiance disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showSpotterRadiance: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterRadiance=false#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set hideToolResponseCardBranding parameter in url params via spotterChatConfig', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

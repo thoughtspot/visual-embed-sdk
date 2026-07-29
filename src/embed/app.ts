@@ -751,6 +751,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
+    /**
      * Sets the default query mode when Spotter loads — Fast Search or
      * Research Mode. Applies fresh on every new session for this embed
      * instance only; it does not persist as a user preference and does
@@ -1055,6 +1070,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled = false,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
@@ -1105,6 +1121,9 @@ export class AppEmbed extends V1Embed {
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(showSpotterRadiance)) {
+            params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }
         if (!isUndefined(defaultQueryMode)) {
             params[Param.DefaultQueryMode] = defaultQueryMode;
