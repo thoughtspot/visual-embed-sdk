@@ -88,7 +88,23 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
 import { getAnswerFromQuery } from './utils/graphql/nlsService/nls-answer-service';
 import { createLiveboardWithAnswers } from './utils/liveboardService/liveboardService';
-import { UIPassthroughEvent } from './embed/hostEventClient/contracts';
+import {
+    UIPassthroughEvent,
+    UIPassthroughContractBase,
+    UIPassthroughRequest,
+    UIPassthroughResponse,
+    UIPassthroughArrayResponse,
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+    LiveboardTab,
+    ApplicabilityLevel,
+    Applicability,
+    FilterUpdate,
+    LiveboardFilter,
+    LiveboardParameter,
+} from './embed/hostEventClient/contracts';
 
 export {
     init,
@@ -170,6 +186,24 @@ export {
     VizPoint,
     CustomActionPayload,
     UIPassthroughEvent,
+    // Host event payload / response contracts. These describe what to send with
+    // `embed.trigger(HostEvent.X, payload)` and what the returned promise
+    // resolves with. See `UIPassthroughContractBase` for the per-event
+    // request/response shapes.
+    UIPassthroughContractBase,
+    UIPassthroughRequest,
+    UIPassthroughResponse,
+    UIPassthroughArrayResponse,
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+    LiveboardTab,
+    ApplicabilityLevel,
+    Applicability,
+    FilterUpdate,
+    LiveboardFilter,
+    LiveboardParameter,
     ListPageColumns,
     DataPanelCustomColumnGroupsAccordionState,
     CustomActionsPosition,
