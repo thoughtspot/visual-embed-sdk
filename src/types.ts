@@ -2053,7 +2053,7 @@ export interface LiveboardAppEmbedViewConfig {
      * tab levels.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -3284,7 +3284,7 @@ export enum EmbedEvent {
      * `TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a
      * `targetId` with the GUID of the target. At `LIVEBOARD` level there
      * is no `targetId`, since the filter applies to the whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @example
      *
@@ -3488,7 +3488,7 @@ export enum EmbedEvent {
      * `TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a
      * `targetId` with the GUID of the target. At `LIVEBOARD` level there
      * is no `targetId`, since the parameter applies to the whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * ```js
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
@@ -4479,7 +4479,7 @@ export enum HostEvent {
      *
      * `applicability` - Optional. Scopes the filter to a specific target,
      * for example, a single Liveboard tab, so the panel for the correct
-     * scoped filter is opened. Available from SDK: 1.51.0 |
+     * scoped filter is opened. Available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
@@ -4545,7 +4545,7 @@ export enum HostEvent {
      *     applicability: { level: 'GROUP', targetId: '<group-GUID>' }
      * });
      * ```
-     * @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      */
     OpenParameter = 'openParameter',
     /**
@@ -5618,7 +5618,7 @@ export enum HostEvent {
      * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
      * level there is no `targetId`, since the filter applies to the
      * whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @example
      * ```js
@@ -5661,7 +5661,7 @@ export enum HostEvent {
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
      *
      * `applicability` - Optional. Scopes the filter to a specific target,
-     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * for example, a single Liveboard tab. Available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
@@ -5803,7 +5803,7 @@ export enum HostEvent {
      *     console.log('groups', groupDetails);
      * });
      * ```
-     * @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      */
     GetGroups = 'getGroups',
     /**
@@ -5934,7 +5934,7 @@ export enum HostEvent {
      * - `value`: The value to set for the parameter.
      * - `isVisibleToUser`: Optional. To control the visibility of the parameter chip.
      * - `applicability`: Optional. Scopes the parameter to a specific target,
-     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * for example, a single Liveboard tab. Available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *    - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.
@@ -5984,7 +5984,7 @@ export enum HostEvent {
      * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
      * level there is no `targetId`, since the parameter applies to the
      * whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
@@ -7986,7 +7986,7 @@ export enum Action {
      * hiddenActions: [Action.AllLiveboardFilters]
      * disabledActions: [Action.AllLiveboardFilters]
      * ```
-     *  @version SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl
+     *  @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      */
     AllLiveboardFilters = 'allLiveboardFilters',
 

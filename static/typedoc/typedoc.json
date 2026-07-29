@@ -310,7 +310,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl\n"
+								"text": "SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl\n"
 							}
 						]
 					},
@@ -8416,7 +8416,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when a user changes any filter on a Liveboard.\nReturns filter type and name, column name and ID, and runtime\nfilter details.\nThe payload includes an optional `applicability` attribute indicating the\nscope of the changed filter. It contains a `level` (`LIVEBOARD`,\n`TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a\n`targetId` with the GUID of the target. At `LIVEBOARD` level there\nis no `targetId`, since the filter applies to the whole Liveboard.\nThe `applicability` attribute is available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl.",
+						"shortText": "Emitted when a user changes any filter on a Liveboard.\nReturns filter type and name, column name and ID, and runtime\nfilter details.\nThe payload includes an optional `applicability` attribute indicating the\nscope of the changed filter. It contains a `level` (`LIVEBOARD`,\n`TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a\n`targetId` with the GUID of the target. At `LIVEBOARD` level there\nis no `targetId`, since the filter applies to the whole Liveboard.\nThe `applicability` attribute is available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl.",
 						"tags": [
 							{
 								"tag": "example",
@@ -8770,7 +8770,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Emitted when parameter changes in an Answer\nor Liveboard.\nThe payload includes an optional `applicability` attribute indicating the\nscope of the changed parameter. It contains a `level` (`LIVEBOARD`,\n`TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a\n`targetId` with the GUID of the target. At `LIVEBOARD` level there\nis no `targetId`, since the parameter applies to the whole Liveboard.\nThe `applicability` attribute is available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl.\n```js\nliveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {\n    console.log('payload', payload);\n    // payload.data optionally includes applicability: { level, targetId }\n})\n```",
+						"shortText": "Emitted when parameter changes in an Answer\nor Liveboard.\nThe payload includes an optional `applicability` attribute indicating the\nscope of the changed parameter. It contains a `level` (`LIVEBOARD`,\n`TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a\n`targetId` with the GUID of the target. At `LIVEBOARD` level there\nis no `targetId`, since the parameter applies to the whole Liveboard.\nThe `applicability` attribute is available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl.\n```js\nliveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {\n    console.log('payload', payload);\n    // payload.data optionally includes applicability: { level, targetId }\n})\n```",
 						"tags": [
 							{
 								"tag": "version",
@@ -12297,7 +12297,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Get details of filters applied on the Liveboard.\nReturns arrays containing Liveboard filter and runtime filter elements.\nEach Liveboard filter includes an optional `applicability` attribute\nindicating the scope of the filter. It contains a `level`\n(`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or\n`GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`\nlevel there is no `targetId`, since the filter applies to the\nwhole Liveboard.\nThe `applicability` attribute is available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl.",
+						"shortText": "Get details of filters applied on the Liveboard.\nReturns arrays containing Liveboard filter and runtime filter elements.\nEach Liveboard filter includes an optional `applicability` attribute\nindicating the scope of the filter. It contains a `level`\n(`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or\n`GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`\nlevel there is no `targetId`, since the filter applies to the\nwhole Liveboard.\nThe `applicability` attribute is available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl.",
 						"tags": [
 							{
 								"tag": "example",
@@ -12341,7 +12341,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl\n"
+								"text": "SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl\n"
 							}
 						]
 					},
@@ -12393,7 +12393,7 @@
 					"kindString": "Enumeration member",
 					"flags": {},
 					"comment": {
-						"shortText": "Triggers GetParameters to fetch the runtime Parameters.\nEach parameter includes an optional `applicability` attribute\nindicating the scope of the parameter. It contains a `level`\n(`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or\n`GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`\nlevel there is no `targetId`, since the parameter applies to the\nwhole Liveboard.\nThe `applicability` attribute is available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl.",
+						"shortText": "Triggers GetParameters to fetch the runtime Parameters.\nEach parameter includes an optional `applicability` attribute\nindicating the scope of the parameter. It contains a `level`\n(`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or\n`GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`\nlevel there is no `targetId`, since the parameter applies to the\nwhole Liveboard.\nThe `applicability` attribute is available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl.",
 						"tags": [
 							{
 								"tag": "param",
@@ -12742,7 +12742,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "{ columnId: string,\n name: string,\n type: ATTRIBUTE/MEASURE,\n dataType: INT64/CHAR/DATE }\n\n`applicability` - Optional. Scopes the filter to a specific target,\nfor example, a single Liveboard tab, so the panel for the correct\nscoped filter is opened. Available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.\n - `targetId`: The GUID of the target, for example, the tab GUID.\n   Required when `level` is `TAB` or `GROUP`. Do not pass it when\n   `level` is `LIVEBOARD`, since the filter applies to the whole\n   Liveboard. Omitting `applicability` targets the `LIVEBOARD` level.",
+								"text": "{ columnId: string,\n name: string,\n type: ATTRIBUTE/MEASURE,\n dataType: INT64/CHAR/DATE }\n\n`applicability` - Optional. Scopes the filter to a specific target,\nfor example, a single Liveboard tab, so the panel for the correct\nscoped filter is opened. Available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.\n - `targetId`: The GUID of the target, for example, the tab GUID.\n   Required when `level` is `TAB` or `GROUP`. Do not pass it when\n   `level` is `LIVEBOARD`, since the filter applies to the whole\n   Liveboard. Omitting `applicability` targets the `LIVEBOARD` level.",
 								"param": "-"
 							},
 							{
@@ -12800,7 +12800,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl\n"
+								"text": "SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl\n"
 							}
 						]
 					},
@@ -14064,7 +14064,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "Includes the following keys:\n- `filter`: A single filter object containing column name, filter operator, and\nvalues.\n- `filters`: Multiple filter objects with column name, filter operator,\nand values for each.\n\nEach filter object must include the following attributes:\n\n`column` - Name of the column to filter on.\n\n`oper`  - Filter operator, for example, EQ, IN, CONTAINS.\n For information about the supported filter operators,\n see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].\n\n`values` - An array of one or several values. The value definition on the\n data type you choose to filter on. For a complete list of supported data types,\n see\n link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported\n data types].\n\n`type`  - To update filters for date time, specify the date format type.\nFor more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].\n\n`applicability` - Optional. Scopes the filter to a specific target,\nfor example, a single Liveboard tab. Available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.\n - `targetId`: The GUID of the target, for example, the tab GUID.\n   Required when `level` is `TAB` or `GROUP`. Do not pass it when\n   `level` is `LIVEBOARD`, since the filter applies to the whole\n   Liveboard.",
+								"text": "Includes the following keys:\n- `filter`: A single filter object containing column name, filter operator, and\nvalues.\n- `filters`: Multiple filter objects with column name, filter operator,\nand values for each.\n\nEach filter object must include the following attributes:\n\n`column` - Name of the column to filter on.\n\n`oper`  - Filter operator, for example, EQ, IN, CONTAINS.\n For information about the supported filter operators,\n see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].\n\n`values` - An array of one or several values. The value definition on the\n data type you choose to filter on. For a complete list of supported data types,\n see\n link:https://developers.thoughtspot.com/docs/runtime-filters#_supported_data_types[Supported\n data types].\n\n`type`  - To update filters for date time, specify the date format type.\nFor more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].\n\n`applicability` - Optional. Scopes the filter to a specific target,\nfor example, a single Liveboard tab. Available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.\n - `targetId`: The GUID of the target, for example, the tab GUID.\n   Required when `level` is `TAB` or `GROUP`. Do not pass it when\n   `level` is `LIVEBOARD`, since the filter applies to the whole\n   Liveboard.",
 								"param": "-"
 							},
 							{
@@ -14117,7 +14117,7 @@
 						"tags": [
 							{
 								"tag": "param",
-								"text": "Includes the following keys for each item:\n- `name`: Name of the parameter.\n- `value`: The value to set for the parameter.\n- `isVisibleToUser`: Optional. To control the visibility of the parameter chip.\n- `applicability`: Optional. Scopes the parameter to a specific target,\nfor example, a single Liveboard tab. Available from SDK: 1.51.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n   - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.\n   - `targetId`: The GUID of the target, for example, the tab GUID.\n     Required when `level` is `TAB` or `GROUP`. Do not pass it when\n     `level` is `LIVEBOARD`, since the parameter applies to the whole\n     Liveboard.\n",
+								"text": "Includes the following keys for each item:\n- `name`: Name of the parameter.\n- `value`: The value to set for the parameter.\n- `isVisibleToUser`: Optional. To control the visibility of the parameter chip.\n- `applicability`: Optional. Scopes the parameter to a specific target,\nfor example, a single Liveboard tab. Available from SDK: 1.53.0 |\nThoughtSpot: 26.10.0.cl. Includes the following attributes:\n\n   - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.\n   - `targetId`: The GUID of the target, for example, the tab GUID.\n     Required when `level` is `TAB` or `GROUP`. Do not pass it when\n     `level` is `LIVEBOARD`, since the parameter applies to the whole\n     Liveboard.\n",
 								"param": "-"
 							},
 							{
@@ -29764,7 +29764,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl"
+								"text": "SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl"
 							},
 							{
 								"tag": "example",
@@ -45337,7 +45337,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.51.0 | ThoughtSpot: 26.10.0.cl"
+								"text": "SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl"
 							},
 							{
 								"tag": "example",
