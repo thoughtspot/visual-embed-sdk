@@ -1902,24 +1902,6 @@ export class TsEmbed {
         this.containerScrollListener = null;
     }
 
-    /**
-     * Starts a MutationObserver that watches the placeholder's ancestor chain
-     * for layout-triggering DOM changes and syncs the pre-render wrapper
-     * position when the placeholder actually moves.
-     *
-     * Three signal sources are combined:
-     *  1. `attributes` (class/style) on ancestors — CSS-driven layout shifts
-     *     (sidebar collapse, theme toggle, etc.)
-     *  2. `childList` on ancestors — element additions/removals that push
-     *     content around (notification banners, inserted panels, etc.)
-     *  3. `window` resize — viewport changes that shift position without
-     *     resizing the placeholder itself.
-     *
-     * All signals are funnelled through a single `requestAnimationFrame`
-     * gate so that (a) rapid mutation bursts collapse into one measurement
-     * and (b) `getBoundingClientRect()` is called after the browser has
-     * finished computing layout, avoiding mid-transition readings.
-     */
     private startPositionObserver(): void {
         if (this.mutationObserver) {
             return;
@@ -1954,10 +1936,6 @@ export class TsEmbed {
 
         this.mutationObserver = new MutationObserver(scheduleSync);
 
-        // Walk ancestors from the placeholder up to (and including) the
-        // container boundary. Both attribute mutations (class/style toggles)
-        // and childList mutations (added/removed siblings) on any ancestor
-        // can shift the placeholder's position without changing its size.
         const boundary = this.preRenderContainerEl ?? document.body;
         let el: Element | null = placeholder.parentElement;
         while (el) {
@@ -1976,10 +1954,6 @@ export class TsEmbed {
         window.addEventListener('resize', this.windowResizeListener);
     }
 
-    /**
-     * Disconnects the position MutationObserver, cancels any pending
-     * animation frame, and removes the window resize listener.
-     */
     private stopPositionObserver(): void {
         if (this.mutationObserver) {
             this.mutationObserver.disconnect();
