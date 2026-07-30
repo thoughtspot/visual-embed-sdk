@@ -1911,18 +1911,18 @@ export class TsEmbed {
             return;
         }
 
-        let lastTop: number | null = null;
-        let lastLeft: number | null = null;
+        let previousTop: number | null = null;
+        let previousLeft: number | null = null;
 
         const checkAndSync = () => {
             this.positionObserverRafId = null;
             if (!this.isPreRenderConnected()) {
                 return;
             }
-            const rect = placeholder.getBoundingClientRect();
-            if (rect.top !== lastTop || rect.left !== lastLeft) {
-                lastTop = rect.top;
-                lastLeft = rect.left;
+            const placeholderRect = placeholder.getBoundingClientRect();
+            if (placeholderRect.top !== previousTop || placeholderRect.left !== previousLeft) {
+                previousTop = placeholderRect.top;
+                previousLeft = placeholderRect.left;
                 this.syncPreRenderStyle();
             }
         };
@@ -1936,18 +1936,18 @@ export class TsEmbed {
 
         this.mutationObserver = new MutationObserver(scheduleSync);
 
-        const boundary = this.preRenderContainerEl ?? document.body;
-        let el: Element | null = placeholder.parentElement;
-        while (el) {
-            this.mutationObserver.observe(el, {
+        const observeBoundary = this.preRenderContainerEl ?? document.body;
+        let currentAncestor: Element | null = placeholder.parentElement;
+        while (currentAncestor) {
+            this.mutationObserver.observe(currentAncestor, {
                 attributes: true,
                 attributeFilter: ['class', 'style'],
                 childList: true,
             });
-            if (el === boundary) {
+            if (currentAncestor === observeBoundary) {
                 break;
             }
-            el = el.parentElement;
+            currentAncestor = currentAncestor.parentElement;
         }
 
         this.windowResizeListener = scheduleSync;
