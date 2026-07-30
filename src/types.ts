@@ -6669,6 +6669,7 @@ export enum Param {
     ShowSpotterRadiance = 'showSpotterRadiance',
     DefaultQueryMode = 'defaultQueryMode',
     EnableStopAnswerGenerationEmbed = 'enableStopAnswerGenerationEmbed',
+    SpotterVersion = 'spotterVersion',
     SpotterSidebarTitle = 'spotterSidebarTitle',
     SpotterSidebarDefaultExpanded = 'spotterSidebarDefaultExpanded',
     SpotterChatRenameLabel = 'spotterChatRenameLabel',

@@ -1,8 +1,10 @@
-import { SpotterEmbed, SpotterEmbedViewConfig, SpotterQueryMode, ConversationEmbed } from './conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterQueryMode, SpotterVersion, ConversationEmbed } from './conversation';
+import { SPOTTER_OPTION_VERSION_SUPPORT } from './spotter-utils';
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
 import { AuthType, Param, RuntimeFilterOp, ErrorDetailsTypes, EmbedErrorCodes, EmbedEvent } from '../types';
+import { logger } from '../utils/logger';
 import {
     getDocumentBody,
     getIFrameSrc,
@@ -555,6 +557,172 @@ describe('ConversationEmbed', () => {
             getIFrameSrc(),
             `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
+    });
+
+    describe('spotterVersion', () => {
+        afterEach(() => {
+            jest.restoreAllMocks();
+            SPOTTER_OPTION_VERSION_SUPPORT.disableSourceSelection = 'unconfirmed';
+        });
+
+        it('should not include a spotterVersion param when unset (default Spotter3 behavior)', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should include spotterVersion=spotterX when SpotterX is selected', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.SpotterX,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterVersion=spotterX#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should include spotterVersion=spotter3 when V3 (Spotter3 alias) is selected', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.V3,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterVersion=spotter3#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should include spotterVersion=spotterX when V4 (SpotterX alias) is selected', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.V4,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterVersion=spotterX#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should not warn when spotterVersion is V3 (Spotter3 alias) regardless of options set', async () => {
+            SPOTTER_OPTION_VERSION_SUPPORT.disableSourceSelection = 'unsupported';
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.V3,
+                disableSourceSelection: true,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expect(warnSpy).not.toHaveBeenCalled();
+        });
+
+        it('should warn for an unsupported option when spotterVersion is V4 (SpotterX alias)', async () => {
+            SPOTTER_OPTION_VERSION_SUPPORT.disableSourceSelection = 'unsupported';
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.V4,
+                disableSourceSelection: true,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expect(warnSpy).toHaveBeenCalledTimes(1);
+        });
+
+        it('should include spotterVersion=latest when Latest is selected', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.Latest,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterVersion=latest#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should include spotterVersion=spotter3 when explicitly selected', async () => {
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.Spotter3,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&spotterVersion=spotter3#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
+
+        it('should not warn for options that are only unconfirmed (not confirmed unsupported) on SpotterX', async () => {
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.SpotterX,
+                disableSourceSelection: true,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expect(warnSpy).not.toHaveBeenCalled();
+        });
+
+        it('should not warn when spotterVersion is Spotter3 regardless of options set', async () => {
+            SPOTTER_OPTION_VERSION_SUPPORT.disableSourceSelection = 'unsupported';
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.Spotter3,
+                disableSourceSelection: true,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expect(warnSpy).not.toHaveBeenCalled();
+        });
+
+        it('should warn once for an option flagged unsupported for the selected version, without altering the URL', async () => {
+            SPOTTER_OPTION_VERSION_SUPPORT.disableSourceSelection = 'unsupported';
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            const viewConfig: SpotterEmbedViewConfig = {
+                worksheetId: 'worksheetId',
+                searchOptions: { searchQuery: 'searchQuery' },
+                spotterVersion: SpotterVersion.SpotterX,
+                disableSourceSelection: true,
+            };
+            const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+            await conversationEmbed.render();
+            expect(warnSpy).toHaveBeenCalledTimes(1);
+            expect(warnSpy).toHaveBeenCalledWith(
+                expect.stringContaining('disableSourceSelection'),
+            );
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&disableSourceSelection=true&spotterVersion=spotterX#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            );
+        });
     });
 
     describe('spotter chat hiddenActions', () => {

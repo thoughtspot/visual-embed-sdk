@@ -60,4 +60,5 @@ export {
     InterceptedApiType,
     CustomActionsPosition,
     CustomActionTarget,
+    SpotterVersion,
 } from '../index';
