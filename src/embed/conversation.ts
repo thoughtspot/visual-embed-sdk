@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, warnUnsupportedSpotterVersionOptions } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -21,6 +21,36 @@ export interface SearchOptions {
 export enum SpotterQueryMode {
     FAST_SEARCH = 'fastSearch',
     RESEARCH = 'research',
+}
+
+/**
+ * The Spotter experience version to render in `SpotterEmbed`.
+ *
+ * `Spotter3` is the current, default experience — omitting `spotterVersion`
+ * entirely behaves exactly as before this option existed. `SpotterX` opts
+ * into the next-generation Spotter experience. `V3`/`V4` are equivalent
+ * aliases for `Spotter3`/`SpotterX` respectively (same underlying version,
+ * just named after the release generation instead of the product name) —
+ * use whichever naming reads more clearly in your integration. `Latest`
+ * always resolves to whichever version the connected ThoughtSpot cluster
+ * currently considers newest, so it may change behavior across cluster
+ * upgrades without an SDK change.
+ *
+ * Not every `SpotterEmbedViewConfig` option is confirmed to behave the same
+ * way across versions yet — see {@link SPOTTER_OPTION_VERSION_SUPPORT} in
+ * `spotter-utils.ts` for current per-option support status.
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: TBD
+ */
+export enum SpotterVersion {
+    Spotter3 = 'spotter3',
+    /** Alias for {@link SpotterVersion.Spotter3}. */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+    V3 = 'spotter3',
+    SpotterX = 'spotterX',
+    /** Alias for {@link SpotterVersion.SpotterX}. */
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+    V4 = 'spotterX',
+    Latest = 'latest',
 }
 
 /**
@@ -239,6 +269,9 @@ export interface SpotterChatViewConfig {
      * cards. The branding label prefix is controlled
      * separately via `toolResponseCardBrandingLabel`.
      * External MCP tool branding is not affected.
+     *
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @default false
      */
     hideToolResponseCardBranding?: boolean;
@@ -248,12 +281,17 @@ export interface SpotterChatViewConfig {
      * `''` to hide the prefix entirely. Works
      * independently of `hideToolResponseCardBranding`.
      * External MCP tool branding is not affected.
+     *
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      */
     toolResponseCardBrandingLabel?: string;
     /**
      * Enables file upload in the Spotter chat interface.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      * @default false
      */
@@ -262,6 +300,8 @@ export interface SpotterChatViewConfig {
      * Restricts the allowed file types for Spotter file upload.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
@@ -269,6 +309,8 @@ export interface SpotterChatViewConfig {
      * Enables starter prompts in the Spotter chat interface.
      *
      * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      * @default false
      */
@@ -294,6 +336,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * but still display the selected data source.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
@@ -308,6 +352,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * hideSourceSelection : Hide data source selection
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
@@ -340,6 +386,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * default is false.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.36.0 | ThoughtSpot: 10.5.0.cl
      * @example
      * ```js
@@ -355,6 +403,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * the initial screen of the conversation.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.36.0 | ThoughtSpot: 10.6.0.cl
      * @example
      * ```js
@@ -370,6 +420,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * visualization, or Liveboard.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
@@ -402,6 +454,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * The list of runtime parameters to apply to the conversation.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.41.0 | ThoughtSpot: 10.13.0.cl
      * @example
      * ```js
@@ -433,6 +487,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
      * @default false
      * @example
@@ -466,6 +522,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * not affect other embeds or native ThoughtSpot usage.
      *
      * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @default SpotterQueryMode.FAST_SEARCH
      * @example
@@ -482,6 +540,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * allowing users to interrupt an ongoing answer generation.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      * @default false
      */
@@ -500,6 +560,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * Configuration for the Spotter sidebar UI customization.
      *
      * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
@@ -522,6 +584,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * branding in tool response cards.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
      * @example
      * ```js
@@ -539,6 +603,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * Configuration for the Spotter conversation sharing feature.
      *
      * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
@@ -562,6 +628,8 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * must be an authorized sharee — the server returns access-denied otherwise.
      *
      * Supported embed types: `SpotterEmbed`
+     * Spotter version support: see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * for current per-version status.
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
@@ -588,6 +656,29 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     updatedSpotterExperience?: boolean;
+    /**
+     * Selects which Spotter experience version to render. Opt-in — omitting
+     * this entirely keeps the current (`Spotter3`) behavior. `V3`/`V4` are
+     * equivalent aliases for `Spotter3`/`SpotterX` respectively.
+     *
+     * Not every option on this interface is confirmed to behave the same way
+     * on `SpotterX`/`V4`/`Latest` yet; see {@link SPOTTER_OPTION_VERSION_SUPPORT}
+     * in `spotter-utils.ts` for current per-option support status. Setting an
+     * option the matrix marks unsupported for your chosen version logs a
+     * non-fatal console warning.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: TBD
+     * @default SpotterVersion.Spotter3
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterVersion: SpotterVersion.SpotterX,
+     * })
+     * ```
+     */
+    spotterVersion?: SpotterVersion;
 }
 
 /**
@@ -678,6 +769,7 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterVersion,
         } = this.viewConfig;
 
         if (!worksheetId) {
@@ -688,6 +780,8 @@ export class SpotterEmbed extends TsEmbed {
                 error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
             });
         }
+        warnUnsupportedSpotterVersionOptions(this.viewConfig);
+
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
 
@@ -701,6 +795,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
+        setParamIfDefined(queryParams, Param.SpotterVersion, spotterVersion);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
