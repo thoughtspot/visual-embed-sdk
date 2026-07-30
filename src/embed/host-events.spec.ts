@@ -150,6 +150,37 @@ describe('HostEvent.OpenFilter', () => {
 });
 
 // ---------------------------------------------------------------------------
+// 10b – OpenParameter
+// ---------------------------------------------------------------------------
+describe('HostEvent.OpenParameter', () => {
+    test('postMessage type is openParameter (camelCase)', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.OpenParameter, { parameter: { parameterId: 'p1' } } as any);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'openParameter' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('accepts a payload with only parameterName', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.OpenParameter, { parameter: { parameterName: 'Param 1' } } as any);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'openParameter' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+});
+
+// ---------------------------------------------------------------------------
 // 11 – AddColumns
 // ---------------------------------------------------------------------------
 describe('HostEvent.AddColumns', () => {

@@ -375,6 +375,18 @@ describe('HostEventClient', () => {
             );
         });
 
+        it('should route GetGroups through passthrough and return data', async () => {
+            const { client } = createHostEventClient();
+            const mockResponse = [{ value: { orderedGroupIds: ['g1', 'g2'], numberOfGroups: 2, Groups: [] as any[] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce(mockResponse);
+
+            const result = await client.triggerHostEvent(HostEvent.GetGroups, {});
+
+            expect(result).toEqual({ orderedGroupIds: ['g1', 'g2'], numberOfGroups: 2, Groups: [] });
+        });
+
         it('should throw when DrillDown payload has no valid points', async () => {
             const { client } = createHostEventClient();
             const invalidPayload = {} as any;

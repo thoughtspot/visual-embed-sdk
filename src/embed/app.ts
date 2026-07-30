@@ -1085,6 +1085,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
             isCentralizedLiveboardFilterUXEnabled = false,
+            isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             showSpotterRadiance,
@@ -1262,6 +1263,12 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.isCentralizedLiveboardFilterUXEnabled
             ] = isCentralizedLiveboardFilterUXEnabled;
+        }
+
+        if (isScopedLiveboardFilteringEnabled !== undefined) {
+            params[
+                Param.isScopedLiveboardFilteringEnabled
+            ] = isScopedLiveboardFilteringEnabled;
         }
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {

@@ -756,6 +756,47 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should add isScopedLiveboardFilteringEnabled flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isScopedLiveboardFilteringEnabled: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isScopedLiveboardFilteringEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add isScopedLiveboardFilteringEnabled flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isScopedLiveboardFilteringEnabled: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isScopedLiveboardFilteringEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not add isScopedLiveboardFilteringEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isScopedLiveboardFilteringEnabled');
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
