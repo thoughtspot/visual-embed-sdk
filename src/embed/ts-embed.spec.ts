@@ -2604,12 +2604,14 @@ describe('Unit test case for ts embed', () => {
 
             // At least one observe() call should have been made on an ancestor.
             expect(observeSpy).toHaveBeenCalled();
-            // Each observed node should use the class/style attribute filter.
+            // Each observed node should use the class/style attribute filter
+            // and also watch childList so DOM insertions/removals are caught.
             observeSpy.mock.calls.forEach(([, options]) => {
                 expect(options.attributes).toBe(true);
                 expect(options.attributeFilter).toEqual(
                     expect.arrayContaining(['class', 'style']),
                 );
+                expect(options.childList).toBe(true);
             });
 
             libEmbed.hidePreRender();
@@ -2629,6 +2631,11 @@ describe('Unit test case for ts embed', () => {
             const hostEl = document.getElementById('tsEmbedDiv');
             outerDiv.appendChild(hostEl);
 
+            // Make rAF synchronous so the debounce gate fires immediately.
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
             const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'mut-obs-class-change',
                 liveboardId: 'myLiveboardId',
@@ -2640,18 +2647,89 @@ describe('Unit test case for ts embed', () => {
             const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
 
             // Toggle a class on the ancestor — this is the "sidebar collapse" pattern.
-            // lastRect is null on the first mutation, so getBoundingClientRect will
-            // always detect a change and trigger sync.
+            // lastTop/lastLeft are null on the first mutation, so getBoundingClientRect
+            // will always detect a change and trigger sync.
             outerDiv.classList.add('sidebar-collapsed');
 
-            // MutationObserver callbacks are microtasks; one await flushes them.
+            // MutationObserver callback fires synchronously in JSDOM, which calls
+            // scheduleSync → rAF (now sync) → checkAndSync. One microtask tick
+            // is enough to observe the result.
             await Promise.resolve();
 
             expect(syncSpy).toHaveBeenCalled();
 
+            rafSpy.mockRestore();
             syncSpy.mockRestore();
             libEmbed.destroy();
             outerDiv.remove();
+        });
+
+        it('showPreRender syncs position when a sibling is added to an ancestor', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'layout-root-childlist';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-childlist',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Inserting a sibling banner above the host element simulates a
+            // notification panel that pushes content down — a childList change
+            // that shifts position without changing class or style attributes.
+            const banner = document.createElement('div');
+            banner.id = 'notification-banner';
+            outerDiv.insertBefore(banner, hostEl);
+
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('showPreRender syncs position on window resize', async () => {
+            createRootEleForEmbed();
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-resize',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            window.dispatchEvent(new Event('resize'));
+
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
         });
 
         it('MutationObserver is NOT created when doNotTrackPreRenderSize is true', async () => {
