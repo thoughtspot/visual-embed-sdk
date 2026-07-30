@@ -2758,8 +2758,8 @@ describe('Unit test case for ts embed', () => {
             const outerDiv = document.createElement('div');
             outerDiv.id = 'pos-guard-root';
             document.body.appendChild(outerDiv);
-            document.getElementById('tsEmbedDiv') &&
-                outerDiv.appendChild(document.getElementById('tsEmbedDiv'));
+            const hostElGuard = document.getElementById('tsEmbedDiv');
+            if (hostElGuard) outerDiv.appendChild(hostElGuard);
 
             const rafSpy = jest
                 .spyOn(global, 'requestAnimationFrame')
@@ -2773,14 +2773,14 @@ describe('Unit test case for ts embed', () => {
             await waitFor(() => !!getIFrameEl());
             await libEmbed.showPreRender();
 
-            // First mutation sets lastTop/lastLeft from getBoundingClientRect.
+            // First mutation seeds lastTop/lastLeft via getBoundingClientRect.
             outerDiv.classList.add('first-change');
             await Promise.resolve();
 
             const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
 
-            // Second mutation — getBoundingClientRect returns the same values
-            // (JSDOM always returns zeroes), so the position guard should skip sync.
+            // Second mutation — JSDOM always returns zeroes from
+            // getBoundingClientRect, so top/left are unchanged → no sync.
             outerDiv.classList.add('second-change');
             await Promise.resolve();
 
@@ -2798,8 +2798,8 @@ describe('Unit test case for ts embed', () => {
             const outerDiv = document.createElement('div');
             outerDiv.id = 'raf-dedup-root';
             document.body.appendChild(outerDiv);
-            document.getElementById('tsEmbedDiv') &&
-                outerDiv.appendChild(document.getElementById('tsEmbedDiv'));
+            const hostElDedup = document.getElementById('tsEmbedDiv');
+            if (hostElDedup) outerDiv.appendChild(hostElDedup);
 
             // Capture scheduled callbacks without executing them immediately.
             const pendingCbs: FrameRequestCallback[] = [];
@@ -2836,8 +2836,8 @@ describe('Unit test case for ts embed', () => {
             const outerDiv = document.createElement('div');
             outerDiv.id = 'style-attr-root';
             document.body.appendChild(outerDiv);
-            document.getElementById('tsEmbedDiv') &&
-                outerDiv.appendChild(document.getElementById('tsEmbedDiv'));
+            const hostElStyle = document.getElementById('tsEmbedDiv');
+            if (hostElStyle) outerDiv.appendChild(hostElStyle);
 
             const rafSpy = jest
                 .spyOn(global, 'requestAnimationFrame')
@@ -2853,8 +2853,8 @@ describe('Unit test case for ts embed', () => {
 
             const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
 
-            // Changing inline style on an ancestor (e.g. sidebar width override)
-            // should be caught by the attributeFilter: ['class', 'style'] observer.
+            // Changing inline style on an ancestor (sidebar width override) is
+            // caught by attributeFilter: ['class', 'style'].
             outerDiv.style.marginLeft = '240px';
             await Promise.resolve();
 
@@ -2926,10 +2926,10 @@ describe('Unit test case for ts embed', () => {
             const outerDiv = document.createElement('div');
             outerDiv.id = 'raf-cancel-root';
             document.body.appendChild(outerDiv);
-            document.getElementById('tsEmbedDiv') &&
-                outerDiv.appendChild(document.getElementById('tsEmbedDiv'));
+            const hostElCancel = document.getElementById('tsEmbedDiv');
+            if (hostElCancel) outerDiv.appendChild(hostElCancel);
 
-            // Hold the rAF callback without executing it so a cancellation can occur.
+            // Hold the rAF without executing so a cancellation can occur.
             let scheduledId = 0;
             const rafSpy = jest
                 .spyOn(global, 'requestAnimationFrame')
