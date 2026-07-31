@@ -1,4 +1,3 @@
-import isUndefined from 'lodash/isUndefined';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
@@ -773,7 +772,8 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
-            ...(worksheetId && { worksheet: worksheetId }),
+            ...(!(Array.isArray(dataSources) && dataSources.length > 0) && worksheetId
+                && { worksheet: worksheetId }),
             ...(searchOptions?.searchQuery && { query: searchOptions.searchQuery }),
             ...(Array.isArray(dataSources)
                 && dataSources.length > 0

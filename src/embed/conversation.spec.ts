@@ -859,7 +859,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         );
     });
 
-    it('should render the conversation embed with both worksheetId and dataSources in the hash params', async () => {
+    it('should prefer dataSources over worksheetId when both are provided', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             dataSources: ['ds-1', 'ds-2'],
@@ -871,7 +871,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         await conversationEmbed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery&dataSources=${encodeURIComponent(JSON.stringify(['ds-1', 'ds-2']))}`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?query=searchQuery&dataSources=${encodeURIComponent(JSON.stringify(['ds-1', 'ds-2']))}`,
         );
     });
 
