@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../errors';
+import isUndefined from 'lodash/isUndefined';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
 import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
@@ -283,8 +283,27 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
+     * This field is optional. If not provided, Spotter loads using the
+     * previously selected user data source.
      */
-    worksheetId: string;
+    worksheetId?: string;
+    /**
+     * The array of data source GUIDs to set on load. Spotter uses
+     * these GUIDs to query data and generate Answers.
+     * dataSources is preferred over worksheetId if both are provided.
+     * The feature is currently behind a feature flag.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *     // ...other embed view config
+     *     dataSources: ['id-2345', 'id-2345'],
+     * });
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    dataSources?: string[];
     /**
      * Ability to pass a starting search query to the conversation.
      */
@@ -661,7 +680,6 @@ export class SpotterEmbed extends TsEmbed {
 
     protected getEmbedParamsObject() {
         const {
-            worksheetId,
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
@@ -680,14 +698,6 @@ export class SpotterEmbed extends TsEmbed {
             spotterChatConfig,
         } = this.viewConfig;
 
-        if (!worksheetId) {
-            this.handleError({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-                code: EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND,
-                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-            });
-        }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
 
@@ -735,6 +745,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             sharedConversationId,
+            dataSources,
         } = this.viewConfig;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
@@ -762,8 +773,11 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
-            worksheet: worksheetId,
-            query: searchOptions?.searchQuery || '',
+            ...(worksheetId && { worksheet: worksheetId }),
+            ...(searchOptions?.searchQuery && { query: searchOptions.searchQuery }),
+            ...(Array.isArray(dataSources)
+                && dataSources.length > 0
+                && { dataSources: JSON.stringify(dataSources) }),
         });
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }
