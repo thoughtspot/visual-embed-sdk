@@ -756,6 +756,17 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should not add isCentralizedLiveboardFilterUXEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isCentralizedLiveboardFilterUXEnabled');
+        });
+    });
+
     test('should add isScopedLiveboardFilteringEnabled flag and set value to true to the iframe src', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
