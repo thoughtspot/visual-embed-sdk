@@ -2668,7 +2668,7 @@ describe('Unit test case for ts embed', () => {
             outerDiv.remove();
         });
 
-        it('showPreRender syncs position when a sibling is added to an ancestor', async () => {
+        it('showPreRender syncs position when a sibling is added to the direct parent', async () => {
             createRootEleForEmbed();
 
             const outerDiv = document.createElement('div');
@@ -2691,12 +2691,12 @@ describe('Unit test case for ts embed', () => {
 
             const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
 
-            // Inserting a sibling banner above the host element simulates a
-            // notification panel that pushes content down — a childList change
-            // that shifts position without changing class or style attributes.
+            // Insert a sibling into the placeholder's direct parent (hostEl).
+            // childList is only observed on the direct parent to avoid firing on
+            // table-row mutations in sibling subtrees.
             const banner = document.createElement('div');
             banner.id = 'notification-banner';
-            outerDiv.insertBefore(banner, hostEl);
+            hostEl.insertBefore(banner, hostEl.firstChild);
 
             await Promise.resolve();
 
