@@ -26,7 +26,8 @@ export enum SpotterQueryMode {
  * Configuration for the pin/unpin conversation feature in the Spotter sidebar.
  * Grouped into one object because pin exposes several related settings
  * (enable + label overrides), unlike single-item actions like rename or
- * delete.
+ * delete. okay to leave this config object undefined if the host does not want to enable pin/unpin.
+ * @group Embed components
  * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  */
 export interface SpotterChatPinConfig {
