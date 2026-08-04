@@ -230,7 +230,7 @@ export interface SpotterShareConversationConfig {
 /**
  * A single configurable starter prompt question shown under a category pill.
  * Both fields are plain, localizable strings (not i18n keys).
- * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptQuestion {
@@ -249,7 +249,7 @@ export interface StarterPromptQuestion {
 /**
  * Configuration for a question-bearing onboarding category
  * (`quick` → Basic Search, `research` → Deep Analysis).
- * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptCategory {
@@ -270,7 +270,7 @@ export interface StarterPromptCategory {
  * Only the label is customizable; the submitted prompt text continues to come
  * from the backend. Pill visibility is controlled through the action model via
  * `Action.DataLiteracyPill`.
- * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPreviewDataCategory {
@@ -299,7 +299,7 @@ export interface StarterPreviewDataCategory {
  * `preview-data` → Data Literacy. For `quick` and `research`, `questions` is
  * capped at the top 4. All `label`s are plain, localizable strings (not i18n
  * keys).
- * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptsConfig {
@@ -380,7 +380,7 @@ export interface SpotterChatViewConfig {
      * strings (not i18n keys).
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
