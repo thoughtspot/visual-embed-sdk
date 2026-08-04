@@ -555,6 +555,11 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-insight-tile-background'?: string;
 
     /**
+     * Icon color of the insight tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-insight-tile-icon-color'?: string;
+
+    /**
      * Border radius of the tiles in the Liveboard.
      */
     '--ts-var-liveboard-tile-border-radius'?: string;
