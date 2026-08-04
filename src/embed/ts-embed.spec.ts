@@ -2604,14 +2604,18 @@ describe('Unit test case for ts embed', () => {
 
             // At least one observe() call should have been made on an ancestor.
             expect(observeSpy).toHaveBeenCalled();
-            // Each observed node should use the class/style attribute filter
-            // and also watch childList so DOM insertions/removals are caught.
+            // Every observed node watches class/style attributes.
             observeSpy.mock.calls.forEach(([, options]) => {
                 expect(options.attributes).toBe(true);
                 expect(options.attributeFilter).toEqual(
                     expect.arrayContaining(['class', 'style']),
                 );
-                expect(options.childList).toBe(true);
+            });
+            // Only the first observe() call (direct parent) has childList: true.
+            // Higher ancestors omit it to avoid firing on table/list mutations.
+            expect(observeSpy.mock.calls[0][1].childList).toBe(true);
+            observeSpy.mock.calls.slice(1).forEach(([, options]) => {
+                expect(options.childList).toBeFalsy();
             });
 
             libEmbed.hidePreRender();

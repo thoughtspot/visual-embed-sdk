@@ -1939,10 +1939,11 @@ export class TsEmbed {
         const observeBoundary = this.preRenderContainerEl ?? document.body;
         let currentAncestor: Element | null = placeholder.parentElement;
         while (currentAncestor) {
+            const isDirectParent = currentAncestor === placeholder.parentElement;
             this.mutationObserver.observe(currentAncestor, {
                 attributes: true,
                 attributeFilter: ['class', 'style'],
-                childList: true,
+                childList: isDirectParent,
             });
             if (currentAncestor === observeBoundary) {
                 break;
