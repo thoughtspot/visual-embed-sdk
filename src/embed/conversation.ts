@@ -284,7 +284,7 @@ export interface StarterPreviewDataCategory {
 /**
  * Content configuration for the Spotter onboarding starter-prompts surface.
  *
- * `enableStarterPrompts` is the overall on/off switch for the feature. When
+ * `enable` is the overall on/off switch for the feature. When
  * `false`, the entire starter-prompts surface is turned off regardless of any
  * per-category content provided here.
  *
@@ -309,7 +309,7 @@ export interface StarterPromptsConfig {
      * Consumed by the ThoughtSpot application to gate the whole feature.
      * @default true
      */
-    enableStarterPrompts?: boolean;
+    enable?: boolean;
     /**
      * Basic Search category configuration.
      */
@@ -363,10 +363,10 @@ export interface SpotterChatViewConfig {
     spotterFileUploadFileTypes?: SpotterFileUploadFileTypes;
     /**
      * Configures the Spotter onboarding starter-prompts surface: the overall
-     * `enableStarterPrompts` feature flag, per-category labels, and custom
+     * `enable` feature flag, per-category labels, and custom
      * question lists for the two question-bearing categories.
      *
-     * The overall feature is gated by `enableStarterPrompts`. Each category pill
+     * The overall feature is gated by `enable`. Each category pill
      * is shown/hidden through the standard action model (`hiddenActions` /
      * `visibleActions`), one action per pill — `Action.QuickSearchPill`,
      * `Action.DeepAnalysisPill`, `Action.DataLiteracyPill` — all visible by
@@ -389,7 +389,7 @@ export interface SpotterChatViewConfig {
      *    // hiddenActions: [Action.DeepAnalysisPill],
      *    spotterChatConfig: {
      *        starterPrompts: {
-     *            enableStarterPrompts: true,
+     *            enable: true,
      *            quick: {
      *                label: 'Quick questions',
      *                questions: [

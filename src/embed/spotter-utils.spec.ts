@@ -203,16 +203,16 @@ describe('buildStarterPromptsAppInitData', () => {
         expect(result.embedParams?.starterPrompts).toEqual({ quick: { label: 'Quick' } });
     });
 
-    it('forwards the enableStarterPrompts feature flag', () => {
+    it('forwards the enable feature flag', () => {
         const enabled = buildStarterPromptsAppInitData(base, {
-            spotterChatConfig: { starterPrompts: { enableStarterPrompts: true, quick: { label: 'Quick' } } },
+            spotterChatConfig: { starterPrompts: { enable: true, quick: { label: 'Quick' } } },
         });
-        expect(enabled.embedParams?.starterPrompts).toEqual({ enableStarterPrompts: true, quick: { label: 'Quick' } });
+        expect(enabled.embedParams?.starterPrompts).toEqual({ enable: true, quick: { label: 'Quick' } });
 
         const disabled = buildStarterPromptsAppInitData(base, {
-            spotterChatConfig: { starterPrompts: { enableStarterPrompts: false } },
+            spotterChatConfig: { starterPrompts: { enable: false } },
         });
-        expect(disabled.embedParams?.starterPrompts).toEqual({ enableStarterPrompts: false });
+        expect(disabled.embedParams?.starterPrompts).toEqual({ enable: false });
     });
 
     it('preserves existing embedParams keys', () => {

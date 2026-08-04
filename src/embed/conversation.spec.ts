@@ -925,7 +925,7 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    enableStarterPrompts: true,
+                    enable: true,
                     quick: {
                         label: 'Quick',
                         questions: [{ label: 'Q1', prompt: 'P1' }],
@@ -936,7 +936,7 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             },
         });
         expect(response.data.embedParams.starterPrompts).toEqual({
-            enableStarterPrompts: true,
+            enable: true,
             quick: {
                 label: 'Quick',
                 questions: [{ label: 'Q1', prompt: 'P1' }],
@@ -1002,18 +1002,18 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
         expect(Action.DataLiteracyPill).toBe('dataLiteracyPill');
     });
 
-    it('forwards the enableStarterPrompts feature flag when disabled', async () => {
+    it('forwards the enable feature flag when disabled', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterChatConfig: {
                 starterPrompts: {
-                    enableStarterPrompts: false,
+                    enable: false,
                     quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
                 },
             },
         });
         expect(response.data.embedParams.starterPrompts).toEqual({
-            enableStarterPrompts: false,
+            enable: false,
             quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
         });
     });

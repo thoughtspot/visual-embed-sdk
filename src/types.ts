@@ -8481,7 +8481,7 @@ export enum Action {
      *
      * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
      * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
-     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
+     * feature is gated separately by `starterPrompts.enable`.
      * @example
      * ```js
      * hiddenActions: [Action.QuickSearchPill]
@@ -8495,7 +8495,7 @@ export enum Action {
      *
      * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
      * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
-     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
+     * feature is gated separately by `starterPrompts.enable`.
      * @example
      * ```js
      * hiddenActions: [Action.DeepAnalysisPill]
@@ -8509,7 +8509,7 @@ export enum Action {
      *
      * The pill is **visible by default**. Hide it with `hiddenActions`, or omit
      * it from a non-empty `visibleActions` allowlist. The overall starter-prompts
-     * feature is gated separately by `starterPrompts.enableStarterPrompts`.
+     * feature is gated separately by `starterPrompts.enable`.
      * @example
      * ```js
      * hiddenActions: [Action.DataLiteracyPill]
