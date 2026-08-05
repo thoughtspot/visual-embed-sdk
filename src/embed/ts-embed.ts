@@ -967,14 +967,14 @@ export class TsEmbed {
      * backward compatibility.
      */
     protected getPreRenderConfig(): PreRenderConfig {
-        const base = this.viewConfig as BaseViewConfig;
-        const cfg = base.preRenderConfig ?? {};
+        const viewCfg = this.viewConfig as BaseViewConfig;
+        const preRenderCfg = viewCfg.preRenderConfig ?? {};
         return {
-            ...cfg,
-            preRenderId: cfg.preRenderId ?? base.preRenderId,
-            preRenderContainer: cfg.preRenderContainer ?? base.preRenderContainer,
-            doNotTrackPreRenderSize: cfg.doNotTrackPreRenderSize ?? base.doNotTrackPreRenderSize,
-            zIndex: cfg.zIndex,
+            ...preRenderCfg,
+            preRenderId: preRenderCfg.preRenderId ?? viewCfg.preRenderId,
+            preRenderContainer: preRenderCfg.preRenderContainer ?? viewCfg.preRenderContainer,
+            doNotTrackPreRenderSize: preRenderCfg.doNotTrackPreRenderSize ?? viewCfg.doNotTrackPreRenderSize,
+            zIndex: preRenderCfg.zIndex,
         };
     }
 
