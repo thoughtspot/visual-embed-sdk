@@ -974,7 +974,6 @@ export class TsEmbed {
             preRenderId: preRenderCfg.preRenderId ?? viewCfg.preRenderId,
             preRenderContainer: preRenderCfg.preRenderContainer ?? viewCfg.preRenderContainer,
             doNotTrackPreRenderSize: preRenderCfg.doNotTrackPreRenderSize ?? viewCfg.doNotTrackPreRenderSize,
-            zIndex: preRenderCfg.zIndex,
         };
     }
 
