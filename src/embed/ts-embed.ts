@@ -1086,8 +1086,8 @@ export class TsEmbed {
             position: 'absolute',
             top: '0',
             left: '0',
-            width: '100vw',
-            height: '100vh',
+            width: '0',
+            height: '0',
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
