@@ -1057,6 +1057,16 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should not set isCentralizedLiveboardFilterUXEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isCentralizedLiveboardFilterUXEnabled');
+        });
+    });
+
     test('should set isScopedLiveboardFilteringEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
