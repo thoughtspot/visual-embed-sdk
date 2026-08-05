@@ -66,6 +66,8 @@ import {
     MessagePayload,
     ContextType,
     ContextObject,
+    PreRenderConfig,
+    BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -960,10 +962,27 @@ export class TsEmbed {
     }
 
     /**
+     * Returns a merged {@link PreRenderConfig} object where each shared key
+     * prefers `preRenderConfig.key` over the top-level `viewConfig.key` for
+     * backward compatibility.
+     */
+    protected getPreRenderConfig(): PreRenderConfig {
+        const base = this.viewConfig as BaseViewConfig;
+        const cfg = base.preRenderConfig ?? {};
+        return {
+            ...cfg,
+            preRenderId: cfg.preRenderId ?? base.preRenderId,
+            preRenderContainer: cfg.preRenderContainer ?? base.preRenderContainer,
+            doNotTrackPreRenderSize: cfg.doNotTrackPreRenderSize ?? base.doNotTrackPreRenderSize,
+            zIndex: cfg.zIndex,
+        };
+    }
+
+    /**
      * Returns true if this embed instance is configured for pre-rendering.
      */
     protected isPreRenderEmbed() {
-        return !!this.viewConfig.preRenderId;
+        return !!this.getPreRenderConfig().preRenderId;
     }
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRenderEmbed()) {
@@ -1176,7 +1195,7 @@ export class TsEmbed {
      * fresh element; an element passed directly cannot be re-resolved.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
-        const containerConfig = this.viewConfig.preRenderContainer;
+        const containerConfig = this.getPreRenderConfig().preRenderContainer;
         let container: Element | null = null;
         if (typeof containerConfig === 'string') {
             try {
@@ -1797,7 +1816,7 @@ export class TsEmbed {
             showPreRenderByDefault,
             replaceExistingPreRender,
         });
-        if (!this.viewConfig.preRenderId) {
+        if (!this.getPreRenderConfig().preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -1986,14 +2005,14 @@ export class TsEmbed {
      */
     public async showPreRender(): Promise<TsEmbed> {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_SHOW_PRE_RENDER, {
-            preRenderId: this.viewConfig.preRenderId,
+            preRenderId: this.getPreRenderConfig().preRenderId,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
         if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
 
-        if (!this.viewConfig.preRenderId) {
+        if (!this.getPreRenderConfig().preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -2038,7 +2057,7 @@ export class TsEmbed {
                 customContainer.addEventListener('scroll', this.containerScrollListener);
             }
 
-            if (!this.viewConfig.doNotTrackPreRenderSize) {
+            if (!this.getPreRenderConfig().doNotTrackPreRenderSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
@@ -2112,7 +2131,7 @@ export class TsEmbed {
      */
     public hidePreRender(): void {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HIDE_PRE_RENDER, {
-            preRenderId: this.viewConfig.preRenderId,
+            preRenderId: this.getPreRenderConfig().preRenderId,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
@@ -2122,10 +2141,11 @@ export class TsEmbed {
             logger.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
+        const { zIndex } = this.getPreRenderConfig();
         const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
-            zIndex: '-1000',
+            zIndex: zIndex !== undefined ? String(zIndex) : '-1000',
             position: 'absolute',
             top: '0',
             left: '0',
@@ -2155,10 +2175,11 @@ export class TsEmbed {
      * @property {string} child - The HTML element ID for the PreRender child.
      */
     public getPreRenderIds() {
+        const preRenderId = this.getPreRenderConfig().preRenderId;
         return {
-            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${this.viewConfig.preRenderId}`,
-            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
-            placeHolder: `tsEmbed-pre-render-placeholder-${this.viewConfig.preRenderId}`,
+            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${preRenderId}`,
+            child: `tsEmbed-pre-render-child-${preRenderId}`,
+            placeHolder: `tsEmbed-pre-render-placeholder-${preRenderId}`,
         };
     }
 
