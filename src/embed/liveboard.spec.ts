@@ -1491,6 +1491,44 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should include starterPrompts in APP_INIT embedParams (truncated and clamped)', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: {
+                starterPrompts: {
+                    enable: true,
+                    quick: {
+                        label: 'L'.repeat(50),
+                        questions: [
+                            { label: 'Q1', prompt: 'P1' },
+                            { label: 'Q2', prompt: 'P2' },
+                            { label: 'Q3', prompt: 'P3' },
+                            { label: 'Q4', prompt: 'P4' },
+                            { label: 'Q5', prompt: 'P5' },
+                        ],
+                    },
+                    research: { label: 'Research' },
+                },
+            },
+        } as LiveboardViewConfig);
+
+        mockMessageChannel();
+        await liveboardEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+        });
+        await executeAfterWait(() => {
+            const { starterPrompts } = mockPort.postMessage.mock.calls[0][0].data.embedParams;
+            expect(starterPrompts.enable).toBe(true);
+            expect(starterPrompts.quick.label).toHaveLength(30);
+            expect(starterPrompts.quick.questions).toHaveLength(4);
+            expect(starterPrompts.research.label).toBe('Research');
+        });
+    });
+
     test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
         const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {

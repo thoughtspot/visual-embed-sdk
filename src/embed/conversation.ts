@@ -1,6 +1,6 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -228,6 +228,103 @@ export interface SpotterShareConversationConfig {
 }
 
 /**
+ * A single configurable starter prompt question shown under a category pill.
+ * Both fields are plain, localizable strings (not i18n keys).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptQuestion {
+    /**
+     * Short label shown to the user as a clickable suggestion.
+     * Truncated to 80 characters downstream.
+     */
+    label: string;
+    /**
+     * Full prompt text submitted to Spotter when the question is clicked.
+     * Truncated to 300 characters downstream.
+     */
+    prompt: string;
+}
+
+/**
+ * Configuration for a question-bearing onboarding category
+ * (`quick` → Basic Search, `research` → Deep Analysis).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptCategory {
+    /**
+     * Custom label for the category pill. Localizable string that overrides
+     * the default i18n title. Truncated to 30 characters downstream.
+     */
+    label?: string;
+    /**
+     * Custom questions for the category. When provided, these fully replace the
+     * backend-generated prompts (no merge) and are capped at the top 4.
+     */
+    questions?: StarterPromptQuestion[];
+}
+
+/**
+ * Configuration for the Data Literacy (`preview-data`) onboarding category.
+ * Only the label is customizable; the submitted prompt text continues to come
+ * from the backend. Pill visibility is controlled through the action model via
+ * `Action.DataLiteracyPill`.
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPreviewDataCategory {
+    /**
+     * Custom label for the Data Literacy pill. Localizable string that overrides
+     * the default i18n title. Truncated to 30 characters downstream.
+     */
+    label?: string;
+}
+
+/**
+ * Content configuration for the Spotter onboarding starter-prompts surface.
+ *
+ * `enable` is the overall on/off switch for the feature. When
+ * `false`, the entire starter-prompts surface is turned off regardless of any
+ * per-category content provided here.
+ *
+ * When enabled, this object configures the *content* of the surface. The
+ * visibility of each category pill is controlled through the standard action
+ * model (`hiddenActions` / `visibleActions`), one action per pill:
+ * `Action.QuickSearchPill` (Basic Search), `Action.DeepAnalysisPill` (Deep
+ * Analysis), `Action.DataLiteracyPill` (Data Literacy). There is no per-category
+ * `visibility` flag and no disable behaviour.
+ *
+ * Category keys are fixed: `quick` → Basic Search, `research` → Deep Analysis,
+ * `preview-data` → Data Literacy. For `quick` and `research`, `questions` is
+ * capped at the top 4. All `label`s are plain, localizable strings (not i18n
+ * keys).
+ * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptsConfig {
+    /**
+     * Overall feature flag for the starter-prompts surface. When `false`, the
+     * surface is turned off entirely and no category content is rendered.
+     * Consumed by the ThoughtSpot application to gate the whole feature.
+     * @default true
+     */
+    enable?: boolean;
+    /**
+     * Basic Search category configuration.
+     */
+    quick?: StarterPromptCategory;
+    /**
+     * Deep Analysis category configuration.
+     */
+    research?: StarterPromptCategory;
+    /**
+     * Data Literacy category configuration (label only).
+     */
+    'preview-data'?: StarterPreviewDataCategory;
+}
+
+/**
  * Configuration for customizing Spotter chat UI branding.
  * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
  * @group Embed components
@@ -267,11 +364,53 @@ export interface SpotterChatViewConfig {
     /**
      * Enables starter prompts in the Spotter chat interface.
      *
-     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      * @default false
      */
     enableStarterPrompts?: boolean;
+    /**
+     * Configures the Spotter onboarding starter-prompts surface: the overall
+     * `enable` feature flag, per-category labels, and custom
+     * question lists for the two question-bearing categories.
+     *
+     * The overall feature is gated by `enable`. Each category pill
+     * is shown/hidden through the standard action model (`hiddenActions` /
+     * `visibleActions`), one action per pill — `Action.QuickSearchPill`,
+     * `Action.DeepAnalysisPill`, `Action.DataLiteracyPill` — all visible by
+     * default. There is no per-category `visibility` flag and no disable
+     * behaviour.
+     *
+     * Category keys are fixed: `quick` → Basic Search, `research` → Deep
+     * Analysis, `preview-data` → Data Literacy. For `quick` and `research`,
+     * `questions` is capped at the top 4 and fully replaces backend-generated
+     * prompts for that category (no merge). All `label`s are plain, localizable
+     * strings (not i18n keys).
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    // Hide individual pills via the action model, e.g. hide Deep Analysis:
+     *    // hiddenActions: [Action.DeepAnalysisPill],
+     *    spotterChatConfig: {
+     *        starterPrompts: {
+     *            enable: true,
+     *            quick: {
+     *                label: 'Quick questions',
+     *                questions: [
+     *                    { label: 'Top products', prompt: 'What are the top products by revenue?' },
+     *                ],
+     *            },
+     *            'preview-data': { label: 'Explore your data' },
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    starterPrompts?: StarterPromptsConfig;
 }
 
 /**
@@ -626,6 +765,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -674,7 +814,8 @@ export class SpotterEmbed extends TsEmbed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {

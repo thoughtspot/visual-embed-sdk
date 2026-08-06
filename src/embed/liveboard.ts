@@ -31,7 +31,8 @@ import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { SpotterChatViewConfig } from './conversation';
+import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
+import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -41,6 +42,7 @@ import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-util
 export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterVizConfig?: SpotterVizConfig;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -684,7 +686,8 @@ export class LiveboardEmbed extends V1Embed {
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
+        const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
     }
 
     /**
