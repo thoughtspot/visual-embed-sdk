@@ -80,6 +80,10 @@ import {
     TableTheme,
     TableContentDensity,
     VisualizationOverrides,
+    SpotterQuotaScope,
+    SpotterQuotaPeriod,
+    SpotterQuotaConfig,
+    SpotterQuotaGroupLimit,
 } from './types';
 import { CustomCssVariables } from './css-variables';
 import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
@@ -119,6 +123,10 @@ export {
     SpotterSidebarViewConfig,
     SpotterQueryMode,
     SpotterShareConversationConfig,
+    SpotterQuotaScope,
+    SpotterQuotaPeriod,
+    SpotterQuotaConfig,
+    SpotterQuotaGroupLimit,
     ConversationViewConfig,
     ConversationEmbed,
     AuthFailureType,

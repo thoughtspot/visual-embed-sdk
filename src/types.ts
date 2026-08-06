@@ -3925,6 +3925,24 @@ export enum EmbedEvent {
      */
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
+     * Emitted when the user clicks the upgrade call-to-action on the Spotter
+     * question-gating warning banner, usage counter or blocked surface.
+     *
+     * Use this to drive your own checkout flow, then lift the gate with the
+     * {@link HostEvent.SetSpotterSubscribed} host event. Requires
+     * `spotterQuota.enabled` on the view config.
+     *
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterUsageLimitUpgradePlanClicked, (payload) => {
+     *     // payload: { usageCount: number, usageLimit: number,
+     *     //            status: 'withinLimit' | 'almostReached' | 'limitReached' }
+     * })
+     * ```
+     */
+    SpotterUsageLimitUpgradePlanClicked = 'spotterUsageLimitUpgradePlanClicked',
+    /**
      * Emitted when a Spotter conversation is pinned.
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
@@ -6416,6 +6434,29 @@ export enum HostEvent {
      * ```
      */
     UnpinSpotterConversation = 'UnpinSpotterConversation',
+
+    /**
+     * Lifts or reinstates Spotter question gating for the current user, after
+     * your application has confirmed an upgrade (or an expiry/downgrade).
+     *
+     * Sending `{ subscribed: true }` — or an empty payload, which defaults to
+     * true — stops metering, resets the question count to zero and closes any
+     * open upgrade surface. Sending `{ subscribed: false }` resumes metering
+     * without touching the accumulated count.
+     *
+     * Requires `spotterQuota.enabled` on the view config.
+     *
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * // User completed checkout in the host app.
+     * spotterEmbed.trigger(HostEvent.SetSpotterSubscribed, { subscribed: true });
+     *
+     * // Subscription lapsed — start metering again.
+     * spotterEmbed.trigger(HostEvent.SetSpotterSubscribed, { subscribed: false });
+     * ```
+     */
+    SetSpotterSubscribed = 'SetSpotterSubscribed',
 
     /**
      * @hidden
@@ -9681,4 +9722,158 @@ export interface VisualizationOverrides {
     chart?: ChartOverrides;
     /** Table visualization overrides */
     table?: TableOverrides;
+}
+
+/**
+ * How a Spotter question quota pool is scoped — whether each user gets their own
+ * allowance, or a whole group draws down a single shared pool.
+ *
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ */
+export enum SpotterQuotaScope {
+    /**
+     * Every user gets their own independent allowance. This is the default.
+     */
+    User = 'user',
+    /**
+     * The allowance is defined per ThoughtSpot group via
+     * {@link SpotterQuotaConfig.groupLimits}. A user who belongs to several
+     * configured groups is granted the *least restrictive* of the matching
+     * limits, so membership in any group that is still within limit never gates
+     * the user.
+     */
+    Group = 'group',
+}
+
+/**
+ * When a Spotter question quota resets. The host owns the reset window — no
+ * ThoughtSpot admin configuration is involved.
+ *
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ */
+export enum SpotterQuotaPeriod {
+    /**
+     * The count never resets. Use this for a "first N questions free, then pay"
+     * freemium gate, where the only way past the limit is an upgrade.
+     * This is the default.
+     */
+    Total = 'total',
+    /**
+     * The count resets at the start of each calendar month.
+     */
+    Monthly = 'monthly',
+}
+
+/**
+ * A quota allowance for a single ThoughtSpot group. Used with
+ * {@link SpotterQuotaScope.Group} to give different packages (Free, Pro,
+ * Enterprise) different question allowances.
+ *
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ */
+export interface SpotterQuotaGroupLimit {
+    /**
+     * The GUID of the ThoughtSpot group this allowance applies to.
+     */
+    groupId: string;
+    /**
+     * Whether this group allowance is active. A disabled entry is ignored when
+     * resolving the user's limit.
+     * @default true
+     */
+    enabled?: boolean;
+    /**
+     * The number of questions a member of this group may ask per quota period.
+     */
+    limit?: number;
+    /**
+     * The question count at which the warning banner appears. Expressed as an
+     * absolute count, not a percentage, and independent of `limit` so the host
+     * can warn as early or as late as it likes.
+     */
+    warningThreshold?: number;
+    /**
+     * An external URL to send the user to when they click the upgrade CTA. When
+     * set, the CTA navigates there instead of opening the in-embed upgrade
+     * surface.
+     */
+    upgradeUrl?: string;
+}
+
+/**
+ * Host-owned question gating for embedded Spotter. Lets an embedding
+ * application meter how many Spotter questions a user (or a group of users) may
+ * ask, warn them as they approach the limit, and present an upgrade surface
+ * once they hit it — entirely from the SDK, with no ThoughtSpot admin setup.
+ *
+ * The host application remains the source of truth for entitlement: use the
+ * {@link HostEvent.SetSpotterSubscribed} host event to lift the gate once a
+ * user upgrades, and listen to
+ * {@link EmbedEvent.SpotterUsageLimitUpgradePlanClicked} to drive your own
+ * checkout flow.
+ *
+ * Supported embed types: `SpotterEmbed`, `AppEmbed`
+ *
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ * @example
+ * ```js
+ * const embed = new SpotterEmbed('#tsEmbed', {
+ *     worksheetId: '<model-guid>',
+ *     spotterQuota: {
+ *         enabled: true,
+ *         limit: 20,
+ *         warningThreshold: 15,
+ *         quotaPeriod: SpotterQuotaPeriod.Monthly,
+ *         upgradeContent: '<h3>Out of questions</h3><p>Upgrade to Pro.</p>',
+ *     },
+ * });
+ * ```
+ */
+export interface SpotterQuotaConfig {
+    /**
+     * Turns question gating on. Off by default — hosts must opt in. When false
+     * (or omitted) no quota params reach the embedded app and Spotter behaves
+     * exactly as it does today.
+     * @default false
+     */
+    enabled?: boolean;
+    /**
+     * Whether each user is metered independently, or a group shares one pool.
+     * @default SpotterQuotaScope.User
+     */
+    scope?: SpotterQuotaScope;
+    /**
+     * The number of questions allowed per quota period. Applies when `scope` is
+     * {@link SpotterQuotaScope.User}, and as the fallback when `scope` is
+     * {@link SpotterQuotaScope.Group} but the user matches no configured group.
+     *
+     * A limit of 0 or less disables gating.
+     */
+    limit?: number;
+    /**
+     * The question count at which the warning banner appears, as an absolute
+     * count rather than a percentage. For example, `limit: 20` with
+     * `warningThreshold: 15` warns for the last five questions.
+     */
+    warningThreshold?: number;
+    /**
+     * When the question count resets.
+     * @default SpotterQuotaPeriod.Total
+     */
+    quotaPeriod?: SpotterQuotaPeriod;
+    /**
+     * Per-group allowances, used when `scope` is
+     * {@link SpotterQuotaScope.Group}. A user in several configured groups gets
+     * the least restrictive matching limit.
+     */
+    groupLimits?: SpotterQuotaGroupLimit[];
+    /**
+     * Host-supplied HTML rendered inside the upgrade surface when the user is
+     * warned or blocked. Use it to describe your pricing packages and link to
+     * checkout. When omitted, the embed falls back to its built-in copy.
+     *
+     * The markup is sanitized before render: `<script>` tags, inline event
+     * handlers and `javascript:` URLs are stripped.
+     */
+    upgradeContent?: string;
 }

@@ -22,8 +22,19 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import {
+    SpotterChatViewConfig,
+    SpotterSidebarViewConfig,
+    SpotterQueryMode,
+    SpotterShareConversationConfig,
+} from './conversation';
+import type { SpotterQuotaConfig } from '../types';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildSpotterQuotaAppInitData,
+    SpotterQuotaEmbedParams,
+} from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -819,6 +830,25 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
+     * Host-owned question gating and pricing packages for Spotter inside the
+     * full application embed. See {@link SpotterQuotaConfig}.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *     // ...other embed view config
+     *     spotterQuota: {
+     *         enabled: true,
+     *         limit: 20,
+     *         warningThreshold: 15,
+     *     },
+     * })
+     * ```
+     */
+    spotterQuota?: SpotterQuotaConfig;
+    /**
      * Configuration for customizing Spotter chat UI
      * branding in tool response cards.
      *
@@ -1002,7 +1032,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
-    };
+    } & Partial<SpotterQuotaEmbedParams>;
 }
 
 /**
@@ -1052,7 +1082,11 @@ export class AppEmbed extends V1Embed {
             this.handleError.bind(this),
         );
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-        return buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(
+            vizInitData,
+            this.viewConfig,
+        );
+        return buildSpotterQuotaAppInitData(shareInitData, this.viewConfig);
     }
 
     /**

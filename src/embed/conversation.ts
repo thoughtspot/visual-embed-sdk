@@ -1,6 +1,21 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
+import type { SpotterQuotaConfig } from '../types';
+
+// Re-exported here because `spotterQuota` is configured on the Spotter view
+// config; the definitions live in ../types so that spotter-utils can read the
+// enums at runtime without importing this module back (a cycle).
+export {
+    SpotterQuotaScope,
+    SpotterQuotaPeriod,
+} from '../types';
+export type { SpotterQuotaConfig, SpotterQuotaGroupLimit } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildSpotterQuotaAppInitData,
+    SpotterUsageLimitEmbedParams,
+} from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -536,6 +551,29 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     spotterSidebarConfig?: SpotterSidebarViewConfig;
     /**
+     * Host-owned question gating and pricing packages for embedded Spotter.
+     * Meters how many questions a user or group may ask, warns as the limit
+     * approaches, and shows a host-supplied upgrade surface once it is reached.
+     *
+     * Requires no ThoughtSpot admin configuration — the embedding application
+     * owns the limits, the reset window and the upgrade copy.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *     // ...other embed view config
+     *     spotterQuota: {
+     *         enabled: true,
+     *         limit: 20,
+     *         warningThreshold: 15,
+     *     },
+     * })
+     * ```
+     */
+    spotterQuota?: SpotterQuotaConfig;
+    /**
      * Configuration for customizing Spotter chat UI
      * branding in tool response cards.
      *
@@ -626,6 +664,21 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        /**
+         * The structured quota config, forwarded verbatim so the app can read
+         * it directly.
+         */
+        spotterQuota?: SpotterQuotaConfig;
+        /** Resolved question allowance. @internal */
+        noOfAllowedMessages?: number;
+        /** Resolved warning threshold. @internal */
+        almostReachedThreshold?: number;
+        /** True when the quota resets each calendar month. @internal */
+        spotterUsageMonthlyReset?: boolean;
+        /** Per-group allowances, flattened for the app. @internal */
+        spotterUsageLimits?: SpotterUsageLimitEmbedParams[];
+        /** Host-supplied upgrade markup. @internal */
+        gatedSpotterContent?: string;
     };
 }
 
@@ -674,7 +727,11 @@ export class SpotterEmbed extends TsEmbed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(
+            sidebarInitData,
+            this.viewConfig,
+        );
+        return buildSpotterQuotaAppInitData(shareInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
