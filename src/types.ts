@@ -6531,6 +6531,20 @@ export enum DataSourceVisualMode {
 
 export enum Param {
     Tsmcp = 'tsmcp',
+    /**
+     * Set to `true` by {@link AutoFrameRenderer} on every iframe it renders,
+     * letting the ThoughtSpot app reliably detect that this answer was
+     * rendered via the MCP auto-frame-renderer (e.g. to enable a curated,
+     * interactive action set).
+     *
+     * This is intentionally a distinct param from {@link Tsmcp}: `tsmcp=true`
+     * is also the literal value `isTSMCPIframe` checks to decide whether an
+     * iframe still needs processing. If it were re-added to the SDK's own
+     * rendered output, the same `MutationObserver` would detect it as a new
+     * unprocessed MCP iframe and replace it again, forever. Never set
+     * `Tsmcp` on the final rendered iframe — use this param instead.
+     */
+    IsMcpAnswerEmbed = 'isMcpAnswerEmbed',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
