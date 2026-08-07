@@ -8097,6 +8097,10 @@ export enum Action {
      * The **Add to Coaching** feature allows adding reference questions and
      * business terms to improve Spotter’s responses. This feature is generally available
      * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
+     *
+     * This action governs both the answer-card **Add to memory** CTA and its
+     * Spotter 3 successor, the response-footer **Remember this** CTA
+     * (they are mutually exclusive).
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
