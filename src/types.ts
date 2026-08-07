@@ -982,7 +982,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    hiddenActions: [Action.Download, Action.Export],
+     *    hiddenActions: [Action.Download, Action.ExportTML],
      * });
      * ```
      * @important
@@ -1004,7 +1004,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    visibleActions: [Action.Download, Action.Export],
+     *    visibleActions: [Action.Download, Action.ExportTML],
      * });
      * ```
      */
@@ -1609,7 +1609,7 @@ export interface HomePageConfig {
      *
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
+     *    hiddenListColumns : [ListPageColumns.Favorites,ListPageColumns.Author],
      * })
      * ```
      */
@@ -2498,7 +2498,7 @@ export enum EmbedEvent {
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
      * ```js
-     * searchEmbed.on(EmbedEvent.DrillDown, {
+     * searchEmbed.on(EmbedEvent.Drilldown, {
      *    points: {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
@@ -2559,7 +2559,7 @@ export enum EmbedEvent {
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
-     * appEmbed.on(EmbedEvent.customAction, payload => {
+     * appEmbed.on(EmbedEvent.CustomAction, payload => {
      *     const data = payload.data;
      *     if (data.id === 'insert Custom Action ID here') {
      *         console.log('Custom Action event:', data.embedAnswerData);
@@ -2827,8 +2827,8 @@ export enum EmbedEvent {
      *
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
-     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`,
-     * `EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`
+     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPdf`,
+     * `EmbedEvent.DownloadAsCsv`, or `EmbedEvent.DownloadAsXlsx`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2878,10 +2878,10 @@ export enum EmbedEvent {
      * @example
      * ```js
      * //emit when action starts
-     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *   console.log('download CSV', payload)}, {start: true })
      * //emit when action ends
-     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *    console.log('download CSV', payload)})
      * ```
      */
@@ -4738,13 +4738,13 @@ export enum HostEvent {
      * Trigger the **Manage schedule** action on an embedded Liveboard
      * @example
      * ```js
-     *  liveboardEmbed.trigger(HostEvent.ScheduleList)
+     *  liveboardEmbed.trigger(HostEvent.SchedulesList)
      * ```
      * @example
      * ```js
      * // Manage schedules from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * liveboardEmbed.trigger(HostEvent.ScheduleList, {}, ContextType.Liveboard);
+     * liveboardEmbed.trigger(HostEvent.SchedulesList, {}, ContextType.Liveboard);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -9162,7 +9162,7 @@ export type ApiInterceptFlags = {
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
      *   enableApiIntercept: true,
-     *   interceptUrls: [InterceptedApiType.DATA],
+     *   interceptUrls: [InterceptedApiType.LiveboardData],
      * })
      * ```
      *
