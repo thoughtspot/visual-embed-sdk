@@ -1282,6 +1282,44 @@ describe('Liveboard/viz embed tests', () => {
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
         }, 1002);
     });
+
+    test('navigateToLiveboard should call preRender when preRenderConfig.preRenderId is set', () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            preRenderConfig: {
+                preRenderId: 'config-pre-render-id',
+            },
+        } as LiveboardViewConfig);
+
+        const preRenderSpy = jest
+            .spyOn(liveboardEmbed, 'preRender')
+            .mockResolvedValue(liveboardEmbed);
+        liveboardEmbed.navigateToLiveboard('lb1');
+
+        expect(preRenderSpy).toHaveBeenCalledTimes(1);
+        expect(preRenderSpy).toHaveBeenCalledWith(true);
+    });
+
+    test('navigateToLiveboard should prefer preRenderConfig.preRenderId over top-level preRenderId', () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            preRenderId: 'top-level-id',
+            preRenderConfig: {
+                preRenderId: 'config-level-id',
+            },
+        } as LiveboardViewConfig);
+
+        const preRenderSpy = jest
+            .spyOn(liveboardEmbed, 'preRender')
+            .mockResolvedValue(liveboardEmbed);
+        liveboardEmbed.navigateToLiveboard('lb1');
+
+        expect(preRenderSpy).toHaveBeenCalledTimes(1);
+        expect(preRenderSpy).toHaveBeenCalledWith(true);
+    });
+
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

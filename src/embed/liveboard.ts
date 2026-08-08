@@ -1240,7 +1240,7 @@ export class LiveboardEmbed extends V1Embed {
         this.viewConfig.personalizedViewId = personalizedViewId;
         if (this.isRendered) {
             this.trigger(HostEvent.Navigate, path.substring(1));
-        } else if (this.viewConfig.preRenderId) {
+        } else if (this.getPreRenderConfig().preRenderId) {
             this.preRender(true);
         } else {
             this.render();
