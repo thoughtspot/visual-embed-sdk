@@ -2580,6 +2580,596 @@ describe('Unit test case for ts embed', () => {
             expect(document.getElementById(preRenderIds.wrapper)).toBe(null);
         });
 
+        it('showPreRender should start a MutationObserver on placeholder ancestors', async () => {
+            createRootEleForEmbed();
+
+            // Give the host element a parent so there is at least one ancestor to
+            // observe between the placeholder and document.body.
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'outer-wrapper';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+            const disconnectSpy = jest.spyOn(MutationObserver.prototype, 'disconnect');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-test',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // At least one observe() call should have been made on an ancestor.
+            expect(observeSpy).toHaveBeenCalled();
+            // Every observed node watches class/style attributes.
+            observeSpy.mock.calls.forEach(([, options]) => {
+                expect(options.attributes).toBe(true);
+                expect(options.attributeFilter).toEqual(
+                    expect.arrayContaining(['class', 'style']),
+                );
+            });
+            // Only the first observe() call (direct parent) has childList: true.
+            // Higher ancestors omit it to avoid firing on table/list mutations.
+            expect(observeSpy.mock.calls[0][1].childList).toBe(true);
+            observeSpy.mock.calls.slice(1).forEach(([, options]) => {
+                expect(options.childList).toBeFalsy();
+            });
+
+            libEmbed.hidePreRender();
+            expect(disconnectSpy).toHaveBeenCalled();
+
+            observeSpy.mockRestore();
+            disconnectSpy.mockRestore();
+            outerDiv.remove();
+        });
+
+        it('showPreRender syncs position when an ancestor class changes', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'layout-root';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            // Make rAF synchronous so the debounce gate fires immediately.
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-class-change',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Toggle a class on the ancestor — this is the "sidebar collapse" pattern.
+            // lastTop/lastLeft are null on the first mutation, so getBoundingClientRect
+            // will always detect a change and trigger sync.
+            outerDiv.classList.add('sidebar-collapsed');
+
+            // MutationObserver callback fires synchronously in JSDOM, which calls
+            // scheduleSync → rAF (now sync) → checkAndSync. One microtask tick
+            // is enough to observe the result.
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('showPreRender syncs position when a sibling is added to the direct parent', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'layout-root-childlist';
+            document.body.appendChild(outerDiv);
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-childlist',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Insert a sibling into the placeholder's direct parent (hostEl).
+            // childList is only observed on the direct parent to avoid firing on
+            // table-row mutations in sibling subtrees.
+            const banner = document.createElement('div');
+            banner.id = 'notification-banner';
+            hostEl.insertBefore(banner, hostEl.firstChild);
+
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('showPreRender syncs position on window resize', async () => {
+            createRootEleForEmbed();
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-resize',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            window.dispatchEvent(new Event('resize'));
+
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+        });
+
+        it('MutationObserver is NOT created when doNotTrackPreRenderSize is true', async () => {
+            createRootEleForEmbed();
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'mut-obs-disabled',
+                liveboardId: 'myLiveboardId',
+                doNotTrackPreRenderSize: true,
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            expect(observeSpy).not.toHaveBeenCalled();
+
+            observeSpy.mockRestore();
+            libEmbed.destroy();
+        });
+
+        it('does NOT sync when position has not changed between mutations', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'pos-guard-root';
+            document.body.appendChild(outerDiv);
+            const hostElGuard = document.getElementById('tsEmbedDiv');
+            if (hostElGuard) outerDiv.appendChild(hostElGuard);
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'pos-guard',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // First mutation seeds lastTop/lastLeft via getBoundingClientRect.
+            outerDiv.classList.add('first-change');
+            await Promise.resolve();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Second mutation — JSDOM always returns zeroes from
+            // getBoundingClientRect, so top/left are unchanged → no sync.
+            outerDiv.classList.add('second-change');
+            await Promise.resolve();
+
+            expect(syncSpy).not.toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('rapid mutations schedule only one rAF (debounce gate)', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'raf-dedup-root';
+            document.body.appendChild(outerDiv);
+            const hostElDedup = document.getElementById('tsEmbedDiv');
+            if (hostElDedup) outerDiv.appendChild(hostElDedup);
+
+            // Capture scheduled callbacks without executing them immediately.
+            const pendingCbs: FrameRequestCallback[] = [];
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { pendingCbs.push(cb); return pendingCbs.length; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'raf-dedup',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // Fire three mutations before any rAF flushes.
+            outerDiv.classList.add('change-1');
+            outerDiv.classList.add('change-2');
+            outerDiv.classList.add('change-3');
+            await Promise.resolve();
+
+            // Only one rAF should have been scheduled regardless of how many
+            // mutation callbacks fired.
+            expect(rafSpy).toHaveBeenCalledTimes(1);
+
+            rafSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('ancestor style attribute change triggers position sync', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'style-attr-root';
+            document.body.appendChild(outerDiv);
+            const hostElStyle = document.getElementById('tsEmbedDiv');
+            if (hostElStyle) outerDiv.appendChild(hostElStyle);
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'style-attr',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Changing inline style on an ancestor (sidebar width override) is
+            // caught by attributeFilter: ['class', 'style'].
+            outerDiv.style.marginLeft = '240px';
+            await Promise.resolve();
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            outerDiv.remove();
+        });
+
+        it('window resize listener is removed when hidePreRender is called', async () => {
+            createRootEleForEmbed();
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'resize-cleanup-hide',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const removeListenerSpy = jest.spyOn(window, 'removeEventListener');
+            libEmbed.hidePreRender();
+
+            const removedResize = removeListenerSpy.mock.calls.some(
+                ([event]) => event === 'resize',
+            );
+            expect(removedResize).toBe(true);
+
+            rafSpy.mockRestore();
+            removeListenerSpy.mockRestore();
+        });
+
+        it('window resize listener is removed when destroy is called', async () => {
+            createRootEleForEmbed();
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'resize-cleanup-destroy',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const removeListenerSpy = jest.spyOn(window, 'removeEventListener');
+            libEmbed.destroy();
+
+            const removedResize = removeListenerSpy.mock.calls.some(
+                ([event]) => event === 'resize',
+            );
+            expect(removedResize).toBe(true);
+
+            rafSpy.mockRestore();
+            removeListenerSpy.mockRestore();
+        });
+
+        it('pending rAF is cancelled when stopPositionObserver runs', async () => {
+            createRootEleForEmbed();
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'raf-cancel-root';
+            document.body.appendChild(outerDiv);
+            const hostElCancel = document.getElementById('tsEmbedDiv');
+            if (hostElCancel) outerDiv.appendChild(hostElCancel);
+
+            // Hold the rAF without executing so a cancellation can occur.
+            let scheduledId = 0;
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation(() => { scheduledId = ++scheduledId; return scheduledId; });
+            const cancelSpy = jest.spyOn(global, 'cancelAnimationFrame');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'raf-cancel',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // Trigger a mutation so a rAF is pending.
+            outerDiv.classList.add('pending');
+            await Promise.resolve();
+
+            // hidePreRender calls stopPositionObserver which should cancel the rAF.
+            libEmbed.hidePreRender();
+            expect(cancelSpy).toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            cancelSpy.mockRestore();
+            outerDiv.remove();
+        });
+
+        it('MutationObserver is not started twice when showPreRender is called twice', async () => {
+            createRootEleForEmbed();
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'idempotent-observer',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const callsAfterFirst = observeSpy.mock.calls.length;
+
+            // Calling showPreRender again should not add more observe() calls.
+            await libEmbed.showPreRender();
+            expect(observeSpy.mock.calls.length).toBe(callsAfterFirst);
+
+            observeSpy.mockRestore();
+            libEmbed.destroy();
+        });
+
+        it('no sync is triggered after hidePreRender even if resize fires', async () => {
+            createRootEleForEmbed();
+
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { cb(0); return 0; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'no-sync-after-hide',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+            libEmbed.hidePreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Fire resize after the observer has been torn down.
+            window.dispatchEvent(new Event('resize'));
+            await Promise.resolve();
+
+            expect(syncSpy).not.toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+        });
+
+        it('container scroll triggers sync when preRenderContainer is set', async () => {
+            createRootEleForEmbed();
+
+            const customContainer = document.createElement('div');
+            customContainer.id = 'custom-scroll-container';
+            document.body.appendChild(customContainer);
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'scroll-container-sync',
+                liveboardId: 'myLiveboardId',
+                preRenderContainer: '#custom-scroll-container',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            customContainer.dispatchEvent(new Event('scroll'));
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            customContainer.remove();
+        });
+
+        it('container scroll still syncs when doNotTrackPreRenderSize is true', async () => {
+            createRootEleForEmbed();
+
+            const customContainer = document.createElement('div');
+            customContainer.id = 'custom-scroll-no-track';
+            document.body.appendChild(customContainer);
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'scroll-no-track',
+                liveboardId: 'myLiveboardId',
+                preRenderContainer: '#custom-scroll-no-track',
+                doNotTrackPreRenderSize: true,
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            customContainer.dispatchEvent(new Event('scroll'));
+
+            expect(syncSpy).toHaveBeenCalled();
+
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+            customContainer.remove();
+        });
+
+        it('observer only watches ancestors up to preRenderContainerEl boundary', async () => {
+            createRootEleForEmbed();
+
+            const container = document.createElement('div');
+            container.id = 'boundary-container';
+            document.body.appendChild(container);
+
+            const outerDiv = document.createElement('div');
+            outerDiv.id = 'outside-boundary';
+            container.appendChild(outerDiv);
+
+            const hostEl = document.getElementById('tsEmbedDiv');
+            outerDiv.appendChild(hostEl);
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'boundary-test',
+                liveboardId: 'myLiveboardId',
+                preRenderContainer: '#boundary-container',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // Every observed node must be the container or a descendant of it —
+            // document.body should never be observed when a boundary is set.
+            const observedNodes = observeSpy.mock.calls.map(([node]) => node);
+            expect(observedNodes.some((n) => n === document.body)).toBe(false);
+
+            observeSpy.mockRestore();
+            libEmbed.destroy();
+            container.remove();
+        });
+
+        it('all ancestor layers between placeholder and boundary are observed', async () => {
+            createRootEleForEmbed();
+
+            const grandparent = document.createElement('div');
+            grandparent.id = 'grandparent';
+            document.body.appendChild(grandparent);
+
+            const parent = document.createElement('div');
+            parent.id = 'parent-layer';
+            grandparent.appendChild(parent);
+
+            const hostEl = document.getElementById('tsEmbedDiv');
+            parent.appendChild(hostEl);
+
+            const observeSpy = jest.spyOn(MutationObserver.prototype, 'observe');
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'multi-ancestor',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // At least two ancestor layers (parent + grandparent) should be observed.
+            expect(observeSpy.mock.calls.length).toBeGreaterThanOrEqual(2);
+
+            observeSpy.mockRestore();
+            libEmbed.destroy();
+            grandparent.remove();
+        });
+
+        it('checkAndSync does not sync when isPreRenderConnected returns false', async () => {
+            createRootEleForEmbed();
+
+            // Hold the rAF callback so we can control exactly when it fires.
+            let pendingCb: FrameRequestCallback | null = null;
+            const rafSpy = jest
+                .spyOn(global, 'requestAnimationFrame')
+                .mockImplementation((cb) => { pendingCb = cb; return 1; });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'check-and-sync-bail',
+                liveboardId: 'myLiveboardId',
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            // Schedule a rAF (hold without executing).
+            window.dispatchEvent(new Event('resize'));
+            await Promise.resolve();
+
+            const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+            // Simulate the pre-render becoming disconnected (e.g. wrapper removed)
+            // before the pending rAF fires. destroy() removes the DOM node but
+            // does not null out the class references, so we mock the guard directly.
+            jest.spyOn(libEmbed as any, 'isPreRenderConnected').mockReturnValue(false);
+            if (pendingCb) pendingCb(0);
+
+            expect(syncSpy).not.toHaveBeenCalled();
+
+            rafSpy.mockRestore();
+            syncSpy.mockRestore();
+            libEmbed.destroy();
+        });
+
         it('preRender called without preRenderId should log error ', () => {
             createRootEleForEmbed();
 

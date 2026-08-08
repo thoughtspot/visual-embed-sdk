@@ -206,6 +206,12 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
+    private mutationObserver: MutationObserver | null = null;
+
+    private positionObserverRafId: number | null = null;
+
+    private windowResizeListener: (() => void) | null = null;
+
     private preRenderContainerEl: HTMLElement | null = null;
 
     private containerScrollListener: (() => void) | null = null;
@@ -1896,6 +1902,74 @@ export class TsEmbed {
         this.containerScrollListener = null;
     }
 
+    private startPositionObserver(): void {
+        if (this.mutationObserver) {
+            return;
+        }
+        const placeholder = this.getPreRenderPlaceHolderElement();
+        if (!placeholder) {
+            return;
+        }
+
+        let previousTop: number | null = null;
+        let previousLeft: number | null = null;
+
+        const checkAndSync = () => {
+            this.positionObserverRafId = null;
+            if (!this.isPreRenderConnected()) {
+                return;
+            }
+            const placeholderRect = placeholder.getBoundingClientRect();
+            if (placeholderRect.top !== previousTop || placeholderRect.left !== previousLeft) {
+                previousTop = placeholderRect.top;
+                previousLeft = placeholderRect.left;
+                this.syncPreRenderStyle();
+            }
+        };
+
+        const scheduleSync = () => {
+            if (this.positionObserverRafId !== null) {
+                return;
+            }
+            this.positionObserverRafId = requestAnimationFrame(checkAndSync);
+        };
+
+        this.mutationObserver = new MutationObserver(scheduleSync);
+
+        const observeBoundary = this.preRenderContainerEl ?? document.body;
+        let currentAncestor: Element | null = placeholder.parentElement;
+        while (currentAncestor) {
+            const isDirectParent = currentAncestor === placeholder.parentElement;
+            this.mutationObserver.observe(currentAncestor, {
+                attributes: true,
+                attributeFilter: ['class', 'style'],
+                childList: isDirectParent,
+            });
+            if (currentAncestor === observeBoundary) {
+                break;
+            }
+            currentAncestor = currentAncestor.parentElement;
+        }
+
+        this.windowResizeListener = scheduleSync;
+        window.addEventListener('resize', this.windowResizeListener);
+    }
+
+    private stopPositionObserver(): void {
+        if (this.mutationObserver) {
+            this.mutationObserver.disconnect();
+            this.mutationObserver = null;
+        }
+        if (this.positionObserverRafId !== null) {
+            cancelAnimationFrame(this.positionObserverRafId);
+            this.positionObserverRafId = null;
+        }
+        if (this.windowResizeListener) {
+            window.removeEventListener('resize', this.windowResizeListener);
+            this.windowResizeListener = null;
+        }
+    }
+
     /**
      * Destroys the ThoughtSpot embed, and remove any nodes from the DOM.
      * @version SDK: 1.19.1 | ThoughtSpot: *
@@ -1904,6 +1978,7 @@ export class TsEmbed {
         try {
             this.removeFullscreenChangeHandler();
             this.removeContainerScrollListener();
+            this.stopPositionObserver();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2048,6 +2123,7 @@ export class TsEmbed {
                     });
                 });
                 this.resizeObserver.observe(observeTarget);
+                this.startPositionObserver();
             }
         }
 
@@ -2138,6 +2214,7 @@ export class TsEmbed {
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
         }
+        this.stopPositionObserver();
 
         const placeHolderEle = this.getPreRenderPlaceHolderElement();
         if (placeHolderEle) {
