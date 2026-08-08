@@ -1086,8 +1086,8 @@ export class TsEmbed {
             position: 'absolute',
             top: '0',
             left: '0',
-            width: '0',
-            height: '0',
+            width: '100vw',
+            height: '100vh',
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
@@ -2082,6 +2082,9 @@ export class TsEmbed {
     public syncPreRenderStyle(): void {
         if (!this.isPreRenderConnected() || !this.getPreRenderPlaceHolderElement()) {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
+            return;
+        }
+        if (!document.contains(this.getPreRenderPlaceHolderElement())) {
             return;
         }
         // Self-heal if the resolved container was remounted/detached, so we
