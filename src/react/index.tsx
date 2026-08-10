@@ -448,7 +448,7 @@ type EmbedComponent = typeof SearchEmbed
  * const ref = useEmbedRef();
  * useEffect(() => {
  * ref.current.trigger(
- *  EmbedEvent.UpdateRuntimeFilter,
+ *  HostEvent.UpdateRuntimeFilters,
  *  [{ columnName: 'name', operator: 'EQ', values: ['value']}]);
  * }, [])
  * return <LiveboardEmbed ref={ref} liveboardId={<id>} />
