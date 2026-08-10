@@ -3028,6 +3028,235 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
         });
+
+        describe('preRenderConfig', () => {
+            beforeEach(() => {
+                (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+            });
+
+            it('should use default z-index of -1000 when preRenderConfig is not set', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'pre-render-config-defaults',
+                    liveboardId: 'myLiveboardId',
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+                expect(preRenderWrapper.style.zIndex).toBe('-1000');
+
+                libEmbed.destroy();
+            });
+
+            it('should apply custom zIndex from preRenderConfig when hidden', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'pre-render-config-custom-z-index',
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: {
+                        zIndex: -10,
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+                expect(preRenderWrapper.style.zIndex).toBe('-10');
+
+                libEmbed.destroy();
+            });
+
+            it('should clear z-index on showPreRender and restore custom zIndex on hidePreRender', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'pre-render-config-cycle',
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: {
+                        zIndex: -5,
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+                expect(preRenderWrapper.style.zIndex).toBe('-5');
+
+                libEmbed.showPreRender();
+                expect(preRenderWrapper.style.zIndex).toBe('');
+
+                libEmbed.hidePreRender();
+                expect(preRenderWrapper.style.zIndex).toBe('-5');
+
+                libEmbed.destroy();
+            });
+
+            it('should use preRenderConfig.preRenderId to identify the pre-render instance', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: {
+                        preRenderId: 'config-level-id',
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                expect(preRenderIds.wrapper).toContain('config-level-id');
+                expect(document.getElementById(preRenderIds.wrapper)).not.toBeNull();
+
+                libEmbed.destroy();
+            });
+
+            it('should prefer preRenderConfig.preRenderId over top-level preRenderId', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderId: 'top-level-id',
+                    preRenderConfig: {
+                        preRenderId: 'config-level-id',
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                expect(preRenderIds.wrapper).toContain('config-level-id');
+                expect(preRenderIds.wrapper).not.toContain('top-level-id');
+
+                libEmbed.destroy();
+            });
+
+            it('should mount the wrapper into preRenderConfig.preRenderContainer', async () => {
+                createRootEleForEmbed();
+                const customContainer = document.createElement('div');
+                customContainer.id = 'config-level-container';
+                document.body.appendChild(customContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: {
+                        preRenderId: 'container-via-config',
+                        preRenderContainer: '#config-level-container',
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(customContainer.contains(preRenderWrapper)).toBe(true);
+
+                libEmbed.destroy();
+                customContainer.remove();
+            });
+
+            it('should prefer preRenderConfig.preRenderContainer over top-level preRenderContainer', async () => {
+                createRootEleForEmbed();
+                const topContainer = document.createElement('div');
+                topContainer.id = 'top-level-container';
+                document.body.appendChild(topContainer);
+                const configContainer = document.createElement('div');
+                configContainer.id = 'config-level-container-2';
+                document.body.appendChild(configContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#top-level-container',
+                    preRenderConfig: {
+                        preRenderId: 'container-precedence',
+                        preRenderContainer: '#config-level-container-2',
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const preRenderIds = libEmbed.getPreRenderIds();
+                const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+                expect(configContainer.contains(preRenderWrapper)).toBe(true);
+                expect(topContainer.contains(preRenderWrapper)).toBe(false);
+
+                libEmbed.destroy();
+                topContainer.remove();
+                configContainer.remove();
+            });
+
+            it('should not attach ResizeObserver when preRenderConfig.doNotTrackPreRenderSize is true', async () => {
+                createRootEleForEmbed();
+                const observeMock = jest.fn();
+                (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: observeMock,
+                    unobserve: jest.fn(),
+                }));
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: {
+                        preRenderId: 'no-track-via-config',
+                        doNotTrackPreRenderSize: true,
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                libEmbed.showPreRender();
+
+                expect(observeMock).not.toHaveBeenCalled();
+
+                libEmbed.destroy();
+            });
+
+            it('should prefer preRenderConfig.doNotTrackPreRenderSize over top-level doNotTrackPreRenderSize', async () => {
+                createRootEleForEmbed();
+                const observeMock = jest.fn();
+                (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: observeMock,
+                    unobserve: jest.fn(),
+                }));
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    doNotTrackPreRenderSize: false,
+                    preRenderConfig: {
+                        preRenderId: 'no-track-precedence',
+                        doNotTrackPreRenderSize: true,
+                    },
+                });
+
+                await libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                libEmbed.showPreRender();
+
+                expect(observeMock).not.toHaveBeenCalled();
+
+                libEmbed.destroy();
+            });
+        });
     });
 
     describe('IdleSessionTimeout embedEvent for TrustedAuthTokenCookieless authType with autoLogin true', () => {
