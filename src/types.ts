@@ -6770,6 +6770,7 @@ export enum Param {
     IsStarterPromptsEnabled = 'enableStarterPrompts',
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
+    AnalystId = 'analystId',
 }
 
 /**
@@ -6784,9 +6785,10 @@ export type SpotterFileUploadFileTypes = {
  * ThoughtSpot application pages include actions and menu commands
  * for various user-initiated operations. These actions are represented
  * as enumeration members in the SDK. To control actions in the embedded view:
- * - disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).
- * - hiddenActions — the action is completely removed from the UI (user cannot see it at all).
- * - visibleActions — allowlist, only these actions are shown; all others are hidden.
+ * - disabledActions — the action is grayed out and still visible, but non-interactive
+ * (user can see but not click). - hiddenActions — the action is completely removed from
+ * the UI (user cannot see it at all). - visibleActions — allowlist, only these actions
+ * are shown; all others are hidden.
  *
  * Use disabledActions to disable (gray out) an action.
  * Use hiddenActions to hide (fully remove) an action.
@@ -8712,6 +8714,28 @@ export enum Action {
      * ```
      */
     SpotterAnalystSidebar = 'spotterAnalystSidebar',
+    /**
+     * Controls visibility and disable state of the analyst list
+     * ("Show all") in the Spotter Analyst interface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystList]
+     * disabledActions: [Action.SpotterAnalystList]
+     * ```
+     */
+    SpotterAnalystList = 'spotterAnalystList',
+    /**
+     * Controls visibility and disable state of the default Spotter analyst
+     * entry in the Spotter Analyst interface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterDefaultAnalyst]
+     * disabledActions: [Action.SpotterDefaultAnalyst]
+     * ```
+     */
+    SpotterDefaultAnalyst = 'spotterDefaultAnalyst',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

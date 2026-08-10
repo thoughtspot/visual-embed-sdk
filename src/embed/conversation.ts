@@ -304,6 +304,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     dataSources?: string[];
     /**
+     * Pins the embed to a single spotter analyst. Implies no default Spotter
+     * and no "Show all".
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    analystId: 'analyst-id-1234',
+     * })
+     * ```
+     */
+    analystId?: string;
+    /**
      * Ability to pass a starting search query to the conversation.
      */
     searchOptions?: SearchOptions;
@@ -695,6 +710,7 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            analystId,
         } = this.viewConfig;
 
         const queryParams = this.getBaseQueryParams();
@@ -710,6 +726,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
+        setParamIfDefined(queryParams, Param.AnalystId, analystId);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
