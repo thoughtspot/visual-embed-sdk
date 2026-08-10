@@ -813,6 +813,11 @@ export interface CustomCssVariables {
     '--ts-var-parameter-chip-active-text-color'?: string;
 
     /**
+     * Color of the unsaved filter indicator dot in the centralised filter modal.
+     */
+    '--ts-var-unsaved-filter-indicator-color'?: string;
+
+    /**
      * Background color of the action button in the Liveboard header.
      */
     '--ts-var-liveboard-header-action-button-background'?: string;
