@@ -1084,7 +1084,7 @@ export class TsEmbed {
         preRenderWrapper.id = preRenderIds.wrapper;
         const initialPreRenderWrapperStyle = {
             position: 'absolute',
-            top: '0',
+            top: '-10000px',
             left: '0',
             width: '100vw',
             height: '100vh',
@@ -2127,7 +2127,7 @@ export class TsEmbed {
             pointerEvents: 'none',
             zIndex: '-1000',
             position: 'absolute',
-            top: '0',
+            top: '-10000px',
             left: '0',
             overflow: 'hidden',
         };
