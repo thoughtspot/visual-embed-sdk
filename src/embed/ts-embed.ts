@@ -1137,6 +1137,10 @@ export class TsEmbed {
                 this.setIframeElement(this.preRenderChild);
             }
             this.isRendered = true;
+            if (!this.preRenderContainerEl) {
+                this.preRenderContainerEl = this.resolvePreRenderContainerTarget();
+                this.applyPreRenderContainerPositioning(this.preRenderContainerEl);
+            }
         }
 
         return this.isPreRenderConnected();
