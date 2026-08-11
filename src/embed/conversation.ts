@@ -1,6 +1,6 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -228,6 +228,86 @@ export interface SpotterShareConversationConfig {
 }
 
 /**
+ * A single starter prompt question shown under a category pill.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptQuestion {
+    /**
+     * Short label shown as a clickable suggestion. Falls back to `prompt` when
+     * omitted. ThoughtSpot truncates it beyond 80 characters.
+     */
+    label?: string;
+    /**
+     * Prompt text sent to Spotter on click. ThoughtSpot truncates it beyond
+     * 300 characters.
+     */
+    prompt: string;
+}
+
+/**
+ * Configuration for a starter prompt category with questions
+ * (`quick` and `research`).
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptCategory {
+    /**
+     * Overrides the default category pill label. ThoughtSpot truncates it
+     * beyond 30 characters.
+     */
+    label?: string;
+    /**
+     * Replaces the backend-generated prompts. ThoughtSpot renders the first 4
+     * and drops any entry without a `prompt`.
+     */
+    questions?: StarterPromptQuestion[];
+}
+
+/**
+ * Configuration for the Data Literacy starter prompt category.
+ * Only the label is customizable; the prompt text comes from the backend.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPreviewDataCategory {
+    /**
+     * Overrides the default category pill label. ThoughtSpot truncates it
+     * beyond 30 characters.
+     */
+    label?: string;
+}
+
+/**
+ * Content configuration for the Spotter starter prompts.
+ * Category keys are fixed: `quick` (Basic Search), `research` (Deep Analysis)
+ * and `previewData` (Data Literacy).
+ *
+ * Note: this controls the Spotter chat interface only. The starter prompts on
+ * the Liveboard SpotterViz surface are configured separately through
+ * {@link SpotterVizConfig.customStarterPrompts}.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptsConfig {
+    /**
+     * Turns the starter prompts surface on. Must be set explicitly, an
+     * unset flag leaves the surface off.
+     *
+     * Either this or `enableStarterPrompts` turns the surface on, so `false`
+     * here does not switch it off while `enableStarterPrompts` is `true`.
+     * @default false
+     */
+    enable?: boolean;
+    /** Basic Search category configuration. */
+    quick?: StarterPromptCategory;
+    /** Deep Analysis category configuration. */
+    research?: StarterPromptCategory;
+    /** Data Literacy category configuration. */
+    previewData?: StarterPreviewDataCategory;
+}
+
+/**
  * Configuration for customizing Spotter chat UI branding.
  * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
  * @group Embed components
@@ -267,11 +347,43 @@ export interface SpotterChatViewConfig {
     /**
      * Enables starter prompts in the Spotter chat interface.
      *
-     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * Either this or `starterPrompts.enable` turns the surface on, so it stays
+     * on while this is `true` even if `starterPrompts.enable` is `false`.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      * @default false
      */
     enableStarterPrompts?: boolean;
+    /**
+     * Customizes the labels and questions of the Spotter starter prompts.
+     * Individual pills are hidden or shown with `hiddenActions` /
+     * `visibleActions` using `Action.QuickSearchPill`,
+     * `Action.DeepAnalysisPill` and `Action.DataLiteracyPill`.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    hiddenActions: [Action.DeepAnalysisPill],
+     *    spotterChatConfig: {
+     *        starterPrompts: {
+     *            enable: true,
+     *            quick: {
+     *                label: 'Quick questions',
+     *                questions: [
+     *                    { label: 'Top products', prompt: 'What are the top products by revenue?' },
+     *                ],
+     *            },
+     *            previewData: { label: 'Explore your data' },
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    starterPrompts?: StarterPromptsConfig;
 }
 
 /**
@@ -666,6 +778,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -714,7 +827,8 @@ export class SpotterEmbed extends TsEmbed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {

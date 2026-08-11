@@ -8598,6 +8598,56 @@ export enum Action {
      */
     SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
     /**
+     * The **Basic Search** starter prompt pill.
+     *
+     * Starter prompt pills are the row of category buttons shown above the
+     * Spotter chat input before a conversation starts. They give a new user
+     * ready-made questions to click instead of typing one from scratch, and
+     * disappear once the conversation begins. There are three, one per action
+     * below.
+     *
+     * Clicking this pill opens a card of suggested simple questions; picking one
+     * submits it to Spotter right away. Visible by default, and hidden along
+     * with the other pills when the surface itself is off (see
+     * {@link SpotterChatViewConfig.starterPrompts}).
+     * @example
+     * ```js
+     * hiddenActions: [Action.QuickSearchPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    QuickSearchPill = 'quickSearchPill',
+    /**
+     * The **Deep Analysis** starter prompt pill, next to
+     * {@link Action.QuickSearchPill} above the Spotter chat input.
+     *
+     * Clicking it opens a card of suggested investigative questions ("why did
+     * revenue drop?"). Picking one fills the chat input in Deep Analysis mode
+     * rather than submitting immediately, so the user can edit it first.
+     * Visible by default.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DeepAnalysisPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    DeepAnalysisPill = 'deepAnalysisPill',
+    /**
+     * The **Data Literacy** starter prompt pill, next to
+     * {@link Action.QuickSearchPill} above the Spotter chat input.
+     *
+     * Unlike the other two pills it opens no card: clicking it submits a prompt
+     * that describes the data the model can answer over, helping a user who does
+     * not yet know what is in the data source. The prompt text always comes from
+     * ThoughtSpot, so only its label is customizable. Visible by default.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DataLiteracyPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    DataLiteracyPill = 'dataLiteracyPill',
+    /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
      * the current time period in filter results.
