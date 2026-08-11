@@ -2580,6 +2580,48 @@ describe('Unit test case for ts embed', () => {
             expect(document.getElementById(preRenderIds.wrapper)).toBe(null);
         });
 
+        it('should warn and skip syncPreRenderStyle when ResizeObserver fires on a detached element', async () => {
+            createRootEleForEmbed();
+
+            let resizeObserverCb: (entries: any[]) => void;
+            (window as any).ResizeObserver = jest.fn().mockImplementation((cb: any) => {
+                resizeObserverCb = cb;
+                return {
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                };
+            });
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'detach-test',
+                liveboardId: 'myLiveboardId',
+            });
+
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+
+            libEmbed.showPreRender();
+
+            // The ResizeObserver observes the placeholder element inside the host div
+            const tsEmbedDiv = document.getElementById('tsEmbedDiv');
+            const observeTarget = tsEmbedDiv.firstElementChild as HTMLElement;
+
+            // Detach it so document.contains() returns false
+            observeTarget.remove();
+
+            const warnSpy = jest.spyOn(logger, 'warn');
+            const syncSpy = jest.spyOn(libEmbed as any, 'syncPreRenderStyle');
+
+            resizeObserverCb([{ target: observeTarget, contentRect: { height: 100, width: 200 } }]);
+
+            expect(warnSpy).toHaveBeenCalledWith(
+                '[ResizeObserver] fired on detached element',
+                observeTarget,
+            );
+            expect(syncSpy).not.toHaveBeenCalled();
+        });
+
         it('preRender called without preRenderId should log error ', () => {
             createRootEleForEmbed();
 

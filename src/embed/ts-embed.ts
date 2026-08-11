@@ -2061,6 +2061,13 @@ export class TsEmbed {
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
                         if (entry.target === observeTarget) {
+                            if (!document.contains(entry.target)) {
+                                logger.warn(
+                                    '[ResizeObserver] fired on detached element',
+                                    entry.target,
+                                );
+                                return;
+                            }
                             this.syncPreRenderStyle();
                         }
                     });
