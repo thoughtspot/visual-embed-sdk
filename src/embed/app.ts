@@ -1111,7 +1111,7 @@ export class AppEmbed extends V1Embed {
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
-            isCentralizedLiveboardFilterUXEnabled,
+            isCentralizedLiveboardFilterUXEnabled = false,
             isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
