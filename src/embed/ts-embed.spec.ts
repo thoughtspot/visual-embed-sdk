@@ -2739,6 +2739,45 @@ describe('Unit test case for ts embed', () => {
             (logger.error as any).mockClear();
         });
 
+        it('should skip syncing styles when the placeholder is detached', async () => {
+            createRootEleForEmbed();
+            jest.spyOn(logger, 'debug').mockImplementation(jest.fn());
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                liveboardId: 'myLiveboardId',
+                preRenderId: 'placeholder-detached',
+                doNotTrackPreRenderSize: true,
+            });
+            libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+            await libEmbed.showPreRender();
+
+            const preRenderIds = libEmbed.getPreRenderIds();
+            const wrapper = document.getElementById(preRenderIds.wrapper);
+            const placeholder = document.getElementById(preRenderIds.placeHolder);
+            const rectSpy = jest.spyOn(placeholder, 'getBoundingClientRect');
+            wrapper.style.top = '42px';
+            wrapper.style.height = '111px';
+            (logger.debug as any).mockClear();
+
+            // Simulate the host subtree being unmounted: the placeholder is no
+            // longer connected to the document.
+            placeholder.remove();
+            libEmbed.syncPreRenderStyle();
+
+            expect(logger.debug).toHaveBeenCalledWith(
+                'syncPreRenderStyle skipped: placeholder is detached',
+            );
+            // The detached node is never measured, so the wrapper keeps its
+            // last known geometry instead of collapsing to a stale rect.
+            expect(rectSpy).not.toHaveBeenCalled();
+            expect(wrapper.style.top).toBe('42px');
+            expect(wrapper.style.height).toBe('111px');
+
+            libEmbed.destroy();
+            (logger.debug as any).mockRestore();
+        });
+
         describe('preRenderContainer', () => {
             it('should append preRenderWrapper to document.body when preRenderContainer is not set', async () => {
                 createRootEleForEmbed();
