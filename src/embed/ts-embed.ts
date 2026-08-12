@@ -2040,6 +2040,11 @@ export class TsEmbed {
 
             if (!this.viewConfig.doNotTrackPreRenderSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
+                // Drop any observer from a previous show cycle. Without this a
+                // repeat showPreRender() leaks an observer still watching the
+                // old placeholder, which keeps calling syncPreRenderStyle() on
+                // a node that is no longer in the DOM.
+                this.resizeObserver?.disconnect();
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
                         if (entry.target === observeTarget) {
@@ -2080,14 +2085,29 @@ export class TsEmbed {
      * is not defined or not found.
      */
     public syncPreRenderStyle(): void {
-        if (!this.isPreRenderConnected() || !this.getPreRenderPlaceHolderElement()) {
+        const placeHolderEle = this.getPreRenderPlaceHolderElement();
+        if (!this.isPreRenderConnected() || !placeHolderEle) {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
+            return;
+        }
+        // The host framework can detach the placeholder before our teardown
+        // runs — an SPA route change unmounts hostElement during its commit,
+        // and the ResizeObserver still delivers the resulting 0x0 resize on the
+        // next rendering update, ahead of the hidePreRender() that would have
+        // disconnected it. A detached node measures an all-zero rect, which
+        // would pin the wrapper at -containerRect.y and collapse it to 0x0.
+        // Checked here rather than in the observer callback so every caller
+        // (E.g.: the container scroll listener) is covered, and via
+        // `isConnected` rather than `document.contains` so that an embed inside
+        // a shadow root still syncs.
+        if (!placeHolderEle.isConnected) {
+            logger.debug('syncPreRenderStyle skipped: placeholder is detached');
             return;
         }
         // Self-heal if the resolved container was remounted/detached, so we
         // never measure a stale node (which would collapse the wrapper).
         this.reconcilePreRenderContainer();
-        const elBoundingClient = this.getPreRenderPlaceHolderElement().getBoundingClientRect();
+        const elBoundingClient = placeHolderEle.getBoundingClientRect();
 
         const containerEl =
             this.preRenderContainerEl && this.preRenderContainerEl !== document.body
@@ -2137,12 +2157,16 @@ export class TsEmbed {
 
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
+            this.resizeObserver = undefined;
         }
 
-        const placeHolderEle = this.getPreRenderPlaceHolderElement();
-        if (placeHolderEle) {
-            placeHolderEle.parentElement.removeChild(placeHolderEle);
-        }
+        // Element.remove() rather than parentElement.removeChild(): the
+        // placeholder may already be detached — by the host framework's
+        // teardown, or by an earlier hidePreRender() — in which case
+        // parentElement is null and removeChild would throw here, skipping
+        // unsubscribeToEvents() and leaking listeners.
+        this.getPreRenderPlaceHolderElement()?.remove();
+        this.insertedDomEl = null;
 
         this.unsubscribeToEvents();
     }
