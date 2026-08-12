@@ -2907,9 +2907,10 @@ describe('Unit test case for ts embed', () => {
 
                 // Reverts to the exact value the container had before.
                 expect(customContainer.style.position).toBe('static');
-                // The container reference is dropped so a destroyed embed does
-                // not pin the (possibly detached) element in memory.
-                expect((libEmbed as any).preRenderContainerEl).toBeNull();
+                // The custom container reference is dropped (back to the default
+                // body) so a destroyed embed does not pin the (possibly
+                // detached) element in memory.
+                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
 
                 customContainer.remove();
             });
@@ -3178,16 +3179,22 @@ describe('Unit test case for ts embed', () => {
                     customContainer.remove();
                 });
 
-                it('should not re-resolve the container if preRenderContainerEl is already set', async () => {
+                it('should inherit the container from the pre-rendering embed instead of re-resolving it', async () => {
                     createRootEleForEmbed();
+                    const customContainer = document.createElement('div');
+                    customContainer.id = 'connect-inherit-container';
+                    document.body.appendChild(customContainer);
 
                     const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-no-re-resolve',
                         liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
                     });
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
+                    // No preRenderContainer here: the container belongs to the
+                    // PreRender component and is adopted as-is.
                     const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-no-re-resolve',
                         liveboardId: 'myLiveboardId',
@@ -3198,15 +3205,49 @@ describe('Unit test case for ts embed', () => {
                         'resolvePreRenderContainerTarget',
                     );
 
-                    // First call: should resolve the container.
                     (connectingEmbed as any).connectPreRendered();
-                    expect(resolveSpy).toHaveBeenCalledTimes(1);
 
-                    // Second call: preRenderContainerEl is already set, must not re-resolve.
-                    (connectingEmbed as any).connectPreRendered();
-                    expect(resolveSpy).toHaveBeenCalledTimes(1);
+                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect(resolveSpy).not.toHaveBeenCalled();
 
                     firstEmbed.destroy();
+                    customContainer.remove();
+                });
+
+                it('should warn and ignore a preRenderContainer passed on the connecting embed', async () => {
+                    createRootEleForEmbed();
+                    const ownerContainer = document.createElement('div');
+                    ownerContainer.id = 'connect-owner-container';
+                    const otherContainer = document.createElement('div');
+                    otherContainer.id = 'connect-other-container';
+                    document.body.appendChild(ownerContainer);
+                    document.body.appendChild(otherContainer);
+                    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-container-warn',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: ownerContainer,
+                    });
+                    await firstEmbed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+
+                    const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-container-warn',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: otherContainer,
+                    });
+                    (connectingEmbed as any).connectPreRendered();
+
+                    expect((connectingEmbed as any).preRenderContainerEl).toBe(ownerContainer);
+                    expect(warnSpy).toHaveBeenCalledWith(
+                        expect.stringContaining('preRenderContainer is applied only by'),
+                    );
+
+                    warnSpy.mockRestore();
+                    firstEmbed.destroy();
+                    ownerContainer.remove();
+                    otherContainer.remove();
                 });
             });
         });

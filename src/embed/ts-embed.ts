@@ -208,7 +208,7 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
-    private preRenderContainerEl: HTMLElement | null = null;
+    private preRenderContainerEl: HTMLElement = document.body;
 
     private containerScrollListener: (() => void) | null = null;
 
@@ -1137,10 +1137,7 @@ export class TsEmbed {
                 this.setIframeElement(this.preRenderChild);
             }
             this.isRendered = true;
-            if (!this.preRenderContainerEl) {
-                this.preRenderContainerEl = this.resolvePreRenderContainerTarget();
-                this.applyPreRenderContainerPositioning(this.preRenderContainerEl);
-            }
+            this.inheritPreRenderContainer();
         }
 
         return this.isPreRenderConnected();
@@ -1215,15 +1212,40 @@ export class TsEmbed {
         return (container as HTMLElement) ?? document.body;
     }
 
+    private inheritPreRenderContainer(): void {
+        const preRenderedObject = this.getPreRenderObj<TsEmbed>();
+        if (!preRenderedObject || preRenderedObject === (this as TsEmbed)) {
+            return;
+        }
+        const ownerContainer = preRenderedObject.preRenderContainerEl ?? document.body;
+        if (
+            this.getPreRenderConfig().preRenderContainer
+            && this.resolvePreRenderContainerTarget() !== ownerContainer
+        ) {
+            logger.warn(
+                'preRenderContainer is applied only by the component that creates the preRender; '
+                    + 'the one passed here is ignored. Set it on the PreRender component instead.',
+            );
+        }
+        this.preRenderContainerEl = ownerContainer;
+        this.applyPreRenderContainerPositioning();
+    }
+
+    private getCustomPreRenderContainer(): HTMLElement | null {
+        const container = this.preRenderContainerEl;
+        return container && container !== document.body ? container : null;
+    }
+
     /**
-     * Makes the container a positioning context for the absolutely positioned
-     * wrapper, stashing the original inline `position` on the element (once) so
-     * destroy() can restore it exactly, leaving no trace. Recording it on the
-     * element rather than per-instance lets the override be reverted even when
-     * embeds share the same container.
+     * Makes the resolved container a positioning context for the absolutely
+     * positioned wrapper, stashing the original inline `position` on the element
+     * (once) so destroy() can restore it exactly, leaving no trace. Recording it
+     * on the element rather than per-instance lets the override be reverted even
+     * when embeds share the same container.
      */
-    private applyPreRenderContainerPositioning(container: HTMLElement): void {
-        if (container === document.body) {
+    private applyPreRenderContainerPositioning(): void {
+        const container = this.getCustomPreRenderContainer();
+        if (!container) {
             return;
         }
         const pos = window.getComputedStyle(container).position;
@@ -1269,11 +1291,11 @@ export class TsEmbed {
                 resolved.addEventListener('scroll', this.containerScrollListener);
             }
         }
-        this.applyPreRenderContainerPositioning(resolved);
+        this.preRenderContainerEl = resolved;
+        this.applyPreRenderContainerPositioning();
         if (wrapper.parentNode !== resolved) {
             resolved.appendChild(wrapper);
         }
-        this.preRenderContainerEl = resolved;
     }
 
     protected insertIntoDOMForPreRender(child: string | Node): void {
@@ -1301,7 +1323,7 @@ export class TsEmbed {
 
         const targetContainer = this.resolvePreRenderContainerTarget();
         this.preRenderContainerEl = targetContainer;
-        this.applyPreRenderContainerPositioning(targetContainer);
+        this.applyPreRenderContainerPositioning();
         targetContainer.appendChild(preRenderWrapper);
     }
 
@@ -1878,13 +1900,13 @@ export class TsEmbed {
      * same container — a shared container still needs the positioning context.
      */
     private restorePreRenderContainerPosition(): void {
-        const container = this.preRenderContainerEl as HTMLElement | null;
+        const container = this.preRenderContainerEl;
         if (!container || container === document.body) {
             return;
         }
         // Drop our reference up front so a destroyed embed never pins a
         // detached container in memory; restoration uses the local handle.
-        this.preRenderContainerEl = null;
+        this.preRenderContainerEl = document.body;
         const originalPosition = container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
         if (originalPosition === undefined) {
             // We never overrode this container's position; nothing to restore.
@@ -1910,10 +1932,7 @@ export class TsEmbed {
         if (!this.containerScrollListener) {
             return;
         }
-        const customContainer = 
-            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? this.preRenderContainerEl
-                : null;
+        const customContainer = this.getCustomPreRenderContainer();
         customContainer?.removeEventListener('scroll', this.containerScrollListener);
         this.containerScrollListener = null;
     }
@@ -2051,10 +2070,7 @@ export class TsEmbed {
 
             this.syncPreRenderStyle();
 
-            const customContainer =
-                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                    ? this.preRenderContainerEl
-                    : null;
+            const customContainer = this.getCustomPreRenderContainer();
             if (customContainer && !this.containerScrollListener) {
                 this.containerScrollListener = () => this.syncPreRenderStyle();
                 customContainer.addEventListener('scroll', this.containerScrollListener);
@@ -2115,10 +2131,7 @@ export class TsEmbed {
         this.reconcilePreRenderContainer();
         const elBoundingClient = this.getPreRenderPlaceHolderElement().getBoundingClientRect();
 
-        const containerEl =
-            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? this.preRenderContainerEl
-                : null;
+        const containerEl = this.getCustomPreRenderContainer();
         const containerRect = containerEl?.getBoundingClientRect() ?? { x: 0, y: 0 };
         const scrollX = containerEl ? containerEl.scrollLeft : window.scrollX;
         const scrollY = containerEl ? containerEl.scrollTop : window.scrollY;
