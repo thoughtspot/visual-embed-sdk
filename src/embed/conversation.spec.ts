@@ -537,13 +537,15 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should render the conversation embed with analystId in the url', async () => {
+    it('should render the conversation embed with spotterAnalystConfig.analystId in the url', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            analystId: 'analyst-id-1234',
+            spotterAnalystConfig: {
+                analystId: 'analyst-id-1234',
+            },
         };
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
@@ -553,12 +555,25 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should not add analystId to the url when not provided', async () => {
+    it('should not add analystId to the url when spotterAnalystConfig is not provided', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('analystId');
+    });
+
+    it('should not add analystId to the url when spotterAnalystConfig is empty', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterAnalystConfig: {},
         };
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
