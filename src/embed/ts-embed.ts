@@ -2147,6 +2147,7 @@ export class TsEmbed {
         if (placeHolderEle) {
             placeHolderEle.parentElement.removeChild(placeHolderEle);
         }
+
         this.unsubscribeToEvents();
     }
 
