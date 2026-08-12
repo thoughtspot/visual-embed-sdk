@@ -2102,6 +2102,10 @@ export class TsEmbed {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
             return;
         }
+        if (!this.getPreRenderPlaceHolderElement().isConnected) {
+            logger.debug('syncPreRenderStyle skipped: placeholder is detached');
+            return;
+        }
         // Self-heal if the resolved container was remounted/detached, so we
         // never measure a stale node (which would collapse the wrapper).
         this.reconcilePreRenderContainer();
