@@ -2936,6 +2936,38 @@ describe('Unit test case for ts embed', () => {
                 customContainer.remove();
             });
 
+            it('should default preRenderContainerEl to document.body before rendering', () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                });
+
+                // document.body is the "no custom container" sentinel, so the
+                // field is never null and needs no null-guarding downstream.
+                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
+            });
+
+            it('should leave document.body untouched on destroy when no custom container is set', async () => {
+                createRootEleForEmbed();
+                const originalBodyPosition = document.body.style.position;
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-body-destroy',
+                    liveboardId: 'myLiveboardId',
+                });
+                await libEmbed.preRender();
+
+                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
+
+                libEmbed.destroy();
+
+                // The body sentinel must never be treated as a custom container:
+                // no position override to apply and none to restore.
+                expect(document.body.style.position).toBe(originalBodyPosition);
+                expect(document.body.dataset.tsEmbedOriginalPosition).toBeUndefined();
+            });
+
             it('should keep the container positioned on destroy while another preRender wrapper remains', async () => {
                 createRootEleForEmbed();
                 const customContainer = document.createElement('div');
@@ -3034,6 +3066,45 @@ describe('Unit test case for ts embed', () => {
                 // The scroll listener is migrated to the live container.
                 expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
                 expect(addSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+
+                libEmbed.destroy();
+                newContainer.remove();
+            });
+
+            it('should position the newly resolved container after a remount, not the stale one', async () => {
+                createRootEleForEmbed();
+                const oldContainer = document.createElement('div');
+                oldContainer.id = 'reposition-remount-container';
+                oldContainer.style.position = 'static';
+                document.body.appendChild(oldContainer);
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'container-remount-position',
+                    liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#reposition-remount-container',
+                    doNotTrackPreRenderSize: true,
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                expect(oldContainer.style.position).toBe('relative');
+
+                oldContainer.remove();
+                const newContainer = document.createElement('div');
+                newContainer.id = 'reposition-remount-container';
+                newContainer.style.position = 'static';
+                document.body.appendChild(newContainer);
+
+                libEmbed.syncPreRenderStyle();
+
+                // applyPreRenderContainerPositioning() reads preRenderContainerEl
+                // instead of taking the container as an argument, so reconcile has
+                // to assign the field before calling it — otherwise the override
+                // lands on the detached node and the fresh one stays static.
+                expect((libEmbed as any).preRenderContainerEl).toBe(newContainer);
+                expect(newContainer.style.position).toBe('relative');
+                expect(newContainer.dataset.tsEmbedOriginalPosition).toBe('static');
 
                 libEmbed.destroy();
                 newContainer.remove();
@@ -3248,6 +3319,145 @@ describe('Unit test case for ts embed', () => {
                     firstEmbed.destroy();
                     ownerContainer.remove();
                     otherContainer.remove();
+                });
+
+                it('should not warn when the connecting embed passes the same container element', async () => {
+                    createRootEleForEmbed();
+                    const customContainer = document.createElement('div');
+                    customContainer.id = 'connect-same-element-container';
+                    document.body.appendChild(customContainer);
+                    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-same-element',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
+                    });
+                    await firstEmbed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+
+                    // Same config on both components — the value is redundant but
+                    // not wrong, so nagging about it would be noise.
+                    const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-same-element',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
+                    });
+                    (connectingEmbed as any).connectPreRendered();
+
+                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect(warnSpy).not.toHaveBeenCalledWith(
+                        expect.stringContaining('preRenderContainer is applied only by'),
+                    );
+
+                    warnSpy.mockRestore();
+                    firstEmbed.destroy();
+                    customContainer.remove();
+                });
+
+                it('should not warn when the connecting embed passes a selector for the same container', async () => {
+                    createRootEleForEmbed();
+                    const customContainer = document.createElement('div');
+                    customContainer.id = 'connect-same-selector-container';
+                    document.body.appendChild(customContainer);
+                    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-same-selector',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
+                    });
+                    await firstEmbed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+
+                    // A selector that resolves to the owner's element is the same
+                    // container, so the comparison must be by resolved node.
+                    const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-same-selector',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: '#connect-same-selector-container',
+                    });
+                    (connectingEmbed as any).connectPreRendered();
+
+                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect(warnSpy).not.toHaveBeenCalledWith(
+                        expect.stringContaining('preRenderContainer is applied only by'),
+                    );
+
+                    warnSpy.mockRestore();
+                    firstEmbed.destroy();
+                    customContainer.remove();
+                });
+
+                it('should keep its own container when the same instance owns the pre-render', async () => {
+                    createRootEleForEmbed();
+                    const customContainer = document.createElement('div');
+                    customContainer.id = 'connect-self-container';
+                    document.body.appendChild(customContainer);
+                    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-self',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
+                    });
+                    await libEmbed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+
+                    // preRender() then render() on one instance: it owns the
+                    // wrapper, so there is nothing to inherit and its own
+                    // preRenderContainer is entirely legitimate.
+                    (libEmbed as any).connectPreRendered();
+
+                    expect((libEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect(warnSpy).not.toHaveBeenCalledWith(
+                        expect.stringContaining('preRenderContainer is applied only by'),
+                    );
+
+                    warnSpy.mockRestore();
+                    libEmbed.destroy();
+                    customContainer.remove();
+                });
+
+                it('should stay on document.body when the wrapper has no owning embed', async () => {
+                    createRootEleForEmbed();
+                    const customContainer = document.createElement('div');
+                    customContainer.id = 'connect-unstamped-container';
+                    document.body.appendChild(customContainer);
+                    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const firstEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-unstamped',
+                        liveboardId: 'myLiveboardId',
+                        preRenderContainer: customContainer,
+                    });
+                    await firstEmbed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+
+                    // Simulate a wrapper with no live embed behind it: the
+                    // __tsEmbed stamp used to locate the owner is gone, so there
+                    // is no container to inherit.
+                    const wrapper = document.getElementById(
+                        firstEmbed.getPreRenderIds().wrapper,
+                    );
+                    delete (wrapper as any).__tsEmbed;
+
+                    const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                        preRenderId: 'connect-unstamped',
+                        liveboardId: 'myLiveboardId',
+                    });
+                    (connectingEmbed as any).connectPreRendered();
+
+                    // Falls back to the sentinel rather than crashing on the
+                    // missing owner, and warns about nothing.
+                    expect((connectingEmbed as any).preRenderContainerEl).toBe(document.body);
+                    expect(warnSpy).not.toHaveBeenCalledWith(
+                        expect.stringContaining('preRenderContainer is applied only by'),
+                    );
+
+                    warnSpy.mockRestore();
+                    firstEmbed.destroy();
+                    customContainer.remove();
                 });
             });
         });
