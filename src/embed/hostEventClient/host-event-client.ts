@@ -12,13 +12,17 @@ import {
 import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
-    HostEventRequest,
-    HostEventResponse,
     UIPassthroughRequest,
     UIPassthroughResponse,
+} from './contracts';
+// Contract resolution from the shared contracts module — see
+// src/contracts/host-event-contracts.ts (single source of truth).
+import {
+    HostEventRequest,
+    HostEventResponse,
     TriggerPayload,
     TriggerResponse,
-} from './contracts';
+} from '../../contracts/host-event-contracts';
 
 /**
  * Maps HostEvent to its corresponding UIPassthroughEvent.
@@ -244,7 +248,16 @@ export class HostEventClient {
       throwUpdateFiltersValidationError();
     }
 
-    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+    // The shared contract accepts both current (columnName/operator) and
+    // legacy (column/oper) filter field names — as does the validation
+    // above and the app at runtime. The UIPassthrough FilterUpdate type
+    // still requires the legacy names; bridge until that contract is
+    // audited.
+    return this.handleHostEventWithParam(
+        UIPassthroughEvent.UpdateFilters,
+        payload as UIPassthroughRequest<UIPassthroughEvent.UpdateFilters>,
+        context as ContextType,
+    );
   }
 
   protected handleUpdateParametersEvent(
@@ -287,7 +300,7 @@ export class HostEventClient {
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
-  ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
+  ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
 
