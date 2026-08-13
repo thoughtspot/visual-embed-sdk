@@ -29,7 +29,7 @@ import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryPar
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { TriggerPayload, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig } from './conversation';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
