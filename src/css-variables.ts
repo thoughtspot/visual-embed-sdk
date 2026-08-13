@@ -813,7 +813,11 @@ export interface CustomCssVariables {
     '--ts-var-parameter-chip-active-text-color'?: string;
 
     /**
-     * Color of the unsaved filter indicator dot in the centralised filter modal.
+     * Color of the dot indicator shown on a filter or parameter chip in the
+     * centralized filter modal on a Liveboard. The dot appears when the
+     * filter or parameter value has been modified but the changes are not
+     * yet applied to the Liveboard.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.10.0.cl
      */
     '--ts-var-unsaved-filter-indicator-color'?: string;
 
