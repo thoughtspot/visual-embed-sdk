@@ -903,7 +903,7 @@ export interface FrameParams {
  * {@link BaseViewConfig} and take precedence over them when both are set,
  * so existing top-level usage continues to work without any changes.
  *
- * @version SDK: 1.51.0
+ * @version SDK: 1.52.0
  * @example
  * ```js
  * init({ thoughtSpotHost: '...', authType: AuthType.None });
@@ -1224,7 +1224,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * so existing top-level usage continues to work without any changes.
      * See {@link PreRenderConfig} for available options.
      *
-     * @version SDK: 1.51.0
+     * @version SDK: 1.52.0
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -6841,6 +6841,17 @@ export enum Action {
      * ```
      */
     SaveAsView = 'saveAsView',
+    /**
+     * The **EditInputTable** action on a Liveboard
+     * page. Allows users to edit an input table used in an Answer directly from
+     * a Liveboard.
+     * @example
+     * ```js
+     * disabledActions: [Action.EditInputTable]
+     * ```
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    EditInputTable = 'editInputTable',
     /**
      * The **Make a copy** action on a Liveboard or Answer
      * page. Creates a copy of the Liveboard.
