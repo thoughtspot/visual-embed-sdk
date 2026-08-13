@@ -903,7 +903,7 @@ export interface FrameParams {
  * {@link BaseViewConfig} and take precedence over them when both are set,
  * so existing top-level usage continues to work without any changes.
  *
- * @version SDK: 1.51.0
+ * @version SDK: 1.52.0
  * @example
  * ```js
  * init({ thoughtSpotHost: '...', authType: AuthType.None });
@@ -1224,7 +1224,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * so existing top-level usage continues to work without any changes.
      * See {@link PreRenderConfig} for available options.
      *
-     * @version SDK: 1.51.0
+     * @version SDK: 1.52.0
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {

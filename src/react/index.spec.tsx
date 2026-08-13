@@ -21,6 +21,8 @@ import * as allExports from './index';
 import {
     AuthType, init,
 } from '../index';
+import { TsEmbed } from '../embed/ts-embed';
+import { LiveboardEmbed as LiveboardEmbedClass } from '../embed/liveboard';
 
 import { version } from '../../package.json';
 
@@ -314,6 +316,162 @@ describe('React Components', () => {
             expect(typeof PreRenderedLiveboardEmbed).toBe('object');
             expect(typeof PreRenderedSearchEmbed).toBe('object');
             expect(typeof PreRenderedAppEmbed).toBe('object');
+        });
+    });
+
+    describe('preRenderId via preRenderConfig', () => {
+        const preRenderId = 'reactPreRenderId';
+
+        describe('routing to the preRender methods', () => {
+            let preRenderSpy: jest.SpyInstance;
+            let showPreRenderSpy: jest.SpyInstance;
+            let hidePreRenderSpy: jest.SpyInstance;
+            let renderSpy: jest.SpyInstance;
+            let destroySpy: jest.SpyInstance;
+
+            beforeEach(() => {
+                preRenderSpy = jest
+                    .spyOn(TsEmbed.prototype, 'preRender')
+                    .mockResolvedValue(undefined as any);
+                showPreRenderSpy = jest
+                    .spyOn(TsEmbed.prototype, 'showPreRender')
+                    .mockResolvedValue(undefined as any);
+                hidePreRenderSpy = jest
+                    .spyOn(TsEmbed.prototype, 'hidePreRender')
+                    .mockImplementation(() => undefined);
+                renderSpy = jest
+                    .spyOn(LiveboardEmbedClass.prototype, 'render')
+                    .mockResolvedValue(undefined as any);
+                destroySpy = jest
+                    .spyOn(LiveboardEmbedClass.prototype, 'destroy')
+                    .mockImplementation(() => undefined);
+            });
+
+            afterEach(() => {
+                cleanup();
+                [
+                    preRenderSpy,
+                    showPreRenderSpy,
+                    hidePreRenderSpy,
+                    renderSpy,
+                    destroySpy,
+                ].forEach((spy) => spy.mockRestore());
+            });
+
+            it('Should preRender PreRenderedLiveboardEmbed with preRenderConfig.preRenderId', () => {
+                render(
+                    <PreRenderedLiveboardEmbed
+                        preRenderConfig={{ preRenderId }}
+                        liveboardId="test-liveboard"
+                    />,
+                );
+
+                expect(preRenderSpy).toHaveBeenCalledTimes(1);
+                expect(renderSpy).not.toHaveBeenCalled();
+                expect(showPreRenderSpy).not.toHaveBeenCalled();
+            });
+
+            it('Should preRender PreRenderedLiveboardEmbed with the top-level preRenderId', () => {
+                render(
+                    <PreRenderedLiveboardEmbed
+                        preRenderId={preRenderId}
+                        liveboardId="test-liveboard"
+                    />,
+                );
+
+                expect(preRenderSpy).toHaveBeenCalledTimes(1);
+                expect(renderSpy).not.toHaveBeenCalled();
+            });
+
+            it('Should showPreRender the LiveboardEmbed connected via preRenderConfig', () => {
+                const { unmount } = render(
+                    <LiveboardEmbed
+                        preRenderConfig={{ preRenderId }}
+                        liveboardId="test-liveboard"
+                    />,
+                );
+
+                expect(showPreRenderSpy).toHaveBeenCalledTimes(1);
+                expect(renderSpy).not.toHaveBeenCalled();
+
+                unmount();
+
+                expect(hidePreRenderSpy).toHaveBeenCalledTimes(1);
+                expect(destroySpy).not.toHaveBeenCalled();
+            });
+
+            it('Should showPreRender the LiveboardEmbed connected via the top-level preRenderId', () => {
+                const { unmount } = render(
+                    <LiveboardEmbed preRenderId={preRenderId} liveboardId="test-liveboard" />,
+                );
+
+                expect(showPreRenderSpy).toHaveBeenCalledTimes(1);
+                expect(renderSpy).not.toHaveBeenCalled();
+
+                unmount();
+
+                expect(hidePreRenderSpy).toHaveBeenCalledTimes(1);
+                expect(destroySpy).not.toHaveBeenCalled();
+            });
+
+            it('Should render and destroy the LiveboardEmbed without any preRender id', () => {
+                const { unmount } = render(<LiveboardEmbed liveboardId="test-liveboard" />);
+
+                expect(renderSpy).toHaveBeenCalledTimes(1);
+                expect(showPreRenderSpy).not.toHaveBeenCalled();
+
+                unmount();
+
+                expect(destroySpy).toHaveBeenCalledTimes(1);
+                expect(hidePreRenderSpy).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('pre-render wrapper element', () => {
+            const wrapperId = (id: string) => `tsEmbed-pre-render-wrapper-${id}`;
+
+            beforeAll(() => {
+                (window as any).ResizeObserver =
+                    window.ResizeObserver ||
+                    jest.fn().mockImplementation(() => ({
+                        disconnect: jest.fn(),
+                        observe: jest.fn(),
+                        unobserve: jest.fn(),
+                    }));
+            });
+
+            afterEach(() => {
+                cleanup();
+                document
+                    .querySelectorAll('[id^="tsEmbed-pre-render-wrapper-"]')
+                    .forEach((el) => el.remove());
+            });
+
+            it('Should create the wrapper with preRenderConfig.preRenderId', async () => {
+                render(
+                    <PreRenderedLiveboardEmbed
+                        preRenderConfig={{ preRenderId }}
+                        liveboardId="test-liveboard"
+                    />,
+                );
+
+                await waitFor(() => expect(document.getElementById(wrapperId(preRenderId))).not.toBe(null));
+            });
+
+            it('Should prefer preRenderConfig.preRenderId over the top-level preRenderId', async () => {
+                render(
+                    <PreRenderedLiveboardEmbed
+                        preRenderId="top-level-pre-render-id"
+                        preRenderConfig={{ preRenderId: 'config-pre-render-id' }}
+                        liveboardId="test-liveboard"
+                    />,
+                );
+
+                await waitFor(() => expect(
+                    document.getElementById(wrapperId('config-pre-render-id')),
+                ).not.toBe(null));
+                expect(document.getElementById(wrapperId('top-level-pre-render-id'))).toBe(null);
+            });
         });
     });
 
