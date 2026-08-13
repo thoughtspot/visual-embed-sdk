@@ -275,6 +275,30 @@ export interface SpotterChatViewConfig {
 }
 
 /**
+ * Configuration for the Spotter Analyst experience.
+ * Can be used in SpotterEmbed.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+ * @example
+ * ```js
+ * const embed = new SpotterEmbed('#tsEmbed', {
+ *    ... //other embed view config
+ *    spotterAnalystConfig: {
+ *        analystId: 'analyst-id-1234',
+ *    },
+ * })
+ * ```
+ */
+export interface SpotterAnalystConfig {
+    /**
+     * Pins the embed to a single spotter analyst. Implies no default Spotter
+     * and no "Show all".
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    analystId?: string;
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
@@ -303,6 +327,22 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     dataSources?: string[];
+    /**
+     * Configuration for the Spotter Analyst experience.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterAnalystConfig: {
+     *        analystId: 'analyst-id-1234',
+     *    },
+     * })
+     * ```
+     */
+    spotterAnalystConfig?: SpotterAnalystConfig;
     /**
      * Ability to pass a starting search query to the conversation.
      */
@@ -695,6 +735,7 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterAnalystConfig,
         } = this.viewConfig;
 
         const queryParams = this.getBaseQueryParams();
@@ -710,6 +751,7 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
+        setParamIfDefined(queryParams, Param.AnalystId, spotterAnalystConfig?.analystId);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {

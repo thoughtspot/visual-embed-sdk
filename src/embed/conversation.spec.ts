@@ -537,6 +537,49 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with spotterAnalystConfig.analystId in the url', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterAnalystConfig: {
+                analystId: 'analyst-id-1234',
+            },
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&analystId=analyst-id-1234#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should not add analystId to the url when spotterAnalystConfig is not provided', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('analystId');
+    });
+
+    it('should not add analystId to the url when spotterAnalystConfig is empty', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterAnalystConfig: {},
+        };
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('analystId');
+    });
+
     describe('spotter chat hiddenActions', () => {
         it.each([
             ['SpotterChatConnectorResources', Action.SpotterChatConnectorResources],
@@ -548,6 +591,8 @@ describe('ConversationEmbed', () => {
             ['SpotterAnalystDelete', Action.SpotterAnalystDelete],
             ['SpotterAnalystMakeACopy', Action.SpotterAnalystMakeACopy],
             ['SpotterAnalystSidebar', Action.SpotterAnalystSidebar],
+            ['SpotterAnalystList', Action.SpotterAnalystList],
+            ['SpotterDefaultAnalyst', Action.SpotterDefaultAnalyst],
         ])('should render with hiddenActions for %s', async (_, action) => {
             const viewConfig: SpotterEmbedViewConfig = {
                 worksheetId: 'worksheetId',
@@ -592,6 +637,8 @@ describe('ConversationEmbed', () => {
             ['SpotterAnalystDelete', Action.SpotterAnalystDelete],
             ['SpotterAnalystMakeACopy', Action.SpotterAnalystMakeACopy],
             ['SpotterAnalystSidebar', Action.SpotterAnalystSidebar],
+            ['SpotterAnalystList', Action.SpotterAnalystList],
+            ['SpotterDefaultAnalyst', Action.SpotterDefaultAnalyst],
         ])('should render with disabledActions for %s', async (_, action) => {
             const disabledReason = 'testing disabled reason';
             const viewConfig: SpotterEmbedViewConfig = {
