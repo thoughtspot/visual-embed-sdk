@@ -924,6 +924,12 @@ export interface PreRenderConfig {
      * Pre-render ID to identify the pre-render instance.
      * Takes precedence over the top-level `preRenderId` when both are set.
      *
+     * Matches the embed warmed by `preRender()` to the one revealed by
+     * `showPreRender()`. Embeds sharing an ID share one loaded frame: reuse the ID for
+     * the same view, and give unrelated views their own or they will collide.
+     * Required by `preRender()`, `showPreRender()`, and `hidePreRender()`, which log
+     * and do nothing without it.
+     *
      * @default undefined
      */
     preRenderId?: string;
@@ -931,6 +937,14 @@ export interface PreRenderConfig {
      * The DOM element or CSS selector string specifying the container into
      * which the pre-rendered wrapper is inserted.
      * Takes precedence over the top-level `preRenderContainer` when both are set.
+     *
+     * Set this when your app scrolls inside an element rather than the page (for
+     * example `<body>` has `overflow: hidden`). Point it at the element that actually
+     * scrolls, keep that element mounted while the embed is warm, and prefer a
+     * selector string — it is re-resolved on reposition and so survives a remount,
+     * while a detached element reference cannot be recovered. An invalid selector is
+     * logged and falls back to `document.body`.
+     * See {@link BaseViewConfig.preRenderContainer} for details, including Shadow DOM.
      *
      * @default document.body
      */
@@ -940,6 +954,10 @@ export interface PreRenderConfig {
      * placeholder element.
      * Takes precedence over the top-level `doNotTrackPreRenderSize` when both are set.
      *
+     * Set this only when you size the embed yourself; you then own alignment and must
+     * call `syncPreRenderStyle()` after any change that moves or resizes it. Tracking
+     * already pauses while hidden, so this is not needed to avoid work then.
+     *
      * @default false
      */
     doNotTrackPreRenderSize?: boolean;
@@ -947,6 +965,12 @@ export interface PreRenderConfig {
      * CSS `z-index` value applied to the pre-render wrapper when hidden.
      * Override this when the host page's stacking context does not reach `-1000`
      * and the hidden wrapper still appears above other elements.
+     *
+     * A page that creates its own stacking context — a positioned app shell, a
+     * transformed wrapper, a modal layer — can clamp `-1000`, and the hidden wrapper
+     * then shows through or swallows clicks meant for your UI. Reach for this when you
+     * see a faint panel behind your content, or clicks landing on nothing in the
+     * region where the embed will eventually appear.
      *
      * @default -1000
      */
