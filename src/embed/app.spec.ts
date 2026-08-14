@@ -741,6 +741,40 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include starterPrompts in APP_INIT embedParams', async () => {
+        const starterPrompts = {
+            enable: true,
+            quick: {
+                label: 'Quick',
+                questions: [
+                    { label: 'Q1', prompt: 'P1' },
+                    { label: 'Q2', prompt: 'P2' },
+                ],
+            },
+            research: { label: 'Research' },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { starterPrompts },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.starterPrompts)
+                .toEqual(starterPrompts);
+        });
+    });
+
     test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
         const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
         const appEmbed = new AppEmbed(getRootEl(), {
@@ -969,7 +1003,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });

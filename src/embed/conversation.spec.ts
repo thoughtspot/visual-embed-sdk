@@ -969,3 +969,92 @@ describe('SpotterEmbed updatedSpotterExperience', () => {
         );
     });
 });
+
+describe('SpotterEmbed APP_INIT starterPrompts', () => {
+    const mockEmbedEventPayload = { type: EmbedEvent.APP_INIT, data: {} };
+
+    async function getAppInitResponse(viewConfig: SpotterEmbedViewConfig) {
+        const embed = new SpotterEmbed(getRootEl(), viewConfig);
+        embed.render();
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, mockEmbedEventPayload, mockPort);
+        });
+        await executeAfterWait(() => {});
+        return mockPort.postMessage.mock.calls[0]?.[0];
+    }
+
+    it('should include starterPrompts in embedParams when configured', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    enable: true,
+                    quick: {
+                        label: 'Quick',
+                        questions: [{ label: 'Q1', prompt: 'P1' }],
+                    },
+                    research: { label: 'Research' },
+                    previewData: { label: 'Explore' },
+                },
+            },
+        });
+        expect(response.data.embedParams.starterPrompts).toEqual({
+            enable: true,
+            quick: {
+                label: 'Quick',
+                questions: [{ label: 'Q1', prompt: 'P1' }],
+            },
+            research: { label: 'Research' },
+            previewData: { label: 'Explore' },
+        });
+    });
+
+    it('should forward the config as is, the app enforces the limits', async () => {
+        const starterPrompts = {
+            quick: {
+                label: 'L'.repeat(50),
+                questions: [
+                    { label: 'Q'.repeat(100), prompt: 'P'.repeat(400) },
+                    { label: 'Q2', prompt: 'P2' },
+                    { label: 'Q3', prompt: 'P3' },
+                    { label: 'Q4', prompt: 'P4' },
+                    { label: 'Q5', prompt: 'P5' },
+                ],
+            },
+            previewData: { label: 'L'.repeat(50) },
+        };
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: { starterPrompts },
+        });
+        expect(response.data.embedParams.starterPrompts).toEqual(starterPrompts);
+    });
+
+    it('should not include starterPrompts in embedParams when not configured', async () => {
+        const response = await getAppInitResponse({ worksheetId: 'ws1' });
+        expect(response.data.embedParams?.starterPrompts).toBeUndefined();
+    });
+
+    it('exposes per-pill starter-prompt actions with the strings the app gates on', () => {
+        expect(Action.QuickSearchPill).toBe('quickSearchPill');
+        expect(Action.DeepAnalysisPill).toBe('deepAnalysisPill');
+        expect(Action.DataLiteracyPill).toBe('dataLiteracyPill');
+    });
+
+    it('forwards the enable feature flag when disabled', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterChatConfig: {
+                starterPrompts: {
+                    enable: false,
+                    quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
+                },
+            },
+        });
+        expect(response.data.embedParams.starterPrompts).toEqual({
+            enable: false,
+            quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
+        });
+    });
+});
