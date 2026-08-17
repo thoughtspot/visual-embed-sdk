@@ -12,16 +12,31 @@ on:
 
 jobs:
   claude:
+    # Two conditions, both required.
+    #  1. the comment actually mentions @claude
+    #  2. the author is a repo owner/member/collaborator. This repo is PUBLIC, so
+    #     `issue_comment` fires for ANY GitHub user — without this gate an
+    #     arbitrary person could spend ANTHROPIC_API_KEY by commenting.
     if: |
-      contains(github.event.comment.body, '@claude') ||
-      contains(github.event.review.body, '@claude')
+      (
+        contains(github.event.comment.body, '@claude') ||
+        contains(github.event.review.body, '@claude')
+      ) && (
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) ||
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.review.author_association)
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
+      # Deliberately read-only. Granting `contents: write` here would let this
+      # job push, which combined with the public-repo trigger above is a bigger
+      # surface than it is worth. The prompt below tells Claude it cannot commit,
+      # so users get an explanation instead of a silent 403.
       contents: read
       pull-requests: write
       issues: write
-      id-token: write
+      # NOTE: no `id-token: write`. Both anthropic_api_key and github_token are
+      # passed explicitly, so the OIDC token exchange never runs.
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,5 +49,19 @@ jobs:
           # not installed on this repo. See claude-code-review.yml for detail.
           github_token: ${{ secrets.GITHUB_TOKEN }}
           trigger_phrase: "@claude"
+          prompt: |
+            You are answering an @claude mention on the ThoughtSpot Visual Embed
+            SDK. Repo conventions are in `CLAUDE.md`; the documentation rules are
+            in `.gemini/styleguide.md`.
+
+            This job has `contents: read` and CANNOT push. You may read the repo,
+            explain, diagnose, and write out proposed changes — but do not attempt
+            to commit, push, or open a branch; the token will reject it and the
+            run will fail with the cause buried in the log.
+
+            When the answer is a code change, reply with the patch in a fenced
+            diff or, if it is anchored to specific lines of a PR, a GitHub
+            ```suggestion``` block the author can apply in one click. Say plainly
+            that you cannot apply it yourself.
           claude_args: |
             --max-turns 30

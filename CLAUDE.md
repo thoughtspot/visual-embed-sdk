@@ -19,8 +19,14 @@ doc comment as a defect, not a nit.
   Watch for XSS: triple-brace `{{{ ... }}}` interpolation of anything derived
   from source comments, and `innerHTML` in `assets/js/main.js`.
 
-Generated — never hand-edit: `static/typedoc/typedoc.json` (`npm run docgen`),
-`package-lock.json`, `CHANGELOG.md` (written by the bump-version workflow).
+Generated — never hand-edit: `static/typedoc/typedoc.json` (`npm run docgen`) and
+`package-lock.json`. The bump-version workflow commits exactly those two plus
+`package.json`.
+
+`CHANGELOG.md` is **hand-maintained** — no workflow writes it, and it has drifted
+far behind `package.json`. It is excluded from review by choice, not because a
+tool owns it. The authoritative release notes live at
+developers.thoughtspot.com/docs/?pageid=whats-new.
 
 ## Public API surface
 
