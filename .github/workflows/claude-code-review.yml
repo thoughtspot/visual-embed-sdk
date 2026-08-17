@@ -72,6 +72,13 @@ jobs:
           # diff from local git when the GitHub API is unavailable.
           fetch-depth: 0
 
+      # Setup step. Produces the three outputs the review step consumes:
+      #   list   -> the changed files worth reviewing, injected into the prompt
+      #   count  -> 0 means "nothing to review"; gates the review step below
+      #   prompt -> the review instructions, read from the base branch
+      # Without the filtering here, a release PR would hand Claude the 1.4 MB
+      # regenerated typedoc.json and 1.3 MB package-lock.json alongside the two
+      # real lines, burning turns and drawing comments on machine-written files.
       - name: Collect reviewable files
         id: files
         env:
