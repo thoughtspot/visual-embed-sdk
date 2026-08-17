@@ -6873,7 +6873,7 @@ export enum Action {
      * ```js
      * disabledActions: [Action.EditInputTable]
      * ```
-     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     EditInputTable = 'editInputTable',
     /**
