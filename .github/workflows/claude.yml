@@ -10,6 +10,14 @@ on:
   pull_request_review:
     types: [submitted]
 
+env:
+  # Shared with claude-code-review.yml: one CLAUDE_MODEL variable switches both.
+  # See the fuller note in that file. Previously this job pinned no model at all
+  # and silently took the action's default.
+  CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5' }}
+  # Separate from the review cap — answering a mention is a smaller job.
+  CLAUDE_ONDEMAND_MAX_TURNS: ${{ vars.CLAUDE_ONDEMAND_MAX_TURNS || '30' }}
+
 jobs:
   claude:
     # Two conditions, both required.
@@ -64,4 +72,5 @@ jobs:
             ```suggestion``` block the author can apply in one click. Say plainly
             that you cannot apply it yourself.
           claude_args: |
-            --max-turns 30
+            --model ${{ env.CLAUDE_MODEL }}
+            --max-turns ${{ env.CLAUDE_ONDEMAND_MAX_TURNS }}
