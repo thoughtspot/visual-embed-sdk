@@ -22,7 +22,7 @@ concurrency:
 
 env:
   CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5' }}
-  CLAUDE_REVIEW_MAX_TURNS: ${{ vars.CLAUDE_REVIEW_MAX_TURNS || '60' }}
+  CLAUDE_REVIEW_MAX_TURNS: ${{ vars.CLAUDE_REVIEW_MAX_TURNS || '120' }}
 
 jobs:
   review:
@@ -31,7 +31,7 @@ jobs:
       github.event.pull_request.user.type != 'Bot' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       contents: read
       pull-requests: write
