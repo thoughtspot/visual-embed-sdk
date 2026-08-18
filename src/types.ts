@@ -176,7 +176,9 @@ export enum AuthType {
 }
 /**
  *
- * **Note**:  This attribute is not supported in the classic (V1) homepage experience.
+ * **Note**: The classic (V1) and Modular (V2) home page experiences are
+ * deprecated. This attribute applies to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  *
  */
 
@@ -896,6 +898,86 @@ export interface FrameParams {
 }
 
 /**
+ * Configuration for the pre-render wrapper element.
+ * All properties here mirror the top-level preRender properties on
+ * {@link BaseViewConfig} and take precedence over them when both are set,
+ * so existing top-level usage continues to work without any changes.
+ *
+ * @version SDK: 1.52.0
+ * @example
+ * ```js
+ * init({ thoughtSpotHost: '...', authType: AuthType.None });
+ * const embed = new LiveboardEmbed('#tsEmbed', {
+ *   preRenderConfig: {
+ *     preRenderId: 'my-liveboard',
+ *     preRenderContainer: '#my-scroll-container',
+ *     doNotTrackPreRenderSize: false,
+ *     zIndex: -10,
+ *   },
+ * });
+ * embed.preRender();
+ * embed.showPreRender();
+ * ```
+ */
+export interface PreRenderConfig {
+    /**
+     * Pre-render ID to identify the pre-render instance.
+     * Takes precedence over the top-level `preRenderId` when both are set.
+     *
+     * Matches the embed warmed by `preRender()` to the one revealed by
+     * `showPreRender()`. Embeds sharing an ID share one loaded frame: reuse the ID for
+     * the same view, and give unrelated views their own or they will collide.
+     * Required by `preRender()`, `showPreRender()`, and `hidePreRender()`, which log
+     * and do nothing without it.
+     *
+     * @default undefined
+     */
+    preRenderId?: string;
+    /**
+     * The DOM element or CSS selector string specifying the container into
+     * which the pre-rendered wrapper is inserted.
+     * Takes precedence over the top-level `preRenderContainer` when both are set.
+     *
+     * Set this when your app scrolls inside an element rather than the page (for
+     * example `<body>` has `overflow: hidden`). Point it at the element that actually
+     * scrolls, keep that element mounted while the embed is warm, and prefer a
+     * selector string — it is re-resolved on reposition and so survives a remount,
+     * while a detached element reference cannot be recovered. An invalid selector is
+     * logged and falls back to `document.body`.
+     * See {@link BaseViewConfig.preRenderContainer} for details, including Shadow DOM.
+     *
+     * @default document.body
+     */
+    preRenderContainer?: string | HTMLElement;
+    /**
+     * Disables the `ResizeObserver` that keeps the wrapper sized to the
+     * placeholder element.
+     * Takes precedence over the top-level `doNotTrackPreRenderSize` when both are set.
+     *
+     * Set this only when you size the embed yourself; you then own alignment and must
+     * call `syncPreRenderStyle()` after any change that moves or resizes it. Tracking
+     * already pauses while hidden, so this is not needed to avoid work then.
+     *
+     * @default false
+     */
+    doNotTrackPreRenderSize?: boolean;
+    /**
+     * CSS `z-index` value applied to the pre-render wrapper when hidden.
+     * Override this when the host page's stacking context does not reach `-1000`
+     * and the hidden wrapper still appears above other elements.
+     *
+     * A page that creates its own stacking context — a positioned app shell, a
+     * transformed wrapper, a modal layer — can clamp `-1000`, and the hidden wrapper
+     * then shows through or swallows clicks meant for your UI. Reach for this when you
+     * see a faint panel behind your content, or clicks landing on nothing in the
+     * region where the embed will eventually appear.
+     *
+     * @default -1000
+     */
+    zIndex?: number;
+}
+
+/**
  * The common configuration object for an embedded view.
  */
 export interface BaseViewConfig extends ApiInterceptFlags {
@@ -980,7 +1062,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    hiddenActions: [Action.Download, Action.Export],
+     *    hiddenActions: [Action.Download, Action.ExportTML],
      * });
      * ```
      * @important
@@ -1002,7 +1084,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    visibleActions: [Action.Download, Action.Export],
+     *    visibleActions: [Action.Download, Action.ExportTML],
      * });
      * ```
      */
@@ -1085,6 +1167,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
+     * @deprecated Use {@link PreRenderConfig.preRenderId} via `preRenderConfig` instead.
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1105,6 +1188,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * @type {boolean}
      * @default false
      * @version SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw
+     * @deprecated Use {@link PreRenderConfig.doNotTrackPreRenderSize} via `preRenderConfig` instead.
      * @example
      * ```js
      * // Disable tracking PreRender size in the configuration
@@ -1146,6 +1230,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *
      * @type {string | HTMLElement}
      * @version SDK: 1.49.2 | ThoughtSpot: *
+     * @deprecated Use {@link PreRenderConfig.preRenderContainer} via `preRenderConfig` instead.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -1156,6 +1241,27 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     preRenderContainer?: string | HTMLElement;
+    /**
+     * Configuration for the pre-render wrapper element.
+     * All properties here mirror the top-level preRender properties on
+     * `BaseViewConfig` and take precedence over them when both are set,
+     * so existing top-level usage continues to work without any changes.
+     * See {@link PreRenderConfig} for available options.
+     *
+     * @version SDK: 1.52.0
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *   preRenderConfig: {
+     *     preRenderId: 'my-liveboard',
+     *     zIndex: -10,
+     *   },
+     * });
+     * embed.preRender();
+     * embed.showPreRender();
+     * ```
+     */
+    preRenderConfig?: PreRenderConfig;
     /**
      * Enable the V2 shell. This can provide performance benefits
      * due to a lighter-weight shell.
@@ -1607,7 +1713,7 @@ export interface HomePageConfig {
      *
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... //other embed view config
-     *    hiddenListColumns : [ListPageColumns.Favorite,ListPageColumns.Author],
+     *    hiddenListColumns : [ListPageColumns.Favorites,ListPageColumns.Author],
      * })
      * ```
      */
@@ -1617,7 +1723,9 @@ export interface HomePageConfig {
      * To specify the modules, import the `HomepageModule` enum.
      * For example: `hiddenHomepageModules = [HomepageModule.MyLibrary]`
      *
-     * **Note**: This attribute is not supported in the classic (v1) experience.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1626,7 +1734,7 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // V2/V3 navigation and home page experience attributes
+     *    ... // V3 navigation and home page experience attributes
      *    hiddenHomepageModules : [HomepageModule.Favorite,HomepageModule.Learning],
      *    //...other embed view configuration attributes
      * })
@@ -1637,8 +1745,11 @@ export interface HomePageConfig {
      * Reorder home page modules.
      * To specify the modules, import the `HomepageModule` enum.
      * For example: `reorderedHomepageModules = [HomepageModule.MyLibrary,
-     * HomepageModule.Watchlist]` **Note**: This attribute is not supported in the
-     * classic (v1) homepage.
+     * HomepageModule.Watchlist]`
+     *
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -1647,7 +1758,7 @@ export interface HomePageConfig {
      * import { HomepageModule } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new AppEmbed('#tsEmbed', {
-     *    ...//V2/V3 navigation and home page experience attributes
+     *    ...//V3 navigation and home page experience attributes
      *    reorderedHomepageModules:[HomepageModule.Favorite,HomepageModule.MyLibrary],
      *    //... other embed view configuration attributes
      * })
@@ -1659,7 +1770,9 @@ export interface HomePageConfig {
      * on the home page left navigation panel.
      * To specify the menu items, import the `HomeLeftNavItem` enum.
      *
-     * **Note**: This attribute is not supported in the classic (v1) homepage.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 (ModularWithStylingChanges)
+     * and V4 (Focused) home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
@@ -2038,6 +2151,24 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isCentralizedLiveboardFilterUXEnabled?: boolean;
     /**
+     * This flag is used to enable or disable scoped Liveboard filtering.
+     * When enabled, filters and parameters can be scoped to a group of
+     * visualizations on a Liveboard, in addition to the Liveboard and
+     * tab levels.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isScopedLiveboardFilteringEnabled: true,
+     * })
+     * ```
+     */
+    isScopedLiveboardFilteringEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -2253,7 +2384,9 @@ export enum RuntimeFilterOp {
  * via `hiddenHomepageModules` and reordered via
  * `reorderedHomepageModules`.
  *
- * **Note**: This option is not supported in the classic (v1) experience.
+ * **Note**: The classic (V1) and Modular (V2) home page experiences are
+ * deprecated. These modules apply to V3 (ModularWithStylingChanges) and
+ * V4 (Focused) home page experiences.
  * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl, 10.1.0.sw
  */
 
@@ -2468,7 +2601,7 @@ export enum EmbedEvent {
      * @returns nonFilteredColumns - The columns that were not filtered
      * @example
      * ```js
-     * searchEmbed.on(EmbedEvent.DrillDown, {
+     * searchEmbed.on(EmbedEvent.Drilldown, {
      *    points: {
      *        clickedPoint,
      *        selectedPoints: selectedPoint
@@ -2529,7 +2662,7 @@ export enum EmbedEvent {
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
-     * appEmbed.on(EmbedEvent.customAction, payload => {
+     * appEmbed.on(EmbedEvent.CustomAction, payload => {
      *     const data = payload.data;
      *     if (data.id === 'insert Custom Action ID here') {
      *         console.log('Custom Action event:', data.embedAnswerData);
@@ -2797,8 +2930,8 @@ export enum EmbedEvent {
      *
      * **Note**: This event is deprecated in v1.21.0.
      * To fire an event when a download action is initiated on a chart or table,
-     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPDF`,
-     * `EmbedEvent.DownloadAsCSV`, or `EmbedEvent.DownloadAsXLSX`
+     * use `EmbedEvent.DownloadAsPng`, `EmbedEvent.DownloadAsPdf`,
+     * `EmbedEvent.DownloadAsCsv`, or `EmbedEvent.DownloadAsXlsx`
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2848,10 +2981,10 @@ export enum EmbedEvent {
      * @example
      * ```js
      * //emit when action starts
-     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *   console.log('download CSV', payload)}, {start: true })
      * //emit when action ends
-     * searchEmbed.on(EmbedEvent.DownloadAsCSV, payload => {
+     * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *    console.log('download CSV', payload)})
      * ```
      */
@@ -3250,11 +3383,19 @@ export enum EmbedEvent {
      * Emitted when a user changes any filter on a Liveboard.
      * Returns filter type and name, column name and ID, and runtime
      * filter details.
+     * The payload includes an optional `applicability` attribute indicating the
+     * scope of the changed filter. It contains a `level` (`LIVEBOARD`,
+     * `TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a
+     * `targetId` with the GUID of the target. At `LIVEBOARD` level there
+     * is no `targetId`, since the filter applies to the whole Liveboard.
+     * The `applicability` attribute is available from SDK: 1.53.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * @example
      *
      * ```js
      * LiveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
      *    console.log('payload', payload);
+     *    // payload.data optionally includes applicability: { level, targetId }
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
@@ -3446,9 +3587,17 @@ export enum EmbedEvent {
     /**
      * Emitted when parameter changes in an Answer
      * or Liveboard.
+     * The payload includes an optional `applicability` attribute indicating the
+     * scope of the changed parameter. It contains a `level` (`LIVEBOARD`,
+     * `TAB`, or `GROUP`) and, when `level` is `TAB` or `GROUP`, a
+     * `targetId` with the GUID of the target. At `LIVEBOARD` level there
+     * is no `targetId`, since the parameter applies to the whole Liveboard.
+     * The `applicability` attribute is available from SDK: 1.53.0 |
+     * ThoughtSpot: 26.10.0.cl.
      * ```js
      * liveboardEmbed.on(EmbedEvent.ParameterChanged, (payload) => {
      *     console.log('payload', payload);
+     *     // payload.data optionally includes applicability: { level, targetId }
      * })
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl
@@ -3880,7 +4029,7 @@ export enum EmbedEvent {
     SpotterSharedConversationExitButtonClicked = 'spotterSharedConversationExitButtonClicked',
     /**
      * Emitted when a Spotter conversation is pinned.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationPinned, (payload) => {
@@ -3892,7 +4041,7 @@ export enum EmbedEvent {
     SpotterConversationPinned = 'spotterConversationPinned',
     /**
      * Emitted when a Spotter conversation is unpinned.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.on(EmbedEvent.SpotterConversationUnpinned, (payload) => {
@@ -4432,6 +4581,17 @@ export enum HostEvent {
      *  name: string,
      *  type: ATTRIBUTE/MEASURE,
      *  dataType: INT64/CHAR/DATE }
+     *
+     * `applicability` - Optional. Scopes the filter to a specific target,
+     * for example, a single Liveboard tab, so the panel for the correct
+     * scoped filter is opened. Available from SDK: 1.53.0 |
+     * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
+     *
+     *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
+     *  - `targetId`: The GUID of the target, for example, the tab GUID.
+     *    Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *    `level` is `LIVEBOARD`, since the filter applies to the whole
+     *    Liveboard. Omitting `applicability` targets the `LIVEBOARD` level.
      * @example
      * ```js
      * searchEmbed.trigger(HostEvent.OpenFilter,
@@ -4444,6 +4604,14 @@ export enum HostEvent {
      * ```
      * @example
      * ```js
+     * // Open a filter scoped to a specific Liveboard tab
+     * liveboardEmbed.trigger(HostEvent.OpenFilter, {
+     *     column: { columnId: '<column-GUID>' },
+     *     applicability: { level: 'TAB', targetId: '<tab-GUID>' }
+     * });
+     * ```
+     * @example
+     * ```js
      * // Open filter from search context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * searchEmbed.trigger(HostEvent.OpenFilter, {
@@ -4453,6 +4621,38 @@ export enum HostEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     OpenFilter = 'openFilter',
+    /**
+     * Open the parameter panel for a particular parameter on a Liveboard.
+     * Mirrors {@link HostEvent.OpenFilter} for parameters.
+     * @param - Includes the following keys:
+     * - `parameter`: An object identifying the parameter to open, for
+     *   example, `{ parameterId: '<parameter-GUID>' }`.
+     * - `applicability`: Optional. Scopes the parameter to a specific target,
+     *   for example, a single Liveboard tab, so the panel for the correct
+     *   scoped parameter is opened. Includes the following attributes:
+     *
+     *    - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.
+     *    - `targetId`: The GUID of the target, for example, the tab GUID.
+     *      Required when `level` is `TAB` or `GROUP`. Do not pass it when
+     *      `level` is `LIVEBOARD`, since the parameter applies to the whole
+     *      Liveboard. Omitting `applicability` targets the `LIVEBOARD` level.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenParameter, {
+     *     parameter: { parameterId: '<parameter-GUID>' }
+     * });
+     * ```
+     * @example
+     * ```js
+     * // Open a parameter scoped to a specific group
+     * liveboardEmbed.trigger(HostEvent.OpenParameter, {
+     *     parameter: { parameterId: '<parameter-GUID>' },
+     *     applicability: { level: 'GROUP', targetId: '<group-GUID>' }
+     * });
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
+     */
+    OpenParameter = 'openParameter',
     /**
      * Add columns to the current search query.
      * @param - { columnIds: string[] }
@@ -4649,13 +4849,13 @@ export enum HostEvent {
      * Trigger the **Manage schedule** action on an embedded Liveboard
      * @example
      * ```js
-     *  liveboardEmbed.trigger(HostEvent.ScheduleList)
+     *  liveboardEmbed.trigger(HostEvent.SchedulesList)
      * ```
      * @example
      * ```js
      * // Manage schedules from liveboard context
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
-     * liveboardEmbed.trigger(HostEvent.ScheduleList, {}, ContextType.Liveboard);
+     * liveboardEmbed.trigger(HostEvent.SchedulesList, {}, ContextType.Liveboard);
      * ```
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
@@ -5525,13 +5725,13 @@ export enum HostEvent {
     /**
      * Get details of filters applied on the Liveboard.
      * Returns arrays containing Liveboard filter and runtime filter elements.
-     * Each Liveboard filter may include an `applicability` attribute
+     * Each Liveboard filter includes an optional `applicability` attribute
      * indicating the scope of the filter. It contains a `level`
      * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
      * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
      * level there is no `targetId`, since the filter applies to the
      * whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @example
      * ```js
@@ -5576,7 +5776,7 @@ export enum HostEvent {
      * For more information and examples, see link:https://developers.thoughtspot.com/docs/embed-liveboard#_date_filters[Date filters].
      *
      * `applicability` - Optional. Scopes the filter to a specific target,
-     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * for example, a single Liveboard tab. Available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *  - `level`: The scope of the filter: `LIVEBOARD`, `TAB`, or `GROUP`.
@@ -5702,6 +5902,28 @@ export enum HostEvent {
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
      */
     GetTabs = 'getTabs',
+    /**
+     * Get group details for the current Liveboard.
+     * Mirrors {@link HostEvent.GetTabs} for filter/parameter groups.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.GetGroups).then((groupDetails) => {
+     *   console.log(
+     *      groupDetails // GroupDetails of current Liveboard
+     *   );
+     * })
+     * ```
+     * @example
+     * ```js
+     * // Get groups from liveboard context
+     * import { ContextType } from '@thoughtspot/visual-embed-sdk';
+     * liveboardEmbed.trigger(HostEvent.GetGroups, {}, ContextType.Liveboard).then((groupDetails) => {
+     *     console.log('groups', groupDetails);
+     * });
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
+     */
+    GetGroups = 'getGroups',
     /**
      * Set the visible tabs on a Liveboard.
      * @param - an array of ids of tabs to show, the IDs not passed
@@ -5833,7 +6055,7 @@ export enum HostEvent {
      * - `value`: The value to set for the parameter.
      * - `isVisibleToUser`: Optional. To control the visibility of the parameter chip.
      * - `applicability`: Optional. Scopes the parameter to a specific target,
-     * for example, a single Liveboard tab. Available from SDK: 1.51.0 |
+     * for example, a single Liveboard tab. Available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl. Includes the following attributes:
      *
      *    - `level`: The scope of the parameter: `LIVEBOARD`, `TAB`, or `GROUP`.
@@ -5877,13 +6099,13 @@ export enum HostEvent {
     UpdateParameters = 'UpdateParameters',
     /**
      * Triggers GetParameters to fetch the runtime Parameters.
-     * Each parameter may include an `applicability` attribute
+     * Each parameter includes an optional `applicability` attribute
      * indicating the scope of the parameter. It contains a `level`
      * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
      * `GROUP`, a `targetId` with the GUID of the target. At `LIVEBOARD`
      * level there is no `targetId`, since the parameter applies to the
      * whole Liveboard.
-     * The `applicability` attribute is available from SDK: 1.51.0 |
+     * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
      * @param - `vizId` refers to the Answer ID in Spotter embed and is required in Spotter embed.
      * ```js
@@ -6292,7 +6514,7 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.PinSpotterConversation, {
@@ -6310,7 +6532,7 @@ export enum HostEvent {
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
      * instance.
      *
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * spotterEmbed.trigger(HostEvent.UnpinSpotterConversation, {
@@ -6566,9 +6788,11 @@ export enum Param {
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
+    isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
+    ShowSpotterRadiance = 'showSpotterRadiance',
     DefaultQueryMode = 'defaultQueryMode',
     EnableStopAnswerGenerationEmbed = 'enableStopAnswerGenerationEmbed',
     SpotterSidebarTitle = 'spotterSidebarTitle',
@@ -6589,6 +6813,9 @@ export enum Param {
     SpotterFileUploadEnabled = 'spotterFileUploadEnabled',
     SpotterFileUploadFileTypes = 'spotterFileUploadFileTypes',
     IsStarterPromptsEnabled = 'enableStarterPrompts',
+    UpdatedSpotterExperience = 'updatedSpotterExperience',
+    SpotterDataSources = 'spotterDataSources',
+    AnalystId = 'analystId',
 }
 
 /**
@@ -6603,9 +6830,10 @@ export type SpotterFileUploadFileTypes = {
  * ThoughtSpot application pages include actions and menu commands
  * for various user-initiated operations. These actions are represented
  * as enumeration members in the SDK. To control actions in the embedded view:
- * - disabledActions — the action is grayed out and still visible, but non-interactive (user can see but not click).
- * - hiddenActions — the action is completely removed from the UI (user cannot see it at all).
- * - visibleActions — allowlist, only these actions are shown; all others are hidden.
+ * - disabledActions — the action is grayed out and still visible, but non-interactive
+ * (user can see but not click). - hiddenActions — the action is completely removed from
+ * the UI (user cannot see it at all). - visibleActions — allowlist, only these actions
+ * are shown; all others are hidden.
  *
  * Use disabledActions to disable (gray out) an action.
  * Use hiddenActions to hide (fully remove) an action.
@@ -6659,6 +6887,17 @@ export enum Action {
      * ```
      */
     SaveAsView = 'saveAsView',
+    /**
+     * The **EditInputTable** action on a Liveboard
+     * page. Allows users to edit an input table used in an Answer directly from
+     * a Liveboard.
+     * @example
+     * ```js
+     * disabledActions: [Action.EditInputTable]
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    EditInputTable = 'editInputTable',
     /**
      * The **Make a copy** action on a Liveboard or Answer
      * page. Creates a copy of the Liveboard.
@@ -7880,6 +8119,20 @@ export enum Action {
     ChangeFilterVisibilityInTab = 'changeFilterVisibilityInTab',
 
     /**
+     * Action ID to show, hide, or disable all filter surfaces on a Liveboard,
+     * including filter, parameter, and cross-filter chips at the liveboard,
+     * tab, and group levels. Parameter and cross-filter chips are hide-only.
+     *
+     *  @example
+     * ```js
+     * hiddenActions: [Action.AllLiveboardFilters]
+     * disabledActions: [Action.AllLiveboardFilters]
+     * ```
+     *  @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
+     */
+    AllLiveboardFilters = 'allLiveboardFilters',
+
+    /**
      * The **Data model instructions** button on the Spotter interface.
      * Allows opening the data model instructions modal.
      *
@@ -7982,6 +8235,10 @@ export enum Action {
      * The **Add to Coaching** feature allows adding reference questions and
      * business terms to improve Spotter’s responses. This feature is generally available
      * (GA) from version 26.2.0.cl and enabled by default on embed deployments.
+     *
+     * This action governs both the answer-card **Add to memory** CTA and its
+     * Spotter 3 successor, the response-footer **Remember this** CTA
+     * (they are mutually exclusive).
      *  @example
      * ```js
      * hiddenAction: [Action.InConversationTraining]
@@ -8312,7 +8569,7 @@ export enum Action {
     /**
      * Controls visibility and disable state of the pin/unpin action
      * in the Spotter conversation edit menu.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * disabledActions: [Action.SpotterChatPin]
@@ -8362,6 +8619,56 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
+    /**
+     * The **Basic Search** starter prompt pill.
+     *
+     * Starter prompt pills are the row of category buttons shown above the
+     * Spotter chat input before a conversation starts. They give a new user
+     * ready-made questions to click instead of typing one from scratch, and
+     * disappear once the conversation begins. There are three, one per action
+     * below.
+     *
+     * Clicking this pill opens a card of suggested simple questions; picking one
+     * submits it to Spotter right away. Visible by default, and hidden along
+     * with the other pills when the surface itself is off (see
+     * {@link SpotterChatViewConfig.starterPrompts}).
+     * @example
+     * ```js
+     * hiddenActions: [Action.QuickSearchPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    QuickSearchPill = 'quickSearchPill',
+    /**
+     * The **Deep Analysis** starter prompt pill, next to
+     * {@link Action.QuickSearchPill} above the Spotter chat input.
+     *
+     * Clicking it opens a card of suggested investigative questions ("why did
+     * revenue drop?"). Picking one fills the chat input in Deep Analysis mode
+     * rather than submitting immediately, so the user can edit it first.
+     * Visible by default.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DeepAnalysisPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    DeepAnalysisPill = 'deepAnalysisPill',
+    /**
+     * The **Data Literacy** starter prompt pill, next to
+     * {@link Action.QuickSearchPill} above the Spotter chat input.
+     *
+     * Unlike the other two pills it opens no card: clicking it submits a prompt
+     * that describes the data the model can answer over, helping a user who does
+     * not yet know what is in the data source. The prompt text always comes from
+     * ThoughtSpot, so only its label is customizable. Visible by default.
+     * @example
+     * ```js
+     * hiddenActions: [Action.DataLiteracyPill]
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    DataLiteracyPill = 'dataLiteracyPill',
     /**
      * The **Include current period** checkbox for date filters.
      * Controls the visibility and availability of the option to include
@@ -8513,6 +8820,28 @@ export enum Action {
      * ```
      */
     SpotterAnalystSidebar = 'spotterAnalystSidebar',
+    /**
+     * Controls visibility and disable state of the analyst list
+     * ("Show all") in the Spotter Analyst interface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterAnalystList]
+     * disabledActions: [Action.SpotterAnalystList]
+     * ```
+     */
+    SpotterAnalystList = 'spotterAnalystList',
+    /**
+     * Controls visibility and disable state of the default Spotter analyst
+     * entry in the Spotter Analyst interface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterDefaultAnalyst]
+     * disabledActions: [Action.SpotterDefaultAnalyst]
+     * ```
+     */
+    SpotterDefaultAnalyst = 'spotterDefaultAnalyst',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -9047,7 +9376,7 @@ export type ApiInterceptFlags = {
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
      *   enableApiIntercept: true,
-     *   interceptUrls: [InterceptedApiType.DATA],
+     *   interceptUrls: [InterceptedApiType.LiveboardData],
      * })
      * ```
      *

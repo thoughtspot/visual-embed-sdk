@@ -1,7 +1,6 @@
-import { ERROR_MESSAGE } from '../errors';
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -26,9 +25,9 @@ export enum SpotterQueryMode {
 /**
  * Configuration for the pin/unpin conversation feature in the Spotter sidebar.
  * Grouped into one object because pin exposes several related settings
- * (enable + label/icon overrides), unlike single-item actions like rename or
+ * (enable + label overrides), unlike single-item actions like rename or
  * delete.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  */
 export interface SpotterChatPinConfig {
     /**
@@ -37,28 +36,22 @@ export interface SpotterChatPinConfig {
      * the pin glyph are hidden and the PinSpotterConversation /
      * UnpinSpotterConversation host events are no-ops. Native (non-embedded)
      * Spotter is unaffected and ships pin enabled.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @default false
      */
     enabled?: boolean;
     /**
      * Custom label text for the pin action in the conversation edit menu.
      * Defaults to translated "Pin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     pinLabel?: string;
     /**
      * Custom label text for the unpin action in the conversation edit menu.
      * Defaults to translated "Unpin" text.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     unpinLabel?: string;
-    /**
-     * Custom icon for the pin glyph and the pin menu item. Accepts an icon id
-     * from the icon sprite. Defaults to the built-in PIN icon.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
-     */
-    icon?: string;
 }
 
 /**
@@ -99,9 +92,9 @@ export interface SpotterSidebarViewConfig {
      */
     spotterChatDeleteLabel?: string;
     /**
-     * Pin/unpin conversation feature config (enable + label/icon overrides).
+     * Pin/unpin conversation feature config (enable + label overrides).
      * Off by default in embed — hosts opt in via `enabled`.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     spotterChatPinConfig?: SpotterChatPinConfig;
     /**
@@ -232,18 +225,86 @@ export interface SpotterShareConversationConfig {
      * @default "Exit"
      */
     spotterSharedConversationExitLabel?: string;
+}
+
+/**
+ * A single starter prompt question shown under a category pill.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptQuestion {
     /**
-     * Share icon id (radiant IconID string).
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
-     * @default "share"
+     * Short label shown as a clickable suggestion. Falls back to `prompt` when
+     * omitted. ThoughtSpot truncates it beyond 80 characters.
      */
-    spotterShareIcon?: string;
+    label?: string;
     /**
-     * Empty-state group icon id (radiant IconID string).
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
-     * @default "userGroup"
+     * Prompt text sent to Spotter on click. ThoughtSpot truncates it beyond
+     * 300 characters.
      */
-    spotterShareGroupIcon?: string;
+    prompt: string;
+}
+
+/**
+ * Configuration for a starter prompt category with questions
+ * (`quick` and `research`).
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptCategory {
+    /**
+     * Overrides the default category pill label. ThoughtSpot truncates it
+     * beyond 30 characters.
+     */
+    label?: string;
+    /**
+     * Replaces the backend-generated prompts. ThoughtSpot renders the first 4
+     * and drops any entry without a `prompt`.
+     */
+    questions?: StarterPromptQuestion[];
+}
+
+/**
+ * Configuration for the Data Literacy starter prompt category.
+ * Only the label is customizable; the prompt text comes from the backend.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPreviewDataCategory {
+    /**
+     * Overrides the default category pill label. ThoughtSpot truncates it
+     * beyond 30 characters.
+     */
+    label?: string;
+}
+
+/**
+ * Content configuration for the Spotter starter prompts.
+ * Category keys are fixed: `quick` (Basic Search), `research` (Deep Analysis)
+ * and `previewData` (Data Literacy).
+ *
+ * Note: this controls the Spotter chat interface only. The starter prompts on
+ * the Liveboard SpotterViz surface are configured separately through
+ * {@link SpotterVizConfig.customStarterPrompts}.
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Embed components
+ */
+export interface StarterPromptsConfig {
+    /**
+     * Turns the starter prompts surface on. Must be set explicitly, an
+     * unset flag leaves the surface off.
+     *
+     * Either this or `enableStarterPrompts` turns the surface on, so `false`
+     * here does not switch it off while `enableStarterPrompts` is `true`.
+     * @default false
+     */
+    enable?: boolean;
+    /** Basic Search category configuration. */
+    quick?: StarterPromptCategory;
+    /** Deep Analysis category configuration. */
+    research?: StarterPromptCategory;
+    /** Data Literacy category configuration. */
+    previewData?: StarterPreviewDataCategory;
 }
 
 /**
@@ -286,11 +347,67 @@ export interface SpotterChatViewConfig {
     /**
      * Enables starter prompts in the Spotter chat interface.
      *
-     * Supported embed types: SpotterEmbed, LiveboardEmbed, AppEmbed
+     * Either this or `starterPrompts.enable` turns the surface on, so it stays
+     * on while this is `true` even if `starterPrompts.enable` is `false`.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
      * @version SDK: 1.51.0 | ThoughtSpot: 26.8.0.cl
      * @default false
      */
     enableStarterPrompts?: boolean;
+    /**
+     * Customizes the labels and questions of the Spotter starter prompts.
+     * Individual pills are hidden or shown with `hiddenActions` /
+     * `visibleActions` using `Action.QuickSearchPill`,
+     * `Action.DeepAnalysisPill` and `Action.DataLiteracyPill`.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    hiddenActions: [Action.DeepAnalysisPill],
+     *    spotterChatConfig: {
+     *        starterPrompts: {
+     *            enable: true,
+     *            quick: {
+     *                label: 'Quick questions',
+     *                questions: [
+     *                    { label: 'Top products', prompt: 'What are the top products by revenue?' },
+     *                ],
+     *            },
+     *            previewData: { label: 'Explore your data' },
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    starterPrompts?: StarterPromptsConfig;
+}
+
+/**
+ * Configuration for the Spotter Analyst experience.
+ * Can be used in SpotterEmbed.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+ * @example
+ * ```js
+ * const embed = new SpotterEmbed('#tsEmbed', {
+ *    ... //other embed view config
+ *    spotterAnalystConfig: {
+ *        analystId: 'analyst-id-1234',
+ *    },
+ * })
+ * ```
+ */
+export interface SpotterAnalystConfig {
+    /**
+     * Pins the embed to a single spotter analyst. Implies no default Spotter
+     * and no "Show all".
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    analystId?: string;
 }
 
 /**
@@ -301,8 +418,43 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
+     * This field is optional. If not provided, Spotter loads using the
+     * previously selected user data source.
      */
-    worksheetId: string;
+    worksheetId?: string;
+    /**
+     * The array of data source GUIDs to set on load. Spotter uses
+     * these GUIDs to query data and generate Answers.
+     * dataSources is preferred over worksheetId if both are provided.
+     * The feature is currently behind a feature flag.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *     // ...other embed view config
+     *     dataSources: ['id-2345', 'id-2345'],
+     * });
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    dataSources?: string[];
+    /**
+     * Configuration for the Spotter Analyst experience.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterAnalystConfig: {
+     *        analystId: 'analyst-id-1234',
+     *    },
+     * })
+     * ```
+     */
+    spotterAnalystConfig?: SpotterAnalystConfig;
     /**
      * Ability to pass a starting search query to the conversation.
      */
@@ -463,6 +615,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
+    /**
      * Sets the default query mode when Spotter loads — Fast Search or
      * Research Mode. Applies fresh on every new session for this embed
      * instance only; it does not persist as a user preference and does
@@ -576,6 +743,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     sharedConversationId?: string;
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -596,6 +778,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -644,16 +827,17 @@ export class SpotterEmbed extends TsEmbed {
             this.viewConfig,
             this.handleError.bind(this),
         );
-        return buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
         const {
-            worksheetId,
             searchOptions,
             disableSourceSelection,
             hideSourceSelection,
             dataPanelV2,
+            updatedSpotterExperience,
             showSpotterLimitations,
             hideSampleQuestions,
             runtimeFilters,
@@ -661,19 +845,13 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterAnalystConfig,
         } = this.viewConfig;
 
-        if (!worksheetId) {
-            this.handleError({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-                code: EmbedErrorCodes.WORKSHEET_ID_NOT_FOUND,
-                error: ERROR_MESSAGE.SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND,
-            });
-        }
         const queryParams = this.getBaseQueryParams();
         queryParams[Param.SpotterEnabled] = true;
 
@@ -684,8 +862,10 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
+        setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
+        setParamIfDefined(queryParams, Param.AnalystId, spotterAnalystConfig?.analystId);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
@@ -706,6 +886,8 @@ export class SpotterEmbed extends TsEmbed {
             }
         }
 
+        setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
+
         return queryParams;
     }
 
@@ -718,6 +900,7 @@ export class SpotterEmbed extends TsEmbed {
             runtimeParameters,
             excludeRuntimeParametersfromURL,
             sharedConversationId,
+            dataSources,
         } = this.viewConfig;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
@@ -745,8 +928,12 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
-            worksheet: worksheetId,
-            query: searchOptions?.searchQuery || '',
+            ...(!(Array.isArray(dataSources) && dataSources.length > 0) && worksheetId
+                && { worksheet: worksheetId }),
+            ...(searchOptions?.searchQuery && { query: searchOptions.searchQuery }),
+            ...(Array.isArray(dataSources)
+                && dataSources.length > 0
+                && { dataSources: JSON.stringify(dataSources) }),
         });
         return `${this.getEmbedBasePath(query)}/embed/${path}${tsPostHashParams}`;
     }

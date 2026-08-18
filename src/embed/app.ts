@@ -22,8 +22,8 @@ import {
     SpotterFileUploadFileTypes,
 } from '../types';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -115,6 +115,9 @@ export enum HomePage {
     /**
      * Modular (v2) introduces the updated Modular Home Experience.
      * It serves as the foundational version of the home page.
+     * Use {@link HomePage.ModularWithStylingChanges} (V3) or
+     * {@link HomePage.Focused} (V4) instead.
+     * @deprecated V1 and V2 home page experiences are deprecated.
      */
     Modular = 'v2',
     /**
@@ -124,7 +127,7 @@ export enum HomePage {
     ModularWithStylingChanges = 'v3',
     /**
      * Focused (v4) introduces the V4 homepage experience
-     * in which Watchlist and recents and incorporated together 
+     * in which Watchlist and recents and incorporated together
      * to form a more focused homepage.
      * Pre-requisite : spotter enablement
      * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
@@ -191,13 +194,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     showPrimaryNavbar?: boolean;
     /**
      * Control the visibility of the left navigation panel on the home page
-     * in the V2 and V3 navigation and home page experience.
+     * in the V3 and V4 navigation and home page experience.
      * If `showPrimaryNavbar` is true, that is, if the Global and Homepage
      * navigation bars are visible, this flag will only hide the left navigation bar
      * on the home page.
      * The `showPrimaryNavbar` flag takes precedence over the `hideHomepageLeftNav`.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) and Modular (V2) home page experiences are
+     * deprecated. This attribute applies to V3 and V4 home page experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -263,11 +267,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     hideHamburger?: boolean;
     /**
      * Control the visibility of the object search
-     * on the top navigation bar in the
-     * V2 and V3 navigation experience.
+     * on the top navigation bar in the V3 navigation experience.
      *
-     * **Note**: This attribute is not supported
-     * in the classic (V1) experience.
+     * **Note**: The classic (V1) and V2 navigation experiences are
+     * deprecated. This attribute applies to the V3 navigation experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -285,8 +288,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the notification icon
      * on the top navigation bar in V3 navigation experience.
      *
-     * **Note**: This attribute is not supported
-     * in the classic (V1) and V2 experience modes.
+     * **Note**: The classic (V1) and V2 experience modes are deprecated.
+     * This attribute applies to the V3 experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
@@ -301,14 +304,14 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     hideNotification?: boolean;
     /**
-     * Control the visibility of the application selection menu
-     * in the top navigation bar in the V2 experience.
+     * Control the visibility of the application selection menu.
      * In the V3 experience, it shows or hides application selection
      * icons on the left navigation panel.
      * By default, the application selection menu and icons are
      * shown in the UI.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) and V2 experiences are deprecated.
+     * This attribute applies to the V3 experience.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -326,7 +329,8 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Control the visibility of the Org switcher button on the nav-bar.
      * By default, the Org switcher button is shown.
      *
-     * **Note**: This attribute is not supported in the classic (V1) experience.
+     * **Note**: The classic (V1) experience is deprecated. This attribute
+     * applies to V2 (deprecated), V3 and V4 experiences.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
@@ -485,6 +489,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.28.0 | ThoughtSpot: 9.12.5.cl
      * @default false
+     * Use the discoveryExperience.homePage option with
+     * {@link HomePage.ModularWithStylingChanges} (V3) or
+     * {@link HomePage.Focused} (V4) instead.
+     * @deprecated The V1 and V2 home page experiences are deprecated.
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -620,11 +628,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -638,10 +647,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -655,10 +666,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
 
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -737,6 +750,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     updatedSpotterChatPrompt?: boolean;
+    /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
     /**
      * Sets the default query mode when Spotter loads — Fast Search or
      * Research Mode. Applies fresh on every new session for this embed
@@ -824,6 +852,33 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
+     * Sets the default data sources (Models) for the Spotter experience shown on
+     * the home page of the full app embed. Accepts a list of Model GUIDs to
+     * preselect the data sources available to Spotter, or the literal
+     * `'auto_mode'` sentinel to load Spotter with the "Auto" model selected by
+     * default. This is consistent with how `worksheetId: 'auto_mode'` enables
+     * Auto mode in `SpotterEmbed`.
+     *
+     * **Note**: If `'auto_mode'` is included alongside one or more Model GUIDs,
+     * `'auto_mode'` takes precedence and is selected by default.
+     *
+     * **Note**: `'auto_mode'` requires the Spotter 3 experience with data source
+     * discovery enabled on your instance, and a Spotter-enabled home page (for
+     * example, `discoveryExperience.homePage: HomePage.Focused`).
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    discoveryExperience: { homePage: HomePage.Focused },
+     *    spotterDataSources: ['model-guid-1', 'model-guid-2'], // or ['auto_mode']
+     * })
+     * ```
+     */
+    spotterDataSources?: string[];
     /**
      * Configuration for the SpotterViz interface shown on the Liveboard.
      * Customize the brand name, description, chat input placeholder,
@@ -920,6 +975,22 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
      */
     visualOverrides?: VisualizationOverrides;
+
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -931,6 +1002,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -981,7 +1053,8 @@ export class AppEmbed extends V1Embed {
             this.handleError.bind(this),
         );
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-        return buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
+        const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
     }
 
     /**
@@ -989,6 +1062,11 @@ export class AppEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
+        const params = this.getEmbedParamsObject();
+        return getQueryParamString(params, true);
+    }
+
+    protected getEmbedParamsObject() {
         const {
             tag,
             hideTagFilterChips,
@@ -1005,14 +1083,15 @@ export class AppEmbed extends V1Embed {
             newConnectionsExperience,
             fullHeight,
             dataPanelV2 = true,
+            updatedSpotterExperience,
             hideLiveboardHeader = false,
             showLiveboardTitle = true,
             showLiveboardDescription = true,
             showMaskedFilterChip = false,
-            isLiveboardMasterpiecesEnabled = false,
+            isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
             hideHomepageLeftNav = false,
-            modularHomeExperience = false,
+            modularHomeExperience,
             isLiveboardHeaderSticky = true,
             enableAskSage,
             collapseSearchBarInitially = false,
@@ -1020,30 +1099,33 @@ export class AppEmbed extends V1Embed {
             enableCustomColumnGroups = false,
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
-            isLiveboardCompactHeaderEnabled = false,
+            isLiveboardCompactHeaderEnabled,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
-            hideIrrelevantChipsInLiveboardTabs = false,
-            isEnhancedFilterInteractivityEnabled = false,
+            hideIrrelevantChipsInLiveboardTabs,
+            isEnhancedFilterInteractivityEnabled,
             homePageSearchBarMode,
             isUnifiedSearchExperienceEnabled = true,
             enablePendoHelp = true,
             discoveryExperience,
-            coverAndFilterOptionInPDF = false,
+            coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             isCentralizedLiveboardFilterUXEnabled = false,
+            isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterDataSources,
             minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -1056,32 +1138,50 @@ export class AppEmbed extends V1Embed {
         params[Param.ShowLiveboardTitle] = showLiveboardTitle;
         params[Param.ShowLiveboardDescription] = !!showLiveboardDescription;
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
-        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        if (!isUndefined(isLiveboardMasterpiecesEnabled)) {
+            params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        }
         if (newChartsLibrary !== undefined) {
             params[Param.EnableNewChartLibrary] = newChartsLibrary;
         }
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
         params[Param.IsFullAppEmbed] = true;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
-        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
+        if (!isUndefined(isLiveboardCompactHeaderEnabled)) {
+            params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        }
+        if (!isUndefined(isEnhancedFilterInteractivityEnabled)) {
+            params[Param.IsEnhancedFilterInteractivityEnabled] =
+                isEnhancedFilterInteractivityEnabled;
+        }
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (!isUndefined(hideIrrelevantChipsInLiveboardTabs)) {
+            params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        }
         if (isUnifiedSearchExperienceEnabled !== undefined) {
             params[Param.IsUnifiedSearchExperienceEnabled] = isUnifiedSearchExperienceEnabled;
         }
-        params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        if (!isUndefined(coverAndFilterOptionInPDF)) {
+            params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        }
 
         params = this.getBaseQueryParams(params);
 
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        if (!isUndefined(showSpotterRadiance)) {
+            params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
+        }
         if (!isUndefined(defaultQueryMode)) {
             params[Param.DefaultQueryMode] = defaultQueryMode;
         }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
+        }
+
+        if (spotterDataSources && spotterDataSources.length) {
+            params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
         }
 
         // Handle spotterChatConfig params
@@ -1105,6 +1205,10 @@ export class AppEmbed extends V1Embed {
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
+        }
+
+        if (!isUndefined(updatedSpotterExperience)) {
+            params[Param.UpdatedSpotterExperience] = !!updatedSpotterExperience;
         }
 
         if (hideObjectSearch) {
@@ -1195,6 +1299,12 @@ export class AppEmbed extends V1Embed {
             ] = isCentralizedLiveboardFilterUXEnabled;
         }
 
+        if (isScopedLiveboardFilteringEnabled !== undefined) {
+            params[
+                Param.isScopedLiveboardFilteringEnabled
+            ] = isScopedLiveboardFilteringEnabled;
+        }
+
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
@@ -1215,7 +1325,6 @@ export class AppEmbed extends V1Embed {
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
-        params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState
@@ -1236,41 +1345,21 @@ export class AppEmbed extends V1Embed {
             params[Param.ModularHomeExperienceEnabled] = modularHomeExperience;
         }
 
-        // Set navigation to v2 by default to avoid problems like the app
-        // switcher (9-dot menu) not showing when v3 navigation is turned on
-        // at the cluster level.
-        // To use v3 navigation, we must manually set the discoveryExperience
-        // settings.
-        params[Param.NavigationVersion] = 'v2';
-        // Set homePageVersion to v2 by default to reset the LD flag value
-        // for the homepageVersion.
-        params[Param.HomepageVersion] = 'v2';
+        // Navigation V1/V2 and home page V1/V2 are deprecated. V3 is now the
+        // default experience, Need to send navigationVersion=v3 and
+        // homepageVersion=v3 even when the no discoveryExperience / 
+        // modularHomeExperience config is set. Without these
+        // params, older TSA versions (< 26.7) fall back to V2 for nav and
+        // home page, so the defaults must be sent explicitly from the SDK.
+        params[Param.NavigationVersion] = PrimaryNavbarVersion.Sliding;
+        params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
+
         if (discoveryExperience) {
-            // primaryNavbarVersion v3 will enabled the new left navigation
-            if (discoveryExperience.primaryNavbarVersion === PrimaryNavbarVersion.Sliding) {
-                params[Param.NavigationVersion] = discoveryExperience.primaryNavbarVersion;
-                // Enable the modularHomeExperience when Sliding is enabled.
-                params[Param.ModularHomeExperienceEnabled] = true;
-            }
-
-            // homePage v2 will enable the modular home page
-            // and it will override the modularHomeExperience value
-            if (discoveryExperience.homePage === HomePage.Modular) {
-                params[Param.ModularHomeExperienceEnabled] = true;
-            }
-
-            // ModularWithStylingChanges (v3) introduces the styling changes
-            // to the Modular Homepage.
-            // v3 will be the base version of homePageVersion.
-            if (discoveryExperience.homePage === HomePage.ModularWithStylingChanges) {
-                params[Param.HomepageVersion] = HomePage.ModularWithStylingChanges;
-            }
-
             // listPageVersion can be changed to v2 or v3
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-
+            
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
                 // The Focused (V4) homepage experience requires the updated
@@ -1282,9 +1371,7 @@ export class AppEmbed extends V1Embed {
             }
         }
 
-        const queryParams = getQueryParamString(params, true);
-
-        return queryParams;
+        return params;
     }
 
     private sendFullHeightLazyLoadData = () => {

@@ -7,6 +7,12 @@ export interface LiveboardTab {
   [key: string]: any;
 }
 
+export interface LiveboardGroup {
+  id: string;
+  name: string;
+  [key: string]: any;
+}
+
 /**
  * Levels at which a filter or parameter can be applied.
  */
@@ -60,6 +66,7 @@ export enum UIPassthroughEvent {
   GetParameters = 'getParameters',
   GetTML = 'getTML',
   GetTabs = 'getTabs',
+  GetGroups = 'getGroups',
   GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
 }
 
@@ -171,6 +178,14 @@ export type UIPassthroughContractBase = {
       Tabs: LiveboardTab[];
     };
   };
+  [UIPassthroughEvent.GetGroups]: {
+    request: Record<string, never>;
+    response: {
+      orderedGroupIds: string[];
+      numberOfGroups: number;
+      Groups: LiveboardGroup[];
+    };
+  };
   [UIPassthroughEvent.GetExportRequestForCurrentPinboard]: {
     request: Record<string, never>;
     response: {
@@ -225,6 +240,7 @@ export type EmbedApiHostEventMapping = {
   [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters;
   [HostEvent.GetTML]: UIPassthroughEvent.GetTML;
   [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs;
+  [HostEvent.GetGroups]: UIPassthroughEvent.GetGroups;
   [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
 }
 

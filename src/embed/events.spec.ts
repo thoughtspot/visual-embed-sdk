@@ -82,6 +82,46 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
+    test('should trigger PinSpotterConversation host event to ThoughtSpot app', async () => {
+        mockMessageChannel();
+        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
+        await appEmbed.render();
+        const iframe = getIFrameEl();
+        jest.spyOn(iframe.contentWindow, 'postMessage');
+        await executeAfterWait(() => {
+            appEmbed.trigger(HostEvent.PinSpotterConversation, {
+                conversationId: 'c1',
+            });
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: HostEvent.PinSpotterConversation,
+                }),
+                expect.anything(),
+                expect.anything(),
+            );
+        });
+    });
+
+    test('should trigger UnpinSpotterConversation host event to ThoughtSpot app', async () => {
+        mockMessageChannel();
+        const appEmbed = new AppEmbed(getRootEl(), defaultViewConfig);
+        await appEmbed.render();
+        const iframe = getIFrameEl();
+        jest.spyOn(iframe.contentWindow, 'postMessage');
+        await executeAfterWait(() => {
+            appEmbed.trigger(HostEvent.UnpinSpotterConversation, {
+                conversationId: 'c1',
+            });
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: HostEvent.UnpinSpotterConversation,
+                }),
+                expect.anything(),
+                expect.anything(),
+            );
+        });
+    });
+
     // TODO: enable test once we are actually able to load stuff in the iframe
     xtest('should trigger iframe load event', async () => {
         const onLoadSpy = jest.fn();
@@ -434,6 +474,10 @@ describe('Action enum values', () => {
     test('RemoveFromFavorites should resolve to its string value', () => {
         expect(Action.RemoveFromFavorites).toBe('removeFromFavorites');
     });
+
+    test('EditInputTable should resolve to its string value', () => {
+        expect(Action.EditInputTable).toBe('editInputTable');
+    });
 });
 
 describe('EmbedEvent basic routing', () => {
@@ -511,6 +555,8 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterConversationRenamed', EmbedEvent.SpotterConversationRenamed],
         ['SpotterConversationDeleted', EmbedEvent.SpotterConversationDeleted],
         ['SpotterConversationSelected', EmbedEvent.SpotterConversationSelected],
+        ['SpotterConversationPinned', EmbedEvent.SpotterConversationPinned],
+        ['SpotterConversationUnpinned', EmbedEvent.SpotterConversationUnpinned],
         ['EmbedPageContextChanged', EmbedEvent.EmbedPageContextChanged],
         ['Subscribed', EmbedEvent.Subscribed],
         ['SendTestScheduleEmail', EmbedEvent.SendTestScheduleEmail],

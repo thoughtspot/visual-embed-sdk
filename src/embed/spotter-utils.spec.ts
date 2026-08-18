@@ -2,6 +2,7 @@ import {
     resolveEnablePastConversationsSidebar,
     buildSpotterSidebarAppInitData,
     buildSpotterShareConversationAppInitData,
+    buildStarterPromptsAppInitData,
 } from './spotter-utils';
 import { ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { ERROR_MESSAGE } from '../errors';
@@ -38,6 +39,22 @@ describe('buildSpotterSidebarAppInitData', () => {
             enablePastConversationsSidebar: true,
             spotterSidebarTitle: 'Chats',
         });
+    });
+
+    it('forwards a nested spotterChatPinConfig object through untouched', () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.spotterChatPinConfig)
+            .toEqual(spotterChatPinConfig);
     });
 
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
@@ -128,7 +145,7 @@ describe('buildSpotterShareConversationAppInitData', () => {
         });
     });
 
-    it('passes label/icon override fields through untouched', () => {
+    it('passes label override fields through untouched', () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
@@ -141,7 +158,6 @@ describe('buildSpotterShareConversationAppInitData', () => {
             spotterShareIncludeNewMessagesLabel: 'Include new messages',
             spotterShareUpToCurrentLabel: 'Share up to current moment',
             spotterShareStaleInfoLabel: 'This snapshot may be stale',
-            spotterShareIcon: 'share',
         };
         const result = buildSpotterShareConversationAppInitData(base, {
             spotterShareConversationConfig,
@@ -156,5 +172,64 @@ describe('buildSpotterShareConversationAppInitData', () => {
         });
         expect(result.embedParams?.existing).toBe('keep');
         expect(result.embedParams?.spotterShareConversationConfig?.enableShareConversation).toBe(true);
+    });
+});
+
+describe('buildStarterPromptsAppInitData', () => {
+    const base = { type: 'APP_INIT' } as any;
+
+    it('returns the payload unchanged when starterPrompts is absent', () => {
+        expect(buildStarterPromptsAppInitData(base, {})).toBe(base);
+        expect(buildStarterPromptsAppInitData(base, { spotterChatConfig: {} })).toBe(base);
+    });
+
+    it('nests starterPrompts under embedParams', () => {
+        const result = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts: { quick: { label: 'Quick' } } },
+        });
+        expect(result.embedParams?.starterPrompts).toEqual({ quick: { label: 'Quick' } });
+    });
+
+    it('forwards the enable feature flag', () => {
+        const enabled = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts: { enable: true, quick: { label: 'Quick' } } },
+        });
+        expect(enabled.embedParams?.starterPrompts).toEqual({ enable: true, quick: { label: 'Quick' } });
+
+        const disabled = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts: { enable: false } },
+        });
+        expect(disabled.embedParams?.starterPrompts).toEqual({ enable: false });
+    });
+
+    it('preserves existing embedParams keys', () => {
+        const withExisting = {
+            ...base,
+            embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } },
+        } as any;
+        const result = buildStarterPromptsAppInitData(withExisting, {
+            spotterChatConfig: { starterPrompts: { quick: { label: 'Quick' } } },
+        });
+        expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
+        expect(result.embedParams?.starterPrompts).toEqual({ quick: { label: 'Quick' } });
+    });
+
+    it('forwards every category as configured', () => {
+        const starterPrompts = {
+            enable: true,
+            quick: {
+                label: 'Quick',
+                questions: Array.from({ length: 6 }, (_, i) => ({
+                    label: `q${i}`,
+                    prompt: `prompt ${i}`,
+                })),
+            },
+            research: { label: 'Research', questions: [{ prompt: 'Why did revenue drop?' }] },
+            previewData: { label: 'Explore' },
+        };
+        const result = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts },
+        });
+        expect(result.embedParams?.starterPrompts).toEqual(starterPrompts);
     });
 });

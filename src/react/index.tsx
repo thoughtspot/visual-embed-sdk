@@ -11,7 +11,9 @@ import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed
 import { TsEmbed } from '../embed/ts-embed';
 import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig, ConversationMessage as _ConversationMessage, SpotterAgentMessageViewConfig } from '../embed/bodyless-conversation';
 
-import { EmbedConfig, EmbedEvent, AllEmbedViewConfig } from '../types';
+import {
+    EmbedConfig, EmbedEvent, AllEmbedViewConfig, PreRenderConfig,
+} from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
@@ -32,13 +34,14 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
                 embedProps,
             );
+            const preRenderId = props.preRenderConfig?.preRenderId ?? props.preRenderId;
 
             const handleDestroy = (tsEmbed: InstanceType<T>) => {
                 // do not destroy if it is a preRender component
                 if (isPreRenderedComponent) return;
 
                 // if component is connected to a preRendered component
-                if (props.preRenderId) {
+                if (preRenderId) {
                     tsEmbed.hidePreRender();
                     return;
                 }
@@ -52,7 +55,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
             const handleDefaultRendering = (tsEmbed: InstanceType<T>) => {
                 // if component is connected to a preRendered component
-                if (props.preRenderId) {
+                if (preRenderId) {
                     tsEmbed.showPreRender();
                     return;
                 }
@@ -111,35 +114,69 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
 
 interface SearchProps extends EmbedProps, SearchViewConfig { }
 
-interface PreRenderProps {
-    /**
-     * PreRender id to be used for PreRendering the embed.
-     * Use PreRender to render the embed in the background and then
-     * show or hide the rendered embed using showPreRender or hidePreRender respectively.
-     *
-     * Use PreRendered react component for pre rendering embed components.
-     * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   preRenderId: "preRenderId-123"
-     * });
-     * embed.showPreRender();
-     * ```
-     * @example
-     * ```tsx
-     * function LandingPageComponent() {
-     *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
-     * }
-     * ```
-     * function MyComponent() {
-     *  return <LiveboardEmbed preRenderId="someId" liveboardId="libId" />
-     * }
-     * ```
-     */
-    preRenderId: string;
-}
+/**
+ * The PreRendered components require a preRender id. It can be supplied either
+ * through `preRenderConfig.preRenderId` (SDK: 1.52.0 and later) or through the
+ * top-level `preRenderId` prop (SDK: 1.25.0 and later, now deprecated).
+ * `preRenderConfig.preRenderId` takes precedence when both are set.
+ *
+ * Use PreRender to render the embed in the background and then
+ * show or hide the rendered embed using showPreRender or hidePreRender respectively.
+ * @example
+ * ```tsx
+ * // Preferred, SDK: 1.52.0 and later.
+ * function LandingPageComponent() {
+ *  return <PreRenderedLiveboardEmbed
+ *      preRenderConfig={{ preRenderId: "someId" }}
+ *      liveboardId="libId"
+ *  />
+ * }
+ *
+ * function MyComponent() {
+ *  return <LiveboardEmbed
+ *      preRenderConfig={{ preRenderId: "someId" }}
+ *      liveboardId="libId"
+ *  />
+ * }
+ * ```
+ * @example
+ * ```tsx
+ * // Deprecated top-level preRenderId, still supported.
+ * function LandingPageComponent() {
+ *  return <PreRenderedLiveboardEmbed preRenderId="someId" liveboardId="libId" />
+ * }
+ * ```
+ */
+type PreRenderProps =
+    | {
+        /**
+         * PreRender id to be used for PreRendering the embed.
+         * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
+         * @deprecated Use `preRenderConfig.preRenderId` instead.
+         */
+        preRenderId: string;
+        /**
+         * Configuration for the pre-render wrapper element.
+         * See {@link PreRenderConfig} for available options.
+         * @version SDK: 1.52.0
+         */
+        preRenderConfig?: PreRenderConfig;
+    }
+    | {
+        /**
+         * PreRender id to be used for PreRendering the embed.
+         * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
+         * @deprecated Use `preRenderConfig.preRenderId` instead.
+         */
+        preRenderId?: string;
+        /**
+         * Configuration for the pre-render wrapper element. `preRenderId` is
+         * required here when the top-level `preRenderId` prop is not passed.
+         * See {@link PreRenderConfig} for available options.
+         * @version SDK: 1.52.0
+         */
+        preRenderConfig: PreRenderConfig & { preRenderId: string };
+    };
 
 /**
  * React component for Search Embed.
@@ -448,7 +485,7 @@ type EmbedComponent = typeof SearchEmbed
  * const ref = useEmbedRef();
  * useEffect(() => {
  * ref.current.trigger(
- *  EmbedEvent.UpdateRuntimeFilter,
+ *  HostEvent.UpdateRuntimeFilters,
  *  [{ columnName: 'name', operator: 'EQ', values: ['value']}]);
  * }, [])
  * return <LiveboardEmbed ref={ref} liveboardId={<id>} />

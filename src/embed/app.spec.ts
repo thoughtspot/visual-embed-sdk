@@ -4,7 +4,6 @@ import {
     DataPanelCustomColumnGroupsAccordionState,
     Page,
     HomePageSearchBarMode,
-    PrimaryNavbarVersion,
     HomePage,
     ListPage,
 } from './app';
@@ -139,7 +138,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -153,7 +152,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -167,7 +166,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -181,7 +180,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&applicationSwitcherHidden=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&applicationSwitcherHidden=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -195,7 +194,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&orgSwitcherHidden=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&orgSwitcherHidden=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -229,7 +228,7 @@ describe('App embed tests', () => {
                 await executeAfterWait(() => {
                     expectUrlMatchesWithParams(
                         getIFrameSrc(),
-                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/${route}`,
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/${route}`,
                     );
                     cleanUp();
                 });
@@ -264,7 +263,7 @@ describe('App embed tests', () => {
                 await executeAfterWait(() => {
                     expectUrlMatchesWithParams(
                         getIFrameSrc(),
-                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/${route}`,
+                        `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/${route}`,
                     );
                     cleanUp();
                 });
@@ -281,7 +280,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/foo/bar`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/foo/bar`,
             );
         });
     });
@@ -304,7 +303,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&col1=sales&op1=EQ&val1=1000${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&col1=sales&op1=EQ&val1=1000&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -327,7 +326,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -351,7 +350,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}&${runtimeFilter}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}&${runtimeFilter}#/home`,
             );
         });
     });
@@ -369,7 +368,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&${defaultParamsWithoutHiddenActions}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=false&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3&${defaultParamsWithoutHiddenActions}&disableAction=[%22save%22,%22update%22]&disableHint=Access%20denied&hideAction=[%22${Action.ReportError}%22,%22download%22]${defaultParamsPost}#/home`,
             );
         });
     });
@@ -384,7 +383,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enable2ColumnLayout=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enable2ColumnLayout=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -398,7 +397,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&arePdfCoverFilterPageCheckboxesEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&arePdfCoverFilterPageCheckboxesEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -412,7 +411,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardStylingAndGroupingEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardStylingAndGroupingEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -426,7 +425,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isThisPeriodInDateFiltersEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isThisPeriodInDateFiltersEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -440,7 +439,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -451,7 +450,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableHomepageAnnouncement=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -465,7 +464,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isPNGInScheduledEmailsEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isPNGInScheduledEmailsEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -479,12 +478,12 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should not set isWYSIWYGLiveboardPDFEnabled in url by default', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
         } as AppViewConfig);
@@ -492,7 +491,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isWYSIWYGLiveboardPDFEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -506,7 +505,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -520,7 +519,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLinkParametersEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -533,7 +532,7 @@ describe('App embed tests', () => {
                     homePage: HomePage.Focused,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=true${defaultParams}${defaultParamsPost}#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v4&updatedSpotterChatPrompt=true${defaultParams}${defaultParamsPost}#/home`,
         );
     });
 
@@ -546,7 +545,7 @@ describe('App embed tests', () => {
                 },
                 updatedSpotterChatPrompt: false,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v4&updatedSpotterChatPrompt=false${defaultParams}${defaultParamsPost}#/home`,
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v4&updatedSpotterChatPrompt=false${defaultParams}${defaultParamsPost}#/home`,
         );
     });
 
@@ -559,7 +558,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -573,7 +572,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -587,7 +586,35 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterChatPrompt=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set showSpotterRadiance to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterRadiance: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterRadiance=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set showSpotterRadiance to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterRadiance: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterRadiance=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -630,8 +657,43 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&hideToolResponseCardBranding=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&hideToolResponseCardBranding=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set spotterDataSources to a list of Model GUIDs in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDataSources: ['model-guid-123', 'model-guid-456'],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterDataSources=${encodeURIComponent(JSON.stringify(['model-guid-123', 'model-guid-456']))}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not add spotterDataSources to url when not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDataSources');
+        });
+    });
+
+    test('should not add spotterDataSources to url when empty array', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterDataSources: [],
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('spotterDataSources');
         });
     });
 
@@ -676,6 +738,40 @@ describe('App embed tests', () => {
                     }),
                 }),
             });
+        });
+    });
+
+    test('should include starterPrompts in APP_INIT embedParams', async () => {
+        const starterPrompts = {
+            enable: true,
+            quick: {
+                label: 'Quick',
+                questions: [
+                    { label: 'Q1', prompt: 'P1' },
+                    { label: 'Q2', prompt: 'P2' },
+                ],
+            },
+            research: { label: 'Research' },
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { starterPrompts },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.starterPrompts)
+                .toEqual(starterPrompts);
         });
     });
 
@@ -770,12 +866,50 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should forward spotterChatPinConfig nested in spotterSidebarConfig in APP_INIT', async () => {
+        const spotterChatPinConfig = {
+            enabled: true,
+            pinLabel: 'Pin to top',
+            unpinLabel: 'Unpin',
+        };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                spotterChatPinConfig,
+            },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    embedParams: expect.objectContaining({
+                        spotterSidebarConfig: expect.objectContaining({
+                            spotterChatPinConfig,
+                        }),
+                    }),
+                }),
+            });
+        });
+    });
+
     test('should include spotterShareConversationConfig in APP_INIT embedParams when provided', async () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
             spotterShareModalTitle: 'Share conversation',
-            spotterShareIcon: 'share',
         };
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -841,7 +975,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&toolResponseCardBrandingLabel=MyBrand${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&toolResponseCardBrandingLabel=MyBrand&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -855,7 +989,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterFileUploadEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&spotterFileUploadEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -869,7 +1003,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -896,7 +1030,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardXLSXCSVDownloadEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -910,7 +1044,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -924,7 +1058,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isGranularXLSXCSVSchedulesEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -938,7 +1072,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -952,8 +1086,46 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isCentralizedLiveboardFilterUXEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set isScopedLiveboardFilteringEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isScopedLiveboardFilteringEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isScopedLiveboardFilteringEnabled=true${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isScopedLiveboardFilteringEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isScopedLiveboardFilteringEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isScopedLiveboardFilteringEnabled=false${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isScopedLiveboardFilteringEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isScopedLiveboardFilteringEnabled');
         });
     });
 
@@ -968,7 +1140,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&tag=Finance${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}&tag=Finance${defaultParamsPost}#/home`,
             );
         });
     });
@@ -984,7 +1156,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}&hideTagFilterChips=true${defaultParamsPost}#/home`,
             );
         });
     });
@@ -999,7 +1171,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}&hideTagFilterChips=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}&hideTagFilterChips=false${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1013,7 +1185,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1029,7 +1201,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1045,7 +1217,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1060,7 +1232,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showMaskedFilterChip=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1076,7 +1248,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1092,22 +1264,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=false${defaultParams}${defaultParamsPost}#/home`,
-            );
-        });
-    });
-
-    test('Should add default isLiveboardMasterpiecesEnabled false when not specified', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            showPrimaryNavbar: false,
-        } as AppViewConfig);
-
-        appEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardMasterpiecesEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1123,7 +1280,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1139,7 +1296,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&muzeChartPhase1EnabledGA=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1154,7 +1311,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1169,7 +1326,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableSearchAssist=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1184,7 +1341,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableDataPanelV2=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableDataPanelV2=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1199,7 +1356,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1214,7 +1371,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderV2Enabled=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderV2Enabled=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1229,7 +1386,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardReverifyBanner=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardReverifyBanner=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1245,7 +1402,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
         appEmbedTrue.destroy();
@@ -1260,7 +1417,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
         appEmbedFalse.destroy();
@@ -1274,7 +1431,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isUnifiedSearchExperienceEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1330,7 +1487,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideIrrelevantFiltersAtTabLevel=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideIrrelevantFiltersAtTabLevel=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1345,7 +1502,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardVerifiedBadge=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&showLiveboardVerifiedBadge=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1359,7 +1516,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardPermissionV2Enabled=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardPermissionV2Enabled=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1373,7 +1530,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=true&hideLiveboardHeader=false&showLiveboardDescription=true&showLiveboardTitle=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&isLiveboardHeaderSticky=true&hideLiveboardHeader=false&showLiveboardDescription=true&showLiveboardTitle=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1388,7 +1545,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1403,7 +1560,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&hideHomepageLeftNav=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideHomepageLeftNav=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1420,7 +1577,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&hideHamburger=true&hideObjectSearch=true&hideNotification=true${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideHamburger=true&hideObjectSearch=true&hideNotification=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1437,84 +1594,9 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
-    });
-
-    test('Should add navigationVersion=v3 when primaryNavbarVersion is Sliding to the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.Modular,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
-        );
-    });
-
-    test('Should not add navigationVersion=v3 when primaryNavbarVersion is not added to the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                discoveryExperience: {
-                    homePage: HomePage.Modular,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true${defaultParams}${defaultParamsPost}#/home`
-        );
-    });
-
-    test('Should add navigationVersion=v3 & modularHomeExperience=true when primaryNavbarVersion is Sliding to the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                // homePage v2 config not included under discoveryExperience
-                discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
-        );
-    });
-
-    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when Sliding and ModularWithStylingChanges configured in the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.ModularWithStylingChanges,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
-        );
-    });
-
-    test('Should add homepageVersion=v3 & navigationVersion=v3 & modularHomeExperience=true when homePage is ModularWithStylingChanges to the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                // primaryNavbarVersion is not included under
-                // discoveryExperience, then it set navigationVersion=v2 and
-                // modularHomeExperience=false.
-                discoveryExperience: {
-                    homePage: HomePage.ModularWithStylingChanges,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
-        );
-    });
-
-    test('Should add navigationVersion=v2 when primaryNavbarVersion is not added to the iframe src', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
-        );
     });
 
     test('Should add enableAskSage flag to the iframe src', async () => {
@@ -1523,7 +1605,7 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
                 enableAskSage: true,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&enableAskSage=true${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&enableAskSage=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
@@ -1535,30 +1617,28 @@ describe('App embed tests', () => {
                     listPageVersion: ListPage.ListWithUXChanges,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&listpageVersion=v3&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
-    test('Should add listpageVersion=v2 by default when no discoveryExperience is provided', async () => {
+    test('Should send navigationVersion=v3 & homepageVersion=v3 by default when no discoveryExperience is provided', async () => {
         await testUrlParams(
             {
                 ...defaultViewConfig,
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&navigationVersion=v2${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
-    test('Should add listpageVersion=v2 by default when discoveryExperience is provided but listPageVersion is not specified', async () => {
-        await testUrlParams(
-            {
-                ...defaultViewConfig,
-                discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.Modular,
-                },
-            } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3${defaultParams}${defaultParamsPost}#/home`
-        );
+    test('Should not send modularHomeExperience param by default when not specified', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const url = new URL(getIFrameSrc());
+            expect(url.searchParams.has('modularHomeExperience')).toBe(false);
+        });
     });
 
 
@@ -1567,12 +1647,10 @@ describe('App embed tests', () => {
             {
                 ...defaultViewConfig,
                 discoveryExperience: {
-                    primaryNavbarVersion: PrimaryNavbarVersion.Sliding,
-                    homePage: HomePage.Modular,
                     listPageVersion: ListPage.ListWithUXChanges,
                 },
             } as AppViewConfig,
-            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=true&navigationVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
+            `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3&listpageVersion=v3${defaultParams}${defaultParamsPost}#/home`
         );
     });
 
@@ -1585,7 +1663,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?enablePendoHelp=true&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?enablePendoHelp=true&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
 
@@ -1598,7 +1676,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?enablePendoHelp=false&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?enablePendoHelp=false&embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1612,7 +1690,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=true${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1626,7 +1704,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=false${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableLiveboardDataCache=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1651,7 +1729,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=objectSearch${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&homePageSearchBarMode=objectSearch&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1666,7 +1744,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=aiAnswer${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&homePageSearchBarMode=aiAnswer&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1681,7 +1759,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&homePageSearchBarMode=none${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&homePageSearchBarMode=none&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1698,7 +1776,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&modularHomeExperience=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST${defaultParams}${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&dataPanelCustomGroupsAccordionInitialState=EXPAND_FIRST&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1759,7 +1837,7 @@ describe('App embed tests', () => {
             appEmbed.navigateToPage(path);
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&navigationVersion=v3&homepageVersion=v3&${defaultParamsForPinboardEmbed}${defaultParamsPost}#/${path}`,
             );
         });
 
@@ -2531,5 +2609,108 @@ describe('AppEmbed visualOverrides tests', () => {
 
         mockMessageChannel();
         await testVisualOverridesInEmbed(appEmbed, visualOverrides);
+    });
+});
+
+describe('AppEmbed getEmbedParamsObject', () => {
+    beforeEach(() => {
+        cleanUp();
+        jest.spyOn(TsEmbed.prototype as any, 'getAppInitData').mockResolvedValue({});
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    test('getEmbedParams should use getEmbedParamsObject internally', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const getEmbedParamsObjectSpy = jest.spyOn(appEmbed as any, 'getEmbedParamsObject');
+
+        await appEmbed.render();
+
+        expect(getEmbedParamsObjectSpy).toHaveBeenCalled();
+    });
+
+    test('getEmbedParamsObject should contain isFullHeightPinboard when fullHeight is true', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBe(true);
+        expect(params.fullHeight).toBeUndefined();
+    });
+
+    test('getEmbedParamsObject should not contain isFullHeightPinboard when fullHeight is false', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: false,
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBeUndefined();
+    });
+
+    test('getUpdateEmbedParamsObject should contain isFullHeightPinboard when fullHeight is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+        } as AppViewConfig);
+
+        const params = await (appEmbed as any).getUpdateEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBe(true);
+    });
+
+    test('getUpdateEmbedParamsObject should not contain isFullHeightPinboard when fullHeight is false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: false,
+        } as AppViewConfig);
+
+        const params = await (appEmbed as any).getUpdateEmbedParamsObject();
+
+        expect(params.isFullHeightPinboard).toBeUndefined();
+    });
+});
+
+describe('AppEmbed updatedSpotterExperience tests', () => {
+    beforeEach(() => {
+        cleanUp();
+    });
+
+    test('should set updatedSpotterExperience to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterExperience: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterExperience=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set updatedSpotterExperience to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            updatedSpotterExperience: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterExperience=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
     });
 });

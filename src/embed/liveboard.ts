@@ -31,7 +31,8 @@ import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
-import { SpotterChatViewConfig } from './conversation';
+import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
+import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -41,6 +42,7 @@ import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-util
 export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterVizConfig?: SpotterVizConfig;
+        starterPrompts?: StarterPromptsConfig;
     };
 }
 
@@ -402,11 +404,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     /**
      * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
      * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from version 26.5.0.cl. It is disabled by default in embed deployments.
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -419,10 +422,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isContinuousLiveboardPDFEnabled?: boolean;
     /**
      * This flag is used to enable/disable the XLSX/CSV download option for Liveboards
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -435,10 +440,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
     isLiveboardXLSXCSVDownloadEnabled?: boolean;
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
+     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.6.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
+     * @default true
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -530,6 +537,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     updatedSpotterChatPrompt?: boolean;
     /**
+     * showSpotterRadiance : Controls the radiance on the Spotter page.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    showSpotterRadiance : true,
+     * })
+     * ```
+     */
+    showSpotterRadiance?: boolean;
+    /**
      * Enables the stop answer generation button in the Spotter embed UI,
      * allowing users to interrupt an ongoing answer generation.
      *
@@ -604,6 +626,21 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * ```
      */
     enableLiveboardDataCache?: boolean;
+    /**
+     * updatedSpotterExperience : Controls the updated Spotter experience.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    updatedSpotterExperience : true,
+     * })
+     * ```
+     */
+    updatedSpotterExperience?: boolean;
 }
 
 /**
@@ -649,7 +686,8 @@ export class LiveboardEmbed extends V1Embed {
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
+        const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
+        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
     }
 
     /**
@@ -679,34 +717,37 @@ export class LiveboardEmbed extends V1Embed {
             showLiveboardDescription,
             showLiveboardTitle,
             isLiveboardHeaderSticky = true,
-            isLiveboardCompactHeaderEnabled = false,
+            isLiveboardCompactHeaderEnabled,
             showLiveboardVerifiedBadge = true,
             showLiveboardReverifyBanner = true,
-            hideIrrelevantChipsInLiveboardTabs = false,
+            hideIrrelevantChipsInLiveboardTabs,
             showMaskedFilterChip = false,
-            isLiveboardMasterpiecesEnabled = false,
+            isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
-            isEnhancedFilterInteractivityEnabled = false,
+            isEnhancedFilterInteractivityEnabled,
             enableAskSage,
             enable2ColumnLayout,
             dataPanelV2 = true,
+            updatedSpotterExperience,
             enableCustomColumnGroups = false,
             oAuthPollingInterval,
             isForceRedirect,
             dataSourceId,
-            coverAndFilterOptionInPDF = false,
+            coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             isPNGInScheduledEmailsEnabled = false,
-            isLiveboardXLSXCSVDownloadEnabled = false,
-            isGranularXLSXCSVSchedulesEnabled = false,
+            isLiveboardXLSXCSVDownloadEnabled,
+            isGranularXLSXCSVSchedulesEnabled,
             showSpotterLimitations,
             isCentralizedLiveboardFilterUXEnabled = false,
+            isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterRadiance,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             isThisPeriodInDateFiltersEnabled,
-            isContinuousLiveboardPDFEnabled = false,
+            isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
         } = this.viewConfig;
 
@@ -731,6 +772,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
+        }
+        if (!isUndefined(showSpotterRadiance)) {
+            params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }
         if (!isUndefined(enableStopAnswerGenerationEmbed)) {
             params[Param.EnableStopAnswerGenerationEmbed] = !!enableStopAnswerGenerationEmbed;
@@ -796,6 +840,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.ShowSpotterLimitations] = showSpotterLimitations;
         }
 
+        if (!isUndefined(updatedSpotterExperience)) {
+            params[Param.UpdatedSpotterExperience] = !!updatedSpotterExperience;
+        }
+
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
             const {
@@ -829,6 +877,12 @@ export class LiveboardEmbed extends V1Embed {
             ] = isCentralizedLiveboardFilterUXEnabled;
         }
 
+        if (isScopedLiveboardFilteringEnabled !== undefined) {
+            params[
+                Param.isScopedLiveboardFilteringEnabled
+            ] = isScopedLiveboardFilteringEnabled;
+        }
+
         if (isThisPeriodInDateFiltersEnabled !== undefined) {
             params[Param.IsThisPeriodInDateFiltersEnabled] = isThisPeriodInDateFiltersEnabled;
         }
@@ -846,16 +900,27 @@ export class LiveboardEmbed extends V1Embed {
         }
 
         params[Param.LiveboardHeaderSticky] = isLiveboardHeaderSticky;
-        params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        if (!isUndefined(isLiveboardCompactHeaderEnabled)) {
+            params[Param.LiveboardHeaderV2] = isLiveboardCompactHeaderEnabled;
+        }
         params[Param.ShowLiveboardVerifiedBadge] = showLiveboardVerifiedBadge;
         params[Param.ShowLiveboardReverifyBanner] = showLiveboardReverifyBanner;
-        params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        if (!isUndefined(hideIrrelevantChipsInLiveboardTabs)) {
+            params[Param.HideIrrelevantFiltersInTab] = hideIrrelevantChipsInLiveboardTabs;
+        }
         params[Param.ShowMaskedFilterChip] = showMaskedFilterChip;
-        params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
-        params[Param.IsEnhancedFilterInteractivityEnabled] = isEnhancedFilterInteractivityEnabled;
+        if (!isUndefined(isLiveboardMasterpiecesEnabled)) {
+            params[Param.IsLiveboardMasterpiecesEnabled] = isLiveboardMasterpiecesEnabled;
+        }
+        if (!isUndefined(isEnhancedFilterInteractivityEnabled)) {
+            params[Param.IsEnhancedFilterInteractivityEnabled] =
+                isEnhancedFilterInteractivityEnabled;
+        }
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
-        params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        if (!isUndefined(coverAndFilterOptionInPDF)) {
+            params[Param.CoverAndFilterOptionInPDF] = coverAndFilterOptionInPDF;
+        }
 
         const queryParams = getQueryParamString(params, true);
 
@@ -1178,7 +1243,7 @@ export class LiveboardEmbed extends V1Embed {
         this.viewConfig.personalizedViewId = personalizedViewId;
         if (this.isRendered) {
             this.trigger(HostEvent.Navigate, path.substring(1));
-        } else if (this.viewConfig.preRenderId) {
+        } else if (this.getPreRenderConfig().preRenderId) {
             this.preRender(true);
         } else {
             this.render();

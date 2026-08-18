@@ -38,6 +38,7 @@ const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
     [HostEvent.GetParameters]: UIPassthroughEvent.GetParameters,
     [HostEvent.GetTML]: UIPassthroughEvent.GetTML,
     [HostEvent.GetTabs]: UIPassthroughEvent.GetTabs,
+    [HostEvent.GetGroups]: UIPassthroughEvent.GetGroups,
     [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
 };
 

@@ -67,6 +67,8 @@ import {
     MessagePayload,
     ContextType,
     ContextObject,
+    PreRenderConfig,
+    BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -207,7 +209,7 @@ export class TsEmbed {
 
     private resizeObserver: ResizeObserver;
 
-    private preRenderContainerEl: HTMLElement | null = null;
+    private preRenderContainerEl: HTMLElement = document.body;
 
     private containerScrollListener: (() => void) | null = null;
 
@@ -961,10 +963,26 @@ export class TsEmbed {
     }
 
     /**
+     * Returns a merged {@link PreRenderConfig} object where each shared key
+     * prefers `preRenderConfig.key` over the top-level `viewConfig.key` for
+     * backward compatibility.
+     */
+    protected getPreRenderConfig(): PreRenderConfig {
+        const viewCfg = this.viewConfig as BaseViewConfig;
+        const preRenderCfg = viewCfg.preRenderConfig ?? {};
+        return {
+            ...preRenderCfg,
+            preRenderId: preRenderCfg.preRenderId ?? viewCfg.preRenderId,
+            preRenderContainer: preRenderCfg.preRenderContainer ?? viewCfg.preRenderContainer,
+            doNotTrackPreRenderSize: preRenderCfg.doNotTrackPreRenderSize ?? viewCfg.doNotTrackPreRenderSize,
+        };
+    }
+
+    /**
      * Returns true if this embed instance is configured for pre-rendering.
      */
     protected isPreRenderEmbed() {
-        return !!this.viewConfig.preRenderId;
+        return !!this.getPreRenderConfig().preRenderId;
     }
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRenderEmbed()) {
@@ -1120,6 +1138,7 @@ export class TsEmbed {
                 this.setIframeElement(this.preRenderChild);
             }
             this.isRendered = true;
+            this.inheritPreRenderContainer();
         }
 
         return this.isPreRenderConnected();
@@ -1177,7 +1196,7 @@ export class TsEmbed {
      * fresh element; an element passed directly cannot be re-resolved.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
-        const containerConfig = this.viewConfig.preRenderContainer;
+        const containerConfig = this.getPreRenderConfig().preRenderContainer;
         let container: Element | null = null;
         if (typeof containerConfig === 'string') {
             try {
@@ -1194,15 +1213,40 @@ export class TsEmbed {
         return (container as HTMLElement) ?? document.body;
     }
 
+    private inheritPreRenderContainer(): void {
+        const preRenderedObject = this.getPreRenderObj<TsEmbed>();
+        if (!preRenderedObject || preRenderedObject === (this as TsEmbed)) {
+            return;
+        }
+        const ownerContainer = preRenderedObject.preRenderContainerEl ?? document.body;
+        if (
+            this.getPreRenderConfig().preRenderContainer
+            && this.resolvePreRenderContainerTarget() !== ownerContainer
+        ) {
+            logger.warn(
+                'preRenderContainer is applied only by the component that creates the preRender; '
+                    + 'the one passed here is ignored. Set it on the PreRender component instead.',
+            );
+        }
+        this.preRenderContainerEl = ownerContainer;
+        this.applyPreRenderContainerPositioning();
+    }
+
+    private getCustomPreRenderContainer(): HTMLElement | null {
+        const container = this.preRenderContainerEl;
+        return container && container !== document.body ? container : null;
+    }
+
     /**
-     * Makes the container a positioning context for the absolutely positioned
-     * wrapper, stashing the original inline `position` on the element (once) so
-     * destroy() can restore it exactly, leaving no trace. Recording it on the
-     * element rather than per-instance lets the override be reverted even when
-     * embeds share the same container.
+     * Makes the resolved container a positioning context for the absolutely
+     * positioned wrapper, stashing the original inline `position` on the element
+     * (once) so destroy() can restore it exactly, leaving no trace. Recording it
+     * on the element rather than per-instance lets the override be reverted even
+     * when embeds share the same container.
      */
-    private applyPreRenderContainerPositioning(container: HTMLElement): void {
-        if (container === document.body) {
+    private applyPreRenderContainerPositioning(): void {
+        const container = this.getCustomPreRenderContainer();
+        if (!container) {
             return;
         }
         const pos = window.getComputedStyle(container).position;
@@ -1248,11 +1292,11 @@ export class TsEmbed {
                 resolved.addEventListener('scroll', this.containerScrollListener);
             }
         }
-        this.applyPreRenderContainerPositioning(resolved);
+        this.preRenderContainerEl = resolved;
+        this.applyPreRenderContainerPositioning();
         if (wrapper.parentNode !== resolved) {
             resolved.appendChild(wrapper);
         }
-        this.preRenderContainerEl = resolved;
     }
 
     protected insertIntoDOMForPreRender(child: string | Node): void {
@@ -1280,7 +1324,7 @@ export class TsEmbed {
 
         const targetContainer = this.resolvePreRenderContainerTarget();
         this.preRenderContainerEl = targetContainer;
-        this.applyPreRenderContainerPositioning(targetContainer);
+        this.applyPreRenderContainerPositioning();
         targetContainer.appendChild(preRenderWrapper);
     }
 
@@ -1715,6 +1759,9 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
@@ -1795,7 +1842,11 @@ export class TsEmbed {
         showPreRenderByDefault = false,
         replaceExistingPreRender = false,
     ): Promise<TsEmbed> {
-        if (!this.viewConfig.preRenderId) {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_PRE_RENDER, {
+            showPreRenderByDefault,
+            replaceExistingPreRender,
+        });
+        if (!this.getPreRenderConfig().preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -1854,13 +1905,13 @@ export class TsEmbed {
      * same container — a shared container still needs the positioning context.
      */
     private restorePreRenderContainerPosition(): void {
-        const container = this.preRenderContainerEl as HTMLElement | null;
+        const container = this.preRenderContainerEl;
         if (!container || container === document.body) {
             return;
         }
         // Drop our reference up front so a destroyed embed never pins a
         // detached container in memory; restoration uses the local handle.
-        this.preRenderContainerEl = null;
+        this.preRenderContainerEl = document.body;
         const originalPosition = container.dataset[PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY];
         if (originalPosition === undefined) {
             // We never overrode this container's position; nothing to restore.
@@ -1886,10 +1937,7 @@ export class TsEmbed {
         if (!this.containerScrollListener) {
             return;
         }
-        const customContainer = 
-            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? this.preRenderContainerEl
-                : null;
+        const customContainer = this.getCustomPreRenderContainer();
         customContainer?.removeEventListener('scroll', this.containerScrollListener);
         this.containerScrollListener = null;
     }
@@ -1983,9 +2031,15 @@ export class TsEmbed {
      * wrapper to overlay it.
      */
     public async showPreRender(): Promise<TsEmbed> {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_SHOW_PRE_RENDER, {
+            preRenderId: this.getPreRenderConfig().preRenderId,
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
+
         if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
-        if (!this.viewConfig.preRenderId) {
+
+        if (!this.getPreRenderConfig().preRenderId) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -2021,16 +2075,13 @@ export class TsEmbed {
 
             this.syncPreRenderStyle();
 
-            const customContainer =
-                this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                    ? this.preRenderContainerEl
-                    : null;
+            const customContainer = this.getCustomPreRenderContainer();
             if (customContainer && !this.containerScrollListener) {
                 this.containerScrollListener = () => this.syncPreRenderStyle();
                 customContainer.addEventListener('scroll', this.containerScrollListener);
             }
 
-            if (!this.viewConfig.doNotTrackPreRenderSize) {
+            if (!this.getPreRenderConfig().doNotTrackPreRenderSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
@@ -2076,15 +2127,16 @@ export class TsEmbed {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
             return;
         }
+        if (!this.getPreRenderPlaceHolderElement().isConnected) {
+            logger.debug('syncPreRenderStyle skipped: placeholder is detached');
+            return;
+        }
         // Self-heal if the resolved container was remounted/detached, so we
         // never measure a stale node (which would collapse the wrapper).
         this.reconcilePreRenderContainer();
         const elBoundingClient = this.getPreRenderPlaceHolderElement().getBoundingClientRect();
 
-        const containerEl =
-            this.preRenderContainerEl && this.preRenderContainerEl !== document.body
-                ? this.preRenderContainerEl
-                : null;
+        const containerEl = this.getCustomPreRenderContainer();
         const containerRect = containerEl?.getBoundingClientRect() ?? { x: 0, y: 0 };
         const scrollX = containerEl ? containerEl.scrollLeft : window.scrollX;
         const scrollY = containerEl ? containerEl.scrollTop : window.scrollY;
@@ -2103,16 +2155,22 @@ export class TsEmbed {
      * If the component is not preRendered, it issues a warning.
      */
     public hidePreRender(): void {
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HIDE_PRE_RENDER, {
+            preRenderId: this.getPreRenderConfig().preRenderId,
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
+
         logger.debug('HidePreRender Called');
         if (!this.isPreRenderConnected()) {
             // if the embed component is not preRendered , nothing to hide
             logger.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
+        const { zIndex } = this.getPreRenderConfig();
         const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
-            zIndex: '-1000',
+            zIndex: zIndex !== undefined ? String(zIndex) : '-1000',
             position: 'absolute',
             top: '0',
             left: '0',
@@ -2142,10 +2200,11 @@ export class TsEmbed {
      * @property {string} child - The HTML element ID for the PreRender child.
      */
     public getPreRenderIds() {
+        const preRenderId = this.getPreRenderConfig().preRenderId;
         return {
-            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${this.viewConfig.preRenderId}`,
-            child: `tsEmbed-pre-render-child-${this.viewConfig.preRenderId}`,
-            placeHolder: `tsEmbed-pre-render-placeholder-${this.viewConfig.preRenderId}`,
+            wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${preRenderId}`,
+            child: `tsEmbed-pre-render-child-${preRenderId}`,
+            placeHolder: `tsEmbed-pre-render-placeholder-${preRenderId}`,
         };
     }
 

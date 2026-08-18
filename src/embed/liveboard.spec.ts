@@ -275,7 +275,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should disable isWYSIWYGLiveboardPDFEnabled by default in url', async () => {
+    test('should not set isWYSIWYGLiveboardPDFEnabled in url by default', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
@@ -284,7 +284,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isWYSIWYGLiveboardPDFEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });
@@ -753,6 +753,47 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isCentralizedLiveboardFilterUXEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
             );
+        });
+    });
+
+    test('should add isScopedLiveboardFilteringEnabled flag and set value to true to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isScopedLiveboardFilteringEnabled: true,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isScopedLiveboardFilteringEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should add isScopedLiveboardFilteringEnabled flag and set value to false to the iframe src', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isScopedLiveboardFilteringEnabled: false,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isScopedLiveboardFilteringEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not add isScopedLiveboardFilteringEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isScopedLiveboardFilteringEnabled');
         });
     });
 
@@ -1230,6 +1271,44 @@ describe('Liveboard/viz embed tests', () => {
             expect(onSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'embed/viz/lb1/viz1');
         }, 1002);
     });
+
+    test('navigateToLiveboard should call preRender when preRenderConfig.preRenderId is set', () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            preRenderConfig: {
+                preRenderId: 'config-pre-render-id',
+            },
+        } as LiveboardViewConfig);
+
+        const preRenderSpy = jest
+            .spyOn(liveboardEmbed, 'preRender')
+            .mockResolvedValue(liveboardEmbed);
+        liveboardEmbed.navigateToLiveboard('lb1');
+
+        expect(preRenderSpy).toHaveBeenCalledTimes(1);
+        expect(preRenderSpy).toHaveBeenCalledWith(true);
+    });
+
+    test('navigateToLiveboard should prefer preRenderConfig.preRenderId over top-level preRenderId', () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            preRenderId: 'top-level-id',
+            preRenderConfig: {
+                preRenderId: 'config-level-id',
+            },
+        } as LiveboardViewConfig);
+
+        const preRenderSpy = jest
+            .spyOn(liveboardEmbed, 'preRender')
+            .mockResolvedValue(liveboardEmbed);
+        liveboardEmbed.navigateToLiveboard('lb1');
+
+        expect(preRenderSpy).toHaveBeenCalledTimes(1);
+        expect(preRenderSpy).toHaveBeenCalledWith(true);
+    });
+
     test('should set runtime parametere values in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1339,6 +1418,35 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should render the liveboard embed with showSpotterRadiance', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showSpotterRadiance: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterRadiance=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+    test('should render the liveboard embed with showSpotterRadiance disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            showSpotterRadiance: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&showSpotterRadiance=false#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set hideToolResponseCardBranding parameter in url params via spotterChatConfig', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1407,6 +1515,37 @@ describe('Liveboard/viz embed tests', () => {
                     }),
                 }),
             });
+        });
+    });
+
+    test('should include starterPrompts in APP_INIT embedParams', async () => {
+        const starterPrompts = {
+            enable: true,
+            quick: {
+                label: 'Quick',
+                questions: [
+                    { label: 'Q1', prompt: 'P1' },
+                    { label: 'Q2', prompt: 'P2' },
+                ],
+            },
+            research: { label: 'Research' },
+        };
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { starterPrompts },
+        } as LiveboardViewConfig);
+
+        mockMessageChannel();
+        await liveboardEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.starterPrompts)
+                .toEqual(starterPrompts);
         });
     });
 
@@ -2303,6 +2442,42 @@ describe('Liveboard/viz embed tests', () => {
             });
             await liveboardEmbed.render();
             expect(liveboardEmbed['defaultHeight']).toBe(500);
+        });
+    });
+});
+
+describe('LiveboardEmbed updatedSpotterExperience tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    test('should render the liveboard embed with updatedSpotterExperience', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterExperience: true,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterExperience=true#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should render the liveboard embed with updatedSpotterExperience disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            updatedSpotterExperience: false,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&updatedSpotterExperience=false#/embed/viz/${liveboardId}`,
+            );
         });
     });
 });
