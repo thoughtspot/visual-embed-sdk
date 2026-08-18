@@ -5921,6 +5921,9 @@ export enum HostEvent {
      *     console.log('groups', groupDetails);
      * });
      * ```
+     * @returns orderedGroupIds - Group GUIDs in the order they appear.
+     * @returns numberOfGroups - Total number of groups on the Liveboard.
+     * @returns Groups - Group details, each with at least `id` and `name`.
      * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      */
     GetGroups = 'getGroups',

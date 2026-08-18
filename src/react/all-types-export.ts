@@ -67,6 +67,7 @@ export {
     TriggerPayload,
     TriggerResponse,
     LiveboardTab,
+    LiveboardGroup,
     ApplicabilityLevel,
     Applicability,
     FilterUpdate,
