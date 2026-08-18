@@ -76,4 +76,9 @@ export {
     InterceptedApiType,
     CustomActionsPosition,
     CustomActionTarget,
+    SpotterAnalystConfig,
+    StarterPromptsConfig,
+    StarterPromptCategory,
+    StarterPreviewDataCategory,
+    StarterPromptQuestion,
 } from '../index';
