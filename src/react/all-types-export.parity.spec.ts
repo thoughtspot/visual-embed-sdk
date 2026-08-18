@@ -106,13 +106,26 @@ const KNOWN_REACT_GAPS = new Set<string>([
 ]);
 
 /**
- * Extract identifiers from every `export { ... }` block in a source file.
- * Handles `a`, `a as b` (records the exported name `b`), comments and trailing
- * commas.
+ * Extract identifiers from every `export { ... }` / `export type { ... }` block
+ * in a source file. Handles `a`, `a as b` (records the exported name `b`),
+ * comments and trailing commas.
+ *
+ * `export * from '...'` cannot be enumerated by name (the names live in another
+ * module), so it would silently defeat this parity gate. We refuse to run
+ * against it: if either file adopts a star re-export, this throws so the gate
+ * is extended deliberately rather than passing blind.
  */
 const extractExportedNames = (source: string): Set<string> => {
+    if (/export\s*\*/.test(source)) {
+        throw new Error(
+            'Parity extractor found an `export *` re-export, which it cannot '
+            + 'enumerate by name. Extend extractExportedNames to resolve star '
+            + 'exports before relying on this gate.',
+        );
+    }
     const names = new Set<string>();
-    const blockRe = /export\s*\{([\s\S]*?)\}/g;
+    // Matches `export { ... }` and `export type { ... }`.
+    const blockRe = /export\s*(?:type\s+)?\{([\s\S]*?)\}/g;
     let match = blockRe.exec(source);
     while (match !== null) {
         match[1]
