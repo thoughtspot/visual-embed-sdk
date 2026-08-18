@@ -4,13 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches: [main]
-    # Skip the run only when a PR touches NOTHING a human authored: generated
-    # output, legal text, binary assets. Everything else is reviewable — notably
-    # README/Contributing prose and the typedoc-theme .hbs templates, which
-    # Gemini used to cover and nothing else does now.
-    # Negative filter: a PR touching src/ *and* typedoc.json still runs; the
-    # per-file EXCLUDE in "Collect reviewable files" drops the generated half.
-    # Keep the two lists in sync.
     paths-ignore:
       - "CHANGELOG.md"
       - "LICENSE.md"
@@ -23,94 +16,44 @@ on:
       - ".gitignore"
       - ".npmignore"
 
-# One review per PR. A new push cancels the in-flight review instead of
-# stacking two reviewers on the same branch.
 concurrency:
   group: claude-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 env:
-  # Both Claude workflows read CLAUDE_MODEL, so setting it once switches both.
-  # No file edit needed: Settings -> Secrets and variables -> Actions ->
-  # Variables, or `gh variable set CLAUDE_MODEL --body claude-opus-5`.
-  # The values here are only the fallbacks when the variable is unset.
-  # Opus reviews better but costs several times more; the reference run on
-  # sonnet was 44 turns / ~7 min / $1.46.
   CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-5' }}
-  # Raise if runs start failing with "Reached maximum number of turns". The
-  # reference run used 44 of 60 while posting NO inline comments, so a PR that
-  # actually spends the 18-comment budget will need more headroom than this.
   CLAUDE_REVIEW_MAX_TURNS: ${{ vars.CLAUDE_REVIEW_MAX_TURNS || '60' }}
 
 jobs:
   review:
-    # Skip drafts and skip PRs opened by bots (dependabot etc.).
-    # This is a PUBLIC repo: `pull_request` does not expose secrets to forks,
-    # so ANTHROPIC_API_KEY would be empty and the job would fail with a red X
-    # on every external contribution. Restrict to same-repo branches.
     if: |
       github.event.pull_request.draft == false &&
       github.event.pull_request.user.type != 'Bot' &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    # Raised with --max-turns 60: a large diff that actually uses its comment
-    # budget needs the wall-clock to finish posting the summary.
     timeout-minutes: 30
     permissions:
-      contents: read          # read the code — no write, Claude cannot push
-      pull-requests: write    # post top-level + inline review comments
-      # NOTE: no `id-token: write`. It was granted here as "required by the
-      # action", but that was wrong and contradicted claude.yml. Verified
-      # against run 32049364118, which succeeded with no OIDC exchange:
-      # `anthropic_oidc_audience` was empty and "Revoke app token" was skipped.
-      # Both credentials are passed explicitly below, so nothing mints a token.
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          # Full history: needed for blame, and it lets the next step compute the
-          # diff from local git when the GitHub API is unavailable.
           fetch-depth: 0
 
-      # Setup step. Produces the three outputs the review step consumes:
-      #   list   -> the changed files worth reviewing, injected into the prompt
-      #   count  -> 0 means "nothing to review"; gates the review step below
-      #   prompt -> the review instructions, read from the base branch
-      # Without the filtering here, a release PR would hand Claude the 1.4 MB
-      # regenerated typedoc.json and 1.3 MB package-lock.json alongside the two
-      # real lines, burning turns and drawing comments on machine-written files.
       - name: Collect reviewable files
         id: files
         env:
-          # The two commits bounding the PR. Passed via env rather than
-          # interpolated into the script, so nothing from the event payload is
-          # ever evaluated as shell.
-          # No GH_TOKEN here: this step is pure local git and makes no API call.
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
 
-          # Per-file version of paths-ignore above; keep the two in sync. Needed
-          # because a release PR bumps package.json (real) and regenerates
-          # typedoc.json + package-lock.json (noise) in one diff.
-          # Do NOT re-add a blanket '\.md$' — that would drop README.md and
-          # Contributing.md, which are hand-written and in scope.
           EXCLUDE='^CHANGELOG\.md$|^LICENSE\.md$|^package-lock\.json$|^static/typedoc/|^static/doc-images/|^typedoc-theme/assets/(fonts|images)/|^robots\.txt$|^\.gitignore$|^\.npmignore$|\.(png|jpe?g|gif|svg|ico|otf|ttf|woff2?|eot|pdf|zip)$'
 
-          # Keep scratch OUT of the checkout. Anything written here lands in the
-          # tree Claude then reviews, is not covered by .gitignore, and shows up
-          # as an untracked file the PR never added — and review-files.txt is a
-          # list of source paths, so it reads like a real change.
           ALL_FILES="$RUNNER_TEMP/all-files.txt"
           REVIEW_FILES="$RUNNER_TEMP/review-files.txt"
 
-          # Plain local git — no API call, so nothing here can be broken by a
-          # GitHub outage. `fetch-depth: 0` above means both commits are already
-          # in the object store, and the merge-base three-dot diff is exactly
-          # what `gh pr diff --name-only` used to return: the files this branch
-          # changed relative to where it forked, excluding anything that landed
-          # on the base branch since.
           MERGE_BASE=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
           git diff --name-only "$MERGE_BASE" "$HEAD_SHA" > "$ALL_FILES"
 
@@ -120,15 +63,8 @@ jobs:
           echo "Changed: $(wc -l < "$ALL_FILES" | tr -d ' ') file(s) | reviewable: $COUNT"
           cat "$REVIEW_FILES"
 
-          # Echo the resolved knobs so the run log shows what was actually used.
-          # A typo'd CLAUDE_MODEL variable otherwise surfaces only as an opaque
-          # API error from the action.
           echo "Review model: $CLAUDE_MODEL | max turns: $CLAUDE_REVIEW_MAX_TURNS"
 
-          # The prompt delegates almost all of its substance to these files:
-          # CLAUDE.md (repo conventions, version lockstep) and the frozen style
-          # guide (the 13 doc rules). If either goes missing the review silently
-          # degrades to a generic one, so fail loudly instead.
           for f in CLAUDE.md .gemini/styleguide.md; do
             if [ ! -f "$f" ]; then
               echo "::error::$f is missing. The Claude review prompt depends on it."
@@ -137,23 +73,11 @@ jobs:
             fi
           done
 
-          # The review instructions live in their own file so they can be edited
-          # without touching this workflow.
-          #
-          # Read from the BASE branch, not the checkout. The checked-out tree is
-          # the PR's, so `cat`-ing it would let a PR rewrite the very rules it is
-          # about to be reviewed against — at the highest authority position in
-          # the prompt. `git show "$BASE_SHA:..."` pins it to the merge target;
-          # a legitimate edit to the file takes effect once merged.
           PROMPT_FILE=.github/claude-review-prompt.md
           PROMPT_TEXT="$RUNNER_TEMP/review-prompt.md"
           if git show "$BASE_SHA:$PROMPT_FILE" > "$PROMPT_TEXT" 2>/dev/null; then
             SOURCE="base branch"
           elif [ -f "$PROMPT_FILE" ]; then
-            # Bootstrap only: the PR that first ADDS this file cannot read it
-            # from a base branch that does not have it yet. Safe, because this
-            # branch is reachable only while the file is absent from base — once
-            # merged, `git show` above always wins and PR copies are ignored.
             echo "::warning::$PROMPT_FILE is not on the base branch yet; using this PR's copy to bootstrap. After merge, reviews read it from base."
             cp "$PROMPT_FILE" "$PROMPT_TEXT"
             SOURCE="PR copy (bootstrap)"
@@ -171,17 +95,6 @@ jobs:
             echo "$PROMPT_DELIM"
           } >> "$GITHUB_OUTPUT"
 
-          # $REVIEW_FILES holds paths the PR AUTHOR chose, so it is untrusted
-          # input. A fixed heredoc delimiter over untrusted content is a
-          # GITHUB_OUTPUT injection: a PR adding a file literally named
-          # REVIEW_FILES_EOF closes the block early, and a second file named
-          # `count=0` is then parsed as an output assignment. Since the last
-          # write to a key wins, that flips the `count != '0'` guard on the
-          # review step and a crafted PR silently suppresses its OWN review.
-          # Two independent defenses:
-          #   1. an unguessable per-run delimiter, so content cannot break out
-          #   2. `count` written AFTER the list, so a forged `count=` earlier in
-          #      the stream loses to the real one
           DELIM="REVIEW_FILES_EOF_$(openssl rand -hex 16)"
           {
             echo "list<<$DELIM"
@@ -195,21 +108,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Without this the action tries to mint a token via OIDC from the
-          # Claude Code GitHub App, which is NOT installed on this repo and
-          # fails with "401 ... not installed on this repository". Passing the
-          # built-in Actions token skips that exchange. It already carries the
-          # `pull-requests: write` granted below, which is all the review needs.
-          # (If the app is ever installed org-wide, this line can be removed.)
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Applies to the action's own tracking comment only. It does NOT
-          # deduplicate the review summary — Claude posts that itself via
-          # `gh pr comment`, which is told below to reuse the previous summary
-          # with `--edit-last`.
           use_sticky_comment: true
-          # Only the DYNAMIC parts live here. All durable instructions are in
-          # .github/claude-review-prompt.md, loaded above from the base branch
-          # and appended as steps.files.outputs.prompt.
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -233,12 +133,6 @@ jobs:
 
             ${{ steps.files.outputs.prompt }}
 
-          # NOTE: claude_args is a literal block — every line is passed to the
-          # CLI verbatim, so no `#` comments inside it.
-          # --max-turns must clear the Budgets section: up to 10 correctness + 8
-          # doc inline comments, each costing a turn, plus setup reads, one read
-          # per reviewed file, and the summary LAST. Too low a cap spends every
-          # turn on inline comments and drops the verdict and doc checklist.
           claude_args: |
             --model ${{ env.CLAUDE_MODEL }}
             --max-turns ${{ env.CLAUDE_REVIEW_MAX_TURNS }}
