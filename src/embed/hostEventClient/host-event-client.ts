@@ -280,8 +280,8 @@ export class HostEventClient {
    */
   public async triggerHostEvent<
     HostEventT extends HostEvent,
-    PayloadT,
-    ContextT extends ContextType,
+    PayloadT = HostEventRequest<HostEventT>,
+    ContextT extends ContextType = ContextType,
   >(
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
