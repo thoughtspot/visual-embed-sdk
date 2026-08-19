@@ -6819,6 +6819,7 @@ export enum Param {
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
     AnalystId = 'analystId',
+    OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
 }
 
 /**
@@ -8622,6 +8623,17 @@ export enum Action {
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
      */
     SpotterChatModeSwitcher = 'spotterChatModeSwitcher',
+    /**
+     * Controls visibility and disable state of the Spotter chat panel
+     * on an embedded Liveboard.
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterOnLiveboard]
+     * disabledActions: [Action.SpotterOnLiveboard]
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    SpotterOnLiveboard = 'spotterOnLiveboard',
     /**
      * The **Basic Search** starter prompt pill.
      *

@@ -852,6 +852,7 @@ export class LiveboardEmbed extends V1Embed {
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
+                openSpotterOnLiveboardByDefault,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
@@ -865,6 +866,12 @@ export class LiveboardEmbed extends V1Embed {
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
+            setParamIfDefined(
+                params,
+                Param.OpenSpotterOnLiveboardByDefault,
+                openSpotterOnLiveboardByDefault,
+                true,
+            );
         }
 
         if (isLinkParametersEnabled !== undefined) {
