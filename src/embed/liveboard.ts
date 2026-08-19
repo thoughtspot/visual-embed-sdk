@@ -29,7 +29,7 @@ import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryPar
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { HostEventRequest, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
@@ -1144,7 +1144,13 @@ export class LiveboardEmbed extends V1Embed {
      * @param {any} data The payload to send with the message
      * @returns A promise that resolves with the response from the embedded app
      */
-    public trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
+    public trigger<
+        HostEventT extends HostEvent,
+        // Must mirror TsEmbed.trigger: without the default, no-payload calls
+        // through LiveboardEmbed lose the typed response and collapse to `any`.
+        PayloadT = HostEventRequest<HostEventT>,
+        ContextT extends ContextType = ContextType,
+    >(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
         context?: ContextT,

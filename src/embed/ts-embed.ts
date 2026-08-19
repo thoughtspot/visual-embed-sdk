@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
+    HostEventRequest,
     TriggerPayload,
     TriggerResponse,
     UIPassthroughArrayResponse,
@@ -1669,7 +1670,11 @@ export class TsEmbed {
      * ```
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl (for context parameter)
      */
-    public async trigger<HostEventT extends HostEvent, PayloadT, ContextT extends ContextType>(
+    public async trigger<
+        HostEventT extends HostEvent,
+        PayloadT = HostEventRequest<HostEventT>,
+        ContextT extends ContextType = ContextType,
+    >(
         messageType: HostEventT,
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,

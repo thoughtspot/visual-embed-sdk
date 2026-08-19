@@ -1154,4 +1154,38 @@ describe('HostEventClient', () => {
             expect(result.answerId).toBeUndefined();
         });
     });
+
+    describe('trigger typing contracts (compile-time)', () => {
+        // These assertions are enforced by ts-jest at compile time; the runtime
+        // expect() is trivial. They lock the PayloadT default on
+        // triggerHostEvent: no-payload calls must infer the contract response
+        // instead of collapsing to `any`.
+        type IsAny<T> = 0 extends 1 & T ? true : false;
+        type Extends<A, B> = A extends B ? true : false;
+
+        it('infers typed response for no-payload contracted events and keeps any for uncontracted', () => {
+            const { client } = createHostEventClient();
+
+            // Contracted event, called with no payload — the fixed case.
+            const getTabs = () => client.triggerHostEvent(HostEvent.GetTabs);
+            type TabsResponse = Awaited<ReturnType<typeof getTabs>>;
+            const tabsIsTyped: IsAny<TabsResponse> = false;
+            const tabsHasContractFields: Extends<
+                TabsResponse,
+                { numberOfTabs: number; orderedTabIds: string[] }
+            > = true;
+            const probeUnknownField = (r: TabsResponse) =>
+                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                r.tabCount;
+            void probeUnknownField;
+
+            // Uncontracted event — must remain `any` with or without payload.
+            const reload = () => client.triggerHostEvent(HostEvent.Reload);
+            type ReloadResponse = Awaited<ReturnType<typeof reload>>;
+            const reloadStaysAny: IsAny<ReloadResponse> = true;
+
+            expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
+                .toEqual([false, true, true]);
+        });
+    });
 });

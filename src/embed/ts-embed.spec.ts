@@ -6164,4 +6164,38 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             embed.destroy();
         });
     });
+
+    describe('trigger typing contracts (compile-time)', () => {
+        // Guards the BASE TsEmbed.trigger — the implementation every
+        // non-Liveboard embed (SearchEmbed, AppEmbed, ConversationEmbed, …)
+        // calls. LiveboardEmbed's override is covered in liveboard.spec.ts;
+        // this locks the base defaults so a "lint fix" that drops them here
+        // can't silently de-type every embed except Liveboard.
+        // Enforced by ts-jest at compile time.
+        type IsAny<T> = 0 extends 1 & T ? true : false;
+        type Extends<A, B> = A extends B ? true : false;
+
+        it('infers typed response for no-payload calls on the base trigger', () => {
+            const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
+
+            const getTabs = () => searchEmbed.trigger(HostEvent.GetTabs);
+            type TabsResponse = Awaited<ReturnType<typeof getTabs>>;
+            const tabsIsTyped: IsAny<TabsResponse> = false;
+            const tabsHasContractFields: Extends<
+                TabsResponse,
+                { numberOfTabs: number; orderedTabIds: string[] }
+            > = true;
+            const probeUnknownField = (r: TabsResponse) =>
+                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                r.tabCount;
+            void probeUnknownField;
+
+            const reload = () => searchEmbed.trigger(HostEvent.Reload);
+            type ReloadResponse = Awaited<ReturnType<typeof reload>>;
+            const reloadStaysAny: IsAny<ReloadResponse> = true;
+
+            expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
+                .toEqual([false, true, true]);
+        });
+    });
 });
