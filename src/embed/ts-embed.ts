@@ -10,12 +10,16 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    TriggerPayload,
-    TriggerResponse,
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
 } from './hostEventClient/contracts';
+// Contract resolution comes from the shared contracts module (the single
+// source of truth for event payload shapes) rather than the legacy
+// UI-passthrough-only mapping.
+import { TriggerPayload, TriggerResponse } from '../contracts/host-event-contracts';
+import { EmbedEventPayload } from '../contracts/embed-event-payloads';
+import { isMessageFromIframe } from '../utils/transport/iframe-transport';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
@@ -431,7 +435,7 @@ export class TsEmbed {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
-        if (event.source === this.iFrame.contentWindow) {
+        if (isMessageFromIframe(event, this.iFrame, this.thoughtSpotHost)) {
             const processedEventData = processEventData(
                 eventType,
                 eventData,
@@ -1515,9 +1519,12 @@ export class TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
