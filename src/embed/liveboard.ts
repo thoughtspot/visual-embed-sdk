@@ -993,6 +993,12 @@ export class LiveboardEmbed extends V1Embed {
         responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
+    protected getPreRenderIframeSrc(): string {
+        const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
+        if (!liveboardId) return '';
+        return this.getIFrameSrc();
+    }
+
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.

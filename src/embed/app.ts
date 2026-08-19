@@ -1415,6 +1415,10 @@ export class AppEmbed extends V1Embed {
         return url;
     }
 
+    protected getPreRenderIframeSrc(): string {
+        return this.getIFrameSrc();
+    }
+
     /**
      * Set the iframe height as per the computed height received
      * from the ThoughtSpot app.

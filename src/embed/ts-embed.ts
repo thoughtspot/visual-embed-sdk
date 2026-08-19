@@ -2289,6 +2289,22 @@ export class V1Embed extends TsEmbed {
         return this.renderIFrame(iframeSrc);
     }
 
+    protected getPreRenderIframeSrc(): string {
+        return '';
+    }
+
+    protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
+
+        const src = this.getPreRenderIframeSrc();
+        if (!this.iFrame || !src) return;
+
+        if (this.iFrame.getAttribute('src') === src) return;
+
+        logger.debug('updating pre-rendered embed src', src);
+        this.iFrame.src = src;
+    }
+
     protected getRootIframeSrc(): string {
         const queryParams = this.getEmbedParams();
         let queryString = queryParams;

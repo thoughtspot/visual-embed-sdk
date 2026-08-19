@@ -1764,7 +1764,10 @@ describe('Liveboard/viz embed tests', () => {
                     'testActiveTabId',
                     undefined,
                 );
-                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+                // showPreRender repoints the frame at the shown Liveboard
+                expect(iFrame.src).toMatch(
+                    /http:\/\/tshost\/.*&isLiveboardEmbed=true.*#\/embed\/viz\/testLiveboardId\/tab\/testActiveTabId\/testVizId$/,
+                );
 
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
             });
@@ -1827,7 +1830,10 @@ describe('Liveboard/viz embed tests', () => {
                     'testActiveTabId',
                     undefined,
                 );
-                expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
+                // showPreRender repoints the frame at the shown Liveboard
+                expect(iFrame.src).toMatch(
+                    /http:\/\/tshost\/.*&isLiveboardEmbed=true.*#\/embed\/viz\/testLiveboardId\/tab\/testActiveTabId\/testVizId$/,
+                );
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
             }, 1005);
         });
@@ -2227,6 +2233,74 @@ describe('Liveboard/viz embed tests', () => {
     describe('Liveboard Embed Container Loading and PreRender', () => {
         beforeEach(() => {
             document.body.innerHTML = getDocumentBody();
+        });
+
+        describe('beforePrerenderVisible src refresh', () => {
+            const attachFrame = (embed: LiveboardEmbed, src: string) => {
+                const iFrame = document.createElement('iframe');
+                iFrame.setAttribute('src', src);
+                (embed as any).iFrame = iFrame;
+                return iFrame;
+            };
+
+            const makeEmbed = (viewConfig: LiveboardViewConfig) => {
+                const embed = new LiveboardEmbed(getRootEl(), viewConfig);
+                jest.spyOn(embed, 'navigateToLiveboard').mockImplementation(
+                    () => Promise.resolve(undefined),
+                );
+                jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+                embed.isEmbedContainerLoaded = true;
+                return embed;
+            };
+
+            test('rebuilds the src with the current config and Liveboard route', () => {
+                const embed = makeEmbed({
+                    liveboardId,
+                    activeTabId,
+                    hiddenActions: [Action.Save],
+                    ...defaultViewConfig,
+                });
+                // The pre-rendered frame carries the config it was pre-rendered
+                // with.
+                const staleSrc = `http://${thoughtSpotHost}/?isLiveboardEmbed=true#/embed/viz/old-lb-id`;
+                const iFrame = attachFrame(embed, staleSrc);
+
+                embed['beforePrerenderVisible']();
+
+                const newSrc = iFrame.getAttribute('src');
+                expect(newSrc).toBe((embed as any).getIFrameSrc());
+                expect(newSrc).not.toBe(staleSrc);
+                expect(newSrc).toContain(liveboardId);
+                expect(newSrc).toContain(activeTabId);
+                expect(newSrc).toContain(`"${Action.Save}"`);
+            });
+
+            test('leaves the src untouched when it already matches the config', () => {
+                const embed = makeEmbed({
+                    liveboardId,
+                    ...defaultViewConfig,
+                });
+                const currentSrc = (embed as any).getIFrameSrc();
+                const iFrame = attachFrame(embed, currentSrc);
+                const setSrcSpy = jest.spyOn(iFrame, 'src', 'set');
+
+                embed['beforePrerenderVisible']();
+
+                expect(setSrcSpy).not.toHaveBeenCalled();
+                expect(iFrame.getAttribute('src')).toBe(currentSrc);
+            });
+
+            test('does nothing for a generic pre-render with no Liveboard id', () => {
+                const embed = makeEmbed({ ...defaultViewConfig } as LiveboardViewConfig);
+                const rootSrc = (embed as any).getRootIframeSrc();
+                const iFrame = attachFrame(embed, rootSrc);
+                const handleErrorSpy = jest.spyOn(embed as any, 'handleError');
+
+                embed['beforePrerenderVisible']();
+
+                expect(iFrame.getAttribute('src')).toBe(rootSrc);
+                expect(handleErrorSpy).not.toHaveBeenCalled();
+            });
         });
 
         test('should call navigateToLiveboard after embed container is loaded in beforePrerenderVisible', async () => {

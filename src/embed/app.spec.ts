@@ -2714,3 +2714,57 @@ describe('AppEmbed updatedSpotterExperience tests', () => {
         });
     });
 });
+
+describe('AppEmbed beforePrerenderVisible src refresh', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    const attachFrame = (appEmbed: AppEmbed, src: string) => {
+        const iFrame = document.createElement('iframe');
+        iFrame.setAttribute('src', src);
+        (appEmbed as any).iFrame = iFrame;
+        return iFrame;
+    };
+
+    const makeEmbed = (viewConfig: AppViewConfig) => {
+        const appEmbed = new AppEmbed(getRootEl(), viewConfig);
+        jest.spyOn(appEmbed as any, 'trigger').mockResolvedValue(undefined);
+        appEmbed.isEmbedContainerLoaded = true;
+        return appEmbed;
+    };
+
+    test('rebuilds the src with the current config and page route', () => {
+        const appEmbed = makeEmbed({
+            ...defaultViewConfig,
+            pageId: Page.Data,
+            hiddenActions: [Action.Save],
+        } as AppViewConfig);
+        // The pre-rendered frame carries the config it was pre-rendered with.
+        const staleSrc = `http://${thoughtSpotHost}/?embedApp=true#/home`;
+        const iFrame = attachFrame(appEmbed, staleSrc);
+
+        (appEmbed as any).beforePrerenderVisible();
+
+        const newSrc = iFrame.getAttribute('src');
+        expect(newSrc).toBe(appEmbed.getIFrameSrc());
+        expect(newSrc).not.toBe(staleSrc);
+        expect(newSrc).toContain('#/data/tables');
+        expect(newSrc).toContain(`"${Action.Save}"`);
+    });
+
+    test('leaves the src untouched when it already matches the config', () => {
+        const appEmbed = makeEmbed({
+            ...defaultViewConfig,
+            pageId: Page.Home,
+        } as AppViewConfig);
+        const currentSrc = appEmbed.getIFrameSrc();
+        const iFrame = attachFrame(appEmbed, currentSrc);
+        const setSrcSpy = jest.spyOn(iFrame, 'src', 'set');
+
+        (appEmbed as any).beforePrerenderVisible();
+
+        expect(setSrcSpy).not.toHaveBeenCalled();
+        expect(iFrame.getAttribute('src')).toBe(currentSrc);
+    });
+});
