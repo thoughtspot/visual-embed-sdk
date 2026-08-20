@@ -6140,7 +6140,10 @@ export enum HostEvent {
     GetParameters = 'GetParameters',
     /**
      * Triggers an event to update a personalized view of a Liveboard.
-     * This event is deprecated. Use {@link HostEvent.UpdatePersonalizedView} instead.
+     * This event is deprecated. Use {@link HostEvent.SelectPersonalizedView} instead,
+     * which additionally accepts a `viewName`, resets to the original view when
+     * called with an empty payload, and reports an error when a named view
+     * cannot be found.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
@@ -6158,10 +6161,15 @@ export enum HostEvent {
     UpdatePersonalisedView = 'UpdatePersonalisedView',
     /**
      * Triggers an event to update a personalized view of a Liveboard.
+     * This event is deprecated. Use {@link HostEvent.SelectPersonalizedView} instead,
+     * which additionally accepts a `viewName`, resets to the original view when
+     * called with an empty payload, and reports an error when a named view
+     * cannot be found.
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdatePersonalisedView, {viewId: '1234'})
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * @deprecated SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
      */
     UpdatePersonalizedView = UpdatePersonalisedView,
     /**
