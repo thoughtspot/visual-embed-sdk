@@ -71,6 +71,11 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+import {
+    getHostEventTelemetryProps,
+    HostEventRoute,
+    HostEventStatus,
+} from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1679,9 +1684,31 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
+        const telemetryProps = getHostEventTelemetryProps({
+            hostEvent: messageType,
+            payload: data,
+            context,
+            embedComponentType: this.viewConfig?.embedComponentType,
+        });
+        const triggerStartedAt = Date.now();
+        let route: HostEventRoute;
+        // Emitted once, when the trigger settles or bails out, so a single
+        // Mixpanel report can answer which host events are used, with which
+        // parameters, and how they resolve.
+        const reportHostEvent = (status: HostEventStatus, errorCode?: EmbedErrorCodes) => {
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, {
+                ...telemetryProps,
+                status,
+                durationMs: Date.now() - triggerStartedAt,
+                ...(route ? { route } : {}),
+                ...(errorCode ? { errorCode } : {}),
+            });
+        };
+
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, telemetryProps);
 
         if (!this.isRendered) {
+            reportHostEvent('render-not-called', EmbedErrorCodes.RENDER_NOT_CALLED);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
@@ -1692,6 +1719,7 @@ export class TsEmbed {
         }
 
         if (!messageType) {
+            reportHostEvent('host-event-undefined', EmbedErrorCodes.HOST_EVENT_TYPE_UNDEFINED);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
@@ -1707,34 +1735,57 @@ export class TsEmbed {
             logger.debug(
                 `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
             );
+            reportHostEvent('no-iframe');
             return null;
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
-            (
-                err: Error & {
-                    isValidationError?: boolean;
-                    embedErrorDetails?: {
-                        errorType: ErrorDetailsTypes;
-                        message: string;
-                        code: EmbedErrorCodes;
-                        error: string;
-                    };
+        return this.hostEventClient
+            .triggerHostEvent(messageType, data, context, (dispatchRoute) => {
+                route = dispatchRoute;
+            })
+            .then((response) => {
+                // processTrigger resolves — it does not reject — with an Error
+                // when the embedded app never answers, so a timed-out trigger
+                // is otherwise invisible.
+                const settled = response as unknown;
+                reportHostEvent(
+                    settled instanceof Error
+                    && settled.message === ERROR_MESSAGE.TRIGGER_TIMED_OUT
+                        ? 'timed-out'
+                        : 'success',
+                );
+                return response;
+            })
+            .catch(
+                (
+                    err: Error & {
+                        isValidationError?: boolean;
+                        embedErrorDetails?: {
+                            errorType: ErrorDetailsTypes;
+                            message: string;
+                            code: EmbedErrorCodes;
+                            error: string;
+                        };
+                    },
+                ): Promise<null> => {
+                    if (err?.isValidationError) {
+                        const errorDetails = err.embedErrorDetails ?? {
+                            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                            message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
+                            code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
+                            error: err.message,
+                        };
+                        this.handleError(errorDetails);
+                        reportHostEvent('error', errorDetails.code);
+                    } else {
+                        // The error message can hold customer data, so only the
+                        // fact of the failure is reported.
+                        reportHostEvent('error');
+                    }
+                    throw err;
                 },
-            ): Promise<null> => {
-                if (err?.isValidationError) {
-                    const errorDetails = err.embedErrorDetails ?? {
-                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                        message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
-                        code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
-                        error: err.message,
-                    };
-                    this.handleError(errorDetails);
-                }
-                throw err;
-            },
-        );
+            );
     }
 
     /**

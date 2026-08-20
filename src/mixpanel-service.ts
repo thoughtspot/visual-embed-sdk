@@ -22,6 +22,10 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_COMPLETE: 'visual-sdk-render-complete',
     VISUAL_SDK_RENDER_FAILED: 'visual-sdk-render-failed',
     VISUAL_SDK_TRIGGER: 'visual-sdk-trigger',
+    // Emitted once per host event trigger, when it settles. Carries the host
+    // event name as a property, so one report can rank host events and their
+    // parameters instead of needing one report per `visual-sdk-trigger-*` name.
+    VISUAL_SDK_HOST_EVENT: 'visual-sdk-host-event',
     VISUAL_SDK_ON: 'visual-sdk-on',
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
     VISUAL_SDK_EMBED_CREATE: 'visual-sdk-embed-create',
@@ -36,13 +40,23 @@ let isMixpanelInitialized = false;
 let eventQueue: { eventId: string; eventProps: any }[] = [];
 
 /**
+ * Upper bound on events held before mixpanel is initialized. A host
+ * application can turn tracking off entirely with `disableSDKTracking`, in
+ * which case `initMixpanel` is never called and this queue would otherwise
+ * grow for the lifetime of the page.
+ */
+export const MAX_QUEUED_EVENTS = 100;
+
+/**
  * Pushes the event with its Property key-value map to mixpanel.
  * @param eventId
  * @param eventProps
  */
 export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
     if (!isMixpanelInitialized) {
-        eventQueue.push({ eventId, eventProps });
+        if (eventQueue.length < MAX_QUEUED_EVENTS) {
+            eventQueue.push({ eventId, eventProps });
+        }
         return;
     }
     mixpanelInstance.track(eventId, eventProps);

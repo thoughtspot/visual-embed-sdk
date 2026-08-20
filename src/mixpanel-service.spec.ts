@@ -3,6 +3,7 @@ import {
     initMixpanel,
     uploadMixpanelEvent,
     MIXPANEL_EVENT,
+    MAX_QUEUED_EVENTS,
     testResetMixpanel,
 } from './mixpanel-service';
 import { AuthType } from './types';
@@ -81,6 +82,20 @@ describe('Unit test for mixpanel', () => {
         } as SessionInfo;
         initMixpanel(sessionInfo);
         expect(mixpanel.track).toHaveBeenCalledTimes(2);
+    });
+
+    test('caps the pre-init queue, so tracking left uninitialized cannot grow it', () => {
+        testResetMixpanel();
+        for (let i = 0; i < MAX_QUEUED_EVENTS + 50; i += 1) {
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, { index: i });
+        }
+        const sessionInfo = {
+            mixpanelToken: 'abc123',
+            userGUID: '12345',
+            isPublicUser: false,
+        } as SessionInfo;
+        initMixpanel(sessionInfo);
+        expect(mixpanel.track).toHaveBeenCalledTimes(MAX_QUEUED_EVENTS);
     });
 
     test('init mixpanel with no mixpanel token', () => {

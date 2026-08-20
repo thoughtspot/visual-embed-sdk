@@ -1,4 +1,5 @@
 import { ContextType, HostEvent } from '../../types';
+import { HostEventRoute } from '../../utils/hostEventTelemetry';
 import { processTrigger as processTriggerService } from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
@@ -278,6 +279,10 @@ export class HostEventClient {
    * @param hostEvent - The host event to trigger
    * @param payload - Optional payload for the event
    * @param context - Optional context (e.g. vizId) for scoped operations
+   * @param onRoute - Optional telemetry hook, called with the dispatch branch
+   * that served the event. A custom handler can itself fall back to the legacy
+   * channel, so `custom-handler` reports which branch ran, not which channel
+   * ultimately carried the message.
    */
   public async triggerHostEvent<
     HostEventT extends HostEvent,
@@ -287,6 +292,7 @@ export class HostEventClient {
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
+      onRoute?: (route: HostEventRoute) => void,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
@@ -294,15 +300,22 @@ export class HostEventClient {
       // If embedded app supports passthrough but not this event, use legacy channel
       const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
+          onRoute?.('legacy');
           return this.hostEventFallback(hostEvent, payload, context) as any;
       }
 
       // Custom handler (setters) > getter passthrough > legacy fallback
-      return (customHandler
-          ? customHandler(payload, context as ContextType)
-          : passthroughEvent
-              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context as ContextType)
-              : this.hostEventFallback(hostEvent, payload, context)
-      ) as any;
+      if (customHandler) {
+          onRoute?.('custom-handler');
+          return customHandler(payload, context as ContextType) as any;
+      }
+      if (passthroughEvent) {
+          onRoute?.('ui-passthrough');
+          return this.getDataWithPassthroughFallback(
+              passthroughEvent, hostEvent, payload, context as ContextType,
+          ) as any;
+      }
+      onRoute?.('legacy');
+      return this.hostEventFallback(hostEvent, payload, context) as any;
   }
 }
