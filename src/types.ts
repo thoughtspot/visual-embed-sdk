@@ -2133,6 +2133,26 @@ export interface LiveboardAppEmbedViewConfig {
      */
     coverAndFilterOptionInPDF?: boolean;
     /**
+     * Sets the gutter space (in pixels) between the visualization tiles of
+     * an embedded Liveboard grid layout and its outer layout padding.
+     * Accepts a non-negative integer; `0` renders the tiles without any gap
+     * and removes the outer padding. When omitted, the gutter saved in the
+     * Liveboard's styling settings (or the ThoughtSpot default) applies.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {number}
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardGutter: 8,
+     * })
+     * ```
+     */
+    liveboardGutter?: number;
+    /**
      * This flag is used to enable or disable the new centralized Liveboard filter UX
      * (v2). When enabled, a unified modal is used to manage and update multiple filters
      * at once, replacing the older individual filter interactions.
@@ -4621,6 +4641,25 @@ export enum HostEvent {
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl
      */
     OpenFilter = 'openFilter',
+    /**
+     * Open the add-filter modal of a Liveboard, the same dialog that the
+     * *Add filter* button in the Liveboard edit header opens, so the host
+     * app can start the add-filter flow from its own UI.
+     *
+     * The Liveboard must be in edit mode; the event is ignored otherwise.
+     * Hiding the *Add filter* button with `hiddenActions:
+     * [Action.AddFilter]` does not block this event, but disabling it with
+     * `disabledActions` does.
+     *
+     * Unlike {@link HostEvent.OpenFilter}, which opens the panel of an
+     * existing filter, this event starts the creation of a new filter.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenAddFilterModal);
+     * ```
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     */
+    OpenAddFilterModal = 'openAddFilterModal',
     /**
      * Open the parameter panel for a particular parameter on a Liveboard.
      * Mirrors {@link HostEvent.OpenFilter} for parameters.

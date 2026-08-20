@@ -608,26 +608,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isLiveboardStylingAndGroupingEnabled?: boolean;
 
     /**
-     * Sets the gutter space (in pixels) between the visualization tiles of
-     * Liveboard grid layouts rendered in the embedded app. Accepts a
-     * non-negative integer; `0` renders the tiles without any gap and removes
-     * the outer layout padding. When omitted, the gutter saved in each
-     * Liveboard's styling settings (or the ThoughtSpot default) applies.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @type {number}
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    liveboardGutter: 8,
-     * })
-     * ```
-     */
-    liveboardGutter?: number;
-
-    /**
      * This flag is used to enable/disable the png embedding of liveboard in scheduled
      * mails
      *
