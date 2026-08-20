@@ -280,9 +280,10 @@ export class HostEventClient {
    * @param payload - Optional payload for the event
    * @param context - Optional context (e.g. vizId) for scoped operations
    * @param onRoute - Optional telemetry hook, called with the dispatch branch
-   * that served the event. A custom handler can itself fall back to the legacy
-   * channel, so `custom-handler` reports which branch ran, not which channel
-   * ultimately carried the message.
+   * taken here. It reports which branch ran, not which channel ultimately
+   * carried the message: a custom handler can fall back to the legacy channel
+   * itself, and `ui-passthrough` falls back too when the app returns no usable
+   * response.
    */
   public async triggerHostEvent<
     HostEventT extends HostEvent,

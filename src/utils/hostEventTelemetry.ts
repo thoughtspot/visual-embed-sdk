@@ -75,9 +75,11 @@ function isEnumMember(key: string, value: string): boolean {
 
 /**
  * Which dispatch branch inside `HostEventClient.triggerHostEvent` served the
- * host event. A custom handler may itself fall back to the legacy channel, so
- * `custom-handler` means "a setter with custom logic ran", not "UI passthrough
- * was used".
+ * host event. This is the branch that ran, not the channel that ultimately
+ * carried the message: `custom-handler` means "a setter with custom logic ran",
+ * and both it and `ui-passthrough` can fall back to the legacy channel
+ * internally — a custom handler when the payload lacks the fields it needs, and
+ * a passthrough getter when the app returns no usable response.
  */
 export type HostEventRoute = 'custom-handler' | 'ui-passthrough' | 'legacy';
 
