@@ -6791,6 +6791,7 @@ export enum Param {
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
+    LiveboardGutter = 'liveboardGutter',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',

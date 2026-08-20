@@ -535,6 +535,14 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-header-font-color'?: string;
 
     /**
+     * Left and right margin of the header and the tab/filter section of an
+     * embedded Liveboard. Use alongside the `liveboardGutter` view config to
+     * keep the header aligned with a custom tile-grid gutter.
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     */
+    '--ts-var-liveboard-header-horizontal-margin'?: string;
+
+    /**
      * Border color of the tiles in the Liveboard.
      */
     '--ts-var-liveboard-tile-border-color'?: string;

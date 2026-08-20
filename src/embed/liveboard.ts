@@ -385,6 +385,25 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isLiveboardStylingAndGroupingEnabled?: boolean;
     /**
+     * Sets the gutter space (in pixels) between the visualization tiles of
+     * the embedded Liveboard grid layout. Accepts a non-negative integer;
+     * `0` renders the tiles without any gap and removes the outer layout
+     * padding. When omitted, the gutter saved in the Liveboard's styling
+     * settings (or the ThoughtSpot default) applies.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @type {number}
+     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardGutter: 8,
+     * })
+     * ```
+     */
+    liveboardGutter?: number;
+    /**
      * This flag is used to enable/disable the png embedding of liveboard in scheduled
      * mails
      *
@@ -735,6 +754,7 @@ export class LiveboardEmbed extends V1Embed {
             dataSourceId,
             coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
+            liveboardGutter,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
@@ -822,6 +842,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (liveboardGutter !== undefined) {
+            params[Param.LiveboardGutter] = liveboardGutter;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
