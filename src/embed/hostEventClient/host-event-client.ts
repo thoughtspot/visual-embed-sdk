@@ -1,6 +1,9 @@
 import { ContextType, HostEvent } from '../../types';
 import { HostEventRoute } from '../../utils/hostEventTelemetry';
-import { processTrigger as processTriggerService } from '../../utils/processTrigger';
+import {
+    isTriggerTimeout,
+    processTrigger as processTriggerService,
+} from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
@@ -93,12 +96,16 @@ export class HostEventClient {
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
-      const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
-          ?.find?.((r) => r.error || r.value);
+      const raw = await this.triggerUIPassthroughApi(apiName, parameters, context);
+      const response = raw?.find?.((r) => r.error || r.value);
 
       if (!response) {
           const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
-          throw { error };
+          // A timeout arrives here as a missing response, because
+          // processTrigger resolves with an Error rather than rejecting. The
+          // thrown shape stays as it was; the flag lets telemetry tell an
+          // unanswered trigger from a genuine "no answer".
+          throw isTriggerTimeout(raw) ? { error, isTimeout: true } : { error };
       }
 
       const errors = response.error

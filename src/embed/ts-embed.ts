@@ -76,6 +76,7 @@ import {
     HostEventRoute,
     HostEventStatus,
 } from '../utils/hostEventTelemetry';
+import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1691,7 +1692,7 @@ export class TsEmbed {
             embedComponentType: this.viewConfig?.embedComponentType,
         });
         const triggerStartedAt = Date.now();
-        let route: HostEventRoute;
+        let route: HostEventRoute | undefined;
         // Emitted once, when the trigger settles or bails out, so a single
         // Mixpanel report can answer which host events are used, with which
         // parameters, and how they resolve.
@@ -1745,22 +1746,14 @@ export class TsEmbed {
                 route = dispatchRoute;
             })
             .then((response) => {
-                // processTrigger resolves — it does not reject — with an Error
-                // when the embedded app never answers, so a timed-out trigger
-                // is otherwise invisible.
-                const settled = response as unknown;
-                reportHostEvent(
-                    settled instanceof Error
-                    && settled.message === ERROR_MESSAGE.TRIGGER_TIMED_OUT
-                        ? 'timed-out'
-                        : 'success',
-                );
+                reportHostEvent(isTriggerTimeout(response) ? 'timed-out' : 'success');
                 return response;
             })
             .catch(
                 (
                     err: Error & {
                         isValidationError?: boolean;
+                        isTimeout?: boolean;
                         embedErrorDetails?: {
                             errorType: ErrorDetailsTypes;
                             message: string;
@@ -1778,6 +1771,11 @@ export class TsEmbed {
                         };
                         this.handleError(errorDetails);
                         reportHostEvent('error', errorDetails.code);
+                    } else if (err?.isTimeout) {
+                        // A UI passthrough setter turns an unanswered trigger
+                        // into a thrown "no answer", so the timeout only
+                        // reaches us as this flag.
+                        reportHostEvent('timed-out');
                     } else {
                         // The error message can hold customer data, so only the
                         // fact of the failure is reported.

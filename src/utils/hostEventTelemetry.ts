@@ -113,9 +113,9 @@ export interface HostEventPayloadShape {
     paramKeys: string[];
     /**
      * Key paths annotated with value type — `runtimeFilters:array(3)`,
-     * `runtimeFilters[].columnName:string`, `start:true`. Boolean values are
-     * reported as-is because the value is the usage signal and carries no
-     * customer data; every other value is reduced to its type.
+     * `runtimeFilters[].columnName:string`, `isPublic:boolean`. Every value is
+     * reduced to its type, except an SDK enum member (see the module comment),
+     * so no customer value ever appears here.
      */
     paramShape: string[];
     /** Whether the walk hit {@link MAX_SHAPE_PATHS} or {@link MAX_SHAPE_DEPTH}. */

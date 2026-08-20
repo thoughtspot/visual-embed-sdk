@@ -3,6 +3,7 @@ import {
 } from '../index';
 import { getDocumentBody, getRootEl } from '../test/test-utils';
 import { ERROR_MESSAGE } from '../errors';
+import { UIPassthroughEvent } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import * as authInstance from '../auth';
 import * as mixpanelInstance from '../mixpanel-service';
@@ -62,8 +63,8 @@ describe('Host event telemetry', () => {
 
         await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
 
-        // The per-event upload is kept for the existing dashboards, and now
-        // carries the same properties.
+        // The per-event upload keeps its name so existing Mixpanel reports
+        // still work, and now carries the same properties.
         expect(mockUploadMixpanelEvent).toHaveBeenCalledWith(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.DownloadAsCsv}`,
             expect.objectContaining({
@@ -131,6 +132,91 @@ describe('Host event telemetry', () => {
         const props = getHostEventProps(mockUploadMixpanelEvent);
         expect(props.status).toBe('error');
         expect(JSON.stringify(props)).not.toContain('4c8a1b2e');
+    });
+
+    /**
+     * Makes the embedded app answer UI passthrough calls, advertising the given
+     * passthrough keys. Everything else resolves over the legacy channel.
+     * @param keys The passthrough keys the app claims to support
+     * @param passthroughResult What a passthrough call other than the key
+     * lookup resolves with
+     */
+    const mockPassthroughApp = (keys: string[], passthroughResult: any = [{ value: { ok: true } }]) => {
+        mockProcessTrigger.mockImplementation(
+            (_iFrame: any, messageType: any, _host: any, data: any) => {
+                if (messageType !== HostEvent.UIPassthrough) {
+                    return Promise.resolve({ session: 'ok' });
+                }
+                if (data?.type === UIPassthroughEvent.GetAvailableUIPassthroughs) {
+                    return Promise.resolve([{ value: { keys } }]);
+                }
+                return Promise.resolve(passthroughResult);
+            },
+        );
+    };
+
+    test('reports the ui-passthrough route for a getter the app supports', async () => {
+        mockPassthroughApp([UIPassthroughEvent.GetTabs]);
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.GetTabs, {});
+
+        expect(getHostEventProps(mockUploadMixpanelEvent)).toEqual(
+            expect.objectContaining({ hostEvent: HostEvent.GetTabs, route: 'ui-passthrough' }),
+        );
+    });
+
+    test('reports the legacy route when the app lacks the passthrough key', async () => {
+        mockPassthroughApp(['someUnrelatedPassthrough']);
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.GetTabs, {});
+
+        expect(getHostEventProps(mockUploadMixpanelEvent)).toEqual(
+            expect.objectContaining({ route: 'legacy' }),
+        );
+    });
+
+    test('reports the custom-handler route for a setter with custom logic', async () => {
+        mockPassthroughApp([UIPassthroughEvent.PinAnswerToLiveboard]);
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.Pin, {
+            newVizName: 'Quarterly revenue',
+            liveboardId: '4c8a1b2e-0000-0000-0000-000000000002',
+        });
+
+        expect(getHostEventProps(mockUploadMixpanelEvent)).toEqual(
+            expect.objectContaining({
+                route: 'custom-handler',
+                paramKeys: ['liveboardId', 'newVizName'],
+            }),
+        );
+    });
+
+    test('reports a custom-handler trigger that the app never answered as timed out', async () => {
+        // A UI passthrough setter turns the resolved timeout
+        // Error into a thrown "no answer", which used to be
+        // reported as a plain error and hid the timeout for
+        // Pin, SaveAnswer, UpdateFilters and DrillDown.
+        mockPassthroughApp(
+            [UIPassthroughEvent.PinAnswerToLiveboard],
+            new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT),
+        );
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        await expect(
+            embed.trigger(HostEvent.Pin, {
+                newVizName: 'Quarterly revenue',
+                liveboardId: '4c8a1b2e-0000-0000-0000-000000000002',
+            }),
+        ).rejects.toBeDefined();
+
+        expect(getHostEventProps(mockUploadMixpanelEvent).status).toBe('timed-out');
     });
 
     test('reports a trigger called before render', async () => {
