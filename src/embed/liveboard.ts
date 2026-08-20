@@ -727,6 +727,7 @@ export class LiveboardEmbed extends V1Embed {
             isEnhancedFilterInteractivityEnabled,
             enableAskSage,
             enable2ColumnLayout,
+            isResponsiveLayoutDisabled,
             dataPanelV2 = true,
             updatedSpotterExperience,
             enableCustomColumnGroups = false,
@@ -791,6 +792,10 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+        // Only when true: a false reaches the app as the string 'false'.
+        if (isResponsiveLayoutDisabled) {
+            params[Param.IsResponsiveLayoutDisabled] = isResponsiveLayoutDisabled;
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;

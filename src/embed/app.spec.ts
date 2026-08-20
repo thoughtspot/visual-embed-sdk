@@ -388,6 +388,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isResponsiveLayoutDisabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isResponsiveLayoutDisabled: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isResponsiveLayoutDisabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set coverAndFilterOptionInPDF to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

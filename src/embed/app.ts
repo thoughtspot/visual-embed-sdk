@@ -1096,6 +1096,7 @@ export class AppEmbed extends V1Embed {
             enableAskSage,
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
+            isResponsiveLayoutDisabled,
             enableCustomColumnGroups = false,
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
@@ -1253,6 +1254,10 @@ export class AppEmbed extends V1Embed {
 
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+        // Only when true: a false reaches the app as the string 'false'.
+        if (isResponsiveLayoutDisabled) {
+            params[Param.IsResponsiveLayoutDisabled] = isResponsiveLayoutDisabled;
         }
 
         if (enableAskSage) {

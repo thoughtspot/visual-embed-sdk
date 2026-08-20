@@ -200,6 +200,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isResponsiveLayoutDisabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isResponsiveLayoutDisabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isResponsiveLayoutDisabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isLiveboardStylingAndGroupingEnabled to true in url (deprecated, use isLiveboardMasterpiecesEnabled)', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isLiveboardStylingAndGroupingEnabled: true,
