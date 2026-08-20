@@ -156,6 +156,23 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should hide and disable the Spotter button on the Liveboard header', async () => {
+        expect(Action.SpotterOnLiveboard).toBe('spotterOnLiveboard');
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.SpotterOnLiveboard],
+            disabledActions: [Action.SpotterOnLiveboard],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.SpotterOnLiveboard]),
+                disableAction: JSON.stringify([Action.SpotterOnLiveboard]),
+            });
+        });
+    });
+
     test('should set visible actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
@@ -1372,6 +1389,46 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true${defaultParams}${prefixParams}&enableStarterPrompts=true#/embed/viz/${liveboardId}`,
             );
+        });
+    });
+
+    test('should set openSpotterOnLiveboardByDefault parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'true',
+            });
+        });
+    });
+
+    test('should set openSpotterOnLiveboardByDefault to false when explicitly disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: false },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'false',
+            });
+        });
+    });
+
+    test('should not set openSpotterOnLiveboardByDefault when it is not configured', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('openSpotterOnLiveboardByDefault');
         });
     });
 
