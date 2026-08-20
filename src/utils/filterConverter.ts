@@ -207,6 +207,23 @@ function convertFilterToParams(columnName: string, filter: FilterChangedFilter):
         .filter((param): param is UpdateFiltersFilterParam => param !== null);
 }
 
+/**
+ * Runtime filters need no reshaping, but they still come off the wire as JSON,
+ * so a malformed entry is possible. Skip it rather than pass it through: an
+ * entry missing a column, operator or values array fails
+ * `isValidUpdateFiltersPayload`, and that rejects the *whole* `filters` array,
+ * so one bad runtime filter would drop every other converted filter with it.
+ * @param runtimeFilter A runtime filter from the `FilterChanged` payload.
+ */
+function convertRuntimeFilterToParam(runtimeFilter: RuntimeFilter): UpdateFiltersFilterParam | null {
+    const { columnName, operator, values } = runtimeFilter ?? {};
+    if (typeof columnName !== 'string' || !columnName) return null;
+    if (typeof operator !== 'string' || !operator) return null;
+    if (!Array.isArray(values)) return null;
+
+    return { columnName, operator, values };
+}
+
 function convertFilterGroupToParams(filterGroup: FilterChangedFilterGroup): UpdateFiltersFilterParam[] {
     const columnName = filterGroup?.columnInfo?.name;
     if (!columnName) return [];
@@ -246,13 +263,9 @@ export function convertFilterChangedToUpdateFiltersPayload(
     const liveboardFilterParams = (filterChangedPayload?.liveboardFilters ?? [])
         .flatMap(convertFilterGroupToParams);
 
-    const runtimeFilterParams: UpdateFiltersFilterParam[] = (
-        filterChangedPayload?.runtimeFilters ?? []
-    ).map((runtimeFilter) => ({
-        columnName: runtimeFilter.columnName,
-        operator: runtimeFilter.operator,
-        values: runtimeFilter.values,
-    }));
+    const runtimeFilterParams = (filterChangedPayload?.runtimeFilters ?? [])
+        .map(convertRuntimeFilterToParam)
+        .filter((param): param is UpdateFiltersFilterParam => param !== null);
 
     return { filters: [...liveboardFilterParams, ...runtimeFilterParams] };
 }

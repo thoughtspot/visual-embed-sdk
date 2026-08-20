@@ -619,4 +619,59 @@ describe('convertFilterChangedToUpdateFiltersPayload', () => {
             });
         });
     });
+    // A runtime filter needs no reshaping, but it still arrives as JSON. One
+    // malformed entry fails isValidUpdateFiltersPayload for the WHOLE filters
+    // array, which would take every other converted filter down with it.
+    describe('malformed runtime filters', () => {
+        const malformed: Record<string, unknown>[] = [
+            { columnName: null, operator: RuntimeFilterOp.EQ, values: ['west'] },
+            { columnName: '', operator: RuntimeFilterOp.EQ, values: ['west'] },
+            { operator: RuntimeFilterOp.EQ, values: ['west'] },
+            { columnName: 'region', operator: null, values: ['west'] },
+            { columnName: 'region', values: ['west'] },
+            { columnName: 'region', operator: RuntimeFilterOp.EQ, values: null },
+            { columnName: 'region', operator: RuntimeFilterOp.EQ },
+        ];
+
+        test.each(malformed)('skips the malformed runtime filter %p', (runtimeFilter) => {
+            const payload = { runtimeFilters: [runtimeFilter] } as any as FilterChangedPayload;
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+        });
+
+        test('a bad runtime filter does not discard the good filters alongside it', () => {
+            const payload = {
+                liveboardFilters: [
+                    {
+                        columnInfo: { name: 'item type' },
+                        filters: [{ filterContent: [{ filterType: 'IN', value: [{ key: 'bags' }] }] }],
+                    },
+                ],
+                runtimeFilters: [
+                    { columnName: null, operator: RuntimeFilterOp.EQ, values: ['west'] },
+                    { columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['west'] },
+                ],
+            } as any as FilterChangedPayload;
+
+            const converted = convertFilterChangedToUpdateFiltersPayload(payload);
+
+            expect(converted).toEqual({
+                filters: [
+                    { columnName: 'item type', operator: 'IN', values: ['bags'] },
+                    { columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['west'] },
+                ],
+            });
+            // The whole point: the surviving payload is still triggerable.
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+
+        test('keeps a runtime filter with an empty values array', () => {
+            const payload: FilterChangedPayload = {
+                runtimeFilters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: [] }],
+            };
+
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+                filters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: [] }],
+            });
+        });
+    });
 });
