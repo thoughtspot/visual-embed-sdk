@@ -8,56 +8,59 @@
  * @summary Filter payload converter
  */
 
+import isNil from 'lodash/isNil';
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
 
-export interface LiveboardFilterContentValue {
-    key?: string | number | boolean;
+export interface FilterChangedFilterContentValue {
+    key?: string | number | boolean | null;
 }
 
-export interface LiveboardFilterContent {
+export interface FilterChangedFilterContent {
     filterType?: string;
     negate?: boolean;
-    value?: LiveboardFilterContentValue[];
+    value?: FilterChangedFilterContentValue[];
 }
 
-export interface LiveboardDateFilterValue {
+export interface FilterChangedDateFilterValue {
     type?: string;
     op?: string;
-    epoch?: string | number;
+    // The payload is JSON from the embedded app, so absent fields can arrive
+    // as `null` rather than being omitted.
+    epoch?: string | number | null;
     dateRange?: {
-        lowEpoch?: string | number;
-        highEpoch?: string | number;
+        lowEpoch?: string | number | null;
+        highEpoch?: string | number | null;
     };
     monthName?: string;
     quarterName?: string;
     yearName?: string;
-    number?: number;
+    number?: number | null;
     datePeriod?: string;
-    includeCurrentPeriod?: boolean;
+    includeCurrentPeriod?: boolean | null;
 }
 
-export interface LiveboardDateFilterContent {
+export interface FilterChangedDateFilterContent {
     negate?: boolean;
-    dateFilter?: LiveboardDateFilterValue;
+    dateFilter?: FilterChangedDateFilterValue;
 }
 
-export interface LiveboardFilter {
-    filterContent?: LiveboardFilterContent[];
-    dateFilterContent?: LiveboardDateFilterContent[];
+export interface FilterChangedFilter {
+    filterContent?: FilterChangedFilterContent[];
+    dateFilterContent?: FilterChangedDateFilterContent[];
 }
 
-export interface LiveboardFilterGroup {
+export interface FilterChangedFilterGroup {
     columnInfo?: {
         name?: string;
     };
-    filters?: LiveboardFilter[];
+    filters?: FilterChangedFilter[];
 }
 
 /**
  * Shape of the payload received via `LiveboardEmbed.on(EmbedEvent.FilterChanged, ...)`.
  */
 export interface FilterChangedPayload {
-    liveboardFilters?: LiveboardFilterGroup[];
+    liveboardFilters?: FilterChangedFilterGroup[];
     runtimeFilters?: RuntimeFilter[];
 }
 
@@ -78,17 +81,32 @@ export interface UpdateFiltersPayload {
     filters: UpdateFiltersFilterParam[];
 }
 
-type DateFilterValueExtractor = (dateFilter: LiveboardDateFilterValue) => (string | number)[];
+type DateFilterValueExtractor = (dateFilter: FilterChangedDateFilterValue) => (string | number)[];
+
+/**
+ * Coerces an epoch/count field to a number, returning `null` when the value is
+ * absent or not a finite number. The payload arrives as JSON from the iframe,
+ * so a missing field can be `null` as well as `undefined`, and `Number(null)`
+ * or `Number('')` would otherwise silently become a valid-looking `0`
+ * (i.e. the Unix epoch, or a zero-length period).
+ * @param value Raw value from the date filter payload.
+ */
+function toFiniteNumber(value: string | number | undefined | null): number | null {
+    if (isNil(value) || value === '') return null;
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) ? numericValue : null;
+}
 
 const DATE_FILTER_VALUE_EXTRACTORS: Record<string, DateFilterValueExtractor> = {
-    EXACT_DATE: (dateFilter) => (
-        dateFilter.epoch !== undefined ? [Number(dateFilter.epoch)] : []
-    ),
+    EXACT_DATE: (dateFilter) => {
+        const epoch = toFiniteNumber(dateFilter.epoch);
+        return epoch === null ? [] : [epoch];
+    },
     EXACT_DATE_RANGE: (dateFilter) => {
         const { lowEpoch, highEpoch } = dateFilter.dateRange ?? {};
-        return lowEpoch !== undefined && highEpoch !== undefined
-            ? [Number(lowEpoch), Number(highEpoch)]
-            : [];
+        const low = toFiniteNumber(lowEpoch);
+        const high = toFiniteNumber(highEpoch);
+        return low === null || high === null ? [] : [low, high];
     },
     MONTH_YEAR: (dateFilter) => (
         dateFilter.monthName && dateFilter.yearName
@@ -101,12 +119,14 @@ const DATE_FILTER_VALUE_EXTRACTORS: Record<string, DateFilterValueExtractor> = {
             : []
     ),
     YEAR_ONLY: (dateFilter) => (dateFilter.yearName ? [dateFilter.yearName] : []),
-    LAST_N_PERIOD: (dateFilter) => (
-        dateFilter.number !== undefined ? [dateFilter.number] : []
-    ),
-    NEXT_N_PERIOD: (dateFilter) => (
-        dateFilter.number !== undefined ? [dateFilter.number] : []
-    ),
+    LAST_N_PERIOD: (dateFilter) => {
+        const count = toFiniteNumber(dateFilter.number);
+        return count === null ? [] : [count];
+    },
+    NEXT_N_PERIOD: (dateFilter) => {
+        const count = toFiniteNumber(dateFilter.number);
+        return count === null ? [] : [count];
+    },
 };
 
 // Date filter types with no `values` (e.g. TODAY needs no operand).
@@ -116,7 +136,7 @@ const PERIOD_ONLY_DATE_FILTER_TYPES = new Set([
 
 function convertDateFilterToParam(
     columnName: string,
-    dateFilterContent: LiveboardDateFilterContent,
+    dateFilterContent: FilterChangedDateFilterContent,
 ): UpdateFiltersFilterParam | null {
     const dateFilter = dateFilterContent?.dateFilter;
     if (!dateFilter?.type) return null;
@@ -145,7 +165,7 @@ function convertDateFilterToParam(
     if (dateFilter.datePeriod) {
         param.datePeriod = dateFilter.datePeriod;
     }
-    if (dateFilter.includeCurrentPeriod !== undefined) {
+    if (!isNil(dateFilter.includeCurrentPeriod)) {
         param.includeCurrentPeriod = dateFilter.includeCurrentPeriod;
     }
     if (dateFilterContent.negate) {
@@ -157,13 +177,13 @@ function convertDateFilterToParam(
 
 function convertFilterContentToParam(
     columnName: string,
-    filterContent: LiveboardFilterContent,
+    filterContent: FilterChangedFilterContent,
 ): UpdateFiltersFilterParam | null {
     if (!filterContent?.filterType) return null;
 
     const values = (filterContent.value ?? [])
         .map((value) => value?.key)
-        .filter((value): value is string | number | boolean => value !== undefined && value !== null);
+        .filter((value): value is string | number | boolean => !isNil(value));
 
     const param: UpdateFiltersFilterParam = {
         columnName,
@@ -177,7 +197,7 @@ function convertFilterContentToParam(
     return param;
 }
 
-function convertFilterToParams(columnName: string, filter: LiveboardFilter): UpdateFiltersFilterParam[] {
+function convertFilterToParams(columnName: string, filter: FilterChangedFilter): UpdateFiltersFilterParam[] {
     const dateParams = (filter?.dateFilterContent ?? [])
         .map((dateFilterContent) => convertDateFilterToParam(columnName, dateFilterContent));
     const contentParams = (filter?.filterContent ?? [])
@@ -187,7 +207,7 @@ function convertFilterToParams(columnName: string, filter: LiveboardFilter): Upd
         .filter((param): param is UpdateFiltersFilterParam => param !== null);
 }
 
-function convertFilterGroupToParams(filterGroup: LiveboardFilterGroup): UpdateFiltersFilterParam[] {
+function convertFilterGroupToParams(filterGroup: FilterChangedFilterGroup): UpdateFiltersFilterParam[] {
     const columnName = filterGroup?.columnInfo?.name;
     if (!columnName) return [];
 

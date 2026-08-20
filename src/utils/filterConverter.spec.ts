@@ -501,4 +501,122 @@ describe('convertFilterChangedToUpdateFiltersPayload', () => {
             ],
         });
     });
+    // The payload arrives as JSON from the embedded app, so an absent field can
+    // be `null` rather than omitted. `Number(null)` is 0, so a naive coercion
+    // would turn a missing epoch into 1970 and a missing period count into 0.
+    describe('null and non-numeric values in the payload', () => {
+        const dateFilterPayload = (dateFilter: Record<string, unknown>): FilterChangedPayload => ({
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'date' },
+                    filters: [{ dateFilterContent: [{ dateFilter: dateFilter as any }] }],
+                },
+            ],
+        });
+
+        test.each([null, '', 'not-a-date'])(
+            'skips an EXACT_DATE filter whose epoch is %p instead of emitting epoch 0',
+            (epoch) => {
+                const payload = dateFilterPayload({ type: 'EXACT_DATE', op: 'EQ', epoch });
+                expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+            },
+        );
+
+        test('skips an EXACT_DATE_RANGE filter when either bound is null', () => {
+            const missingHigh = dateFilterPayload({
+                type: 'EXACT_DATE_RANGE', op: 'BW', dateRange: { lowEpoch: 1000, highEpoch: null },
+            });
+            const missingLow = dateFilterPayload({
+                type: 'EXACT_DATE_RANGE', op: 'BW', dateRange: { lowEpoch: null, highEpoch: 2000 },
+            });
+
+            expect(convertFilterChangedToUpdateFiltersPayload(missingHigh)).toEqual({ filters: [] });
+            expect(convertFilterChangedToUpdateFiltersPayload(missingLow)).toEqual({ filters: [] });
+        });
+
+        test.each(['LAST_N_PERIOD', 'NEXT_N_PERIOD'])(
+            'skips a %s filter whose number is null instead of emitting a 0-length period',
+            (type) => {
+                const payload = dateFilterPayload({ type, op: 'EQ', number: null, datePeriod: 'MONTH' });
+                expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({ filters: [] });
+            },
+        );
+
+        test('accepts an epoch of 0 as a real value', () => {
+            const payload = dateFilterPayload({ type: 'EXACT_DATE', op: 'EQ', epoch: 0 });
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+                filters: [{
+                    columnName: 'date', operator: 'EQ', values: [0], type: 'EXACT_DATE',
+                }],
+            });
+        });
+
+        test('accepts a numeric epoch sent as a string', () => {
+            const payload = dateFilterPayload({ type: 'EXACT_DATE', op: 'EQ', epoch: '1700000000' });
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+                filters: [{
+                    columnName: 'date', operator: 'EQ', values: [1700000000], type: 'EXACT_DATE',
+                }],
+            });
+        });
+
+        test('omits includeCurrentPeriod when it is null', () => {
+            const payload = dateFilterPayload({
+                type: 'LAST_N_PERIOD', op: 'EQ', number: 3, datePeriod: 'MONTH', includeCurrentPeriod: null,
+            });
+            const [filter] = convertFilterChangedToUpdateFiltersPayload(payload).filters;
+
+            expect(filter).not.toHaveProperty('includeCurrentPeriod');
+        });
+
+        test('keeps includeCurrentPeriod when it is explicitly false', () => {
+            const payload = dateFilterPayload({
+                type: 'LAST_N_PERIOD', op: 'EQ', number: 3, datePeriod: 'MONTH', includeCurrentPeriod: false,
+            });
+            const [filter] = convertFilterChangedToUpdateFiltersPayload(payload).filters;
+
+            expect(filter.includeCurrentPeriod).toBe(false);
+        });
+
+        test('drops null keys from an attribute filter but keeps the rest', () => {
+            const payload: FilterChangedPayload = {
+                liveboardFilters: [
+                    {
+                        columnInfo: { name: 'item type' },
+                        filters: [
+                            {
+                                filterContent: [
+                                    {
+                                        filterType: 'IN',
+                                        value: [{ key: 'bags' }, { key: null }, { key: 'shirts' }],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+                filters: [{ columnName: 'item type', operator: 'IN', values: ['bags', 'shirts'] }],
+            });
+        });
+
+        test('keeps a falsy-but-real key such as 0 or false', () => {
+            const payload: FilterChangedPayload = {
+                liveboardFilters: [
+                    {
+                        columnInfo: { name: 'quantity' },
+                        filters: [
+                            { filterContent: [{ filterType: 'IN', value: [{ key: 0 }, { key: false }] }] },
+                        ],
+                    },
+                ],
+            };
+
+            expect(convertFilterChangedToUpdateFiltersPayload(payload)).toEqual({
+                filters: [{ columnName: 'quantity', operator: 'IN', values: [0, false] }],
+            });
+        });
+    });
 });
