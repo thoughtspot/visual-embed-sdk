@@ -106,6 +106,18 @@ import {
     LiveboardFilter,
     LiveboardParameter,
 } from './embed/hostEventClient/contracts';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    FilterChangedFilterGroup,
+    FilterChangedFilter,
+    FilterChangedFilterContent,
+    FilterChangedFilterContentValue,
+    FilterChangedDateFilterContent,
+    FilterChangedDateFilterValue,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -228,6 +240,16 @@ export {
     DataLabelFilterOperator,
     TableTheme,
     TableContentDensity,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    FilterChangedFilterGroup,
+    FilterChangedFilter,
+    FilterChangedFilterContent,
+    FilterChangedFilterContentValue,
+    FilterChangedDateFilterContent,
+    FilterChangedDateFilterValue,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';
