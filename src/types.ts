@@ -4653,11 +4653,11 @@ export enum HostEvent {
      *
      * Unlike {@link HostEvent.OpenFilter}, which opens the panel of an
      * existing filter, this event starts the creation of a new filter.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.OpenAddFilterModal);
      * ```
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     OpenAddFilterModal = 'openAddFilterModal',
     /**
