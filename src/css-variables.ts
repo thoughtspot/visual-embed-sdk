@@ -538,7 +538,7 @@ export interface CustomCssVariables {
      * Left and right margin of the header and the tab/filter section of an
      * embedded Liveboard. Use alongside the `liveboardGutter` view config to
      * keep the header aligned with a custom tile-grid gutter.
-     * @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     '--ts-var-liveboard-header-horizontal-margin'?: string;
 
