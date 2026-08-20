@@ -674,4 +674,128 @@ describe('convertFilterChangedToUpdateFiltersPayload', () => {
             });
         });
     });
+
+    // liveboardFilters entries carry an optional `applicability`
+    // ({level, targetId}) from SDK 1.53.0 / 26.10.0.cl, and UpdateFilters
+    // accepts it per filter. Dropping it would replay a tab-scoped filter
+    // across the whole Liveboard.
+    describe('applicability (filter scope)', () => {
+        const TAB_ID = 'e0836cad-4fdf-42d4-bd97-567a6b2a6058';
+
+        const groupWith = (applicability?: unknown) => ({
+            liveboardFilters: [
+                {
+                    columnInfo: { name: 'item type' },
+                    applicability,
+                    filters: [{ filterContent: [{ filterType: 'IN', value: [{ key: 'bags' }] }] }],
+                },
+            ],
+        } as any as FilterChangedPayload);
+
+        test('carries TAB scope through to the converted filter', () => {
+            const converted = convertFilterChangedToUpdateFiltersPayload(
+                groupWith({ level: 'TAB', targetId: TAB_ID }),
+            );
+
+            expect(converted).toEqual({
+                filters: [{
+                    columnName: 'item type',
+                    operator: 'IN',
+                    values: ['bags'],
+                    applicability: { level: 'TAB', targetId: TAB_ID },
+                }],
+            });
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+
+        test('carries GROUP scope through to the converted filter', () => {
+            const converted = convertFilterChangedToUpdateFiltersPayload(
+                groupWith({ level: 'GROUP', targetId: TAB_ID }),
+            );
+
+            expect(converted.filters[0].applicability).toEqual({ level: 'GROUP', targetId: TAB_ID });
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+
+        test('carries LIVEBOARD scope, which needs no targetId', () => {
+            const converted = convertFilterChangedToUpdateFiltersPayload(
+                groupWith({ level: 'LIVEBOARD' }),
+            );
+
+            expect(converted.filters[0].applicability).toEqual({ level: 'LIVEBOARD' });
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+
+        test('omits applicability entirely when the payload has none', () => {
+            const converted = convertFilterChangedToUpdateFiltersPayload(groupWith(undefined));
+
+            expect(converted.filters[0]).not.toHaveProperty('applicability');
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+
+        test('applies the group scope to every filter the group produces', () => {
+            const payload = {
+                liveboardFilters: [
+                    {
+                        columnInfo: { name: 'quantity' },
+                        applicability: { level: 'TAB', targetId: TAB_ID },
+                        filters: [
+                            {
+                                filterContent: [
+                                    { filterType: 'GE', value: [{ key: 5 }] },
+                                    { filterType: 'LE', value: [{ key: 10 }] },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            } as any as FilterChangedPayload;
+
+            const converted = convertFilterChangedToUpdateFiltersPayload(payload);
+
+            expect(converted.filters).toHaveLength(2);
+            converted.filters.forEach((filter) => {
+                expect(filter.applicability).toEqual({ level: 'TAB', targetId: TAB_ID });
+            });
+        });
+
+        test.each([
+            [{ level: 'TAB' }, 'TAB with no targetId'],
+            [{ level: 'GROUP', targetId: '   ' }, 'GROUP with a blank targetId'],
+            [{ level: 'SOMETHING_ELSE', targetId: TAB_ID }, 'an unknown level'],
+            [{ targetId: TAB_ID }, 'no level at all'],
+        ])('skips a filter scoped with %p (%s) rather than widening it', (applicability, _label) => {
+            expect(convertFilterChangedToUpdateFiltersPayload(groupWith(applicability)))
+                .toEqual({ filters: [] });
+        });
+
+        test('a malformed scope on one column does not invalidate the others', () => {
+            const payload = {
+                liveboardFilters: [
+                    {
+                        columnInfo: { name: 'item type' },
+                        applicability: { level: 'TAB' },
+                        filters: [{ filterContent: [{ filterType: 'IN', value: [{ key: 'bags' }] }] }],
+                    },
+                    {
+                        columnInfo: { name: 'region' },
+                        applicability: { level: 'TAB', targetId: TAB_ID },
+                        filters: [{ filterContent: [{ filterType: 'IN', value: [{ key: 'west' }] }] }],
+                    },
+                ],
+            } as any as FilterChangedPayload;
+
+            const converted = convertFilterChangedToUpdateFiltersPayload(payload);
+
+            expect(converted).toEqual({
+                filters: [{
+                    columnName: 'region',
+                    operator: 'IN',
+                    values: ['west'],
+                    applicability: { level: 'TAB', targetId: TAB_ID },
+                }],
+            });
+            expect(isValidUpdateFiltersPayload(converted as any)).toBe(true);
+        });
+    });
 });
