@@ -2141,7 +2141,7 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {number}
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -4657,7 +4657,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.OpenAddFilterModal);
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot: 26.8.0.cl
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     OpenAddFilterModal = 'openAddFilterModal',
     /**
