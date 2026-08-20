@@ -10,6 +10,7 @@
 
 import isNil from 'lodash/isNil';
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
+import { Applicability, ApplicabilityLevel } from '../embed/hostEventClient/contracts';
 
 export interface FilterChangedFilterContentValue {
     key?: string | number | boolean | null;
@@ -54,6 +55,11 @@ export interface FilterChangedFilterGroup {
         name?: string;
     };
     filters?: FilterChangedFilter[];
+    /**
+     * Scope of the filter - `LIVEBOARD`, `TAB` or `GROUP`. Present from
+     * SDK 1.53.0 / ThoughtSpot 26.10.0.cl. Omitted means Liveboard level.
+     */
+    applicability?: Applicability;
 }
 
 /**
@@ -72,6 +78,7 @@ export interface UpdateFiltersFilterParam {
     datePeriod?: string;
     negate?: boolean;
     includeCurrentPeriod?: boolean;
+    applicability?: Applicability;
 }
 
 /**
@@ -224,11 +231,34 @@ function convertRuntimeFilterToParam(runtimeFilter: RuntimeFilter): UpdateFilter
     return { columnName, operator, values };
 }
 
+/**
+ * Mirrors `isValidApplicability` in `hostEventClient/utils`: a `TAB` or `GROUP`
+ * scope is meaningless without a `targetId`, and `UpdateFilters` rejects the
+ * whole `filters` array when any entry carries a malformed `applicability`.
+ * @param applicability Scope taken from the `FilterChanged` payload.
+ */
+function isUsableApplicability(applicability: Applicability): boolean {
+    if (!Object.values(ApplicabilityLevel).includes(applicability.level)) return false;
+    if (applicability.level === ApplicabilityLevel.Liveboard) return true;
+    return typeof applicability.targetId === 'string' && applicability.targetId.trim().length > 0;
+}
+
 function convertFilterGroupToParams(filterGroup: FilterChangedFilterGroup): UpdateFiltersFilterParam[] {
     const columnName = filterGroup?.columnInfo?.name;
     if (!columnName) return [];
 
-    return (filterGroup.filters ?? []).flatMap((filter) => convertFilterToParams(columnName, filter));
+    const { applicability } = filterGroup;
+    // A filter scoped to a tab or group has to keep that scope. Replaying it
+    // without `applicability` would silently widen it to the whole Liveboard,
+    // changing what every other tab shows. If a scope is present but unusable,
+    // skip the filter: widening is worse than dropping, and a malformed
+    // applicability would fail validation for every other filter alongside it.
+    if (!isNil(applicability) && !isUsableApplicability(applicability)) return [];
+
+    const params = (filterGroup.filters ?? [])
+        .flatMap((filter) => convertFilterToParams(columnName, filter));
+
+    return isNil(applicability) ? params : params.map((param) => ({ ...param, applicability }));
 }
 
 /**
