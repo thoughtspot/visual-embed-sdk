@@ -388,17 +388,17 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should set isResponsiveLayoutDisabled to true in url', async () => {
+    test('should set force12ColLayout to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
-            isResponsiveLayoutDisabled: true,
+            force12ColLayout: true,
         } as AppViewConfig);
 
         appEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isResponsiveLayoutDisabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&force12ColLayout=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
