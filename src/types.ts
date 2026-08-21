@@ -2152,6 +2152,26 @@ export interface LiveboardAppEmbedViewConfig {
      */
     coverAndFilterOptionInPDF?: boolean;
     /**
+     * Sets the gutter space (in pixels) between the visualization tiles of
+     * an embedded Liveboard grid layout and its outer layout padding.
+     * Accepts a non-negative integer; `0` renders the tiles without any gap
+     * and removes the outer padding. When omitted, the gutter saved in the
+     * Liveboard's styling settings (or the ThoughtSpot default) applies.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {number}
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardGutter: 8,
+     * })
+     * ```
+     */
+    liveboardGutter?: number;
+    /**
      * This flag is used to enable or disable the new centralized Liveboard filter UX
      * (v2). When enabled, a unified modal is used to manage and update multiple filters
      * at once, replacing the older individual filter interactions.
@@ -4641,6 +4661,41 @@ export enum HostEvent {
      */
     OpenFilter = 'openFilter',
     /**
+     * Open the add-filter modal of a Liveboard, the same dialog that the
+     * *Add filter* button in the Liveboard edit header opens, so the host
+     * app can start the add-filter flow from its own UI.
+     *
+     * The Liveboard must be in edit mode; the event is ignored otherwise.
+     * Hiding the *Add filter* button with `hiddenActions:
+     * [Action.AddFilter]` does not block this event, but disabling it with
+     * `disabledActions` does.
+     *
+     * Unlike {@link HostEvent.OpenFilter}, which opens the panel of an
+     * existing filter, this event starts the creation of a new filter.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenAddFilterModal);
+     * ```
+     */
+    OpenAddFilterModal = 'openAddFilterModal',
+    /**
+     * Open the add-parameter panel of a Liveboard, the same panel that the
+     * *Add parameter* button in the Liveboard edit header opens.
+     * Mirrors {@link HostEvent.OpenAddFilterModal} for parameters.
+     *
+     * The Liveboard must be in edit mode; the event is ignored otherwise.
+     * Hiding the *Add parameter* button with `hiddenActions:
+     * [Action.AddParameter]` does not block this event, but disabling it
+     * with `disabledActions` does.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenAddParameterModal);
+     * ```
+     */
+    OpenAddParameterModal = 'openAddParameterModal',
+    /**
      * Open the parameter panel for a particular parameter on a Liveboard.
      * Mirrors {@link HostEvent.OpenFilter} for parameters.
      * @param - Includes the following keys:
@@ -6811,6 +6866,7 @@ export enum Param {
     PrimaryAction = 'primaryAction',
     isSpotterAgentEmbed = 'isSpotterAgentEmbed',
     IsLiveboardStylingAndGroupingEnabled = 'isLiveboardStylingAndGroupingEnabled',
+    LiveboardGutter = 'liveboardGutter',
     IsLazyLoadingForEmbedEnabled = 'isLazyLoadingForEmbedEnabled',
     RootMarginForLazyLoad = 'rootMarginForLazyLoad',
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',

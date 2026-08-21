@@ -1111,6 +1111,7 @@ export class AppEmbed extends V1Embed {
             discoveryExperience,
             coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
+            liveboardGutter,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
@@ -1275,6 +1276,10 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.IsLiveboardStylingAndGroupingEnabled
             ] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (liveboardGutter !== undefined) {
+            params[Param.LiveboardGutter] = liveboardGutter;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {

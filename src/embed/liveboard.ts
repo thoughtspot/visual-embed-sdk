@@ -736,6 +736,7 @@ export class LiveboardEmbed extends V1Embed {
             dataSourceId,
             coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
+            liveboardGutter,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
@@ -826,6 +827,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (liveboardGutter !== undefined) {
+            params[Param.LiveboardGutter] = liveboardGutter;
         }
 
         if (isPNGInScheduledEmailsEnabled !== undefined) {
