@@ -1,6 +1,7 @@
 import isPlainObject from 'lodash/isPlainObject';
 import mapValues from 'lodash/mapValues';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
+import { ApplicabilityLevel } from '../embed/hostEventClient/contracts';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { logger } from './logger';
 import { version as sdkVersion } from './sdk-version';
@@ -13,35 +14,45 @@ import { version as sdkVersion } from './sdk-version';
 const ENUM_PARAMS: Record<string, readonly string[]> = {
     operator: Object.values(RuntimeFilterOp),
     oper: Object.values(RuntimeFilterOp),
+    level: Object.values(ApplicabilityLevel),
 };
 
 export const MAX_ARRAY_TYPES = 10;
 
-const valueType = (value: unknown, key: string): string => {
+export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
+
+const describeValue = (value: unknown, key: string, seen: Set<unknown>): ParamTypes => {
     if (value === null) {
         return 'null';
-    }
-    if (Array.isArray(value)) {
-        return 'array';
     }
     if (typeof value === 'string' && ENUM_PARAMS[key]?.includes(value)) {
         return value;
     }
+    if (Array.isArray(value) || isPlainObject(value)) {
+        if (seen.has(value)) {
+            return 'circular';
+        }
+        seen.add(value);
+        const described = Array.isArray(value)
+            ? value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item, key, seen))
+            : mapValues(value as Record<string, unknown>, (item, itemKey) => (
+                describeValue(item, itemKey, seen)
+            ));
+        seen.delete(value);
+        return described;
+    }
     return typeof value;
 };
 
-const paramType = (value: unknown, key: string): string | string[] => (
-    Array.isArray(value)
-        ? value.slice(0, MAX_ARRAY_TYPES).map((item) => valueType(item, key))
-        : valueType(value, key)
-);
-
-export const describeParams = (payload: unknown): Record<string, string | string[]> => {
+export const describeParams = (payload: unknown): Record<string, ParamTypes> => {
     const params = Array.isArray(payload) ? payload[0] : payload;
     if (!isPlainObject(params)) {
         return {};
     }
-    return mapValues(params as Record<string, unknown>, paramType);
+    const seen = new Set<unknown>([params]);
+    return mapValues(params as Record<string, unknown>, (value, key) => (
+        describeValue(value, key, seen)
+    ));
 };
 
 export interface HostEventTelemetryParams {

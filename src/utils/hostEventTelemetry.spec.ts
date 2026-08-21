@@ -4,6 +4,7 @@ import {
     MAX_ARRAY_TYPES,
 } from './hostEventTelemetry';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
+import { ApplicabilityLevel } from '../embed/hostEventClient/contracts';
 import { version } from './sdk-version';
 
 describe('describeParams', () => {
@@ -22,8 +23,22 @@ describe('describeParams', () => {
             runRuntimeFilters: 'boolean',
             tabId: 'null',
             columns: ['string', 'string'],
-            points: ['object', 'null', 'number'],
+            points: [{ x: 'number' }, 'null', 'number'],
             empty: [],
+        });
+    });
+
+    test('describes nested objects all the way down', () => {
+        expect(describeParams({
+            filter: {
+                column: 'Region',
+                applicability: { level: ApplicabilityLevel.Tab, targetId: 'tab-1' },
+            },
+        })).toEqual({
+            filter: {
+                column: 'string',
+                applicability: { level: 'TAB', targetId: 'string' },
+            },
         });
     });
 
@@ -51,21 +66,21 @@ describe('describeParams', () => {
         });
     });
 
-    test('survives a circular payload, because it never recurses', () => {
+    test('reports a cycle instead of following it', () => {
         const circular: any = { vizId: 'd0a1' };
         circular.self = circular;
         circular.loop = [circular];
         expect(describeParams(circular)).toEqual({
             vizId: 'string',
-            self: 'object',
-            loop: ['object'],
+            self: 'circular',
+            loop: ['circular'],
         });
     });
 
-    test('survives an array that contains itself', () => {
+    test('reports a cycle in an array instead of following it', () => {
         const loop: any[] = ['west'];
         loop.push(loop);
-        expect(describeParams({ values: loop })).toEqual({ values: ['string', 'array'] });
+        expect(describeParams({ values: loop })).toEqual({ values: ['string', 'circular'] });
     });
 
     test('reports nothing for a payload with no parameters', () => {
