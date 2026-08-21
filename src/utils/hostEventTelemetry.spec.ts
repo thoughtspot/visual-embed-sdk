@@ -66,21 +66,33 @@ describe('describeParams', () => {
         });
     });
 
-    test('reports a cycle instead of following it', () => {
+    test('reports nothing for a payload it cannot serialise', () => {
         const circular: any = { vizId: 'd0a1' };
         circular.self = circular;
-        circular.loop = [circular];
-        expect(describeParams(circular)).toEqual({
-            vizId: 'string',
-            self: 'circular',
-            loop: ['circular'],
-        });
-    });
+        expect(describeParams(circular)).toEqual({});
 
-    test('reports a cycle in an array instead of following it', () => {
         const loop: any[] = ['west'];
         loop.push(loop);
-        expect(describeParams({ values: loop })).toEqual({ values: ['string', 'circular'] });
+        expect(describeParams({ values: loop })).toEqual({});
+
+        const throwing = {
+            get vizId(): string {
+                throw new Error('nope');
+            },
+        };
+        expect(describeParams(throwing)).toEqual({});
+    });
+
+    test('drops a function or undefined parameter instead of choking on it', () => {
+        expect(describeParams({
+            vizId: 'd0a1',
+            callback: (): void => undefined,
+            missing: undefined,
+            handlers: [(): void => undefined, 'x'],
+        })).toEqual({
+            vizId: 'string',
+            handlers: ['null', 'string'],
+        });
     });
 
     test('reports nothing for a payload with no parameters', () => {
