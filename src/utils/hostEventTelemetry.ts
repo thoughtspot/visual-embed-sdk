@@ -41,16 +41,28 @@ export const describeParams = (payload: unknown): Record<string, string> => {
     return mapKeys(mapValues(params as object, paramType), (_type, key) => paramName(key));
 };
 
+export type HostEventStatus =
+    | 'success'
+    | 'error'
+    | 'timed-out'
+    | 'render-not-called'
+    | 'host-event-undefined'
+    | 'no-iframe';
+
 export const getHostEventTelemetryProps = ({
     hostEvent,
     payload,
     context,
     embedComponentType,
+    status,
+    durationMs,
 }: {
     hostEvent: HostEvent;
     payload?: unknown;
     context?: ContextType;
     embedComponentType?: string;
+    status?: HostEventStatus;
+    durationMs?: number;
 }) => {
     const params = describeParams(payload);
     return {
@@ -60,5 +72,7 @@ export const getHostEventTelemetryProps = ({
         sdkVersion,
         params,
         paramKeys: Object.keys(params),
+        ...(status ? { status } : {}),
+        ...(durationMs === undefined ? {} : { durationMs }),
     };
 };

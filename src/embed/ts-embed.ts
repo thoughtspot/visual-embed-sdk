@@ -71,7 +71,8 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { getHostEventTelemetryProps } from '../utils/hostEventTelemetry';
+import { getHostEventTelemetryProps, HostEventStatus } from '../utils/hostEventTelemetry';
+import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1680,17 +1681,23 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        uploadMixpanelEvent(
-            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
-            getHostEventTelemetryProps({
-                hostEvent: messageType,
-                payload: data,
-                context,
-                embedComponentType: this.viewConfig?.embedComponentType,
-            }),
-        );
+        const triggerStartedAt = Date.now();
+        const reportHostEvent = (status: HostEventStatus) => {
+            uploadMixpanelEvent(
+                `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
+                getHostEventTelemetryProps({
+                    hostEvent: messageType,
+                    payload: data,
+                    context,
+                    embedComponentType: this.viewConfig?.embedComponentType,
+                    status,
+                    durationMs: Date.now() - triggerStartedAt,
+                }),
+            );
+        };
 
         if (!this.isRendered) {
+            reportHostEvent('render-not-called');
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
@@ -1701,6 +1708,7 @@ export class TsEmbed {
         }
 
         if (!messageType) {
+            reportHostEvent('host-event-undefined');
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
@@ -1716,11 +1724,17 @@ export class TsEmbed {
             logger.debug(
                 `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
             );
+            reportHostEvent('no-iframe');
             return null;
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
+        return this.hostEventClient.triggerHostEvent(messageType, data, context).then(
+            (response) => {
+                reportHostEvent(isTriggerTimeout(response) ? 'timed-out' : 'success');
+                return response;
+            },
+        ).catch(
             (
                 err: Error & {
                     isValidationError?: boolean;
@@ -1741,6 +1755,7 @@ export class TsEmbed {
                     };
                     this.handleError(errorDetails);
                 }
+                reportHostEvent('error');
                 throw err;
             },
         );
