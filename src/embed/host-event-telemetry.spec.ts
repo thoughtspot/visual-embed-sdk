@@ -4,6 +4,10 @@ import {
 import { getDocumentBody, getRootEl } from '../test/test-utils';
 import { ERROR_MESSAGE } from '../errors';
 import { logger } from '../utils/logger';
+import {
+    PENDING_FLUSH_MS,
+    testResetHostEventTelemetry,
+} from '../utils/hostEventTelemetry';
 import * as authInstance from '../auth';
 import * as mixpanelInstance from '../mixpanel-service';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
@@ -18,6 +22,7 @@ describe('Host event parameter telemetry', () => {
         jest.spyOn(authInstance, 'postLoginService').mockImplementation(
             () => Promise.resolve(true as any),
         );
+        testResetHostEventTelemetry();
         mockProcessTrigger = jest
             .spyOn(processTriggerInstance, 'processTrigger')
             .mockResolvedValue({ session: 'ok' });
@@ -61,8 +66,62 @@ describe('Host event parameter telemetry', () => {
                 paramKeys: ['vizId'],
                 status: 'success',
                 durationMs: expect.any(Number),
+                hostEventId: expect.stringMatching(/^he-\d+$/),
             }),
         );
+    });
+
+    test('gives every trigger its own id', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'a' });
+        await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'b' });
+
+        const ids = mockUploadMixpanelEvent.mock.calls
+            .filter(([id]) => String(id).startsWith(MIXPANEL_EVENT.VISUAL_SDK_TRIGGER))
+            .map(([, props]) => props.hostEventId);
+        expect(ids).toHaveLength(2);
+        expect(new Set(ids).size).toBe(2);
+    });
+
+    test('uploads nothing until the trigger settles', async () => {
+        let settle: (value: unknown) => void = () => undefined;
+        mockProcessTrigger.mockImplementation(() => new Promise((resolve) => {
+            settle = resolve;
+        }));
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        const triggered = embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
+        expect(mockUploadMixpanelEvent).not.toHaveBeenCalled();
+
+        settle({ session: 'ok' });
+        await triggered;
+        expect(triggerProps(HostEvent.DownloadAsCsv).status).toBe('success');
+    });
+
+    test('pushes a queued trigger that never settles', async () => {
+        mockProcessTrigger.mockImplementation(() => new Promise(() => undefined));
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+
+        jest.useFakeTimers();
+        try {
+            embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
+            await Promise.resolve();
+            jest.advanceTimersByTime(PENDING_FLUSH_MS + 100);
+            await Promise.resolve();
+
+            expect(triggerProps(HostEvent.DownloadAsCsv)).toEqual(
+                expect.objectContaining({
+                    status: 'no-outcome',
+                    params: { vizId: 'string' },
+                }),
+            );
+        } finally {
+            jest.useRealTimers();
+        }
     });
 
     test('reports a trigger the embedded app never answered as timed out', async () => {
@@ -110,6 +169,32 @@ describe('Host event parameter telemetry', () => {
         expect(mockUploadMixpanelEvent.mock.calls.map(([id]) => id)).toEqual([
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.DownloadAsCsv}`,
         ]);
+    });
+
+    test('a payload it cannot describe never breaks the trigger', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+        const hostile = {
+            get vizId() {
+                throw new Error('no telemetry for you');
+            },
+        };
+
+        await expect(embed.trigger(HostEvent.DownloadAsCsv, hostile)).resolves.toEqual(
+            { session: 'ok' },
+        );
+    });
+
+    test('a failing upload never breaks the trigger', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+        mockUploadMixpanelEvent.mockImplementation(() => {
+            throw new Error('mixpanel is down');
+        });
+
+        await expect(
+            embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' }),
+        ).resolves.toEqual({ session: 'ok' });
     });
 
     test('reports parameter names and enum members, never customer values', async () => {
