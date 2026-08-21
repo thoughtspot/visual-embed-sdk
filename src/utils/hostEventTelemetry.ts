@@ -2,6 +2,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import mapKeys from 'lodash/mapKeys';
 import mapValues from 'lodash/mapValues';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
+import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
+import { logger } from './logger';
 import { version as sdkVersion } from './sdk-version';
 
 export const REDACTED_KEY = 'redactedKey';
@@ -41,17 +43,19 @@ export const describeParams = (payload: unknown): Record<string, string> => {
     return mapKeys(mapValues(params as object, paramType), (_type, key) => paramName(key));
 };
 
+export interface HostEventTelemetryParams {
+    hostEvent: HostEvent;
+    payload?: unknown;
+    context?: ContextType;
+    embedComponentType?: string;
+}
+
 export const getHostEventTelemetryProps = ({
     hostEvent,
     payload,
     context,
     embedComponentType,
-}: {
-    hostEvent: HostEvent;
-    payload?: unknown;
-    context?: ContextType;
-    embedComponentType?: string;
-}) => {
+}: HostEventTelemetryParams) => {
     const params = describeParams(payload);
     return {
         hostEvent: String(hostEvent),
@@ -61,4 +65,15 @@ export const getHostEventTelemetryProps = ({
         params,
         paramKeys: Object.keys(params),
     };
+};
+
+export const reportHostEvent = (params: HostEventTelemetryParams): void => {
+    try {
+        uploadMixpanelEvent(
+            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${params.hostEvent}`,
+            getHostEventTelemetryProps(params),
+        );
+    } catch (e) {
+        logger.debug('Could not report host event telemetry', e);
+    }
 };

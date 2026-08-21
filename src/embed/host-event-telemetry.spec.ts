@@ -69,6 +69,32 @@ describe('Host event parameter telemetry', () => {
         ]);
     });
 
+    test('a payload it cannot describe never breaks the trigger', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+        const hostile = {
+            get vizId() {
+                throw new Error('no telemetry for you');
+            },
+        };
+
+        await expect(embed.trigger(HostEvent.DownloadAsCsv, hostile)).resolves.toEqual(
+            { session: 'ok' },
+        );
+    });
+
+    test('a failing upload never breaks the trigger', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+        mockUploadMixpanelEvent.mockImplementation(() => {
+            throw new Error('mixpanel is down');
+        });
+
+        await expect(
+            embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' }),
+        ).resolves.toEqual({ session: 'ok' });
+    });
+
     test('reports parameter names and enum members, never customer values', async () => {
         const embed = await renderLiveboard();
         mockUploadMixpanelEvent.mockClear();

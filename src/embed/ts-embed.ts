@@ -71,7 +71,7 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { getHostEventTelemetryProps } from '../utils/hostEventTelemetry';
+import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1680,15 +1680,12 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        uploadMixpanelEvent(
-            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`,
-            getHostEventTelemetryProps({
-                hostEvent: messageType,
-                payload: data,
-                context,
-                embedComponentType: this.viewConfig?.embedComponentType,
-            }),
-        );
+        reportHostEvent({
+            hostEvent: messageType,
+            payload: data,
+            context,
+            embedComponentType: this.viewConfig?.embedComponentType,
+        });
 
         if (!this.isRendered) {
             this.handleError({
