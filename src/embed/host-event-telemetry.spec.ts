@@ -52,10 +52,8 @@ describe('Host event parameter telemetry', () => {
                 hostEvent: HostEvent.DownloadAsCsv,
                 embedComponentType: 'LiveboardEmbed',
                 contextType: 'none',
-                hasPayload: true,
-                paramCount: 1,
+                params: { vizId: 'string' },
                 paramKeys: ['vizId'],
-                paramShape: ['vizId:string'],
             }),
         );
     });
@@ -82,14 +80,10 @@ describe('Host event parameter telemetry', () => {
         const serialized = JSON.stringify(mockUploadMixpanelEvent.mock.calls);
         ['Region', 'west'].forEach((value) => expect(serialized).not.toContain(value));
 
-        const props = triggerProps(HostEvent.UpdateRuntimeFilters);
-        expect(props.paramKeys).toEqual(['columnName', 'operator', 'values']);
-        expect(props.paramShape).toEqual(
-            expect.arrayContaining([
-                'payload[].columnName:string',
-                'payload[].operator:EQ',
-                'payload[].values:array(1)',
-            ]),
-        );
+        expect(triggerProps(HostEvent.UpdateRuntimeFilters).params).toEqual({
+            columnName: 'string',
+            operator: 'EQ',
+            values: 'array(1)',
+        });
     });
 });
