@@ -73,11 +73,14 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import {
     getEmbedEventTelemetryProps,
+    describeResponse,
     getHostEventTelemetryProps,
     HostEventRoute,
     HostEventStatus,
     isTelemetryEnabled,
+    MAX_EMBED_SHAPE_PATHS,
     reportEvent,
+    RESPONSE_WAIT_MS,
 } from '../utils/eventTelemetry';
 import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -1442,7 +1445,29 @@ export class TsEmbed {
                 embedComponentType: this.viewConfig?.embedComponentType,
             })
             : null;
+        const dispatchedAt = Date.now();
+        const canRespond = !!eventPort;
+        let reported = false;
         let invokedHandlers = 0;
+        const reportEmbedEvent = (response?: { payload: unknown; at: number }) => {
+            if (reported || !telemetryProps) {
+                return;
+            }
+            reported = true;
+            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, {
+                ...telemetryProps,
+                handlerCount: invokedHandlers,
+                canRespond,
+                responded: !!response,
+                ...(response
+                    ? {
+                        responseTimeMs: response.at - dispatchedAt,
+                        ...describeResponse(response.payload, MAX_EMBED_SHAPE_PATHS),
+                    }
+                    : {}),
+            });
+        };
+
         callbacks.forEach((callbackObj) => {
             if (
                 // When start status is true it trigger only start releated
@@ -1454,15 +1479,21 @@ export class TsEmbed {
             ) {
                 invokedHandlers += 1;
                 const responder = this.createEmbedEventResponder(eventPort, eventType);
-                callbackObj.callback(data, responder);
+                callbackObj.callback(data, (payload: any) => {
+                    reportEmbedEvent({ payload, at: Date.now() });
+                    return responder(payload);
+                });
             }
         });
-        if (telemetryProps) {
-            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, {
-                ...telemetryProps,
-                handlerCount: invokedHandlers,
-            });
+
+        if (!telemetryProps) {
+            return;
         }
+        if (canRespond && !reported) {
+            setTimeout(() => reportEmbedEvent(), RESPONSE_WAIT_MS);
+            return;
+        }
+        reportEmbedEvent();
     }
 
     /**
@@ -1709,25 +1740,32 @@ export class TsEmbed {
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         const triggerStartedAt = Date.now();
         let route: HostEventRoute | undefined;
-        const reportHostEvent = (status: HostEventStatus, errorCode?: EmbedErrorCodes) => {
+        const reportHostEvent = (
+            status: HostEventStatus,
+            errorCode?: EmbedErrorCodes,
+            response?: unknown,
+        ) => {
             if (!isTelemetryEnabled()) {
                 return;
             }
-            const props = getHostEventTelemetryProps({
-                hostEvent: messageType,
-                payload: data,
-                context,
-                embedComponentType: this.viewConfig?.embedComponentType,
-                status,
-                durationMs: Date.now() - triggerStartedAt,
-                route,
-                errorCode,
+            const responded = status === 'success';
+            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, {
+                ...getHostEventTelemetryProps({
+                    hostEvent: messageType,
+                    payload: data,
+                    context,
+                    embedComponentType: this.viewConfig?.embedComponentType,
+                    status,
+                    durationMs: Date.now() - triggerStartedAt,
+                    route,
+                    errorCode,
+                }),
+                responded,
+                ...(responded ? describeResponse(response) : {}),
             });
-            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, props);
-            if (status === 'timed-out') {
-                reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE, props);
-            }
         };
+
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
             reportHostEvent('render-not-called', EmbedErrorCodes.RENDER_NOT_CALLED);
@@ -1767,7 +1805,11 @@ export class TsEmbed {
                 route = dispatchRoute;
             })
             .then((response) => {
-                reportHostEvent(isTriggerTimeout(response) ? 'timed-out' : 'success');
+                if (isTriggerTimeout(response)) {
+                    reportHostEvent('timed-out');
+                } else {
+                    reportHostEvent('success', undefined, response);
+                }
                 return response;
             })
             .catch(

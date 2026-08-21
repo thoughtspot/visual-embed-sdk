@@ -87,7 +87,7 @@ describe('Unit test for mixpanel', () => {
     test('caps the pre-init queue, so tracking left uninitialized cannot grow it', () => {
         testResetMixpanel();
         for (let i = 0; i < MAX_QUEUED_EVENTS + 50; i += 1) {
-            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE, { index: i });
+            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, { index: i });
         }
         const sessionInfo = {
             mixpanelToken: 'abc123',

@@ -11,6 +11,7 @@ export const MAX_EMBED_SHAPE_PATHS = 20;
 export const MAX_KEY_LENGTH = 40;
 export const REDACTED_KEY = 'redactedKey';
 export const IDLE_TIMEOUT = 2000;
+export const RESPONSE_WAIT_MS = 5000;
 
 const ROOT_PATH = 'payload';
 const SAFE_KEY_PATTERN = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
@@ -64,6 +65,14 @@ export interface EmbedEventTelemetryProps extends PayloadShape {
     sdkVersion: string;
     eventStatus: string;
     handlerCount: number;
+    canRespond: boolean;
+    responded: boolean;
+}
+
+export interface ResponseShape {
+    responseType: PayloadShape['payloadType'];
+    responseKeys: string[];
+    responseShape: string[];
 }
 
 interface ShapeAccumulator {
@@ -201,6 +210,18 @@ export const describePayload = (
     }
 };
 
+export const describeResponse = (
+    payload: unknown,
+    maxPaths = MAX_SHAPE_PATHS,
+): ResponseShape => {
+    const shape = describePayload(payload, maxPaths);
+    return {
+        responseType: shape.payloadType,
+        responseKeys: shape.paramKeys,
+        responseShape: shape.paramShape,
+    };
+};
+
 export const isTelemetryEnabled = (): boolean => !getEmbedConfig()?.disableSDKTracking;
 
 const runWhenIdle = (work: () => void): void => {
@@ -263,7 +284,7 @@ export const getEmbedEventTelemetryProps = ({
     embedEvent: EmbedEvent;
     payload?: any;
     embedComponentType?: string;
-}): Omit<EmbedEventTelemetryProps, 'handlerCount'> => ({
+}): Omit<EmbedEventTelemetryProps, 'handlerCount' | 'canRespond' | 'responded'> => ({
     embedEvent: String(embedEvent),
     embedComponentType: embedComponentType || 'unknown',
     sdkVersion,

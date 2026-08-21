@@ -9,6 +9,7 @@ import * as authInstance from '../auth';
 import * as mixpanelInstance from '../mixpanel-service';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 import * as processTriggerInstance from '../utils/processTrigger';
+import { RESPONSE_WAIT_MS } from '../utils/eventTelemetry';
 
 const flushTelemetry = () => new Promise((resolve) => setTimeout(resolve, 5));
 
@@ -49,12 +50,9 @@ describe('Host event telemetry', () => {
         jest.restoreAllMocks();
     });
 
-    const triggerProps = async (hostEvent: HostEvent) => {
+    const triggerProps = async () => {
         await flushTelemetry();
-        const uploads = uploadsOf(
-            mockUploadMixpanelEvent,
-            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${hostEvent}`,
-        );
+        const uploads = uploadsOf(mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT);
         expect(uploads).toHaveLength(1);
         return uploads[0];
     };
@@ -76,15 +74,15 @@ describe('Host event telemetry', () => {
         );
     };
 
-    test('enriches the existing per-event upload instead of adding another', async () => {
+    test('tells the whole story of a trigger, including what came back', async () => {
+        mockProcessTrigger.mockResolvedValue({ session: 'ok', answerId: 'a-1' });
         const embed = await renderLiveboard();
         await flushTelemetry();
         mockUploadMixpanelEvent.mockClear();
 
         await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
-        await flushTelemetry();
 
-        expect(await triggerProps(HostEvent.DownloadAsCsv)).toEqual(
+        expect(await triggerProps()).toEqual(
             expect.objectContaining({
                 hostEvent: HostEvent.DownloadAsCsv,
                 embedComponentType: 'LiveboardEmbed',
@@ -96,11 +94,39 @@ describe('Host event telemetry', () => {
                 status: 'success',
                 route: 'legacy',
                 durationMs: expect.any(Number),
+                responded: true,
+                responseType: 'object',
+                responseKeys: ['answerId', 'session'],
+                responseShape: ['answerId:string', 'session:string'],
             }),
         );
-        expect(mockUploadMixpanelEvent.mock.calls.map(([id]) => id)).toEqual([
+    });
+
+    test('leaves the legacy per-event upload exactly as it was', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
+
+        expect(mockUploadMixpanelEvent).toHaveBeenCalledWith(
             `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.DownloadAsCsv}`,
-        ]);
+        );
+    });
+
+    test('never reports a response value', async () => {
+        mockProcessTrigger.mockResolvedValue({ answerName: 'Quarterly revenue', rows: [['west']] });
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
+
+        const props = await triggerProps();
+        expect(props.responseKeys).toEqual(['answerName', 'rows']);
+        ['Quarterly revenue', 'west'].forEach((value) => {
+            expect(JSON.stringify(props)).not.toContain(value);
+        });
     });
 
     test('reports parameter names and enum members, never customer values', async () => {
@@ -116,7 +142,7 @@ describe('Host event telemetry', () => {
         const serialized = JSON.stringify(mockUploadMixpanelEvent.mock.calls);
         ['Region', 'west'].forEach((value) => expect(serialized).not.toContain(value));
 
-        const props = await triggerProps(HostEvent.UpdateRuntimeFilters);
+        const props = await triggerProps();
         expect(props.paramKeys).toEqual(['columnName', 'operator', 'values']);
         expect(props.paramShape).toEqual(
             expect.arrayContaining([
@@ -127,24 +153,18 @@ describe('Host event telemetry', () => {
         );
     });
 
-    test('sends a no-response event when the app never answers', async () => {
+    test('records that the app never answered', async () => {
         mockProcessTrigger.mockResolvedValue(new Error(ERROR_MESSAGE.TRIGGER_TIMED_OUT));
         const embed = await renderLiveboard();
         await flushTelemetry();
         mockUploadMixpanelEvent.mockClear();
 
         await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
-        await flushTelemetry();
 
-        expect((await triggerProps(HostEvent.DownloadAsCsv)).status).toBe('timed-out');
-        const noResponse = uploadsOf(
-            mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE,
-        );
-        expect(noResponse).toHaveLength(1);
-        expect(noResponse[0]).toEqual(
+        expect(await triggerProps()).toEqual(
             expect.objectContaining({
-                hostEvent: HostEvent.DownloadAsCsv,
                 status: 'timed-out',
+                responded: false,
                 durationMs: expect.any(Number),
             }),
         );
@@ -159,7 +179,7 @@ describe('Host event telemetry', () => {
         await expect(embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' })).rejects.toThrow();
         await flushTelemetry();
 
-        const props = await triggerProps(HostEvent.DownloadAsCsv);
+        const props = await triggerProps();
         expect(props.status).toBe('error');
         expect(JSON.stringify(props)).not.toContain('4c8a1b2e');
     });
@@ -173,7 +193,7 @@ describe('Host event telemetry', () => {
         await embed.trigger(HostEvent.GetTabs, {});
         await flushTelemetry();
 
-        expect((await triggerProps(HostEvent.GetTabs)).route).toBe('ui-passthrough');
+        expect((await triggerProps()).route).toBe('ui-passthrough');
     });
 
     test('reports the legacy route when the app lacks the passthrough key', async () => {
@@ -185,7 +205,7 @@ describe('Host event telemetry', () => {
         await embed.trigger(HostEvent.GetTabs, {});
         await flushTelemetry();
 
-        expect((await triggerProps(HostEvent.GetTabs)).route).toBe('legacy');
+        expect((await triggerProps()).route).toBe('legacy');
     });
 
     test('reports the custom-handler route for a setter with custom logic', async () => {
@@ -200,7 +220,7 @@ describe('Host event telemetry', () => {
         });
         await flushTelemetry();
 
-        expect(await triggerProps(HostEvent.Pin)).toEqual(
+        expect(await triggerProps()).toEqual(
             expect.objectContaining({
                 route: 'custom-handler',
                 paramKeys: ['liveboardId', 'newVizName'],
@@ -225,10 +245,9 @@ describe('Host event telemetry', () => {
         ).rejects.toBeDefined();
         await flushTelemetry();
 
-        expect((await triggerProps(HostEvent.Pin)).status).toBe('timed-out');
-        expect(
-            uploadsOf(mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE),
-        ).toHaveLength(1);
+        const props = await triggerProps();
+        expect(props.status).toBe('timed-out');
+        expect(props.responded).toBe(false);
     });
 
     test('reports a trigger called before render', async () => {
@@ -247,7 +266,7 @@ describe('Host event telemetry', () => {
         await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
         await flushTelemetry();
 
-        expect(await triggerProps(HostEvent.DownloadAsCsv)).toEqual(
+        expect(await triggerProps()).toEqual(
             expect.objectContaining({
                 status: 'render-not-called',
                 errorCode: EmbedErrorCodes.RENDER_NOT_CALLED,
@@ -255,7 +274,7 @@ describe('Host event telemetry', () => {
         );
     });
 
-    test('uploads nothing at all when the host application disabled tracking', async () => {
+    test('builds no telemetry when the host application disabled tracking', async () => {
         const embed = await renderLiveboard({ disableSDKTracking: true });
         await flushTelemetry();
         mockUploadMixpanelEvent.mockClear();
@@ -263,7 +282,12 @@ describe('Host event telemetry', () => {
         await embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' });
         await flushTelemetry();
 
-        expect(mockUploadMixpanelEvent).not.toHaveBeenCalled();
+        expect(
+            uploadsOf(mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT),
+        ).toHaveLength(0);
+        expect(mockUploadMixpanelEvent.mock.calls.map(([id]) => id)).toEqual([
+            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.DownloadAsCsv}`,
+        ]);
     });
 });
 
@@ -334,6 +358,83 @@ describe('Embed event telemetry', () => {
         (embed as any).executeCallbacks(EmbedEvent.Data, { status: 'start' });
         const startUploads = await embedEventUploads();
         expect(startUploads[0].handlerCount).toBe(1);
+    });
+
+    test('tells the whole story when the host application responds', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        embed.on(EmbedEvent.ApiIntercept, (_data: any, responder: any) => {
+            responder({ allow: true, answerName: 'Quarterly revenue' });
+        });
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        (embed as any).executeCallbacks(
+            EmbedEvent.ApiIntercept,
+            { status: 'end', url: '/api/rest/2.0/metadata/search' },
+            { postMessage: jest.fn() },
+        );
+
+        const uploads = await embedEventUploads();
+        expect(uploads).toHaveLength(1);
+        expect(uploads[0]).toEqual(
+            expect.objectContaining({
+                embedEvent: EmbedEvent.ApiIntercept,
+                canRespond: true,
+                responded: true,
+                handlerCount: 1,
+                responseTimeMs: expect.any(Number),
+            }),
+        );
+        expect(uploads[0].responseKeys).toEqual(['allow', 'answerName']);
+        expect(JSON.stringify(uploads[0])).not.toContain('Quarterly revenue');
+    });
+
+    test('records that the host application never responded', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        embed.on(EmbedEvent.ApiIntercept, jest.fn());
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        jest.useFakeTimers();
+        try {
+            (embed as any).executeCallbacks(
+                EmbedEvent.ApiIntercept,
+                { status: 'end' },
+                { postMessage: jest.fn() },
+            );
+            jest.advanceTimersByTime(1000);
+            expect(
+                uploadsOf(mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT),
+            ).toHaveLength(0);
+
+            jest.advanceTimersByTime(RESPONSE_WAIT_MS + 100);
+            const uploads = uploadsOf(
+                mockUploadMixpanelEvent, MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT,
+            );
+            expect(uploads).toHaveLength(1);
+            expect(uploads[0]).toEqual(
+                expect.objectContaining({ canRespond: true, responded: false }),
+            );
+        } finally {
+            jest.useRealTimers();
+        }
+    });
+
+    test('does not wait for a response an event cannot receive', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        (embed as any).executeCallbacks(EmbedEvent.Data, { status: 'end' });
+
+        const uploads = await embedEventUploads();
+        expect(uploads).toHaveLength(1);
+        expect(uploads[0]).toEqual(
+            expect.objectContaining({ canRespond: false, responded: false }),
+        );
+        expect('responseTimeMs' in uploads[0]).toBe(false);
     });
 
     test('reports an embed event nobody is listening for', async () => {

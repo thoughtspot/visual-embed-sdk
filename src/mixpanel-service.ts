@@ -22,7 +22,7 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_COMPLETE: 'visual-sdk-render-complete',
     VISUAL_SDK_RENDER_FAILED: 'visual-sdk-render-failed',
     VISUAL_SDK_TRIGGER: 'visual-sdk-trigger',
-    VISUAL_SDK_HOST_EVENT_NO_RESPONSE: 'visual-sdk-host-event-no-response',
+    VISUAL_SDK_HOST_EVENT: 'visual-sdk-host-event',
     VISUAL_SDK_EMBED_EVENT: 'visual-sdk-embed-event',
     VISUAL_SDK_ON: 'visual-sdk-on',
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
