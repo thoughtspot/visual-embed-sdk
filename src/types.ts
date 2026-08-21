@@ -2031,8 +2031,7 @@ export interface LiveboardAppEmbedViewConfig {
     /**
      * This attribute keeps an embedded Liveboard on the 12-column layout at
      * every width, instead of switching to the two-column or single-column
-     * layout as the container narrows. The Liveboard also has no minimum width
-     * unless `--ts-var-liveboard-min-width` is set.
+     * layout as the container narrows.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}

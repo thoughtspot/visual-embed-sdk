@@ -758,11 +758,6 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-single-column-breakpoint'?: string;
 
     /**
-     * Minimum width of the Liveboard before it scrolls horizontally.
-     */
-    '--ts-var-liveboard-min-width'?: string;
-
-    /**
      * Background color of the cross filter layout in the Liveboard.
      */
     '--ts-var-liveboard-cross-filter-layout-background'?: string;
