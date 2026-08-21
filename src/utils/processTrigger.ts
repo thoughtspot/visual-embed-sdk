@@ -37,14 +37,6 @@ function postIframeMessage(
 
 export const TRIGGER_TIMEOUT = 30000;
 
-/**
- * Whether a settled `processTrigger` result is the timeout sentinel.
- *
- * `processTrigger` resolves — it does not reject — with an Error when the
- * embedded app never answers, so without this check a timed-out trigger is
- * indistinguishable from a successful one.
- * @param value A value a `processTrigger` promise settled with
- */
 export const isTriggerTimeout = (value: unknown): boolean => value instanceof Error
     && value.message === ERROR_MESSAGE.TRIGGER_TIMED_OUT;
 

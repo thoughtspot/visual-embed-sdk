@@ -72,10 +72,12 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import {
+    getEmbedEventTelemetryProps,
     getHostEventTelemetryProps,
     HostEventRoute,
     HostEventStatus,
-} from '../utils/hostEventTelemetry';
+    reportEvent,
+} from '../utils/eventTelemetry';
 import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
@@ -1445,6 +1447,12 @@ export class TsEmbed {
                 callbackObj.callback(data, responder);
             }
         });
+        reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, () => getEmbedEventTelemetryProps({
+            embedEvent: eventType,
+            payload: data,
+            embedComponentType: this.viewConfig?.embedComponentType,
+            handlerCount: callbacks.length,
+        }));
     }
 
     /**
@@ -1685,28 +1693,25 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        const telemetryProps = getHostEventTelemetryProps({
-            hostEvent: messageType,
-            payload: data,
-            context,
-            embedComponentType: this.viewConfig?.embedComponentType,
-        });
         const triggerStartedAt = Date.now();
         let route: HostEventRoute | undefined;
-        // Emitted once, when the trigger settles or bails out, so a single
-        // Mixpanel report can answer which host events are used, with which
-        // parameters, and how they resolve.
         const reportHostEvent = (status: HostEventStatus, errorCode?: EmbedErrorCodes) => {
-            uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, {
-                ...telemetryProps,
+            const durationMs = Date.now() - triggerStartedAt;
+            const buildProps = () => getHostEventTelemetryProps({
+                hostEvent: messageType,
+                payload: data,
+                context,
+                embedComponentType: this.viewConfig?.embedComponentType,
                 status,
-                durationMs: Date.now() - triggerStartedAt,
-                ...(route ? { route } : {}),
-                ...(errorCode ? { errorCode } : {}),
+                durationMs,
+                route,
+                errorCode,
             });
+            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, buildProps);
+            if (status === 'timed-out') {
+                reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE, buildProps);
+            }
         };
-
-        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, telemetryProps);
 
         if (!this.isRendered) {
             reportHostEvent('render-not-called', EmbedErrorCodes.RENDER_NOT_CALLED);
@@ -1772,13 +1777,8 @@ export class TsEmbed {
                         this.handleError(errorDetails);
                         reportHostEvent('error', errorDetails.code);
                     } else if (err?.isTimeout) {
-                        // A UI passthrough setter turns an unanswered trigger
-                        // into a thrown "no answer", so the timeout only
-                        // reaches us as this flag.
                         reportHostEvent('timed-out');
                     } else {
-                        // The error message can hold customer data, so only the
-                        // fact of the failure is reported.
                         reportHostEvent('error');
                     }
                     throw err;

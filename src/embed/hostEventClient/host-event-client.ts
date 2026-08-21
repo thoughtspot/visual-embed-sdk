@@ -1,5 +1,5 @@
 import { ContextType, HostEvent } from '../../types';
-import { HostEventRoute } from '../../utils/hostEventTelemetry';
+import { HostEventRoute } from '../../utils/eventTelemetry';
 import {
     isTriggerTimeout,
     processTrigger as processTriggerService,
