@@ -1448,8 +1448,10 @@ export class TsEmbed {
         const dispatchedAt = Date.now();
         const canRespond = !!eventPort;
         let reported = false;
+        let dispatchComplete = false;
         let invokedHandlers = 0;
-        const reportEmbedEvent = (response?: { payload: unknown; at: number }) => {
+        let response: { payload: unknown; at: number } | undefined;
+        const reportEmbedEvent = () => {
             if (reported || !telemetryProps) {
                 return;
             }
@@ -1467,6 +1469,14 @@ export class TsEmbed {
                     : {}),
             });
         };
+        // A handler can respond while the loop is still running, so the
+        // response is recorded now and reported once the count is final.
+        const recordResponse = (payload: unknown) => {
+            response = response || { payload, at: Date.now() };
+            if (dispatchComplete) {
+                reportEmbedEvent();
+            }
+        };
 
         callbacks.forEach((callbackObj) => {
             if (
@@ -1480,17 +1490,18 @@ export class TsEmbed {
                 invokedHandlers += 1;
                 const responder = this.createEmbedEventResponder(eventPort, eventType);
                 callbackObj.callback(data, (payload: any) => {
-                    reportEmbedEvent({ payload, at: Date.now() });
+                    recordResponse(payload);
                     return responder(payload);
                 });
             }
         });
+        dispatchComplete = true;
 
         if (!telemetryProps) {
             return;
         }
-        if (canRespond && !reported) {
-            setTimeout(() => reportEmbedEvent(), RESPONSE_WAIT_MS);
+        if (canRespond && !response) {
+            setTimeout(reportEmbedEvent, RESPONSE_WAIT_MS);
             return;
         }
         reportEmbedEvent();

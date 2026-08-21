@@ -390,6 +390,29 @@ describe('Embed event telemetry', () => {
         expect(JSON.stringify(uploads[0])).not.toContain('Quarterly revenue');
     });
 
+    test('counts every handler even when an early one responds synchronously', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        embed.on(EmbedEvent.ApiIntercept, (_data: any, responder: any) => {
+            responder({ allow: true });
+        });
+        embed.on(EmbedEvent.ApiIntercept, jest.fn());
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        (embed as any).executeCallbacks(
+            EmbedEvent.ApiIntercept,
+            { status: 'end' },
+            { postMessage: jest.fn() },
+        );
+
+        const uploads = await embedEventUploads();
+        expect(uploads).toHaveLength(1);
+        expect(uploads[0]).toEqual(
+            expect.objectContaining({ handlerCount: 2, responded: true }),
+        );
+    });
+
     test('records that the host application never responded', async () => {
         const embed = await renderLiveboard();
         await flushTelemetry();
