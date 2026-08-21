@@ -388,6 +388,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isLiveboardAlwaysOn12ColLayout to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLiveboardAlwaysOn12ColLayout: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardAlwaysOn12ColLayout=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set coverAndFilterOptionInPDF to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -200,6 +200,21 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLiveboardAlwaysOn12ColLayout to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardAlwaysOn12ColLayout: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardAlwaysOn12ColLayout=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
     test('should set isLiveboardStylingAndGroupingEnabled to true in url (deprecated, use isLiveboardMasterpiecesEnabled)', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isLiveboardStylingAndGroupingEnabled: true,

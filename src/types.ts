@@ -2029,6 +2029,25 @@ export interface LiveboardAppEmbedViewConfig {
      */
     enable2ColumnLayout?: boolean;
     /**
+     * This attribute keeps an embedded Liveboard on the 12-column layout at
+     * every width, instead of switching to the two-column or single-column
+     * layout as the container narrows.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default false
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardAlwaysOn12ColLayout: true,
+     * })
+     * ```
+     */
+    isLiveboardAlwaysOn12ColLayout?: boolean;
+    /**
      * This flag can be used to enable the compact header in Liveboard
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -6768,6 +6787,7 @@ export enum Param {
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
+    IsLiveboardAlwaysOn12ColLayout = 'isLiveboardAlwaysOn12ColLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
     FocusSearchBarOnRender = 'focusSearchBarOnRender',

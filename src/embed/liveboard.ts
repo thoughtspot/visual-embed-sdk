@@ -727,6 +727,7 @@ export class LiveboardEmbed extends V1Embed {
             isEnhancedFilterInteractivityEnabled,
             enableAskSage,
             enable2ColumnLayout,
+            isLiveboardAlwaysOn12ColLayout,
             dataPanelV2 = true,
             updatedSpotterExperience,
             enableCustomColumnGroups = false,
@@ -791,6 +792,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+        if (isLiveboardAlwaysOn12ColLayout !== undefined) {
+            params[Param.IsLiveboardAlwaysOn12ColLayout] = isLiveboardAlwaysOn12ColLayout;
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
