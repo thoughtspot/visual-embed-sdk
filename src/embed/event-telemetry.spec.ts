@@ -317,6 +317,25 @@ describe('Embed event telemetry', () => {
         });
     });
 
+    test('counts only the handlers this dispatch actually ran', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        embed.on(EmbedEvent.Data, jest.fn(), { start: true });
+        embed.on(EmbedEvent.Data, jest.fn());
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        (embed as any).executeCallbacks(EmbedEvent.Data, { status: 'end' });
+        const endUploads = await embedEventUploads();
+        expect(endUploads[0].handlerCount).toBe(1);
+
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+        (embed as any).executeCallbacks(EmbedEvent.Data, { status: 'start' });
+        const startUploads = await embedEventUploads();
+        expect(startUploads[0].handlerCount).toBe(1);
+    });
+
     test('reports an embed event nobody is listening for', async () => {
         const embed = await renderLiveboard();
         await flushTelemetry();

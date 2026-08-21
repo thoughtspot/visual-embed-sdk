@@ -76,6 +76,7 @@ import {
     getHostEventTelemetryProps,
     HostEventRoute,
     HostEventStatus,
+    isTelemetryEnabled,
     reportEvent,
 } from '../utils/eventTelemetry';
 import { isTriggerTimeout } from '../utils/processTrigger';
@@ -1434,6 +1435,14 @@ export class TsEmbed {
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
         const callbacks = [...eventHandlers, ...allHandlers];
         const dataStatus = data?.status || embedEventStatus.END;
+        const telemetryProps = isTelemetryEnabled()
+            ? getEmbedEventTelemetryProps({
+                embedEvent: eventType,
+                payload: data,
+                embedComponentType: this.viewConfig?.embedComponentType,
+            })
+            : null;
+        let invokedHandlers = 0;
         callbacks.forEach((callbackObj) => {
             if (
                 // When start status is true it trigger only start releated
@@ -1443,16 +1452,17 @@ export class TsEmbed {
                 // payload
                 (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
+                invokedHandlers += 1;
                 const responder = this.createEmbedEventResponder(eventPort, eventType);
                 callbackObj.callback(data, responder);
             }
         });
-        reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, () => getEmbedEventTelemetryProps({
-            embedEvent: eventType,
-            payload: data,
-            embedComponentType: this.viewConfig?.embedComponentType,
-            handlerCount: callbacks.length,
-        }));
+        if (telemetryProps) {
+            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, {
+                ...telemetryProps,
+                handlerCount: invokedHandlers,
+            });
+        }
     }
 
     /**
@@ -1537,11 +1547,11 @@ export class TsEmbed {
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
         if (!isRegisteredBySDK) {
-            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, () => ({
+            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
                 embedEvent: String(messageType),
                 embedComponentType: this.viewConfig?.embedComponentType || 'unknown',
                 sdkVersion: version,
-            }));
+            });
         }
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
@@ -1700,20 +1710,22 @@ export class TsEmbed {
         const triggerStartedAt = Date.now();
         let route: HostEventRoute | undefined;
         const reportHostEvent = (status: HostEventStatus, errorCode?: EmbedErrorCodes) => {
-            const durationMs = Date.now() - triggerStartedAt;
-            const buildProps = () => getHostEventTelemetryProps({
+            if (!isTelemetryEnabled()) {
+                return;
+            }
+            const props = getHostEventTelemetryProps({
                 hostEvent: messageType,
                 payload: data,
                 context,
                 embedComponentType: this.viewConfig?.embedComponentType,
                 status,
-                durationMs,
+                durationMs: Date.now() - triggerStartedAt,
                 route,
                 errorCode,
             });
-            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, buildProps);
+            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`, props);
             if (status === 'timed-out') {
-                reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE, buildProps);
+                reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT_NO_RESPONSE, props);
             }
         };
 

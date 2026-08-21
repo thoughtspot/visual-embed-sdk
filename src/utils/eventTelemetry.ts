@@ -212,16 +212,13 @@ const runWhenIdle = (work: () => void): void => {
     setTimeout(work, 0);
 };
 
-export const reportEvent = (
-    eventId: string,
-    buildProps: () => Record<string, any>,
-): void => {
+export const reportEvent = (eventId: string, props: Record<string, any>): void => {
     if (!isTelemetryEnabled()) {
         return;
     }
     runWhenIdle(() => {
         try {
-            uploadMixpanelEvent(eventId, buildProps());
+            uploadMixpanelEvent(eventId, props);
         } catch (e) {
             logger.debug('Could not report telemetry for', eventId, e);
         }
@@ -262,17 +259,14 @@ export const getEmbedEventTelemetryProps = ({
     embedEvent,
     payload,
     embedComponentType,
-    handlerCount,
 }: {
     embedEvent: EmbedEvent;
     payload?: any;
     embedComponentType?: string;
-    handlerCount: number;
-}): EmbedEventTelemetryProps => ({
+}): Omit<EmbedEventTelemetryProps, 'handlerCount'> => ({
     embedEvent: String(embedEvent),
     embedComponentType: embedComponentType || 'unknown',
     sdkVersion,
     eventStatus: payload?.status ? String(payload.status) : 'none',
-    handlerCount,
     ...describePayload(payload, MAX_EMBED_SHAPE_PATHS),
 });

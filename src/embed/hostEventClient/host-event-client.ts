@@ -100,7 +100,7 @@ export class HostEventClient {
       const response = raw?.find?.((r) => r.error || r.value);
 
       if (!response) {
-          const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
+          const error = `No answer found${parameters?.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
           // A timeout arrives here as a missing response, because
           // processTrigger resolves with an Error rather than rejecting. The
           // thrown shape stays as it was; the flag lets telemetry tell an

@@ -260,14 +260,12 @@ describe('getEmbedEventTelemetryProps', () => {
                 data: { columnNames: ['Region'], rows: [['west', 100]] },
             },
             embedComponentType: 'LiveboardEmbed',
-            handlerCount: 2,
         });
         expect(props).toEqual(
             expect.objectContaining({
                 embedEvent: EmbedEvent.Data,
                 embedComponentType: 'LiveboardEmbed',
                 eventStatus: 'end',
-                handlerCount: 2,
                 sdkVersion: version,
             }),
         );
@@ -281,7 +279,6 @@ describe('getEmbedEventTelemetryProps', () => {
                 data: { columnNames: ['Region'], rows: [['west', 100]] },
                 answerName: 'Quarterly revenue',
             },
-            handlerCount: 0,
         });
         const serialized = JSON.stringify(props);
         ['Region', 'west', 'Quarterly revenue'].forEach((value) => {
@@ -297,7 +294,6 @@ describe('getEmbedEventTelemetryProps', () => {
         const props = getEmbedEventTelemetryProps({
             embedEvent: EmbedEvent.Data,
             payload: wide,
-            handlerCount: 1,
         });
         expect(props.paramShape).toHaveLength(MAX_EMBED_SHAPE_PATHS);
         expect(props.shapeTruncated).toBe(true);
