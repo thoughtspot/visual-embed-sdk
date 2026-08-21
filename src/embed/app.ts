@@ -1255,8 +1255,7 @@ export class AppEmbed extends V1Embed {
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
-        // Only when true: a false reaches the app as the string 'false'.
-        if (force12ColLayout) {
+        if (force12ColLayout !== undefined) {
             params[Param.Force12ColLayout] = force12ColLayout;
         }
 
