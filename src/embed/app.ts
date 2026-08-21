@@ -897,13 +897,12 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      *        inputChatPlaceholder: 'Ask a question...',
      *        hideStarterPrompts: false,
      *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
-     *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     *        // The options below require SDK: 1.51.0
      *        loaderHeadline: 'Crunching the numbers...',
      *        loaderTips: [
      *            { label: 'Tip', text: 'try asking about revenue by region' },
      *            { label: 'Tip', text: 'use natural language' },
      *        ],
-     *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      *        liveboardBrandName: 'Reports',
      *        spotterBrandName: 'Analyst',
      *        insightTileBrandName: 'Insight card',
