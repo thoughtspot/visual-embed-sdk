@@ -28,6 +28,7 @@ import * as auth from '../auth';
 import * as previewService from '../utils/graphql/preview-service';
 import * as SessionInfoService from '../utils/sessionInfoService';
 import { logger } from '../utils/logger';
+import { DEFAULT_LAZY_LOADING_MARGIN } from '../config';
 
 const defaultViewConfig = {
     frameParams: {
@@ -2051,6 +2052,255 @@ describe('Liveboard/viz embed tests', () => {
             }, 100);
         });
 
+        test('should default lazy loading flags to true when fullHeight is enabled', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+            } as LiveboardViewConfig);
+
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
+            expect(
+                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBe(true);
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('isFullHeightPinboard=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should not default lazy loading flags when fullHeight is not enabled', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+            } as LiveboardViewConfig);
+
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(
+                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBeUndefined();
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should not write the defaults back onto the caller view config', async () => {
+            const callerViewConfig = {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+            } as LiveboardViewConfig;
+
+            new LiveboardEmbed(getRootEl(), callerViewConfig);
+
+            expect(callerViewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(callerViewConfig.enableScrollableContainerLazyLoading).toBeUndefined();
+            expect(callerViewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should not default lazy loading flags when fullHeight is explicitly false', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: false,
+            } as LiveboardViewConfig);
+
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(
+                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBeUndefined();
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as LiveboardViewConfig);
+
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe(
+                DEFAULT_LAZY_LOADING_MARGIN,
+            );
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should let an explicit lazyLoadingMargin win over the default', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingMargin: '250px',
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=250px');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should drop an invalid lazyLoadingMargin and log an error', async () => {
+            const loggerErrorSpy = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingMargin: 'not-a-margin',
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+                expect(loggerErrorSpy).toHaveBeenCalledWith(
+                    'Please provide a valid lazyLoadingMargin value (e.g., "10px")',
+                );
+            }, 100);
+        });
+
+        test('should track scrollable ancestors by default when only fullHeight is set', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            const originalResizeObserver = (window as any).ResizeObserver;
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            liveboardEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+
+            scrollContainer.style.overflow = '';
+            (window as any).ResizeObserver = originalResizeObserver;
+        });
+
+        test('should skip ancestor tracking when enableScrollableContainerLazyLoading is false', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const windowSpy = jest.spyOn(window, 'addEventListener');
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                enableScrollableContainerLazyLoading: false,
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(windowSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+                expect(scrollContainerSpy).not.toHaveBeenCalledWith('scroll', expect.any(Function));
+            }, 100);
+
+            liveboardEmbed.destroy();
+            scrollContainer.style.overflow = '';
+        });
+
+        test('should wire the window scroll listener to the coordinates sender by default', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+            } as LiveboardViewConfig);
+
+            const mockTrigger = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const scrollCall = addEventListenerSpy.mock.calls.find(
+                    ([eventName, , capture]) => eventName === 'scroll' && capture === true,
+                );
+                expect(scrollCall).toBeDefined();
+
+                // Call the handler the way a real scroll event would.
+                (scrollCall as any)[1]();
+
+                expect(mockTrigger).toHaveBeenCalledWith(
+                    HostEvent.VisibleEmbedCoordinates,
+                    expect.objectContaining({ top: expect.any(Number) }),
+                );
+            }, 100);
+
+            liveboardEmbed.destroy();
+            addEventListenerSpy.mockRestore();
+        });
+
+        test('should remove listeners on destroy when the flags come from defaults', async () => {
+            const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+            } as LiveboardViewConfig);
+
+            await liveboardEmbed.render();
+            liveboardEmbed.destroy();
+
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+
+            removeEventListenerSpy.mockRestore();
+        });
+
+        test('should keep an explicit false for the lazy loading flags', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                enableScrollableContainerLazyLoading: false,
+                lazyLoadingMargin: '0px',
+            } as LiveboardViewConfig);
+
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(false);
+            expect(
+                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBe(false);
+            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe('0px');
+        });
+
         test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
@@ -2130,7 +2380,7 @@ describe('Liveboard/viz embed tests', () => {
             });
         });
 
-        test('should send correct visible data when RequestVisibleEmbedCoordinates is triggered', async () => {
+        test('should send visible data when fullHeight is enabled and lazyLoadingForFullHeight is omitted', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
                 liveboardId,
@@ -2145,7 +2395,7 @@ describe('Liveboard/viz embed tests', () => {
             // Trigger the lazy load data calculation
             (liveboardEmbed as any).sendFullHeightLazyLoadData();
 
-            expect(mockTrigger).not.toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
+            expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
                 height: 500,
                 left: 0,

@@ -26,6 +26,7 @@ import {
     DefaultAppInitData,
 } from '../types';
 import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { DEFAULT_LAZY_LOADING_MARGIN } from '../config';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
@@ -62,6 +63,11 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      * visualizations to display on the screen.
      * Setting `fullHeight` to `false` fetches visualizations
      * incrementally as users scroll the page to view the charts and tables.
+     *
+     * From SDK 1.52.0, enabling `fullHeight` also turns on
+     * {@link lazyLoadingForFullHeight} and
+     * {@link enableScrollableContainerLazyLoading}, so visualizations load as
+     * they scroll into view. Set either flag to `false` to opt out.
      *
      *
      * Supported embed types: `LiveboardEmbed`
@@ -457,11 +463,17 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isGranularXLSXCSVSchedulesEnabled?: boolean;
     /**
-     * This flag is used to enable the full height lazy load data.
+     * Loads visualizations only as they scroll into the viewport, instead of
+     * loading the whole full-height Liveboard at once.
+     *
+     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
+     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
+     * set explicitly. Set it to `false` to load every visualization upfront.
+     * The flag has no effect unless `fullHeight` is enabled.
      *
      * @type {boolean}
      * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
-     * @default false
+     * @default true when `fullHeight` is enabled, from SDK 1.52.0
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -473,26 +485,42 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     lazyLoadingForFullHeight?: boolean;
     /**
-     * This flag is used to enable container-aware full height lazy loading.
+     * Computes the visible region of the embed against its scrollable and
+     * clipping ancestors, instead of treating the browser window as the only
+     * viewport, and tracks scroll and resize on those ancestors.
      *
-     * Use this when the embed is rendered inside a scrollable or clipping
-     * container instead of relying on the browser window as the only viewport.
+     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
+     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
+     * set explicitly. Set it to `false` when the page scrolls with the window
+     * and the embed has no clipping ancestor, to skip the extra ancestor
+     * tracking.
      *
      * @type {boolean}
-     * @default false
+     * @default true when `fullHeight` is enabled, from SDK 1.52.0
      */
     enableScrollableContainerLazyLoading?: boolean;
     /**
-     * The margin to be used for lazy loading.
+     * How far outside the viewport a visualization starts loading, when
+     * {@link lazyLoadingForFullHeight} is enabled.
      *
      * For example, if the margin is set to '10px',
      * the visualization will be loaded 10px before its top edge is visible in the
      * viewport.
      *
-     * The format is similar to CSS margin.
+     * The format is similar to CSS margin, so `'500px 0px'` extends the
+     * prefetch 500px above and below the viewport and not sideways. Accepted
+     * units are `px`, `em`, `rem`, `%`, `vh` and `vw`, plus bare `0` and
+     * `auto`; an invalid value is logged and ignored.
+     *
+     * From SDK 1.52.0 this defaults to `'500px 0px'` — roughly one
+     * visualization ahead of the scroll position, so a chart has usually
+     * finished loading by the time it scrolls into view. Use a smaller margin
+     * to cut warehouse queries further, or `'0px'` to load a visualization
+     * only once it is actually visible.
      *
      * @type {string}
      * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+     * @default '500px 0px' when `fullHeight` is enabled, from SDK 1.52.0
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed-container', {
@@ -674,6 +702,16 @@ export class LiveboardEmbed extends V1Embed {
             if (this.viewConfig.vizId) {
                 logger.warn('Full height is currently only supported for Liveboard embeds.' +
                     'Using full height with vizId might lead to unexpected behavior.');
+            }
+
+            if (this.viewConfig.lazyLoadingForFullHeight === undefined) {
+                this.viewConfig.lazyLoadingForFullHeight = true;
+            }
+            if (this.viewConfig.enableScrollableContainerLazyLoading === undefined) {
+                this.viewConfig.enableScrollableContainerLazyLoading = true;
+            }
+            if (this.viewConfig.lazyLoadingMargin === undefined) {
+                this.viewConfig.lazyLoadingMargin = DEFAULT_LAZY_LOADING_MARGIN;
             }
 
             this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
