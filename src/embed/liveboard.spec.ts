@@ -200,9 +200,9 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should set force12ColLayout to true in url', async () => {
+    test('should set isLiveboardAlwaysOn12ColLayout to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
-            force12ColLayout: true,
+            isLiveboardAlwaysOn12ColLayout: true,
             ...defaultViewConfig,
             liveboardId,
         } as LiveboardViewConfig);
@@ -210,7 +210,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
-                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&force12ColLayout=true${prefixParams}#/embed/viz/${liveboardId}`,
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardAlwaysOn12ColLayout=true${prefixParams}#/embed/viz/${liveboardId}`,
             );
         });
     });

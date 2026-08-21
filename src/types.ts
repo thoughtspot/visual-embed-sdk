@@ -2042,11 +2042,11 @@ export interface LiveboardAppEmbedViewConfig {
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
-     *    force12ColLayout: true,
+     *    isLiveboardAlwaysOn12ColLayout: true,
      * })
      * ```
      */
-    force12ColLayout?: boolean;
+    isLiveboardAlwaysOn12ColLayout?: boolean;
     /**
      * This flag can be used to enable the compact header in Liveboard
      *
@@ -6787,7 +6787,7 @@ export enum Param {
     NumberFormatLocale = 'numberFormatLocale',
     CurrencyFormat = 'currencyFormat',
     Enable2ColumnLayout = 'enable2ColumnLayout',
-    Force12ColLayout = 'force12ColLayout',
+    IsLiveboardAlwaysOn12ColLayout = 'isLiveboardAlwaysOn12ColLayout',
     IsFullAppEmbed = 'isFullAppEmbed',
     IsOnBeforeGetVizDataInterceptEnabled = 'isOnBeforeGetVizDataInterceptEnabled',
     FocusSearchBarOnRender = 'focusSearchBarOnRender',

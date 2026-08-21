@@ -1096,7 +1096,7 @@ export class AppEmbed extends V1Embed {
             enableAskSage,
             collapseSearchBarInitially = false,
             enable2ColumnLayout,
-            force12ColLayout,
+            isLiveboardAlwaysOn12ColLayout,
             enableCustomColumnGroups = false,
             dataPanelCustomGroupsAccordionInitialState = DataPanelCustomColumnGroupsAccordionState.EXPAND_ALL,
             collapseSearchBar = true,
@@ -1255,8 +1255,8 @@ export class AppEmbed extends V1Embed {
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
         }
-        if (force12ColLayout !== undefined) {
-            params[Param.Force12ColLayout] = force12ColLayout;
+        if (isLiveboardAlwaysOn12ColLayout !== undefined) {
+            params[Param.IsLiveboardAlwaysOn12ColLayout] = isLiveboardAlwaysOn12ColLayout;
         }
 
         if (enableAskSage) {
