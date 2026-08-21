@@ -1,4 +1,4 @@
-import { describeParams, getHostEventTelemetryProps, REDACTED_KEY } from './hostEventTelemetry';
+import { describeParams, getHostEventTelemetryProps } from './hostEventTelemetry';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
 import { version } from './sdk-version';
 
@@ -35,13 +35,6 @@ describe('describeParams', () => {
             columnName: 'string',
             operator: 'EQ',
             values: 'array(1)',
-        });
-    });
-
-    test('redacts a key name that could be customer data', () => {
-        expect(describeParams({ 'Total Sales': 1, vizId: 'd0a1' })).toEqual({
-            [REDACTED_KEY]: 'number',
-            vizId: 'string',
         });
     });
 

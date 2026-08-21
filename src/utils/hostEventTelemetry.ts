@@ -1,12 +1,9 @@
 import isPlainObject from 'lodash/isPlainObject';
-import mapKeys from 'lodash/mapKeys';
 import mapValues from 'lodash/mapValues';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { logger } from './logger';
 import { version as sdkVersion } from './sdk-version';
-
-export const REDACTED_KEY = 'redactedKey';
 
 /*
  * TODO: hand-maintained, so an enum parameter nobody adds here silently
@@ -17,10 +14,6 @@ const ENUM_PARAMS: Record<string, readonly string[]> = {
     operator: Object.values(RuntimeFilterOp),
     oper: Object.values(RuntimeFilterOp),
 };
-
-const IDENTIFIER = /^[A-Za-z_$][A-Za-z0-9_$]{0,39}$/;
-
-const paramName = (key: string) => (IDENTIFIER.test(key) ? key : REDACTED_KEY);
 
 const paramType = (value: unknown, key: string) => {
     if (value === null) {
@@ -40,7 +33,7 @@ export const describeParams = (payload: unknown): Record<string, string> => {
     if (!isPlainObject(params)) {
         return {};
     }
-    return mapKeys(mapValues(params as object, paramType), (_type, key) => paramName(key));
+    return mapValues(params as Record<string, unknown>, paramType);
 };
 
 export interface HostEventTelemetryParams {
