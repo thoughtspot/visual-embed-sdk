@@ -4661,6 +4661,22 @@ export enum HostEvent {
      */
     OpenAddFilterModal = 'openAddFilterModal',
     /**
+     * Open the add-parameter panel of a Liveboard, the same panel that the
+     * *Add parameter* button in the Liveboard edit header opens.
+     * Mirrors {@link HostEvent.OpenAddFilterModal} for parameters.
+     *
+     * The Liveboard must be in edit mode; the event is ignored otherwise.
+     * Hiding the *Add parameter* button with `hiddenActions:
+     * [Action.AddParameter]` does not block this event, but disabling it
+     * with `disabledActions` does.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenAddParameterModal);
+     * ```
+     */
+    OpenAddParameterModal = 'openAddParameterModal',
+    /**
      * Open the parameter panel for a particular parameter on a Liveboard.
      * Mirrors {@link HostEvent.OpenFilter} for parameters.
      * @param - Includes the following keys:

@@ -205,6 +205,30 @@ describe('HostEvent.OpenAddFilterModal', () => {
 });
 
 // ---------------------------------------------------------------------------
+// 10d – OpenAddParameterModal
+// ---------------------------------------------------------------------------
+describe('HostEvent.OpenAddParameterModal', () => {
+    test('postMessage type is openAddParameterModal (camelCase, no payload)', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.OpenAddParameterModal);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'openAddParameterModal' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('returns null when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.OpenAddParameterModal);
+        expect(result).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
 // 11 – AddColumns
 // ---------------------------------------------------------------------------
 describe('HostEvent.AddColumns', () => {
