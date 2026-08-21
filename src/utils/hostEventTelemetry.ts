@@ -21,6 +21,11 @@ export const MAX_ARRAY_TYPES = 10;
 
 export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
 
+/*
+ * Assumes an already-serialised value, which is what makes the absence of a
+ * cycle guard safe: describeParams clones first, and a clone cannot hold a
+ * cycle. Do not export this or call it with a raw payload.
+ */
 const describeValue = (value: unknown, key: string): ParamTypes => {
     if (value === null) {
         return 'null';
@@ -51,10 +56,7 @@ export const describeParams = (payload: unknown): Record<string, ParamTypes> => 
         logger.debug('Could not describe host event payload', e);
         return {};
     }
-    if (!isPlainObject(params)) {
-        return {};
-    }
-    return mapValues(params as Record<string, unknown>, describeValue);
+    return isPlainObject(params) ? describeValue(params, '') as Record<string, ParamTypes> : {};
 };
 
 export interface HostEventTelemetryParams {
