@@ -76,3 +76,4 @@ export const URL_MAX_LENGTH = 2000;
  */
 export const DEFAULT_EMBED_WIDTH = '100%';
 export const DEFAULT_EMBED_HEIGHT = '100%';
+export const DEFAULT_LAZY_LOADING_MARGIN = '500px 0px';

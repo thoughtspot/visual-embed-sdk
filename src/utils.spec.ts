@@ -37,6 +37,7 @@ import {
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
+import { DEFAULT_LAZY_LOADING_MARGIN } from './config';
 import { ERROR_MESSAGE } from './errors';
 
 // Mock logger
@@ -1027,6 +1028,10 @@ describe('isValidCssMargin', () => {
         expect(isValidCssMargin('   ')).toBe(false);
         expect(isValidCssMargin('invalid')).toBe(false);
         expect(isValidCssMargin('10')).toBe(false); // missing unit
+    });
+
+    it('should accept DEFAULT_LAZY_LOADING_MARGIN', () => {
+        expect(isValidCssMargin(DEFAULT_LAZY_LOADING_MARGIN)).toBe(true);
     });
 
     it('should return false and log error when value is not a string (non-string type)', () => {
