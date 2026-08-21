@@ -677,16 +677,10 @@ export class LiveboardEmbed extends V1Embed {
                     'Using full height with vizId might lead to unexpected behavior.');
             }
 
-            this.on(
-                EmbedEvent.RouteChange,
-                this.setIframeHeightForNonEmbedLiveboard, { start: false }, true,
-            );
-            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight, { start: false }, true);
-            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter, { start: false }, true);
-            this.on(
-                EmbedEvent.RequestVisibleEmbedCoordinates,
-                this.requestVisibleEmbedCoordinatesHandler, { start: false }, true,
-            );
+            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
+            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
+            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
+            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
         }
     }
 
@@ -1097,7 +1091,7 @@ export class LiveboardEmbed extends V1Embed {
             this.hostElement.style.position = 'relative';
             this.on(EmbedEvent.Data, () => {
                 previewDiv.remove();
-            }, { start: false }, true);
+            });
         } catch (error) {
             console.error('Error fetching preview', error);
         }

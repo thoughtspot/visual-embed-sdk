@@ -1813,10 +1813,10 @@ describe('App embed tests', () => {
 
         // Verify event handlers were registered
         await executeAfterWait(() => {
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything(), { start: false }, true);
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything(), { start: false }, true);
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything(), { start: false }, true);
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything(), { start: false }, true);
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
         }, 100);
     });
 
@@ -2137,7 +2137,7 @@ describe('App embed tests', () => {
 
             await appEmbed.render();
 
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.any(Function), { start: false }, true);
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.any(Function));
 
             onSpy.mockRestore();
         });

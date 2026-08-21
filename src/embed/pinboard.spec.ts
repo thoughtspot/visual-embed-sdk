@@ -241,7 +241,7 @@ describe('Pinboard/viz embed tests', () => {
         pinboardEmbed.render();
 
         executeAfterWait(() => {
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything(), { start: false }, true);
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
         });
     });
 });

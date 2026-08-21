@@ -71,18 +71,6 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import {
-    getEmbedEventTelemetryProps,
-    describeResponse,
-    getHostEventTelemetryProps,
-    HostEventRoute,
-    HostEventStatus,
-    isTelemetryEnabled,
-    MAX_EMBED_SHAPE_PATHS,
-    reportEvent,
-    RESPONSE_WAIT_MS,
-} from '../utils/eventTelemetry';
-import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1438,46 +1426,6 @@ export class TsEmbed {
         const allHandlers = this.eventHandlerMap.get(EmbedEvent.ALL) || [];
         const callbacks = [...eventHandlers, ...allHandlers];
         const dataStatus = data?.status || embedEventStatus.END;
-        const telemetryProps = isTelemetryEnabled()
-            ? getEmbedEventTelemetryProps({
-                embedEvent: eventType,
-                payload: data,
-                embedComponentType: this.viewConfig?.embedComponentType,
-            })
-            : null;
-        const dispatchedAt = Date.now();
-        const canRespond = !!eventPort;
-        let reported = false;
-        let dispatchComplete = false;
-        let invokedHandlers = 0;
-        let response: { payload: unknown; at: number } | undefined;
-        const reportEmbedEvent = () => {
-            if (reported || !telemetryProps) {
-                return;
-            }
-            reported = true;
-            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_EVENT, {
-                ...telemetryProps,
-                handlerCount: invokedHandlers,
-                canRespond,
-                responded: !!response,
-                ...(response
-                    ? {
-                        responseTimeMs: response.at - dispatchedAt,
-                        ...describeResponse(response.payload, MAX_EMBED_SHAPE_PATHS),
-                    }
-                    : {}),
-            });
-        };
-        // A handler can respond while the loop is still running, so the
-        // response is recorded now and reported once the count is final.
-        const recordResponse = (payload: unknown) => {
-            response = response || { payload, at: Date.now() };
-            if (dispatchComplete) {
-                reportEmbedEvent();
-            }
-        };
-
         callbacks.forEach((callbackObj) => {
             if (
                 // When start status is true it trigger only start releated
@@ -1487,24 +1435,10 @@ export class TsEmbed {
                 // payload
                 (!callbackObj.options.start && dataStatus === embedEventStatus.END)
             ) {
-                invokedHandlers += 1;
                 const responder = this.createEmbedEventResponder(eventPort, eventType);
-                callbackObj.callback(data, (payload: any) => {
-                    recordResponse(payload);
-                    return responder(payload);
-                });
+                callbackObj.callback(data, responder);
             }
         });
-        dispatchComplete = true;
-
-        if (!telemetryProps) {
-            return;
-        }
-        if (canRespond && !response) {
-            setTimeout(reportEmbedEvent, RESPONSE_WAIT_MS);
-            return;
-        }
-        reportEmbedEvent();
     }
 
     /**
@@ -1588,13 +1522,9 @@ export class TsEmbed {
         options: MessageOptions = { start: false },
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
-        if (!isRegisteredBySDK) {
-            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
-                embedEvent: String(messageType),
-                embedComponentType: this.viewConfig?.embedComponentType || 'unknown',
-                sdkVersion: version,
-            });
-        }
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
+            isRegisteredBySDK,
+        });
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
@@ -1749,37 +1679,9 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        const triggerStartedAt = Date.now();
-        let route: HostEventRoute | undefined;
-        const reportHostEvent = (
-            status: HostEventStatus,
-            errorCode?: EmbedErrorCodes,
-            response?: unknown,
-        ) => {
-            if (!isTelemetryEnabled()) {
-                return;
-            }
-            const responded = status === 'success';
-            reportEvent(MIXPANEL_EVENT.VISUAL_SDK_HOST_EVENT, {
-                ...getHostEventTelemetryProps({
-                    hostEvent: messageType,
-                    payload: data,
-                    context,
-                    embedComponentType: this.viewConfig?.embedComponentType,
-                    status,
-                    durationMs: Date.now() - triggerStartedAt,
-                    route,
-                    errorCode,
-                }),
-                responded,
-                ...(responded ? describeResponse(response) : {}),
-            });
-        };
-
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
 
         if (!this.isRendered) {
-            reportHostEvent('render-not-called', EmbedErrorCodes.RENDER_NOT_CALLED);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
@@ -1790,7 +1692,6 @@ export class TsEmbed {
         }
 
         if (!messageType) {
-            reportHostEvent('host-event-undefined', EmbedErrorCodes.HOST_EVENT_TYPE_UNDEFINED);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
@@ -1806,53 +1707,34 @@ export class TsEmbed {
             logger.debug(
                 `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
             );
-            reportHostEvent('no-iframe');
             return null;
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient
-            .triggerHostEvent(messageType, data, context, (dispatchRoute) => {
-                route = dispatchRoute;
-            })
-            .then((response) => {
-                if (isTriggerTimeout(response)) {
-                    reportHostEvent('timed-out');
-                } else {
-                    reportHostEvent('success', undefined, response);
-                }
-                return response;
-            })
-            .catch(
-                (
-                    err: Error & {
-                        isValidationError?: boolean;
-                        isTimeout?: boolean;
-                        embedErrorDetails?: {
-                            errorType: ErrorDetailsTypes;
-                            message: string;
-                            code: EmbedErrorCodes;
-                            error: string;
-                        };
-                    },
-                ): Promise<null> => {
-                    if (err?.isValidationError) {
-                        const errorDetails = err.embedErrorDetails ?? {
-                            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                            message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
-                            code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
-                            error: err.message,
-                        };
-                        this.handleError(errorDetails);
-                        reportHostEvent('error', errorDetails.code);
-                    } else if (err?.isTimeout) {
-                        reportHostEvent('timed-out');
-                    } else {
-                        reportHostEvent('error');
-                    }
-                    throw err;
+        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
+            (
+                err: Error & {
+                    isValidationError?: boolean;
+                    embedErrorDetails?: {
+                        errorType: ErrorDetailsTypes;
+                        message: string;
+                        code: EmbedErrorCodes;
+                        error: string;
+                    };
                 },
-            );
+            ): Promise<null> => {
+                if (err?.isValidationError) {
+                    const errorDetails = err.embedErrorDetails ?? {
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        message: err.message || ERROR_MESSAGE.UPDATEFILTERS_INVALID_PAYLOAD,
+                        code: EmbedErrorCodes.UPDATEFILTERS_INVALID_PAYLOAD,
+                        error: err.message,
+                    };
+                    this.handleError(errorDetails);
+                }
+                throw err;
+            },
+        );
     }
 
     /**
@@ -2449,10 +2331,9 @@ export class V1Embed extends TsEmbed {
         messageType: EmbedEvent,
         callback: MessageCallback,
         options: MessageOptions = { start: false },
-        isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
         const eventType = this.getCompatibleEventType(messageType);
-        return super.on(eventType, callback, options, isRegisteredBySDK);
+        return super.on(eventType, callback, options);
     }
 
     /**

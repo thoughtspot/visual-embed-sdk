@@ -22,8 +22,6 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_RENDER_COMPLETE: 'visual-sdk-render-complete',
     VISUAL_SDK_RENDER_FAILED: 'visual-sdk-render-failed',
     VISUAL_SDK_TRIGGER: 'visual-sdk-trigger',
-    VISUAL_SDK_HOST_EVENT: 'visual-sdk-host-event',
-    VISUAL_SDK_EMBED_EVENT: 'visual-sdk-embed-event',
     VISUAL_SDK_ON: 'visual-sdk-on',
     VISUAL_SDK_IFRAME_LOAD_PERFORMANCE: 'visual-sdk-iframe-load-performance',
     VISUAL_SDK_EMBED_CREATE: 'visual-sdk-embed-create',
@@ -37,8 +35,6 @@ export const MIXPANEL_EVENT = {
 let isMixpanelInitialized = false;
 let eventQueue: { eventId: string; eventProps: any }[] = [];
 
-export const MAX_QUEUED_EVENTS = 100;
-
 /**
  * Pushes the event with its Property key-value map to mixpanel.
  * @param eventId
@@ -46,12 +42,9 @@ export const MAX_QUEUED_EVENTS = 100;
  */
 export function uploadMixpanelEvent(eventId: string, eventProps = {}): void {
     if (!isMixpanelInitialized) {
-        if (eventQueue.length < MAX_QUEUED_EVENTS) {
-            eventQueue.push({ eventId, eventProps });
-        }
+        eventQueue.push({ eventId, eventProps });
         return;
     }
-
     mixpanelInstance.track(eventId, eventProps);
 }
 

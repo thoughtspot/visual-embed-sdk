@@ -1,9 +1,5 @@
 import { ContextType, HostEvent } from '../../types';
-import { HostEventRoute } from '../../utils/eventTelemetry';
-import {
-    isTriggerTimeout,
-    processTrigger as processTriggerService,
-} from '../../utils/processTrigger';
+import { processTrigger as processTriggerService } from '../../utils/processTrigger';
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
@@ -96,16 +92,12 @@ export class HostEventClient {
       parameters: UIPassthroughRequest<UIPassthroughEventT>,
       context?: ContextType,
   ): Promise<UIPassthroughResponse<UIPassthroughEventT>> {
-      const raw = await this.triggerUIPassthroughApi(apiName, parameters, context);
-      const response = raw?.find?.((r) => r.error || r.value);
+      const response = (await this.triggerUIPassthroughApi(apiName, parameters, context))
+          ?.find?.((r) => r.error || r.value);
 
       if (!response) {
-          const error = `No answer found${parameters?.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
-          // A timeout arrives here as a missing response, because
-          // processTrigger resolves with an Error rather than rejecting. The
-          // thrown shape stays as it was; the flag lets telemetry tell an
-          // unanswered trigger from a genuine "no answer".
-          throw isTriggerTimeout(raw) ? { error, isTimeout: true } : { error };
+          const error = `No answer found${parameters.vizId ? ` for vizId: ${parameters.vizId}` : ''}.`;
+          throw { error };
       }
 
       const errors = response.error
@@ -286,11 +278,6 @@ export class HostEventClient {
    * @param hostEvent - The host event to trigger
    * @param payload - Optional payload for the event
    * @param context - Optional context (e.g. vizId) for scoped operations
-   * @param onRoute - Optional telemetry hook, called with the dispatch branch
-   * taken here. It reports which branch ran, not which channel ultimately
-   * carried the message: a custom handler can fall back to the legacy channel
-   * itself, and `ui-passthrough` falls back too when the app returns no usable
-   * response.
    */
   public async triggerHostEvent<
     HostEventT extends HostEvent,
@@ -300,7 +287,6 @@ export class HostEventClient {
       hostEvent: HostEventT,
       payload?: TriggerPayload<PayloadT, HostEventT>,
       context?: ContextT,
-      onRoute?: (route: HostEventRoute) => void,
   ): Promise<TriggerResponse<PayloadT, HostEventT, ContextType>> {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
@@ -308,22 +294,15 @@ export class HostEventClient {
       // If embedded app supports passthrough but not this event, use legacy channel
       const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
-          onRoute?.('legacy');
           return this.hostEventFallback(hostEvent, payload, context) as any;
       }
 
       // Custom handler (setters) > getter passthrough > legacy fallback
-      if (customHandler) {
-          onRoute?.('custom-handler');
-          return customHandler(payload, context as ContextType) as any;
-      }
-      if (passthroughEvent) {
-          onRoute?.('ui-passthrough');
-          return this.getDataWithPassthroughFallback(
-              passthroughEvent, hostEvent, payload, context as ContextType,
-          ) as any;
-      }
-      onRoute?.('legacy');
-      return this.hostEventFallback(hostEvent, payload, context) as any;
+      return (customHandler
+          ? customHandler(payload, context as ContextType)
+          : passthroughEvent
+              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context as ContextType)
+              : this.hostEventFallback(hostEvent, payload, context)
+      ) as any;
   }
 }
