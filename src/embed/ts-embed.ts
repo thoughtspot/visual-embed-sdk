@@ -1721,15 +1721,7 @@ export class TsEmbed {
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context).then(
-            (response) => {
-                reportHostEventOutcome(
-                    hostEventId,
-                    isTriggerTimeout(response) ? 'timed-out' : 'success',
-                );
-                return response;
-            },
-        ).catch(
+        const triggered = this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
             (
                 err: Error & {
                     isValidationError?: boolean;
@@ -1750,10 +1742,22 @@ export class TsEmbed {
                     };
                     this.handleError(errorDetails);
                 }
-                reportHostEventOutcome(hostEventId, 'error');
                 throw err;
             },
         );
+
+        // Observed, not chained: the promise handed back is the one the host
+        // application would have got without telemetry, so nothing reported
+        // here can change what it sees.
+        triggered.then(
+            (response) => reportHostEventOutcome(
+                hostEventId,
+                isTriggerTimeout(response) ? 'timed-out' : 'success',
+            ),
+            () => reportHostEventOutcome(hostEventId, 'error'),
+        ).catch((e) => logger.debug('Could not report host event outcome', e));
+
+        return triggered;
     }
 
     /**

@@ -12,6 +12,7 @@ import * as authInstance from '../auth';
 import * as mixpanelInstance from '../mixpanel-service';
 import { MIXPANEL_EVENT } from '../mixpanel-service';
 import * as processTriggerInstance from '../utils/processTrigger';
+import * as telemetryInstance from '../utils/hostEventTelemetry';
 
 describe('Host event parameter telemetry', () => {
     let mockUploadMixpanelEvent: jest.SpyInstance;
@@ -69,6 +70,18 @@ describe('Host event parameter telemetry', () => {
                 hostEventId: expect.stringMatching(/^he-\d+$/),
             }),
         );
+    });
+
+    test('telemetry that throws cannot reach the host application', async () => {
+        const embed = await renderLiveboard();
+        mockUploadMixpanelEvent.mockClear();
+        jest.spyOn(telemetryInstance, 'reportHostEventOutcome').mockImplementation(() => {
+            throw new Error('telemetry exploded');
+        });
+
+        await expect(
+            embed.trigger(HostEvent.DownloadAsCsv, { vizId: 'd0a1' }),
+        ).resolves.toEqual({ session: 'ok' });
     });
 
     test('gives every trigger its own id', async () => {
