@@ -1536,9 +1536,13 @@ export class TsEmbed {
         options: MessageOptions = { start: false },
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
-        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
-            isRegisteredBySDK,
-        });
+        if (!isRegisteredBySDK) {
+            reportEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, () => ({
+                embedEvent: String(messageType),
+                embedComponentType: this.viewConfig?.embedComponentType || 'unknown',
+                sdkVersion: version,
+            }));
+        }
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
@@ -2380,9 +2384,10 @@ export class V1Embed extends TsEmbed {
         messageType: EmbedEvent,
         callback: MessageCallback,
         options: MessageOptions = { start: false },
+        isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
         const eventType = this.getCompatibleEventType(messageType);
-        return super.on(eventType, callback, options);
+        return super.on(eventType, callback, options, isRegisteredBySDK);
     }
 
     /**

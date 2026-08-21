@@ -354,4 +354,35 @@ describe('Embed event telemetry', () => {
 
         expect(await embedEventUploads()).toHaveLength(0);
     });
+
+    test('reports a registration the host application made', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        embed.on(EmbedEvent.Data, jest.fn());
+        await flushTelemetry();
+
+        const uploads = uploadsOf(
+            mockUploadMixpanelEvent, `${MIXPANEL_EVENT.VISUAL_SDK_ON}-${EmbedEvent.Data}`,
+        );
+        expect(uploads).toHaveLength(1);
+        expect(uploads[0]).toEqual(
+            expect.objectContaining({
+                embedEvent: EmbedEvent.Data,
+                embedComponentType: 'LiveboardEmbed',
+            }),
+        );
+    });
+
+    test('ignores the SDK registering its own handlers', async () => {
+        const embed = await renderLiveboard();
+        await flushTelemetry();
+        mockUploadMixpanelEvent.mockClear();
+
+        (embed as any).on(EmbedEvent.Data, jest.fn(), { start: false }, true);
+        await flushTelemetry();
+
+        expect(mockUploadMixpanelEvent).not.toHaveBeenCalled();
+    });
 });

@@ -877,7 +877,7 @@ describe('Liveboard/viz embed tests', () => {
         liveboardEmbed.render();
 
         executeAfterWait(() => {
-            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
+            expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything(), { start: false }, true);
         });
     });
 
@@ -1997,10 +1997,10 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
-                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
-                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
-                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
-                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything(), { start: false }, true);
+                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything(), { start: false }, true);
+                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything(), { start: false }, true);
+                expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything(), { start: false }, true);
             }, 100);
         });
 
