@@ -211,7 +211,7 @@ describe('Host event parameter telemetry', () => {
         expect(triggerProps(HostEvent.UpdateRuntimeFilters).params).toEqual({
             columnName: 'string',
             operator: 'EQ',
-            values: 'array(1)',
+            values: ['string'],
         });
     });
 });

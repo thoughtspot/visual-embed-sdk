@@ -15,12 +15,14 @@ const ENUM_PARAMS: Record<string, readonly string[]> = {
     oper: Object.values(RuntimeFilterOp),
 };
 
-const paramType = (value: unknown, key: string) => {
+export const MAX_ARRAY_TYPES = 10;
+
+const valueType = (value: unknown, key: string): string => {
     if (value === null) {
         return 'null';
     }
     if (Array.isArray(value)) {
-        return `array(${value.length})`;
+        return 'array';
     }
     if (typeof value === 'string' && ENUM_PARAMS[key]?.includes(value)) {
         return value;
@@ -28,7 +30,13 @@ const paramType = (value: unknown, key: string) => {
     return typeof value;
 };
 
-export const describeParams = (payload: unknown): Record<string, string> => {
+const paramType = (value: unknown, key: string): string | string[] => (
+    Array.isArray(value)
+        ? value.slice(0, MAX_ARRAY_TYPES).map((item) => valueType(item, key))
+        : valueType(value, key)
+);
+
+export const describeParams = (payload: unknown): Record<string, string | string[]> => {
     const params = Array.isArray(payload) ? payload[0] : payload;
     if (!isPlainObject(params)) {
         return {};

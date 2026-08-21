@@ -1,4 +1,8 @@
-import { describeParams, getHostEventTelemetryProps } from './hostEventTelemetry';
+import {
+    describeParams,
+    getHostEventTelemetryProps,
+    MAX_ARRAY_TYPES,
+} from './hostEventTelemetry';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
 import { version } from './sdk-version';
 
@@ -10,13 +14,22 @@ describe('describeParams', () => {
             runRuntimeFilters: true,
             tabId: null,
             columns: ['Region', 'Revenue'],
+            points: [{ x: 1 }, null, 7],
+            empty: [],
         })).toEqual({
             newVizName: 'string',
             rowCount: 'number',
             runRuntimeFilters: 'boolean',
             tabId: 'null',
-            columns: 'array(2)',
+            columns: ['string', 'string'],
+            points: ['object', 'null', 'number'],
+            empty: [],
         });
+    });
+
+    test('caps how many element types it reports for a long array', () => {
+        const values = Array.from({ length: MAX_ARRAY_TYPES + 5 }, (_v, i) => `value-${i}`);
+        expect(describeParams({ values }).values).toHaveLength(MAX_ARRAY_TYPES);
     });
 
     test('keeps the member of an enum parameter, by either spelling', () => {
@@ -34,8 +47,25 @@ describe('describeParams', () => {
         ])).toEqual({
             columnName: 'string',
             operator: 'EQ',
-            values: 'array(1)',
+            values: ['string'],
         });
+    });
+
+    test('survives a circular payload, because it never recurses', () => {
+        const circular: any = { vizId: 'd0a1' };
+        circular.self = circular;
+        circular.loop = [circular];
+        expect(describeParams(circular)).toEqual({
+            vizId: 'string',
+            self: 'object',
+            loop: ['object'],
+        });
+    });
+
+    test('survives an array that contains itself', () => {
+        const loop: any[] = ['west'];
+        loop.push(loop);
+        expect(describeParams({ values: loop })).toEqual({ values: ['string', 'array'] });
     });
 
     test('reports nothing for a payload with no parameters', () => {
