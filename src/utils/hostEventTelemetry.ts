@@ -21,7 +21,14 @@ export const MAX_ARRAY_TYPES = 10;
 
 export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
 
-const describeValue = (value: unknown, key: string, seen: Set<unknown>): ParamTypes => {
+/*
+ * `ancestors` holds the objects between the payload and `value`. A value that
+ * is already one of its own ancestors is a cycle, so it is named rather than
+ * followed; without that, a payload holding itself would recurse forever.
+ * Entries are removed on the way out, so the same object referenced twice in
+ * different branches is still described twice.
+ */
+const describeValue = (value: unknown, key: string, ancestors: Set<unknown>): ParamTypes => {
     if (value === null) {
         return 'null';
     }
@@ -29,16 +36,16 @@ const describeValue = (value: unknown, key: string, seen: Set<unknown>): ParamTy
         return value;
     }
     if (Array.isArray(value) || isPlainObject(value)) {
-        if (seen.has(value)) {
+        if (ancestors.has(value)) {
             return 'circular';
         }
-        seen.add(value);
+        ancestors.add(value);
         const described = Array.isArray(value)
-            ? value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item, key, seen))
+            ? value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item, key, ancestors))
             : mapValues(value as Record<string, unknown>, (item, itemKey) => (
-                describeValue(item, itemKey, seen)
+                describeValue(item, itemKey, ancestors)
             ));
-        seen.delete(value);
+        ancestors.delete(value);
         return described;
     }
     return typeof value;
@@ -49,9 +56,9 @@ export const describeParams = (payload: unknown): Record<string, ParamTypes> => 
     if (!isPlainObject(params)) {
         return {};
     }
-    const seen = new Set<unknown>([params]);
+    const ancestors = new Set<unknown>([params]);
     return mapValues(params as Record<string, unknown>, (value, key) => (
-        describeValue(value, key, seen)
+        describeValue(value, key, ancestors)
     ));
 };
 
