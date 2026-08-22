@@ -67,6 +67,10 @@ export enum Page {
      * Collections listing page
      */
     Collections = 'collections',
+    /**
+     * Liveboard schedules listing page
+     */
+    LiveboardSchedules = 'liveboard-schedules',
 }
 
 /**
@@ -1474,6 +1478,8 @@ export class AppEmbed extends V1Embed {
                 return modularHomeExperience ? 'home/monitor-alerts' : 'insights/monitor-alerts';
             case Page.Collections:
                 return 'collections';
+            case Page.LiveboardSchedules:
+                return 'home/liveboard-schedules';
             case Page.Home:
             default:
                 return 'home';

@@ -211,6 +211,7 @@ describe('App embed tests', () => {
             [Page.SpotIQ]: 'insights/results',
             [Page.Monitor]: 'insights/monitor-alerts',
             [Page.Collections]: 'collections',
+            [Page.LiveboardSchedules]: 'insights/home/liveboard-schedules',
         };
 
         const pageIds = Object.keys(pageRouteMap);
@@ -245,6 +246,7 @@ describe('App embed tests', () => {
             [Page.SpotIQ]: 'home/spotiq-analysis',
             [Page.Monitor]: 'home/monitor-alerts',
             [Page.Collections]: 'collections',
+            [Page.LiveboardSchedules]: 'insights/home/liveboard-schedules',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
