@@ -280,8 +280,8 @@ export interface StarterPreviewDataCategory {
 
 /**
  * Content configuration for the Spotter starter prompts.
- * Category keys are fixed: `quick` (Basic Search), `research` (Deep Analysis)
- * and `previewData` (Data Literacy).
+ * Keys are fixed: `quick` (Basic Search), `research` (Deep Analysis),
+ * `previewData` (Data Literacy) and `liveboard` (Liveboard chat panel).
  *
  * Note: this controls the Spotter chat interface only. The starter prompts on
  * the Liveboard SpotterViz surface are configured separately through
@@ -305,6 +305,11 @@ export interface StarterPromptsConfig {
     research?: StarterPromptCategory;
     /** Data Literacy category configuration. */
     previewData?: StarterPreviewDataCategory;
+    /**
+     * Starter prompts for the Spotter chat panel on a Liveboard.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    liveboard?: StarterPromptQuestion[];
 }
 
 /**
@@ -384,6 +389,23 @@ export interface SpotterChatViewConfig {
      * ```
      */
     starterPrompts?: StarterPromptsConfig;
+    /**
+     * Opens the Spotter chat panel when the Liveboard loads.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default true
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    liveboardId: 'liveboard-id',
+     *    spotterChatConfig: {
+     *        openSpotterOnLiveboardByDefault: false,
+     *    },
+     * })
+     * ```
+     */
+    openSpotterOnLiveboardByDefault?: boolean;
 }
 
 /**

@@ -6903,6 +6903,7 @@ export enum Param {
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
     AnalystId = 'analystId',
+    OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
 }
 
 /**
@@ -8929,6 +8930,16 @@ export enum Action {
      * ```
      */
     SpotterDefaultAnalyst = 'spotterDefaultAnalyst',
+    /**
+     * The **Spotter** button in the Liveboard header.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterOnLiveboard]
+     * disabledActions: [Action.SpotterOnLiveboard]
+     * ```
+     */
+    SpotterOnLiveboard = 'spotterOnLiveboard',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

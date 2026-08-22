@@ -1037,6 +1037,43 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set openSpotterOnLiveboardByDefault to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'true',
+            });
+        });
+    });
+
+    test('should set openSpotterOnLiveboardByDefault to false when explicitly disabled', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: false },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'false',
+            });
+        });
+    });
+
+    test('should not set openSpotterOnLiveboardByDefault when it is not configured', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('openSpotterOnLiveboardByDefault');
+        });
+    });
+
     test('should set spotterFileUploadFileTypes in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
