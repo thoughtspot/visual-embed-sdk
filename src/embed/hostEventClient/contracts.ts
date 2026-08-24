@@ -34,31 +34,29 @@ export interface Applicability {
 
 export interface FilterUpdate {
   /**
-   * Name of the column to filter on. `columnName` is an accepted alias, so a
-   * payload produced by `convertFilterChangedToUpdateFiltersPayload` can be
-   * passed straight through.
+   * Name of the column to filter on.
+   * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and the
+   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
+   * what is sent on the wire.
    */
   column?: string;
+  /**
+   * Name of the column to filter on. Preferred over `column`.
+   */
   columnName?: string;
   /**
-   * Operator to apply. `operator` is an accepted alias.
+   * Filter operator, for example EQ, IN, CONTAINS.
+   * @deprecated Use `operator`, which matches {@link RuntimeFilter} and the
+   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
+   * what is sent on the wire.
    */
   oper?: string;
+  /**
+   * Filter operator, for example EQ, IN, CONTAINS. Preferred over `oper`.
+   */
   operator?: string;
   values: (string | number | boolean | bigint)[];
   type?: string;
-  /**
-   * Period for relative date filters, e.g. `DAY`, `MONTH`.
-   */
-  datePeriod?: string;
-  /**
-   * Inverts the filter condition.
-   */
-  negate?: boolean;
-  /**
-   * Whether a relative date filter includes the in-progress period.
-   */
-  includeCurrentPeriod?: boolean;
   applicability?: Applicability;
 }
 
