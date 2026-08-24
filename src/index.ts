@@ -109,12 +109,6 @@ import {
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
-    FilterChangedFilterGroup,
-    FilterChangedFilter,
-    FilterChangedFilterContent,
-    FilterChangedFilterContentValue,
-    FilterChangedDateFilterContent,
-    FilterChangedDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 } from './utils/filterConverter';
@@ -242,12 +236,6 @@ export {
     TableContentDensity,
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
-    FilterChangedFilterGroup,
-    FilterChangedFilter,
-    FilterChangedFilterContent,
-    FilterChangedFilterContentValue,
-    FilterChangedDateFilterContent,
-    FilterChangedDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 };
