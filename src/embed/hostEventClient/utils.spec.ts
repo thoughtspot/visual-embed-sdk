@@ -1,6 +1,6 @@
 import {
     isValidUpdateFiltersPayload,
-    canonicaliseUpdateFiltersPayload,
+    resolveUpdateFiltersAliases,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     createValidationError,
@@ -427,13 +427,13 @@ describe('hostEventClient utils', () => {
                 .toThrow(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
         });
     });
-    describe('canonicaliseUpdateFiltersPayload', () => {
+    describe('resolveUpdateFiltersAliases', () => {
         // The payload is forwarded to the embedded app verbatim, and only
         // column/oper are known to be understood there. Without this step a
         // payload using the columnName/operator aliases passes validation and
         // is then silently ignored downstream.
         it('rewrites columnName/operator to column/oper on a single filter', () => {
-            const out = canonicaliseUpdateFiltersPayload({
+            const out = resolveUpdateFiltersAliases({
                 filter: { columnName: 'region', operator: 'EQ', values: ['west'] },
             } as any);
 
@@ -443,7 +443,7 @@ describe('hostEventClient utils', () => {
         });
 
         it('rewrites every entry in a filters array', () => {
-            const out = canonicaliseUpdateFiltersPayload({
+            const out = resolveUpdateFiltersAliases({
                 filters: [
                     { columnName: 'region', operator: 'EQ', values: ['west'] },
                     { columnName: 'item type', operator: 'IN', values: ['bags'] },
@@ -456,26 +456,26 @@ describe('hostEventClient utils', () => {
             ]);
         });
 
-        it('leaves an already-canonical payload untouched', () => {
+        it('leaves a payload that already uses column/oper untouched', () => {
             const payload = { filter: { column: 'region', oper: 'EQ', values: ['west'] } } as any;
 
-            expect(canonicaliseUpdateFiltersPayload(payload)).toEqual(payload);
+            expect(resolveUpdateFiltersAliases(payload)).toEqual(payload);
         });
 
-        it('prefers the canonical spelling when both are present', () => {
-            const out = canonicaliseUpdateFiltersPayload({
+        it('prefers column/oper when both spellings are present', () => {
+            const out = resolveUpdateFiltersAliases({
                 filter: {
-                    column: 'canonical', columnName: 'alias',
+                    column: 'from-column', columnName: 'from-columnName',
                     oper: 'EQ', operator: 'IN',
                     values: ['x'],
                 },
             } as any);
 
-            expect(out.filter).toEqual({ column: 'canonical', oper: 'EQ', values: ['x'] });
+            expect(out.filter).toEqual({ column: 'from-column', oper: 'EQ', values: ['x'] });
         });
 
         it('preserves the other filter fields, including applicability', () => {
-            const out = canonicaliseUpdateFiltersPayload({
+            const out = resolveUpdateFiltersAliases({
                 filter: {
                     columnName: 'date',
                     operator: 'EQ',
@@ -495,7 +495,7 @@ describe('hostEventClient utils', () => {
         });
 
         it('produces a payload that still passes validation', () => {
-            const out = canonicaliseUpdateFiltersPayload({
+            const out = resolveUpdateFiltersAliases({
                 filters: [{ columnName: 'region', operator: 'EQ', values: ['west'] }],
             } as any);
 
@@ -503,8 +503,8 @@ describe('hostEventClient utils', () => {
         });
 
         it('is a no-op on a non-object payload', () => {
-            expect(canonicaliseUpdateFiltersPayload(undefined as any)).toBeUndefined();
-            expect(canonicaliseUpdateFiltersPayload(null as any)).toBeNull();
+            expect(resolveUpdateFiltersAliases(undefined as any)).toBeUndefined();
+            expect(resolveUpdateFiltersAliases(null as any)).toBeNull();
         });
     });
 });
