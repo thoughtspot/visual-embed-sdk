@@ -43,6 +43,47 @@ export function isValidUpdateFiltersPayload(
   return !!(hasValidFilter || hasValidFilters);
 }
 
+/**
+ * Canonicalises a single filter to the `column`/`oper` spelling.
+ *
+ * `columnName`/`operator` are accepted aliases - they match {@link RuntimeFilter}
+ * and the `EmbedEvent.FilterChanged` payload, so a converted payload can be
+ * replayed as-is. The payload is forwarded to the embedded app untouched
+ * otherwise, and only `column`/`oper` are known to be understood there, so the
+ * alias has to be resolved here rather than passed through and silently ignored.
+ * @param filter One entry from the UpdateFilters payload.
+ */
+function canonicaliseFilter<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
+  filter: T,
+): T {
+  if (!isPlainObject(filter)) return filter;
+
+  const column = filter.column ?? filter.columnName;
+  const oper = filter.oper ?? filter.operator;
+  const { columnName, operator, ...rest } = filter;
+
+  return {
+    ...rest,
+    ...(isUndefined(column) ? {} : { column }),
+    ...(isUndefined(oper) ? {} : { oper }),
+  } as T;
+}
+
+/**
+ * Rewrites an UpdateFilters payload so every filter uses `column`/`oper`,
+ * whichever spelling the caller supplied. Call after validation.
+ * @param payload The UpdateFilters host event payload.
+ */
+export function canonicaliseUpdateFiltersPayload<T extends { filter?: any; filters?: any[] }>(payload: T): T {
+  if (!isPlainObject(payload)) return payload;
+
+  return {
+    ...payload,
+    ...(payload.filter ? { filter: canonicaliseFilter(payload.filter) } : {}),
+    ...(Array.isArray(payload.filters) ? { filters: payload.filters.map(canonicaliseFilter) } : {}),
+  };
+}
+
 export function isValidUpdateParametersPayload(payload: unknown): boolean {
   // Only validates the applicability of each parameter (null treated as absent); the rest is forwarded as-is for backward compatibility.
   if (!Array.isArray(payload)) return true;

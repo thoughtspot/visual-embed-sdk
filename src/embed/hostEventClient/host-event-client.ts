@@ -3,6 +3,7 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
+    canonicaliseUpdateFiltersPayload,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     throwUpdateFiltersValidationError,
@@ -244,7 +245,12 @@ export class HostEventClient {
       throwUpdateFiltersValidationError();
     }
 
-    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+    // The payload is forwarded to the embedded app as-is, so resolve the
+    // columnName/operator aliases to column/oper first - otherwise a payload
+    // using the alias passes validation and is then ignored downstream.
+    const canonicalPayload = canonicaliseUpdateFiltersPayload(payload);
+
+    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, canonicalPayload, context as ContextType);
   }
 
   protected handleUpdateParametersEvent(

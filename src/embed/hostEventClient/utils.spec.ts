@@ -1,5 +1,6 @@
 import {
     isValidUpdateFiltersPayload,
+    canonicaliseUpdateFiltersPayload,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     createValidationError,
@@ -424,6 +425,86 @@ describe('hostEventClient utils', () => {
         it('throws with DRILLDOWN_INVALID_PAYLOAD message', () => {
             expect(() => throwDrillDownValidationError())
                 .toThrow(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
+        });
+    });
+    describe('canonicaliseUpdateFiltersPayload', () => {
+        // The payload is forwarded to the embedded app verbatim, and only
+        // column/oper are known to be understood there. Without this step a
+        // payload using the columnName/operator aliases passes validation and
+        // is then silently ignored downstream.
+        it('rewrites columnName/operator to column/oper on a single filter', () => {
+            const out = canonicaliseUpdateFiltersPayload({
+                filter: { columnName: 'region', operator: 'EQ', values: ['west'] },
+            } as any);
+
+            expect(out.filter).toEqual({ column: 'region', oper: 'EQ', values: ['west'] });
+            expect(out.filter).not.toHaveProperty('columnName');
+            expect(out.filter).not.toHaveProperty('operator');
+        });
+
+        it('rewrites every entry in a filters array', () => {
+            const out = canonicaliseUpdateFiltersPayload({
+                filters: [
+                    { columnName: 'region', operator: 'EQ', values: ['west'] },
+                    { columnName: 'item type', operator: 'IN', values: ['bags'] },
+                ],
+            } as any);
+
+            expect(out.filters).toEqual([
+                { column: 'region', oper: 'EQ', values: ['west'] },
+                { column: 'item type', oper: 'IN', values: ['bags'] },
+            ]);
+        });
+
+        it('leaves an already-canonical payload untouched', () => {
+            const payload = { filter: { column: 'region', oper: 'EQ', values: ['west'] } } as any;
+
+            expect(canonicaliseUpdateFiltersPayload(payload)).toEqual(payload);
+        });
+
+        it('prefers the canonical spelling when both are present', () => {
+            const out = canonicaliseUpdateFiltersPayload({
+                filter: {
+                    column: 'canonical', columnName: 'alias',
+                    oper: 'EQ', operator: 'IN',
+                    values: ['x'],
+                },
+            } as any);
+
+            expect(out.filter).toEqual({ column: 'canonical', oper: 'EQ', values: ['x'] });
+        });
+
+        it('preserves the other filter fields, including applicability', () => {
+            const out = canonicaliseUpdateFiltersPayload({
+                filter: {
+                    columnName: 'date',
+                    operator: 'EQ',
+                    values: [1700000000],
+                    type: 'EXACT_DATE',
+                    applicability: { level: 'TAB', targetId: 'tab-guid' },
+                },
+            } as any);
+
+            expect(out.filter).toEqual({
+                column: 'date',
+                oper: 'EQ',
+                values: [1700000000],
+                type: 'EXACT_DATE',
+                applicability: { level: 'TAB', targetId: 'tab-guid' },
+            });
+        });
+
+        it('produces a payload that still passes validation', () => {
+            const out = canonicaliseUpdateFiltersPayload({
+                filters: [{ columnName: 'region', operator: 'EQ', values: ['west'] }],
+            } as any);
+
+            expect(isValidUpdateFiltersPayload(out as any)).toBe(true);
+        });
+
+        it('is a no-op on a non-object payload', () => {
+            expect(canonicaliseUpdateFiltersPayload(undefined as any)).toBeUndefined();
+            expect(canonicaliseUpdateFiltersPayload(null as any)).toBeNull();
         });
     });
 });
