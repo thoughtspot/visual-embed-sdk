@@ -44,16 +44,17 @@ export function isValidUpdateFiltersPayload(
 }
 
 /**
- * Canonicalises a single filter to the `column`/`oper` spelling.
+ * Rewrites one filter's `columnName`/`operator` to `column`/`oper`.
  *
- * `columnName`/`operator` are accepted aliases - they match {@link RuntimeFilter}
- * and the `EmbedEvent.FilterChanged` payload, so a converted payload can be
- * replayed as-is. The payload is forwarded to the embedded app untouched
- * otherwise, and only `column`/`oper` are known to be understood there, so the
- * alias has to be resolved here rather than passed through and silently ignored.
+ * Callers may use either spelling: `columnName`/`operator` match
+ * {@link RuntimeFilter} and the `EmbedEvent.FilterChanged` payload, so a
+ * converted payload can be replayed as-is. But the payload is forwarded to the
+ * embedded app unchanged, and only `column`/`oper` are known to be understood
+ * there - so the alias must be swapped here, or it would pass validation and
+ * then be silently ignored.
  * @param filter One entry from the UpdateFilters payload.
  */
-function canonicaliseFilter<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
+function resolveFilterAliases<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
   filter: T,
 ): T {
   if (!isPlainObject(filter)) return filter;
@@ -70,17 +71,17 @@ function canonicaliseFilter<T extends { column?: string; columnName?: string; op
 }
 
 /**
- * Rewrites an UpdateFilters payload so every filter uses `column`/`oper`,
+ * Rewrites every filter in an UpdateFilters payload to use `column`/`oper`,
  * whichever spelling the caller supplied. Call after validation.
  * @param payload The UpdateFilters host event payload.
  */
-export function canonicaliseUpdateFiltersPayload<T extends { filter?: any; filters?: any[] }>(payload: T): T {
+export function resolveUpdateFiltersAliases<T extends { filter?: any; filters?: any[] }>(payload: T): T {
   if (!isPlainObject(payload)) return payload;
 
   return {
     ...payload,
-    ...(payload.filter ? { filter: canonicaliseFilter(payload.filter) } : {}),
-    ...(Array.isArray(payload.filters) ? { filters: payload.filters.map(canonicaliseFilter) } : {}),
+    ...(payload.filter ? { filter: resolveFilterAliases(payload.filter) } : {}),
+    ...(Array.isArray(payload.filters) ? { filters: payload.filters.map(resolveFilterAliases) } : {}),
   };
 }
 
