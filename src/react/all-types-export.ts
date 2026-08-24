@@ -84,12 +84,6 @@ export {
     StarterPromptQuestion,
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
-    FilterChangedFilterGroup,
-    FilterChangedFilter,
-    FilterChangedFilterContent,
-    FilterChangedFilterContentValue,
-    FilterChangedDateFilterContent,
-    FilterChangedDateFilterValue,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
 } from '../index';
