@@ -2,17 +2,18 @@
  * Contract drift guardrails.
  *
  * These tests are the CI gate for the additive-only contract policy:
- * - The snapshots below record which events have TYPED contracts. Removing
- *   an event from the typed maps (or renaming its wire value) fails the
- *   snapshot and must be treated as a breaking change, not a refactor.
+ * - The explicit wire-value lists below record which events have TYPED
+ *   contracts. Removing an event from the typed maps (or renaming its wire
+ *   value) fails the equality check and must be treated as a breaking change,
+ *   not a refactor.
  * - Type-level assertions verify the request/response resolution helpers
  *   keep resolving typed events to their contracts and unknown events to
  *   `any` (backward compatibility).
  *
- * When a snapshot fails: if you ADDED events, update the snapshot. If an
- * existing entry disappeared or changed value, stop — that breaks published
- * SDK consumers and the host runtime validation derived from these
- * contracts.
+ * When a list check fails: if you ADDED an event, add its wire value to the
+ * expected list here. If an existing entry disappeared or changed value,
+ * stop — that breaks published SDK consumers and the host runtime validation
+ * derived from these contracts.
  */
 import { HostEvent, EmbedEvent } from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
@@ -28,7 +29,6 @@ import type {
     EmbedEventData,
     EmbedEventPayload,
 } from './embed-event-payloads';
-import { createHostEventEmitters } from './host-event-emitters';
 
 // Events with explicitly typed contracts in HostEventContractExtension.
 // Keep in sync with the interface — this list is what the snapshot locks.
@@ -108,14 +108,95 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
 const expectType = <T>(value: T): T => value;
 
 describe('event contracts (drift guardrails)', () => {
+    // The lists below LOCK the set of typed events. Adding an event is an
+    // intentional, additive edit here; a removed/renamed wire value fails this
+    // test — which is the signal that it is a breaking change, not a refactor.
     test('typed host event wire values are stable (additive-only)', () => {
-        expect(
-            TYPED_HOST_EVENTS.map((event) => `${event}`).sort(),
-        ).toMatchSnapshot();
+        expect(TYPED_HOST_EVENTS.map((event) => `${event}`).sort()).toEqual([
+            'AIHighlights',
+            'AskSage',
+            'AskSpotter',
+            'CloseSpotterShareConversation',
+            'CloseSpotterVizPanel',
+            'DeleteLastPrompt',
+            'EditLastPrompt',
+            'ExitSpotterSharedConversation',
+            'InitSpotterVizConversation',
+            'Navigate',
+            'OpenSpotterVizPanel',
+            'PinSpotterConversation',
+            'PreviewSpotterData',
+            'ResetLiveboardPersonalisedView',
+            'ResetSpotterConversation',
+            'SelectPersonalisedView',
+            'SetActiveTab',
+            'SetPinboardHiddenTabs',
+            'SetPinboardVisibleTabs',
+            'SetPinboardVisibleVizs',
+            'ShareSpotterConversation',
+            'SpotterSearch',
+            'SpotterVizSendUserMessage',
+            'UnpinSpotterConversation',
+            'UpdateCrossFilter',
+            'UpdateParameters',
+            'UpdatePersonalisedView',
+            'UpdateRuntimeFilters',
+            'addColumns',
+            'answerChartSwitcher',
+            'createMonitor',
+            'downloadAsCSV',
+            'downloadAsPdf',
+            'downloadAsPng',
+            'downloadAsXLSX',
+            'edit',
+            'editTSL',
+            'embedDocument',
+            'explore',
+            'exportTSL',
+            'manage-pipeline',
+            'manageMonitor',
+            'onDeleteAnswer',
+            'openFilter',
+            'openParameter',
+            'present',
+            'refreshLiveboardBrowserCache',
+            'removeColumn',
+            'resetSearch',
+            'save',
+            'schedule-list',
+            'search',
+            'sendTestScheduleEmail',
+            'share',
+            'showUnderlyingData',
+            'spotIQAnalyze',
+            'subscription',
+            'sync-to-other-apps',
+            'sync-to-sheets',
+            'updateFilters',
+            'updateTSL',
+        ]);
     });
 
     test('UI passthrough wire values are stable (additive-only)', () => {
-        expect(Object.values(UIPassthroughEvent).sort()).toMatchSnapshot();
+        expect(Object.values(UIPassthroughEvent).sort()).toEqual([
+            'addVizToPinboard',
+            'drillDown',
+            'getAnswerPageConfig',
+            'getAnswerSession',
+            'getAvailableUiPassthroughs',
+            'getDiscoverabilityStatus',
+            'getExportRequestForCurrentPinboard',
+            'getFilters',
+            'getGroups',
+            'getIframeUrl',
+            'getParameters',
+            'getPinboardPageConfig',
+            'getTML',
+            'getTabs',
+            'getUnsavedAnswerTML',
+            'saveAnswer',
+            'updateFilters',
+        ]);
     });
 
     test('every typed host event is a real HostEvent member', () => {
@@ -145,29 +226,6 @@ describe('event contracts (drift guardrails)', () => {
         );
     });
 
-    test('createHostEventEmitters exposes one emitter per HostEvent member', async () => {
-        const triggered: Array<{ type: HostEvent; data: any }> = [];
-        const fakeEmbed = {
-            trigger: (type: HostEvent, data?: any) => {
-                triggered.push({ type, data });
-                return Promise.resolve({ ok: true });
-            },
-        };
-        const emitters = createHostEventEmitters(fakeEmbed);
-
-        expect(Object.keys(emitters).sort()).toEqual(
-            Object.keys(HostEvent).sort(),
-        );
-
-        const filters: RuntimeFilter[] = [
-            { columnName: 'state', operator: 'EQ' as any, values: ['CA'] },
-        ];
-        await emitters.UpdateRuntimeFilters(filters);
-        expect(triggered).toEqual([
-            { type: HostEvent.UpdateRuntimeFilters, data: filters },
-        ]);
-    });
-
     test('embed event enum wire values referenced by typed payloads are stable', () => {
         expect(
             [
@@ -175,7 +233,11 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.EmbedListenerReady,
                 EmbedEvent.CustomAction,
             ].map((e) => `${e}`).sort(),
-        ).toMatchSnapshot();
+        ).toEqual([
+            'EmbedListenerReady',
+            'authInit',
+            'customAction',
+        ]);
     });
 
     test('CustomAction resolves to its typed payload; answerService on the dedicated type', () => {

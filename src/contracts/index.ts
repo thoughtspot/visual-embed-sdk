@@ -33,7 +33,6 @@ export {
 
 export * from './host-event-contracts';
 export * from './embed-event-payloads';
-export * from './host-event-emitters';
 
 // UI passthrough contracts remain in their historical home; re-exported so
 // the contracts subpath is self-sufficient for host-side consumers.
