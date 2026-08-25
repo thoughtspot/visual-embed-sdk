@@ -27,7 +27,7 @@ import type {
     UIPassthroughContractBase,
     UIPassthroughRequest,
     UIPassthroughResponse,
-} from '../embed/hostEventClient/contracts';
+} from './ui-passthrough-contracts';
 
 /**
  * Shorthand for a contract entry whose response shape is not formally

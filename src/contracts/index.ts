@@ -21,6 +21,14 @@ export type {
     RuntimeFilter,
     RuntimeParameter,
     MessagePayload,
+    // Code-based custom action config (sent to the host at init as
+    // DefaultAppInitData.customActions) + the click event payload.
+    CustomAction,
+    CustomActionPayload,
+} from '../types';
+export {
+    CustomActionsPosition,
+    CustomActionTarget,
 } from '../types';
 
 export * from './host-event-contracts';
@@ -32,7 +40,7 @@ export * from './host-event-emitters';
 export {
     UIPassthroughEvent,
     ApplicabilityLevel,
-} from '../embed/hostEventClient/contracts';
+} from './ui-passthrough-contracts';
 export type {
     Applicability,
     FilterUpdate,
@@ -43,4 +51,4 @@ export type {
     UIPassthroughRequest,
     UIPassthroughResponse,
     UIPassthroughArrayResponse,
-} from '../embed/hostEventClient/contracts';
+} from './ui-passthrough-contracts';

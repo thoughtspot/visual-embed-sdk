@@ -26,6 +26,7 @@ exports[`event contracts (drift guardrails) embed event enum wire values referen
 [
   "EmbedListenerReady",
   "authInit",
+  "customAction",
 ]
 `;
 

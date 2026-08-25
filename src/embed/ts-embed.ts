@@ -13,7 +13,7 @@ import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
-} from './hostEventClient/contracts';
+} from '../contracts/ui-passthrough-contracts';
 // Contract resolution comes from the shared contracts module (the single
 // source of truth for event payload shapes) rather than the legacy
 // UI-passthrough-only mapping.
@@ -2333,12 +2333,18 @@ export class V1Embed extends TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
-        const eventType = this.getCompatibleEventType(messageType);
+        // Mirror the base TsEmbed.on generic signature so the enriched
+        // EmbedEventPayload (e.g. CustomAction's answerService) flows through
+        // the override too, and the class hierarchy stays assignable.
+        const eventType = this.getCompatibleEventType(messageType) as EmbedEventT;
         return super.on(eventType, callback, options);
     }
 

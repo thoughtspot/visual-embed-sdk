@@ -15,14 +15,19 @@
  * contracts.
  */
 import { HostEvent, EmbedEvent } from '../types';
-import { UIPassthroughEvent } from '../embed/hostEventClient/contracts';
+import { UIPassthroughEvent } from './ui-passthrough-contracts';
 import type {
     HostEventRequest,
     HostEventResponse,
     NavigateRequest,
     SetActiveTabRequest,
 } from './host-event-contracts';
-import type { RuntimeFilter } from '../types';
+import type { CustomActionPayload, RuntimeFilter } from '../types';
+import type {
+    CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
+} from './embed-event-payloads';
 import { createHostEventEmitters } from './host-event-emitters';
 
 // Events with explicitly typed contracts in HostEventContractExtension.
@@ -165,7 +170,29 @@ describe('event contracts (drift guardrails)', () => {
 
     test('embed event enum wire values referenced by typed payloads are stable', () => {
         expect(
-            [EmbedEvent.AuthInit, EmbedEvent.EmbedListenerReady].map((e) => `${e}`).sort(),
+            [
+                EmbedEvent.AuthInit,
+                EmbedEvent.EmbedListenerReady,
+                EmbedEvent.CustomAction,
+            ].map((e) => `${e}`).sort(),
         ).toMatchSnapshot();
+    });
+
+    test('CustomAction resolves to its typed payload; answerService on the dedicated type', () => {
+        // Wire data resolves to CustomActionPayload.
+        expectType<CustomActionPayload>(
+            (undefined as unknown) as EmbedEventData<EmbedEvent.CustomAction>,
+        );
+        // payload.data.id is a typed string (type-level indexed access).
+        expectType<string>(
+            (undefined as unknown) as EmbedEventPayload<EmbedEvent.CustomAction>['data']['id'],
+        );
+        // The dedicated type carries the SDK-added answerService (optional).
+        type AnswerServiceField = CustomActionEventPayload['answerService'];
+        const svc: AnswerServiceField = undefined;
+        expect(svc).toBeUndefined();
+        // Untyped embed event stays `any` (backward compatible).
+        const untyped: EmbedEventData<EmbedEvent.Data> = { anything: 'goes' };
+        expect(untyped).toBeDefined();
     });
 });

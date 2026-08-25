@@ -8979,6 +8979,15 @@ export interface VizPoint {
  * @group Events
  */
 export interface CustomActionPayload {
+    /**
+     * Id of the custom action that was triggered. Matches the `id` you set on
+     * the {@link CustomAction} — use it to distinguish which action fired.
+     */
+    id: string;
+    /**
+     * Name of the custom action that was triggered, when the host includes it.
+     */
+    name?: string;
     contextMenuPoints?: {
         clickedPoint: VizPoint;
         selectedPoints: VizPoint[];

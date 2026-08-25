@@ -1,5 +1,5 @@
-import { ContextType, HostEvent, RuntimeFilter } from '../../types';
-import { SessionInterface } from '../../utils/graphql/answerService/answerService';
+import { HostEvent, RuntimeFilter } from '../types';
+import { SessionInterface } from '../utils/graphql/answerService/answerService';
 
 export interface LiveboardTab {
   id: string;
@@ -244,19 +244,7 @@ export type EmbedApiHostEventMapping = {
   [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
 }
 
-// Host Event Request and Response
-export type HostEventRequest<HostEventT extends HostEvent> =
-  HostEventT extends keyof EmbedApiHostEventMapping
-    ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
-    : any;
-
-export type HostEventResponse<HostEventT extends HostEvent, ContextT extends ContextType> =
-  HostEventT extends keyof EmbedApiHostEventMapping
-    ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
-    : any;
-
-// trigger response and request
-export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
-  PayloadT | HostEventRequest<HostEventT>;
-export type TriggerResponse<PayloadT, HostEventT extends HostEvent, ContextT extends ContextType> =
-  PayloadT extends HostEventRequest<HostEventT> ? HostEventResponse<HostEventT, ContextT> : any;
+// NOTE: HostEventRequest / HostEventResponse / TriggerPayload / TriggerResponse
+// live in the sibling ./host-event-contracts, which layers the
+// HostEventContractExtension map on top of the UI-passthrough mapping above.
+// The former 2-tier definitions that lived here were superseded and removed.

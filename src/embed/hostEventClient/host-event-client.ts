@@ -14,7 +14,7 @@ import {
     UIPassthroughEvent,
     UIPassthroughRequest,
     UIPassthroughResponse,
-} from './contracts';
+} from '../../contracts/ui-passthrough-contracts';
 // Contract resolution from the shared contracts module — see
 // src/contracts/host-event-contracts.ts (single source of truth).
 import {
