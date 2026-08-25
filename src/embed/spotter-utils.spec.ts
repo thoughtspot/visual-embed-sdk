@@ -226,10 +226,22 @@ describe('buildStarterPromptsAppInitData', () => {
             },
             research: { label: 'Research', questions: [{ prompt: 'Why did revenue drop?' }] },
             previewData: { label: 'Explore' },
+            liveboard: [
+                { label: 'Top products', prompt: 'What are the top products by revenue?' },
+                { prompt: 'How did revenue trend last quarter?' },
+            ],
         };
         const result = buildStarterPromptsAppInitData(base, {
             spotterChatConfig: { starterPrompts },
         });
         expect(result.embedParams?.starterPrompts).toEqual(starterPrompts);
+    });
+
+    it('forwards the liveboard questions on their own', () => {
+        const liveboard = [{ label: 'Top products', prompt: 'What are the top products by revenue?' }];
+        const result = buildStarterPromptsAppInitData(base, {
+            spotterChatConfig: { starterPrompts: { enable: true, liveboard } },
+        });
+        expect(result.embedParams?.starterPrompts).toEqual({ enable: true, liveboard });
     });
 });
