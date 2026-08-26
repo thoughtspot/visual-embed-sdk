@@ -75,6 +75,7 @@ export {
     LiveboardParameter,
     DataPanelCustomColumnGroupsAccordionState,
     InterceptedApiType,
+    EmbedErrorSeverity,
     CustomActionsPosition,
     CustomActionTarget,
     SpotterAnalystConfig,
