@@ -62,6 +62,7 @@ import {
     DefaultAppInitData,
     AllEmbedViewConfig as ViewConfig,
     EmbedErrorDetailsEvent,
+    EmbedErrorSeverity,
     ErrorDetailsTypes,
     EmbedErrorCodes,
     MessagePayload,
@@ -283,6 +284,7 @@ export class TsEmbed {
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
             message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             code: EmbedErrorCodes.INIT_ERROR,
+            severity: EmbedErrorSeverity.SEV1,
             error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
         });
     }
@@ -294,7 +296,10 @@ export class TsEmbed {
      */
     protected handleError(errorDetails: EmbedErrorDetailsEvent) {
         this.isError = true;
-        this.executeCallbacks(EmbedEvent.Error, errorDetails);
+        this.executeCallbacks(EmbedEvent.Error, {
+            severity: EmbedErrorSeverity.SEV3,
+            ...errorDetails,
+        });
         // Log error
         logger.error(errorDetails);
     }
@@ -392,6 +397,7 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.NETWORK,
                 message: ERROR_MESSAGE.OFFLINE_WARNING,
                 code: EmbedErrorCodes.NETWORK_ERROR,
+                severity: EmbedErrorSeverity.SEV2,
                 offlineWarning: ERROR_MESSAGE.OFFLINE_WARNING,
             };
             this.executeCallbacks(EmbedEvent.Error, errorDetails);
@@ -1088,6 +1094,7 @@ export class TsEmbed {
                         errorType: ErrorDetailsTypes.API,
                         message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                         code: EmbedErrorCodes.LOGIN_FAILED,
+                        severity: EmbedErrorSeverity.SEV1,
                         error: error,
                     });
                 });

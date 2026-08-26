@@ -1,7 +1,7 @@
 import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
 import { ERROR_MESSAGE } from "./errors";
-import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent, EmbedErrorCodes, ErrorDetailsTypes, EmbedErrorDetailsEvent } from "./types";
+import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent, EmbedErrorCodes, ErrorDetailsTypes, EmbedErrorDetailsEvent, EmbedErrorSeverity } from "./types";
 import { embedEventStatus } from "./utils";
 import { logger } from "./utils/logger";
 
@@ -134,6 +134,7 @@ export const handleInterceptEvent = async (params: {
             errorType: ErrorDetailsTypes.API,
             message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
             code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+            severity: EmbedErrorSeverity.SEV3,
             error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
         };
         executeEvent(EmbedEvent.Error, errorDetails);

@@ -22,6 +22,7 @@ import {
     LiveboardAppEmbedViewConfig,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    EmbedErrorSeverity,
     ContextType,
     DefaultAppInitData,
 } from '../types';
@@ -1018,6 +1019,7 @@ export class LiveboardEmbed extends V1Embed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
                 code: EmbedErrorCodes.LIVEBOARD_ID_MISSING,
+                severity: EmbedErrorSeverity.SEV1,
                 error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
             });
         }
