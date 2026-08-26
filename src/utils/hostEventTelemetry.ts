@@ -1,21 +1,11 @@
-import isPlainObject from 'lodash/isPlainObject';
-import mapValues from 'lodash/mapValues';
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
-import { ApplicabilityLevel } from '../embed/hostEventClient/contracts';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { logger } from './logger';
 import { version as sdkVersion } from './sdk-version';
 
-/*
- * TODO: hand-maintained, so an enum parameter nobody adds here silently
- * reports `string`. Generating it, or reading members off the contract
- * types, would be better.
- */
-const ENUM_PARAMS: Record<string, readonly string[]> = {
-    operator: Object.values(RuntimeFilterOp),
-    oper: Object.values(RuntimeFilterOp),
-    level: Object.values(ApplicabilityLevel),
-};
+
+// we preserver these field's values
+const PRESERVED_FIELDS: Array<string> = ['operator', 'oper', 'level'];
 
 export const MAX_ARRAY_TYPES = 10;
 
@@ -26,23 +16,31 @@ export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
  * cycle guard safe: describeParams clones first, and a clone cannot hold a
  * cycle. Do not export this or call it with a raw payload.
  */
-const describeValue = (value: unknown, key: string): ParamTypes => {
-    if (value === null) {
-        return 'null';
+const describeValue = (value: unknown): ParamTypes => {
+    try {
+        if (value === null) {
+            return 'null';
+        }
+
+        if (Array.isArray(value)) {
+            return value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item));
+        }
+
+        if (typeof value === 'object') {
+            Object.keys(value).forEach(key => {
+                if (!PRESERVED_FIELDS.includes(key))
+                    (value as any)[key] = describeValue((value as any)[key])
+            });
+        }
+
+        return typeof value;
+    } catch (e) {
+        logger.debug('Error parsing type', value);
+        return 'ErrorParsing'
     }
-    if (typeof value === 'string' && ENUM_PARAMS[key]?.includes(value)) {
-        return value;
-    }
-    if (Array.isArray(value)) {
-        return value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item, key));
-    }
-    if (isPlainObject(value)) {
-        return mapValues(value as Record<string, unknown>, describeValue);
-    }
-    return typeof value;
 };
 
-export const describeParams = (payload: unknown): Record<string, ParamTypes> => {
+export const describeParams = (payload: unknown): unknown => {
     let params;
     try {
         /*
@@ -51,12 +49,12 @@ export const describeParams = (payload: unknown): Record<string, ParamTypes> => 
          * circular payload, a throwing getter or a BigInt, which is what the
          * catch is for: no parameters are reported, and the reason is logged.
          */
-        params = JSON.parse(JSON.stringify(Array.isArray(payload) ? payload[0] : payload));
+        params = JSON.parse(JSON.stringify(payload));
     } catch (e) {
         logger.debug('Could not describe host event payload', e);
         return {};
     }
-    return isPlainObject(params) ? describeValue(params, '') as Record<string, ParamTypes> : {};
+    return describeValue(params);
 };
 
 export interface HostEventTelemetryParams {
