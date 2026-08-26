@@ -55,7 +55,7 @@ const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => 
     });
 };
 
-// Helper function to test setIframeHeightForNonEmbedLiveboard behavior
+// Helper function to test the full-height route-change behavior
 const testSetIframeHeightBehavior = (
     currentPath: string,
     shouldBeCalled: boolean
@@ -70,7 +70,7 @@ const testSetIframeHeightBehavior = (
         : jest.spyOn(appEmbed, 'setIFrameHeight');
 
     appEmbed.render();
-    appEmbed.setIframeHeightForNonEmbedLiveboard({
+    appEmbed.fullHeightController.handleRouteChange({
         data: { currentPath },
         type: 'Route',
     });
@@ -1851,6 +1851,7 @@ describe('App embed tests', () => {
 
     test('should register event handlers to adjust iframe height', async () => {
         let embedHeightCallback: any = () => { };
+        let embedIframeCenterCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
                 callback({ type: EmbedEvent.RouteChange, data: { currentPath: '/answers' } } as any, jest.fn());
@@ -1859,11 +1860,10 @@ describe('App embed tests', () => {
                 embedHeightCallback = callback;
             }
             if (event === EmbedEvent.EmbedIframeCenter) {
-                callback({ type: EmbedEvent.EmbedIframeCenter, data: {} } as any, jest.fn());
+                embedIframeCenterCallback = callback;
             }
             return null;
         });
-        jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
         jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1879,13 +1879,27 @@ describe('App embed tests', () => {
         await appEmbed.render();
         embedHeightCallback({ data: '100%' });
 
+        // The app only asks for the iframe center once the iframe exists.
+        const centerResponder = jest.fn();
+        embedIframeCenterCallback(
+            { type: EmbedEvent.EmbedIframeCenter, data: {} } as any,
+            centerResponder,
+        );
+
         // Verify event handlers were registered
         await executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+            expect(centerResponder).toHaveBeenCalledWith(
+                expect.objectContaining({ type: EmbedEvent.EmbedIframeCenter }),
+            );
         }, 100);
+
+        // This test replaces AppEmbed.prototype.on; restore it so the mock does
+        // not leak into the tests that follow.
+        jest.restoreAllMocks();
     });
 
     describe('Navigate to Page API', () => {
@@ -2455,7 +2469,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2477,7 +2491,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).not.toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2510,7 +2524,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50,   // 50px clipped from top
@@ -2618,7 +2632,7 @@ describe('App embed tests', () => {
             const mockResponder = jest.fn();
 
             // Trigger the handler directly
-            (appEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+            (appEmbed as any).fullHeightController.handleRequestVisibleCoordinates({}, mockResponder);
 
             // Verify the responder was called with the correct data
             expect(mockResponder).toHaveBeenCalledWith({
@@ -2676,7 +2690,7 @@ describe('App embed tests', () => {
                 data: 600,
                 type: EmbedEvent.EmbedHeight,
             };
-            appEmbed.updateIFrameHeight(mockEvent);
+            appEmbed.fullHeightController.handleEmbedHeight(mockEvent);
 
             // Check if the iframe style was updated
             expect(mockIFrame.style.height).toBe('600px');
@@ -2697,7 +2711,7 @@ describe('App embed tests', () => {
                 data: 0, // This will make it use the default height
                 type: EmbedEvent.EmbedHeight,
             };
-            appEmbed.updateIFrameHeight(mockEvent);
+            appEmbed.fullHeightController.handleEmbedHeight(mockEvent);
 
             // Should use the default height
             expect(mockIFrame.style.height).toBe('500px');
@@ -2712,7 +2726,7 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
             fullHeight: true,
         } as AppViewConfig);
         await appEmbed.render();
-        expect(appEmbed['defaultHeight']).toBe(500);
+        expect(appEmbed['fullHeightController'].minimumHeight).toBe(500);
     });
     test('should set default height to 700 when default height is provided', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
@@ -2721,7 +2735,7 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
             minimumHeight: 700,
         } as AppViewConfig);
         await appEmbed.render();
-        expect(appEmbed['defaultHeight']).toBe(700);
+        expect(appEmbed['fullHeightController'].minimumHeight).toBe(700);
     });
 });
 
@@ -2807,7 +2821,25 @@ describe('AppEmbed uncovered branch tests', () => {
         });
     });
 
-    test('registerLazyLoadEvents should return early when iFrame is not set', () => {
+    test('protected updateIFrameHeight still floors at the configured minimum', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            minimumHeight: 800,
+        } as AppViewConfig);
+        await appEmbed.render();
+        const setHeight = jest
+            .spyOn(appEmbed as any, 'setIFrameHeight')
+            .mockImplementation(jest.fn());
+
+        (appEmbed as any).updateIFrameHeight({ data: 300 });
+        expect(setHeight).toHaveBeenCalledWith(800);
+
+        (appEmbed as any).updateIFrameHeight({ data: 1200 });
+        expect(setHeight).toHaveBeenCalledWith(1200);
+    });
+
+    test('lazy load registration should return early when iFrame is not set', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
@@ -2815,7 +2847,7 @@ describe('AppEmbed uncovered branch tests', () => {
         } as AppViewConfig);
         // iFrame is not set (render not called), should not throw
         expect(() => {
-            (appEmbed as any).registerLazyLoadEvents();
+            (appEmbed as any).fullHeightController.onRender();
         }).not.toThrow();
     });
 });

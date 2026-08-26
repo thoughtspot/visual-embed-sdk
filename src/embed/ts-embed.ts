@@ -23,7 +23,7 @@ import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
-    getOffsetTop,
+    calculateElementCenter,
     embedEventStatus,
     setAttributes,
     getCustomisations,
@@ -1479,30 +1479,7 @@ export class TsEmbed {
      *  View port height.
      */
     protected getIframeCenter() {
-        const offsetTopClient = getOffsetTop(this.iFrame);
-        const scrollTopClient = window.scrollY;
-        const viewPortHeight = window.innerHeight;
-        const iframeHeight = this.iFrame.offsetHeight;
-        const iframeScrolled = scrollTopClient - offsetTopClient;
-        let iframeVisibleViewPort;
-        let iframeOffset;
-
-        if (iframeScrolled < 0) {
-            iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
-            iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
-            iframeOffset = 0;
-        } else {
-            iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
-            iframeOffset = iframeScrolled;
-        }
-        const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
-        return {
-            iframeCenter,
-            iframeScrolled,
-            iframeHeight,
-            viewPortHeight,
-            iframeVisibleViewPort,
-        };
+        return calculateElementCenter(this.iFrame);
     }
 
     /**
