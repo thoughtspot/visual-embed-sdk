@@ -2159,6 +2159,238 @@ describe('App embed tests', () => {
             }, 100);
         });
 
+        test('should default lazy loading flags to true when fullHeight is enabled', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
+            expect((appEmbed as any).viewConfig.enableScrollableContainerLazyLoading).toBe(true);
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('isFullHeightPinboard=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should not default lazy loading flags when fullHeight is not enabled', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(
+                (appEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBeUndefined();
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should not write the defaults back onto the caller view config', async () => {
+            const callerViewConfig = {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig;
+
+            new AppEmbed(getRootEl(), callerViewConfig);
+
+            expect(callerViewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(callerViewConfig.enableScrollableContainerLazyLoading).toBeUndefined();
+            expect(callerViewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should not default lazy loading flags when fullHeight is explicitly false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: false,
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(
+                (appEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
+            ).toBeUndefined();
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe(
+                config.DEFAULT_LAZY_LOADING_MARGIN,
+            );
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should let an explicit lazyLoadingMargin win over the default', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingMargin: '250px',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=250px');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should drop an invalid lazyLoadingMargin and log an error', async () => {
+            const loggerErrorSpy = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingMargin: 'not-a-margin',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+                expect(loggerErrorSpy).toHaveBeenCalledWith(
+                    'Please provide a valid lazyLoadingMargin value (e.g., "10px")',
+                );
+            }, 100);
+        });
+
+        test('should track scrollable ancestors by default when only fullHeight is set', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            appEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+
+            scrollContainer.style.overflow = '';
+            (window as any).ResizeObserver = originalResizeObserver;
+        });
+
+        test('should skip ancestor tracking when enableScrollableContainerLazyLoading is false', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const windowSpy = jest.spyOn(window, 'addEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                enableScrollableContainerLazyLoading: false,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(windowSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+                expect(scrollContainerSpy).not.toHaveBeenCalledWith('scroll', expect.any(Function));
+            }, 100);
+
+            appEmbed.destroy();
+            scrollContainer.style.overflow = '';
+        });
+
+        test('should wire the window scroll listener to the coordinates sender by default', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            const mockTrigger = jest
+                .spyOn(appEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const scrollCall = addEventListenerSpy.mock.calls.find(
+                    ([eventName, , capture]) => eventName === 'scroll' && capture === true,
+                );
+                expect(scrollCall).toBeDefined();
+
+                // Call the handler the way a real scroll event would.
+                (scrollCall as any)[1]();
+
+                expect(mockTrigger).toHaveBeenCalledWith(
+                    HostEvent.VisibleEmbedCoordinates,
+                    expect.objectContaining({ top: expect.any(Number) }),
+                );
+            }, 100);
+
+            appEmbed.destroy();
+            addEventListenerSpy.mockRestore();
+        });
+
+        test('should remove listeners on destroy when the flags come from defaults', async () => {
+            const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+            appEmbed.destroy();
+
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+
+            removeEventListenerSpy.mockRestore();
+        });
+
+        test('should keep an explicit false for the lazy loading flags', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                enableScrollableContainerLazyLoading: false,
+                lazyLoadingMargin: '0px',
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(false);
+            expect((appEmbed as any).viewConfig.enableScrollableContainerLazyLoading).toBe(false);
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe('0px');
+        });
+
         test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
