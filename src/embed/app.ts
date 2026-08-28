@@ -16,7 +16,6 @@ import {
     HostEvent,
     EmbedEvent,
     AllEmbedViewConfig,
-    MessagePayload,
     FullHeightViewConfig,
     DefaultAppInitData,
     VisualizationOverrides,
@@ -928,22 +927,24 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
-    private readonly fullHeightController: FullHeightController;
+    private readonly fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
-        this.fullHeightController = new FullHeightController(this.viewConfig, {
-            getIframe: () => this.iFrame,
-            setFrameHeight: (height) => this.setIFrameHeight(height),
-            on: (eventType, callback) => {
-                this.on(eventType, callback);
-            },
-            trigger: (hostEvent, data) => {
-                this.trigger(hostEvent, data);
-            },
-        });
-        this.fullHeightController.registerEventHandlers();
+        if (this.viewConfig.fullHeight === true) {
+            this.fullHeightController = new FullHeightController(this.viewConfig, {
+                getIframe: () => this.iFrame,
+                setFrameHeight: (height) => this.setIFrameHeight(height),
+                on: (eventType, callback) => {
+                    this.on(eventType, callback);
+                },
+                trigger: (hostEvent, data) => {
+                    this.trigger(hostEvent, data);
+                },
+            });
+            this.fullHeightController.registerEventHandlers();
+        }
     }
 
     /**
@@ -1140,7 +1141,7 @@ export class AppEmbed extends V1Embed {
             params[Param.HideNotification] = !!hideNotification;
         }
 
-        this.fullHeightController.addQueryParams(params);
+        this.fullHeightController?.addQueryParams(params);
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -1304,18 +1305,6 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
-     * Set the iframe height as per the computed height received
-     * from the ThoughtSpot app.
-     *
-     * Retained for subclasses: the full-height controller drives this
-     * internally, so overriding it does not intercept the embed event.
-     * @param data The event payload
-     */
-    protected updateIFrameHeight = (data: MessagePayload): void => {
-        this.setIFrameHeight(Math.max(data.data, this.fullHeightController.minimumHeight));
-    };
-
-    /**
      * Gets the ThoughtSpot route of the page for a particular page ID.
      * @param pageId The identifier for a page in the ThoughtSpot app.
      * @param modularHomeExperience
@@ -1404,11 +1393,11 @@ export class AppEmbed extends V1Embed {
      */
     public destroy() {
         super.destroy();
-        this.fullHeightController.destroy();
+        this.fullHeightController?.destroy();
     }
 
     private postRender() {
-        this.fullHeightController.onRender();
+        this.fullHeightController?.onRender();
     }
 
     /**

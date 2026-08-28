@@ -2144,7 +2144,6 @@ describe('App embed tests', () => {
             const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
                 return null;
             });
-            jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
             jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
 
             // Create the AppEmbed instance
@@ -2819,24 +2818,6 @@ describe('AppEmbed uncovered branch tests', () => {
             expect(src).toContain('#/pinboards');
             expect(src).not.toContain('#//pinboards');
         });
-    });
-
-    test('protected updateIFrameHeight still floors at the configured minimum', async () => {
-        const appEmbed = new AppEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            fullHeight: true,
-            minimumHeight: 800,
-        } as AppViewConfig);
-        await appEmbed.render();
-        const setHeight = jest
-            .spyOn(appEmbed as any, 'setIFrameHeight')
-            .mockImplementation(jest.fn());
-
-        (appEmbed as any).updateIFrameHeight({ data: 300 });
-        expect(setHeight).toHaveBeenCalledWith(800);
-
-        (appEmbed as any).updateIFrameHeight({ data: 1200 });
-        expect(setHeight).toHaveBeenCalledWith(1200);
     });
 
     test('lazy load registration should return early when iFrame is not set', () => {

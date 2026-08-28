@@ -558,26 +558,28 @@ export interface LiveboardViewConfig
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
-    private readonly fullHeightController: FullHeightController;
+    private readonly fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
-        this.fullHeightController = new FullHeightController(this.viewConfig, {
-            getIframe: () => this.iFrame,
-            setFrameHeight: (height) => this.setIFrameHeight(height),
-            on: (eventType, callback) => {
-                this.on(eventType, callback);
-            },
-            trigger: (hostEvent, data) => {
-                this.trigger(hostEvent, data);
-            },
-        });
-        if (this.viewConfig.fullHeight === true && this.viewConfig.vizId) {
-            logger.warn('Full height is currently only supported for Liveboard embeds.'
-                + 'Using full height with vizId might lead to unexpected behavior.');
+        if (this.viewConfig.fullHeight === true) {
+            if (this.viewConfig.vizId) {
+                logger.warn('Full height is currently only supported for Liveboard embeds.'
+                    + 'Using full height with vizId might lead to unexpected behavior.');
+            }
+            this.fullHeightController = new FullHeightController(this.viewConfig, {
+                getIframe: () => this.iFrame,
+                setFrameHeight: (height) => this.setIFrameHeight(height),
+                on: (eventType, callback) => {
+                    this.on(eventType, callback);
+                },
+                trigger: (hostEvent, data) => {
+                    this.trigger(hostEvent, data);
+                },
+            });
+            this.fullHeightController.registerEventHandlers();
         }
-        this.fullHeightController.registerEventHandlers();
     }
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
@@ -649,7 +651,7 @@ export class LiveboardEmbed extends V1Embed {
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
             || this.viewConfig.preventPinboardFilterRemoval;
 
-        this.fullHeightController.addQueryParams(params);
+        this.fullHeightController?.addQueryParams(params);
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();
         }
@@ -1005,11 +1007,11 @@ export class LiveboardEmbed extends V1Embed {
      */
     public destroy() {
         super.destroy();
-        this.fullHeightController.destroy();
+        this.fullHeightController?.destroy();
     }
 
     private postRender() {
-        this.fullHeightController.onRender();
+        this.fullHeightController?.onRender();
     }
 
     /**

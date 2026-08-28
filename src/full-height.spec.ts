@@ -1,7 +1,9 @@
 import { FullHeightController, FullHeightEmbedHost } from './full-height';
 import {
-    EmbedEvent, FullHeightViewConfig, HostEvent, MessageCallback, Param,
+    BaseViewConfig, EmbedEvent, FullHeightViewConfig, HostEvent, MessageCallback, Param,
 } from './types';
+
+type ControllerConfig = FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>;
 import { logger } from './utils/logger';
 import { DEFAULT_LAZY_LOADING_MARGIN } from './config';
 
@@ -10,9 +12,9 @@ describe('FullHeightController', () => {
     let host: FullHeightEmbedHost;
     let handlers: Map<EmbedEvent, MessageCallback>;
 
-    const createControllerFor = (viewConfig: FullHeightViewConfig) => createController(viewConfig);
+    const createControllerFor = (viewConfig: ControllerConfig) => createController(viewConfig);
 
-    const createController = (viewConfig: FullHeightViewConfig) => {
+    const createController = (viewConfig: ControllerConfig) => {
         handlers = new Map();
         iFrame = document.createElement('iframe');
         document.body.appendChild(iFrame);
@@ -53,7 +55,7 @@ describe('FullHeightController', () => {
 
     describe('lazy loading defaults', () => {
         it('turns lazy loading on for a full-height embed', () => {
-            const viewConfig: FullHeightViewConfig = { fullHeight: true };
+            const viewConfig: ControllerConfig = { fullHeight: true };
             createControllerFor(viewConfig);
             expect(viewConfig.lazyLoadingForFullHeight).toBe(true);
             expect(viewConfig.enableScrollableContainerLazyLoading).toBe(true);
@@ -61,7 +63,7 @@ describe('FullHeightController', () => {
         });
 
         it('leaves an explicit opt-out alone', () => {
-            const viewConfig: FullHeightViewConfig = {
+            const viewConfig: ControllerConfig = {
                 fullHeight: true,
                 lazyLoadingForFullHeight: false,
                 enableScrollableContainerLazyLoading: false,
@@ -74,7 +76,7 @@ describe('FullHeightController', () => {
         });
 
         it('defaults nothing when fullHeight is not enabled', () => {
-            const viewConfig: FullHeightViewConfig = {};
+            const viewConfig: ControllerConfig = {};
             createControllerFor(viewConfig);
             expect(viewConfig.lazyLoadingForFullHeight).toBeUndefined();
             expect(viewConfig.enableScrollableContainerLazyLoading).toBeUndefined();

@@ -10040,7 +10040,7 @@ export interface VisualizationOverrides {
  * enabled — keeps the app informed of the portion of the embed that is
  * currently visible so that visualizations load on demand.
  */
-export interface FullHeightViewConfig extends BaseViewConfig {
+export interface FullHeightViewConfig {
     /**
      * If set to true, the embedded object container dynamically resizes
      * according to the height of the Liveboard.

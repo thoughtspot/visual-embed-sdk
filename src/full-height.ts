@@ -6,6 +6,7 @@
  */
 
 import {
+    BaseViewConfig,
     EmbedEvent,
     FullHeightViewConfig,
     HostEvent,
@@ -85,7 +86,7 @@ export class FullHeightController {
     private resizeObserver: ResizeObserver | undefined;
 
     constructor(
-        private readonly viewConfig: FullHeightViewConfig,
+        private readonly viewConfig: FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>,
         private readonly host: FullHeightEmbedHost,
     ) {
         this.applyLazyLoadingDefaults();

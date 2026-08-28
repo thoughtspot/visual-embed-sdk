@@ -23,7 +23,6 @@ import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
-    calculateElementCenter,
     embedEventStatus,
     setAttributes,
     getCustomisations,
@@ -1468,18 +1467,6 @@ export class TsEmbed {
      */
     protected getCompatibleEventType(eventType: EmbedEvent): EmbedEvent {
         return V1EventMap[eventType] || eventType;
-    }
-
-    /**
-     * Calculates the iframe center for the current visible viewPort
-     * of iframe using Scroll position of Host App, offsetTop for iframe
-     * in Host app. ViewPort height of the tab.
-     * @returns iframe Center in visible viewport,
-     *  Iframe height,
-     *  View port height.
-     */
-    protected getIframeCenter() {
-        return calculateElementCenter(this.iFrame);
     }
 
     /**
