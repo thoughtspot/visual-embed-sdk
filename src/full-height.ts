@@ -73,7 +73,7 @@ export interface FullHeightEmbedHost {
 }
 
 /**
- * Owns every piece of full-height behaviour for an embed: the height
+ * Owns every piece of full-height behavior for an embed: the height
  * negotiation with the ThoughtSpot app, the query parameters that switch the
  * feature on, and the viewport listeners that drive lazy loading.
  *
@@ -129,7 +129,7 @@ export class FullHeightController {
 
     /**
      * The floor for the frame height. `defaultHeight` is the deprecated
-     * spelling of `minimumHeight` and is still honoured for compatibility.
+     * spelling of `minimumHeight` and is still honored for compatibility.
      */
     public get minimumHeight(): number {
         const { minimumHeight, defaultHeight } = this.viewConfig;
@@ -191,7 +191,10 @@ export class FullHeightController {
      * never going below the configured minimum.
      */
     private handleEmbedHeight = (payload: MessagePayload): void => {
-        this.host.setFrameHeight(Math.max(payload.data, this.minimumHeight));
+        const height = Number(payload?.data);
+        if (!isNaN(height)) {
+            this.host.setFrameHeight(Math.max(height, this.minimumHeight));
+        }
         this.sendVisibleCoordinates();
     };
 
@@ -202,9 +205,13 @@ export class FullHeightController {
         payload: MessagePayload,
         responder?: (data: any) => void,
     ): void => {
+        const iframe = this.host.getIframe();
+        if (!iframe) {
+            return;
+        }
         responder?.({
             type: EmbedEvent.EmbedIframeCenter,
-            data: calculateElementCenter(this.host.getIframe()),
+            data: calculateElementCenter(iframe),
         });
     };
 
@@ -227,7 +234,10 @@ export class FullHeightController {
      * since only Liveboard routes report a height of their own.
      */
     private handleRouteChange = (payload: MessagePayload): void => {
-        const currentPath: string = payload.data.currentPath;
+        const currentPath: string = payload?.data?.currentPath;
+        if (!currentPath) {
+            return;
+        }
         if (LIVEBOARD_RELATED_ROUTES.some((route) => currentPath.startsWith(route))) {
             return;
         }
@@ -246,8 +256,12 @@ export class FullHeightController {
     };
 
     private getVisibleCoordinates() {
+        const iframe = this.host.getIframe();
+        if (!iframe) {
+            return null;
+        }
         return calculateVisibleElementData(
-            this.host.getIframe(),
+            iframe,
             this.viewConfig.enableScrollableContainerLazyLoading,
         );
     }
