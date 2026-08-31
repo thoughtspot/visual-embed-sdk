@@ -1353,7 +1353,7 @@ describe('calculateElementCenter', () => {
         expect(result.iframeScrolled).toBe(0);
     });
 
-    test('tracks the centre as the page scrolls into the element', () => {
+    test('tracks the center as the page scrolls into the element', () => {
         setViewport(500, 600);
         // Scrolled 500px into a 2000px element that starts at the page top.
         const result = calculateElementCenter(mockElement(0, 2000));

@@ -2059,12 +2059,6 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBe(true);
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
@@ -2081,11 +2075,14 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should not write the defaults back onto the caller view config', async () => {
@@ -2109,11 +2106,14 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: false,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
@@ -2124,14 +2124,12 @@ describe('Liveboard/viz embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe(
-                DEFAULT_LAZY_LOADING_MARGIN,
-            );
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+                expect(getIFrameSrc()).toContain(
+                    `rootMarginForLazyLoad=${encodeURIComponent(DEFAULT_LAZY_LOADING_MARGIN)}`,
+                );
             }, 100);
         });
 

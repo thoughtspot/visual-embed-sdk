@@ -89,13 +89,16 @@ export class FullHeightController {
         private readonly viewConfig: FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>,
         private readonly host: FullHeightEmbedHost,
     ) {
+        this.viewConfig = { ...viewConfig };
         this.applyLazyLoadingDefaults();
     }
 
     /**
      * Turns lazy loading on for a full-height embed unless the host app has
-     * opted out. Mutates the view config in place so that everything reading it
-     * later — query params, listeners, visibility maths — sees the same values.
+     * opted out. The defaults land on the controller's own copy of the view
+     * config, so everything reading it later — query params, listeners,
+     * visibility math — sees the same values, and the object the host app
+     * passed in is left untouched.
      */
     private applyLazyLoadingDefaults(): void {
         if (!this.isEnabled) {
@@ -252,7 +255,10 @@ export class FullHeightController {
         if (!this.isLazyLoadEnabled) {
             return;
         }
-        this.host.trigger(HostEvent.VisibleEmbedCoordinates, this.getVisibleCoordinates());
+        const coordinates = this.getVisibleCoordinates();
+        if (coordinates) {
+            this.host.trigger(HostEvent.VisibleEmbedCoordinates, coordinates);
+        }
     };
 
     private getVisibleCoordinates() {

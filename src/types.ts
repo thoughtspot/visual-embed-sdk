@@ -10032,7 +10032,7 @@ export interface VisualizationOverrides {
 }
 
 /**
- * The configuration object for the full-height behaviour shared by the
+ * The configuration object for the full-height behavior shared by the
  * Liveboard and app embeds.
  *
  * When `fullHeight` is enabled the SDK resizes the embed container to match the

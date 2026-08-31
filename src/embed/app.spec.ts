@@ -2178,10 +2178,6 @@ describe('App embed tests', () => {
                 fullHeight: true,
             } as AppViewConfig);
 
-            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect((appEmbed as any).viewConfig.enableScrollableContainerLazyLoading).toBe(true);
-            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
-
             await appEmbed.render();
 
             await executeAfterWait(() => {
@@ -2197,11 +2193,14 @@ describe('App embed tests', () => {
                 ...defaultViewConfig,
             } as AppViewConfig);
 
-            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (appEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should not write the defaults back onto the caller view config', async () => {
@@ -2223,11 +2222,14 @@ describe('App embed tests', () => {
                 fullHeight: false,
             } as AppViewConfig);
 
-            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (appEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
@@ -2237,14 +2239,14 @@ describe('App embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as AppViewConfig);
 
-            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe(
-                config.DEFAULT_LAZY_LOADING_MARGIN,
-            );
-
             await appEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+                expect(getIFrameSrc()).toContain(
+                    `rootMarginForLazyLoad=${encodeURIComponent(
+                        config.DEFAULT_LAZY_LOADING_MARGIN,
+                    )}`,
+                );
             }, 100);
         });
 

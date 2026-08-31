@@ -1,11 +1,6 @@
 import { FullHeightController, FullHeightEmbedHost } from './full-height';
 import {
-    BaseViewConfig,
-    EmbedEvent,
-    FullHeightViewConfig,
-    HostEvent,
-    MessageCallback,
-    Param,
+    BaseViewConfig, EmbedEvent, FullHeightViewConfig, HostEvent, MessageCallback, Param,
 } from './types';
 
 type ControllerConfig = FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>;
@@ -18,19 +13,27 @@ describe('FullHeightController', () => {
     let handlers: Map<EmbedEvent, MessageCallback>;
 
     const originalResizeObserver = (window as any).ResizeObserver;
+    const originalScrollY = window.scrollY;
+    const originalInnerHeight = window.innerHeight;
+    const originalInnerWidth = window.innerWidth;
 
     /**
-     * A rect that only carries the edges the visibility maths reads.
+     * A rect that only carries the edges the visibility math reads.
      */
-    const rectOf = (top: number, bottom: number, left = 0, right = 500) =>
-        ({
-            top,
-            bottom,
-            left,
-            right,
-            width: right - left,
-            height: bottom - top,
-        }) as DOMRect;
+    const rectOf = (top: number, bottom: number, left = 0, right = 500) => ({
+        top,
+        bottom,
+        left,
+        right,
+        width: right - left,
+        height: bottom - top,
+    } as DOMRect);
+
+    const setViewport = (scrollY: number, innerHeight: number, innerWidth = 1024) => {
+        Object.defineProperty(window, 'scrollY', { value: scrollY, configurable: true });
+        Object.defineProperty(window, 'innerHeight', { value: innerHeight, configurable: true });
+        Object.defineProperty(window, 'innerWidth', { value: innerWidth, configurable: true });
+    };
 
     const createControllerFor = (viewConfig: ControllerConfig) => createController(viewConfig);
 
@@ -55,9 +58,70 @@ describe('FullHeightController', () => {
         return controller;
     };
 
+    /**
+     * The query params a freshly built controller contributes. The defaults are
+     * applied to the controller's private copy of the view config, so the
+     * params are how the host app observes them.
+     */
+    const queryParamsFor = (viewConfig: ControllerConfig) => {
+        const params: any = {};
+        createController(viewConfig).addQueryParams(params);
+        return params;
+    };
+
+    /**
+     * Puts the embed inside a scrollable container and hands back the spies the
+     * container assertions need. The caller drives `onRender`, so tests can
+     * assert what happens before it too.
+     */
+    const mountInScrollContainer = (
+        viewConfig: ControllerConfig,
+        options: { withResizeObserver?: boolean } = {},
+    ) => {
+        const observe = jest.fn();
+        const disconnect = jest.fn();
+        let resizeCallback: () => void;
+        const resizeObserverCtor = jest.fn((callback: () => void) => {
+            resizeCallback = callback;
+            return { observe, disconnect };
+        });
+        if (options.withResizeObserver === false) {
+            delete (window as any).ResizeObserver;
+        } else {
+            (window as any).ResizeObserver = resizeObserverCtor;
+        }
+
+        const scrollContainer = document.createElement('div');
+        scrollContainer.style.overflow = 'auto';
+        const addContainerListener = jest.spyOn(scrollContainer, 'addEventListener');
+        const removeContainerListener = jest.spyOn(scrollContainer, 'removeEventListener');
+
+        const controller = createController(viewConfig);
+        scrollContainer.appendChild(iFrame);
+        document.body.appendChild(scrollContainer);
+
+        return {
+            controller,
+            scrollContainer,
+            addContainerListener,
+            removeContainerListener,
+            observe,
+            disconnect,
+            resizeObserverCtor,
+            fireResizeObserver: () => resizeCallback(),
+        };
+    };
+
+    const visibleCoordinates = () => {
+        const responder = jest.fn();
+        handlers.get(EmbedEvent.RequestVisibleEmbedCoordinates)({} as any, responder);
+        return responder.mock.calls[0][0].data;
+    };
+
     afterEach(() => {
         document.body.innerHTML = '';
         (window as any).ResizeObserver = originalResizeObserver;
+        setViewport(originalScrollY, originalInnerHeight, originalInnerWidth);
         jest.restoreAllMocks();
     });
 
@@ -78,6 +142,7 @@ describe('FullHeightController', () => {
         });
 
         it('registers nothing when fullHeight is explicitly false', () => {
+            // Lazy loading on its own must not switch the feature on.
             createController({ fullHeight: false, lazyLoadingForFullHeight: true });
             expect(handlers.size).toBe(0);
         });
@@ -85,44 +150,84 @@ describe('FullHeightController', () => {
 
     describe('lazy loading defaults', () => {
         it('turns lazy loading on for a full-height embed', () => {
+            expect(queryParamsFor({ fullHeight: true })).toEqual({
+                [Param.fullHeight]: true,
+                [Param.IsLazyLoadingForEmbedEnabled]: true,
+                [Param.RootMarginForLazyLoad]: DEFAULT_LAZY_LOADING_MARGIN,
+            });
+        });
+
+        it('tracks the scrollable containers without the host app opting in', () => {
+            const { controller, addContainerListener, observe } = mountInScrollContainer({
+                fullHeight: true,
+            });
+            controller.onRender();
+            expect(addContainerListener).toHaveBeenCalledWith('scroll', expect.any(Function));
+            expect(observe).toHaveBeenCalled();
+            controller.destroy();
+        });
+
+        it('leaves the view config the host app passed in untouched', () => {
+            // The controller defaults its own copy, so the host app's object
+            // never grows keys it did not set.
             const viewConfig: ControllerConfig = { fullHeight: true };
             createControllerFor(viewConfig);
-            expect(viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect(viewConfig.enableScrollableContainerLazyLoading).toBe(true);
-            expect(viewConfig.lazyLoadingMargin).toBe(DEFAULT_LAZY_LOADING_MARGIN);
+            expect(viewConfig).toEqual({ fullHeight: true });
         });
 
         it('leaves an explicit opt-out alone', () => {
-            const viewConfig: ControllerConfig = {
+            expect(queryParamsFor({
                 fullHeight: true,
                 lazyLoadingForFullHeight: false,
-                enableScrollableContainerLazyLoading: false,
                 lazyLoadingMargin: '0px',
-            };
-            createControllerFor(viewConfig);
-            expect(viewConfig.lazyLoadingForFullHeight).toBe(false);
-            expect(viewConfig.enableScrollableContainerLazyLoading).toBe(false);
-            expect(viewConfig.lazyLoadingMargin).toBe('0px');
+            })).toEqual({ [Param.fullHeight]: true });
+        });
+
+        it('honours an explicit container opt-out', () => {
+            const { controller, addContainerListener, resizeObserverCtor } = mountInScrollContainer(
+                { fullHeight: true, enableScrollableContainerLazyLoading: false },
+            );
+            controller.onRender();
+            expect(addContainerListener).not.toHaveBeenCalled();
+            expect(resizeObserverCtor).not.toHaveBeenCalled();
         });
 
         it('defaults only the values the host app left unset', () => {
-            const viewConfig: ControllerConfig = {
+            // Lazy loading defaults on, while the supplied margin survives.
+            const { controller, addContainerListener } = mountInScrollContainer({
                 fullHeight: true,
                 enableScrollableContainerLazyLoading: false,
                 lazyLoadingMargin: '50px',
-            };
-            createControllerFor(viewConfig);
-            expect(viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect(viewConfig.enableScrollableContainerLazyLoading).toBe(false);
-            expect(viewConfig.lazyLoadingMargin).toBe('50px');
+            });
+            const params: any = {};
+            controller.addQueryParams(params);
+            expect(params).toEqual({
+                [Param.fullHeight]: true,
+                [Param.IsLazyLoadingForEmbedEnabled]: true,
+                [Param.RootMarginForLazyLoad]: '50px',
+            });
+
+            controller.onRender();
+            expect(addContainerListener).not.toHaveBeenCalled();
         });
 
         it('defaults nothing when fullHeight is not enabled', () => {
             const viewConfig: ControllerConfig = {};
-            createControllerFor(viewConfig);
-            expect(viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(viewConfig.enableScrollableContainerLazyLoading).toBeUndefined();
-            expect(viewConfig.lazyLoadingMargin).toBeUndefined();
+            const controller = createControllerFor(viewConfig);
+            expect(viewConfig).toEqual({});
+
+            const add = jest.spyOn(window, 'addEventListener');
+            controller.onRender();
+            expect(add).not.toHaveBeenCalled();
+        });
+
+        it('ignores changes the host app makes to its config after construction', () => {
+            const viewConfig: ControllerConfig = { fullHeight: true, minimumHeight: 800 };
+            const controller = createControllerFor(viewConfig);
+            viewConfig.minimumHeight = 900;
+            viewConfig.fullHeight = false;
+            expect(controller.minimumHeight).toBe(800);
+            expect(queryParamsFor(viewConfig)[Param.fullHeight]).toBeUndefined();
         });
     });
 
@@ -170,42 +275,40 @@ describe('FullHeightController', () => {
 
     describe('addQueryParams', () => {
         it('adds no params when fullHeight is not enabled', () => {
-            const params: any = {};
-            createController({ lazyLoadingForFullHeight: true }).addQueryParams(params);
-            expect(params).toEqual({});
+            expect(queryParamsFor({ lazyLoadingForFullHeight: true })).toEqual({});
         });
 
         it('adds only the full height param when lazy loading is off', () => {
-            const params: any = {};
-            createController({
+            expect(queryParamsFor({
                 fullHeight: true,
                 lazyLoadingForFullHeight: false,
-            }).addQueryParams(params);
-            expect(params).toEqual({ [Param.fullHeight]: true });
+            })).toEqual({ [Param.fullHeight]: true });
         });
 
         it('adds the lazy loading params, including a valid margin', () => {
-            const params: any = {};
-            createController({
+            expect(queryParamsFor({
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
                 lazyLoadingMargin: '100px 0px',
-            }).addQueryParams(params);
-            expect(params).toEqual({
+            })).toEqual({
                 [Param.fullHeight]: true,
                 [Param.IsLazyLoadingForEmbedEnabled]: true,
                 [Param.RootMarginForLazyLoad]: '100px 0px',
             });
         });
 
-        it('adds the default margin when the host app does not set one', () => {
-            const params: any = {};
-            createController({ fullHeight: true }).addQueryParams(params);
-            expect(params).toEqual({
-                [Param.fullHeight]: true,
-                [Param.IsLazyLoadingForEmbedEnabled]: true,
-                [Param.RootMarginForLazyLoad]: DEFAULT_LAZY_LOADING_MARGIN,
-            });
+        it('accepts a four sided margin', () => {
+            expect(queryParamsFor({
+                fullHeight: true,
+                lazyLoadingMargin: '10px 20px 30px 40px',
+            })[Param.RootMarginForLazyLoad]).toBe('10px 20px 30px 40px');
+        });
+
+        it('accepts a unitless zero margin', () => {
+            expect(queryParamsFor({
+                fullHeight: true,
+                lazyLoadingMargin: '0',
+            })[Param.RootMarginForLazyLoad]).toBe('0');
         });
 
         it('keeps the params the embed has already collected', () => {
@@ -214,72 +317,111 @@ describe('FullHeightController', () => {
             expect(params.existing).toBe('value');
         });
 
+        it('produces the same params when called for a second render', () => {
+            const controller = createController({ fullHeight: true });
+            const first: any = {};
+            const second: any = {};
+            controller.addQueryParams(first);
+            controller.addQueryParams(second);
+            expect(second).toEqual(first);
+        });
+
         it('drops an invalid lazy loading margin', () => {
+            // An invalid margin is reported to the developer, not sent on.
             const loggerError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
-            const params: any = {};
-            createController({
+            const params = queryParamsFor({
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
                 lazyLoadingMargin: 'not-a-margin',
-            }).addQueryParams(params);
+            });
+            expect(params[Param.RootMarginForLazyLoad]).toBeUndefined();
+            expect(loggerError).toHaveBeenCalled();
+        });
+
+        it('drops a margin with more than four sides', () => {
+            const loggerError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
+            const params = queryParamsFor({
+                fullHeight: true,
+                lazyLoadingMargin: '1px 2px 3px 4px 5px',
+            });
+            expect(params[Param.RootMarginForLazyLoad]).toBeUndefined();
+            expect(loggerError).toHaveBeenCalled();
+        });
+
+        it('drops a margin that is not a string', () => {
+            const loggerError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
+            const params = queryParamsFor({
+                fullHeight: true,
+                lazyLoadingMargin: 100 as any,
+            });
             expect(params[Param.RootMarginForLazyLoad]).toBeUndefined();
             expect(loggerError).toHaveBeenCalled();
         });
 
         it('drops an empty lazy loading margin but keeps the other params', () => {
             const loggerError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
-            const params: any = {};
-            createController({
+            const params = queryParamsFor({
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
                 lazyLoadingMargin: '',
-            }).addQueryParams(params);
+            });
             expect(params).toEqual({
                 [Param.fullHeight]: true,
                 [Param.IsLazyLoadingForEmbedEnabled]: true,
             });
             expect(loggerError).toHaveBeenCalled();
         });
-
-        it('accepts a unitless zero margin', () => {
-            const params: any = {};
-            createController({
-                fullHeight: true,
-                lazyLoadingForFullHeight: true,
-                lazyLoadingMargin: '0',
-            }).addQueryParams(params);
-            expect(params[Param.RootMarginForLazyLoad]).toBe('0');
-        });
     });
 
     describe('EmbedHeight', () => {
+        const embedHeight = (data: unknown) => ({ data } as any);
+
         it('never sizes the frame below the configured minimum', () => {
             createController({ fullHeight: true, minimumHeight: 800 });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 300 } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(300));
             expect(host.setFrameHeight).toHaveBeenCalledWith(800);
         });
 
         it('uses the height reported by the app when it clears the minimum', () => {
             createController({ fullHeight: true, minimumHeight: 800 });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 1200 } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(1200));
             expect(host.setFrameHeight).toHaveBeenCalledWith(1200);
         });
 
         it('never sizes the frame below the 500 default floor', () => {
             createController({ fullHeight: true });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 100 } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(100));
             expect(host.setFrameHeight).toHaveBeenCalledWith(500);
+        });
+
+        it('clamps a negative height to the minimum', () => {
+            createController({ fullHeight: true, minimumHeight: 800 });
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(-50));
+            expect(host.setFrameHeight).toHaveBeenCalledWith(800);
+        });
+
+        it('clamps a zero height to the minimum', () => {
+            // Zero is a height the app really reported, not a missing one.
+            createController({ fullHeight: true, minimumHeight: 800 });
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(0));
+            expect(host.setFrameHeight).toHaveBeenCalledWith(800);
+        });
+
+        it('keeps a fractional height that clears the minimum', () => {
+            createController({ fullHeight: true, minimumHeight: 800 });
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(1200.5));
+            expect(host.setFrameHeight).toHaveBeenCalledWith(1200.5);
         });
 
         it('accepts a numeric height sent as a string', () => {
             createController({ fullHeight: true });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: '1200' } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight('1200'));
             expect(host.setFrameHeight).toHaveBeenCalledWith(1200);
         });
 
         it('leaves the height alone when the app reports a non-numeric height', () => {
             createController({ fullHeight: true });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 'tall' } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight('tall'));
             expect(host.setFrameHeight).not.toHaveBeenCalled();
         });
 
@@ -297,7 +439,7 @@ describe('FullHeightController', () => {
 
         it('still pushes the visible coordinates for an unusable height', () => {
             createController({ fullHeight: true, lazyLoadingForFullHeight: true });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 'tall' } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight('tall'));
             expect(host.trigger).toHaveBeenCalledWith(
                 HostEvent.VisibleEmbedCoordinates,
                 expect.objectContaining({ top: expect.any(Number) }),
@@ -306,26 +448,28 @@ describe('FullHeightController', () => {
 
         it('pushes the visible coordinates only when lazy loading is on', () => {
             createController({ fullHeight: true, lazyLoadingForFullHeight: false });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 1200 } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(1200));
             expect(host.trigger).not.toHaveBeenCalled();
 
             createController({ fullHeight: true, lazyLoadingForFullHeight: true });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 1200 } as any);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(1200));
             expect(host.trigger).toHaveBeenCalledWith(
                 HostEvent.VisibleEmbedCoordinates,
                 expect.objectContaining({ top: expect.any(Number) }),
             );
         });
 
-        it('pushes null coordinates when the iframe is not there yet', () => {
+        it('pushes no coordinates when the iframe is not there yet', () => {
+            // There is nothing to measure, so the app is left alone.
             createController({ fullHeight: true }, { iframe: null });
-            handlers.get(EmbedEvent.EmbedHeight)({ data: 1200 } as any);
-            expect(host.trigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, null);
+            handlers.get(EmbedEvent.EmbedHeight)(embedHeight(1200));
+            expect(host.setFrameHeight).toHaveBeenCalledWith(1200);
+            expect(host.trigger).not.toHaveBeenCalled();
         });
     });
 
     describe('RouteChange', () => {
-        const routeChange = (currentPath: string) => ({ data: { currentPath } }) as any;
+        const routeChange = (currentPath: string) => ({ data: { currentPath } } as any);
 
         it('leaves the height alone while navigating within a Liveboard', () => {
             createController({ fullHeight: true });
@@ -349,6 +493,12 @@ describe('FullHeightController', () => {
             expect(host.setFrameHeight).not.toHaveBeenCalled();
         });
 
+        it('leaves the height alone on a bare Liveboard route', () => {
+            createController({ fullHeight: true });
+            handlers.get(EmbedEvent.RouteChange)(routeChange('/liveboard/'));
+            expect(host.setFrameHeight).not.toHaveBeenCalled();
+        });
+
         it('resets to frameParams.height when leaving the Liveboard routes', () => {
             createController({ fullHeight: true, frameParams: { height: 640 } });
             handlers.get(EmbedEvent.RouteChange)(routeChange('/some/other/path/'));
@@ -368,8 +518,15 @@ describe('FullHeightController', () => {
         });
 
         it('resets when a Liveboard route only appears part way into the path', () => {
+            // The routes are matched as prefixes, not as substrings.
             createController({ fullHeight: true, minimumHeight: 800 });
             handlers.get(EmbedEvent.RouteChange)(routeChange('/app/embed/viz/abc'));
+            expect(host.setFrameHeight).toHaveBeenCalledWith(800);
+        });
+
+        it('resets on a Liveboard route missing its trailing slash', () => {
+            createController({ fullHeight: true, minimumHeight: 800 });
+            handlers.get(EmbedEvent.RouteChange)(routeChange('/liveboard'));
             expect(host.setFrameHeight).toHaveBeenCalledWith(800);
         });
 
@@ -383,6 +540,13 @@ describe('FullHeightController', () => {
             createController({ fullHeight: true });
             expect(() => handlers.get(EmbedEvent.RouteChange)(undefined as any)).not.toThrow();
             expect(host.setFrameHeight).not.toHaveBeenCalled();
+        });
+
+        it('does not push coordinates on a route change', () => {
+            // Only a height report and the viewport listeners do that.
+            createController({ fullHeight: true });
+            handlers.get(EmbedEvent.RouteChange)(routeChange('/some/other/path/'));
+            expect(host.trigger).not.toHaveBeenCalled();
         });
     });
 
@@ -404,6 +568,41 @@ describe('FullHeightController', () => {
             expect(responder).toHaveBeenCalledWith({
                 type: EmbedEvent.EmbedIframeCenter,
                 data: expect.objectContaining({ iframeCenter: expect.any(Number) }),
+            });
+        });
+
+        it('measures the center against the viewport for an unscrolled page', () => {
+            setViewport(0, 768);
+            createController({ fullHeight: true });
+            Object.defineProperty(iFrame, 'offsetHeight', { value: 1000, configurable: true });
+            jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(100, 1100));
+
+            const responder = jest.fn();
+            handlers.get(EmbedEvent.EmbedIframeCenter)({} as any, responder);
+            expect(responder.mock.calls[0][0].data).toEqual({
+                iframeCenter: 334,
+                iframeScrolled: -100,
+                iframeHeight: 1000,
+                viewPortHeight: 768,
+                iframeVisibleViewPort: 668,
+            });
+        });
+
+        it('measures the center against the viewport for a scrolled page', () => {
+            setViewport(500, 600);
+            createController({ fullHeight: true });
+            Object.defineProperty(iFrame, 'offsetHeight', { value: 2000, configurable: true });
+            // The element starts at the page top, so it is 500px scrolled.
+            jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(-500, 1500));
+
+            const responder = jest.fn();
+            handlers.get(EmbedEvent.EmbedIframeCenter)({} as any, responder);
+            expect(responder.mock.calls[0][0].data).toEqual({
+                iframeCenter: 800,
+                iframeScrolled: 500,
+                iframeHeight: 2000,
+                viewPortHeight: 600,
+                iframeVisibleViewPort: 600,
             });
         });
 
@@ -443,33 +642,36 @@ describe('FullHeightController', () => {
             }).not.toThrow();
         });
 
+        it('reports the region left uncovered when the embed is off screen', () => {
+            setViewport(0, 768);
+            createController({ fullHeight: true });
+            jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(900, 1400));
+            expect(visibleCoordinates()).toEqual({
+                top: 0, height: 0, left: 0, width: 500,
+            });
+        });
+
         it('clips the visible region to the containers when container lazy loading is on', () => {
+            setViewport(0, 768);
             const clippingContainer = document.createElement('div');
             clippingContainer.style.overflow = 'hidden';
-            const controller = createController({
+            createController({
                 fullHeight: true,
                 enableScrollableContainerLazyLoading: true,
             });
             clippingContainer.appendChild(iFrame);
             document.body.appendChild(clippingContainer);
             jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(-100, 400));
-            jest.spyOn(clippingContainer, 'getBoundingClientRect').mockReturnValue(rectOf(50, 300));
+            jest.spyOn(clippingContainer, 'getBoundingClientRect')
+                .mockReturnValue(rectOf(50, 300));
 
-            const responder = jest.fn();
-            handlers.get(EmbedEvent.RequestVisibleEmbedCoordinates)({} as any, responder);
-            expect(responder).toHaveBeenCalledWith({
-                type: EmbedEvent.RequestVisibleEmbedCoordinates,
-                data: {
-                    top: 150,
-                    height: 250,
-                    left: 0,
-                    width: 500,
-                },
+            expect(visibleCoordinates()).toEqual({
+                top: 150, height: 250, left: 0, width: 500,
             });
-            controller.destroy();
         });
 
         it('ignores the containers when container lazy loading is off', () => {
+            setViewport(0, 768);
             const clippingContainer = document.createElement('div');
             clippingContainer.style.overflow = 'hidden';
             createController({
@@ -479,18 +681,27 @@ describe('FullHeightController', () => {
             clippingContainer.appendChild(iFrame);
             document.body.appendChild(clippingContainer);
             jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(-100, 400));
-            jest.spyOn(clippingContainer, 'getBoundingClientRect').mockReturnValue(rectOf(50, 300));
+            jest.spyOn(clippingContainer, 'getBoundingClientRect')
+                .mockReturnValue(rectOf(50, 300));
 
-            const responder = jest.fn();
-            handlers.get(EmbedEvent.RequestVisibleEmbedCoordinates)({} as any, responder);
-            expect(responder).toHaveBeenCalledWith({
-                type: EmbedEvent.RequestVisibleEmbedCoordinates,
-                data: {
-                    top: 100,
-                    height: 400,
-                    left: 0,
-                    width: 500,
-                },
+            expect(visibleCoordinates()).toEqual({
+                top: 100, height: 400, left: 0, width: 500,
+            });
+        });
+
+        it('clips the visible region horizontally too', () => {
+            setViewport(0, 768, 1024);
+            const clippingContainer = document.createElement('div');
+            clippingContainer.style.overflow = 'hidden';
+            createController({ fullHeight: true });
+            clippingContainer.appendChild(iFrame);
+            document.body.appendChild(clippingContainer);
+            jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(0, 400, -60, 600));
+            jest.spyOn(clippingContainer, 'getBoundingClientRect')
+                .mockReturnValue(rectOf(0, 400, 40, 500));
+
+            expect(visibleCoordinates()).toEqual({
+                top: 0, height: 400, left: 100, width: 460,
             });
         });
     });
@@ -564,6 +775,33 @@ describe('FullHeightController', () => {
             expect(host.trigger).not.toHaveBeenCalled();
         });
 
+        it('pushes the visible coordinates for a scroll inside a nested element', () => {
+            // The window scroll listener is registered in the capture phase, so
+            // a scroll on an inner element reaches it too.
+            const controller = createController({ fullHeight: true });
+            controller.onRender();
+            iFrame.dispatchEvent(new Event('scroll', { bubbles: false }));
+            expect(host.trigger).toHaveBeenCalledWith(
+                HostEvent.VisibleEmbedCoordinates,
+                expect.objectContaining({ top: expect.any(Number) }),
+            );
+            controller.destroy();
+        });
+
+        it('picks the listeners back up when the embed re-renders after destroy', () => {
+            const controller = createController({ fullHeight: true });
+            controller.onRender();
+            controller.destroy();
+
+            controller.onRender();
+            window.dispatchEvent(new Event('scroll'));
+            expect(host.trigger).toHaveBeenCalledWith(
+                HostEvent.VisibleEmbedCoordinates,
+                expect.objectContaining({ top: expect.any(Number) }),
+            );
+            controller.destroy();
+        });
+
         it('does not stack duplicate window listeners across renders', () => {
             const add = jest.spyOn(window, 'addEventListener');
             const controller = createController({ fullHeight: true });
@@ -573,6 +811,8 @@ describe('FullHeightController', () => {
             const scrollHandlers = add.mock.calls
                 .filter(([eventType]) => eventType === 'scroll')
                 .map(([, handler]) => handler);
+            // The same reference is re-added, so the browser keeps a
+            // single listener.
             expect(scrollHandlers).toHaveLength(2);
             expect(scrollHandlers[0]).toBe(scrollHandlers[1]);
 
@@ -583,22 +823,13 @@ describe('FullHeightController', () => {
         });
 
         it('observes the scrollable ancestors when container lazy loading is on', () => {
-            const observe = jest.fn();
-            const disconnect = jest.fn();
-            (window as any).ResizeObserver = jest.fn(() => ({ observe, disconnect }));
-
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-            const addContainerListener = jest.spyOn(scrollContainer, 'addEventListener');
-            const removeContainerListener = jest.spyOn(scrollContainer, 'removeEventListener');
-
-            const controller = createController({
+            const {
+                controller, addContainerListener, removeContainerListener, observe, disconnect,
+            } = mountInScrollContainer({
                 fullHeight: true,
                 lazyLoadingForFullHeight: true,
                 enableScrollableContainerLazyLoading: true,
             });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
 
             controller.onRender();
             expect(addContainerListener).toHaveBeenCalledWith('scroll', expect.any(Function));
@@ -610,16 +841,7 @@ describe('FullHeightController', () => {
         });
 
         it('pushes the visible coordinates on a container scroll', () => {
-            (window as any).ResizeObserver = jest.fn(() => ({
-                observe: jest.fn(),
-                disconnect: jest.fn(),
-            }));
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-
-            const controller = createController({ fullHeight: true });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
+            const { controller, scrollContainer } = mountInScrollContainer({ fullHeight: true });
             controller.onRender();
 
             scrollContainer.dispatchEvent(new Event('scroll'));
@@ -635,20 +857,10 @@ describe('FullHeightController', () => {
         });
 
         it('pushes the visible coordinates when an observed container resizes', () => {
-            let resizeCallback: () => void;
-            (window as any).ResizeObserver = jest.fn((callback) => {
-                resizeCallback = callback;
-                return { observe: jest.fn(), disconnect: jest.fn() };
-            });
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-
-            const controller = createController({ fullHeight: true });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
+            const { controller, fireResizeObserver } = mountInScrollContainer({ fullHeight: true });
             controller.onRender();
 
-            resizeCallback();
+            fireResizeObserver();
             expect(host.trigger).toHaveBeenCalledWith(
                 HostEvent.VisibleEmbedCoordinates,
                 expect.objectContaining({ top: expect.any(Number) }),
@@ -670,55 +882,39 @@ describe('FullHeightController', () => {
         });
 
         it('observes each resize target only once', () => {
-            const observe = jest.fn();
-            (window as any).ResizeObserver = jest.fn(() => ({
-                observe,
-                disconnect: jest.fn(),
-            }));
-            const container = document.createElement('div');
-            container.style.overflow = 'auto';
-
-            const controller = createController({ fullHeight: true });
-            container.appendChild(iFrame);
-            document.body.appendChild(container);
+            const { controller, scrollContainer, observe } = mountInScrollContainer({
+                fullHeight: true,
+            });
+            // The parent is also the clipping ancestor, so it must not
+            // be observed twice.
             jest.spyOn(iFrame, 'getBoundingClientRect').mockReturnValue(rectOf(-100, 400));
-            jest.spyOn(container, 'getBoundingClientRect').mockReturnValue(rectOf(50, 300));
+            jest.spyOn(scrollContainer, 'getBoundingClientRect').mockReturnValue(rectOf(50, 300));
 
             controller.onRender();
             expect(observe).toHaveBeenCalledTimes(1);
-            expect(observe).toHaveBeenCalledWith(container);
+            expect(observe).toHaveBeenCalledWith(scrollContainer);
             controller.destroy();
         });
 
         it('does not touch the containers when container lazy loading is off', () => {
-            const resizeObserver = jest.fn();
-            (window as any).ResizeObserver = resizeObserver;
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-            const addContainerListener = jest.spyOn(scrollContainer, 'addEventListener');
-
-            const controller = createController({
-                fullHeight: true,
-                lazyLoadingForFullHeight: true,
-                enableScrollableContainerLazyLoading: false,
-            });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
+            const { controller, addContainerListener, resizeObserverCtor } = mountInScrollContainer(
+                {
+                    fullHeight: true,
+                    lazyLoadingForFullHeight: true,
+                    enableScrollableContainerLazyLoading: false,
+                },
+            );
 
             controller.onRender();
             expect(addContainerListener).not.toHaveBeenCalled();
-            expect(resizeObserver).not.toHaveBeenCalled();
+            expect(resizeObserverCtor).not.toHaveBeenCalled();
         });
 
         it('still tracks the containers in an environment without ResizeObserver', () => {
-            delete (window as any).ResizeObserver;
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-            const addContainerListener = jest.spyOn(scrollContainer, 'addEventListener');
-
-            const controller = createController({ fullHeight: true });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
+            const { controller, addContainerListener } = mountInScrollContainer(
+                { fullHeight: true },
+                { withResizeObserver: false },
+            );
 
             expect(() => controller.onRender()).not.toThrow();
             expect(addContainerListener).toHaveBeenCalledWith('scroll', expect.any(Function));
@@ -726,18 +922,9 @@ describe('FullHeightController', () => {
         });
 
         it('drops the previous containers when the embed re-renders', () => {
-            const disconnect = jest.fn();
-            (window as any).ResizeObserver = jest.fn(() => ({
-                observe: jest.fn(),
-                disconnect,
-            }));
-            const scrollContainer = document.createElement('div');
-            scrollContainer.style.overflow = 'auto';
-            const removeContainerListener = jest.spyOn(scrollContainer, 'removeEventListener');
-
-            const controller = createController({ fullHeight: true });
-            scrollContainer.appendChild(iFrame);
-            document.body.appendChild(scrollContainer);
+            const {
+                controller, removeContainerListener, disconnect,
+            } = mountInScrollContainer({ fullHeight: true });
 
             controller.onRender();
             controller.onRender();
@@ -747,11 +934,7 @@ describe('FullHeightController', () => {
         });
 
         it('is safe to destroy more than once', () => {
-            (window as any).ResizeObserver = jest.fn(() => ({
-                observe: jest.fn(),
-                disconnect: jest.fn(),
-            }));
-            const controller = createController({ fullHeight: true });
+            const { controller } = mountInScrollContainer({ fullHeight: true });
             controller.onRender();
             controller.destroy();
             expect(() => controller.destroy()).not.toThrow();
