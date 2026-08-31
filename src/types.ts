@@ -1669,6 +1669,44 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     useHostEventsV2?: boolean;
+
+    /**
+     * Send the embed configuration to the ThoughtSpot application over
+     * postMessage (`HostEvent.UpdateEmbedParams`) as soon as the iframe signals
+     * that it is ready, instead of encoding it into the iframe `src`.
+     *
+     * Only the parameters needed to boot and authenticate the frame are kept on
+     * the URL: the embed marker, the host application URL, the SDK version, the
+     * authentication flags, the viewport size, the log level, the locale and
+     * formatting options, and the org override. Everything else - hidden and
+     * visible actions, hidden and visible tabs, data sources, customizations
+     * and `additionalFlags` - travels over postMessage.
+     *
+     * Use this to keep configuration out of the DOM and to keep the iframe URL
+     * short. Note two consequences before you turn it on:
+     * - The application briefly renders before the configuration arrives, so a
+     *   flag that changes the initial layout can be applied a frame late.
+     * - The cluster must support `HostEvent.UpdateEmbedParams`. On a cluster
+     *   that ignores it, the embed renders with default configuration.
+     *
+     * Runtime filters and parameters are not affected by this flag. They are
+     * already kept off the URL by `excludeRuntimeFiltersfromURL` and
+     * `excludeRuntimeParametersfromURL`, which both default to `true`.
+     *
+     * For a pre-rendered embed, the configuration is delivered by the existing
+     * pre-render path when `showPreRender()` is called, so the pre-rendered
+     * frame stays unconfigured while it warms up in the background.
+     * @default false
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    sendConfigAsPostMessage: true,
+     * });
+     * ```
+     */
+    sendConfigAsPostMessage?: boolean;
 }
 
 /**

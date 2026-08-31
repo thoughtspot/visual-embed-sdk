@@ -110,6 +110,40 @@ const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
 /**
+ * Query parameters that stay on the iframe `src` when the embed sets
+ * `sendConfigAsPostMessage`. These are the parameters the application shell
+ * needs before it can receive a postMessage at all: the embed marker, the host
+ * application URL used to validate the message origin, the SDK version, the
+ * flags that pick the authentication flow, and the boot-time settings that
+ * would otherwise be applied a frame late (viewport, log level, locale,
+ * formatting and org). Everything else is delivered over
+ * `HostEvent.UpdateEmbedParams`.
+ * @internal
+ */
+const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+    Param.EmbedApp,
+    Param.HostAppUrl,
+    Param.Version,
+    Param.AuthType,
+    Param.AutoLogin,
+    Param.DisableLoginRedirect,
+    Param.ForceSAMLAutoRedirect,
+    Param.cookieless,
+    Param.preAuthCache,
+    Param.blockNonEmbedFullAppAccess,
+    Param.OverrideOrgId,
+    Param.ViewPortHeight,
+    Param.ViewPortWidth,
+    Param.ClientLogLevel,
+    Param.OverrideNativeConsole,
+    Param.PendoTrackingKey,
+    Param.NumberFormatLocale,
+    Param.DateFormatLocale,
+    Param.CurrencyFormat,
+    Param.Locale,
+]);
+
+/**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
@@ -206,6 +240,20 @@ export class TsEmbed {
      */
     private shouldEncodeUrlQueryParams = false;
 
+    /**
+     * Should the embed configuration be delivered over postMessage
+     * (`HostEvent.UpdateEmbedParams`) once the frame is ready, leaving only the
+     * bootstrap parameters on the iframe `src`.
+     * @default false
+     */
+    private sendConfigAsPostMessage = false;
+
+    /**
+     * Guards the initial-load configuration send so it happens once per embed,
+     * even if the container-ready callbacks are flushed more than once.
+     */
+    private hasSentInitialEmbedParams = false;
+
     private defaultHiddenActions = [Action.ReportError];
 
     private resizeObserver: ResizeObserver;
@@ -233,6 +281,7 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
+        this.sendConfigAsPostMessage = this.viewConfig.sendConfigAsPostMessage ?? false;
         this.registerAppInit();
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
@@ -691,6 +740,13 @@ export class TsEmbed {
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
         this.on(EmbedEvent.RefreshAuthToken, this.tokenRefresh, { start: false }, true);
+        if (this.sendConfigAsPostMessage && !this.isPreRenderEmbed()) {
+            this.executeAfterEmbedContainerLoaded(() => {
+                if (this.hasSentInitialEmbedParams) return;
+                this.hasSentInitialEmbedParams = true;
+                this.sendEmbedParamsOverPostMessage();
+            });
+        }
     };
 
     /**
@@ -920,13 +976,34 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         return getQueryParamString(queryParams);
     }
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
         return params;
+    }
+
+    /**
+     * The parameters that go on the iframe `src`.
+     *
+     * This is the full parameter set, unless the embed sets
+     * `sendConfigAsPostMessage`, in which case only the bootstrap parameters are
+     * kept and the rest is delivered over `HostEvent.UpdateEmbedParams` once the
+     * frame is ready. Every URL builder must go through this method;
+     * `getEmbedParamsObject()` stays the full set because it also feeds the
+     * postMessage payload.
+     * @returns The parameters to encode into the iframe `src`.
+     */
+    protected getUrlQueryParamsObject(): Record<any, any> {
+        const queryParams = this.getEmbedParamsObject();
+        if (!this.sendConfigAsPostMessage) {
+            return queryParams;
+        }
+        return Object.fromEntries(
+            Object.entries(queryParams).filter(([key]) => BOOTSTRAP_URL_PARAMS.has(key)),
+        );
     }
 
     protected getRootIframeSrc() {
@@ -1979,24 +2056,40 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    /**
+     * Sends the full embed configuration to the embedded app over
+     * `HostEvent.UpdateEmbedParams`.
+     *
+     * Used by the pre-render show path, and by the initial load when the embed
+     * sets `sendConfigAsPostMessage`. The caller is expected to have waited for
+     * the embed container to be ready.
+     */
+    protected async sendEmbedParamsOverPostMessage(): Promise<void> {
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            await this.trigger(HostEvent.UpdateEmbedParams, params);
+        } catch (error) {
+            logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+            this.handleError({
+                errorType: ErrorDetailsTypes.API,
+                message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                error: error?.message || error,
+            });
+        }
+    }
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        this.executeAfterEmbedContainerLoaded(async () => {
-            try {
-                const params = await this.getUpdateEmbedParamsObject();
-                this.trigger(HostEvent.UpdateEmbedParams, params);
-            } catch (error) {
-                logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                this.handleError({
-                    errorType: ErrorDetailsTypes.API,
-                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: error?.message || error,
-                });
-            }
+        this.executeAfterEmbedContainerLoaded(() => {
+            // The pre-render path owns configuration delivery for this embed,
+            // so mark the initial send as done to keep the two paths from
+            // pushing the same payload back to back.
+            this.hasSentInitialEmbedParams = true;
+            this.sendEmbedParamsOverPostMessage();
         });
     }
 

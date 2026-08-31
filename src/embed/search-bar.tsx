@@ -114,7 +114,10 @@ export class SearchBarEmbed extends TsEmbed {
     protected embedComponentType = 'SearchBarEmbed';
 
     constructor(domSelector: string, viewConfig: SearchBarViewConfig) {
-        super(domSelector);
+        // The view config is passed up so the base constructor can read the
+        // flags it needs while it wires up the embed, then re-assigned here to
+        // keep this class's existing view config semantics.
+        super(domSelector, viewConfig);
         this.viewConfig = viewConfig;
     }
 
@@ -163,7 +166,7 @@ export class SearchBarEmbed extends TsEmbed {
      * @param dataSources A list of data source GUIDs
      */
     private getIFrameSrc() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         const path = 'search-bar-embed';
        
         let query = '';

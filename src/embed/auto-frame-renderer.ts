@@ -108,7 +108,7 @@ class AutoFrameRenderer extends TsEmbed {
      * @returns The constructed URL to use for the ThoughtSpot embed iframe.
      */
     private getMCPIframeSrc(sourceSrc: string) {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         const sourceURL = new URL(sourceSrc);
         const existingQueryParams = sourceURL.searchParams;
         const existingQueryParamsObject = Object.fromEntries(existingQueryParams);
