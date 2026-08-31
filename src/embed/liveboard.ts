@@ -778,7 +778,7 @@ export class LiveboardEmbed extends V1Embed {
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
             showSpotterLimitations,
-            isCentralizedLiveboardFilterUXEnabled = false,
+            isCentralizedLiveboardFilterUXEnabled,
             isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
