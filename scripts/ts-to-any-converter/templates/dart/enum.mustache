@@ -1,0 +1,15 @@
+{{{comment}}}
+enum {{name}} {
+  {{#options}}
+    {{#comment}}
+    {{{comment}}}
+    {{/comment}}
+    {{name}}("{{#value}}{{value}}{{/value}}{{^value}}{{name}}{{/value}}"){{^isLast}}, {{/isLast}}{{#isLast}};{{/isLast}}
+  {{/options}}
+
+  final String value;
+  const {{name}}(this.value);
+}
+{{#stringify}}
+  {{.}}
+{{/stringify}}
