@@ -77,6 +77,37 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('getUpdateEmbedParamsObject sends dataSources as a real ARRAY, not the URL-encoded string', async () => {
+        // The iframe URL correctly carries dataSources as a JSON-encoded
+        // string (asserted above), but the UpdateEmbedParams postMessage
+        // payload is spread into app state unparsed — a string there reaches
+        // the $sources GraphQL variable ([GUID!]) and fails GUID coercion
+        // (SCAL-334713, fired from beforePrerenderVisible on prerender-show).
+        const dataSources = ['4dd30af7-9ed7-4847-8f28-b65b44a841d8'];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataSources,
+        });
+        const params = await (searchEmbed as any).getUpdateEmbedParamsObject();
+        expect(params.dataSources).toEqual(dataSources);
+
+        // Single-GUID `dataSource` prop (the customer's shape) normalizes to
+        // a one-element array the same way the app's URL parser would.
+        const singleSourceEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataSource: '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        });
+        const singleParams = await (singleSourceEmbed as any).getUpdateEmbedParamsObject();
+        expect(singleParams.dataSources).toEqual([
+            '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        ]);
+
+        // The normalization only reverses JSON serialization: non-JSON
+        // strings and already-structured values pass through untouched.
+        expect(singleParams.embedApp).toBe(true);
+        expect(singleParams.authType).toBe('None');
+    });
+
     test('should pass in search query', async () => {
         const dataSources = ['data-source-1'];
         const searchOptions = {

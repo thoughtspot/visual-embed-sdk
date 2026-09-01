@@ -86,6 +86,22 @@ const serializeParam = (value: any) => {
 };
 
 /**
+ * Inverse of serializeParam: JSON.parse with fallback to the raw string,
+ * matching how the app parses the same values from the iframe URL.
+ */
+export const deserializeParam = (value: unknown): unknown => {
+    if (typeof value !== 'string') return value;
+    try {
+        const parsed = JSON.parse(value);
+        // Numeric strings stay strings ('123' !== 123), same as the app's
+        // URL parser — param consumers expect string ids/versions.
+        return typeof parsed === 'number' ? value : parsed;
+    } catch (e) {
+        return value;
+    }
+};
+
+/**
  * Convert a value to a string:
  * in case of an array, we convert it to CSV.
  * in case of any other type, we directly return the value.
