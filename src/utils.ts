@@ -86,22 +86,18 @@ const serializeParam = (value: any) => {
 };
 
 /**
- * Inverse of URL param serialization, mirroring the app's own URL parser:
- * decode + JSON.parse with fallback; numeric strings stay strings.
+ * Inverse of serializeParam: JSON.parse with fallback to the raw string,
+ * matching how the app parses the same values from the iframe URL.
  */
 export const deserializeParam = (value: unknown): unknown => {
     if (typeof value !== 'string') return value;
-    let decoded = value;
     try {
-        decoded = decodeURIComponent(value);
+        const parsed = JSON.parse(value);
+        // Numeric strings stay strings ('123' !== 123), same as the app's
+        // URL parser — param consumers expect string ids/versions.
+        return typeof parsed === 'number' ? value : parsed;
     } catch (e) {
-        // not URI-encoded; keep as-is
-    }
-    try {
-        const parsed = JSON.parse(decoded);
-        return typeof parsed === 'number' ? decoded : parsed;
-    } catch (e) {
-        return decoded;
+        return value;
     }
 };
 

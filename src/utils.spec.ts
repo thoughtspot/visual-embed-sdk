@@ -357,9 +357,9 @@ describe('deserializeParam', () => {
         ]);
     });
 
-    test('decodes URI-encoded strings (e.g. searchTokenString)', () => {
+    test('does not URI-decode strings — raw %xx content must survive', () => {
         expect(deserializeParam('%5Bcommit%20date%5D%5Brevenue%5D')).toBe(
-            '[commit date][revenue]',
+            '%5Bcommit%20date%5D%5Brevenue%5D',
         );
     });
 
