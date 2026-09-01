@@ -38,6 +38,7 @@ import {
     isUndefined,
     getHostEventsConfig,
     getValueFromWindow,
+    deserializeParam,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -706,24 +707,14 @@ export class TsEmbed {
     }
 
     protected async getUpdateEmbedParamsObject() {
-        let queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getEmbedParamsObject();
+        // Values are URL-serialized (e.g. dataSources as '["guid"]'); parse
+        // them back so the event payload matches a URL load (SCAL-334713).
+        Object.keys(queryParams).forEach((key) => {
+            queryParams[key] = deserializeParam(queryParams[key]);
+        });
         const appInitData = await this.getAppInitData();
-        queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
-
-        // getEmbedParamsObject() serializes for the iframe URL, so
-        // dataSources is a JSON-encoded STRING ('["guid"]'). The app parses
-        // URL params on boot but stores this event payload as-is — a string
-        // here reaches the $sources GraphQL variable ([GUID!]) and fails
-        // coercion with 'Expected type GUID' (SCAL-334713). Send the array.
-        if (typeof queryParams[Param.DataSources] === 'string') {
-            try {
-                queryParams[Param.DataSources] = JSON.parse(queryParams[Param.DataSources]);
-            } catch (e) {
-                logger.warn('UpdateEmbedParams: could not parse dataSources', e);
-            }
-        }
-
-        return queryParams;
+        return { ...this.viewConfig, ...queryParams, ...appInitData };
     }
 
     /**

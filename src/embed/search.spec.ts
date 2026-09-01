@@ -101,6 +101,20 @@ describe('Search embed tests', () => {
         expect(singleParams.dataSources).toEqual([
             '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
         ]);
+
+        // The normalization is general (mirrors the app's URL parser):
+        // URI-encoded values are decoded, non-JSON strings stay strings,
+        // and already-structured values pass through untouched.
+        const tokenEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataSource: '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+            searchOptions: {
+                searchTokenString: '[commit date][revenue]',
+            },
+        });
+        const tokenParams = await (tokenEmbed as any).getUpdateEmbedParamsObject();
+        expect(tokenParams.searchTokenString).toBe('[commit date][revenue]');
+        expect(tokenParams.embedApp).toBe(true);
     });
 
     test('should pass in search query', async () => {

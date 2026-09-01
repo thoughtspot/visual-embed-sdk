@@ -86,6 +86,26 @@ const serializeParam = (value: any) => {
 };
 
 /**
+ * Inverse of URL param serialization, mirroring the app's own URL parser:
+ * decode + JSON.parse with fallback; numeric strings stay strings.
+ */
+export const deserializeParam = (value: unknown): unknown => {
+    if (typeof value !== 'string') return value;
+    let decoded = value;
+    try {
+        decoded = decodeURIComponent(value);
+    } catch (e) {
+        // not URI-encoded; keep as-is
+    }
+    try {
+        const parsed = JSON.parse(decoded);
+        return typeof parsed === 'number' ? decoded : parsed;
+    } catch (e) {
+        return decoded;
+    }
+};
+
+/**
  * Convert a value to a string:
  * in case of an array, we convert it to CSV.
  * in case of any other type, we directly return the value.
