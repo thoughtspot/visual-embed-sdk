@@ -1,5 +1,6 @@
 import {
     getQueryParamString,
+    deserializeParam,
     getFilterQuery,
     getCssDimension,
     getEncodedQueryParamsString,
@@ -348,7 +349,50 @@ describe('unit test for utils', () => {
     });
 });
 
+describe('deserializeParam', () => {
+    // Inverse of URL param serialization — must mirror the app's URL parser.
+    test('parses a JSON-string array back to a real array (SCAL-334713)', () => {
+        expect(deserializeParam('["4dd30af7-9ed7-4847-8f28-b65b44a841d8"]')).toEqual([
+            '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        ]);
+    });
+
+    test('decodes URI-encoded strings (e.g. searchTokenString)', () => {
+        expect(deserializeParam('%5Bcommit%20date%5D%5Brevenue%5D')).toBe(
+            '[commit date][revenue]',
+        );
+    });
+
+    test('parses JSON objects and booleans', () => {
+        expect(deserializeParam('{"a":1}')).toEqual({ a: 1 });
+        expect(deserializeParam('true')).toBe(true);
+    });
+
+    test('keeps numeric strings as strings, matching the app URL parser', () => {
+        expect(deserializeParam('123')).toBe('123');
+        expect(deserializeParam('1.5')).toBe('1.5');
+    });
+
+    test('keeps plain non-JSON strings unchanged', () => {
+        expect(deserializeParam('local-host')).toBe('local-host');
+        expect(deserializeParam('AuthServerCookieless')).toBe('AuthServerCookieless');
+    });
+
+    test('keeps a malformed percent-sequence string as-is', () => {
+        expect(deserializeParam('100% legit')).toBe('100% legit');
+    });
+
+    test('passes non-string values through untouched', () => {
+        const arr = ['a'];
+        expect(deserializeParam(arr)).toBe(arr);
+        expect(deserializeParam(true)).toBe(true);
+        expect(deserializeParam(42)).toBe(42);
+        expect(deserializeParam(undefined)).toBeUndefined();
+    });
+});
+
 describe('Fullscreen Utility Functions', () => {
+
     let originalExitFullscreen: any;
     let mockIframe: HTMLIFrameElement;
 

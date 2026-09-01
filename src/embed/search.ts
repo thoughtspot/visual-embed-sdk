@@ -24,7 +24,6 @@ import {
     getRuntimeParameters,
 } from '../utils';
 import { TsEmbed } from './ts-embed';
-import { logger } from '../utils/logger';
 import { ERROR_MESSAGE } from '../errors';
 import { getAuthPromise } from './base';
 import { getReleaseVersion } from '../auth';
@@ -453,8 +452,6 @@ export class SearchEmbed extends TsEmbed {
         ];
 
         if (dataSources && dataSources.length) {
-            // eslint-disable-next-line max-len
-            logger.warn('SearchViewConfig.dataSources is deprecated (only a single data source is supported) — use `dataSource` instead.');
             queryParams[Param.DataSources] = JSON.stringify(dataSources);
         }
         if (dataSource) {
