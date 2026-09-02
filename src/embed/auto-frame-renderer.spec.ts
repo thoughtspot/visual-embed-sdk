@@ -662,4 +662,148 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(JSON.parse(autoValue)).toEqual(JSON.parse(liveboardValue));
         });
     });
+
+    // ─── replaying a stored conversation ──────────────────────────────────────
+
+    describe('stored conversation replay', () => {
+        const CONVERSATION_ID = 'U0Tfqmjlz6WT';
+        const REPLAY_SRC =
+            `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+            + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`
+            + `&${Param.TsmcpAnswerIndex}=1`;
+
+        /** getConversation shape: two real answers around a thinking one. */
+        const messagesPayload = {
+            messages: [
+                {
+                    message_id: 'm1',
+                    response_items: [
+                        { type: 'tool_call', is_thinking: false },
+                        { type: 'answer', answer_id: 'ans_first', is_thinking: false },
+                    ],
+                },
+                {
+                    message_id: 'm2',
+                    response_items: [
+                        { type: 'answer', answer_id: 'ans_thinking', is_thinking: true },
+                        { type: 'answer', answer_id: 'ans_second', is_thinking: false },
+                    ],
+                },
+            ],
+        };
+
+        const detailsPayload = {
+            answer: {
+                session_identifier: 'fresh-session',
+                generation_number: 3,
+                ac_state: { transaction_identifier: 'fresh-ac', generation_number: 2 },
+            },
+        };
+
+        let fetchMock: jest.SpyInstance;
+
+        /** Renders one replay iframe and returns the src plus the frame element. */
+        async function renderReplayFrame(
+            viewConfig: AutoMCPFrameRendererViewConfig = {},
+            src: string = REPLAY_SRC,
+        ): Promise<{ renderedSrc: string; frame: HTMLIFrameElement }> {
+            let renderedSrc = '';
+            let frame: HTMLIFrameElement;
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                .mockImplementation(async function (this: any, capturedSrc: string) {
+                    renderedSrc = capturedSrc;
+                    // Stand in for the real iframe the notice attaches to.
+                    frame = document.createElement('iframe');
+                    this.iFrame = frame;
+                });
+
+            const observer = startAutoMCPFrameRenderer(viewConfig);
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            document.body.appendChild(iframe);
+            await new Promise((r) => setTimeout(r, 100));
+            observer.disconnect();
+            return { renderedSrc, frame: frame! };
+        }
+
+        beforeEach(() => {
+            fetchMock = jest.spyOn(global, 'fetch').mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                const body = url.includes('/details') ? detailsPayload : messagesPayload;
+                return { ok: true, status: 200, json: async () => body } as any;
+            });
+        });
+
+        afterEach(() => {
+            fetchMock.mockRestore();
+        });
+
+        test('resolves session params from the conversation and answer APIs', async () => {
+            const { renderedSrc } = await renderReplayFrame();
+
+            expect(renderedSrc).toContain('sessionId=fresh-session');
+            expect(renderedSrc).toContain('genNo=3');
+            expect(renderedSrc).toContain('acSessionId=fresh-ac');
+            expect(renderedSrc).toContain('acGenNo=2');
+        });
+
+        test('picks the answer at the requested index, skipping thinking items', async () => {
+            await renderReplayFrame();
+
+            const detailsCall = fetchMock.mock.calls
+                .map(([input]: any) => (typeof input === 'string' ? input : input.url))
+                .find((url: string) => url.includes('/details'));
+            // index 1 = second non-thinking answer; ans_thinking must not count.
+            expect(detailsCall).toContain('/answers/ans_second/details');
+        });
+
+        test('defaults to the conversational answer route when none is given', async () => {
+            const { renderedSrc } = await renderReplayFrame();
+            expect(renderedSrc).toContain('/embed/conv-assist-answer');
+        });
+
+        test('strips the replay markers from the URL sent to ThoughtSpot', async () => {
+            const { renderedSrc } = await renderReplayFrame();
+            expect(renderedSrc).not.toContain(Param.TsmcpConversationId);
+            expect(renderedSrc).not.toContain(Param.TsmcpAnswerIndex);
+            expect(renderedSrc).not.toContain(`${Param.Tsmcp}=true`);
+        });
+
+        test('marks a replayed answer with the stale-data notice', async () => {
+            const { frame } = await renderReplayFrame();
+            expect(frame.dataset.tsStaleAnswer).toBe('true');
+            expect(frame.title).toBe(
+                'This data may have changed since the last time you had a chat.',
+            );
+        });
+
+        test('suppressStaleAnswerNotice leaves the frame unmarked', async () => {
+            const { frame } = await renderReplayFrame({ suppressStaleAnswerNotice: true });
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expect(frame.title).toBe('');
+        });
+
+        test('staleAnswerNoticeText overrides the default copy', async () => {
+            const { frame } = await renderReplayFrame({ staleAnswerNoticeText: 'Numbers may differ.' });
+            expect(frame.title).toBe('Numbers may differ.');
+        });
+
+        test('falls back to the source URL when resolution fails', async () => {
+            fetchMock.mockImplementation(async () => ({ ok: false, status: 500 } as any));
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            // No invented params, and no notice claiming a successful refresh.
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test('a frame without a conversation id makes no API calls and is unmarked', async () => {
+            const { renderedSrc, frame } = await renderReplayFrame({}, TSMCP_SRC);
+
+            expect(fetchMock).not.toHaveBeenCalled();
+            expect(renderedSrc).toContain('/embed/viz/lb1');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+    });
 });
