@@ -1689,7 +1689,32 @@ export type AutoMCPFrameRendererViewConfig = Omit<
     | 'insertAsSibling'
     | 'primaryAction'
     | 'enableV2Shell_experimental'
->;
+> & {
+    /**
+     * Suppress the notice shown on answers re-resolved from a stored
+     * conversation. Those answers are re-run against current data, so by
+     * default the renderer marks them with a tooltip explaining that the
+     * numbers may differ from what the user originally saw. Set this to
+     * `true` to render them without any notice.
+     *
+     * Only affects frames carrying {@link Param.TsmcpConversationId}; frames
+     * that already contain their own session parameters are never marked.
+     * @default false
+     * @version SDK: 1.51.3
+     * @example
+     * ```js
+     * startAutoMCPFrameRenderer({ suppressStaleAnswerNotice: true });
+     * ```
+     */
+    suppressStaleAnswerNotice?: boolean;
+    /**
+     * Text of the notice described in {@link suppressStaleAnswerNotice}.
+     * Override it to translate the message or match your own product voice.
+     * @default 'This data may have changed since the last time you had a chat.'
+     * @version SDK: 1.51.3
+     */
+    staleAnswerNoticeText?: string;
+};
 
 /**
  * The configuration object for Home page embeds configs.
@@ -6741,6 +6766,20 @@ export enum DataSourceVisualMode {
 
 export enum Param {
     Tsmcp = 'tsmcp',
+    /**
+     * Marker added by a host app replaying a stored conversation. Carries the
+     * analytical session (conversation) identifier, from which the renderer
+     * resolves the answer's current session parameters. Stripped before the
+     * URL reaches the ThoughtSpot application.
+     */
+    TsmcpConversationId = 'tsmcpConversationId',
+    /**
+     * Zero-based position of the answer within the conversation, counting only
+     * non-thinking answer items in message order. Accompanies
+     * {@link TsmcpConversationId}; defaults to 0 when absent. Stripped before
+     * the URL reaches the ThoughtSpot application.
+     */
+    TsmcpAnswerIndex = 'tsmcpAnswerIndex',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
