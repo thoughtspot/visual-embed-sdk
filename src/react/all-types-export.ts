@@ -83,4 +83,8 @@ export {
     StarterPromptCategory,
     StarterPreviewDataCategory,
     StarterPromptQuestion,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 } from '../index';

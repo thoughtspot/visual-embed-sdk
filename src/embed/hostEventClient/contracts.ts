@@ -33,9 +33,29 @@ export interface Applicability {
 }
 
 export interface FilterUpdate {
-  column: string;
-  oper: string;
-  values: string[];
+  /**
+   * Name of the column to filter on.
+   * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and the
+   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
+   * what is sent on the wire.
+   */
+  column?: string;
+  /**
+   * Name of the column to filter on. Preferred over `column`.
+   */
+  columnName?: string;
+  /**
+   * Filter operator, for example EQ, IN, CONTAINS.
+   * @deprecated Use `operator`, which matches {@link RuntimeFilter} and the
+   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
+   * what is sent on the wire.
+   */
+  oper?: string;
+  /**
+   * Filter operator, for example EQ, IN, CONTAINS. Preferred over `oper`.
+   */
+  operator?: string;
+  values: (string | number | boolean | bigint)[];
   type?: string;
   applicability?: Applicability;
 }
