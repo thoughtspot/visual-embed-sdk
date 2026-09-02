@@ -26,7 +26,7 @@ import {
     ContextType,
     DefaultAppInitData,
 } from '../types';
-import { FullHeightController } from '../full-height';
+import { FullHeightController, resolveLazyLoadingDefaults } from '../full-height';
 import { getQueryParamString, isUndefined, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
@@ -568,6 +568,7 @@ export class LiveboardEmbed extends V1Embed {
                 logger.warn('Full height is currently only supported for Liveboard embeds.'
                     + 'Using full height with vizId might lead to unexpected behavior.');
             }
+            Object.assign(this.viewConfig, resolveLazyLoadingDefaults(this.viewConfig));
             this.fullHeightController = new FullHeightController(this.viewConfig, {
                 getIframe: () => this.iFrame,
                 setFrameHeight: (height) => this.setIFrameHeight(height),

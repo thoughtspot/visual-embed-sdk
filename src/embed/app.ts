@@ -21,7 +21,7 @@ import {
     VisualizationOverrides,
     SpotterFileUploadFileTypes,
 } from '../types';
-import { FullHeightController } from '../full-height';
+import { FullHeightController, resolveLazyLoadingDefaults } from '../full-height';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
 import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
@@ -933,6 +933,7 @@ export class AppEmbed extends V1Embed {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
+            Object.assign(this.viewConfig, resolveLazyLoadingDefaults(this.viewConfig));
             this.fullHeightController = new FullHeightController(this.viewConfig, {
                 getIframe: () => this.iFrame,
                 setFrameHeight: (height) => this.setIFrameHeight(height),

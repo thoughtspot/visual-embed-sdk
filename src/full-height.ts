@@ -49,6 +49,30 @@ const LIVEBOARD_RELATED_ROUTES = [
 ];
 
 /**
+ * The lazy-loading settings a full-height embed falls back to when the host app
+ * has not chosen its own.
+ *
+ * Pure by design: the embed owns its view config, so the embed applies the
+ * result itself rather than having this module write to it.
+ * @param viewConfig The embed's view config
+ * @returns The settings to apply, with the host app's own choices preserved
+ */
+export const resolveLazyLoadingDefaults = (viewConfig: FullHeightViewConfig) => ({
+    lazyLoadingForFullHeight:
+        viewConfig.lazyLoadingForFullHeight === undefined
+            ? true
+            : viewConfig.lazyLoadingForFullHeight,
+    enableScrollableContainerLazyLoading:
+        viewConfig.enableScrollableContainerLazyLoading === undefined
+            ? true
+            : viewConfig.enableScrollableContainerLazyLoading,
+    lazyLoadingMargin:
+        viewConfig.lazyLoadingMargin === undefined
+            ? DEFAULT_LAZY_LOADING_MARGIN
+            : viewConfig.lazyLoadingMargin,
+});
+
+/**
  * The subset of the embed the full-height controller drives. Keeping this
  * narrow lets the controller stay independent of the embed class hierarchy.
  */
@@ -88,32 +112,7 @@ export class FullHeightController {
     constructor(
         private readonly viewConfig: FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>,
         private readonly host: FullHeightEmbedHost,
-    ) {
-        this.viewConfig = { ...viewConfig };
-        this.applyLazyLoadingDefaults();
-    }
-
-    /**
-     * Turns lazy loading on for a full-height embed unless the host app has
-     * opted out. The defaults land on the controller's own copy of the view
-     * config, so everything reading it later — query params, listeners,
-     * visibility math — sees the same values, and the object the host app
-     * passed in is left untouched.
-     */
-    private applyLazyLoadingDefaults(): void {
-        if (!this.isEnabled) {
-            return;
-        }
-        if (this.viewConfig.lazyLoadingForFullHeight === undefined) {
-            this.viewConfig.lazyLoadingForFullHeight = true;
-        }
-        if (this.viewConfig.enableScrollableContainerLazyLoading === undefined) {
-            this.viewConfig.enableScrollableContainerLazyLoading = true;
-        }
-        if (this.viewConfig.lazyLoadingMargin === undefined) {
-            this.viewConfig.lazyLoadingMargin = DEFAULT_LAZY_LOADING_MARGIN;
-        }
-    }
+    ) {}
 
     /**
      * Whether the host app asked for a full-height embed.
