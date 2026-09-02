@@ -1097,6 +1097,15 @@ export class LiveboardEmbed extends V1Embed {
             '/insights/liveboard/',
             '/tsl-editor/PINBOARD_ANSWER_BOOK/',
             '/import-tsl/PINBOARD_ANSWER_BOOK/',
+            // Spotter (conv-assist) routes. Without these, navigating into or
+            // within the Spotter chat panel on a Liveboard resets the frame to
+            // defaultHeight, clobbering the fullHeight layout both on initial
+            // route (the bare route has no trailing segment, e.g.
+            // "/insights/conv-assist") and again mid-stream, when the
+            // conversation gets a real id and the URL is updated to
+            // "/insights/conv-assist/s/{id}".
+            '/insights/conv-assist',
+            '/embed/insights/conv-assist',
         ];
 
         if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {

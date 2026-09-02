@@ -2661,6 +2661,14 @@ describe('App embed tests', () => {
             testSetIframeHeightBehavior('/some/other/path/', true);
         });
 
+        test('should not call setIFrameHeight if currentPath is the bare Spotter landing route "/insights/conv-assist"', () => {
+            testSetIframeHeightBehavior('/insights/conv-assist', false);
+        });
+
+        test('should not call setIFrameHeight if currentPath starts with "/embed/insights/conv-assist/s/" (conversation id set mid-stream)', () => {
+            testSetIframeHeightBehavior('/embed/insights/conv-assist/s/abc123', false);
+        });
+
         test('should update iframe height correctly', async () => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 ...defaultViewConfig,
