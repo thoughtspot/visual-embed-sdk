@@ -2495,14 +2495,9 @@ export enum ListPageColumns {
 }
 
 /**
- * A filter that can be applied to ThoughtSpot answers, Liveboards, or
- * visualizations at runtime.
+ * The attributes of a runtime filter other than the column it applies to.
  */
-export interface RuntimeFilter {
-    /**
-     * The name of the column to filter on (case-sensitive)
-     */
-    columnName: string;
+export interface RuntimeFilterBase {
     /**
      * The operator to apply
      */
@@ -2514,6 +2509,40 @@ export interface RuntimeFilter {
      */
     values: (number | boolean | string | bigint)[];
 }
+
+/**
+ * A filter that can be applied to ThoughtSpot answers, Liveboards, or
+ * visualizations at runtime.
+ *
+ * The column is named with `column`. `column` matches the name used by
+ * {@link HostEvent.UpdateFilters}, so a filter read back from
+ * {@link HostEvent.GetFilters} can be passed to either event without renaming.
+ *
+ * The older `columnName` still works; `column` wins when both are given.
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+ */
+export type RuntimeFilter = RuntimeFilterBase & (
+    | {
+        /**
+         * The name of the column to filter on (case-sensitive)
+         */
+        column: string;
+        /**
+         * @deprecated Use `column` instead.
+         */
+        columnName?: string;
+    }
+    | {
+        /**
+         * @deprecated Use `column` instead.
+         */
+        columnName: string;
+        /**
+         * The name of the column to filter on (case-sensitive)
+         */
+        column?: string;
+    }
+);
 /**
  * A filter that can be applied to ThoughtSpot Answers, Liveboards, or
  * visualizations at runtime.

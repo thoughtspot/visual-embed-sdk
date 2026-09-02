@@ -80,6 +80,25 @@ describe('unit test for utils', () => {
             ]),
         ).toBe('col1=foo%2Bfoo&op1=NE&val1=bar%2B');
     });
+    test('getFilterQuery accepts either column name, preferring column', () => {
+        expect(
+            getFilterQuery([
+                { column: 'foo', operator: RuntimeFilterOp.NE, values: ['bar'] },
+            ]),
+        ).toBe('col1=foo&op1=NE&val1=bar');
+
+        expect(
+            getFilterQuery([
+                {
+                    columnName: 'ignored',
+                    column: 'foo',
+                    operator: RuntimeFilterOp.NE,
+                    values: ['bar'],
+                },
+            ]),
+        ).toBe('col1=foo&op1=NE&val1=bar');
+    });
+
     test('getFilterQuery', () => {
         expect(getFilterQuery([])).toBe(null);
 

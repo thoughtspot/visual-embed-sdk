@@ -7,6 +7,7 @@
  */
 
 import { merge } from 'ts-deepmerge';
+import isPlainObject from 'lodash/isPlainObject';
 import {
     EmbedConfig,
     QueryParams,
@@ -21,6 +22,97 @@ import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
 
 /**
+ * A filter whose column and operator may each be written with the current
+ * name or the deprecated one.
+ */
+export interface FilterFieldAliases {
+    column?: string;
+    /**
+     * @deprecated Use `column` instead.
+     */
+    columnName?: string;
+    operator?: string;
+    /**
+     * @deprecated Use `operator` instead.
+     */
+    oper?: string;
+}
+
+/**
+ * Reads the column off a filter written with either name. `column` supersedes
+ * the deprecated `columnName` and wins when both are present.
+ * @param filter
+ */
+export const getFilterColumnName = (filter: FilterFieldAliases): string =>
+    filter?.column ?? filter?.columnName;
+
+/**
+ * Reads the operator off a filter written with either name. `operator`
+ * supersedes the deprecated `oper` and wins when both are present.
+ * @param filter
+ */
+export const getFilterOperator = (filter: FilterFieldAliases): string =>
+    filter?.operator ?? filter?.oper;
+
+/**
+ * Sets a field only when the resolved value exists, so a filter that names
+ * neither spelling is left as it was rather than gaining an undefined key.
+ * @param name
+ * @param value
+ */
+const definedField = (name: string, value: unknown) =>
+    (value === undefined ? {} : { [name]: value });
+
+/**
+ * Rewrites a filter to the `columnName` and `operator` names the embedded
+ * application expects for runtime filters, dropping the aliases.
+ * @param filter
+ */
+export const convertToLegacyRuntimeFilter = <T extends FilterFieldAliases>(filter: T): T => {
+    if (!isPlainObject(filter)) return filter;
+    const { column, oper, ...rest } = filter;
+    return {
+        ...rest,
+        ...definedField('columnName', getFilterColumnName(filter)),
+        ...definedField('operator', getFilterOperator(filter)),
+    } as unknown as T;
+};
+
+/**
+ * Rewrites a filter to the `column` and `oper` names the embedded application
+ * expects for Liveboard filter updates, dropping the aliases.
+ * @param filter
+ */
+export const convertToLegacyFilterUpdate = <T extends FilterFieldAliases>(filter: T): T => {
+    if (!isPlainObject(filter)) return filter;
+    const { columnName, operator, ...rest } = filter;
+    return {
+        ...rest,
+        ...definedField('column', getFilterColumnName(filter)),
+        ...definedField('oper', getFilterOperator(filter)),
+    } as unknown as T;
+};
+
+/**
+ * Stamps both names for the column and the operator onto a filter coming back
+ * from the embedded application, so a filter read from one host event can be
+ * passed to another without renaming.
+ * @param filter
+ */
+export const addFilterFieldAliases = <T extends FilterFieldAliases>(filter: T): T => {
+    if (!isPlainObject(filter)) return filter;
+    const column = getFilterColumnName(filter);
+    const operator = getFilterOperator(filter);
+    return {
+        ...filter,
+        ...definedField('column', column),
+        ...definedField('columnName', column),
+        ...definedField('operator', operator),
+        ...definedField('oper', operator),
+    };
+};
+
+/**
  * Construct a runtime filters query string from the given filters.
  * Refer to the following docs for more details on runtime filter syntax:
  * https://cloud-docs.thoughtspot.com/admin/ts-cloud/apply-runtime-filter.html
@@ -32,7 +124,7 @@ export const getFilterQuery = (runtimeFilters: RuntimeFilter[]): string | null =
         const filters = runtimeFilters.map((filter, valueIndex) => {
             const index = valueIndex + 1;
             const filterExpr = [];
-            filterExpr.push(`col${index}=${encodeURIComponent(filter.columnName)}`);
+            filterExpr.push(`col${index}=${encodeURIComponent(getFilterColumnName(filter))}`);
             filterExpr.push(`op${index}=${filter.operator}`);
             filterExpr.push(
                 filter.values.map((value) => {
