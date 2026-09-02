@@ -8724,7 +8724,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.QuickSearchPill]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     QuickSearchPill = 'quickSearchPill',
     /**
@@ -8739,7 +8739,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.DeepAnalysisPill]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     DeepAnalysisPill = 'deepAnalysisPill',
     /**
@@ -8754,7 +8754,7 @@ export enum Action {
      * ```js
      * hiddenActions: [Action.DataLiteracyPill]
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     DataLiteracyPill = 'dataLiteracyPill',
     /**
