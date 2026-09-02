@@ -1,60 +1,92 @@
 import { ContextType, HostEvent, RuntimeFilterOp } from '../types';
+import { ApplicabilityLevel } from '../embed/hostEventClient/contracts';
 import { MIXPANEL_EVENT, uploadMixpanelEvent } from '../mixpanel-service';
 import { logger } from './logger';
 import { version as sdkVersion } from './sdk-version';
 
-
-// we preserver these field's values
-const PRESERVED_FIELDS: Array<string> = ['operator', 'oper', 'level'];
+/*
+ * The only keys whose value may be reported. A value is kept only when it is
+ * an exact member of the enum, so a free-form string under the same key still
+ * degrades to its type.
+ *
+ * TODO: hand-maintained, so an enum parameter nobody adds here silently
+ * reports `string`. Generating it, or reading members off the contract
+ * types, would be better.
+ */
+const ENUM_PARAMS: Record<string, readonly string[]> = {
+    operator: Object.values(RuntimeFilterOp),
+    oper: Object.values(RuntimeFilterOp),
+    level: Object.values(ApplicabilityLevel),
+};
 
 export const MAX_ARRAY_TYPES = 10;
 
 export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
+
+const isParamObject = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null && !Array.isArray(value);
+
+/*
+ * RuntimeFilter.values accepts bigint, which JSON.stringify throws on. Without
+ * this the whole trigger would report no parameters at all.
+ */
+const BIGINT_MARKER = '__vesdk_bigint__';
+
+const serialiseBigInt = (_key: string, value: unknown): unknown =>
+    (typeof value === 'bigint' ? BIGINT_MARKER : value);
 
 /*
  * Assumes an already-serialised value, which is what makes the absence of a
  * cycle guard safe: describeParams clones first, and a clone cannot hold a
  * cycle. Do not export this or call it with a raw payload.
  */
-const describeValue = (value: unknown): ParamTypes => {
-    try {
-        if (value === null) {
-            return 'null';
-        }
-
-        if (Array.isArray(value)) {
-            return value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item));
-        }
-
-        if (typeof value === 'object') {
-            Object.keys(value).forEach(key => {
-                if (!PRESERVED_FIELDS.includes(key))
-                    (value as any)[key] = describeValue((value as any)[key])
-            });
-        }
-
-        return typeof value;
-    } catch (e) {
-        logger.debug('Error parsing type', value);
-        return 'ErrorParsing'
+const describeValue = (value: unknown, key: string): ParamTypes => {
+    if (value === null) {
+        return 'null';
     }
+
+    if (value === BIGINT_MARKER) {
+        return 'bigint';
+    }
+
+    if (typeof value === 'string' && ENUM_PARAMS[key]?.includes(value)) {
+        return value;
+    }
+
+    if (Array.isArray(value)) {
+        return value.slice(0, MAX_ARRAY_TYPES).map((item) => describeValue(item, key));
+    }
+
+    if (isParamObject(value)) {
+        const described: { [key: string]: ParamTypes } = {};
+        Object.keys(value).forEach((paramKey) => {
+            described[paramKey] = describeValue(value[paramKey], paramKey);
+        });
+        return described;
+    }
+
+    return typeof value;
 };
 
-export const describeParams = (payload: unknown): unknown => {
+export const describeParams = (payload: unknown): Record<string, ParamTypes> => {
+    const target = Array.isArray(payload) ? payload[0] : payload;
+    if (target === null || target === undefined) {
+        return {};
+    }
     let params;
     try {
         /*
          * The round trip drops functions and undefined, and cannot produce a
          * cycle, so the walk below needs no cycle guard. It throws instead on a
-         * circular payload, a throwing getter or a BigInt, which is what the
-         * catch is for: no parameters are reported, and the reason is logged.
+         * circular payload or a throwing getter, which is what the catch is
+         * for: no parameters are reported, and the reason is logged.
          */
-        params = JSON.parse(JSON.stringify(payload));
+        params = JSON.parse(JSON.stringify(target, serialiseBigInt));
     } catch (e) {
         logger.debug('Could not describe host event payload', e);
         return {};
     }
-    return describeValue(params);
+    return isParamObject(params) ? describeValue(params, '') as Record<string, ParamTypes> : {};
 };
 
 export interface HostEventTelemetryParams {

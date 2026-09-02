@@ -66,6 +66,20 @@ describe('describeParams', () => {
         });
     });
 
+    test('reports a bigint parameter as its type instead of losing the payload', () => {
+        expect(describeParams([
+            {
+                columnName: 'Revenue',
+                operator: RuntimeFilterOp.EQ,
+                values: [BigInt(10), 'west'],
+            },
+        ])).toEqual({
+            columnName: 'string',
+            operator: 'EQ',
+            values: ['bigint', 'string'],
+        });
+    });
+
     test('reports nothing for a payload it cannot serialise', () => {
         const circular: any = { vizId: 'd0a1' };
         circular.self = circular;
