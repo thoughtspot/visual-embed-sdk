@@ -31,6 +31,7 @@ import {
     DefaultAppInitData,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    EmbedErrorSeverity,
     ContextObject,
 } from '../types';
 import {
@@ -1897,8 +1898,61 @@ describe('Unit test case for ts embed', () => {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
                 code: EmbedErrorCodes.INIT_ERROR,
+                severity: EmbedErrorSeverity.SEV1,
                 error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             });
+        });
+
+        test('a missing init is reported to the host as SEV1', async () => {
+            const errorHandler = jest.fn();
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            tsEmbed.on(EmbedEvent.Error, errorHandler);
+            await tsEmbed.render();
+            expect(errorHandler.mock.calls[0][0]).toEqual(
+                expect.objectContaining({
+                    code: EmbedErrorCodes.INIT_ERROR,
+                    severity: EmbedErrorSeverity.SEV1,
+                }),
+            );
+        });
+    });
+
+    describe('error severity', () => {
+        beforeEach(() => {
+            jest.spyOn(config, 'getThoughtSpotHost').mockImplementation(() => 'http://tshost');
+        });
+
+        test('defaults to SEV3 when the raising site does not set one', () => {
+            const errorHandler = jest.fn();
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            tsEmbed.on(EmbedEvent.Error, errorHandler);
+
+            (tsEmbed as any).handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: 'no severity set',
+                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+            });
+
+            expect(errorHandler.mock.calls[0][0]).toEqual(
+                expect.objectContaining({ severity: EmbedErrorSeverity.SEV3 }),
+            );
+        });
+
+        test('does not override a severity the raising site set', () => {
+            const errorHandler = jest.fn();
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            tsEmbed.on(EmbedEvent.Error, errorHandler);
+
+            (tsEmbed as any).handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: 'explicitly fatal',
+                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                severity: EmbedErrorSeverity.SEV1,
+            });
+
+            expect(errorHandler.mock.calls[0][0]).toEqual(
+                expect.objectContaining({ severity: EmbedErrorSeverity.SEV1 }),
+            );
         });
     });
 

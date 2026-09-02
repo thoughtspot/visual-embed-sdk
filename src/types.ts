@@ -9375,8 +9375,40 @@ export interface EmbedErrorDetailsEvent {
     message: string | string[];
     /** Machine-readable error code for programmatic error handling */
     code: EmbedErrorCodes;
+    /** How badly the embed is affected. Defaults to {@link EmbedErrorSeverity.SEV3}. */
+    severity?: EmbedErrorSeverity;
     /** Additional context-specific for backward compatibility */
     [key: string]: any;
+}
+
+/**
+ * How badly an error affects the embed, so the host can decide whether it is
+ * worth surfacing to the end user.
+ *
+ * Mirrors the severity that ThoughtSpot itself stamps on errors raised inside
+ * the embedded app, so a host can apply one rule to both sources.
+ *
+ * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @group Error Handling
+ *
+ * @example
+ * Only surface errors that took the embed down
+ *
+ * ```js
+ * embed.on(EmbedEvent.Error, (error) => {
+ *   if (error.severity === EmbedErrorSeverity.SEV1) {
+ *     showBanner(error.message);
+ *   }
+ * });
+ * ```
+ */
+export enum EmbedErrorSeverity {
+    /** The embed cannot render. Nothing usable is on screen. */
+    SEV1 = 1,
+    /** Something is degraded but the embed still works. */
+    SEV2 = 2,
+    /** Everything else, including validation of the embedder's own input. */
+    SEV3 = 3,
 }
 
 /**
