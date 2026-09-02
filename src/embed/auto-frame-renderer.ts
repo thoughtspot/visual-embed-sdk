@@ -110,6 +110,17 @@ function buildAnswerHash(sourceHash: string, resolved: AnswerSessionParams): str
     return `${route || CONV_ASSIST_ANSWER_ROUTE}?${params.toString()}`;
 }
 
+/**
+ * Reads {@link Param.TsmcpAnswerIndex} as a whole, non-negative array index.
+ *
+ * Anything else - absent, malformed, fractional, negative - falls back to the
+ * first answer rather than indexing with a value that can never match.
+ */
+function answerIndexFromParam(raw: string | null): number {
+    const parsed = Number(raw);
+    return Number.isInteger(parsed) && parsed >= 0 ? parsed : 0;
+}
+
 function isTSMCPIframe(iframe: HTMLIFrameElement) {
     try {
         const url = new URL(iframe.src);
@@ -199,12 +210,13 @@ class AutoFrameRenderer extends TsEmbed {
                 );
                 return null;
             }
-            const { messages = [] } = await messagesResponse.json();
+            const messagesBody = await messagesResponse.json();
+            const messages = messagesBody?.messages;
 
             // Ordinal match: the host app counts answers the same way, so the
             // Nth non-thinking answer item here is the Nth stored answer.
             const answerIds: string[] = [];
-            for (const message of messages) {
+            for (const message of Array.isArray(messages) ? messages : []) {
                 for (const item of message?.response_items || []) {
                     if (item?.type === 'answer' && item?.is_thinking === false && item?.answer_id) {
                         answerIds.push(item.answer_id);
@@ -230,11 +242,21 @@ class AutoFrameRenderer extends TsEmbed {
                 );
                 return null;
             }
-            const { answer } = await detailsResponse.json();
+            const detailsBody = await detailsResponse.json();
+            const answer = detailsBody?.answer;
             const acState = answer?.ac_state;
-            if (!answer?.session_identifier || !acState?.transaction_identifier) {
+            // All four are nullable in the loadAnswer response. A missing
+            // generation number is as unusable as a missing session id:
+            // stringifying it would put a literal "null" in the hash. Fail
+            // the resolve instead and let the caller fall back.
+            if (
+                !answer?.session_identifier
+                || !acState?.transaction_identifier
+                || !(Number.isInteger(answer.generation_number) && answer.generation_number > 0)
+                || !(Number.isInteger(acState.generation_number) && acState.generation_number > 0)
+            ) {
                 logger.warn(
-                    `[AutoFrameRenderer] loadAnswer returned no session state for ${answerId}.`,
+                    `[AutoFrameRenderer] loadAnswer returned incomplete session state for ${answerId}.`,
                 );
                 return null;
             }
@@ -287,10 +309,9 @@ class AutoFrameRenderer extends TsEmbed {
         const conversationId = sourceParams.get(Param.TsmcpConversationId);
         let resolved: AnswerSessionParams | null = null;
         if (conversationId) {
-            const answerIndex = Number(sourceParams.get(Param.TsmcpAnswerIndex) || 0);
             resolved = await this.resolveAnswerSessionParams(
                 conversationId,
-                Number.isFinite(answerIndex) ? answerIndex : 0,
+                answerIndexFromParam(sourceParams.get(Param.TsmcpAnswerIndex)),
             );
         }
 

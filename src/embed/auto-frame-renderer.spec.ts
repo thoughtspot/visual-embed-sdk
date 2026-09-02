@@ -798,6 +798,80 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(frame.dataset.tsStaleAnswer).toBeUndefined();
         });
 
+        test.each([
+            ['a null messages body', null],
+            ['a messages body that is not an object', 'nope'],
+            ['messages that is not an array', { messages: null }],
+        ])('falls back on %s instead of throwing', async (_label, body) => {
+            fetchMock.mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => (url.includes('/details') ? detailsPayload : body),
+                } as any;
+            });
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test('falls back on a null details body instead of throwing', async () => {
+            fetchMock.mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => (url.includes('/details') ? null : messagesPayload),
+                } as any;
+            });
+            const { renderedSrc } = await renderReplayFrame();
+
+            expect(renderedSrc).not.toContain('sessionId=');
+        });
+
+        test.each([
+            ['answer.generation_number', { ...detailsPayload.answer, generation_number: null }],
+            [
+                'ac_state.generation_number',
+                { ...detailsPayload.answer, ac_state: { transaction_identifier: 'fresh-ac', generation_number: null } },
+            ],
+        ])('treats a null %s as unresolvable', async (_label, answer) => {
+            fetchMock.mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => (url.includes('/details') ? { answer } : messagesPayload),
+                } as any;
+            });
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            // Never emit a literal "null" generation into the hash.
+            expect(renderedSrc).not.toContain('genNo=null');
+            expect(renderedSrc).not.toContain('acGenNo=null');
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test.each([
+            ['a fractional index', '1.5'],
+            ['a negative index', '-1'],
+            ['a malformed index', 'abc'],
+            ['a trailing-junk index', '1abc'],
+        ])('%s falls back to the first answer', async (_label, value) => {
+            const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`
+                + `&${Param.TsmcpAnswerIndex}=${value}`;
+            await renderReplayFrame({}, src);
+
+            const detailsCall = fetchMock.mock.calls
+                .map(([input]: any) => (typeof input === 'string' ? input : input.url))
+                .find((url: string) => url.includes('/details'));
+            expect(detailsCall).toContain('/answers/ans_first/details');
+        });
+
         test('a frame without a conversation id makes no API calls and is unmarked', async () => {
             const { renderedSrc, frame } = await renderReplayFrame({}, TSMCP_SRC);
 
