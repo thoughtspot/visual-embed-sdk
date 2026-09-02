@@ -46,6 +46,14 @@ const LIVEBOARD_RELATED_ROUTES = [
     '/insights/liveboard/',
     '/tsl-editor/PINBOARD_ANSWER_BOOK/',
     '/import-tsl/PINBOARD_ANSWER_BOOK/',
+    // Spotter (conv-assist) routes. Without these, navigating into or within
+    // Spotter resets the frame to defaultHeight, clobbering the fullHeight
+    // layout both on initial route (the bare route has no trailing segment,
+    // e.g. "/insights/conv-assist") and again mid-stream, when the
+    // conversation gets a real id and the URL is updated to
+    // "/insights/conv-assist/s/{id}".
+    '/insights/conv-assist',
+    '/embed/insights/conv-assist',
 ];
 
 /**
