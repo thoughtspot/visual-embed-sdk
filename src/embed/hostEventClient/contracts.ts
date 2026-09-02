@@ -32,13 +32,77 @@ export interface Applicability {
   targetId?: string;
 }
 
-export interface FilterUpdate {
-  column: string;
-  oper: string;
-  values: string[];
+/**
+ * The attributes of a Liveboard filter update other than the column and
+ * operator it applies with.
+ */
+export interface FilterUpdateBase {
+  /**
+   * The list of operands. Accepts the same types as the `values` of a
+   * {@link RuntimeFilter}, widened from `string[]`.
+   * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+   */
+  values: (number | boolean | string | bigint)[];
   type?: string;
   applicability?: Applicability;
 }
+
+/**
+ * A filter passed to {@link HostEvent.UpdateFilters}.
+ *
+ * The column is named with `column` and the operator with `operator`, matching
+ * {@link RuntimeFilter}, so a filter read back from
+ * {@link HostEvent.GetFilters} can be passed to either event without renaming.
+ *
+ * The older `columnName` and `oper` still work; `column` and `operator` win
+ * when both are given.
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+ */
+export type FilterUpdate = FilterUpdateBase
+  & (
+    | {
+      /**
+       * The name of the column to filter on (case-sensitive)
+       */
+      column: string;
+      /**
+       * @deprecated Use `column` instead.
+       */
+      columnName?: string;
+    }
+    | {
+      /**
+       * @deprecated Use `column` instead.
+       */
+      columnName: string;
+      /**
+       * The name of the column to filter on (case-sensitive)
+       */
+      column?: string;
+    }
+  )
+  & (
+    | {
+      /**
+       * The operator to apply
+       */
+      operator: string;
+      /**
+       * @deprecated Use `operator` instead.
+       */
+      oper?: string;
+    }
+    | {
+      /**
+       * @deprecated Use `operator` instead.
+       */
+      oper: string;
+      /**
+       * The operator to apply
+       */
+      operator?: string;
+    }
+  );
 
 export interface LiveboardFilter {
   applicability?: Applicability;

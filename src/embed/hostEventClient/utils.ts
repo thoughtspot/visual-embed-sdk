@@ -5,7 +5,12 @@ import isUndefined from 'lodash/isUndefined';
 import { EmbedErrorCodes, EmbedEvent, ErrorDetailsTypes, HostEvent } from '../../types';
 import { ERROR_MESSAGE } from '../../errors';
 import { ApplicabilityLevel, HostEventRequest } from './contracts';
-import { embedEventStatus } from '../../utils';
+import {
+  embedEventStatus,
+  convertToLegacyFilterUpdate,
+  convertToLegacyRuntimeFilter,
+  addFilterFieldAliases,
+} from '../../utils';
 
 const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
   if (isUndefined(a)) return true;
@@ -41,6 +46,69 @@ export function isValidUpdateFiltersPayload(
   const hasValidFilters = Array.isArray(payload.filters) && payload.filters.length > 0 && payload.filters.every(isValidFilter);
 
   return !!(hasValidFilter || hasValidFilters);
+}
+
+/**
+ * Rewrites the filters in an UpdateFilters payload to the `column` spelling
+ * the embedded application expects, so callers can use either spelling.
+ * @param payload
+ */
+export function convertUpdateFiltersToLegacyFormat(
+  payload: HostEventRequest<HostEvent.UpdateFilters>,
+): HostEventRequest<HostEvent.UpdateFilters> {
+  if (!isPlainObject(payload)) return payload;
+
+  const { filter, filters } = payload;
+  return {
+    ...payload,
+    ...(filter ? { filter: convertToLegacyFilterUpdate(filter) } : {}),
+    ...(Array.isArray(filters) ? { filters: filters.map(convertToLegacyFilterUpdate) } : {}),
+  };
+}
+
+/**
+ * Rewrites an UpdateRuntimeFilters payload to the `columnName` spelling the
+ * embedded application expects, so callers can use either spelling.
+ * @param payload
+ */
+export function convertRuntimeFiltersToLegacyFormat<T>(payload: T): T {
+  if (!Array.isArray(payload)) return payload;
+
+  const filters = payload.map(convertToLegacyRuntimeFilter) as unknown as T;
+  /*
+   * LiveboardEmbed stamps vizId onto the array object itself rather than into
+   * it, so carry across every own property that is not an index.
+   */
+  Object.keys(payload)
+    .filter((key) => !(key in (filters as object)))
+    .forEach((key) => {
+      (filters as Record<string, unknown>)[key] = (payload as Record<string, unknown>)[key];
+    });
+  return filters;
+}
+
+/**
+ * Stamps both column spellings onto the filters a GetFilters response carries,
+ * so a filter read back can be passed to UpdateFilters or
+ * UpdateRuntimeFilters without renaming.
+ * @param response
+ */
+export function addGetFiltersFieldAliases<T>(response: T): T {
+  if (!isPlainObject(response)) return response;
+
+  const { liveboardFilters, runtimeFilters } = response as {
+    liveboardFilters?: unknown[];
+    runtimeFilters?: unknown[];
+  };
+  return {
+    ...response,
+    ...(Array.isArray(liveboardFilters)
+      ? { liveboardFilters: liveboardFilters.map(addFilterFieldAliases) }
+      : {}),
+    ...(Array.isArray(runtimeFilters)
+      ? { runtimeFilters: runtimeFilters.map(addFilterFieldAliases) }
+      : {}),
+  };
 }
 
 export function isValidUpdateParametersPayload(payload: unknown): boolean {

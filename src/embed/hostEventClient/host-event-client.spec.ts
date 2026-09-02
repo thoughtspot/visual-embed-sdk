@@ -311,6 +311,182 @@ describe('HostEventClient', () => {
             );
         });
 
+        it('should accept UpdateFilters written with columnName and send column', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                filters: [
+                    { columnName: 'item type', oper: 'IN', values: ['shoes', 'boots'] },
+                    { column: 'Region', oper: 'IN', values: ['West'] },
+                ],
+            } as any;
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { success: true } }]);
+
+            await client.triggerHostEvent(HostEvent.UpdateFilters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    type: UIPassthroughEvent.UpdateFilters,
+                    parameters: {
+                        filters: [
+                            { column: 'item type', oper: 'IN', values: ['shoes', 'boots'] },
+                            { column: 'Region', oper: 'IN', values: ['West'] },
+                        ],
+                    },
+                },
+                undefined,
+            );
+        });
+
+        it('should accept UpdateFilters written with operator and send oper', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                filters: [
+                    { column: 'city', operator: 'IN', values: ['atlanta'] },
+                    { column: 'Region', oper: 'ignored', operator: 'EQ', values: ['West'] },
+                ],
+            } as any;
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { success: true } }]);
+
+            await client.triggerHostEvent(HostEvent.UpdateFilters, payload);
+
+            expect(mockProcessTrigger.mock.calls[1][3].parameters).toEqual({
+                filters: [
+                    { column: 'city', oper: 'IN', values: ['atlanta'] },
+                    { column: 'Region', oper: 'EQ', values: ['West'] },
+                ],
+            });
+        });
+
+        it('should accept a single UpdateFilters filter written with columnName', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = {
+                filter: {
+                    columnName: 'item type',
+                    oper: 'IN',
+                    values: [1, true, 'boots'],
+                    applicability: { level: 'TAB', targetId: 'tab-1' },
+                },
+            } as any;
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: {} }]);
+
+            await client.triggerHostEvent(HostEvent.UpdateFilters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenNthCalledWith(
+                2,
+                mockIframe,
+                HostEvent.UIPassthrough,
+                mockThoughtSpotHost,
+                {
+                    type: UIPassthroughEvent.UpdateFilters,
+                    parameters: {
+                        filter: {
+                            column: 'item type',
+                            oper: 'IN',
+                            values: [1, true, 'boots'],
+                            applicability: { level: 'TAB', targetId: 'tab-1' },
+                        },
+                    },
+                },
+                undefined,
+            );
+        });
+
+        it('should accept UpdateRuntimeFilters written with column and send columnName', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = [
+                { column: 'state', operator: 'EQ', values: ['michigan'] },
+                { columnName: 'item type', operator: 'IN', values: ['Jackets'] },
+            ] as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.UpdateRuntimeFilters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UpdateRuntimeFilters,
+                mockThoughtSpotHost,
+                [
+                    { columnName: 'state', operator: 'EQ', values: ['michigan'] },
+                    { columnName: 'item type', operator: 'IN', values: ['Jackets'] },
+                ],
+                undefined,
+            );
+        });
+
+        it('should prefer column over the deprecated columnName', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload = [
+                { columnName: 'ignored', column: 'state', operator: 'EQ', values: [BigInt(10)] },
+            ] as any;
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.UpdateRuntimeFilters, payload);
+
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                mockIframe,
+                HostEvent.UpdateRuntimeFilters,
+                mockThoughtSpotHost,
+                [{ columnName: 'state', operator: 'EQ', values: [BigInt(10)] }],
+                undefined,
+            );
+        });
+
+        it('should keep a vizId stamped on the UpdateRuntimeFilters array itself', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            const payload: any = [{ column: 'state', operator: 'EQ', values: ['michigan'] }];
+            payload.vizId = 'viz-1';
+            mockProcessTrigger.mockResolvedValueOnce({ success: true });
+
+            await client.triggerHostEvent(HostEvent.UpdateRuntimeFilters, payload);
+
+            const sent = mockProcessTrigger.mock.calls[0][3];
+            expect(sent.vizId).toBe('viz-1');
+            expect(sent.length).toBe(1);
+            expect(sent[0]).toEqual({ columnName: 'state', operator: 'EQ', values: ['michigan'] });
+        });
+
+        it('should return GetFilters filters carrying both column spellings', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{
+                    value: {
+                        liveboardFilters: [{ column: 'Region', oper: 'IN', values: ['West'] }],
+                        runtimeFilters: [{ columnName: 'state', operator: 'EQ', values: ['michigan'] }],
+                    },
+                }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetFilters, {}) as any;
+
+            expect(result.liveboardFilters[0]).toEqual({
+                column: 'Region', columnName: 'Region', oper: 'IN', operator: 'IN', values: ['West'],
+            });
+            expect(result.runtimeFilters[0]).toEqual({
+                column: 'state', columnName: 'state', oper: 'EQ', operator: 'EQ', values: ['michigan'],
+            });
+        });
+
+        it('should leave a GetFilters entry alone when it names no column', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger
+                .mockResolvedValueOnce(mockGetAvailablePassthroughs())
+                .mockResolvedValueOnce([{ value: { liveboardFilters: [{ id: 'f1' }], runtimeFilters: [] as any[] } }]);
+
+            const result = await client.triggerHostEvent(HostEvent.GetFilters, {}) as any;
+
+            expect(result).toEqual({ liveboardFilters: [{ id: 'f1' }], runtimeFilters: [] });
+        });
+
         it('should dispatch UpdateParameters over the legacy channel', async () => {
             const { client, mockIframe } = createHostEventClient();
             const payload = [

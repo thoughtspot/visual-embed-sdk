@@ -8,6 +8,9 @@ import {
     throwUpdateFiltersValidationError,
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
+    convertUpdateFiltersToLegacyFormat,
+    convertRuntimeFiltersToLegacyFormat,
+    addGetFiltersFieldAliases,
 } from './utils';
 import {
     UIPassthroughArrayResponse,
@@ -244,7 +247,11 @@ export class HostEventClient {
       throwUpdateFiltersValidationError();
     }
 
-    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+    return this.handleHostEventWithParam(
+      UIPassthroughEvent.UpdateFilters,
+      convertUpdateFiltersToLegacyFormat(payload),
+      context as ContextType,
+    );
   }
 
   protected handleUpdateParametersEvent(
@@ -291,18 +298,28 @@ export class HostEventClient {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
 
+      // Runtime filters reach the app as `columnName`; UpdateFilters is
+      // normalised in its own handler, which also validates.
+      const data = hostEvent === HostEvent.UpdateRuntimeFilters
+          ? convertRuntimeFiltersToLegacyFormat(payload)
+          : payload;
+
       // If embedded app supports passthrough but not this event, use legacy channel
       const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
-          return this.hostEventFallback(hostEvent, payload, context) as any;
+          return this.hostEventFallback(hostEvent, data, context) as any;
       }
 
       // Custom handler (setters) > getter passthrough > legacy fallback
-      return (customHandler
-          ? customHandler(payload, context as ContextType)
+      const response = await (customHandler
+          ? customHandler(data, context as ContextType)
           : passthroughEvent
-              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, payload, context as ContextType)
-              : this.hostEventFallback(hostEvent, payload, context)
-      ) as any;
+              ? this.getDataWithPassthroughFallback(passthroughEvent, hostEvent, data, context as ContextType)
+              : this.hostEventFallback(hostEvent, data, context)
+      );
+
+      return (hostEvent === HostEvent.GetFilters
+          ? addGetFiltersFieldAliases(response)
+          : response) as any;
   }
 }
