@@ -37,6 +37,9 @@ function postIframeMessage(
 
 export const TRIGGER_TIMEOUT = 30000;
 
+export const isTriggerTimeout = (value: unknown): boolean => value instanceof Error
+    && value.message === ERROR_MESSAGE.TRIGGER_TIMED_OUT;
+
 /**
  *
  * @param iFrame

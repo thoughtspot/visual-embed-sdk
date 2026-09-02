@@ -73,7 +73,8 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { reportHostEvent } from '../utils/hostEventTelemetry';
+import { reportHostEvent, reportHostEventOutcome } from '../utils/hostEventTelemetry';
+import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -1691,7 +1692,7 @@ export class TsEmbed {
         data: TriggerPayload<PayloadT, HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
-        reportHostEvent({
+        const hostEventId = reportHostEvent({
             hostEvent: messageType,
             payload: data,
             context,
@@ -1699,6 +1700,7 @@ export class TsEmbed {
         });
 
         if (!this.isRendered) {
+            reportHostEventOutcome(hostEventId, 'render-not-called');
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
@@ -1709,6 +1711,7 @@ export class TsEmbed {
         }
 
         if (!messageType) {
+            reportHostEventOutcome(hostEventId, 'host-event-undefined');
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
@@ -1724,11 +1727,12 @@ export class TsEmbed {
             logger.debug(
                 `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
             );
+            reportHostEventOutcome(hostEventId, 'no-iframe');
             return null;
         }
 
         // send an empty object, this is needed for liveboard default handlers
-        return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
+        const triggered = this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
             (
                 err: Error & {
                     isValidationError?: boolean;
@@ -1752,6 +1756,19 @@ export class TsEmbed {
                 throw err;
             },
         );
+
+        // Observed, not chained: the promise handed back is the one the host
+        // application would have got without telemetry, so nothing reported
+        // here can change what it sees.
+        triggered.then(
+            (response) => reportHostEventOutcome(
+                hostEventId,
+                isTriggerTimeout(response) ? 'timed-out' : 'success',
+            ),
+            () => reportHostEventOutcome(hostEventId, 'error'),
+        ).catch((e) => logger.debug('Could not report host event outcome', e));
+
+        return triggered;
     }
 
     /**
