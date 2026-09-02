@@ -248,12 +248,6 @@ export class TsEmbed {
      */
     private sendConfigAsPostMessage = false;
 
-    /**
-     * Guards the initial-load configuration send so it happens once per embed,
-     * even if the container-ready callbacks are flushed more than once.
-     */
-    private hasSentInitialEmbedParams = false;
-
     private defaultHiddenActions = [Action.ReportError];
 
     private resizeObserver: ResizeObserver;
@@ -740,10 +734,8 @@ export class TsEmbed {
         const authInitHandler = this.createEmbedContainerHandler(EmbedEvent.AuthInit);
         this.on(EmbedEvent.AuthInit, authInitHandler, { start: false }, true);
         this.on(EmbedEvent.RefreshAuthToken, this.tokenRefresh, { start: false }, true);
-        if (this.sendConfigAsPostMessage && !this.isPreRenderEmbed()) {
+        if (this.sendConfigAsPostMessage) {
             this.executeAfterEmbedContainerLoaded(() => {
-                if (this.hasSentInitialEmbedParams) return;
-                this.hasSentInitialEmbedParams = true;
                 this.sendEmbedParamsOverPostMessage();
             });
         }
@@ -2085,10 +2077,6 @@ export class TsEmbed {
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
         this.executeAfterEmbedContainerLoaded(() => {
-            // The pre-render path owns configuration delivery for this embed,
-            // so mark the initial send as done to keep the two paths from
-            // pushing the same payload back to back.
-            this.hasSentInitialEmbedParams = true;
             this.sendEmbedParamsOverPostMessage();
         });
     }
