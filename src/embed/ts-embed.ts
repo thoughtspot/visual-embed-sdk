@@ -2024,7 +2024,6 @@ export class TsEmbed {
                 const params = await this.getUpdateEmbedParamsObject();
                 this.trigger(HostEvent.UpdateEmbedParams, params);
                 this.reconcileRuntimeParams();
-
             } catch (error) {
                 logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                 this.handleError({
@@ -2037,24 +2036,29 @@ export class TsEmbed {
         });
     }
 
+    /**
+     * Re-applies the runtime filters after `UpdateEmbedParams`, so that a shared
+     * pre-render does not keep the filters of the config that used it last.
+     * When the new config has no filters, the previous config's filters are sent
+     * back with empty values, which is what actually resets them.
+     */
     protected reconcileRuntimeParams() {
         if (this.viewConfig.runtimeFilters) {
             this.trigger(HostEvent.UpdateRuntimeFilters, this.viewConfig.runtimeFilters);
             return;
         }
 
-        const prevPreRenderConfigs = this.getPreRenderObj();
-        if (!prevPreRenderConfigs) return;
-        if (prevPreRenderConfigs.viewConfig.runtimeFilters) {
-            this.trigger(
-                HostEvent.UpdateRuntimeFilters,
-                prevPreRenderConfigs.viewConfig.runtimeFilters.map((filter) => 
-                    ({
-                        ...filter,
-                        values: []
-                    })
-            ));
-        }
+        // getPreRenderObj() reads an untyped property off the wrapper node, so
+        // neither the object nor its viewConfig is guaranteed to be there.
+        const prevRuntimeFilters = this.getPreRenderObj()?.viewConfig?.runtimeFilters;
+        if (!prevRuntimeFilters) return;
+        this.trigger(
+            HostEvent.UpdateRuntimeFilters,
+            prevRuntimeFilters.map((filter) => ({
+                ...filter,
+                values: [],
+            })),
+        );
     }
 
     /**
