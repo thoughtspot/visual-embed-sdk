@@ -113,6 +113,54 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with the verification button hidden', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            showSpotterVerificationButton: false,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&showSpotterVerificationButton=false#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should render the conversation embed with the verification button explicitly shown', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            showSpotterVerificationButton: true,
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&showSpotterVerificationButton=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should not add showSpotterVerificationButton to the url when it is not set', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        const url = new URL(getIFrameSrc());
+        expect(url.searchParams.has(Param.ShowSpotterVerificationButton)).toBe(false);
+    });
+
     it('should render the conversation embed with sample questions hidden', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
