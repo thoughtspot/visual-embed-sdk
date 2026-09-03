@@ -2023,6 +2023,8 @@ export class TsEmbed {
             try {
                 const params = await this.getUpdateEmbedParamsObject();
                 this.trigger(HostEvent.UpdateEmbedParams, params);
+                this.reconcileRuntimeParams();
+
             } catch (error) {
                 logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                 this.handleError({
@@ -2033,6 +2035,23 @@ export class TsEmbed {
                 });
             }
         });
+    }
+
+    protected reconcileRuntimeParams() {
+        if (this.viewConfig.runtimeFilters) {
+            this.trigger(HostEvent.UpdateRuntimeFilters, this.viewConfig.runtimeFilters);
+            return;
+        }
+
+        const prevPreRenderConfigs = this.getPreRenderObj();
+        if (prevPreRenderConfigs.viewConfig.runtimeFilters) {
+            this.trigger(HostEvent.UpdateRuntimeFilters, prevPreRenderConfigs.viewConfig.runtimeFilters.map((filter) => {
+                return {
+                    ...filter,
+                    values: []
+                }
+            }));
+        }
     }
 
     /**
