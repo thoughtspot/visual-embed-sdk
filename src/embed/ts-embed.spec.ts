@@ -3594,13 +3594,13 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
 
-            it('should use preRenderConfig.preRenderId to identify the pre-render instance', async () => {
+            it('should use preRenderConfig.id to identify the pre-render instance', async () => {
                 createRootEleForEmbed();
 
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                     liveboardId: 'myLiveboardId',
                     preRenderConfig: {
-                        preRenderId: 'config-level-id',
+                        id: 'config-level-id',
                     },
                 });
 
@@ -3614,14 +3614,14 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
 
-            it('should prefer preRenderConfig.preRenderId over top-level preRenderId', async () => {
+            it('should prefer preRenderConfig.id over top-level preRenderId', async () => {
                 createRootEleForEmbed();
 
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                     liveboardId: 'myLiveboardId',
                     preRenderId: 'top-level-id',
                     preRenderConfig: {
-                        preRenderId: 'config-level-id',
+                        id: 'config-level-id',
                     },
                 });
 
@@ -3635,7 +3635,7 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
 
-            it('should mount the wrapper into preRenderConfig.preRenderContainer', async () => {
+            it('should mount the wrapper into preRenderConfig.containerSelector', async () => {
                 createRootEleForEmbed();
                 const customContainer = document.createElement('div');
                 customContainer.id = 'config-level-container';
@@ -3644,8 +3644,8 @@ describe('Unit test case for ts embed', () => {
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                     liveboardId: 'myLiveboardId',
                     preRenderConfig: {
-                        preRenderId: 'container-via-config',
-                        preRenderContainer: '#config-level-container',
+                        id: 'container-via-config',
+                        containerSelector: '#config-level-container',
                     },
                 });
 
@@ -3660,7 +3660,7 @@ describe('Unit test case for ts embed', () => {
                 customContainer.remove();
             });
 
-            it('should prefer preRenderConfig.preRenderContainer over top-level preRenderContainer', async () => {
+            it('should prefer preRenderConfig.containerSelector over top-level preRenderContainer', async () => {
                 createRootEleForEmbed();
                 const topContainer = document.createElement('div');
                 topContainer.id = 'top-level-container';
@@ -3673,8 +3673,8 @@ describe('Unit test case for ts embed', () => {
                     liveboardId: 'myLiveboardId',
                     preRenderContainer: '#top-level-container',
                     preRenderConfig: {
-                        preRenderId: 'container-precedence',
-                        preRenderContainer: '#config-level-container-2',
+                        id: 'container-precedence',
+                        containerSelector: '#config-level-container-2',
                     },
                 });
 
@@ -3691,7 +3691,7 @@ describe('Unit test case for ts embed', () => {
                 configContainer.remove();
             });
 
-            it('should not attach ResizeObserver when preRenderConfig.doNotTrackPreRenderSize is true', async () => {
+            it('should not attach ResizeObserver when preRenderConfig.doNotTrackSize is true', async () => {
                 createRootEleForEmbed();
                 const observeMock = jest.fn();
                 (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -3703,8 +3703,8 @@ describe('Unit test case for ts embed', () => {
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                     liveboardId: 'myLiveboardId',
                     preRenderConfig: {
-                        preRenderId: 'no-track-via-config',
-                        doNotTrackPreRenderSize: true,
+                        id: 'no-track-via-config',
+                        doNotTrackSize: true,
                     },
                 });
 
@@ -3717,7 +3717,7 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
 
-            it('should prefer preRenderConfig.doNotTrackPreRenderSize over top-level doNotTrackPreRenderSize', async () => {
+            it('should prefer preRenderConfig.doNotTrackSize over top-level doNotTrackPreRenderSize', async () => {
                 createRootEleForEmbed();
                 const observeMock = jest.fn();
                 (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -3730,8 +3730,8 @@ describe('Unit test case for ts embed', () => {
                     liveboardId: 'myLiveboardId',
                     doNotTrackPreRenderSize: false,
                     preRenderConfig: {
-                        preRenderId: 'no-track-precedence',
-                        doNotTrackPreRenderSize: true,
+                        id: 'no-track-precedence',
+                        doNotTrackSize: true,
                     },
                 });
 

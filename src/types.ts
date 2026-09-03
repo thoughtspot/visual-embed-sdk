@@ -899,9 +899,11 @@ export interface FrameParams {
 
 /**
  * Configuration for the pre-render wrapper element.
- * All properties here mirror the top-level preRender properties on
- * {@link BaseViewConfig} and take precedence over them when both are set,
- * so existing top-level usage continues to work without any changes.
+ * Each property here supersedes its deprecated top-level counterpart on
+ * {@link BaseViewConfig} — `id` over `preRenderId`, `containerSelector` over
+ * `preRenderContainer` and `doNotTrackSize` over `doNotTrackPreRenderSize` —
+ * and takes precedence when both are set, so existing top-level usage continues
+ * to work without any changes.
  *
  * @version SDK: 1.52.0
  * @example
@@ -909,9 +911,9 @@ export interface FrameParams {
  * init({ thoughtSpotHost: '...', authType: AuthType.None });
  * const embed = new LiveboardEmbed('#tsEmbed', {
  *   preRenderConfig: {
- *     preRenderId: 'my-liveboard',
- *     preRenderContainer: '#my-scroll-container',
- *     doNotTrackPreRenderSize: false,
+ *     id: 'my-liveboard',
+ *     containerSelector: '#my-scroll-container',
+ *     doNotTrackSize: false,
  *     zIndex: -10,
  *   },
  * });
@@ -932,7 +934,7 @@ export interface PreRenderConfig {
      *
      * @default undefined
      */
-    preRenderId?: string;
+    id?: string;
     /**
      * The DOM element or CSS selector string specifying the container into
      * which the pre-rendered wrapper is inserted.
@@ -948,7 +950,7 @@ export interface PreRenderConfig {
      *
      * @default document.body
      */
-    preRenderContainer?: string | HTMLElement;
+    containerSelector?: string | HTMLElement;
     /**
      * Disables the `ResizeObserver` that keeps the wrapper sized to the
      * placeholder element.
@@ -960,7 +962,7 @@ export interface PreRenderConfig {
      *
      * @default false
      */
-    doNotTrackPreRenderSize?: boolean;
+    doNotTrackSize?: boolean;
     /**
      * CSS `z-index` value applied to the pre-render wrapper when hidden.
      * Override this when the host page's stacking context does not reach `-1000`
@@ -1167,7 +1169,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl, 9.8.0.sw
-     * @deprecated Use {@link PreRenderConfig.preRenderId} via `preRenderConfig` instead.
+     * @deprecated Use {@link PreRenderConfig.id} via `preRenderConfig` instead.
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
@@ -1188,7 +1190,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * @type {boolean}
      * @default false
      * @version SDK: 1.24.0 | ThoughtSpot: 9.4.0.cl, 9.4.0.sw
-     * @deprecated Use {@link PreRenderConfig.doNotTrackPreRenderSize} via `preRenderConfig` instead.
+     * @deprecated Use {@link PreRenderConfig.doNotTrackSize} via `preRenderConfig` instead.
      * @example
      * ```js
      * // Disable tracking PreRender size in the configuration
@@ -1230,7 +1232,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *
      * @type {string | HTMLElement}
      * @version SDK: 1.49.2 | ThoughtSpot: *
-     * @deprecated Use {@link PreRenderConfig.preRenderContainer} via `preRenderConfig` instead.
+     * @deprecated Use {@link PreRenderConfig.containerSelector} via `preRenderConfig` instead.
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -1243,9 +1245,11 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     preRenderContainer?: string | HTMLElement;
     /**
      * Configuration for the pre-render wrapper element.
-     * All properties here mirror the top-level preRender properties on
-     * `BaseViewConfig` and take precedence over them when both are set,
-     * so existing top-level usage continues to work without any changes.
+     * Each property here supersedes its deprecated top-level counterpart on
+     * `BaseViewConfig` — `id` over `preRenderId`, `containerSelector` over
+     * `preRenderContainer` and `doNotTrackSize` over `doNotTrackPreRenderSize` —
+     * and takes precedence when both are set, so existing top-level usage
+     * continues to work without any changes.
      * See {@link PreRenderConfig} for available options.
      *
      * @version SDK: 1.52.0
@@ -1253,7 +1257,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *   preRenderConfig: {
-     *     preRenderId: 'my-liveboard',
+     *     id: 'my-liveboard',
      *     zIndex: -10,
      *   },
      * });
