@@ -2044,13 +2044,16 @@ export class TsEmbed {
         }
 
         const prevPreRenderConfigs = this.getPreRenderObj();
+        if (!prevPreRenderConfigs) return;
         if (prevPreRenderConfigs.viewConfig.runtimeFilters) {
-            this.trigger(HostEvent.UpdateRuntimeFilters, prevPreRenderConfigs.viewConfig.runtimeFilters.map((filter) => {
-                return {
-                    ...filter,
-                    values: []
-                }
-            }));
+            this.trigger(
+                HostEvent.UpdateRuntimeFilters,
+                prevPreRenderConfigs.viewConfig.runtimeFilters.map((filter) => 
+                    ({
+                        ...filter,
+                        values: []
+                    })
+            ));
         }
     }
 
