@@ -5269,16 +5269,6 @@ describe('Additional Coverage Tests', () => {
         });
     });
 
-    test('should test getIframeCenter calculation', async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-        await searchEmbed.render();
-        await executeAfterWait(() => {
-            const center = searchEmbed['getIframeCenter']();
-            expect(center).toHaveProperty('iframeCenter');
-            expect(center).toHaveProperty('iframeHeight');
-            expect(center).toHaveProperty('viewPortHeight');
-        });
-    });
 
     test('should handle preRender with replaceExistingPreRender=true', async () => {
         createRootEleForEmbed();
@@ -6250,6 +6240,152 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
             expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
                 .toEqual([false, true, true]);
+        });
+    });
+});
+
+describe('sendConfigAsPostMessage', () => {
+    const lbConfig = {
+        liveboardId,
+        hiddenActions: [Action.Download],
+        additionalFlags: { internalBlinkFlag: true },
+        liveboardV2: true,
+    };
+
+    const renderAndGetSrc = async (viewConfig: any) => {
+        const embed = new LiveboardEmbed(getRootEl(), { ...defaultViewConfig, ...viewConfig });
+        await embed.render();
+        await waitFor(() => !!getIFrameEl());
+        return { embed, src: getIFrameSrc() };
+    };
+
+    const signalFrameReady = () => {
+        postMessageToParent(getIFrameEl().contentWindow, {
+            type: EmbedEvent.EmbedListenerReady,
+        });
+    };
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+        mockProcessTrigger.mockReset();
+        mockProcessTrigger.mockResolvedValue({});
+        init({
+            thoughtSpotHost,
+            authType: AuthType.None,
+        });
+    });
+
+    test('leaves the URL untouched when the flag is not set', async () => {
+        const { src } = await renderAndGetSrc(lbConfig);
+
+        expect(src).toContain('hideAction=');
+        expect(src).toContain('internalBlinkFlag=true');
+        expect(src).toContain('isPinboardV2Enabled=true');
+    });
+
+    test('keeps only the bootstrap params on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+
+        // Boot and auth handshake stays on the URL.
+        expect(src).toContain('hostAppUrl=');
+        expect(src).toContain(`authType=${AuthType.None}`);
+        expect(src).toContain(`sdkVersion=${version}`);
+        expect(src).toContain('blockNonEmbedFullAppAccess=true');
+        expect(src).toContain('viewPortHeight=');
+
+        // View configuration and internal flags do not.
+        expect(src).not.toContain('hideAction=');
+        expect(src).not.toContain('internalBlinkFlag');
+        expect(src).not.toContain('isPinboardV2Enabled');
+        expect(src).not.toContain('enableDataPanelV2');
+    });
+
+    test('keeps the deep-link route on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+
+        expect(src).toContain(`/embed/viz/${liveboardId}`);
+    });
+
+    test('sends the full config over UpdateEmbedParams once the frame is ready', async () => {
+        await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId,
+                    hiddenActions: [Action.Download],
+                    internalBlinkFlag: true,
+                    [Param.HideActions]: expect.arrayContaining([Action.Download]),
+                }),
+                undefined,
+            );
+        });
+    });
+
+    test('sends UpdateEmbedParams exactly once for a plain embed', async () => {
+        await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+
+        signalFrameReady();
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(1);
+        });
+    });
+
+    test('does not send UpdateEmbedParams when the flag is not set', async () => {
+        await renderAndGetSrc(lbConfig);
+
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(0);
+        });
+    });
+
+    test('does not double-send for a pre-rendered embed that is shown', async () => {
+        mockMessageChannel();
+        (window as any).ResizeObserver =
+            window.ResizeObserver ||
+            jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            ...lbConfig,
+            preRenderId: 'send-config-post-message',
+            sendConfigAsPostMessage: true,
+        });
+        await embed.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        signalFrameReady();
+        await executeAfterWait(() => {
+            expect(embed.isEmbedContainerLoaded).toBe(true);
+        });
+
+        mockProcessTrigger.mockClear();
+        await embed.showPreRender();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(1);
         });
     });
 });

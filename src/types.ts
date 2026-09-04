@@ -1669,6 +1669,44 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     useHostEventsV2?: boolean;
+
+    /**
+     * Send the embed configuration to the ThoughtSpot application over
+     * postMessage (`HostEvent.UpdateEmbedParams`) as soon as the iframe signals
+     * that it is ready, instead of encoding it into the iframe `src`.
+     *
+     * Only the parameters needed to boot and authenticate the frame are kept on
+     * the URL: the embed marker, the host application URL, the SDK version, the
+     * authentication flags, the viewport size, the log level, the locale and
+     * formatting options, and the org override. Everything else - hidden and
+     * visible actions, hidden and visible tabs, data sources, customizations
+     * and `additionalFlags` - travels over postMessage.
+     *
+     * Use this to keep configuration out of the DOM and to keep the iframe URL
+     * short. Note two consequences before you turn it on:
+     * - The application briefly renders before the configuration arrives, so a
+     *   flag that changes the initial layout can be applied a frame late.
+     * - The cluster must support `HostEvent.UpdateEmbedParams`. On a cluster
+     *   that ignores it, the embed renders with default configuration.
+     *
+     * Runtime filters and parameters are not affected by this flag. They are
+     * already kept off the URL by `excludeRuntimeFiltersfromURL` and
+     * `excludeRuntimeParametersfromURL`, which both default to `true`.
+     *
+     * For a pre-rendered embed, the configuration is delivered by the existing
+     * pre-render path when `showPreRender()` is called, so the pre-rendered
+     * frame stays unconfigured while it warms up in the background.
+     * @default false
+     * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    sendConfigAsPostMessage: true,
+     * });
+     * ```
+     */
+    sendConfigAsPostMessage?: boolean;
 }
 
 /**
@@ -10029,4 +10067,165 @@ export interface VisualizationOverrides {
     chart?: ChartOverrides;
     /** Table visualization overrides */
     table?: TableOverrides;
+}
+
+/**
+ * The configuration object for the full-height behavior shared by the
+ * Liveboard and app embeds.
+ *
+ * When `fullHeight` is enabled the SDK resizes the embed container to match the
+ * height reported by the ThoughtSpot app, and — when lazy loading is also
+ * enabled — keeps the app informed of the portion of the embed that is
+ * currently visible so that visualizations load on demand.
+ */
+export interface FullHeightViewConfig {
+    /**
+     * If set to true, the embedded object container dynamically resizes
+     * according to the height of the Liveboard.
+     *
+     * **Note**:  Using fullHeight loads all visualizations on the
+     * Liveboard simultaneously, which results in multiple warehouse
+     * queries and potentially a longer wait for the topmost
+     * visualizations to display on the screen.
+     * Setting `fullHeight` to `false` fetches visualizations
+     * incrementally as users scroll the page to view the charts and tables.
+     *
+     * From SDK 1.52.0, enabling `fullHeight` also turns on
+     * {@link lazyLoadingForFullHeight} and
+     * {@link enableScrollableContainerLazyLoading}, so visualizations load as
+     * they scroll into view. Set either flag to `false` to opt out.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with the embed component name.
+     * // For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed', {
+     *   ... // other view config
+     *   fullHeight: true,
+     * });
+     * ```
+     */
+    fullHeight?: boolean;
+    /**
+     * This is the minimum height (in pixels) for a full-height Liveboard.
+     * Setting this height helps resolve issues with empty Liveboards and
+     * other screens navigable from a Liveboard.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
+     * @default 500
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with the embed component name.
+     * // For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed', {
+     *   ... // other view config
+     *   fullHeight: true,
+     *   minimumHeight: 600,
+     * });
+     * ```
+     */
+    minimumHeight?: number;
+    /**
+     * This is the minimum height (in pixels) for a full-height Liveboard.
+     * Setting this height helps resolve issues with empty Liveboards and
+     * other screens navigable from a Liveboard.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
+     * @deprecated Use `minimumHeight` instead.
+     * @default 500
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with the embed component name.
+     * // For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed', {
+     *   ... // other view config
+     *   fullHeight: true,
+     *   defaultHeight: 600,
+     * });
+     * ```
+     */
+    defaultHeight?: number;
+    /**
+     * Loads visualizations only as they scroll into the viewport, instead of
+     * loading the whole full-height Liveboard at once.
+     *
+     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
+     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
+     * set explicitly. Set it to `false` to load every visualization upfront.
+     * The flag has no effect unless `fullHeight` is enabled.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @type {boolean}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+     * @default true when `fullHeight` is enabled, from SDK 1.52.0
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with the embed component name.
+     * // For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     * })
+     * ```
+     */
+    lazyLoadingForFullHeight?: boolean;
+    /**
+     * How far outside the viewport a visualization starts loading, when
+     * {@link lazyLoadingForFullHeight} is enabled.
+     *
+     * For example, if the margin is set to '10px',
+     * the visualization will be loaded 10px before its top edge is visible in the
+     * viewport.
+     *
+     * The format is similar to CSS margin, so `'500px 0px'` extends the
+     * prefetch 500px above and below the viewport and not sideways. Accepted
+     * units are `px`, `em`, `rem`, `%`, `vh` and `vw`, plus bare `0` and
+     * `auto`; an invalid value is logged and ignored.
+     *
+     * From SDK 1.52.0 this defaults to `'500px 0px'` — roughly one
+     * visualization ahead of the scroll position, so a chart has usually
+     * finished loading by the time it scrolls into view. Use a smaller margin
+     * to cut warehouse queries further, or `'0px'` to load a visualization
+     * only once it is actually visible.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @type {string}
+     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
+     * @default '500px 0px' when `fullHeight` is enabled, from SDK 1.52.0
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with the embed component name.
+     * // For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#embed-container', {
+     *    // ...other options
+     *    fullHeight: true,
+     *    lazyLoadingForFullHeight: true,
+     *    // With 0px, the visualization only starts loading once it is
+     *    // visible in the viewport.
+     *    lazyLoadingMargin: '0px',
+     * })
+     * ```
+     */
+    lazyLoadingMargin?: string;
+    /**
+     * Computes the visible region of the embed against its scrollable and
+     * clipping ancestors, instead of treating the browser window as the only
+     * viewport, and tracks scroll and resize on those ancestors.
+     *
+     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
+     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
+     * set explicitly. Set it to `false` when the page scrolls with the window
+     * and the embed has no clipping ancestor, to skip the extra ancestor
+     * tracking.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @type {boolean}
+     * @default true when `fullHeight` is enabled, from SDK 1.52.0
+     */
+    enableScrollableContainerLazyLoading?: boolean;
 }

@@ -526,7 +526,7 @@ export class SearchEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             excludeRuntimeFiltersfromURL,
         } = this.viewConfig;
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
         if (queryParamsString) {
