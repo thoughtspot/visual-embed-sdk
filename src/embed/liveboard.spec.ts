@@ -1000,6 +1000,40 @@ describe('Liveboard/viz embed tests', () => {
         expect(spySetIFrameHeight).toHaveBeenCalled();
     });
 
+    test('should not call setIFrameHeight if currentPath is the bare Spotter landing route "/insights/conv-assist"', () => {
+        const myObject = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            liveboardId,
+        } as LiveboardViewConfig) as any;
+        const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
+
+        myObject.render();
+        myObject.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: '/insights/conv-assist' },
+            type: 'Route',
+        });
+
+        expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    });
+
+    test('should not call setIFrameHeight if currentPath starts with "/embed/insights/conv-assist/s/" (conversation id set mid-stream)', () => {
+        const myObject = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            fullHeight: true,
+            liveboardId,
+        } as LiveboardViewConfig) as any;
+        const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
+
+        myObject.render();
+        myObject.setIframeHeightForNonEmbedLiveboard({
+            data: { currentPath: '/embed/insights/conv-assist/s/abc123' },
+            type: 'Route',
+        });
+
+        expect(spySetIFrameHeight).not.toHaveBeenCalled();
+    });
+
     test('Should set the visible vizs', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
