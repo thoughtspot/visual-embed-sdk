@@ -543,25 +543,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     showSpotterLimitations?: boolean;
     /**
-     * showSpotterVerificationButton : show the answer-verification
-     * ("View explanation") button on Spotter answers in the embedded view.
-     * Only relevant when Answer Verification is enabled on the cluster;
-     * pass false to keep the standard answer footer actions instead.
-     * Can be toggled at runtime with `HostEvent.UpdateEmbedParams`.
-     *
-     * Supported embed types: `SpotterEmbed`
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
-     * @default true
-     * @example
-     * ```js
-     * const embed = new SpotterEmbed('#tsEmbed', {
-     *    ... //other embed view config
-     *    showSpotterVerificationButton: false,
-     * })
-     * ```
-     */
-    showSpotterVerificationButton?: boolean;
-    /**
      * hideSampleQuestions : Hide sample questions on
      * the initial screen of the conversation.
      *
@@ -880,7 +861,6 @@ export class SpotterEmbed extends TsEmbed {
             dataPanelV2,
             updatedSpotterExperience,
             showSpotterLimitations,
-            showSpotterVerificationButton,
             hideSampleQuestions,
             runtimeFilters,
             excludeRuntimeFiltersfromURL,
@@ -902,7 +882,6 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.HideSourceSelection, hideSourceSelection, true);
         setParamIfDefined(queryParams, Param.DataPanelV2Enabled, dataPanelV2, true);
         setParamIfDefined(queryParams, Param.ShowSpotterLimitations, showSpotterLimitations, true);
-        setParamIfDefined(queryParams, Param.ShowSpotterVerificationButton, showSpotterVerificationButton, true);
         setParamIfDefined(queryParams, Param.HideSampleQuestions, hideSampleQuestions, true);
         setParamIfDefined(queryParams, Param.UpdatedSpotterChatPrompt, updatedSpotterChatPrompt, true);
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
