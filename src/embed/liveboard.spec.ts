@@ -1335,12 +1335,12 @@ describe('Liveboard/viz embed tests', () => {
         }, 1002);
     });
 
-    test('navigateToLiveboard should call preRender when preRenderConfig.preRenderId is set', () => {
+    test('navigateToLiveboard should call preRender when preRenderConfig.id is set', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
             preRenderConfig: {
-                preRenderId: 'config-pre-render-id',
+                id: 'config-pre-render-id',
             },
         } as LiveboardViewConfig);
 
@@ -1353,13 +1353,13 @@ describe('Liveboard/viz embed tests', () => {
         expect(preRenderSpy).toHaveBeenCalledWith(true);
     });
 
-    test('navigateToLiveboard should prefer preRenderConfig.preRenderId over top-level preRenderId', () => {
+    test('navigateToLiveboard should prefer preRenderConfig.id over top-level preRenderId', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
             preRenderId: 'top-level-id',
             preRenderConfig: {
-                preRenderId: 'config-level-id',
+                id: 'config-level-id',
             },
         } as LiveboardViewConfig);
 
