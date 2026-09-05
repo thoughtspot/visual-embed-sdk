@@ -151,7 +151,7 @@ export interface SpotterVizAppInitData {
 
 /**
  * Builds the `spotterVizConfig` fragment of the APP_INIT payload so the app can
- * read the SpotterViz branding overrides on initialisation.
+ * read the SpotterViz branding overrides on initialization.
  *
  * Returns an empty fragment when `spotterViz` is not set on the view config.
  * @param viewConfig View config the SpotterViz options are read from.

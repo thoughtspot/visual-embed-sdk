@@ -830,7 +830,7 @@ export class SpotterEmbed extends TsEmbed {
 
     /**
      * Extends the default APP_INIT payload with `spotterSidebarConfig` so the
-     * conv-assist app can read sidebar configuration on initialisation.
+     * conv-assist app can read sidebar configuration on initialization.
      *
      * Precedence for `enablePastConversationsSidebar`:
      * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the

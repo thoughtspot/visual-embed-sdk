@@ -78,7 +78,7 @@ const validateSpotterDocumentationUrl = (
 
 /**
  * Builds the `spotterSidebarConfig` and `visualOverridesParams` fragment of the
- * APP_INIT payload so the conv-assist app can read them on initialisation.
+ * APP_INIT payload so the conv-assist app can read them on initialization.
  *
  * Precedence for `enablePastConversationsSidebar`:
  * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the deprecated
@@ -121,7 +121,7 @@ export function buildSpotterSidebarAppInitData(
 
 /**
  * Builds the `spotterShareConversationConfig` fragment of the APP_INIT payload
- * so the app can read the share conversation options on initialisation.
+ * so the app can read the share conversation options on initialization.
  *
  * Returns an empty fragment when the config is not set on the view config.
  * @param viewConfig View config the share conversation options are read from.
@@ -137,7 +137,7 @@ export function buildSpotterShareConversationAppInitData(
 
 /**
  * Builds the `starterPrompts` fragment of the APP_INIT payload so the app can
- * read the starter prompt categories on initialisation.
+ * read the starter prompt categories on initialization.
  *
  * Returns an empty fragment when `spotterChatConfig.starterPrompts` is not set
  * on the view config.
