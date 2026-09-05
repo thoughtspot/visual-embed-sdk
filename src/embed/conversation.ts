@@ -796,12 +796,10 @@ export interface ConversationViewConfig extends SpotterEmbedViewConfig {}
  * @internal
  */
 export interface SpotterAppInitData extends DefaultAppInitData {
-    embedParams?: {
-        spotterSidebarConfig?: SpotterSidebarViewConfig;
-        spotterShareConversationConfig?: SpotterShareConversationConfig;
-        visualOverridesParams?: VisualizationOverrides | null;
-        starterPrompts?: StarterPromptsConfig;
-    };
+    spotterSidebarConfig?: SpotterSidebarViewConfig;
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    visualOverridesParams?: VisualizationOverrides | null;
+    starterPrompts?: StarterPromptsConfig;
 }
 
 /**
@@ -831,8 +829,8 @@ export class SpotterEmbed extends TsEmbed {
     }
 
     /**
-     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
-     * so the conv-assist app can read sidebar configuration on initialisation.
+     * Extends the default APP_INIT payload with `spotterSidebarConfig` so the
+     * conv-assist app can read sidebar configuration on initialization.
      *
      * Precedence for `enablePastConversationsSidebar`:
      * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
@@ -844,13 +842,15 @@ export class SpotterEmbed extends TsEmbed {
      */
     protected async getAppInitData(): Promise<SpotterAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const sidebarInitData = buildSpotterSidebarAppInitData(
-            defaultAppInitData,
-            this.viewConfig,
-            this.handleError.bind(this),
-        );
-        const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+
+        const baseConversationInitData = {
+            ...defaultAppInitData,
+            ...buildSpotterSidebarAppInitData(this.viewConfig, this.handleError.bind(this)),
+            ...buildSpotterShareConversationAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+        };
+
+        return baseConversationInitData;
     }
 
     protected getEmbedParamsObject() {

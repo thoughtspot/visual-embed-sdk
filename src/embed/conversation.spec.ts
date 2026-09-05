@@ -678,7 +678,7 @@ describe('ConversationEmbed', () => {
 
 });
 
-describe('SpotterEmbed APP_INIT embedParams', () => {
+describe('SpotterEmbed APP_INIT payload', () => {
     const mockEmbedEventPayload = { type: EmbedEvent.APP_INIT, data: {} };
 
     async function getAppInitResponse(viewConfig: SpotterEmbedViewConfig) {
@@ -692,7 +692,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         return mockPort.postMessage.mock.calls[0]?.[0];
     }
 
-    it('should include spotterSidebarConfig in embedParams when spotterSidebarConfig is provided', async () => {
+    it('should include spotterSidebarConfig in APP_INIT when spotterSidebarConfig is provided', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterSidebarConfig: {
@@ -701,7 +701,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
                 spotterSidebarDefaultExpanded: true,
             },
         });
-        expect(response.data.embedParams.spotterSidebarConfig).toEqual({
+        expect(response.data.spotterSidebarConfig).toEqual({
             enablePastConversationsSidebar: true,
             spotterSidebarTitle: 'My Conversations',
             spotterSidebarDefaultExpanded: true,
@@ -722,7 +722,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
             },
         });
         expect(
-            response.data.embedParams.spotterSidebarConfig.spotterChatPinConfig,
+            response.data.spotterSidebarConfig.spotterChatPinConfig,
         ).toEqual(spotterChatPinConfig);
     });
 
@@ -731,7 +731,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
             worksheetId: 'ws1',
             enablePastConversationsSidebar: true,
         });
-        expect(response.data.embedParams.spotterSidebarConfig).toEqual({
+        expect(response.data.spotterSidebarConfig).toEqual({
             enablePastConversationsSidebar: true,
         });
     });
@@ -745,8 +745,8 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
                 spotterSidebarTitle: 'Chats',
             },
         });
-        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
-        expect(response.data.embedParams.spotterSidebarConfig.spotterSidebarTitle).toBe('Chats');
+        expect(response.data.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.spotterSidebarConfig.spotterSidebarTitle).toBe('Chats');
     });
 
     it('should fall back to deprecated standalone flag when spotterSidebarConfig omits enablePastConversationsSidebar', async () => {
@@ -757,36 +757,37 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
                 spotterSidebarTitle: 'My Chats',
             },
         });
-        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
-        expect(response.data.embedParams.spotterSidebarConfig.spotterSidebarTitle).toBe('My Chats');
+        expect(response.data.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.spotterSidebarConfig.spotterSidebarTitle).toBe('My Chats');
     });
 
-    it('should not include embedParams when neither spotterSidebarConfig nor standalone flag is set', async () => {
+    it('should not include spotterSidebarConfig when neither it nor the standalone flag is set', async () => {
         const response = await getAppInitResponse({ worksheetId: 'ws1' });
-        expect(response.data.embedParams).toBeUndefined();
+        expect(response.data.spotterSidebarConfig).toBeUndefined();
+        expect(response.data.visualOverridesParams).toBeUndefined();
     });
 
-    it('should include spotterAnalystLabel in embedParams.spotterSidebarConfig when set', async () => {
+    it('should include spotterAnalystLabel in spotterSidebarConfig when set', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterSidebarConfig: {
                 spotterAnalystLabel: 'My Analyst',
             },
         });
-        expect(response.data.embedParams.spotterSidebarConfig.spotterAnalystLabel).toBe('My Analyst');
+        expect(response.data.spotterSidebarConfig.spotterAnalystLabel).toBe('My Analyst');
     });
 
-    it('should include spotterAnalystsLabel in embedParams.spotterSidebarConfig when set', async () => {
+    it('should include spotterAnalystsLabel in spotterSidebarConfig when set', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterSidebarConfig: {
                 spotterAnalystsLabel: 'My Analysts',
             },
         });
-        expect(response.data.embedParams.spotterSidebarConfig.spotterAnalystsLabel).toBe('My Analysts');
+        expect(response.data.spotterSidebarConfig.spotterAnalystsLabel).toBe('My Analysts');
     });
 
-    it('should call handleError and exclude spotterDocumentationUrl from embedParams when URL is invalid', async () => {
+    it('should call handleError and exclude spotterDocumentationUrl from APP_INIT when URL is invalid', async () => {
         const embed = new SpotterEmbed(getRootEl(), {
             worksheetId: 'ws1',
             spotterSidebarConfig: { spotterDocumentationUrl: 'invalid-url' },
@@ -805,20 +806,20 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
                 code: EmbedErrorCodes.INVALID_URL,
             }),
         );
-        expect(mockPort.postMessage.mock.calls[0]?.[0].data.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
+        expect(mockPort.postMessage.mock.calls[0]?.[0].data?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
     });
 
-    it('should include spotterShareConversationConfig in embedParams when provided', async () => {
+    it('should include spotterShareConversationConfig in APP_INIT when provided', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterShareConversationConfig: { enableShareConversation: true },
         });
-        expect(response.data.embedParams.spotterShareConversationConfig).toEqual({
+        expect(response.data.spotterShareConversationConfig).toEqual({
             enableShareConversation: true,
         });
     });
 
-    it('should pass spotterShareConversationConfig label overrides through embedParams', async () => {
+    it('should pass spotterShareConversationConfig label overrides through APP_INIT', async () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
@@ -828,7 +829,7 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
             worksheetId: 'ws1',
             spotterShareConversationConfig,
         });
-        expect(response.data.embedParams.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
+        expect(response.data.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
     });
 
     it('should include spotterShareConversationConfig alongside spotterSidebarConfig', async () => {
@@ -837,8 +838,8 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
             spotterSidebarConfig: { enablePastConversationsSidebar: true },
             spotterShareConversationConfig: { enableShareConversation: true },
         });
-        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
-        expect(response.data.embedParams.spotterShareConversationConfig.enableShareConversation).toBe(true);
+        expect(response.data.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.spotterShareConversationConfig.enableShareConversation).toBe(true);
     });
 
     it('should not handle error when neither worksheetId nor dataSources is provided', async () => {
@@ -984,7 +985,7 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
         return mockPort.postMessage.mock.calls[0]?.[0];
     }
 
-    it('should include starterPrompts in embedParams when configured', async () => {
+    it('should include starterPrompts in APP_INIT when configured', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
             spotterChatConfig: {
@@ -999,7 +1000,7 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
                 },
             },
         });
-        expect(response.data.embedParams.starterPrompts).toEqual({
+        expect(response.data.starterPrompts).toEqual({
             enable: true,
             quick: {
                 label: 'Quick',
@@ -1028,12 +1029,12 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             worksheetId: 'ws1',
             spotterChatConfig: { starterPrompts },
         });
-        expect(response.data.embedParams.starterPrompts).toEqual(starterPrompts);
+        expect(response.data.starterPrompts).toEqual(starterPrompts);
     });
 
-    it('should not include starterPrompts in embedParams when not configured', async () => {
+    it('should not include starterPrompts in APP_INIT when not configured', async () => {
         const response = await getAppInitResponse({ worksheetId: 'ws1' });
-        expect(response.data.embedParams?.starterPrompts).toBeUndefined();
+        expect(response.data?.starterPrompts).toBeUndefined();
     });
 
     it('exposes per-pill starter-prompt actions with the strings the app gates on', () => {
@@ -1052,7 +1053,7 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
                 },
             },
         });
-        expect(response.data.embedParams.starterPrompts).toEqual({
+        expect(response.data.starterPrompts).toEqual({
             enable: false,
             quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
         });

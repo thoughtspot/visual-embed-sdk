@@ -141,17 +141,26 @@ export interface SpotterVizLoaderTip {
     text: string;
 }
 
-export function buildSpotterVizAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+/**
+ * APP_INIT data contributed by the SpotterViz configuration.
+ * @internal
+ */
+export interface SpotterVizAppInitData {
+    spotterVizConfig?: SpotterVizConfig;
+}
+
+/**
+ * Builds the `spotterVizConfig` fragment of the APP_INIT payload so the app can
+ * read the SpotterViz branding overrides on initialization.
+ *
+ * Returns an empty fragment when `spotterViz` is not set on the view config.
+ * @param viewConfig View config the SpotterViz options are read from.
+ */
+export function buildSpotterVizAppInitData(
     viewConfig: { spotterViz?: SpotterVizConfig },
-): T & { embedParams?: { spotterVizConfig?: SpotterVizConfig } } {
+): SpotterVizAppInitData {
     const { spotterViz } = viewConfig;
-    if (!spotterViz) return initData;
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            spotterVizConfig: spotterViz,
-        },
-    };
+    if (!spotterViz) return {};
+
+    return { spotterVizConfig: spotterViz };
 }
