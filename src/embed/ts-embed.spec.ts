@@ -62,7 +62,7 @@ import { logger } from '../utils/logger';
 import { version } from '../../package.json';
 import { HiddenActionItemByDefaultForSearchEmbed } from './search';
 import { processTrigger } from '../utils/processTrigger';
-import { UIPassthroughEvent } from './hostEventClient/contracts';
+import { UIPassthroughEvent } from '../contracts/ui-passthrough-contracts';
 import * as sessionInfoService from '../utils/sessionInfoService';
 import * as authToken from '../authToken';
 import * as apiIntercept from '../api-intercept';

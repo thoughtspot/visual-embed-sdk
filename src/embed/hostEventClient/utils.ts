@@ -4,7 +4,8 @@ import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
 import { EmbedErrorCodes, EmbedEvent, ErrorDetailsTypes, HostEvent } from '../../types';
 import { ERROR_MESSAGE } from '../../errors';
-import { ApplicabilityLevel, HostEventRequest } from './contracts';
+import { ApplicabilityLevel } from '../../contracts/ui-passthrough-contracts';
+import { HostEventRequest } from '../../contracts/host-event-contracts';
 import { embedEventStatus } from '../../utils';
 
 const isValidApplicability = (a?: { level?: string; targetId?: string }) => {

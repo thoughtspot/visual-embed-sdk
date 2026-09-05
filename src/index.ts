@@ -95,10 +95,6 @@ import {
     UIPassthroughRequest,
     UIPassthroughResponse,
     UIPassthroughArrayResponse,
-    HostEventRequest,
-    HostEventResponse,
-    TriggerPayload,
-    TriggerResponse,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
@@ -106,7 +102,13 @@ import {
     FilterUpdate,
     LiveboardFilter,
     LiveboardParameter,
-} from './embed/hostEventClient/contracts';
+} from './contracts/ui-passthrough-contracts';
+import {
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+} from './contracts/host-event-contracts';
 
 export {
     init,
