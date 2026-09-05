@@ -728,7 +728,7 @@ describe('App embed tests', () => {
         });
     });
 
-    test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
+    test('should include spotterVizConfig in APP_INIT when spotterViz is provided', async () => {
         const spotterViz = {
             brandName: 'MyBrand',
             brandHeadline: "Hi, there! I'm",
@@ -764,15 +764,13 @@ describe('App embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterVizConfig: spotterViz,
-                    }),
+                    spotterVizConfig: spotterViz,
                 }),
             });
         });
     });
 
-    test('should include starterPrompts in APP_INIT embedParams', async () => {
+    test('should include starterPrompts in APP_INIT', async () => {
         const starterPrompts = {
             enable: true,
             quick: {
@@ -801,7 +799,7 @@ describe('App embed tests', () => {
             );
         });
         await executeAfterWait(() => {
-            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.starterPrompts)
+            expect(mockPort.postMessage.mock.calls[0][0].data.starterPrompts)
                 .toEqual(starterPrompts);
         });
     });
@@ -828,10 +826,8 @@ describe('App embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterVizConfig: expect.objectContaining({
-                            brandHeadline: "Hi, there! I'm",
-                        }),
+                    spotterVizConfig: expect.objectContaining({
+                        brandHeadline: "Hi, there! I'm",
                     }),
                 }),
             });
@@ -857,9 +853,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             const callArgs = mockPort.postMessage.mock.calls[0][0];
             expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
-            if (callArgs.data.embedParams) {
-                expect(callArgs.data.embedParams.spotterVizConfig).toBeUndefined();
-            }
+            expect(callArgs.data.spotterVizConfig).toBeUndefined();
         });
     });
 
@@ -886,11 +880,9 @@ describe('App embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterVizConfig: spotterViz,
-                        spotterSidebarConfig: expect.objectContaining({
-                            enablePastConversationsSidebar: true,
-                        }),
+                    spotterVizConfig: spotterViz,
+                    spotterSidebarConfig: expect.objectContaining({
+                        enablePastConversationsSidebar: true,
                     }),
                 }),
             });
@@ -926,17 +918,15 @@ describe('App embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterSidebarConfig: expect.objectContaining({
-                            spotterChatPinConfig,
-                        }),
+                    spotterSidebarConfig: expect.objectContaining({
+                        spotterChatPinConfig,
                     }),
                 }),
             });
         });
     });
 
-    test('should include spotterShareConversationConfig in APP_INIT embedParams when provided', async () => {
+    test('should include spotterShareConversationConfig in APP_INIT when provided', async () => {
         const spotterShareConversationConfig = {
             enableShareConversation: true,
             spotterShareLabel: 'Share',
@@ -962,9 +952,7 @@ describe('App embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterShareConversationConfig,
-                    }),
+                    spotterShareConversationConfig,
                 }),
             });
         });
@@ -989,9 +977,7 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             const callArgs = mockPort.postMessage.mock.calls[0][0];
             expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
-            if (callArgs.data.embedParams) {
-                expect(callArgs.data.embedParams.spotterShareConversationConfig).toBeUndefined();
-            }
+            expect(callArgs.data.spotterShareConversationConfig).toBeUndefined();
         });
     });
 
@@ -2864,9 +2850,7 @@ describe('AppEmbed visualOverrides tests', () => {
         await executeAfterWait(() => {
             const callArgs = mockPort.postMessage.mock.calls[0][0];
             expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
-            if (callArgs.data.embedParams) {
-                expect(callArgs.data.embedParams.visualOverridesParams).toBeUndefined();
-            }
+            expect(callArgs.data.visualOverridesParams).toBeUndefined();
         });
     });
 

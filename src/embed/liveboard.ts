@@ -42,10 +42,8 @@ import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-util
  * @internal
  */
 export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
-    embedParams?: {
-        spotterVizConfig?: SpotterVizConfig;
-        starterPrompts?: StarterPromptsConfig;
-    };
+    spotterVizConfig?: SpotterVizConfig;
+    starterPrompts?: StarterPromptsConfig;
 }
 
 
@@ -724,8 +722,14 @@ export class LiveboardEmbed extends V1Embed {
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
+
+        const baseLiveboardInitData = {
+            ...defaultAppInitData,
+            ...buildSpotterVizAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+        };
+
+        return baseLiveboardInitData;
     }
 
     /**

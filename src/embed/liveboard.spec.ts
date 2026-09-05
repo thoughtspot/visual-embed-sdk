@@ -1584,7 +1584,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should include spotterVizConfig in APP_INIT embedParams when spotterViz is provided', async () => {
+    test('should include spotterVizConfig in APP_INIT when spotterViz is provided', async () => {
         const spotterViz = {
             brandName: 'MyBrand',
             brandHeadline: "Hi, there! I'm",
@@ -1613,15 +1613,13 @@ describe('Liveboard/viz embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterVizConfig: spotterViz,
-                    }),
+                    spotterVizConfig: spotterViz,
                 }),
             });
         });
     });
 
-    test('should include starterPrompts in APP_INIT embedParams', async () => {
+    test('should include starterPrompts in APP_INIT', async () => {
         const starterPrompts = {
             enable: true,
             quick: {
@@ -1647,7 +1645,7 @@ describe('Liveboard/viz embed tests', () => {
             postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
         });
         await executeAfterWait(() => {
-            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.starterPrompts)
+            expect(mockPort.postMessage.mock.calls[0][0].data.starterPrompts)
                 .toEqual(starterPrompts);
         });
     });
@@ -1671,10 +1669,8 @@ describe('Liveboard/viz embed tests', () => {
             expect(mockPort.postMessage).toHaveBeenCalledWith({
                 type: EmbedEvent.APP_INIT,
                 data: expect.objectContaining({
-                    embedParams: expect.objectContaining({
-                        spotterVizConfig: expect.objectContaining({
-                            brandHeadline: "Hi, there! I'm",
-                        }),
+                    spotterVizConfig: expect.objectContaining({
+                        brandHeadline: "Hi, there! I'm",
                     }),
                 }),
             });
@@ -1697,9 +1693,7 @@ describe('Liveboard/viz embed tests', () => {
         await executeAfterWait(() => {
             const callArgs = mockPort.postMessage.mock.calls[0][0];
             expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
-            if (callArgs.data.embedParams) {
-                expect(callArgs.data.embedParams.spotterVizConfig).toBeUndefined();
-            }
+            expect(callArgs.data.spotterVizConfig).toBeUndefined();
         });
     });
 

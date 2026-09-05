@@ -351,9 +351,7 @@ export const HiddenActionItemByDefaultForSearchEmbed = [
 
 export interface SearchAppInitData extends DefaultAppInitData {
     searchOptions?: SearchOptions;
-    embedParams?: {
-        visualOverridesParams?: VisualizationOverrides | null;
-    };
+    visualOverridesParams?: VisualizationOverrides | null;
 }
 
 /**
@@ -405,19 +403,16 @@ export class SearchEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const result: SearchAppInitData = {
+
+        const baseSearchInitData: SearchAppInitData = {
             ...defaultAppInitData,
             ...this.getSearchInitData(),
+            ...(this.viewConfig.visualOverrides && {
+                visualOverridesParams: this.viewConfig.visualOverrides,
+            }),
         };
 
-        if (this.viewConfig.visualOverrides) {
-            result.embedParams = {
-                ...((defaultAppInitData as any).embedParams || {}),
-                visualOverridesParams: this.viewConfig.visualOverrides,
-            };
-        }
-
-        return result;
+        return baseSearchInitData;
     }
 
     protected getEmbedParamsObject() {

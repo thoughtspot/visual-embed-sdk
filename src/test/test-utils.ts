@@ -191,9 +191,7 @@ export const testVisualOverridesInEmbed = async (
         expect(mockPort.postMessage).toHaveBeenCalledWith({
             type: EmbedEvent.APP_INIT,
             data: expect.objectContaining({
-                embedParams: expect.objectContaining({
-                    visualOverridesParams: visualOverrides,
-                }),
+                visualOverridesParams: visualOverrides,
             }),
         });
     });

@@ -873,7 +873,7 @@ describe('SearchBarEmbed tests', () => {
 });
 
 describe('SearchEmbed visualOverrides tests', () => {
-    test('should pass visualOverrides in embedParams when visualOverrides config is provided', async () => {
+    test('should pass visualOverridesParams in APP_INIT when visualOverrides config is provided', async () => {
         const visualOverrides = {
             chart: {
                 legend: {
@@ -913,7 +913,7 @@ describe('SearchEmbed visualOverrides tests', () => {
         await executeAfterWait(() => {
             const callArgs = mockPort.postMessage.mock.calls[0][0];
             expect(callArgs.type).toBe(EmbedEvent.APP_INIT);
-            expect(callArgs.data.embedParams?.visualOverridesParams).toBeUndefined();
+            expect(callArgs.data?.visualOverridesParams).toBeUndefined();
         });
     });
 

@@ -1029,12 +1029,11 @@ export interface AppViewConfig extends AllEmbedViewConfig {
  * @internal
  */
 export interface AppEmbedAppInitData extends DefaultAppInitData {
-    embedParams?: {
-        spotterSidebarConfig?: SpotterSidebarViewConfig;
-        spotterVizConfig?: SpotterVizConfig;
-        spotterShareConversationConfig?: SpotterShareConversationConfig;
-        starterPrompts?: StarterPromptsConfig;
-    };
+    spotterSidebarConfig?: SpotterSidebarViewConfig;
+    spotterVizConfig?: SpotterVizConfig;
+    spotterShareConversationConfig?: SpotterShareConversationConfig;
+    starterPrompts?: StarterPromptsConfig;
+    visualOverridesParams?: VisualizationOverrides | null;
 }
 
 /**
@@ -1075,8 +1074,8 @@ export class AppEmbed extends V1Embed {
     }
 
     /**
-     * Extends the default APP_INIT payload with `embedParams.spotterSidebarConfig`
-     * so the conv-assist app can read sidebar configuration on initialisation.
+     * Extends the default APP_INIT payload with `spotterSidebarConfig` so the
+     * conv-assist app can read sidebar configuration on initialisation.
      *
      * Precedence for `enablePastConversationsSidebar`:
      * `spotterSidebarConfig.enablePastConversationsSidebar` wins over the
@@ -1088,14 +1087,16 @@ export class AppEmbed extends V1Embed {
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const sidebarInitData = buildSpotterSidebarAppInitData(
-            defaultAppInitData,
-            this.viewConfig,
-            this.handleError.bind(this),
-        );
-        const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-        const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+
+        const baseAppInitData = {
+            ...defaultAppInitData,
+            ...buildSpotterSidebarAppInitData(this.viewConfig, this.handleError.bind(this)),
+            ...buildSpotterVizAppInitData(this.viewConfig),
+            ...buildSpotterShareConversationAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+        };
+
+        return baseAppInitData;
     }
 
     /**

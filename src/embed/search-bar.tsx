@@ -196,6 +196,12 @@ export class SearchBarEmbed extends TsEmbed {
 
     protected async getAppInitData(): Promise<SearchAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        return { ...defaultAppInitData, ...this.getSearchInitData() };
+
+        const baseSearchBarInitData: SearchAppInitData = {
+            ...defaultAppInitData,
+            ...this.getSearchInitData(),
+        };
+
+        return baseSearchBarInitData;
     }
 }
