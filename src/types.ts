@@ -2039,7 +2039,7 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.51.1 | ThoughtSpot Cloud: 26.8.0.cl
      * @default false
      * @example
      * ```js
@@ -2164,7 +2164,7 @@ export interface LiveboardAppEmbedViewConfig {
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {number}
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.51.1 | ThoughtSpot Cloud: 26.8.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -4676,7 +4676,7 @@ export enum HostEvent {
      *
      * Unlike {@link HostEvent.OpenFilter}, which opens the panel of an
      * existing filter, this event starts the creation of a new filter.
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.51.1 | ThoughtSpot Cloud: 26.8.0.cl
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.OpenAddFilterModal);
@@ -4692,7 +4692,7 @@ export enum HostEvent {
      * Hiding the *Add parameter* button with `hiddenActions:
      * [Action.AddParameter]` does not block this event, but disabling it
      * with `disabledActions` does.
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.51.1 | ThoughtSpot Cloud: 26.8.0.cl
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.OpenAddParameterModal);
