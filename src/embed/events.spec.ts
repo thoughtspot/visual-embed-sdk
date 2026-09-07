@@ -139,7 +139,7 @@ describe('test communication between host app and ThoughtSpot', () => {
         searchEmbed.render();
         setTimeout(() => {
             searchEmbed.trigger(HostEvent.Search, {
-                body: PAYLOAD,
+                searchQuery: PAYLOAD,
             });
         }, EVENT_WAIT_TIME);
         executeAfterWait(() => {
@@ -147,7 +147,7 @@ describe('test communication between host app and ThoughtSpot', () => {
 
             iframe.contentWindow.addEventListener('message', (e) => {
                 expect(e.data.type).toBe(HostEvent.Search);
-                expect(e.data.data.body).toBe(PAYLOAD);
+                expect(e.data.data.searchQuery).toBe(PAYLOAD);
                 done();
             });
         });

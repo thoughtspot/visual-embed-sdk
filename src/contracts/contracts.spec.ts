@@ -22,6 +22,7 @@ import type {
     HostEventResponse,
     NavigateRequest,
     SetActiveTabRequest,
+    TriggerData,
 } from './host-event-contracts';
 import type { CustomActionPayload, RuntimeFilter } from '../types';
 import type {
@@ -29,6 +30,7 @@ import type {
     EmbedEventData,
     EmbedEventPayload,
 } from './embed-event-payloads';
+import * as contractsBarrel from './index';
 
 // Events with explicitly typed contracts in HostEventContractExtension.
 // Keep in sync with the interface — this list is what the snapshot locks.
@@ -256,5 +258,60 @@ describe('event contracts (drift guardrails)', () => {
         // Untyped embed event stays `any` (backward compatible).
         const untyped: EmbedEventData<EmbedEvent.Data> = { anything: 'goes' };
         expect(untyped).toBeDefined();
+    });
+
+    test('the /contracts barrel re-exports the public runtime surface', () => {
+        // Importing the barrel executes its re-exports; assert the runtime
+        // values consumers rely on from '@thoughtspot/visual-embed-sdk/contracts'.
+        expect(contractsBarrel.UIPassthroughEvent).toBeDefined();
+        expect(contractsBarrel.CustomActionsPosition).toBeDefined();
+        expect(contractsBarrel.CustomActionTarget).toBeDefined();
+        expect(contractsBarrel.ApplicabilityLevel).toBeDefined();
+    });
+
+    test('trigger data (TriggerData) autocompletes and flags unknown fields', () => {
+        // Contract shape is the contextual type (autocomplete). Unknown fields
+        // on object literals fail; omission and non-literal extras do not.
+        type UpdateFiltersPayload = TriggerData<HostEvent.UpdateFilters>;
+
+        // Known fields resolve (drives autocomplete + hover).
+        const valid: UpdateFiltersPayload = {
+            filters: [{ columnName: 'Region', values: ['East'] }],
+        };
+        // Omitting fields still compiles (all fields optional).
+        const empty: UpdateFiltersPayload = {};
+        // Extra fields via a variable still compile (no excess check).
+        const viaVariable = {
+            filters: [{ columnName: 'Region', values: ['East'] }],
+            someExtra: 1,
+        };
+        const loose: UpdateFiltersPayload = viaVariable;
+        // Unknown fields on an object literal are flagged — at the top level...
+        const topExtra: UpdateFiltersPayload = {
+            filters: [],
+            // @ts-expect-error — `topLevelExtra` is not on the contract
+            topLevelExtra: 1,
+        };
+        // ...and at any depth.
+        const nestedExtra: UpdateFiltersPayload = {
+            // @ts-expect-error — `legacyField` is not on the filter contract
+            filters: [{ columnName: 'Region', values: ['East'], legacyField: true }],
+        };
+        // A non-literal sharing no field is flagged (TS weak-type check).
+        const unrelated = { totallyDifferent: true };
+        // @ts-expect-error — no overlap with the UpdateFilters contract
+        const zeroOverlap: UpdateFiltersPayload = unrelated;
+        // A wrong TYPE on a known field is flagged.
+        const bad: UpdateFiltersPayload = {
+            // @ts-expect-error — values must be an array, not a number
+            filters: [{ values: 123 }],
+        };
+        // `{}` is accepted for void events (AIHighlights requires it).
+        const voidEmpty: TriggerData<HostEvent.ResetSearch> = {};
+        // Unmapped events keep a fully permissive payload.
+        const unmapped: TriggerData<HostEvent.Reload> = { anything: 'goes' };
+
+        const all = [valid, empty, loose, topExtra, nestedExtra, zeroOverlap, bad];
+        expect([...all, voidEmpty, unmapped].every(Boolean)).toBe(true);
     });
 });

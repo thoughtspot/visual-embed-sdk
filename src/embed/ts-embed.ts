@@ -17,7 +17,11 @@ import {
 // Contract resolution comes from the shared contracts module (the single
 // source of truth for event payload shapes) rather than the legacy
 // UI-passthrough-only mapping.
-import { HostEventRequest, TriggerPayload, TriggerResponse } from '../contracts/host-event-contracts';
+import {
+    HostEventRequest,
+    TriggerData,
+    TriggerResponse,
+} from '../contracts/host-event-contracts';
 import { EmbedEventPayload } from '../contracts/embed-event-payloads';
 import { isMessageFromIframe } from '../utils/transport/iframe-transport';
 import { logger } from '../utils/logger';
@@ -1658,8 +1662,12 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
+     *
+     * Payload typing: from SDK 1.52.0 (ThoughtSpot Cloud 26.9.0.cl), unknown fields
+     * on a known event's payload fail to compile. From SDK 1.54.0 (26.11.0.cl) the
+     * payload is checked strictly against the event contract — update call sites now.
      * @param {HostEvent} messageType The event type
-     * @param {any} data The payload to send with the message
+     * @param {TriggerData} data The payload, typed against the event's contract
      * @param {ContextType} context Optional context type to specify the context from which the event is triggered.
      * Use ContextType.Search for search answer context, ContextType.Answer for answer/explore context,
      * ContextType.Liveboard for liveboard context, or ContextType.Spotter for spotter context.
@@ -1682,7 +1690,10 @@ export class TsEmbed {
         ContextT extends ContextType = ContextType,
     >(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
+        // Contract shape is the contextual type: payload fields autocomplete
+        // and unknown fields on object literals are flagged. Strict checks
+        // land in SDK 1.54.0 — see TriggerData.
+        data: TriggerData<HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);

@@ -242,7 +242,10 @@ describe('Unit test case for ts embed', () => {
             liveboardEmbed.render();
             mockProcessTrigger.mockResolvedValue({ session: 'test' });
             await executeAfterWait(async () => {
-                await liveboardEmbed.trigger(HostEvent.Save, false);
+                // `false` is a deliberately off-contract payload here — this
+                // asserts raw passthrough to processTrigger, not a real Save
+                // payload — so it is cast past the typed `data` parameter.
+                await liveboardEmbed.trigger(HostEvent.Save, false as any);
                 expect(mockProcessTrigger).toHaveBeenCalledWith(
                     getIFrameEl(),
                     HostEvent.Save,

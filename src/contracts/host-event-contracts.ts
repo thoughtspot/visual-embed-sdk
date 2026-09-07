@@ -330,6 +330,27 @@ export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
     PayloadT | HostEventRequest<HostEventT>;
 
 /**
+ * Deep `Partial` of a request type: every field optional at every depth, with no
+ * index signature — so object literals carrying unknown fields are flagged.
+ */
+export type DeepPartial<T> =
+    T extends (infer U)[]
+        ? DeepPartial<U>[]
+        : T extends object
+            ? { [K in keyof T]?: DeepPartial<T[K]> }
+            : T;
+
+/**
+ * `trigger()`'s `data` type. No-payload (`void`) events take `{}` (the app expects it
+ * for `HostEvent.AIHighlights`); other events take a `DeepPartial` of their contract.
+ * SDK 1.54.0 replaces this with strict `HostEventRequest` (required fields enforced).
+ */
+export type TriggerData<HostEventT extends HostEvent> =
+    HostEventRequest<HostEventT> extends void
+        ? Record<string, never>
+        : DeepPartial<HostEventRequest<HostEventT>>;
+
+/**
  * Response type returned by `embed.trigger()`.
  */
 export type TriggerResponse<
