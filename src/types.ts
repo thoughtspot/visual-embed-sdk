@@ -8954,7 +8954,7 @@ export enum Action {
      * The button only exists when Answer Verification
      * (`enableAnswerVerification`) is enabled on the cluster. This action
      * controls its visibility; it does not turn the feature on.
-     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * hiddenActions: [Action.SpotterViewExplanation]
