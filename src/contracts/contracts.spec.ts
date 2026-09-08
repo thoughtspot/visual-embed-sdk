@@ -15,7 +15,7 @@
  * stop — that breaks published SDK consumers and the host runtime validation
  * derived from these contracts.
  */
-import { HostEvent, EmbedEvent } from '../types';
+import { HostEvent, EmbedEvent, RuntimeFilterOp } from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
 import type {
     HostEventRequest,
@@ -258,6 +258,67 @@ describe('event contracts (drift guardrails)', () => {
         // Untyped embed event stays `any` (backward compatible).
         const untyped: EmbedEventData<EmbedEvent.Data> = { anything: 'goes' };
         expect(untyped).toBeDefined();
+    });
+
+    test('HostEvent doc examples compile against TriggerData (docs and types must agree)', () => {
+        // Payloads copied verbatim from the HostEvent enum @example blocks.
+        // If one stops compiling, the docs or the contract is wrong; fix that.
+        const trigger = <H extends HostEvent>(_event: H, _data: TriggerData<H>) => true;
+        const ok = [
+            trigger(HostEvent.UpdateParameters, [{ name: 'Integer Range Param', value: 10, isVisibleToUser: false }]),
+            trigger(HostEvent.UpdateParameters, [{
+                name: 'Integer Range Param',
+                value: 10,
+                applicability: { level: 'TAB', targetId: 'e0836cad-4fdf-42d4-bd97-567a6b2a6058' },
+            }]),
+            trigger(HostEvent.UpdateRuntimeFilters, [
+                { columnName: 'state', operator: RuntimeFilterOp.EQ, values: ['michigan'] },
+                { columnName: 'product', operator: RuntimeFilterOp.IN, values: ['shoes', 'boots'] },
+            ]),
+            trigger(HostEvent.UpdateFilters, { filter: { column: 'item type', oper: 'IN', values: ['bags', 'shirts'] } }),
+            trigger(HostEvent.UpdateFilters, {
+                filter: { column: 'date', oper: 'EQ', values: ['JULY', '2023'], type: 'MONTH_YEAR' },
+            }),
+            trigger(HostEvent.OpenFilter, {
+                column: { columnId: '<column-GUID>', name: 'column name', type: 'ATTRIBUTE', dataType: 'INT64' },
+            }),
+            trigger(HostEvent.OpenFilter, { column: { columnId: '<column-GUID>' } }),
+            trigger(HostEvent.OpenParameter, { parameter: { parameterId: '<parameter-GUID>' } }),
+            trigger(HostEvent.OpenParameter, {
+                parameter: { parameterId: '<parameter-GUID>' },
+                applicability: { level: 'GROUP', targetId: '<group-GUID>' },
+            }),
+            trigger(HostEvent.UpdateFilters, {
+                filter: {
+                    column: 'item type',
+                    oper: 'IN',
+                    values: ['bags', 'shirts'],
+                    applicability: { level: 'TAB', targetId: 'e0836cad-4fdf-42d4-bd97-567a6b2a6058' },
+                },
+            }),
+            trigger(HostEvent.OpenFilter, {
+                column: { columnId: '<column-GUID>' },
+                applicability: { level: 'TAB', targetId: '<tab-GUID>' },
+            }),
+            trigger(HostEvent.Navigate, -1),
+            trigger(HostEvent.Navigate, 'home'),
+            trigger(HostEvent.Navigate, { path: 'home', replace: true }),
+            trigger(HostEvent.Search, {
+                searchQuery: '[sales] by [item type]',
+                dataSources: ['cd252e5c-b552-49a8-821d-3eadaa049cca'],
+                execute: true,
+            }),
+            trigger(HostEvent.SetActiveTab, { tabId: '730496d6-6903-4601-937e-2c691821af3c' }),
+            trigger(HostEvent.UpdateCrossFilter, {
+                vizId: 'b535c760-8bbe-4e6f-bb26-af56b4129a1e',
+                conditions: [
+                    { columnName: 'Category', values: ['mfgr#12', 'mfgr#14'] },
+                    { columnName: 'color', values: ['mint', 'hot'] },
+                ],
+            }),
+            trigger(HostEvent.SpotterSearch, { query: 'revenue per year', executeSearch: true }),
+        ];
+        expect(ok.every(Boolean)).toBe(true);
     });
 
     test('the /contracts barrel re-exports the public runtime surface', () => {

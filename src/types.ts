@@ -8,6 +8,8 @@
 
 import { CustomCssVariables } from './css-variables';
 import type { SessionInterface } from './utils/graphql/answerService/answerService';
+// Type-only: avoids a runtime import cycle with the contracts barrel.
+import type { Applicability } from './contracts/ui-passthrough-contracts';
 
 /**
  * The authentication mechanism for allowing access to
@@ -2527,6 +2529,15 @@ export interface RuntimeParameter {
      * Values
      */
     value: number | boolean | string;
+    /**
+     * Whether the parameter is visible to the user (`UpdateParameters` only).
+     */
+    isVisibleToUser?: boolean;
+    /**
+     * Scope of the update (`UpdateParameters` only). Omitting it, or `level`,
+     * targets the Liveboard level.
+     */
+    applicability?: Applicability;
 }
 
 /**

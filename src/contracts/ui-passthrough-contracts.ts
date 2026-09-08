@@ -25,10 +25,10 @@ export enum ApplicabilityLevel {
 /**
  * Scopes a filter or parameter to a specific target.
  * At `LIVEBOARD` level the filter applies to the whole Liveboard, so `targetId`
- * is not required.
+ * is not required. `level` accepts the enum or its string value, e.g. `'TAB'`.
  */
 export interface Applicability {
-  level: ApplicabilityLevel;
+  level: ApplicabilityLevel | `${ApplicabilityLevel}`;
   targetId?: string;
 }
 
