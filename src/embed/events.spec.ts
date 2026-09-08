@@ -9,6 +9,7 @@ import {
     LiveboardEmbed,
     AppEmbed,
     HostEvent,
+    MessageCallback,
 } from '../index';
 import {
     EVENT_WAIT_TIME,
@@ -151,6 +152,17 @@ describe('test communication between host app and ThoughtSpot', () => {
                 done();
             });
         });
+    });
+
+    test('accepts a MessageCallback-typed handler for typed and untyped events', () => {
+        // Guardrail: on()/off() must accept the public MessageCallback type, or
+        // existing customer handlers stop compiling (checked non-strict here).
+        const legacy: MessageCallback = jest.fn();
+        const searchEmbed = new SearchEmbed(getRootEl(), {});
+        searchEmbed.on(EmbedEvent.CustomAction, legacy); // typed event
+        searchEmbed.on(EmbedEvent.Data, legacy); // untyped event
+        searchEmbed.off(EmbedEvent.Data, legacy);
+        expect(legacy).not.toHaveBeenCalled();
     });
 
     test('should execute multiple event handlers if registered', async () => {
