@@ -5796,6 +5796,48 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    test('should trigger Navigate only after UpdateEmbedParams has settled', async () => {
+        await setupPreRenderTest('navigate-after-params', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red'],
+                },
+            ],
+        });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'navigate-after-params',
+            liveboardId: 'updated-lb',
+        });
+
+        embed2.showPreRender();
+
+        // Inside the settle window the params are already out
+        // and Navigate is not.
+        await executeAfterWait(() => {
+            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            expect(eventTypes).toContain(HostEvent.UpdateEmbedParams);
+            expect(eventTypes).not.toContain(HostEvent.Navigate);
+        }, 50);
+
+        await executeAfterWait(() => {
+            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            // A Navigate that beat the params would make the container load
+            // `updated-lb` while still holding `original-lb`'s runtime filters,
+            // and drop the params that then arrive mid-load (SCAL-336321).
+            expect(eventTypes).toContain(HostEvent.Navigate);
+            expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
+                eventTypes.indexOf(HostEvent.Navigate),
+            );
+            expect(eventTypes.indexOf(HostEvent.UpdateRuntimeFilters)).toBeLessThan(
+                eventTypes.indexOf(HostEvent.Navigate),
+            );
+        }, 300);
+    });
+
     test('should clear the filters left behind by the previous pre-render config', async () => {
         await setupPreRenderTest('reconcile-clear-filters', {
             liveboardId: 'original-lb',

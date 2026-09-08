@@ -1869,8 +1869,11 @@ describe('Liveboard/viz embed tests', () => {
                 );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
+                // Navigate is held behind this show-cycle's
+                // UpdateEmbedParams, so wait out the settle
+                // window (SCAL-336321).
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
-            });
+            }, 300);
         });
 
         test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async () => {
@@ -1932,7 +1935,10 @@ describe('Liveboard/viz embed tests', () => {
                 );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
-            }, 1005);
+                // 1000ms AuthInit fallback + the 200ms settle
+                // window before Navigate goes out (SCAL-336321),
+                // so 1005 is no longer enough.
+            }, 1305);
         });
 
 
@@ -2581,6 +2587,16 @@ describe('Liveboard/viz embed tests', () => {
             document.body.innerHTML = getDocumentBody();
         });
 
+        // beforePrerenderVisible() no longer navigates
+        // synchronously: Navigate is held until this show-cycle's
+        // UpdateEmbedParams has been posted and given
+        // UPDATE_EMBED_PARAMS_SETTLE_MS (200ms) to apply
+        // (SCAL-336321). These tests must wait that window out
+        // rather than read the spy inline.
+        const waitForPreRenderNavigate = () => new Promise((resolve) => {
+            setTimeout(resolve, 300);
+        });
+
         test('should call navigateToLiveboard after embed container is loaded in beforePrerenderVisible', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
@@ -2603,6 +2619,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
             // Now navigateToLiveboard should be called
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2637,6 +2654,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
             // Check that currentLiveboardState was updated
             expect(mockPreRenderObj.currentLiveboardState).toEqual({
@@ -2661,8 +2679,9 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
-            // navigateToLiveboard should be called immediately
+            // navigateToLiveboard should be called once the params have settled
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
                 liveboardId,
                 vizId,
@@ -2691,6 +2710,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
             // navigateToLiveboard should still be called
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2720,6 +2740,7 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
             // Check that all parameters are passed correctly
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2743,6 +2764,7 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
             // Check that undefined parameters are passed correctly
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(

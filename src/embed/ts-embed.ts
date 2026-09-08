@@ -111,6 +111,16 @@ const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
 /**
+ * How long to let the embed container apply an `UpdateEmbedParams` payload
+ * before the pre-render is navigated to its new route. The container applies
+ * the payload through React state, so the post being delivered is not the same
+ * as the new params being in effect; a `Navigate` that wins the race makes the
+ * container load the route with the *previous* config's runtime filters, and
+ * the params landing mid-load are then dropped (SCAL-336321).
+ */
+const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+
+/**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
@@ -2015,25 +2025,44 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    /**
+     * Resolves once the `UpdateEmbedParams` for this show-cycle has been posted
+     * to the container and the container has been given
+     * `UPDATE_EMBED_PARAMS_SETTLE_MS` to apply it. Subclasses that navigate the
+     * pre-render on show must await this before triggering `HostEvent.Navigate`
+     * — see `LiveboardEmbed.beforePrerenderVisible`.
+     *
+     * It is re-created on every `beforePrerenderVisible()`, and resolves even
+     * when the params fail, so navigation is delayed but never blocked.
+     */
+    protected preRenderParamsApplied: Promise<void> = Promise.resolve();
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        this.executeAfterEmbedContainerLoaded(async () => {
-            try {
-                const params = await this.getUpdateEmbedParamsObject();
-                this.trigger(HostEvent.UpdateEmbedParams, params);
-                this.reconcileRuntimeParams();
-            } catch (error) {
-                logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                this.handleError({
-                    errorType: ErrorDetailsTypes.API,
-                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: error?.message || error,
-                });
-            }
+        // Created synchronously, outside executeAfterEmbedContainerLoaded, so a
+        // navigation callback queued after this one has something to await
+        // whether the container is already loaded or not.
+        this.preRenderParamsApplied = new Promise<void>((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                    this.reconcileRuntimeParams();
+                } catch (error) {
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                } finally {
+                    setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
+                }
+            });
         });
     }
 

@@ -1165,7 +1165,14 @@ export class LiveboardEmbed extends V1Embed {
         super.beforePrerenderVisible();
         const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
-        this.executeAfterEmbedContainerLoaded(() => {
+        this.executeAfterEmbedContainerLoaded(async () => {
+            // Navigate only after the UpdateEmbedParams of this show-cycle has
+            // been posted and applied. Without this the two callbacks race:
+            // the params one suspends on `await getUpdateEmbedParamsObject()`,
+            // so Navigate goes out first and the container loads the new
+            // liveboard with the previous config's runtime filters, dropping
+            // the params that then arrive mid-load (SCAL-336321).
+            await this.preRenderParamsApplied;
             this.navigateToLiveboard(
                 this.viewConfig.liveboardId,
                 this.viewConfig.vizId,
