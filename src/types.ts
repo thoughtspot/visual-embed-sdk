@@ -3853,7 +3853,32 @@ export enum EmbedEvent {
      */
     OrgSwitched = 'orgSwitched',
     /**
-     * Emitted when the user intercepts a URL.
+     * Emitted before the embedded ThoughtSpot app sends a network request whose
+     * fully resolved URL matches one of the `interceptUrls` in the view config.
+     * The request is held until you call `responder`, which decides whether the
+     * real request goes out or a response you supply is used in its place.
+     *
+     * Setting `interceptUrls` is what enables this; there is no separate enable
+     * flag. If `responder` is not called within `interceptTimeout` (30000 ms by
+     * default) the request fails and `EmbedEvent.Error` is emitted.
+     *
+     * The payload is `{ input, init, urlType }`, where `input` is the request
+     * URL and `init` is the `fetch` init object, with `init.body` parsed into an
+     * object when it is valid JSON. `urlType` is the matching
+     * `InterceptedApiType`; it is `InterceptedApiType.ALL` for any URL outside
+     * the recognized API groups.
+     *
+     * Interception wraps the outermost layer of `fetch`, so `init` holds the
+     * request as the application composed it, before ThoughtSpot attaches its
+     * authentication headers. Those headers, and any token refresh and retry,
+     * are applied afterwards and only when you pass `execute: true`. Only
+     * requests made through `fetch` are intercepted.
+     *
+     * Pass `execute: true` to let the original request proceed untouched, in
+     * which case any `response` you supply alongside it is ignored. With
+     * `execute: false` the request is never sent, and your `response.body` is
+     * returned to the app as JSON, defaulting to status 200 and a
+     * `Content-Type: application/json` header.
      *
      * Supported on all embed types.
      *
@@ -6571,7 +6596,13 @@ export enum HostEvent {
      */
     UpdateEmbedParams = 'updateEmbedParams',
     /**
-     * Triggered when the embed needs to be destroyed. This is used to clean up any embed-related resources internally.
+     * Notifies the embedded ThoughtSpot app that the embed is being torn down, so that
+     * it can release any resources it holds before the iframe is removed from the DOM.
+     *
+     * This is triggered for you by `embed.destroy()`; you rarely need to trigger it
+     * directly. If `waitForCleanupOnDestroy` is set in the embed config, `destroy()`
+     * waits for the app to acknowledge this event (up to `cleanupTimeout`) before
+     * removing the iframe.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DestroyEmbed);
@@ -9475,26 +9506,41 @@ export interface DefaultAppInitData {
 }
 
 /**
- * Enum for the type of API intercepted
+ * Named groups of ThoughtSpot APIs that can be intercepted, for use in
+ * `interceptUrls`. Each group expands to the underlying request URLs, so you do
+ * not have to list them individually.
  */
 export enum InterceptedApiType {
     /**
-     * The apis that are use to get the data for the embed
+     * The APIs that fetch the data backing an Answer, including its chart,
+     * table, and headline data.
      */
     AnswerData = 'AnswerData',
     /**
-     * This will intercept all the apis
+     * Intercepts every `fetch` request the embedded application makes, not only
+     * the data APIs. This includes authentication, session, and metadata calls,
+     * so the handler must respond to requests it does not recognize by passing
+     * `execute: true`. Listing this alongside other entries in `interceptUrls`
+     * supersedes them.
      */
     ALL = 'ALL',
     /**
-     * The apis that are use to get the data for the liveboard
+     * The APIs that fetch the data backing a Liveboard.
      */
     LiveboardData = 'LiveboardData',
 }
 
 export type ApiInterceptFlags = {
     /**
-     * Flag that allows using `EmbedEvent.OnBeforeGetVizDataIntercept`.
+     * Emits `EmbedEvent.OnBeforeGetVizDataIntercept` before the Answer data
+     * APIs are called. This is the earlier, narrower form of interception, kept
+     * for backward compatibility and implemented on top of
+     * `EmbedEvent.ApiIntercept`. Prefer `interceptUrls` with
+     * `InterceptedApiType.AnswerData` in new code.
+     *
+     * Setting this also intercepts the Answer data APIs, so both
+     * `EmbedEvent.OnBeforeGetVizDataIntercept` and `EmbedEvent.ApiIntercept`
+     * are emitted for those requests.
      *
      * Can be used for Search and App Embed from SDK 1.29.0
      *
@@ -9502,14 +9548,21 @@ export type ApiInterceptFlags = {
      */
     isOnBeforeGetVizDataInterceptEnabled?: boolean;
     /**
-     * This allows to intercept the urls passed, once intercepted the api will only
-     * run based on the response from the responder of ApiIntercept event.
+     * The requests to intercept, given as `InterceptedApiType` groups, absolute
+     * URLs, or paths beginning with `/` that are resolved against the
+     * ThoughtSpot host. Setting this is what turns interception on.
+     *
+     * A URL matches only on exact equality with the request's fully resolved
+     * URL, query string included, so prefer an `InterceptedApiType` group where
+     * one covers the API you need.
+     *
+     * Each intercepted request pauses and emits `EmbedEvent.ApiIntercept`, then
+     * proceeds according to the response passed to that event's responder.
      *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
-     *   enableApiIntercept: true,
      *   interceptUrls: [InterceptedApiType.LiveboardData],
      * })
      * ```
@@ -9518,14 +9571,14 @@ export type ApiInterceptFlags = {
      */
     interceptUrls?: (string | InterceptedApiType)[];
     /**
-     * The timeout for the intercept, default is 30000ms
-     * the api will error out if the timeout is reached
+     * How long, in milliseconds, an intercepted request waits for the
+     * `EmbedEvent.ApiIntercept` responder before it is abandoned. Defaults to
+     * 30000. On timeout the request fails and `EmbedEvent.Error` is emitted.
      *
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#embed', {
      *   ...viewConfig,
-     *   enableApiIntercept: true,
      *   interceptUrls: [InterceptedApiType.ALL],
      *   interceptTimeout: 1000,
      * })
