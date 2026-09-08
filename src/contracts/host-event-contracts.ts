@@ -30,13 +30,6 @@ import type {
 } from './ui-passthrough-contracts';
 
 /**
- * Shorthand for a contract entry whose response shape is not formally
- * specified yet. Tightening a response later is additive for readers;
- * never loosen an already-typed response.
- */
-type ContractEntryOf<RequestT> = { request: RequestT; response: any };
-
-/**
  * Request for host events that MAY target a specific visualization.
  * Omitting vizId targets the current answer/liveboard as a whole.
  * (In some contexts, e.g. Spotter, the app requires vizId at runtime.)
@@ -193,18 +186,17 @@ export interface SetActiveTabRequest {
 }
 
 /**
- * Typed request/response contracts for host events that do not go through
- * the UI passthrough pipeline.
+ * Typed request payloads for host events that do not go through the UI
+ * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
- * Request shapes are transcribed from the host's runtime validation
- * schemas (embed-util HostEventContract) — the shapes the ThoughtSpot app
- * actually enforces — flattened across contexts to the permissive
- * superset (context-specific requirements are validated at runtime).
+ * Shapes are transcribed from the host's runtime validation schemas
+ * (embed-util HostEventContract) — what the ThoughtSpot app actually enforces —
+ * flattened across contexts to the permissive superset (context-specific
+ * requirements are validated at runtime).
  *
- * NOTE: `response` is typed `any` for events whose host-side response
- * shape is not formally specified yet. Tightening a response type later
- * is additive for consumers reading properties off it, but do not LOOSEN
- * an already-typed response.
+ * Responses are typed only for UI-passthrough-backed events today (see
+ * {@link HostEventResponse}). Add a response map alongside this one when the
+ * first explicit response shape is specified; tightening later is additive.
  *
  * Deliberately absent (do not add without an audit):
  * - DrillDown: the runtime schema (object-shaped points) and the UI
@@ -213,114 +205,111 @@ export interface SetActiveTabRequest {
  * - GetAnswerSession/GetParameters/GetTML: typed via the UI passthrough
  *   mapping; their Spotter-context vizId requirement is runtime-only.
  */
-export interface HostEventContractExtension {
+export interface HostEventRequestMap {
     // ==================== FILTERS AND PARAMETERS ====================
-    [HostEvent.UpdateRuntimeFilters]: ContractEntryOf<RuntimeFilter[]>;
-    [HostEvent.UpdateParameters]: ContractEntryOf<RuntimeParameter[]>;
-    [HostEvent.UpdateFilters]: ContractEntryOf<UpdateFiltersRequest>;
-    [HostEvent.UpdateCrossFilter]: ContractEntryOf<UpdateCrossFilterRequest>;
-    [HostEvent.OpenFilter]: ContractEntryOf<OpenFilterRequest>;
-    [HostEvent.OpenParameter]: ContractEntryOf<OpenParameterRequest>;
+    [HostEvent.UpdateRuntimeFilters]: RuntimeFilter[];
+    [HostEvent.UpdateParameters]: RuntimeParameter[];
+    [HostEvent.UpdateFilters]: UpdateFiltersRequest;
+    [HostEvent.UpdateCrossFilter]: UpdateCrossFilterRequest;
+    [HostEvent.OpenFilter]: OpenFilterRequest;
+    [HostEvent.OpenParameter]: OpenParameterRequest;
 
     // ==================== TABS AND VIZS ====================
-    [HostEvent.SetVisibleVizs]: ContractEntryOf<string[]>;
-    [HostEvent.SetVisibleTabs]: ContractEntryOf<string[]>;
-    [HostEvent.SetHiddenTabs]: ContractEntryOf<string[]>;
-    [HostEvent.SetActiveTab]: ContractEntryOf<SetActiveTabRequest>;
+    [HostEvent.SetVisibleVizs]: string[];
+    [HostEvent.SetVisibleTabs]: string[];
+    [HostEvent.SetHiddenTabs]: string[];
+    [HostEvent.SetActiveTab]: SetActiveTabRequest;
 
     // ==================== NAVIGATION ====================
-    [HostEvent.Navigate]: ContractEntryOf<string | number | NavigateRequest>;
+    [HostEvent.Navigate]: string | number | NavigateRequest;
 
     // ==================== SEARCH AND COLUMNS ====================
-    [HostEvent.Search]: ContractEntryOf<SearchRequest>;
-    [HostEvent.ResetSearch]: ContractEntryOf<void>;
-    [HostEvent.AddColumns]: ContractEntryOf<{ columnIds: string[] }>;
-    [HostEvent.RemoveColumn]: ContractEntryOf<{ columnId: string }>;
+    [HostEvent.Search]: SearchRequest;
+    [HostEvent.ResetSearch]: void;
+    [HostEvent.AddColumns]: { columnIds: string[] };
+    [HostEvent.RemoveColumn]: { columnId: string };
 
     // ==================== VIZ-SCOPED ACTIONS ====================
     // vizId optional in most contexts; some contexts require it at runtime.
-    [HostEvent.Edit]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.Save]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.Delete]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.Share]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.Present]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.CopyLink]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.ExportTML]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.EditTML]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.UpdateTML]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.SchedulesList]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.Schedule]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.SpotIQAnalyze]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.ShowUnderlyingData]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.CreateMonitor]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.ManageMonitor]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.SyncToSheets]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.SyncToOtherApps]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.ManagePipelines]: ContractEntryOf<VizScopedRequest>;
+    [HostEvent.Edit]: VizScopedRequest;
+    [HostEvent.Save]: VizScopedRequest;
+    [HostEvent.Delete]: VizScopedRequest;
+    [HostEvent.Share]: VizScopedRequest;
+    [HostEvent.Present]: VizScopedRequest;
+    [HostEvent.CopyLink]: VizScopedRequest;
+    [HostEvent.ExportTML]: VizScopedRequest;
+    [HostEvent.EditTML]: VizScopedRequest;
+    [HostEvent.UpdateTML]: VizScopedRequest;
+    [HostEvent.SchedulesList]: VizScopedRequest;
+    [HostEvent.Schedule]: VizScopedRequest;
+    [HostEvent.SpotIQAnalyze]: VizScopedRequest;
+    [HostEvent.ShowUnderlyingData]: VizScopedRequest;
+    [HostEvent.CreateMonitor]: VizScopedRequest;
+    [HostEvent.ManageMonitor]: VizScopedRequest;
+    [HostEvent.SyncToSheets]: VizScopedRequest;
+    [HostEvent.SyncToOtherApps]: VizScopedRequest;
+    [HostEvent.ManagePipelines]: VizScopedRequest;
     // Download shares the downloadAsPng wire value with DownloadAsPng.
-    [HostEvent.DownloadAsPng]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.DownloadAsCsv]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.DownloadAsXlsx]: ContractEntryOf<VizScopedRequest>;
-    [HostEvent.DownloadAsPdf]: ContractEntryOf<VizScopedRequest & { liveboardId?: string }>;
+    [HostEvent.DownloadAsPng]: VizScopedRequest;
+    [HostEvent.DownloadAsCsv]: VizScopedRequest;
+    [HostEvent.DownloadAsXlsx]: VizScopedRequest;
+    [HostEvent.DownloadAsPdf]: VizScopedRequest & { liveboardId?: string };
 
     // Viz id required in every context.
-    [HostEvent.Explore]: ContractEntryOf<RequiredVizRequest>;
-    [HostEvent.AskSage]: ContractEntryOf<RequiredVizRequest>;
-    [HostEvent.AskSpotter]: ContractEntryOf<RequiredVizRequest>;
-    [HostEvent.AnswerChartSwitcher]: ContractEntryOf<RequiredVizRequest>;
+    [HostEvent.Explore]: RequiredVizRequest;
+    [HostEvent.AskSage]: RequiredVizRequest;
+    [HostEvent.AskSpotter]: RequiredVizRequest;
+    [HostEvent.AnswerChartSwitcher]: RequiredVizRequest;
 
     // ==================== LIVEBOARD ====================
-    [HostEvent.UpdatePersonalisedView]: ContractEntryOf<Pick<PersonalisedViewRequest, 'viewId'>>;
-    [HostEvent.SelectPersonalizedView]: ContractEntryOf<PersonalisedViewRequest>;
-    [HostEvent.ResetLiveboardPersonalisedView]: ContractEntryOf<void>;
-    [HostEvent.AIHighlights]: ContractEntryOf<void>;
-    [HostEvent.SendTestScheduleEmail]: ContractEntryOf<ScheduleEmailRequest>;
-    [HostEvent.RefreshLiveboardBrowserCache]: ContractEntryOf<ScheduleEmailRequest>;
+    [HostEvent.UpdatePersonalisedView]: Pick<PersonalisedViewRequest, 'viewId'>;
+    [HostEvent.SelectPersonalizedView]: PersonalisedViewRequest;
+    [HostEvent.ResetLiveboardPersonalisedView]: void;
+    [HostEvent.AIHighlights]: void;
+    [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
+    [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;
 
     // ==================== SPOTTER ====================
-    [HostEvent.SpotterSearch]: ContractEntryOf<SpotterSearchRequest>;
-    [HostEvent.ResetSpotterConversation]: ContractEntryOf<void>;
-    [HostEvent.ShareSpotterConversation]: ContractEntryOf<ConversationScopedRequest>;
-    [HostEvent.CloseSpotterShareConversation]: ContractEntryOf<void>;
-    [HostEvent.ExitSpotterSharedConversation]: ContractEntryOf<void>;
-    [HostEvent.PinSpotterConversation]: ContractEntryOf<ConversationScopedRequest>;
-    [HostEvent.UnpinSpotterConversation]: ContractEntryOf<ConversationScopedRequest>;
-    [HostEvent.EditLastPrompt]: ContractEntryOf<string>;
-    [HostEvent.DeleteLastPrompt]: ContractEntryOf<void>;
-    [HostEvent.PreviewSpotterData]: ContractEntryOf<void>;
-    [HostEvent.SpotterVizSendUserMessage]: ContractEntryOf<{ query: string }>;
-    [HostEvent.InitSpotterVizConversation]: ContractEntryOf<void>;
-    [HostEvent.OpenSpotterVizPanel]: ContractEntryOf<void>;
-    [HostEvent.CloseSpotterVizPanel]: ContractEntryOf<void>;
+    [HostEvent.SpotterSearch]: SpotterSearchRequest;
+    [HostEvent.ResetSpotterConversation]: void;
+    [HostEvent.ShareSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.CloseSpotterShareConversation]: void;
+    [HostEvent.ExitSpotterSharedConversation]: void;
+    [HostEvent.PinSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.UnpinSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.EditLastPrompt]: string;
+    [HostEvent.DeleteLastPrompt]: void;
+    [HostEvent.PreviewSpotterData]: void;
+    [HostEvent.SpotterVizSendUserMessage]: { query: string };
+    [HostEvent.InitSpotterVizConversation]: void;
+    [HostEvent.OpenSpotterVizPanel]: void;
+    [HostEvent.CloseSpotterVizPanel]: void;
 }
 
 /**
  * Resolves the typed request payload for a host event.
  * Resolution order:
- * 1. Explicitly typed contract in {@link HostEventContractExtension}
+ * 1. Explicitly typed request in {@link HostEventRequestMap}
  * 2. UI passthrough backed contract ({@link EmbedApiHostEventMapping})
  * 3. `any` (event not audited/typed yet — backward compatible)
  */
 export type HostEventRequest<HostEventT extends HostEvent> =
-    HostEventT extends keyof HostEventContractExtension
-        ? HostEventContractExtension[HostEventT]['request']
+    HostEventT extends keyof HostEventRequestMap
+        ? HostEventRequestMap[HostEventT]
         : HostEventT extends keyof EmbedApiHostEventMapping
             ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
             : any;
-
 /**
- * Resolves the typed response payload for a host event.
- * Same resolution order as {@link HostEventRequest}.
+ * Resolves the typed response payload for a host event. Only UI passthrough
+ * backed events have typed responses today; everything else resolves to `any`.
  */
 export type HostEventResponse<
     HostEventT extends HostEvent,
     // Reserved for context-dependent response shapes (additive change later).
     ContextT extends ContextType = ContextType,
-> = HostEventT extends keyof HostEventContractExtension
-    ? HostEventContractExtension[HostEventT]['response']
-    : HostEventT extends keyof EmbedApiHostEventMapping
-        ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
-        : any;
+> = HostEventT extends keyof EmbedApiHostEventMapping
+    ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
+    : any;
 
 /**
  * Payload type accepted by `embed.trigger()`. Keeps the historical

@@ -297,5 +297,5 @@ export type EmbedApiHostEventMapping = {
 
 // NOTE: HostEventRequest / HostEventResponse / TriggerPayload / TriggerResponse
 // live in the sibling ./host-event-contracts, which layers the
-// HostEventContractExtension map on top of the UI-passthrough mapping above.
+// HostEventRequestMap on top of the UI-passthrough mapping above.
 // The former 2-tier definitions that lived here were superseded and removed.

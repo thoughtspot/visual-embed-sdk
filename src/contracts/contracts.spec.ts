@@ -32,7 +32,7 @@ import type {
 } from './embed-event-payloads';
 import * as contractsBarrel from './index';
 
-// Events with explicitly typed contracts in HostEventContractExtension.
+// Events with explicitly typed requests in HostEventRequestMap.
 // Keep in sync with the interface — this list is what the snapshot locks.
 const TYPED_HOST_EVENTS: HostEvent[] = [
     // Filters and parameters
