@@ -1679,8 +1679,14 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * the URL: the embed marker, the host application URL, the SDK version, the
      * authentication flags, the viewport size, the log level, the locale and
      * formatting options, and the org override. Everything else - hidden and
-     * visible actions, hidden and visible tabs, data sources, customizations
-     * and `additionalFlags` - travels over postMessage.
+     * visible actions, hidden and visible tabs, data sources and customizations
+     * - travels over postMessage.
+     *
+     * `additionalFlags` are an exception and stay on the iframe `src`: they are
+     * an escape hatch for flags the SDK does not model, so the application is
+     * not guaranteed to read them back out of the postMessage payload, and some
+     * of them gate the initial render. Do not put anything you need kept out of
+     * the DOM into `additionalFlags`.
      *
      * Use this to keep configuration out of the DOM and to keep the iframe URL
      * short. Note two consequences before you turn it on:

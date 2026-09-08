@@ -118,6 +118,10 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
  * would otherwise be applied a frame late (viewport, log level, locale,
  * formatting and org). Everything else is delivered over
  * `HostEvent.UpdateEmbedParams`.
+ *
+ * The caller's `additionalFlags` are not listed here - every one of them is
+ * added back to the `src` unconditionally by
+ * {@link TsEmbed.getUrlQueryParamsObject}.
  * @internal
  */
 const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
@@ -836,7 +840,6 @@ export class TsEmbed {
             hiddenTabs,
             visibleTabs,
             showAlerts,
-            additionalFlags: additionalFlagsFromView,
             locale,
             customizations,
             contextMenuTrigger,
@@ -850,12 +853,7 @@ export class TsEmbed {
             primaryAction,
         } = this.viewConfig;
 
-        const { additionalFlags: additionalFlagsFromInit } = this.embedConfig;
-
-        const additionalFlags = {
-            ...additionalFlagsFromInit,
-            ...additionalFlagsFromView,
-        };
+        const additionalFlags = this.getAdditionalFlags();
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
             this.handleError({
@@ -992,6 +990,18 @@ export class TsEmbed {
     }
 
     /**
+     * The `additionalFlags` for this embed: the flags from `init()` merged with
+     * the ones from the view config, the view config winning on a conflict.
+     * @returns The merged additional flags, empty when none are configured.
+     */
+    protected getAdditionalFlags(): { [key: string]: string | number | boolean } {
+        return {
+            ...this.embedConfig.additionalFlags,
+            ...this.viewConfig.additionalFlags,
+        };
+    }
+
+    /**
      * The parameters that go on the iframe `src`.
      *
      * This is the full parameter set, unless the embed sets
@@ -1000,6 +1010,13 @@ export class TsEmbed {
      * frame is ready. Every URL builder must go through this method;
      * `getEmbedParamsObject()` stays the full set because it also feeds the
      * postMessage payload.
+     *
+     * The caller's `additionalFlags` are never filtered out - every key is put
+     * back on the `src` whether or not it is a bootstrap param, and it keeps the
+     * last-write-wins precedence it has in {@link getBaseQueryParams}.
+     * `additionalFlags` are an escape hatch for flags the SDK does not model, so
+     * the application cannot be relied on to read them back out of the
+     * postMessage payload, and some of them gate the initial render.
      * @returns The parameters to encode into the iframe `src`.
      */
     protected getUrlQueryParamsObject(): Record<any, any> {
@@ -1007,9 +1024,13 @@ export class TsEmbed {
         if (!this.sendConfigAsPostMessage) {
             return queryParams;
         }
-        return Object.fromEntries(
-            Object.entries(queryParams).filter(([key]) => BOOTSTRAP_URL_PARAMS.has(key)),
+        const bootstrapParams = Object.entries(queryParams).filter(([key]) =>
+            BOOTSTRAP_URL_PARAMS.has(key),
         );
+        return {
+            ...Object.fromEntries(bootstrapParams),
+            ...this.getAdditionalFlags(),
+        };
     }
 
     protected getRootIframeSrc() {

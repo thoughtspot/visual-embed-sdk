@@ -6283,8 +6283,12 @@ describe('sendConfigAsPostMessage', () => {
         expect(src).toContain('isPinboardV2Enabled=true');
     });
 
-    test('keeps only the bootstrap params on the URL when the flag is set', async () => {
-        const { src } = await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+    test('keeps the bootstrap params and additionalFlags on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc({
+            ...lbConfig,
+            additionalFlags: { ...lbConfig.additionalFlags, enableDataPanelV2: true },
+            sendConfigAsPostMessage: true,
+        });
 
         // Boot and auth handshake stays on the URL.
         expect(src).toContain('hostAppUrl=');
@@ -6293,11 +6297,14 @@ describe('sendConfigAsPostMessage', () => {
         expect(src).toContain('blockNonEmbedFullAppAccess=true');
         expect(src).toContain('viewPortHeight=');
 
-        // View configuration and internal flags do not.
+        // additionalFlags are an escape hatch and are never filtered out, even
+        // when they collide with a param the SDK sets itself.
+        expect(src).toContain('internalBlinkFlag=true');
+        expect(src).toContain('enableDataPanelV2=true');
+
+        // The rest of the view configuration does not.
         expect(src).not.toContain('hideAction=');
-        expect(src).not.toContain('internalBlinkFlag');
         expect(src).not.toContain('isPinboardV2Enabled');
-        expect(src).not.toContain('enableDataPanelV2');
     });
 
     test('keeps the deep-link route on the URL when the flag is set', async () => {
