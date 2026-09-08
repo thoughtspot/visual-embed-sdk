@@ -341,9 +341,9 @@ export type DeepPartial<T> =
             : T;
 
 /**
- * `trigger()`'s `data` type. No-payload (`void`) events take `{}` (the app expects it
- * for `HostEvent.AIHighlights`); other events take a `DeepPartial` of their contract.
- * SDK 1.54.0 replaces this with strict `HostEventRequest` (required fields enforced).
+ * `trigger()`'s `data` type: an all-optional view of the event's request type.
+ * See {@link HostEventRequest} and the `*Request` interfaces, e.g. {@link SearchRequest}.
+ * No-payload events take `{}`. SDK 1.54.0 makes this strict (required fields enforced).
  */
 export type TriggerData<HostEventT extends HostEvent> =
     HostEventRequest<HostEventT> extends void

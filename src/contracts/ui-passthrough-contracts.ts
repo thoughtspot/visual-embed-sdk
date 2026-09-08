@@ -70,54 +70,149 @@ export enum UIPassthroughEvent {
   GetExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
 }
 
-// UI Passthrough Contract
+/**
+ * UI passthrough contract. Each event's request/response is a named interface so it
+ * documents and imports cleanly; `UIPassthroughContractBase` maps events to the pairs.
+ */
+
+/** Request for {@link UIPassthroughEvent.PinAnswerToLiveboard}. */
+export interface PinAnswerToLiveboardRequest {
+  vizId?: string;
+  newVizName: string;
+  newVizDescription?: string;
+  liveboardId?: string;
+  tabId?: string;
+  newLiveboardName?: string;
+  newTabName?: string;
+}
+/** Response for {@link UIPassthroughEvent.PinAnswerToLiveboard}. */
+export interface PinAnswerToLiveboardResponse {
+  liveboardId: string;
+  tabId: string;
+  vizId: string;
+}
+/** Request for {@link UIPassthroughEvent.SaveAnswer}. */
+export interface SaveAnswerRequest {
+  name: string;
+  description: string;
+  vizId?: string;
+  isDiscoverable?: boolean;
+}
+/** Response for {@link UIPassthroughEvent.SaveAnswer}. */
+export interface SaveAnswerResponse {
+  answerId: string;
+  saveResponse?: any;
+  shareResponse?: any;
+}
+/** Response for {@link UIPassthroughEvent.GetDiscoverabilityStatus}. */
+export interface GetDiscoverabilityStatusResponse {
+  shouldShowDiscoverability: boolean;
+  isDiscoverabilityCheckboxUnselectedPerOrg: boolean;
+}
+/** Response for {@link UIPassthroughEvent.GetAvailableUIPassthroughs}. */
+export interface GetAvailableUIPassthroughsResponse {
+  keys: string[];
+}
+/** Request for {@link UIPassthroughEvent.GetAnswerConfig}. */
+export interface GetAnswerConfigRequest {
+  vizId?: string;
+}
+/** Request for {@link UIPassthroughEvent.GetUnsavedAnswerTML}. */
+export interface GetUnsavedAnswerTMLRequest {
+  sessionId?: string;
+  vizId?: string;
+}
+/** Response for {@link UIPassthroughEvent.GetUnsavedAnswerTML}. */
+export interface GetUnsavedAnswerTMLResponse {
+  tml: string;
+}
+/** Request for {@link UIPassthroughEvent.GetAnswerSession}. */
+export interface GetAnswerSessionRequest {
+  vizId?: string;
+}
+/** Response for {@link UIPassthroughEvent.GetAnswerSession}. */
+export interface GetAnswerSessionResponse {
+  session: SessionInterface;
+  embedAnswerData?: Record<string, any>;
+}
+/** Request for {@link UIPassthroughEvent.GetFilters}. */
+export interface GetFiltersRequest {
+  vizId?: string;
+}
+/** Response for {@link UIPassthroughEvent.GetFilters}. */
+export interface GetFiltersResponse {
+  liveboardFilters: LiveboardFilter[];
+  runtimeFilters: RuntimeFilter[];
+}
+/** Response for {@link UIPassthroughEvent.GetIframeUrl}. */
+export interface GetIframeUrlResponse {
+  iframeUrl: string;
+}
+/** Response for {@link UIPassthroughEvent.GetParameters}. */
+export interface GetParametersResponse {
+  parameters: LiveboardParameter[];
+}
+/** Request for {@link UIPassthroughEvent.GetTML}. */
+export interface GetTMLRequest {
+  vizId?: string;
+  includeNonExecutedSearchTokens?: boolean;
+}
+/** Response for {@link UIPassthroughEvent.GetTabs}. */
+export interface GetTabsResponse {
+  orderedTabIds: string[];
+  numberOfTabs: number;
+  Tabs: LiveboardTab[];
+}
+/** Response for {@link UIPassthroughEvent.GetGroups}. */
+export interface GetGroupsResponse {
+  orderedGroupIds: string[];
+  numberOfGroups: number;
+  Groups: LiveboardGroup[];
+}
+/** Response for {@link UIPassthroughEvent.GetExportRequestForCurrentPinboard}. */
+export interface GetExportRequestForCurrentPinboardResponse {
+  data: { v2Content: string };
+  type: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
+}
+/**
+ * Request for {@link UIPassthroughEvent.UpdateFilters}. Not the host-event
+ * `UpdateFiltersRequest` (host-event-contracts.ts), which has a different shape.
+ */
+export interface UpdateFiltersPassthroughRequest {
+  filter?: FilterUpdate;
+  filters?: FilterUpdate[];
+}
+/** Request for {@link UIPassthroughEvent.Drilldown}. */
+export interface DrilldownRequest {
+  points: {
+    selectedPoints?: string[];
+    clickedPoint?: string;
+  };
+  columnGuid?: string;
+  autoDrillDown?: boolean;
+  vizId?: string;
+}
+
+/** Maps each UI passthrough event to its request/response pair. */
 export type UIPassthroughContractBase = {
   [UIPassthroughEvent.PinAnswerToLiveboard]: {
-    request: {
-      vizId?: string;
-      newVizName: string;
-      newVizDescription?: string;
-      liveboardId?: string;
-      tabId?: string;
-      newLiveboardName?: string;
-      newTabName?: string;
-    };
-    response: {
-      liveboardId: string;
-      tabId: string;
-      vizId: string;
-    };
+    request: PinAnswerToLiveboardRequest;
+    response: PinAnswerToLiveboardResponse;
   };
   [UIPassthroughEvent.SaveAnswer]: {
-    request: {
-      name: string;
-      description: string;
-      vizId?: string;
-      isDiscoverable?: boolean;
-    };
-    response: {
-      answerId: string,
-      saveResponse?: any;
-      shareResponse?: any;
-    };
+    request: SaveAnswerRequest;
+    response: SaveAnswerResponse;
   };
   [UIPassthroughEvent.GetDiscoverabilityStatus]: {
     request: any;
-    response: {
-      shouldShowDiscoverability: boolean;
-      isDiscoverabilityCheckboxUnselectedPerOrg: boolean;
-    };
+    response: GetDiscoverabilityStatusResponse;
   };
   [UIPassthroughEvent.GetAvailableUIPassthroughs]: {
     request: any;
-    response: {
-      keys: string[];
-    };
+    response: GetAvailableUIPassthroughsResponse;
   };
   [UIPassthroughEvent.GetAnswerConfig]: {
-    request: {
-      vizId?: string;
-    };
+    request: GetAnswerConfigRequest;
     response: any;
   };
   [UIPassthroughEvent.GetLiveboardConfig]: {
@@ -125,91 +220,47 @@ export type UIPassthroughContractBase = {
     response: any;
   };
   [UIPassthroughEvent.GetUnsavedAnswerTML]: {
-    request: {
-      sessionId?: string;
-      vizId?: string;
-    };
-    response: {
-      tml: string;
-    };
+    request: GetUnsavedAnswerTMLRequest;
+    response: GetUnsavedAnswerTMLResponse;
   };
   [UIPassthroughEvent.GetAnswerSession]: {
-    request: {
-      vizId?: string;
-    };
-    response: {
-      session: SessionInterface;
-      embedAnswerData?: Record<string, any>;
-    };
+    request: GetAnswerSessionRequest;
+    response: GetAnswerSessionResponse;
   };
   [UIPassthroughEvent.GetFilters]: {
-    request: {
-      vizId?: string;
-    };
-    response: {
-      liveboardFilters: LiveboardFilter[];
-      runtimeFilters: RuntimeFilter[];
-    };
+    request: GetFiltersRequest;
+    response: GetFiltersResponse;
   };
   [UIPassthroughEvent.GetIframeUrl]: {
     request: Record<string, never>;
-    response: {
-      iframeUrl: string;
-    };
+    response: GetIframeUrlResponse;
   };
   [UIPassthroughEvent.GetParameters]: {
     request: Record<string, never>;
-    response: {
-      parameters: LiveboardParameter[];
-    };
+    response: GetParametersResponse;
   };
   [UIPassthroughEvent.GetTML]: {
-    request: {
-      vizId?: string;
-      includeNonExecutedSearchTokens?: boolean;
-    };
+    request: GetTMLRequest;
     response: Record<string, any>;
   };
   [UIPassthroughEvent.GetTabs]: {
     request: Record<string, never>;
-    response: {
-      orderedTabIds: string[];
-      numberOfTabs: number;
-      Tabs: LiveboardTab[];
-    };
+    response: GetTabsResponse;
   };
   [UIPassthroughEvent.GetGroups]: {
     request: Record<string, never>;
-    response: {
-      orderedGroupIds: string[];
-      numberOfGroups: number;
-      Groups: LiveboardGroup[];
-    };
+    response: GetGroupsResponse;
   };
   [UIPassthroughEvent.GetExportRequestForCurrentPinboard]: {
     request: Record<string, never>;
-    response: {
-      data: { v2Content: string };
-      type: UIPassthroughEvent.GetExportRequestForCurrentPinboard;
-    };
+    response: GetExportRequestForCurrentPinboardResponse;
   };
   [UIPassthroughEvent.UpdateFilters]: {
-    request: {
-      filter?: FilterUpdate;
-      filters?: FilterUpdate[];
-    };
+    request: UpdateFiltersPassthroughRequest;
     response: unknown;
   };
   [UIPassthroughEvent.Drilldown]: {
-    request: {
-      points: {
-        selectedPoints?: string[];
-        clickedPoint?: string;
-      };
-      columnGuid?: string;
-      autoDrillDown?: boolean;
-      vizId?: string;
-    };
+    request: DrilldownRequest;
     response: unknown;
   };
 };
