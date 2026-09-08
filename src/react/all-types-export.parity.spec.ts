@@ -203,6 +203,9 @@ describe('react/all-types-export parity with index', () => {
             'HostEventResponse',
             'TriggerPayload',
             'TriggerResponse',
+            'TriggerData',
+            'UpdateFiltersRequest',
+            'NavigateRequest',
         ].forEach((name) => expect(reactNames.has(name)).toBe(true));
     });
 });
