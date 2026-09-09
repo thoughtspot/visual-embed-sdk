@@ -197,7 +197,7 @@ export interface SearchViewConfig
      * Show or hide answer edit panel.
      *
      * Supported embed types: `SearchEmbed`
-     * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
