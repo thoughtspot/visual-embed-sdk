@@ -49,28 +49,10 @@ const LIVEBOARD_RELATED_ROUTES = [
 ];
 
 /**
- * The lazy-loading settings a full-height embed falls back to when the host app
- * has not chosen its own.
- *
- * Pure by design: the embed owns its view config, so the embed applies the
- * result itself rather than having this module write to it.
- * @param viewConfig The embed's view config
- * @returns The settings to apply, with the host app's own choices preserved
+ * The slice of an embed's view config the full-height controller reads.
  */
-export const resolveLazyLoadingDefaults = (viewConfig: FullHeightViewConfig) => ({
-    lazyLoadingForFullHeight:
-        viewConfig.lazyLoadingForFullHeight === undefined
-            ? true
-            : viewConfig.lazyLoadingForFullHeight,
-    enableScrollableContainerLazyLoading:
-        viewConfig.enableScrollableContainerLazyLoading === undefined
-            ? true
-            : viewConfig.enableScrollableContainerLazyLoading,
-    lazyLoadingMargin:
-        viewConfig.lazyLoadingMargin === undefined
-            ? DEFAULT_LAZY_LOADING_MARGIN
-            : viewConfig.lazyLoadingMargin,
-});
+export type FullHeightControllerViewConfig = FullHeightViewConfig &
+    Pick<BaseViewConfig, 'frameParams'>;
 
 /**
  * The subset of the embed the full-height controller drives. Keeping this
@@ -109,16 +91,68 @@ export class FullHeightController {
 
     private resizeObserver: ResizeObserver | undefined;
 
+    private config: FullHeightControllerViewConfig;
+
     constructor(
-        private readonly viewConfig: FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>,
+        viewConfig: FullHeightControllerViewConfig,
         private readonly host: FullHeightEmbedHost,
-    ) {}
+    ) {
+        this.config = FullHeightController.withLazyLoadingDefaults(viewConfig);
+        this.registerEventHandlers();
+    }
+
+    /**
+     * The view config the controller runs on: the host app's own config with
+     * the lazy-loading defaults filled in. Read-only, so the only way to change
+     * it is through the setter, which re-resolves the defaults.
+     */
+    public get viewConfig(): Readonly<FullHeightControllerViewConfig> {
+        return this.config;
+    }
+
+    /**
+     * Replaces the view config the controller runs on and re-resolves the
+     * lazy-loading defaults against it. The config the caller passes is never
+     * written to; the controller keeps a copy of its own.
+     */
+    public set viewConfig(viewConfig: Readonly<FullHeightControllerViewConfig>) {
+        this.config = FullHeightController.withLazyLoadingDefaults(viewConfig);
+    }
+
+    /**
+     * The view config with the lazy-loading settings the embed falls back to
+     * when the host app has not chosen its own.
+     *
+     * Pure by design: it returns a new config rather than writing to the one it
+     * is given, so the host app's object is left untouched.
+     * @param viewConfig The embed's view config
+     * @returns A copy with the defaults filled in, host app choices preserved
+     */
+    private static withLazyLoadingDefaults(
+        viewConfig: Readonly<FullHeightControllerViewConfig>,
+    ): FullHeightControllerViewConfig {
+        return {
+            ...viewConfig,
+            lazyLoadingForFullHeight:
+                viewConfig.lazyLoadingForFullHeight === undefined
+                    ? true
+                    : viewConfig.lazyLoadingForFullHeight,
+            enableScrollableContainerLazyLoading:
+                viewConfig.enableScrollableContainerLazyLoading === undefined
+                    ? true
+                    : viewConfig.enableScrollableContainerLazyLoading,
+            lazyLoadingMargin:
+                viewConfig.lazyLoadingMargin === undefined
+                    ? DEFAULT_LAZY_LOADING_MARGIN
+                    : viewConfig.lazyLoadingMargin,
+        };
+    }
 
     /**
      * Whether the host app asked for a full-height embed.
      */
     private get isEnabled(): boolean {
-        return this.viewConfig.fullHeight === true;
+        return this.config.fullHeight === true;
     }
 
     /**
@@ -126,7 +160,7 @@ export class FullHeightController {
      * requires the SDK to report the visible region of the embed.
      */
     private get isLazyLoadEnabled(): boolean {
-        return this.isEnabled && !!this.viewConfig.lazyLoadingForFullHeight;
+        return this.isEnabled && !!this.config.lazyLoadingForFullHeight;
     }
 
     /**
@@ -134,15 +168,15 @@ export class FullHeightController {
      * spelling of `minimumHeight` and is still honored for compatibility.
      */
     public get minimumHeight(): number {
-        const { minimumHeight, defaultHeight } = this.viewConfig;
+        const { minimumHeight, defaultHeight } = this.config;
         return minimumHeight || defaultHeight || DEFAULT_MINIMUM_HEIGHT;
     }
 
     /**
-     * Registers the embed event handlers the feature depends on. Call this from
-     * the embed constructor, before `render`.
+     * Registers the embed event handlers the feature depends on. Called from
+     * the constructor, so the handlers are in place before `render`.
      */
-    public registerEventHandlers(): void {
+    private registerEventHandlers(): void {
         if (!this.isEnabled) {
             return;
         }
@@ -164,12 +198,12 @@ export class FullHeightController {
             return;
         }
         params[Param.fullHeight] = true;
-        if (!this.viewConfig.lazyLoadingForFullHeight) {
+        if (!this.config.lazyLoadingForFullHeight) {
             return;
         }
         params[Param.IsLazyLoadingForEmbedEnabled] = true;
-        if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
-            params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
+        if (isValidCssMargin(this.config.lazyLoadingMargin)) {
+            params[Param.RootMarginForLazyLoad] = this.config.lazyLoadingMargin;
         }
     }
 
@@ -243,7 +277,7 @@ export class FullHeightController {
         if (LIVEBOARD_RELATED_ROUTES.some((route) => currentPath.startsWith(route))) {
             return;
         }
-        this.host.setFrameHeight(this.viewConfig.frameParams?.height || this.minimumHeight);
+        this.host.setFrameHeight(this.config.frameParams?.height || this.minimumHeight);
     };
 
     /**
@@ -267,7 +301,7 @@ export class FullHeightController {
         }
         return calculateVisibleElementData(
             iframe,
-            this.viewConfig.enableScrollableContainerLazyLoading,
+            this.config.enableScrollableContainerLazyLoading,
         );
     }
 
@@ -280,7 +314,7 @@ export class FullHeightController {
         // TODO: Use passive: true, install modernizr to check for passive
         window.addEventListener('resize', this.sendVisibleCoordinates);
         window.addEventListener('scroll', this.sendVisibleCoordinates, true);
-        if (!this.viewConfig.enableScrollableContainerLazyLoading) {
+        if (!this.config.enableScrollableContainerLazyLoading) {
             return;
         }
         this.observeScrollableContainers();

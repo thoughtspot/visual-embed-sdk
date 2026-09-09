@@ -1,49 +1,13 @@
 import {
-    FullHeightController, FullHeightEmbedHost, resolveLazyLoadingDefaults,
+    FullHeightController,
+    FullHeightControllerViewConfig as ControllerConfig,
+    FullHeightEmbedHost,
 } from './full-height';
 import {
-    BaseViewConfig, EmbedEvent, FullHeightViewConfig, HostEvent, MessageCallback, Param,
+    EmbedEvent, HostEvent, MessageCallback, Param,
 } from './types';
-
-type ControllerConfig = FullHeightViewConfig & Pick<BaseViewConfig, 'frameParams'>;
 import { logger } from './utils/logger';
 import { DEFAULT_LAZY_LOADING_MARGIN } from './config';
-
-describe('resolveLazyLoadingDefaults', () => {
-    it('turns every lazy-loading setting on when the host app set none', () => {
-        expect(resolveLazyLoadingDefaults({})).toEqual({
-            lazyLoadingForFullHeight: true,
-            enableScrollableContainerLazyLoading: true,
-            lazyLoadingMargin: DEFAULT_LAZY_LOADING_MARGIN,
-        });
-    });
-
-    it('preserves an explicit opt-out', () => {
-        expect(resolveLazyLoadingDefaults({
-            lazyLoadingForFullHeight: false,
-            enableScrollableContainerLazyLoading: false,
-            lazyLoadingMargin: '0px',
-        })).toEqual({
-            lazyLoadingForFullHeight: false,
-            enableScrollableContainerLazyLoading: false,
-            lazyLoadingMargin: '0px',
-        });
-    });
-
-    it('defaults only what the host app left unset', () => {
-        expect(resolveLazyLoadingDefaults({ lazyLoadingMargin: '50px' })).toEqual({
-            lazyLoadingForFullHeight: true,
-            enableScrollableContainerLazyLoading: true,
-            lazyLoadingMargin: '50px',
-        });
-    });
-
-    it('does not write to the config it is given', () => {
-        const viewConfig: FullHeightViewConfig = { fullHeight: true };
-        resolveLazyLoadingDefaults(viewConfig);
-        expect(viewConfig).toEqual({ fullHeight: true });
-    });
-});
 
 describe('FullHeightController', () => {
     let iFrame: HTMLIFrameElement;
@@ -73,17 +37,6 @@ describe('FullHeightController', () => {
         Object.defineProperty(window, 'innerWidth', { value: innerWidth, configurable: true });
     };
 
-    /**
-     * Mirrors what the embed does in its constructor: resolve the lazy-loading
-     * defaults and hand the controller the result. Returns a new object so the
-     * caller's config is left alone, letting tests assert on both.
-     */
-    const withDefaults = (viewConfig: ControllerConfig): ControllerConfig => (
-        viewConfig.fullHeight === true
-            ? { ...viewConfig, ...resolveLazyLoadingDefaults(viewConfig) }
-            : viewConfig
-    );
-
     const createControllerFor = (viewConfig: ControllerConfig) => createController(viewConfig);
 
     const createController = (
@@ -102,9 +55,9 @@ describe('FullHeightController', () => {
             },
             trigger: jest.fn(),
         };
-        const controller = new FullHeightController(withDefaults(viewConfig), host);
-        controller.registerEventHandlers();
-        return controller;
+        // The controller resolves the defaults and registers its handlers in
+        // its own constructor, so nothing else is needed here.
+        return new FullHeightController(viewConfig, host);
     };
 
     /**
@@ -197,6 +150,65 @@ describe('FullHeightController', () => {
         });
     });
 
+    describe('viewConfig', () => {
+        it('reads back the lazy-loading settings defaulted for the host app', () => {
+            const controller = createController({ fullHeight: true });
+            expect(controller.viewConfig).toEqual({
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
+                lazyLoadingMargin: DEFAULT_LAZY_LOADING_MARGIN,
+            });
+        });
+
+        it('preserves an explicit opt-out', () => {
+            const controller = createController({
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                enableScrollableContainerLazyLoading: false,
+                lazyLoadingMargin: '0px',
+            });
+            expect(controller.viewConfig).toEqual({
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                enableScrollableContainerLazyLoading: false,
+                lazyLoadingMargin: '0px',
+            });
+        });
+
+        it('defaults only what the host app left unset', () => {
+            const controller = createController({ fullHeight: true, lazyLoadingMargin: '50px' });
+            expect(controller.viewConfig).toEqual({
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+                enableScrollableContainerLazyLoading: true,
+                lazyLoadingMargin: '50px',
+            });
+        });
+
+        it('re-resolves the defaults when the config is replaced', () => {
+            const controller = createController({ fullHeight: true, minimumHeight: 400 });
+            expect(controller.minimumHeight).toBe(400);
+
+            const next: ControllerConfig = { fullHeight: true, minimumHeight: 900 };
+            controller.viewConfig = next;
+
+            expect(controller.minimumHeight).toBe(900);
+            expect(controller.viewConfig.lazyLoadingMargin).toBe(DEFAULT_LAZY_LOADING_MARGIN);
+            // The replacement is copied, not adopted, so the caller's object
+            // does not grow the resolved flags either.
+            expect(next).toEqual({ fullHeight: true, minimumHeight: 900 });
+        });
+
+        it('feeds the query params from the replaced config', () => {
+            const controller = createController({ fullHeight: true });
+            controller.viewConfig = { fullHeight: true, lazyLoadingForFullHeight: false };
+            const params: any = {};
+            controller.addQueryParams(params);
+            expect(params).toEqual({ [Param.fullHeight]: true });
+        });
+    });
+
     describe('lazy loading defaults', () => {
         it('turns lazy loading on for a full-height embed', () => {
             expect(queryParamsFor({ fullHeight: true })).toEqual({
@@ -217,9 +229,8 @@ describe('FullHeightController', () => {
         });
 
         it('leaves the view config the host app passed in untouched', () => {
-            // Defaulting happens in the embed; the controller never writes to
-            // the config it is handed. Built without `withDefaults` so the
-            // controller really does receive the caller's own object.
+            // The controller defaults into a copy of its own, so the caller's
+            // object never grows the resolved flags.
             const viewConfig: ControllerConfig = { fullHeight: true };
             const controller = new FullHeightController(viewConfig, {
                 getIframe: () => iFrame,
@@ -227,7 +238,6 @@ describe('FullHeightController', () => {
                 on: jest.fn(),
                 trigger: jest.fn(),
             });
-            controller.registerEventHandlers();
             controller.addQueryParams({});
             controller.onRender();
             controller.destroy();
