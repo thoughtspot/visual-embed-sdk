@@ -5680,7 +5680,9 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
+            // Not LastCalledWith: reconcileRuntimeParams fires a
+            // follow-up UpdateRuntimeFilters after this event.
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
@@ -5733,7 +5735,9 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
+            // Not LastCalledWith: reconcileRuntimeParams fires a
+            // follow-up UpdateRuntimeFilters after this event.
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
@@ -5753,6 +5757,129 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    test('should trigger UpdateRuntimeFilters with the new config filters after UpdateEmbedParams', async () => {
+        await setupPreRenderTest('reconcile-new-filters', { liveboardId: 'original-lb' });
+
+        const runtimeFilters = [
+            {
+                columnName: 'Color',
+                operator: RuntimeFilterOp.IN,
+                values: ['red', 'blue'],
+            },
+        ];
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-new-filters',
+            liveboardId: 'original-lb',
+            runtimeFilters,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateRuntimeFilters,
+                expect.any(String),
+                runtimeFilters,
+                undefined,
+            );
+
+            // The filters reconcile only after the params land, so that the
+            // iframe applies them to the config it has just been given.
+            const eventTypes = mockProcessTrigger.mock.calls.map(
+                (call: any[]) => call[1],
+            );
+            expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
+                eventTypes.indexOf(HostEvent.UpdateRuntimeFilters),
+            );
+        });
+    });
+
+    test('should clear the filters left behind by the previous pre-render config', async () => {
+        await setupPreRenderTest('reconcile-clear-filters', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-clear-filters',
+            liveboardId: 'original-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            // Same columns as the previous config, but with empty values, which
+            // is what actually resets a filter on the shared pre-render.
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateRuntimeFilters,
+                expect.any(String),
+                [
+                    {
+                        columnName: 'Color',
+                        operator: RuntimeFilterOp.IN,
+                        values: [],
+                    },
+                ],
+                undefined,
+            );
+        });
+    });
+
+    test('should not throw when the pre-render object carries no viewConfig', async () => {
+        const embed1 = await setupPreRenderTest('reconcile-no-view-config', {
+            liveboardId: 'original-lb',
+        });
+
+        // getPreRenderObj() reads an untyped property off the wrapper
+        // node, so it can hand back an object that is not a TsEmbed.
+        jest.spyOn(embed1 as any, 'getPreRenderObj').mockReturnValue({} as any);
+        const handleErrorSpy = jest.spyOn(LiveboardEmbed.prototype as any, 'handleError');
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-no-view-config',
+            liveboardId: 'updated-lb',
+        });
+        jest.spyOn(embed2 as any, 'getPreRenderObj').mockReturnValue({} as any);
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(handleErrorSpy).not.toHaveBeenCalledWith(
+                expect.objectContaining({
+                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                }),
+            );
+        });
+
+        handleErrorSpy.mockRestore();
+    });
+
+    test('should not trigger UpdateRuntimeFilters when no config has filters', async () => {
+        await setupPreRenderTest('reconcile-no-filters', { liveboardId: 'original-lb' });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-no-filters',
+            liveboardId: 'updated-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
+            );
+            expect(runtimeFilterCalls).toHaveLength(0);
+        });
+    });
     test('should handle error when getUpdateEmbedParamsObject fails during showPreRender', async () => {
         await setupPreRenderTest('error-test', { liveboardId: 'original-lb' });
 
