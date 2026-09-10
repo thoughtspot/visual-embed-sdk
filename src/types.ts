@@ -977,6 +977,19 @@ export interface PreRenderConfig {
      * @default -1000
      */
     zIndex?: number;
+    /**
+     * Re-apply this embed's runtime filters and parameters when it takes over a
+     * shared pre-render, so the frame does not keep the previous config's values.
+     *
+     * Needed when the same Liveboard is shown again through a shared pre-render:
+     * nothing navigates, so `UpdateEmbedParams` is the only thing carrying the new
+     * values. Off by default — it costs an extra host event per show and only
+     * matters when one `preRenderId` is shared by embeds with different filters.
+     *
+     * @default false
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    reconcileRuntimeParams?: boolean;
 }
 
 /**
@@ -1181,48 +1194,6 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      */
     preRenderId?: string;
-
-    /**
-     * Re-apply this embed's runtime filters and parameters when it takes over a
-     * shared pre-render, so the pre-rendered iframe does not keep the values of
-     * the config that used it last.
-     *
-     * The re-apply happens right after `HostEvent.UpdateEmbedParams` and before
-     * the pre-render is navigated:
-     *
-     * - `runtimeFilters` — re-sent when this embed declares any. When it
-     *   declares none, the previous config's filters are sent back with empty
-     *   values, which is what actually clears them.
-     * - `runtimeParameters` — re-sent when this embed declares any. There is no
-     *   clear for the previous config's parameters: a parameter always carries a
-     *   value, so it has no equivalent of an empty `values` array, and resetting
-     *   it is left to the embed container.
-     *
-     * Off by default: it costs an extra `HostEvent.UpdateRuntimeFilters` (and
-     * `HostEvent.UpdateParameters`) on every show-cycle, and it only matters
-     * when one `preRenderId` is shared by embeds carrying different runtime
-     * filters or parameters.
-     *
-     * The case that needs it is showing the **same** Liveboard again through
-     * the shared pre-render: nothing navigates, so `UpdateEmbedParams` is the
-     * only thing carrying the new values and the previous config's filters stay
-     * if it is dropped. When the Liveboard changes, the navigation that follows
-     * reloads the route with the new config anyway.
-     *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
-     * @default false
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
-     * @example
-     * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
-     *    preRenderId: 'shared-lb',
-     *    reconcileRuntimeParamsOnPreRender: true,
-     * });
-     * ```
-     */
-    reconcileRuntimeParamsOnPreRender?: boolean;
 
     /**
      * Determines if the PreRender component should dynamically track the size

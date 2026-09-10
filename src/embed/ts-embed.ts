@@ -110,14 +110,8 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
-/**
- * How long to let the embed container apply an `UpdateEmbedParams` payload
- * before the pre-render is navigated to its new route. The container applies
- * the payload through React state, so the post being delivered is not the same
- * as the new params being in effect; a `Navigate` that wins the race makes the
- * container load the route with the *previous* config's runtime filters, and
- * the params landing mid-load are then dropped (SCAL-336321).
- */
+// The container applies UpdateEmbedParams through React state, so a delivered
+// post is not the same as the params being in effect.
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 /**
@@ -152,10 +146,6 @@ export class TsEmbed {
      */
     protected embedNodeKey = '__tsEmbed';
 
-    /**
-     * Marks on the pre-render wrapper that the shared embed container has
-     * announced itself, so the fact survives any one instance being hidden.
-     */
     protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
 
     protected isAppInitialized = false;
@@ -1630,25 +1620,10 @@ export class TsEmbed {
         return embedObj;
     }
 
-    /**
-     * The instance that was showing on this pre-render when this one took it
-     * over, captured synchronously in `beforePrerenderVisible()` — before
-     * `takeOverPreRender()` repoints the wrapper at this instance, and before
-     * any `await`, so an async reader still sees the right predecessor.
-     */
     private preRenderPredecessor: TsEmbed | undefined;
 
-    /**
-     * Copies the state that belongs to the shared iframe rather than to any one
-     * instance off whichever instance holds it now. Called from
-     * `connectPreRendered()`, beside `inheritPreRenderContainer()`, because
-     * connecting is when this embed joins an iframe someone else owns.
-     *
-     * Without this an instance that never rendered an iframe of its own reports
-     * the container as not loaded, and every callback queued behind
-     * `executeAfterEmbedContainerLoaded` is stranded once `takeOverPreRender()`
-     * has repointed the wrapper away from the instance that knew better.
-     */
+    // Without this, an instance that never rendered its own iframe reports the
+    // container as not loaded and strands every executeAfterEmbedContainerLoaded callback.
     protected adoptPreRenderState(): void {
         if (this.isEmbedContainerLoaded) return;
         const current = this.getPreRenderObj<TsEmbed>();
@@ -1657,32 +1632,14 @@ export class TsEmbed {
         }
     }
 
-    /**
-     * Makes this instance the one the pre-render wrapper points at, so the
-     * *next* embed to show on it reads this config as its predecessor rather
-     * than the config of whichever instance originally created the wrapper.
-     *
-     * This belongs to showing rather than to connecting: an instance connects
-     * once but can be shown many times, with other embeds shown in between, and
-     * it is the most recent *show* that decides what the pre-render is
-     * currently displaying.
-     */
     protected takeOverPreRender(): void {
         if (!this.preRenderWrapper) return;
         this.adoptPreRenderState();
         (this.preRenderWrapper as any)[this.embedNodeKey] = this;
     }
 
-    /**
-     * Records that the shared container is up, on the wrapper node as well as
-     * on this instance.
-     *
-     * The flag has to live on the node: it describes the iframe, but it is set
-     * per instance by whichever ones happen to be subscribed when the container
-     * announces itself. An instance that was hidden by then (`hidePreRender()`
-     * unsubscribes it) would otherwise report `false` forever, and once it owns
-     * the wrapper it would hand that `false` to everyone who came after.
-     */
+    // The flag lives on the wrapper because it describes the iframe: an instance
+    // hidden when the container announced itself would otherwise report false forever.
     private markEmbedContainerLoaded() {
         this.isEmbedContainerLoaded = true;
         if (this.preRenderWrapper) {
@@ -1698,8 +1655,7 @@ export class TsEmbed {
             return true;
         }
 
-        // Fallback for a wrapper stamped by an older build of this SDK, where
-        // only the instance carried the flag.
+        // Older builds stamped the flag on the instance, not the wrapper.
         const preRenderObj = this.getPreRenderObj<TsEmbed>();
         if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
             this.isEmbedContainerLoaded = true;
@@ -2099,16 +2055,8 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
-    /**
-     * Resolves once the `UpdateEmbedParams` for this show-cycle has been posted
-     * to the container and the container has been given
-     * `UPDATE_EMBED_PARAMS_SETTLE_MS` to apply it. Subclasses that navigate the
-     * pre-render on show must await this before triggering `HostEvent.Navigate`
-     * — see `LiveboardEmbed.beforePrerenderVisible`.
-     *
-     * It is re-created on every `beforePrerenderVisible()`, and resolves even
-     * when the params fail, so navigation is delayed but never blocked.
-     */
+    // Subclasses that navigate the pre-render on show must await this before
+    // triggering Navigate. Resolves even on failure, so navigation is never blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
     protected beforePrerenderVisible(): void {
@@ -2116,22 +2064,15 @@ export class TsEmbed {
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        // Captured here, synchronously: the reconcile below runs inside an async
-        // callback, by which time showPreRender() has repointed the wrapper at
-        // this instance and getPreRenderObj() would hand back `this`.
+        // Both captured synchronously: by the time the async callback runs, the
+        // wrapper points at this instance and a queued navigation needs something to await.
         this.preRenderPredecessor = this.getPreRenderObj<TsEmbed>();
-        // Created synchronously, outside executeAfterEmbedContainerLoaded, so a
-        // navigation callback queued after this one has something to await
-        // whether the container is already loaded or not.
         this.preRenderParamsApplied = new Promise<void>((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
                     const params = await this.getUpdateEmbedParamsObject();
                     this.trigger(HostEvent.UpdateEmbedParams, params);
-                    // Opt-in: it costs an extra UpdateRuntimeFilters per
-                    // show-cycle and only matters when one preRenderId is
-                    // shared by embeds with different runtime filters.
-                    if (this.viewConfig.reconcileRuntimeParamsOnPreRender) {
+                    if (this.getPreRenderConfig().reconcileRuntimeParams) {
                         this.reconcileRuntimeParams();
                     }
                 } catch (error) {
@@ -2149,36 +2090,13 @@ export class TsEmbed {
         });
     }
 
-    /**
-     * Re-applies this config's runtime filters and parameters after
-     * `UpdateEmbedParams`, so that a shared pre-render does not keep the values
-     * of the config that used it last.
-     *
-     * WHEN THIS IS ACTUALLY NEEDED: the **same** liveboard shown again through
-     * the shared pre-render (LB1 → LB1). Nothing navigates in that case —
-     * `navigateToLiveboard` is a no-op for an id the container already has — so
-     * `UpdateEmbedParams` is the only thing carrying the new values, and if the
-     * container drops or ignores it the previous config's filters simply stay.
-     * This re-apply is what forces them out.
-     *
-     * When the liveboard DOES change (LB1 → LB2), the `Navigate` that follows —
-     * now ordered after the params have landed, see `beforePrerenderVisible` —
-     * reloads the route with the config the container has just been given, and
-     * the reconcile is belt and braces rather than the mechanism.
-     *
-     * Gated by {@link BaseViewConfig.reconcileRuntimeParamsOnPreRender}, which
-     * is off by default — see the call site in `beforePrerenderVisible`.
-     */
+    // Needed for LB1 → LB1, where nothing navigates and UpdateEmbedParams is the
+    // only thing carrying the new values.
     protected reconcileRuntimeParams() {
         this.reconcileRuntimeFilters();
         this.reconcileRuntimeParameters();
     }
 
-    /**
-     * The config's own filters win when it has any; when it has none, the
-     * predecessor's filters are sent back with empty values, which is what
-     * actually resets them.
-     */
     private reconcileRuntimeFilters() {
         if (this.viewConfig.runtimeFilters) {
             this.trigger(HostEvent.UpdateRuntimeFilters, this.viewConfig.runtimeFilters);
@@ -2196,17 +2114,8 @@ export class TsEmbed {
         );
     }
 
-    /**
-     * Same job for runtime parameters, which the December 2025 container change
-     * broke in exactly the same way — it simply went unreported.
-     *
-     * Only the re-apply half exists: a parameter always carries a value, so
-     * there is no payload that means "unset" the way `values: []` does for a
-     * filter, and inventing one (an empty string, say) would be wrong for
-     * numeric and boolean parameters. When this config declares none, clearing
-     * the predecessor's is left to the container, which resets its parameter
-     * state from the `UpdateEmbedParams` payload posted just before this.
-     */
+    // No clear half: a parameter always carries a value, so there is no equivalent
+    // of a filter's empty `values`. Clearing is left to the container.
     private reconcileRuntimeParameters() {
         const { runtimeParameters } = this.viewConfig;
         if (runtimeParameters?.length) {
@@ -2214,12 +2123,6 @@ export class TsEmbed {
         }
     }
 
-    /**
-     * The view config of the instance this one took the pre-render over from,
-     * or undefined when there is none — the wrapper property is untyped, so
-     * neither the object nor its viewConfig is guaranteed to be there, and it
-     * can point back at this instance.
-     */
     private getPredecessorViewConfig() {
         const predecessor = this.preRenderPredecessor;
         if (!predecessor || predecessor === (this as TsEmbed)) return undefined;
@@ -2309,8 +2212,7 @@ export class TsEmbed {
             this.setupFullscreenChangeHandler();
         }
 
-        // Last, so that everything above still sees the instance this one is
-        // taking over from: this embed is now what the pre-render is showing.
+        // Last, so everything above still sees the instance being taken over from.
         this.takeOverPreRender();
 
         return this;

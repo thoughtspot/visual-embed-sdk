@@ -5774,7 +5774,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             preRenderId: 'reconcile-new-filters',
             liveboardId: 'original-lb',
             runtimeFilters,
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -5814,7 +5814,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'navigate-after-params',
             liveboardId: 'updated-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -5857,7 +5857,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-clear-filters',
             liveboardId: 'original-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -5894,7 +5894,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-view-config',
             liveboardId: 'updated-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
         jest.spyOn(embed2 as any, 'getPreRenderObj').mockReturnValue({} as any);
 
@@ -5917,7 +5917,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-filters',
             liveboardId: 'updated-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -5946,7 +5946,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-chain',
             liveboardId: 'second-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
         await embed2.showPreRender();
         await executeAfterWait(() => {
@@ -5967,7 +5967,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed3 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-chain',
             liveboardId: 'third-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
         await embed3.showPreRender();
 
@@ -5990,7 +5990,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             preRenderId: 'reconcile-parameters',
             liveboardId: 'original-lb',
             runtimeParameters,
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -6024,7 +6024,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-parameters-none',
             liveboardId: 'original-lb',
-            reconcileRuntimeParamsOnPreRender: true,
+            preRenderConfig: { reconcileRuntimeParams: true },
         });
 
         embed2.showPreRender();
@@ -6107,7 +6107,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         // Same shape as the clear-filters case above, minus the flag: the
         // previous config left filters on the shared pre-render and this one
-        // declares none. Without reconcileRuntimeParamsOnPreRender the SDK
+        // declares none. Without preRenderConfig.reconcileRuntimeParams the SDK
         // leaves that to the container, so no UpdateRuntimeFilters goes out.
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-flag-off',
