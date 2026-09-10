@@ -1735,6 +1735,7 @@ export class TsEmbed {
      * @param args
      */
     public async render(): Promise<TsEmbed> {
+        logger.info("BRO")
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
             embedComponentType: this.viewConfig.embedComponentType,
         });
