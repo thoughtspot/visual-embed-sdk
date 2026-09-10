@@ -4131,6 +4131,20 @@ export enum EmbedEvent {
      * @version SDK: 1.46.0 | ThoughtSpot: 26.3.0.cl
      */
     SpotterConversationSelected = 'spotterConversationSelected',
+    /**
+     * Emitted when the Spotter conversation search page is opened or closed,
+     * regardless of how the change happened (search button, host events, or
+     * in-app navigation).
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterConversationSearchToggled, (payload) => {
+     *     console.log('Conversation search toggled', payload);
+     *     // payload: { open: boolean }
+     * })
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    SpotterConversationSearchToggled = 'spotterConversationSearchToggled',
 
     /**
      * Emitted when the Spotter agent finishes streaming/rendering a response.
@@ -6661,6 +6675,34 @@ export enum HostEvent {
      * ```
      */
     UnpinSpotterConversation = 'UnpinSpotterConversation',
+
+    /**
+     * Opens the conversation search page in Spotter embed. Works even when
+     * the search button is hidden (`spotterSidebarConfig.enableConversationSearch`
+     * not set), so hosts can provide their own search entry point.
+     *
+     * This feature is available only when conversation search is enabled on your
+     * ThoughtSpot instance. Contact your admin or ThoughtSpot Support to enable
+     * it on your instance.
+     *
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.OpenSpotterConversationSearch);
+     * ```
+     */
+    OpenSpotterConversationSearch = 'OpenSpotterConversationSearch',
+
+    /**
+     * Closes the conversation search page in Spotter embed if it is open.
+     *
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.CloseSpotterConversationSearch);
+     * ```
+     */
+    CloseSpotterConversationSearch = 'CloseSpotterConversationSearch',
 
     /**
      * @hidden
