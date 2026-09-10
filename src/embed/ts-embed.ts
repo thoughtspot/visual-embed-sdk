@@ -2050,7 +2050,12 @@ export class TsEmbed {
                 try {
                     const params = await this.getUpdateEmbedParamsObject();
                     this.trigger(HostEvent.UpdateEmbedParams, params);
-                    this.reconcileRuntimeParams();
+                    // Opt-in: it costs an extra UpdateRuntimeFilters per
+                    // show-cycle and only matters when one preRenderId is
+                    // shared by embeds with different runtime filters.
+                    if (this.viewConfig.reconcileRuntimeFiltersOnPreRender) {
+                        this.reconcileRuntimeParams();
+                    }
                 } catch (error) {
                     logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                     this.handleError({
@@ -2071,6 +2076,9 @@ export class TsEmbed {
      * pre-render does not keep the filters of the config that used it last.
      * When the new config has no filters, the previous config's filters are sent
      * back with empty values, which is what actually resets them.
+     *
+     * Gated by {@link BaseViewConfig.reconcileRuntimeFiltersOnPreRender}, which
+     * is off by default — see the call site in `beforePrerenderVisible`.
      */
     protected reconcileRuntimeParams() {
         if (this.viewConfig.runtimeFilters) {

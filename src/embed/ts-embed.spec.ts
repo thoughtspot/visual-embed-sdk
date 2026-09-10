@@ -5772,6 +5772,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             preRenderId: 'reconcile-new-filters',
             liveboardId: 'original-lb',
             runtimeFilters,
+            reconcileRuntimeFiltersOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5811,6 +5812,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'navigate-after-params',
             liveboardId: 'updated-lb',
+            reconcileRuntimeFiltersOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5853,6 +5855,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-clear-filters',
             liveboardId: 'original-lb',
+            reconcileRuntimeFiltersOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5889,6 +5892,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-view-config',
             liveboardId: 'updated-lb',
+            reconcileRuntimeFiltersOnPreRender: true,
         });
         jest.spyOn(embed2 as any, 'getPreRenderObj').mockReturnValue({} as any);
 
@@ -5911,6 +5915,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-filters',
             liveboardId: 'updated-lb',
+            reconcileRuntimeFiltersOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5922,6 +5927,36 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect(runtimeFilterCalls).toHaveLength(0);
         });
     });
+    test('should not reconcile runtime filters unless the view config opts in', async () => {
+        await setupPreRenderTest('reconcile-flag-off', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+
+        // Same shape as the clear-filters case above, minus the flag: the
+        // previous config left filters on the shared pre-render and this one
+        // declares none. Without reconcileRuntimeFiltersOnPreRender the SDK
+        // leaves that to the container, so no UpdateRuntimeFilters goes out.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-flag-off',
+            liveboardId: 'original-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            expect(eventTypes).toContain(HostEvent.UpdateEmbedParams);
+            expect(eventTypes).not.toContain(HostEvent.UpdateRuntimeFilters);
+        });
+    });
+
     test('should handle error when getUpdateEmbedParamsObject fails during showPreRender', async () => {
         await setupPreRenderTest('error-test', { liveboardId: 'original-lb' });
 

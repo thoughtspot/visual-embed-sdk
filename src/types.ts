@@ -1183,6 +1183,35 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     preRenderId?: string;
 
     /**
+     * Re-apply this embed's runtime filters when it takes over a shared
+     * pre-render, so the pre-rendered iframe does not keep the filters of the
+     * config that used it last.
+     *
+     * The re-apply happens right after `HostEvent.UpdateEmbedParams` and before
+     * the pre-render is navigated. When this embed declares `runtimeFilters`
+     * they are re-sent; when it declares none, the previous config's filters are
+     * sent back with empty values, which is what actually clears them.
+     *
+     * Off by default: it costs an extra `HostEvent.UpdateRuntimeFilters` on
+     * every show-cycle, and it only matters when one `preRenderId` is shared by
+     * embeds carrying different runtime filters.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
+     * @default false
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    preRenderId: 'shared-lb',
+     *    reconcileRuntimeFiltersOnPreRender: true,
+     * });
+     * ```
+     */
+    reconcileRuntimeFiltersOnPreRender?: boolean;
+
+    /**
      * Determines if the PreRender component should dynamically track the size
      * of its embedding element and adjust its own size accordingly.
      * Enabling this option allows the PreRender component to automatically adapt
