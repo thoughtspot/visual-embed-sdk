@@ -977,6 +977,24 @@ export interface PreRenderConfig {
      * @default -1000
      */
     zIndex?: number;
+    /**
+     * Moves the pre-rendered frame into the host element on `showPreRender()`
+     * instead of overlaying it, so the browser lays it out like a normal embed.
+     *
+     * The default pre-render parks its wrapper outside the host's layout flow and
+     * keeps it aligned in JavaScript, which means position, size, stacking, clipping
+     * and scrolling are emulated rather than owned by the browser. With this on, the
+     * frame becomes a real child of the host element and all of that behaves as it
+     * does for a non-pre-rendered embed — so an ancestor with `overflow: hidden`
+     * clips it, `z-index` resolves normally, and nested scroll containers work.
+     *
+     * Requires `Element.moveBefore()`, which preserves the frame's state across the
+     * move. Where it is unavailable (notably Safari) or the move is rejected, this
+     * silently falls back to the overlay behaviour, so it is always safe to set.
+     *
+     * @default false
+     */
+    inFlow?: boolean;
 }
 
 /**

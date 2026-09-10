@@ -2714,6 +2714,112 @@ describe('Unit test case for ts embed', () => {
             expect(preRenderWrapper.style.opacity).toBe('0');
         });
 
+        describe('preRenderConfig.inFlow', () => {
+            const stubResizeObserver = () => {
+                (window as any).ResizeObserver =
+                    window.ResizeObserver ||
+                    jest.fn().mockImplementation(() => ({
+                        disconnect: jest.fn(),
+                        observe: jest.fn(),
+                        unobserve: jest.fn(),
+                    }));
+            };
+
+            const withMoveBefore = (impl?: (node: Node, ref: Node | null) => void) => {
+                (Element.prototype as any).moveBefore =
+                    impl ??
+                    function moveBefore(this: Element, node: Node, ref: Node | null) {
+                        this.insertBefore(node, ref);
+                    };
+            };
+
+            afterEach(() => {
+                delete (Element.prototype as any).moveBefore;
+            });
+
+            const preRenderInFlow = async (inFlow: boolean, id: string) => {
+                createRootEleForEmbed();
+                stubResizeObserver();
+                const embed = new LiveboardEmbed('#tsEmbedDiv', {
+                    liveboardId: 'myLiveboardId',
+                    preRenderConfig: { id, inFlow },
+                });
+                await embed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                return embed;
+            };
+
+            it('moves the wrapper into the host element and drops the overlay', async () => {
+                withMoveBefore();
+                const embed = await preRenderInFlow(true, 'in-flow-on');
+                const ids = embed.getPreRenderIds();
+
+                await embed.showPreRender();
+
+                const wrapper = document.getElementById(ids.wrapper);
+                const host = document.getElementById('tsEmbedDiv');
+                expect(wrapper.parentElement).toBe(host);
+                expect(document.getElementById(ids.placeHolder)).toBe(null);
+                expect(wrapper.style.position).toBe('');
+                expect(wrapper.style.top).toBe('');
+                expect(wrapper.style.left).toBe('');
+            });
+
+            it('keeps the overlay when moveBefore is unavailable', async () => {
+                const embed = await preRenderInFlow(true, 'in-flow-unsupported');
+                const ids = embed.getPreRenderIds();
+
+                await embed.showPreRender();
+
+                const wrapper = document.getElementById(ids.wrapper);
+                expect(wrapper.parentElement).toBe(document.body);
+                expect(document.getElementById(ids.placeHolder)).not.toBe(null);
+            });
+
+            it('falls back to the overlay when moveBefore throws', async () => {
+                withMoveBefore(() => {
+                    throw new Error('HierarchyRequestError');
+                });
+                const embed = await preRenderInFlow(true, 'in-flow-throws');
+                const ids = embed.getPreRenderIds();
+
+                await embed.showPreRender();
+
+                const wrapper = document.getElementById(ids.wrapper);
+                expect(wrapper.parentElement).toBe(document.body);
+                expect(document.getElementById(ids.placeHolder)).not.toBe(null);
+            });
+
+            it('keeps the overlay when inFlow is not set', async () => {
+                withMoveBefore();
+                const embed = await preRenderInFlow(false, 'in-flow-off');
+                const ids = embed.getPreRenderIds();
+
+                await embed.showPreRender();
+
+                expect(document.getElementById(ids.wrapper).parentElement).toBe(document.body);
+                expect(document.getElementById(ids.placeHolder)).not.toBe(null);
+            });
+
+            it('moves the wrapper back out of the host on hide', async () => {
+                withMoveBefore();
+                const embed = await preRenderInFlow(true, 'in-flow-hide');
+                const ids = embed.getPreRenderIds();
+
+                await embed.showPreRender();
+                expect(document.getElementById(ids.wrapper).parentElement).toBe(
+                    document.getElementById('tsEmbedDiv'),
+                );
+
+                embed.hidePreRender();
+
+                const wrapper = document.getElementById(ids.wrapper);
+                expect(wrapper.parentElement).toBe(document.body);
+                expect(wrapper.style.position).toBe('absolute');
+                expect(wrapper.style.opacity).toBe('0');
+            });
+        });
+
         it('it should connect with another object', async () => {
             createRootEleForEmbed();
             mockMessageChannel();

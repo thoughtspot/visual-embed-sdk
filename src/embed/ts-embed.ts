@@ -1128,6 +1128,30 @@ export class TsEmbed {
 
     protected preRenderChild: HTMLElement;
 
+    private isInFlow = false;
+
+    private canMoveInFlow(): boolean {
+        return (
+            !!this.getPreRenderConfig().inFlow
+            && typeof (Element.prototype as any).moveBefore === 'function'
+        );
+    }
+
+    /**
+     * Reparents the pre-render wrapper without reloading the frame. Returns false
+     * when the move is not possible, so callers fall back to the overlay path.
+     */
+    private movePreRenderWrapperTo(parent: HTMLElement): boolean {
+        if (!parent?.isConnected || !this.preRenderWrapper?.isConnected) return false;
+        try {
+            (parent as any).moveBefore(this.preRenderWrapper, null);
+            return true;
+        } catch (error) {
+            logger.warn(`preRender in-flow move failed, using overlay instead: ${error}`);
+            return false;
+        }
+    }
+
     /**
      * Checks for an existing pre-rendered component and connects to it.
      *
@@ -2026,7 +2050,15 @@ export class TsEmbed {
         this.isRendered = true;
         this.beforePrerenderVisible();
 
-        if (this.hostElement) {
+        if (this.hostElement && this.canMoveInFlow() && this.movePreRenderWrapperTo(this.hostElement)) {
+            this.isInFlow = true;
+            const { width: inFlowWidth, height: inFlowHeight } = this.viewConfig.frameParams || {};
+            removeStyleProperties(this.preRenderWrapper, ['position', 'top', 'left']);
+            setStyleProperties(this.preRenderWrapper, {
+                width: getCssDimension(inFlowWidth || DEFAULT_EMBED_WIDTH),
+                height: getCssDimension(inFlowHeight || DEFAULT_EMBED_HEIGHT),
+            });
+        } else if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
             if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
                 // If fullHeight has already sized the wrapper, seed the placeholder
@@ -2099,6 +2131,7 @@ export class TsEmbed {
      * is not defined or not found.
      */
     public syncPreRenderStyle(): void {
+        if (this.isInFlow) return;
         if (!this.isPreRenderConnected() || !this.getPreRenderPlaceHolderElement()) {
             logger.error(ERROR_MESSAGE.SYNC_STYLE_CALLED_BEFORE_RENDER);
             return;
@@ -2142,6 +2175,11 @@ export class TsEmbed {
             logger.warn('PreRender should be called before hiding it using hidePreRender.');
             return;
         }
+        if (this.isInFlow) {
+            this.movePreRenderWrapperTo(this.preRenderContainerEl ?? document.body);
+            this.isInFlow = false;
+        }
+
         const { zIndex } = this.getPreRenderConfig();
         const preRenderHideStyles = {
             opacity: '0',
