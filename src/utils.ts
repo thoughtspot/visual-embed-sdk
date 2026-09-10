@@ -776,3 +776,41 @@ export const setParamIfDefined = <T>(
         queryParams[param] = asBoolean ? !!value : value;
     }
 };
+
+/**
+ * Calculates the element center for the currently visible viewport of the
+ * element, using the scroll position of the host app, the offsetTop of the
+ * element in the host app, and the viewport height of the tab.
+ *
+ * The returned keys are sent to the ThoughtSpot app over postMessage, so they
+ * are named after the iframe and must not be renamed.
+ * @param element The element to measure
+ * @returns The element center within the visible viewport, the element height,
+ * and the viewport height.
+ */
+export const calculateElementCenter = (element: HTMLElement) => {
+    const offsetTopClient = getOffsetTop(element);
+    const scrollTopClient = window.scrollY;
+    const viewPortHeight = window.innerHeight;
+    const iframeHeight = element.offsetHeight;
+    const iframeScrolled = scrollTopClient - offsetTopClient;
+    let iframeVisibleViewPort;
+    let iframeOffset;
+
+    if (iframeScrolled < 0) {
+        iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
+        iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
+        iframeOffset = 0;
+    } else {
+        iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
+        iframeOffset = iframeScrolled;
+    }
+    const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
+    return {
+        iframeCenter,
+        iframeScrolled,
+        iframeHeight,
+        viewPortHeight,
+        iframeVisibleViewPort,
+    };
+};

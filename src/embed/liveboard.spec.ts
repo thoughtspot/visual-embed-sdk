@@ -953,7 +953,7 @@ describe('Liveboard/viz embed tests', () => {
         const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/embed/viz/' },
             type: 'Route',
         });
@@ -971,7 +971,7 @@ describe('Liveboard/viz embed tests', () => {
         const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/embed/insights/viz/' },
             type: 'Route',
         });
@@ -991,7 +991,7 @@ describe('Liveboard/viz embed tests', () => {
             .mockImplementation(jest.fn());
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/some/other/path/' },
             type: 'Route',
         });
@@ -2059,12 +2059,6 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBe(true);
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
@@ -2081,11 +2075,14 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should not write the defaults back onto the caller view config', async () => {
@@ -2109,11 +2106,14 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: false,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
@@ -2124,14 +2124,12 @@ describe('Liveboard/viz embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe(
-                DEFAULT_LAZY_LOADING_MARGIN,
-            );
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+                expect(getIFrameSrc()).toContain(
+                    `rootMarginForLazyLoad=${encodeURIComponent(DEFAULT_LAZY_LOADING_MARGIN)}`,
+                );
             }, 100);
         });
 
@@ -2370,7 +2368,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2393,7 +2391,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2426,7 +2424,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50,
@@ -2538,7 +2536,7 @@ describe('Liveboard/viz embed tests', () => {
             const mockResponder = jest.fn();
 
             // Trigger the handler directly
-            (liveboardEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+            (liveboardEmbed as any).fullHeightController.handleRequestVisibleCoordinates({}, mockResponder);
 
             // Verify the responder was called with the correct data
             expect(mockResponder).toHaveBeenCalledWith({
@@ -2764,7 +2762,7 @@ describe('Liveboard/viz embed tests', () => {
                 minimumHeight: 800,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(800);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(800);
         });
         test('should set default height to 700 when default height is provided', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2774,7 +2772,7 @@ describe('Liveboard/viz embed tests', () => {
                 defaultHeight: 700,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(700);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(700);
         });
         test('should set default height to 800 when minimum height is provided but default height is not', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2784,7 +2782,7 @@ describe('Liveboard/viz embed tests', () => {
                 minimumHeight: 800,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(800);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(800);
         });
         test('should set default height to 500 when neither default height nor minimum height is provided', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2793,7 +2791,7 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: true,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(500);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(500);
         });
     });
 });

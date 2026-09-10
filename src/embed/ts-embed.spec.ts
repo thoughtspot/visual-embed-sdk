@@ -5269,16 +5269,6 @@ describe('Additional Coverage Tests', () => {
         });
     });
 
-    test('should test getIframeCenter calculation', async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-        await searchEmbed.render();
-        await executeAfterWait(() => {
-            const center = searchEmbed['getIframeCenter']();
-            expect(center).toHaveProperty('iframeCenter');
-            expect(center).toHaveProperty('iframeHeight');
-            expect(center).toHaveProperty('viewPortHeight');
-        });
-    });
 
     test('should handle preRender with replaceExistingPreRender=true', async () => {
         createRootEleForEmbed();
