@@ -68,6 +68,15 @@ export interface SpotterSidebarViewConfig {
      */
     enablePastConversationsSidebar?: boolean;
     /**
+     * Controls the visibility of the conversation search button in the
+     * sidebar header. The search page itself stays reachable through
+     * {@link HostEvent.OpenSpotterConversationSearch} even when the
+     * button is hidden.
+     * @default false
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    enableConversationSearch?: boolean;
+    /**
      * Custom title text for the sidebar header.
      * Defaults to translated "Spotter" text.
      * @version SDK: 1.47.0 | ThoughtSpot: 26.4.0.cl
