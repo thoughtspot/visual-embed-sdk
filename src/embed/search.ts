@@ -194,7 +194,7 @@ export interface SearchViewConfig
     dataSource?: string;
 
     /**
-     * Show or hide answer edit panel.
+     * If set to true, the answer edit panel is hidden.
      *
      * Supported embed types: `SearchEmbed`
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
@@ -202,11 +202,11 @@ export interface SearchViewConfig
      * ```js
      * const embed = new SearchEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    showAnswerEditPanel:true,
+     *    hideAnswerEditPanel:true,
      * })
      * ```
      */
-    showAnswerEditPanel?: boolean;
+    hideAnswerEditPanel?: boolean;
 
     /**
      * The initial search query to load the answer with.
@@ -459,7 +459,7 @@ export class SearchEmbed extends TsEmbed {
             collapseSearchBar = true,
             isThisPeriodInDateFiltersEnabled,
             newChartsLibrary,
-            showAnswerEditPanel,
+            hideAnswerEditPanel,
         } = this.viewConfig;
         const queryParams = this.getBaseQueryParams();
 
@@ -487,8 +487,8 @@ export class SearchEmbed extends TsEmbed {
         if (enableSearchAssist) {
             queryParams[Param.EnableSearchAssist] = true;
         }
-        if (showAnswerEditPanel !== undefined) {
-            queryParams[Param.ShowAnswerEditPanel] = showAnswerEditPanel;
+        if (hideAnswerEditPanel !== undefined) {
+            queryParams[Param.ShowAnswerEditPanel] = !hideAnswerEditPanel;
         }
         if (hideResults) {
             queryParams[Param.HideResult] = true;

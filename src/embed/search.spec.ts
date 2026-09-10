@@ -584,30 +584,30 @@ describe('Search embed tests', () => {
         });
     });
 
-    test('Should add showAnswerEditPanel flag set to true to the iframe src', async () => {
+    test('Should add showAnswerEditPanel flag set to false to the iframe src when hideAnswerEditPanel is true', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
-            showAnswerEditPanel: true,
-        });
-        searchEmbed.render();
-        await executeAfterWait(() => {
-            expectUrlMatchesWithParams(
-                getIFrameSrc(),
-                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
-            );
-        });
-    });
-
-    test('Should add showAnswerEditPanel flag set to false to the iframe src', async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            showAnswerEditPanel: false,
+            hideAnswerEditPanel: true,
         });
         searchEmbed.render();
         await executeAfterWait(() => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('Should add showAnswerEditPanel flag set to true to the iframe src when hideAnswerEditPanel is false', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
         });
     });

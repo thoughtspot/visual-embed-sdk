@@ -1022,6 +1022,21 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     updatedSpotterExperience?: boolean;
+
+    /**
+     * If set to true, the answer edit panel is hidden.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    hideAnswerEditPanel:true,
+     * })
+     * ```
+     */
+    hideAnswerEditPanel?: boolean;
 }
 
 /**
@@ -1170,6 +1185,7 @@ export class AppEmbed extends V1Embed {
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            hideAnswerEditPanel,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1206,6 +1222,9 @@ export class AppEmbed extends V1Embed {
         }
         if (!isUndefined(coverAndFilterOptionInPDF)) {
             params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
+        }
+        if (!isUndefined(hideAnswerEditPanel)) {
+            params[Param.ShowAnswerEditPanel] = !hideAnswerEditPanel;
         }
 
         params = this.getBaseQueryParams(params);
