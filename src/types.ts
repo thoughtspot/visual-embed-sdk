@@ -6939,6 +6939,7 @@ export enum Param {
     SpotterDataSources = 'spotterDataSources',
     AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
+    ShowAnswerEditPanel = 'showAnswerEditPanel',
 }
 
 /**

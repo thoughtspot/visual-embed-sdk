@@ -2771,6 +2771,43 @@ describe('AppEmbed uncovered branch tests', () => {
         });
     });
 
+    test('should set showAnswerEditPanel=false when hideAnswerEditPanel is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                showAnswerEditPanel: 'false',
+            });
+        });
+    });
+
+    test('should set showAnswerEditPanel=true when hideAnswerEditPanel is false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                showAnswerEditPanel: 'true',
+            });
+        });
+    });
+
+    test('should not set showAnswerEditPanel param when hideAnswerEditPanel is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const url = new URL(getIFrameSrc());
+            expect(url.searchParams.has('showAnswerEditPanel')).toBe(false);
+        });
+    });
+
     test('should set hideObjects param when non-empty array is provided', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

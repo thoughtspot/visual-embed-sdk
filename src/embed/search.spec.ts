@@ -584,6 +584,34 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('Should add showAnswerEditPanel flag set to false to the iframe src when hideAnswerEditPanel is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('Should add showAnswerEditPanel flag set to true to the iframe src when hideAnswerEditPanel is false', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
     test('should set dataPanelCustomGroupsAccordionInitialState to EXPAND_FIRST when passed', async () => {
         const searchEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
