@@ -1163,7 +1163,6 @@ export class LiveboardEmbed extends V1Embed {
 
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
-        const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
         this.executeAfterEmbedContainerLoaded(async () => {
             // Navigate only after the UpdateEmbedParams of this show-cycle has
@@ -1179,14 +1178,15 @@ export class LiveboardEmbed extends V1Embed {
                 this.viewConfig.activeTabId,
                 this.viewConfig.personalizedViewId,
             );
-            if (embedObj) {
-                embedObj.currentLiveboardState = {
-                    liveboardId: this.viewConfig.liveboardId,
-                    vizId: this.viewConfig.vizId,
-                    activeTabId: this.viewConfig.activeTabId,
-                    personalizedViewId: this.viewConfig.personalizedViewId,
-                };
-            }
+            // On this instance, which by now owns the pre-render: writing it
+            // to the predecessor instead left "current" naming a liveboard
+            // that stopped being current one hand-over ago.
+            this.currentLiveboardState = {
+                liveboardId: this.viewConfig.liveboardId,
+                vizId: this.viewConfig.vizId,
+                activeTabId: this.viewConfig.activeTabId,
+                personalizedViewId: this.viewConfig.personalizedViewId,
+            };
         });
     }
 

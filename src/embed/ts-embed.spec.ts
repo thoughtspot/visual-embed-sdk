@@ -4377,7 +4377,9 @@ describe('Unit test case for ts embed', () => {
 
         test('should return getPreRenderObj and log if same object', () => {
             const searchEmbed = new SearchEmbed(getRootEl(), defaultViewConfig);
-            const loggerSpy = jest.spyOn(logger, 'info');
+            // debug, not info: the wrapper points at the embed being shown, so
+            // this is now the common case rather than a rare diagnostic.
+            const loggerSpy = jest.spyOn(logger, 'debug');
 
             // getPreRenderObj reads the embed reference from preRenderWrapper
             (searchEmbed as any).preRenderWrapper = {
@@ -5772,7 +5774,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             preRenderId: 'reconcile-new-filters',
             liveboardId: 'original-lb',
             runtimeFilters,
-            reconcileRuntimeFiltersOnPreRender: true,
+            reconcileRuntimeParamsOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5812,7 +5814,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'navigate-after-params',
             liveboardId: 'updated-lb',
-            reconcileRuntimeFiltersOnPreRender: true,
+            reconcileRuntimeParamsOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5855,7 +5857,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-clear-filters',
             liveboardId: 'original-lb',
-            reconcileRuntimeFiltersOnPreRender: true,
+            reconcileRuntimeParamsOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5892,7 +5894,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-view-config',
             liveboardId: 'updated-lb',
-            reconcileRuntimeFiltersOnPreRender: true,
+            reconcileRuntimeParamsOnPreRender: true,
         });
         jest.spyOn(embed2 as any, 'getPreRenderObj').mockReturnValue({} as any);
 
@@ -5915,7 +5917,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-no-filters',
             liveboardId: 'updated-lb',
-            reconcileRuntimeFiltersOnPreRender: true,
+            reconcileRuntimeParamsOnPreRender: true,
         });
 
         embed2.showPreRender();
@@ -5927,6 +5929,170 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect(runtimeFilterCalls).toHaveLength(0);
         });
     });
+    test('should reconcile against the embed showing now, not the one that created the pre-render', async () => {
+        await setupPreRenderTest('reconcile-chain', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+
+        // Second in the chain: clears the creator's filters, and becomes what
+        // the pre-render is showing.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-chain',
+            liveboardId: 'second-lb',
+            reconcileRuntimeParamsOnPreRender: true,
+        });
+        await embed2.showPreRender();
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateRuntimeFilters,
+                expect.any(String),
+                [{ columnName: 'Color', operator: RuntimeFilterOp.IN, values: [] }],
+                undefined,
+            );
+        });
+
+        mockProcessTrigger.mockClear();
+
+        // Third: its predecessor is embed2, which declares no filters — so
+        // there is nothing left to clear. Reading the *creator* instead would
+        // resurrect Color here and clear a filter that is long gone.
+        const embed3 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-chain',
+            liveboardId: 'third-lb',
+            reconcileRuntimeParamsOnPreRender: true,
+        });
+        await embed3.showPreRender();
+
+        await executeAfterWait(() => {
+            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
+            );
+            expect(runtimeFilterCalls).toHaveLength(0);
+        });
+    });
+
+    test('should re-apply the new config runtime parameters after UpdateEmbedParams', async () => {
+        await setupPreRenderTest('reconcile-parameters', {
+            liveboardId: 'original-lb',
+            runtimeParameters: [{ name: 'Region Param', value: 'East' }],
+        });
+
+        const runtimeParameters = [{ name: 'Region Param', value: 'West' }];
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-parameters',
+            liveboardId: 'original-lb',
+            runtimeParameters,
+            reconcileRuntimeParamsOnPreRender: true,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateParameters,
+                expect.any(String),
+                runtimeParameters,
+                undefined,
+            );
+
+            // Same ordering rule as the filters: the parameters have to land on
+            // the config the container has just been given.
+            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
+                eventTypes.indexOf(HostEvent.UpdateParameters),
+            );
+        });
+    });
+
+    test('should not send UpdateParameters when the new config declares none', async () => {
+        await setupPreRenderTest('reconcile-parameters-none', {
+            liveboardId: 'original-lb',
+            runtimeParameters: [{ name: 'Region Param', value: 'East' }],
+        });
+
+        // No payload means "unset" for a parameter, so the SDK sends nothing and
+        // leaves the reset to the container.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-parameters-none',
+            liveboardId: 'original-lb',
+            reconcileRuntimeParamsOnPreRender: true,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            const parameterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateParameters,
+            );
+            expect(parameterCalls).toHaveLength(0);
+        });
+    });
+
+    test('should hand the pre-render over to the embed being shown', async () => {
+        const embed1 = await setupPreRenderTest('take-over-state', { liveboardId: 'original-lb' });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'take-over-state',
+            liveboardId: 'second-lb',
+        });
+
+        await embed2.showPreRender();
+
+        // It connected to embed1's pre-render, recorded embed1 as what was
+        // showing before it, and is now what the wrapper points at.
+        expect((embed2 as any).preRenderPredecessor).toBe(embed1);
+        expect((embed2 as any).getPreRenderObj()).toBe(embed2);
+        expect((embed1 as any).getPreRenderObj()).toBe(embed2);
+    });
+
+    test('should not strand callbacks when the container loads after the shown embed was hidden', async () => {
+        // The creator is subscribed but the container has NOT announced itself
+        // yet, which is the state a real pre-render starts in.
+        const embed1 = await setupPreRenderTest('loaded-after-hide', { liveboardId: 'original-lb' });
+        embed1.isEmbedContainerLoaded = false;
+
+        // Second embed shows, takes the pre-render over, then is hidden — which
+        // unsubscribes it, so it will never hear EmbedListenerReady itself.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'loaded-after-hide',
+            liveboardId: 'second-lb',
+        });
+        await embed2.showPreRender();
+        embed2.hidePreRender();
+        expect(embed2.isEmbedContainerLoaded).toBe(false);
+
+        // Container comes up and the creator hears it.
+        (embed1 as any).createEmbedContainerHandler(EmbedEvent.EmbedListenerReady)();
+
+        mockProcessTrigger.mockClear();
+        mockProcessTrigger.mockResolvedValue({});
+
+        // A third embed reads the state off embed2, which owns the wrapper and
+        // never learned the container was up. Reading a per-instance snapshot
+        // here leaves UpdateEmbedParams queued forever and the pre-render stuck
+        // on the previous liveboard.
+        const embed3 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'loaded-after-hide',
+            liveboardId: 'third-lb',
+        });
+        await embed3.showPreRender();
+
+        expect(embed3.isEmbedContainerLoaded).toBe(true);
+        await executeAfterWait(() => {
+            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            expect(eventTypes).toContain(HostEvent.UpdateEmbedParams);
+        }, 300);
+    });
+
     test('should not reconcile runtime filters unless the view config opts in', async () => {
         await setupPreRenderTest('reconcile-flag-off', {
             liveboardId: 'original-lb',
@@ -5941,7 +6107,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         // Same shape as the clear-filters case above, minus the flag: the
         // previous config left filters on the shared pre-render and this one
-        // declares none. Without reconcileRuntimeFiltersOnPreRender the SDK
+        // declares none. Without reconcileRuntimeParamsOnPreRender the SDK
         // leaves that to the container, so no UpdateRuntimeFilters goes out.
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-flag-off',

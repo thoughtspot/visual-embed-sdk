@@ -2630,7 +2630,7 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
 
-        test('should update currentLiveboardState for prerender object when embed container loads', async () => {
+        test('should update currentLiveboardState on the embed showing when the container loads', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
                 vizId,
@@ -2638,6 +2638,10 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
+            // The state is written on the embed that is being shown, which is
+            // also the one the pre-render wrapper ends up pointing at. Writing
+            // it on the predecessor left "current" naming a liveboard that
+            // stopped being current one hand-over ago.
             const mockPreRenderObj = {
                 currentLiveboardState: {},
             };
@@ -2656,12 +2660,14 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
             await waitForPreRenderNavigate();
 
-            // Check that currentLiveboardState was updated
-            expect(mockPreRenderObj.currentLiveboardState).toEqual({
+            expect(liveboardEmbed.currentLiveboardState).toEqual({
                 liveboardId,
                 vizId,
                 activeTabId,
+                personalizedViewId: undefined,
             });
+            // and NOT on the instance it took the pre-render over from
+            expect(mockPreRenderObj.currentLiveboardState).toEqual({});
         });
 
         test('should handle beforePrerenderVisible when embed container is already loaded', async () => {

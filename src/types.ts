@@ -1183,18 +1183,31 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     preRenderId?: string;
 
     /**
-     * Re-apply this embed's runtime filters when it takes over a shared
-     * pre-render, so the pre-rendered iframe does not keep the filters of the
-     * config that used it last.
+     * Re-apply this embed's runtime filters and parameters when it takes over a
+     * shared pre-render, so the pre-rendered iframe does not keep the values of
+     * the config that used it last.
      *
      * The re-apply happens right after `HostEvent.UpdateEmbedParams` and before
-     * the pre-render is navigated. When this embed declares `runtimeFilters`
-     * they are re-sent; when it declares none, the previous config's filters are
-     * sent back with empty values, which is what actually clears them.
+     * the pre-render is navigated:
      *
-     * Off by default: it costs an extra `HostEvent.UpdateRuntimeFilters` on
-     * every show-cycle, and it only matters when one `preRenderId` is shared by
-     * embeds carrying different runtime filters.
+     * - `runtimeFilters` — re-sent when this embed declares any. When it
+     *   declares none, the previous config's filters are sent back with empty
+     *   values, which is what actually clears them.
+     * - `runtimeParameters` — re-sent when this embed declares any. There is no
+     *   clear for the previous config's parameters: a parameter always carries a
+     *   value, so it has no equivalent of an empty `values` array, and resetting
+     *   it is left to the embed container.
+     *
+     * Off by default: it costs an extra `HostEvent.UpdateRuntimeFilters` (and
+     * `HostEvent.UpdateParameters`) on every show-cycle, and it only matters
+     * when one `preRenderId` is shared by embeds carrying different runtime
+     * filters or parameters.
+     *
+     * The case that needs it is showing the **same** Liveboard again through
+     * the shared pre-render: nothing navigates, so `UpdateEmbedParams` is the
+     * only thing carrying the new values and the previous config's filters stay
+     * if it is dropped. When the Liveboard changes, the navigation that follows
+     * reloads the route with the new config anyway.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`
      * @default false
@@ -1205,11 +1218,11 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
      *    preRenderId: 'shared-lb',
-     *    reconcileRuntimeFiltersOnPreRender: true,
+     *    reconcileRuntimeParamsOnPreRender: true,
      * });
      * ```
      */
-    reconcileRuntimeFiltersOnPreRender?: boolean;
+    reconcileRuntimeParamsOnPreRender?: boolean;
 
     /**
      * Determines if the PreRender component should dynamically track the size
