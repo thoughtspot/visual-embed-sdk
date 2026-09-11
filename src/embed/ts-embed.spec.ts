@@ -6039,7 +6039,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                expect.objectContaining({ runtimeParameters }),
+                expect.objectContaining({
+                    runtimeParameters,
+                    runtimeParameterParams: 'param1=Region%20Param&paramVal1=West',
+                }),
                 undefined,
             );
 
@@ -6049,6 +6052,58 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 (call: any[]) => call[1] === HostEvent.UpdateParameters,
             );
             expect(parameterCalls).toHaveLength(0);
+        });
+    });
+
+    test('should mark the params empty when the config declares no parameters', async () => {
+        await setupPreRenderTest('params-clear-parameters', {
+            liveboardId: 'original-lb',
+            runtimeParameters: [{ name: 'Region Param', value: 'East' }],
+        });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'params-clear-parameters',
+            liveboardId: 'original-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            // Same gate as the filters: the container only reads this field
+            // when it is truthy, so null would leave 'East' standing.
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({ runtimeParameterParams: '&' }),
+                undefined,
+            );
+        });
+    });
+
+    test('should keep an empty string parameter value distinct from having none', async () => {
+        await setupPreRenderTest('params-empty-value', { liveboardId: 'original-lb' });
+
+        // `paramVal1=` is that parameter's value, not an absence — so it must
+        // not collapse to the empty marker.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'params-empty-value',
+            liveboardId: 'original-lb',
+            runtimeParameters: [{ name: 'Region Param', value: '' }],
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    runtimeParameterParams: 'param1=Region%20Param&paramVal1=',
+                }),
+                undefined,
+            );
         });
     });
 

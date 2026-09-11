@@ -72,6 +72,7 @@ import {
     PreRenderConfig,
     BaseViewConfig,
     RuntimeFilter,
+    RuntimeParameter,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -116,25 +117,26 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 /**
- * What `runtimeFilterParams` has to say to mean "this embed has no runtime filters".
+ * What `runtimeFilterParams` / `runtimeParameterParams` have to say to mean "this embed
+ * has none of these".
  *
- * The container only reads the field when it is truthy:
+ * The container only reads either field when it is truthy:
  *
  * ```ts
  * if (embedConfigFromEvent.runtimeFilterParams) { … updateRuntimeFilterParams(parsed); }
  * ```
  *
  * so `null` and `''` both read as "no news" and leave whatever the previous embed put
- * there in place — which is the filter that sticks. A lone separator is truthy, so the
- * gate fires, and `new URLSearchParams('&')` yields no pairs, so the container's state
- * becomes `{}`. It then falls through to `embedParams`, which the same event has just
- * rebuilt from this view config.
+ * there in place — which is what sticks. A lone separator is truthy, so the gate fires,
+ * and `new URLSearchParams('&')` yields no pairs, so the container's state becomes `{}`.
+ * It then falls through to `embedParams`, which the same event has just rebuilt from
+ * this view config.
  */
-const EMPTY_RUNTIME_FILTER_PARAMS = '&';
+const EMPTY_RUNTIME_PARAMS = '&';
 
 /**
  * Serializes runtime filters into the `col1=…&op1=…&val1=…` string the container reads,
- * or {@link EMPTY_RUNTIME_FILTER_PARAMS} when there are none to send.
+ * or {@link EMPTY_RUNTIME_PARAMS} when there are none to send.
  *
  * `getFilterQuery` joins each filter's column, operator and values with `&`, so a filter
  * carrying no values leaves an empty segment behind (`col1=Color&op1=IN&`). Drop those
@@ -142,8 +144,19 @@ const EMPTY_RUNTIME_FILTER_PARAMS = '&';
  */
 const serializeRuntimeFilters = (runtimeFilters?: RuntimeFilter[]): string => {
     const filterQuery = getFilterQuery(runtimeFilters ?? []);
-    return filterQuery?.split('&').filter(Boolean).join('&') || EMPTY_RUNTIME_FILTER_PARAMS;
+    return filterQuery?.split('&').filter(Boolean).join('&') || EMPTY_RUNTIME_PARAMS;
 };
+
+/**
+ * Serializes runtime parameters into the `param1=…&paramVal1=…` string the container
+ * reads, or {@link EMPTY_RUNTIME_PARAMS} when there are none to send.
+ *
+ * Unlike a filter, a parameter always has both halves of its pair, so there are no empty
+ * segments to drop — a parameter whose value is the empty string still serializes as
+ * `paramVal1=`, which the container reads as that value rather than as an absence.
+ */
+const serializeRuntimeParameters = (runtimeParameters?: RuntimeParameter[]): string =>
+    getRuntimeParameters(runtimeParameters ?? []) || EMPTY_RUNTIME_PARAMS;
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -761,12 +774,16 @@ export class TsEmbed {
             ...this.viewConfig,
             ...queryParams,
             ...appInitData,
-            // getDefaultAppInitData() only serializes this when
-            // excludeRuntimeFiltersfromURL is set, because a URL render puts
-            // the filters in the iframe's query string instead. A show cycle
-            // has no URL to put them in, so the payload always states them —
-            // including the case of having none, which is the one that leaks.
+            // getDefaultAppInitData() only serializes these when
+            // excludeRuntimeFilters/ParametersfromURL is set, because a URL
+            // render puts them in the iframe's query string instead. A show
+            // cycle has no URL to put them in, so the payload always states
+            // them — including the case of having none, which is the one that
+            // leaks.
             runtimeFilterParams: serializeRuntimeFilters(this.viewConfig.runtimeFilters),
+            runtimeParameterParams: serializeRuntimeParameters(
+                this.viewConfig.runtimeParameters,
+            ),
         };
     }
 
@@ -1172,6 +1189,9 @@ export class TsEmbed {
         return preRenderWrapper;
     }
 
+    // TODO: the pre-render code should ideally move out to its own file,
+    // the way full height did. It is spread across this class and is
+    // getting messy.
     protected preRenderWrapper: HTMLElement;
 
     protected preRenderChild: HTMLElement;
