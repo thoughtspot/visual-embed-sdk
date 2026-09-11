@@ -1170,10 +1170,18 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
 
-        // Captured synchronously: showPreRender() calls takeOverPreRender() after
-        // this, so by the time the async callback runs the wrapper already points
-        // at this instance and getPreRenderObj() no longer names its predecessor.
-        const showing = this.getPreRenderObj<LiveboardEmbed>()?.currentLiveboardState;
+        // Captured synchronously: showPreRender() calls takeOverPreRender()
+        // after this, so by the time the async callback runs the wrapper
+        // already points at this instance and getPreRenderObj() no longer
+        // names its predecessor.
+        const predecessor = this.getPreRenderObj<LiveboardEmbed>();
+        // Taking the pre-render over from itself is a hide/show of one embed,
+        // not a hand-over. The state the liveboard holds is this embed's own —
+        // the filter chips this user moved on this liveboard — so there is
+        // nothing stale to clear, and clearing it would throw away their
+        // session for a visibility toggle. Left undefined so the route check
+        // below stays out of it.
+        const showing = predecessor === this ? undefined : predecessor?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
             // Without this the params callback suspends on its await and Navigate
@@ -1232,9 +1240,10 @@ export class LiveboardEmbed extends V1Embed {
      * moves to another tab is a real navigation and needs no help.
      *
      * Answers true only on a positive match. An unknown predecessor — no pre-render
-     * object yet, or one that is not a LiveboardEmbed — takes the ordinary path, since
-     * a plain `Navigate` to a route the container is not on does the unmounting by
-     * itself.
+     * object yet, one that is not a LiveboardEmbed, or this embed showing itself again
+     * — takes the ordinary path, since a plain `Navigate` to a route the container is
+     * not on does the unmounting by itself, and a same-instance show has nothing that
+     * needs unmounting.
      */
     private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
         if (!showing?.liveboardId) return false;

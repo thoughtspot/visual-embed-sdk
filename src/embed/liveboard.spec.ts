@@ -2760,6 +2760,36 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
 
+        test('should not route via home when the embed is showing itself again', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // Taking the pre-render over from itself is a hide/show, not a
+            // hand-over. The liveboard is holding this user's own filter chips
+            // on this embed's own liveboard — clearing that would throw away
+            // their session for a visibility toggle.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(liveboardEmbed);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
         test('should not route via home when the pre-render is on another liveboard', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
