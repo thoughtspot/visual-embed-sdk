@@ -44,6 +44,14 @@ import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-util
 const HOME_ROUTE = 'home';
 
 /**
+ * How long to let the container act on the home hop before asking for the liveboard
+ * back. The route change unmounts through React, so the post being delivered is not
+ * the same as the liveboard being gone — the same reasoning as the params settle
+ * window, and the same order of magnitude.
+ */
+const HOME_UNMOUNT_SETTLE_MS = 200;
+
+/**
  * APP_INIT data shape for LiveboardEmbed.
  * @internal
  */
@@ -1215,19 +1223,27 @@ export class LiveboardEmbed extends V1Embed {
      * tab. Going via home unmounts it, so the `Navigate` that follows rebuilds it from
      * the `UpdateEmbedParams` posted just before.
      *
-     * Awaits the trigger rather than posting and hoping: two `Navigate`s in the same
-     * tick are a router's invitation to coalesce, which would defeat the whole point.
+     * Waits {@link HOME_UNMOUNT_SETTLE_MS} rather than awaiting the trigger. The
+     * container does not acknowledge `Navigate`, so awaiting it does not resolve when
+     * the route changes — it resolves when `TRIGGER_TIMEOUT` fires, which parked a
+     * re-shown liveboard on the home page for a full 30 seconds. Observed, not
+     * theorised: `Navigate home` at 18:55:56 and the liveboard back at 18:56:26.
      *
-     * A failure warns rather than errors, and is swallowed: the liveboard still gets
-     * shown, just without the state having been cleared first. Stale state beats a
+     * The wait is still needed. Posting both routes in the same tick invites the
+     * container's router to coalesce them, which would leave the liveboard mounted and
+     * defeat the point.
+     *
+     * A rejection is caught and warned rather than thrown: the liveboard still gets
+     * shown, just without its state having been cleared first. Stale state beats a
      * liveboard that never comes back.
      */
     private async clearLiveboardStateViaHome(): Promise<void> {
-        try {
-            await this.trigger(HostEvent.Navigate, HOME_ROUTE);
-        } catch (error) {
+        this.trigger(HostEvent.Navigate, HOME_ROUTE).catch((error) => {
             logger.warn('Could not route the pre-render via home before re-showing it', error);
-        }
+        });
+        await new Promise((resolve) => {
+            setTimeout(resolve, HOME_UNMOUNT_SETTLE_MS);
+        });
     }
 
     /**

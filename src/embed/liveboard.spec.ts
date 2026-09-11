@@ -2597,6 +2597,12 @@ describe('Liveboard/viz embed tests', () => {
             setTimeout(resolve, 300);
         });
 
+        // A show that routes via home waits twice: the params settle
+        // window, then the home unmount window.
+        const waitForHomeHopNavigate = () => new Promise((resolve) => {
+            setTimeout(resolve, 600);
+        });
+
         test('should call navigateToLiveboard after embed container is loaded in beforePrerenderVisible', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
@@ -2660,7 +2666,7 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
-            await waitForPreRenderNavigate();
+            await waitForHomeHopNavigate();
 
             expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2676,7 +2682,7 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
 
-        test('should wait for home before navigating back to the liveboard', async () => {
+        test('should not wait for the container to acknowledge the home hop', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
                 vizId,
@@ -2693,13 +2699,13 @@ describe('Liveboard/viz embed tests', () => {
                 },
             } as any);
 
-            // Two Navigates in the same tick are a router's invitation to
-            // coalesce, so the second must wait on the first.
-            let resolveHome: () => void;
+            // The container does not ack Navigate, so this is what a real
+            // home hop looks like: it settles when TRIGGER_TIMEOUT fires,
+            // 30s later. Awaiting it parked the liveboard on home that long.
             jest.spyOn(liveboardEmbed, 'trigger').mockImplementation(
-                () => new Promise<any>((resolve) => {
-                    resolveHome = () => resolve(undefined);
-                }),
+                (event: any, payload: any) => (event === HostEvent.Navigate && payload === 'home'
+                    ? new Promise<any>(() => { /* never settles */ })
+                    : Promise.resolve(undefined as any)),
             );
             const navigateToLiveboardSpy = jest
                 .spyOn(liveboardEmbed, 'navigateToLiveboard')
@@ -2709,13 +2715,55 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
-            await waitForPreRenderNavigate();
+            await waitForHomeHopNavigate();
 
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+        });
+
+        test('should let the home hop settle before navigating back', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+
+            // Past the params settle window, so home is out — but inside the
+            // home settle window, so the liveboard has not been asked for yet.
+            // Both routes in the same tick invites the router to coalesce them,
+            // which would leave the liveboard mounted.
+            await new Promise((resolve) => {
+                setTimeout(resolve, 320);
+            });
+            expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
             expect(navigateToLiveboardSpy).not.toHaveBeenCalled();
 
-            resolveHome();
-            await waitForPreRenderNavigate();
-
+            await waitForHomeHopNavigate();
             expect(navigateToLiveboardSpy).toHaveBeenCalled();
         });
 
@@ -2749,9 +2797,9 @@ describe('Liveboard/viz embed tests', () => {
             liveboardEmbed['beforePrerenderVisible']();
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
-            await waitForPreRenderNavigate();
+            await waitForHomeHopNavigate();
 
-            // A liveboard rebuilt from stale state beats one that never returns.
+            // Stale state beats a liveboard that never returns.
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
                 liveboardId,
                 vizId,
