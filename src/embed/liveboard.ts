@@ -31,7 +31,7 @@ import { getQueryParamString, isUndefined, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
@@ -975,8 +975,10 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Triggers an event to the embedded app
+     * Payload typing follows {@link TsEmbed.trigger}: unknown fields fail to compile
+     * from SDK 1.52.0; strict contract checks land in SDK 1.54.0.
      * @param {HostEvent} messageType The event type
-     * @param {any} data The payload to send with the message
+     * @param {TriggerData} data The payload, typed against the event's contract
      * @returns A promise that resolves with the response from the embedded app
      */
     public trigger<
@@ -987,7 +989,9 @@ export class LiveboardEmbed extends V1Embed {
         ContextT extends ContextType = ContextType,
     >(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        // Mirror TsEmbed.trigger: contract shape is the contextual type and
+        // unknown fields on object literals are flagged. Strict in SDK 1.54.0.
+        data: TriggerData<HostEventT> = ({} as any),
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         const dataWithVizId: any = data;
