@@ -245,9 +245,10 @@ export class HostEventClient {
       throwUpdateFiltersValidationError();
     }
 
-    // The payload is forwarded to the embedded app as-is, so swap the
-    // columnName/operator aliases for column/oper first - otherwise a payload
-    // using the alias passes validation and is then ignored downstream.
+    // The payload is forwarded to the embedded app as-is, and the app only
+    // understands the wire names column/oper - so rename the documented
+    // columnName/operator to those first, otherwise a payload using the
+    // documented spelling passes validation and is then ignored downstream.
     const resolvedPayload = resolveUpdateFiltersAliases(payload);
 
     return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, resolvedPayload, context as ContextType);

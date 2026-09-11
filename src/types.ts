@@ -3390,6 +3390,14 @@ export enum EmbedEvent {
      * is no `targetId`, since the filter applies to the whole Liveboard.
      * The `applicability` attribute is available from SDK: 1.53.0 |
      * ThoughtSpot: 26.10.0.cl.
+     *
+     * The emitted filter state uses `columnName` and `operator`, the same
+     * spelling as {@link RuntimeFilter} and {@link HostEvent.UpdateFilters}.
+     * To re-apply a captured filter state - on a later page load, or on a
+     * second embed - pass the payload through
+     * `convertFilterChangedToUpdateFiltersPayload` and trigger
+     * {@link HostEvent.UpdateFilters} with the result, rather than reshaping
+     * it by hand.
      * @example
      *
      * ```js
@@ -5760,9 +5768,10 @@ export enum HostEvent {
      *
      * Each filter object must include the following attributes:
      *
-     * `column` - Name of the column to filter on.
+     * `columnName` - Name of the column to filter on. When several columns
+     * share a name, qualify it as `WORKSHEET_NAME::COLUMN_NAME`.
      *
-     * `oper`  - Filter operator, for example, EQ, IN, CONTAINS.
+     * `operator`  - Filter operator, for example, EQ, IN, CONTAINS.
      *  For information about the supported filter operators,
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
@@ -5789,8 +5798,8 @@ export enum HostEvent {
      *
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["bags","shirts"]
      *        }
      *    });
@@ -5800,8 +5809,8 @@ export enum HostEvent {
      *
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "date",
-     *         oper: "EQ",
+     *         columnName: "date",
+     *         operator: "EQ",
      *         values: ["JULY","2023"],
      *         type: "MONTH_YEAR"
      *        }
@@ -5812,18 +5821,18 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *  filters: [{
-     *      column: "Item Type",
-     *      oper: 'IN',
+     *      columnName: "Item Type",
+     *      operator: 'IN',
      *      values: ["bags","shirts"]
      *  },
      *    {
-     *      column: "Region",
-     *      oper: 'IN',
+     *      columnName: "Region",
+     *      operator: 'IN',
      *      values: ["West","Midwest"]
      *  },
      *    {
-     *      column: "Date",
-     *      oper: 'EQ',
+     *      columnName: "Date",
+     *      operator: 'EQ',
      *      values: ["2023-07-31"],
      *      type: "EXACT_DATE"
      *    }]
@@ -5837,13 +5846,13 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *  filters: [{
-     *      column: "(Sample) Retail - Apparel::city",
-     *      oper: 'IN',
+     *      columnName: "(Sample) Retail - Apparel::city",
+     *      operator: 'IN',
      *      values: ["atlanta"]
      *  },
      *  {
-     *      column: "(Sample) Retail - Apparel::Region",
-     *      oper: 'IN',
+     *      columnName: "(Sample) Retail - Apparel::Region",
+     *      operator: 'IN',
      *      values: ["West","Midwest"]
      *  }]
      * });
@@ -5854,8 +5863,8 @@ export enum HostEvent {
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["shoes", "boots"]
      *     }
      * }, ContextType.Liveboard);
@@ -5865,8 +5874,8 @@ export enum HostEvent {
      * // Scope the filter to a specific Liveboard tab
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["bags", "shirts"],
      *         applicability: {
      *             level: "TAB",
@@ -5875,8 +5884,11 @@ export enum HostEvent {
      *     }
      * });
      * ```
-     * `columnName` and `operator` are also accepted as aliases for `column`
-     * and `oper` respectively. To reapply the filter state captured from
+     * The older `column` and `oper` spellings are deprecated. They are still
+     * accepted as aliases for `columnName` and `operator` respectively, so
+     * existing code keeps working, but new code should use `columnName` and
+     * `operator` - the same spelling used by {@link RuntimeFilter}.
+     * To reapply the filter state captured from
      * {@link EmbedEvent.FilterChanged}, use `convertFilterChangedToUpdateFiltersPayload`
      * to convert its payload into the shape expected here.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl

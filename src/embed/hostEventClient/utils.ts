@@ -44,14 +44,17 @@ export function isValidUpdateFiltersPayload(
 }
 
 /**
- * Rewrites one filter's `columnName`/`operator` to `column`/`oper`.
+ * Rewrites one filter's documented `columnName`/`operator` to the wire names
+ * `column`/`oper`.
  *
- * Callers may use either spelling: `columnName`/`operator` match
- * {@link RuntimeFilter} and the `EmbedEvent.FilterChanged` payload, so a
- * converted payload can be replayed as-is. But the payload is forwarded to the
- * embedded app unchanged, and only `column`/`oper` are known to be understood
- * there - so the alias must be swapped here, or it would pass validation and
- * then be silently ignored.
+ * `columnName`/`operator` is the documented public shape - it matches
+ * {@link RuntimeFilter} and the payload
+ * `convertFilterChangedToUpdateFiltersPayload` produces, so a converted
+ * payload can be replayed as-is. `column`/`oper` are deprecated aliases for
+ * callers, but they are also what the embedded app actually understands, and
+ * the payload is forwarded there unchanged - so the rename must happen here,
+ * or a payload using the documented spelling would pass validation and then be
+ * silently ignored.
  * @param filter One entry from the UpdateFilters payload.
  */
 function resolveFilterAliases<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
@@ -71,8 +74,9 @@ function resolveFilterAliases<T extends { column?: string; columnName?: string; 
 }
 
 /**
- * Rewrites every filter in an UpdateFilters payload to use `column`/`oper`,
- * whichever spelling the caller supplied. Call after validation.
+ * Rewrites every filter in an UpdateFilters payload to the wire names
+ * `column`/`oper`, whichever spelling the caller supplied. Call after
+ * validation.
  * @param payload The UpdateFilters host event payload.
  */
 export function resolveUpdateFiltersAliases<T extends { filter?: any; filters?: any[] }>(payload: T): T {
