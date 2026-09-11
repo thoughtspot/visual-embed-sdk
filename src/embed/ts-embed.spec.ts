@@ -5782,16 +5782,57 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                expect.objectContaining({ runtimeFilters }),
+                expect.objectContaining({
+                    runtimeFilters,
+                    // The serialized form is what the container reads. It is
+                    // already correct here, off the view config; the reconcile
+                    // must agree with it rather than clobber it.
+                    runtimeFilterParams: 'col1=Color&op1=IN&val1=red&val1=blue',
+                }),
                 undefined,
             );
 
-            // The params payload already carries them, so the reconcile
-            // costs no extra traffic when the new config has its own filters.
+            // The params payload carries both forms, so the reconcile costs
+            // no extra traffic when the new config has its own filters.
             const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
                 (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
             );
             expect(runtimeFilterCalls).toHaveLength(0);
+        });
+    });
+
+    test('should serialize the filters when they are not excluded from the URL', async () => {
+        await setupPreRenderTest('reconcile-url-filters', { liveboardId: 'original-lb' });
+
+        // With the flag off, getDefaultAppInitData leaves runtimeFilterParams
+        // null and a URL render carries the filters in the iframe's query
+        // string. A show cycle has no URL, so the payload has to carry them.
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-url-filters',
+            liveboardId: 'original-lb',
+            excludeRuntimeFiltersfromURL: false,
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red'],
+                },
+            ],
+            preRenderConfig: { reconcileRuntimeParams: true },
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    runtimeFilterParams: 'col1=Color&op1=IN&val1=red',
+                }),
+                undefined,
+            );
         });
     });
 
@@ -5871,6 +5912,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                             values: [],
                         },
                     ],
+                    // No dangling separator where the values would have been.
+                    runtimeFilterParams: 'col1=Color&op1=IN',
                 }),
                 undefined,
             );
@@ -5906,6 +5949,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
             );
             expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
+            expect(paramsCall?.[3].runtimeFilterParams).toBeNull();
         });
     });
 
@@ -5955,6 +5999,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
             );
             expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
+            expect(paramsCall?.[3].runtimeFilterParams).toBeNull();
         });
     });
     test('should reconcile against the embed showing now, not the one that created the pre-render', async () => {
@@ -5986,6 +6031,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     runtimeFilters: [
                         { columnName: 'Color', operator: RuntimeFilterOp.IN, values: [] },
                     ],
+                    runtimeFilterParams: 'col1=Color&op1=IN',
                 }),
                 undefined,
             );
@@ -6008,6 +6054,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
             );
             expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
+            expect(paramsCall?.[3].runtimeFilterParams).toBeNull();
         });
     });
 
