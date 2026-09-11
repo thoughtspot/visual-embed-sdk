@@ -37,19 +37,10 @@ import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
-/**
- * The container's home route — the same string `AppEmbed` sends for `Page.Home`.
- * Used as a waypoint to unmount a liveboard that is being re-shown.
- */
+// Home unmounts the liveboard container, which is how its state gets cleared. The
+// settle window gives the container time to do it before we ask for the liveboard back.
 const HOME_ROUTE = 'home';
-
-/**
- * How long to let the container act on the home hop before asking for the liveboard
- * back. The route change unmounts through React, so the post being delivered is not
- * the same as the liveboard being gone — the same reasoning as the params settle
- * window, and the same order of magnitude.
- */
-const HOME_UNMOUNT_SETTLE_MS = 200;
+const HOME_SETTLE_MS = 200;
 
 /**
  * APP_INIT data shape for LiveboardEmbed.
@@ -1178,25 +1169,25 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
 
-        // Captured synchronously: showPreRender() calls takeOverPreRender()
-        // after this, so by the time the async callback runs the wrapper
-        // already points at this instance and getPreRenderObj() no longer
-        // names its predecessor.
-        const predecessor = this.getPreRenderObj<LiveboardEmbed>();
-        // Taking the pre-render over from itself is a hide/show of one embed,
-        // not a hand-over. The state the liveboard holds is this embed's own —
-        // the filter chips this user moved on this liveboard — so there is
-        // nothing stale to clear, and clearing it would throw away their
-        // session for a visibility toggle. Left undefined so the route check
-        // below stays out of it.
-        const showing = predecessor === this ? undefined : predecessor?.currentLiveboardState;
+        // Captured before showPreRender() hands the wrapper over to this instance.
+        // Itself means a hide/show, not a hand-over, so there is nothing stale to clear.
+        const previous = this.getPreRenderObj<LiveboardEmbed>();
+        const showing = previous === this ? undefined : previous?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
             // Without this the params callback suspends on its await and Navigate
             // goes out first, so the container loads with the previous config's filters.
             await this.preRenderParamsApplied;
             if (this.isShowingLiveboardRoute(showing)) {
-                await this.clearLiveboardStateViaHome();
+                // Navigate to the route we are already on is a no-op, so the liveboard
+                // keeps its state. Home unmounts the container, which clears it.
+                this.trigger(HostEvent.Navigate, HOME_ROUTE)
+                    .catch((error) => logger.warn('Could not route via home', error));
+                // Not awaited above: the container never acks Navigate, so that promise
+                // only settles on the 30s trigger timeout.
+                await new Promise((resolve) => {
+                    setTimeout(resolve, HOME_SETTLE_MS);
+                });
             }
             this.navigateToLiveboard(
                 this.viewConfig.liveboardId,
@@ -1213,54 +1204,8 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
-    /**
-     * Sends the pre-render to home and waits for it to get there, so the liveboard it
-     * was showing is torn down before it is asked for again.
-     *
-     * Only useful on a same-route show: the container treats `Navigate` to the route it
-     * is already on as a no-op, so the liveboard component is never unmounted and keeps
-     * the state it accumulated — the filter chips the user moved, the selections, the
-     * tab. Going via home unmounts it, so the `Navigate` that follows rebuilds it from
-     * the `UpdateEmbedParams` posted just before.
-     *
-     * Waits {@link HOME_UNMOUNT_SETTLE_MS} rather than awaiting the trigger. The
-     * container does not acknowledge `Navigate`, so awaiting it does not resolve when
-     * the route changes — it resolves when `TRIGGER_TIMEOUT` fires, which parked a
-     * re-shown liveboard on the home page for a full 30 seconds. Observed, not
-     * theorised: `Navigate home` at 18:55:56 and the liveboard back at 18:56:26.
-     *
-     * The wait is still needed. Posting both routes in the same tick invites the
-     * container's router to coalesce them, which would leave the liveboard mounted and
-     * defeat the point.
-     *
-     * A rejection is caught and warned rather than thrown: the liveboard still gets
-     * shown, just without its state having been cleared first. Stale state beats a
-     * liveboard that never comes back.
-     */
-    private async clearLiveboardStateViaHome(): Promise<void> {
-        this.trigger(HostEvent.Navigate, HOME_ROUTE).catch((error) => {
-            logger.warn('Could not route the pre-render via home before re-showing it', error);
-        });
-        await new Promise((resolve) => {
-            setTimeout(resolve, HOME_UNMOUNT_SETTLE_MS);
-        });
-    }
-
-    /**
-     * Whether the pre-render is already on the route this config asks for — the case
-     * where `Navigate` alone would change nothing, so the liveboard needs clearing
-     * first.
-     *
-     * Compares the whole route rather than the liveboard id alone: the path is built
-     * from the viz, tab and personalized view as well, so a same-liveboard show that
-     * moves to another tab is a real navigation and needs no help.
-     *
-     * Answers true only on a positive match. An unknown predecessor — no pre-render
-     * object yet, one that is not a LiveboardEmbed, or this embed showing itself again
-     * — takes the ordinary path, since a plain `Navigate` to a route the container is
-     * not on does the unmounting by itself, and a same-instance show has nothing that
-     * needs unmounting.
-     */
+    // The whole route, not just the liveboard id: the path is built from the viz, tab
+    // and view too, so a same-liveboard show onto another tab is a real navigation.
     private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
         if (!showing?.liveboardId) return false;
         const {
