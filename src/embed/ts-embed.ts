@@ -1157,7 +1157,6 @@ export class TsEmbed {
             }
             this.isRendered = true;
             this.inheritPreRenderContainer();
-            this.adoptPreRenderState();
         }
 
         return this.isPreRenderConnected();
@@ -1622,19 +1621,8 @@ export class TsEmbed {
 
     private preRenderPredecessor: TsEmbed | undefined;
 
-    // Without this, an instance that never rendered its own iframe reports the
-    // container as not loaded and strands every executeAfterEmbedContainerLoaded callback.
-    protected adoptPreRenderState(): void {
-        if (this.isEmbedContainerLoaded) return;
-        const current = this.getPreRenderObj<TsEmbed>();
-        if (current && current !== (this as TsEmbed) && current.isEmbedContainerLoaded) {
-            this.markEmbedContainerLoaded();
-        }
-    }
-
     protected takeOverPreRender(): void {
         if (!this.preRenderWrapper) return;
-        this.adoptPreRenderState();
         (this.preRenderWrapper as any)[this.embedNodeKey] = this;
     }
 

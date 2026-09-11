@@ -978,16 +978,22 @@ export interface PreRenderConfig {
      */
     zIndex?: number;
     /**
-     * Re-apply this embed's runtime filters and parameters when it takes over a
-     * shared pre-render, so the frame does not keep the previous config's values.
+     * Re-applies this embed's `runtimeFilters` and `runtimeParameters` when it
+     * attaches to a pre-render another embed used before it, so that embed's
+     * values do not carry over.
      *
-     * Needed when the same Liveboard is shown again through a shared pre-render:
-     * nothing navigates, so `UpdateEmbedParams` is the only thing carrying the new
-     * values. Off by default — it costs an extra host event per show and only
-     * matters when one `preRenderId` is shared by embeds with different filters.
+     * Set it when several embeds share one pre-render and declare different
+     * runtime filters or parameters.
      *
      * @default false
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    preRenderConfig: { id: 'shared-lb', reconcileRuntimeParams: true },
+     * });
+     * ```
      */
     reconcileRuntimeParams?: boolean;
 }
