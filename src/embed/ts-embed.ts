@@ -116,14 +116,33 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 /**
- * `getFilterQuery` joins each filter's column, operator and values with `&`, so a
- * filter carrying no values — the form that clears one — leaves an empty segment
- * behind (`col1=Color&op1=IN&`). Drop those rather than change the shared builder,
- * which every URL render goes through.
+ * What `runtimeFilterParams` has to say to mean "this embed has no runtime filters".
+ *
+ * The container only reads the field when it is truthy:
+ *
+ * ```ts
+ * if (embedConfigFromEvent.runtimeFilterParams) { … updateRuntimeFilterParams(parsed); }
+ * ```
+ *
+ * so `null` and `''` both read as "no news" and leave whatever the previous embed put
+ * there in place — which is the filter that sticks. A lone separator is truthy, so the
+ * gate fires, and `new URLSearchParams('&')` yields no pairs, so the container's state
+ * becomes `{}`. It then falls through to `embedParams`, which the same event has just
+ * rebuilt from this view config.
  */
-const serializeRuntimeFilters = (runtimeFilters: RuntimeFilter[]): string | null => {
-    const filterQuery = getFilterQuery(runtimeFilters);
-    return filterQuery?.split('&').filter(Boolean).join('&') ?? null;
+const EMPTY_RUNTIME_FILTER_PARAMS = '&';
+
+/**
+ * Serializes runtime filters into the `col1=…&op1=…&val1=…` string the container reads,
+ * or {@link EMPTY_RUNTIME_FILTER_PARAMS} when there are none to send.
+ *
+ * `getFilterQuery` joins each filter's column, operator and values with `&`, so a filter
+ * carrying no values leaves an empty segment behind (`col1=Color&op1=IN&`). Drop those
+ * rather than change the shared builder, which every URL render goes through.
+ */
+const serializeRuntimeFilters = (runtimeFilters?: RuntimeFilter[]): string => {
+    const filterQuery = getFilterQuery(runtimeFilters ?? []);
+    return filterQuery?.split('&').filter(Boolean).join('&') || EMPTY_RUNTIME_FILTER_PARAMS;
 };
 
 /**
@@ -738,7 +757,17 @@ export class TsEmbed {
             queryParams[key] = deserializeParam(queryParams[key]);
         });
         const appInitData = await this.getAppInitData();
-        return { ...this.viewConfig, ...queryParams, ...appInitData };
+        return {
+            ...this.viewConfig,
+            ...queryParams,
+            ...appInitData,
+            // getDefaultAppInitData() only serializes this when
+            // excludeRuntimeFiltersfromURL is set, because a URL render puts
+            // the filters in the iframe's query string instead. A show cycle
+            // has no URL to put them in, so the payload always states them —
+            // including the case of having none, which is the one that leaks.
+            runtimeFilterParams: serializeRuntimeFilters(this.viewConfig.runtimeFilters),
+        };
     }
 
     /**
@@ -1631,8 +1660,6 @@ export class TsEmbed {
         return embedObj;
     }
 
-    private preRenderPredecessor: TsEmbed | undefined;
-
     protected takeOverPreRender(): void {
         if (!this.preRenderWrapper) return;
         (this.preRenderWrapper as any)[this.embedNodeKey] = this;
@@ -2064,17 +2091,13 @@ export class TsEmbed {
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        // Both captured synchronously: by the time the async callback runs, the
-        // wrapper points at this instance and a queued navigation needs something to await.
-        this.preRenderPredecessor = this.getPreRenderObj<TsEmbed>();
+        // Created synchronously: a queued navigation needs something to await
+        // whether the container is already loaded or not.
         this.preRenderParamsApplied = new Promise<void>((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
                     const params = await this.getUpdateEmbedParamsObject();
-                    this.trigger(
-                        HostEvent.UpdateEmbedParams,
-                        this.reconcileRuntimeFilters(params),
-                    );
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
                 } catch (error) {
                     logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                     this.handleError({
@@ -2088,60 +2111,6 @@ export class TsEmbed {
                 }
             });
         });
-    }
-
-    /**
-     * Rewrites the runtime filters of a show-cycle's UpdateEmbedParams payload so the
-     * predecessor's filters do not survive the hand-over.
-     *
-     * Writes both forms the payload carries:
-     *
-     * - `runtimeFilters`, the raw array, which is there only because the payload
-     *   spreads the view config;
-     * - `runtimeFilterParams`, the serialized `col1=…&op1=…&val1=…` string, which is
-     *   what the container reads.
-     *
-     * `getDefaultAppInitData()` builds the serialized form from
-     * `viewConfig.runtimeFilters`, so it is already right when this config declares
-     * filters — but it is `null` in exactly the case that leaks, a config that declares
-     * none, because the columns to reset are the *predecessor's* and nothing in this
-     * view config names them. Writing only the array would leave the reset in a field
-     * the container ignores. (It is `null` throughout when
-     * `excludeRuntimeFiltersfromURL` is off, since a URL render puts the filters in the
-     * iframe's query string instead — and a show cycle has no URL to put them in.
-     * `V1Embed` turns that flag on by default, so LiveboardEmbed is not in that case.)
-     *
-     * The filters to send are this config's own when it declares any, and otherwise the
-     * predecessor's with empty `values`, which is what actually clears a filter.
-     *
-     * Needed for LB1 → LB1, where nothing navigates and UpdateEmbedParams is the only
-     * thing carrying the new values.
-     *
-     * Parameters get no equivalent here. A parameter always carries a value, so there
-     * is no analogue of a filter's empty `values`, and `runtimeParameterParams` has the
-     * same `null` gap — see the PR for why that is left to the container for now.
-     */
-    private reconcileRuntimeFilters<T extends Record<string, any>>(params: T): T {
-        if (!this.getPreRenderConfig().reconcileRuntimeParams) return params;
-
-        const runtimeFilters = this.viewConfig.runtimeFilters
-            ?? this.getPredecessorViewConfig()?.runtimeFilters?.map((filter) => ({
-                ...filter,
-                values: [],
-            }));
-        if (!runtimeFilters?.length) return params;
-
-        return {
-            ...params,
-            runtimeFilters,
-            runtimeFilterParams: serializeRuntimeFilters(runtimeFilters),
-        };
-    }
-
-    private getPredecessorViewConfig() {
-        const predecessor = this.preRenderPredecessor;
-        if (!predecessor || predecessor === (this as TsEmbed)) return undefined;
-        return predecessor.viewConfig;
     }
 
     /**

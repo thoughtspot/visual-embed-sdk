@@ -977,25 +977,6 @@ export interface PreRenderConfig {
      * @default -1000
      */
     zIndex?: number;
-    /**
-     * Clears the `runtimeFilters` left behind by the embed that used this
-     * pre-render before, when this embed declares none of its own, so those
-     * filters do not carry over.
-     *
-     * Set it when several embeds share one pre-render and declare different
-     * runtime filters.
-     *
-     * @default false
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    preRenderConfig: { id: 'shared-lb', reconcileRuntimeParams: true },
-     * });
-     * ```
-     */
-    reconcileRuntimeParams?: boolean;
 }
 
 /**
