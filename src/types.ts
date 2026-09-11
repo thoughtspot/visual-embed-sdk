@@ -8976,6 +8976,162 @@ export enum Action {
      * ```
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
+    /**
+     * Controls the visibility and disabled state of the "Chart Type" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ChartTypeSettings],
+     *     disabledActions: [Action.ChartTypeSettings],
+     * }
+     * ```
+     */
+    ChartTypeSettings = 'CHART_TYPE',
+    /**
+     * Controls the visibility and disabled state of the "Layout" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.LayoutSettings],
+     *     disabledActions: [Action.LayoutSettings],
+     * }
+     * ```
+     */
+    LayoutSettings = 'LAYOUT',
+    /**
+     * Controls the visibility and disabled state of the "Column" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ColumnSettings],
+     *     disabledActions: [Action.ColumnSettings],
+     * }
+     * ```
+     */
+    ColumnSettings = 'COLUMN',
+    /**
+     * Controls the visibility and disabled state of the "Axis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AxisSettings],
+     *     disabledActions: [Action.AxisSettings],
+     * }
+     * ```
+     */
+    AxisSettings = 'AXIS',
+    /**
+     * Controls the visibility and disabled state of the "Data Label" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DataLabelSettings],
+     *     disabledActions: [Action.DataLabelSettings],
+     * }
+     * ```
+     */
+    DataLabelSettings = 'DATA_LABEL',
+    /**
+     * Controls the visibility and disabled state of the "Tooltip" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.TooltipSettings],
+     *     disabledActions: [Action.TooltipSettings],
+     * }
+     * ```
+     */
+    TooltipSettings = 'TOOLTIP',
+    /**
+     * Controls the visibility and disabled state of the "Legend" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.LegendSettings],
+     *     disabledActions: [Action.LegendSettings],
+     * }
+     * ```
+     */
+    LegendSettings = 'LEGEND',
+    /**
+     * Controls the visibility and disabled state of the "Display" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DisplaySettings],
+     *     disabledActions: [Action.DisplaySettings],
+     * }
+     * ```
+     */
+    DisplaySettings = 'DISPLAY',
+    /**
+     * Controls the visibility and disabled state of the "Query Details" menu
+     * item in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.QuerySettings],
+     *     disabledActions: [Action.QuerySettings],
+     * }
+     * ```
+     */
+    QuerySettings = 'QUERY_DETAILS',
+    /**
+     * Controls the visibility and disabled state of the "Custom Action" menu
+     * item in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CustomSettings],
+     *     disabledActions: [Action.CustomSettings],
+     * }
+     * ```
+     */
+    CustomSettings = 'CUSTOM_ACTION',
+    /**
+     * Controls the visibility and disabled state of the "Muze AI" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.MuzeAiSettings],
+     *     disabledActions: [Action.MuzeAiSettings],
+     * }
+     * ```
+     */
+    MuzeAiSettings = 'MUZE_AI',
+    /**
+     * Controls the visibility and disabled state of the "R Analysis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RAnalysisSettings],
+     *     disabledActions: [Action.RAnalysisSettings],
+     * }
+     * ```
+     */
+    RAnalysisSettings = 'R_ANALYSIS',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

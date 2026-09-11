@@ -438,6 +438,58 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should set visibility and disable state for Chart Settings V2 menu items', async () => {
+        expect(Action.ChartTypeSettings).toBe('CHART_TYPE');
+        expect(Action.LayoutSettings).toBe('LAYOUT');
+        expect(Action.ColumnSettings).toBe('COLUMN');
+        expect(Action.AxisSettings).toBe('AXIS');
+        expect(Action.DataLabelSettings).toBe('DATA_LABEL');
+        expect(Action.TooltipSettings).toBe('TOOLTIP');
+        expect(Action.LegendSettings).toBe('LEGEND');
+        expect(Action.DisplaySettings).toBe('DISPLAY');
+        expect(Action.QuerySettings).toBe('QUERY_DETAILS');
+        expect(Action.CustomSettings).toBe('CUSTOM_ACTION');
+        expect(Action.MuzeAiSettings).toBe('MUZE_AI');
+        expect(Action.RAnalysisSettings).toBe('R_ANALYSIS');
+
+        const chartSettingsActions = [
+            Action.ChartTypeSettings,
+            Action.LayoutSettings,
+            Action.ColumnSettings,
+            Action.AxisSettings,
+            Action.DataLabelSettings,
+            Action.TooltipSettings,
+            Action.LegendSettings,
+            Action.DisplaySettings,
+            Action.QuerySettings,
+            Action.CustomSettings,
+            Action.MuzeAiSettings,
+            Action.RAnalysisSettings,
+        ];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            hiddenActions: chartSettingsActions,
+            disabledActions: chartSettingsActions,
+            disabledActionReason: 'Access denied',
+            ...defaultViewConfig,
+            answerId,
+        });
+        searchEmbed.render();
+        const hideActionUrl = fixedEncodeURI(
+            JSON.stringify([
+                Action.ReportError,
+                ...chartSettingsActions,
+                ...HiddenActionItemByDefaultForSearchEmbed,
+            ]),
+        );
+        const disableActionUrl = fixedEncodeURI(JSON.stringify(chartSettingsActions));
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&disableAction=${disableActionUrl}&disableHint=Access%20denied&hideAction=${hideActionUrl}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
     test('should load saved answer', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
