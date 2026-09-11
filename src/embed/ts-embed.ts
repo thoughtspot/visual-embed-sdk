@@ -1189,9 +1189,9 @@ export class TsEmbed {
         return preRenderWrapper;
     }
 
-    // TODO: the pre-render code should ideally move out to its own file,
-    // the way full height did. It is spread across this class and is
-    // getting messy.
+    // TODO(SCAL-338011): the pre-render code should ideally move out to its
+    // own file, the way full height did. It is spread across this class and
+    // is getting messy.
     protected preRenderWrapper: HTMLElement;
 
     protected preRenderChild: HTMLElement;
