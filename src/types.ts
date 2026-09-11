@@ -9097,6 +9097,17 @@ export enum Action {
      * ```
      */
     MuzeAiSettings = 'MUZE_AI',
+    /**
+     * Controls visibility and disable state of the "R Analysis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.RAnalysisSettings]
+     * disabledActions: [Action.RAnalysisSettings]
+     * ```
+     */
+    RAnalysisSettings = 'R_ANALYSIS',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

@@ -450,6 +450,7 @@ describe('Search embed tests', () => {
         expect(Action.QuerySettings).toBe('QUERY_DETAILS');
         expect(Action.CustomSettings).toBe('CUSTOM_ACTION');
         expect(Action.MuzeAiSettings).toBe('MUZE_AI');
+        expect(Action.RAnalysisSettings).toBe('R_ANALYSIS');
 
         const chartSettingsActions = [
             Action.ChartTypeSettings,
@@ -463,6 +464,7 @@ describe('Search embed tests', () => {
             Action.QuerySettings,
             Action.CustomSettings,
             Action.MuzeAiSettings,
+            Action.RAnalysisSettings,
         ];
         const searchEmbed = new SearchEmbed(getRootEl(), {
             hiddenActions: chartSettingsActions,
