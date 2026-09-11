@@ -8976,6 +8976,127 @@ export enum Action {
      * ```
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
+    /**
+     * Controls visibility and disable state of the "Chart Type" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.ChartTypeSettings]
+     * disabledActions: [Action.ChartTypeSettings]
+     * ```
+     */
+    ChartTypeSettings = 'CHART_TYPE',
+    /**
+     * Controls visibility and disable state of the "Layout" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.LayoutSettings]
+     * disabledActions: [Action.LayoutSettings]
+     * ```
+     */
+    LayoutSettings = 'LAYOUT',
+    /**
+     * Controls visibility and disable state of the "Column" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.ColumnSettings]
+     * disabledActions: [Action.ColumnSettings]
+     * ```
+     */
+    ColumnSettings = 'COLUMN',
+    /**
+     * Controls visibility and disable state of the "Axis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.AxisSettings]
+     * disabledActions: [Action.AxisSettings]
+     * ```
+     */
+    AxisSettings = 'AXIS',
+    /**
+     * Controls visibility and disable state of the "Data Label" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.DataLabelSettings]
+     * disabledActions: [Action.DataLabelSettings]
+     * ```
+     */
+    DataLabelSettings = 'DATA_LABEL',
+    /**
+     * Controls visibility and disable state of the "Tooltip" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.TooltipSettings]
+     * disabledActions: [Action.TooltipSettings]
+     * ```
+     */
+    TooltipSettings = 'TOOLTIP',
+    /**
+     * Controls visibility and disable state of the "Legend" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.LegendSettings]
+     * disabledActions: [Action.LegendSettings]
+     * ```
+     */
+    LegendSettings = 'LEGEND',
+    /**
+     * Controls visibility and disable state of the "Display" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.DisplaySettings]
+     * disabledActions: [Action.DisplaySettings]
+     * ```
+     */
+    DisplaySettings = 'DISPLAY',
+    /**
+     * Controls visibility and disable state of the "Query Details" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.QuerySettings]
+     * disabledActions: [Action.QuerySettings]
+     * ```
+     */
+    QuerySettings = 'QUERY_DETAILS',
+    /**
+     * Controls visibility and disable state of the "Custom Action" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.CustomSettings]
+     * disabledActions: [Action.CustomSettings]
+     * ```
+     */
+    CustomSettings = 'CUSTOM_ACTION',
+    /**
+     * Controls visibility and disable state of the "Muze AI" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.MuzeAiSettings]
+     * disabledActions: [Action.MuzeAiSettings]
+     * ```
+     */
+    MuzeAiSettings = 'MUZE_AI',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
