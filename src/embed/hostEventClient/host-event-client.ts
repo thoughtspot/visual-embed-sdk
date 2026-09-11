@@ -3,6 +3,7 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
+    resolveUpdateFiltersAliases,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     throwUpdateFiltersValidationError,
@@ -244,7 +245,13 @@ export class HostEventClient {
       throwUpdateFiltersValidationError();
     }
 
-    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, payload, context as ContextType);
+    // The payload is forwarded to the embedded app as-is, and the app only
+    // understands the wire names column/oper - so rename the documented
+    // columnName/operator to those first, otherwise a payload using the
+    // documented spelling passes validation and is then ignored downstream.
+    const resolvedPayload = resolveUpdateFiltersAliases(payload);
+
+    return this.handleHostEventWithParam(UIPassthroughEvent.UpdateFilters, resolvedPayload, context as ContextType);
   }
 
   protected handleUpdateParametersEvent(

@@ -29,7 +29,7 @@ export const ERROR_MESSAGE = {
     SSR_ENVIRONMENT_ERROR: 'SSR environment detected. This function cannot be called in SSR environment.',
     UPDATE_PARAMS_FAILED: 'Failed to update embed parameters',
     INVALID_SPOTTER_DOCUMENTATION_URL: 'Invalid spotterDocumentationUrl. Please provide a valid http or https URL.',
-    UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { column, oper, values } } or { filters: [{ column, oper, values }, ...] }',
+    UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { columnName, operator, values } } or { filters: [{ columnName, operator, values }, ...] }. The deprecated aliases column and oper are also accepted.',
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
 };

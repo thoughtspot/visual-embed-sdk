@@ -43,6 +43,52 @@ export function isValidUpdateFiltersPayload(
   return !!(hasValidFilter || hasValidFilters);
 }
 
+/**
+ * Rewrites one filter's documented `columnName`/`operator` to the wire names
+ * `column`/`oper`.
+ *
+ * `columnName`/`operator` is the documented public shape - it matches
+ * {@link RuntimeFilter} and the payload
+ * `convertFilterChangedToUpdateFiltersPayload` produces, so a converted
+ * payload can be replayed as-is. `column`/`oper` are deprecated aliases for
+ * callers, but they are also what the embedded app actually understands, and
+ * the payload is forwarded there unchanged - so the rename must happen here,
+ * or a payload using the documented spelling would pass validation and then be
+ * silently ignored.
+ * @param filter One entry from the UpdateFilters payload.
+ */
+function resolveFilterAliases<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
+  filter: T,
+): T {
+  if (!isPlainObject(filter)) return filter;
+
+  const column = filter.column ?? filter.columnName;
+  const oper = filter.oper ?? filter.operator;
+  const { columnName, operator, ...rest } = filter;
+
+  return {
+    ...rest,
+    ...(isUndefined(column) ? {} : { column }),
+    ...(isUndefined(oper) ? {} : { oper }),
+  } as T;
+}
+
+/**
+ * Rewrites every filter in an UpdateFilters payload to the wire names
+ * `column`/`oper`, whichever spelling the caller supplied. Call after
+ * validation.
+ * @param payload The UpdateFilters host event payload.
+ */
+export function resolveUpdateFiltersAliases<T extends { filter?: any; filters?: any[] }>(payload: T): T {
+  if (!isPlainObject(payload)) return payload;
+
+  return {
+    ...payload,
+    ...(payload.filter ? { filter: resolveFilterAliases(payload.filter) } : {}),
+    ...(Array.isArray(payload.filters) ? { filters: payload.filters.map(resolveFilterAliases) } : {}),
+  };
+}
+
 export function isValidUpdateParametersPayload(payload: unknown): boolean {
   // Only validates the applicability of each parameter (null treated as absent); the rest is forwarded as-is for backward compatibility.
   if (!Array.isArray(payload)) return true;

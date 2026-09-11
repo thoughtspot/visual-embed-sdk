@@ -1,5 +1,6 @@
 import {
     isValidUpdateFiltersPayload,
+    resolveUpdateFiltersAliases,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     createValidationError,
@@ -7,6 +8,7 @@ import {
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
+import { FilterUpdate } from './contracts';
 import { ERROR_MESSAGE } from '../../errors';
 import { EmbedEvent } from '../../types';
 import { embedEventStatus } from '../../utils';
@@ -424,6 +426,131 @@ describe('hostEventClient utils', () => {
         it('throws with DRILLDOWN_INVALID_PAYLOAD message', () => {
             expect(() => throwDrillDownValidationError())
                 .toThrow(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
+        });
+    });
+    // =========================
+    // FilterUpdate type shape
+    // =========================
+    // These assertions are checked by tsc, not just at runtime. They lock in
+    // that columnName/operator is the documented spelling, that the deprecated
+    // column/oper aliases still type-check so existing code keeps compiling,
+    // and that omitting a column or an operator altogether is a compile error
+    // rather than a runtime-only failure.
+    describe('FilterUpdate type', () => {
+        it('accepts the documented columnName/operator spelling', () => {
+            const filter: FilterUpdate = { columnName: 'region', operator: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('still accepts the deprecated column/oper aliases', () => {
+            const filter: FilterUpdate = { column: 'region', oper: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts a mix of documented and deprecated spellings', () => {
+            const filter: FilterUpdate = { columnName: 'region', oper: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts a worksheet-qualified column name', () => {
+            const filter: FilterUpdate = {
+                columnName: '(Sample) Retail - Apparel::city',
+                operator: 'IN',
+                values: ['atlanta'],
+            };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('rejects a filter with no column at compile time and at runtime', () => {
+            // @ts-expect-error one of columnName/column is required
+            const filter: FilterUpdate = { operator: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(false);
+        });
+
+        it('rejects a filter with no operator at compile time and at runtime', () => {
+            // @ts-expect-error one of operator/oper is required
+            const filter: FilterUpdate = { columnName: 'region', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(false);
+        });
+    });
+    describe('resolveUpdateFiltersAliases', () => {
+        // The payload is forwarded to the embedded app verbatim, and only
+        // column/oper are known to be understood there. Without this step a
+        // payload using the columnName/operator aliases passes validation and
+        // is then silently ignored downstream.
+        it('rewrites columnName/operator to column/oper on a single filter', () => {
+            const out = resolveUpdateFiltersAliases({
+                filter: { columnName: 'region', operator: 'EQ', values: ['west'] },
+            } as any);
+
+            expect(out.filter).toEqual({ column: 'region', oper: 'EQ', values: ['west'] });
+            expect(out.filter).not.toHaveProperty('columnName');
+            expect(out.filter).not.toHaveProperty('operator');
+        });
+
+        it('rewrites every entry in a filters array', () => {
+            const out = resolveUpdateFiltersAliases({
+                filters: [
+                    { columnName: 'region', operator: 'EQ', values: ['west'] },
+                    { columnName: 'item type', operator: 'IN', values: ['bags'] },
+                ],
+            } as any);
+
+            expect(out.filters).toEqual([
+                { column: 'region', oper: 'EQ', values: ['west'] },
+                { column: 'item type', oper: 'IN', values: ['bags'] },
+            ]);
+        });
+
+        it('leaves a payload that already uses column/oper untouched', () => {
+            const payload = { filter: { column: 'region', oper: 'EQ', values: ['west'] } } as any;
+
+            expect(resolveUpdateFiltersAliases(payload)).toEqual(payload);
+        });
+
+        it('prefers column/oper when both spellings are present', () => {
+            const out = resolveUpdateFiltersAliases({
+                filter: {
+                    column: 'from-column', columnName: 'from-columnName',
+                    oper: 'EQ', operator: 'IN',
+                    values: ['x'],
+                },
+            } as any);
+
+            expect(out.filter).toEqual({ column: 'from-column', oper: 'EQ', values: ['x'] });
+        });
+
+        it('preserves the other filter fields, including applicability', () => {
+            const out = resolveUpdateFiltersAliases({
+                filter: {
+                    columnName: 'date',
+                    operator: 'EQ',
+                    values: [1700000000],
+                    type: 'EXACT_DATE',
+                    applicability: { level: 'TAB', targetId: 'tab-guid' },
+                },
+            } as any);
+
+            expect(out.filter).toEqual({
+                column: 'date',
+                oper: 'EQ',
+                values: [1700000000],
+                type: 'EXACT_DATE',
+                applicability: { level: 'TAB', targetId: 'tab-guid' },
+            });
+        });
+
+        it('produces a payload that still passes validation', () => {
+            const out = resolveUpdateFiltersAliases({
+                filters: [{ columnName: 'region', operator: 'EQ', values: ['west'] }],
+            } as any);
+
+            expect(isValidUpdateFiltersPayload(out as any)).toBe(true);
+        });
+
+        it('is a no-op on a non-object payload', () => {
+            expect(resolveUpdateFiltersAliases(undefined as any)).toBeUndefined();
+            expect(resolveUpdateFiltersAliases(null as any)).toBeNull();
         });
     });
 });
