@@ -2059,10 +2059,10 @@ export class TsEmbed {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
                     const params = await this.getUpdateEmbedParamsObject();
-                    this.trigger(HostEvent.UpdateEmbedParams, params);
-                    if (this.getPreRenderConfig().reconcileRuntimeParams) {
-                        this.reconcileRuntimeParams();
-                    }
+                    this.trigger(
+                        HostEvent.UpdateEmbedParams,
+                        this.reconcileRuntimeFilters(params),
+                    );
                 } catch (error) {
                     logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
                     this.handleError({
@@ -2078,37 +2078,38 @@ export class TsEmbed {
         });
     }
 
-    // Needed for LB1 → LB1, where nothing navigates and UpdateEmbedParams is the
-    // only thing carrying the new values.
-    protected reconcileRuntimeParams() {
-        this.reconcileRuntimeFilters();
-        this.reconcileRuntimeParameters();
-    }
-
-    private reconcileRuntimeFilters() {
-        if (this.viewConfig.runtimeFilters) {
-            this.trigger(HostEvent.UpdateRuntimeFilters, this.viewConfig.runtimeFilters);
-            return;
-        }
+    /**
+     * Rewrites the `runtimeFilters` of a show-cycle's UpdateEmbedParams payload so the
+     * predecessor's filters do not survive the hand-over.
+     *
+     * The params object already carries this config's own values — filters and
+     * parameters alike — so a config that declares filters needs nothing extra, and
+     * this only fills the gap the payload cannot express on its own: a config that
+     * declares *no* filters, where the columns that must be reset are the previous
+     * config's. They are re-sent with empty `values`, which is what actually clears a
+     * filter on the shared pre-render.
+     *
+     * Needed for LB1 → LB1, where nothing navigates and UpdateEmbedParams is the only
+     * thing carrying the new values.
+     *
+     * Parameters have no analogue of an empty `values` — a parameter always carries
+     * one — so clearing those is left to the container, which resets from this same
+     * payload.
+     */
+    private reconcileRuntimeFilters<T extends Record<string, any>>(params: T): T {
+        if (!this.getPreRenderConfig().reconcileRuntimeParams) return params;
+        if (this.viewConfig.runtimeFilters) return params;
 
         const prevRuntimeFilters = this.getPredecessorViewConfig()?.runtimeFilters;
-        if (!prevRuntimeFilters) return;
-        this.trigger(
-            HostEvent.UpdateRuntimeFilters,
-            prevRuntimeFilters.map((filter) => ({
+        if (!prevRuntimeFilters?.length) return params;
+
+        return {
+            ...params,
+            runtimeFilters: prevRuntimeFilters.map((filter) => ({
                 ...filter,
                 values: [],
             })),
-        );
-    }
-
-    // No clear half: a parameter always carries a value, so there is no equivalent
-    // of a filter's empty `values`. Clearing is left to the container.
-    private reconcileRuntimeParameters() {
-        const { runtimeParameters } = this.viewConfig;
-        if (runtimeParameters?.length) {
-            this.trigger(HostEvent.UpdateParameters, runtimeParameters);
-        }
+        };
     }
 
     private getPredecessorViewConfig() {

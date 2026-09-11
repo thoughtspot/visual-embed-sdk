@@ -978,12 +978,12 @@ export interface PreRenderConfig {
      */
     zIndex?: number;
     /**
-     * Re-applies this embed's `runtimeFilters` and `runtimeParameters` when it
-     * attaches to a pre-render another embed used before it, so that embed's
-     * values do not carry over.
+     * Clears the `runtimeFilters` left behind by the embed that used this
+     * pre-render before, when this embed declares none of its own, so those
+     * filters do not carry over.
      *
      * Set it when several embeds share one pre-render and declare different
-     * runtime filters or parameters.
+     * runtime filters.
      *
      * @default false
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl

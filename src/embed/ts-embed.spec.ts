@@ -5682,8 +5682,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            // Not LastCalledWith: reconcileRuntimeParams fires a
-            // follow-up UpdateRuntimeFilters after this event.
+            // Not LastCalledWith: LiveboardEmbed fires Navigate after this.
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
@@ -5737,8 +5736,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            // Not LastCalledWith: reconcileRuntimeParams fires a
-            // follow-up UpdateRuntimeFilters after this event.
+            // Not LastCalledWith: LiveboardEmbed fires Navigate after this.
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
                 HostEvent.UpdateEmbedParams,
@@ -5759,7 +5757,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
-    test('should trigger UpdateRuntimeFilters with the new config filters after UpdateEmbedParams', async () => {
+    test('should carry the new config filters in UpdateEmbedParams, with no follow-up event', async () => {
         await setupPreRenderTest('reconcile-new-filters', { liveboardId: 'original-lb' });
 
         const runtimeFilters = [
@@ -5782,20 +5780,18 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         await executeAfterWait(() => {
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
-                HostEvent.UpdateRuntimeFilters,
+                HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                runtimeFilters,
+                expect.objectContaining({ runtimeFilters }),
                 undefined,
             );
 
-            // The filters reconcile only after the params land, so that the
-            // iframe applies them to the config it has just been given.
-            const eventTypes = mockProcessTrigger.mock.calls.map(
-                (call: any[]) => call[1],
+            // The params payload already carries them, so the reconcile
+            // costs no extra traffic when the new config has its own filters.
+            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
             );
-            expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
-                eventTypes.indexOf(HostEvent.UpdateRuntimeFilters),
-            );
+            expect(runtimeFilterCalls).toHaveLength(0);
         });
     });
 
@@ -5836,9 +5832,6 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
                 eventTypes.indexOf(HostEvent.Navigate),
             );
-            expect(eventTypes.indexOf(HostEvent.UpdateRuntimeFilters)).toBeLessThan(
-                eventTypes.indexOf(HostEvent.Navigate),
-            );
         }, 300);
     });
 
@@ -5864,20 +5857,55 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         await executeAfterWait(() => {
             // Same columns as the previous config, but with empty values, which
-            // is what actually resets a filter on the shared pre-render.
+            // is what actually resets a filter on the shared pre-render —
+            // carried by the params payload itself, not a follow-up event.
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
-                HostEvent.UpdateRuntimeFilters,
+                HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                [
-                    {
-                        columnName: 'Color',
-                        operator: RuntimeFilterOp.IN,
-                        values: [],
-                    },
-                ],
+                expect.objectContaining({
+                    runtimeFilters: [
+                        {
+                            columnName: 'Color',
+                            operator: RuntimeFilterOp.IN,
+                            values: [],
+                        },
+                    ],
+                }),
                 undefined,
             );
+
+            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
+            );
+            expect(runtimeFilterCalls).toHaveLength(0);
+        });
+    });
+
+    test('should leave the params filters alone when the flag is not set', async () => {
+        await setupPreRenderTest('reconcile-off', {
+            liveboardId: 'original-lb',
+            runtimeFilters: [
+                {
+                    columnName: 'Color',
+                    operator: RuntimeFilterOp.IN,
+                    values: ['red', 'blue'],
+                },
+            ],
+        });
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'reconcile-off',
+            liveboardId: 'original-lb',
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            const paramsCall = mockProcessTrigger.mock.calls.find(
+                (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
         });
     });
 
@@ -5911,7 +5939,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         handleErrorSpy.mockRestore();
     });
 
-    test('should not trigger UpdateRuntimeFilters when no config has filters', async () => {
+    test('should not add filters to the params when no config has any', async () => {
         await setupPreRenderTest('reconcile-no-filters', { liveboardId: 'original-lb' });
 
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
@@ -5923,10 +5951,10 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
-            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
-                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
+            const paramsCall = mockProcessTrigger.mock.calls.find(
+                (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
             );
-            expect(runtimeFilterCalls).toHaveLength(0);
+            expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
         });
     });
     test('should reconcile against the embed showing now, not the one that created the pre-render', async () => {
@@ -5952,9 +5980,13 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         await executeAfterWait(() => {
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
-                HostEvent.UpdateRuntimeFilters,
+                HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                [{ columnName: 'Color', operator: RuntimeFilterOp.IN, values: [] }],
+                expect.objectContaining({
+                    runtimeFilters: [
+                        { columnName: 'Color', operator: RuntimeFilterOp.IN, values: [] },
+                    ],
+                }),
                 undefined,
             );
         });
@@ -5972,14 +6004,14 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         await embed3.showPreRender();
 
         await executeAfterWait(() => {
-            const runtimeFilterCalls = mockProcessTrigger.mock.calls.filter(
-                (call: any[]) => call[1] === HostEvent.UpdateRuntimeFilters,
+            const paramsCall = mockProcessTrigger.mock.calls.find(
+                (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
             );
-            expect(runtimeFilterCalls).toHaveLength(0);
+            expect(paramsCall?.[3]).not.toHaveProperty('runtimeFilters');
         });
     });
 
-    test('should re-apply the new config runtime parameters after UpdateEmbedParams', async () => {
+    test('should carry the new config runtime parameters in UpdateEmbedParams', async () => {
         await setupPreRenderTest('reconcile-parameters', {
             liveboardId: 'original-lb',
             runtimeParameters: [{ name: 'Region Param', value: 'East' }],
@@ -5998,29 +6030,29 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         await executeAfterWait(() => {
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 expect.any(Object),
-                HostEvent.UpdateParameters,
+                HostEvent.UpdateEmbedParams,
                 expect.any(String),
-                runtimeParameters,
+                expect.objectContaining({ runtimeParameters }),
                 undefined,
             );
 
-            // Same ordering rule as the filters: the parameters have to land on
-            // the config the container has just been given.
-            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
-            expect(eventTypes.indexOf(HostEvent.UpdateEmbedParams)).toBeLessThan(
-                eventTypes.indexOf(HostEvent.UpdateParameters),
+            // A parameter always carries a value, so the params payload says
+            // everything there is to say — no follow-up event.
+            const parameterCalls = mockProcessTrigger.mock.calls.filter(
+                (call: any[]) => call[1] === HostEvent.UpdateParameters,
             );
+            expect(parameterCalls).toHaveLength(0);
         });
     });
 
-    test('should not send UpdateParameters when the new config declares none', async () => {
+    test('should not re-send the previous parameters when the new config declares none', async () => {
         await setupPreRenderTest('reconcile-parameters-none', {
             liveboardId: 'original-lb',
             runtimeParameters: [{ name: 'Region Param', value: 'East' }],
         });
 
-        // No payload means "unset" for a parameter, so the SDK sends nothing and
-        // leaves the reset to the container.
+        // There is no empty-value form of a parameter, so clearing is left
+        // to the container, which resets from this same payload.
         const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
             preRenderId: 'reconcile-parameters-none',
             liveboardId: 'original-lb',
@@ -6030,6 +6062,11 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         embed2.showPreRender();
 
         await executeAfterWait(() => {
+            const paramsCall = mockProcessTrigger.mock.calls.find(
+                (call: any[]) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(paramsCall?.[3]).not.toHaveProperty('runtimeParameters');
+
             const parameterCalls = mockProcessTrigger.mock.calls.filter(
                 (call: any[]) => call[1] === HostEvent.UpdateParameters,
             );
