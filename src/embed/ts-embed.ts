@@ -109,6 +109,14 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
+// The container applies UpdateEmbedParams through React state, so a delivered
+// post is not the same as the params being in effect.
+const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+
+// The container ignores runtimeFilterParams/runtimeParameterParams unless truthy, so
+// null or '' leaves the previous embed's values in place. '&' is truthy and parses to {}.
+const NO_RUNTIME_PARAMS = '&';
+
 /**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
@@ -140,6 +148,8 @@ export class TsEmbed {
      * The key to store the embed instance in the DOM node
      */
     protected embedNodeKey = '__tsEmbed';
+
+    protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
 
     protected isAppInitialized = false;
 
@@ -719,7 +729,18 @@ export class TsEmbed {
             queryParams[key] = deserializeParam(queryParams[key]);
         });
         const appInitData = await this.getAppInitData();
-        return { ...this.viewConfig, ...queryParams, ...appInitData };
+        return {
+            ...this.viewConfig,
+            ...queryParams,
+            ...appInitData,
+            // A show cycle has no URL to carry these, so the payload always states them
+            // — including "none", which is the case that leaks the previous filters.
+            runtimeFilterParams:
+                getFilterQuery(this.viewConfig.runtimeFilters ?? []) || NO_RUNTIME_PARAMS,
+            runtimeParameterParams:
+                getRuntimeParameters(this.viewConfig.runtimeParameters ?? [])
+                || NO_RUNTIME_PARAMS,
+        };
     }
 
     /**
@@ -1124,6 +1145,8 @@ export class TsEmbed {
         return preRenderWrapper;
     }
 
+    // TODO(SCAL-338011): move the pre-render code out to its own file, the way
+    // full height did. It is spread across this class and getting messy.
     protected preRenderWrapper: HTMLElement;
 
     protected preRenderChild: HTMLElement;
@@ -1572,14 +1595,34 @@ export class TsEmbed {
     protected getPreRenderObj<T extends TsEmbed>(): T {
         const embedObj = (this.preRenderWrapper as any)?.[this.embedNodeKey] as T;
         if (embedObj === (this as any)) {
-            logger.info('embedObj is same as this');
+            logger.debug('embedObj is same as this');
         }
         return embedObj;
+    }
+
+    protected takeOverPreRender(): void {
+        if (!this.preRenderWrapper) return;
+        (this.preRenderWrapper as any)[this.embedNodeKey] = this;
+    }
+
+    // The flag lives on the wrapper because it describes the iframe: an instance
+    // hidden when the container announced itself would otherwise report false forever.
+    private markEmbedContainerLoaded() {
+        this.isEmbedContainerLoaded = true;
+        if (this.preRenderWrapper) {
+            (this.preRenderWrapper as any)[this.embedContainerLoadedKey] = true;
+        }
     }
 
     private checkEmbedContainerLoaded() {
         if (this.isEmbedContainerLoaded) return true;
 
+        if ((this.preRenderWrapper as any)?.[this.embedContainerLoadedKey]) {
+            this.isEmbedContainerLoaded = true;
+            return true;
+        }
+
+        // Older builds stamped the flag on the instance, not the wrapper.
         const preRenderObj = this.getPreRenderObj<TsEmbed>();
         if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
             this.isEmbedContainerLoaded = true;
@@ -1612,7 +1655,7 @@ export class TsEmbed {
         (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
             const processEmbedContainerReady = () => {
                 logger.debug('processEmbedContainerReady');
-                this.isEmbedContainerLoaded = true;
+                this.markEmbedContainerLoaded();
                 this.executeEmbedContainerReadyCallbacks();
             };
             if (source === EmbedEvent.AuthInit) {
@@ -1979,24 +2022,34 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    // Subclasses that navigate the pre-render on show must await this before
+    // triggering Navigate. Resolves even on failure, so navigation is never blocked.
+    protected preRenderParamsApplied: Promise<void> = Promise.resolve();
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        this.executeAfterEmbedContainerLoaded(async () => {
-            try {
-                const params = await this.getUpdateEmbedParamsObject();
-                this.trigger(HostEvent.UpdateEmbedParams, params);
-            } catch (error) {
-                logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                this.handleError({
-                    errorType: ErrorDetailsTypes.API,
-                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: error?.message || error,
-                });
-            }
+        // Created synchronously: a queued navigation needs something to await
+        // whether the container is already loaded or not.
+        this.preRenderParamsApplied = new Promise<void>((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                } catch (error) {
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                } finally {
+                    setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
+                }
+            });
         });
     }
 
@@ -2082,6 +2135,9 @@ export class TsEmbed {
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
         }
+
+        // Last, so everything above still sees the instance being taken over from.
+        this.takeOverPreRender();
 
         return this;
     }

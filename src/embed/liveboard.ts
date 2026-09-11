@@ -37,6 +37,11 @@ import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
+// Home unmounts the liveboard container, which is how its state gets cleared. The
+// settle window gives the container time to do it before we ask for the liveboard back.
+const HOME_ROUTE = 'home';
+const HOME_SETTLE_MS = 200;
+
 /**
  * APP_INIT data shape for LiveboardEmbed.
  * @internal
@@ -946,24 +951,53 @@ export class LiveboardEmbed extends V1Embed {
 
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
-        const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
-        this.executeAfterEmbedContainerLoaded(() => {
+        // Captured before showPreRender() hands the wrapper over to this instance.
+        // Itself means a hide/show, not a hand-over, so there is nothing stale to clear.
+        const previous = this.getPreRenderObj<LiveboardEmbed>();
+        const showing = previous === this ? undefined : previous?.currentLiveboardState;
+
+        this.executeAfterEmbedContainerLoaded(async () => {
+            // Without this the params callback suspends on its await and Navigate
+            // goes out first, so the container loads with the previous config's filters.
+            await this.preRenderParamsApplied;
+            if (this.isShowingLiveboardRoute(showing)) {
+                // Navigate to the route we are already on is a no-op, so the liveboard
+                // keeps its state. Home unmounts the container, which clears it.
+                this.trigger(HostEvent.Navigate, HOME_ROUTE)
+                    .catch((error) => logger.warn('Could not route via home', error));
+                // Not awaited above: the container never acks Navigate, so that promise
+                // only settles on the 30s trigger timeout.
+                await new Promise((resolve) => {
+                    setTimeout(resolve, HOME_SETTLE_MS);
+                });
+            }
             this.navigateToLiveboard(
                 this.viewConfig.liveboardId,
                 this.viewConfig.vizId,
                 this.viewConfig.activeTabId,
                 this.viewConfig.personalizedViewId,
             );
-            if (embedObj) {
-                embedObj.currentLiveboardState = {
-                    liveboardId: this.viewConfig.liveboardId,
-                    vizId: this.viewConfig.vizId,
-                    activeTabId: this.viewConfig.activeTabId,
-                    personalizedViewId: this.viewConfig.personalizedViewId,
-                };
-            }
+            this.currentLiveboardState = {
+                liveboardId: this.viewConfig.liveboardId,
+                vizId: this.viewConfig.vizId,
+                activeTabId: this.viewConfig.activeTabId,
+                personalizedViewId: this.viewConfig.personalizedViewId,
+            };
         });
+    }
+
+    // The whole route, not just the liveboard id: the path is built from the viz, tab
+    // and view too, so a same-liveboard show onto another tab is a real navigation.
+    private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
+        if (!showing?.liveboardId) return false;
+        const {
+            liveboardId, vizId, activeTabId, personalizedViewId,
+        } = this.viewConfig;
+        return showing.liveboardId === liveboardId
+            && showing.vizId === vizId
+            && showing.activeTabId === activeTabId
+            && showing.personalizedViewId === personalizedViewId;
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
