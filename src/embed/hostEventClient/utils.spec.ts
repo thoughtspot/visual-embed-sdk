@@ -8,6 +8,7 @@ import {
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
+import { FilterUpdate } from './contracts';
 import { ERROR_MESSAGE } from '../../errors';
 import { EmbedEvent } from '../../types';
 import { embedEventStatus } from '../../utils';
@@ -425,6 +426,51 @@ describe('hostEventClient utils', () => {
         it('throws with DRILLDOWN_INVALID_PAYLOAD message', () => {
             expect(() => throwDrillDownValidationError())
                 .toThrow(ERROR_MESSAGE.DRILLDOWN_INVALID_PAYLOAD);
+        });
+    });
+    // =========================
+    // FilterUpdate type shape
+    // =========================
+    // These assertions are checked by tsc, not just at runtime. They lock in
+    // that columnName/operator is the documented spelling, that the deprecated
+    // column/oper aliases still type-check so existing code keeps compiling,
+    // and that omitting a column or an operator altogether is a compile error
+    // rather than a runtime-only failure.
+    describe('FilterUpdate type', () => {
+        it('accepts the documented columnName/operator spelling', () => {
+            const filter: FilterUpdate = { columnName: 'region', operator: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('still accepts the deprecated column/oper aliases', () => {
+            const filter: FilterUpdate = { column: 'region', oper: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts a mix of documented and deprecated spellings', () => {
+            const filter: FilterUpdate = { columnName: 'region', oper: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts a worksheet-qualified column name', () => {
+            const filter: FilterUpdate = {
+                columnName: '(Sample) Retail - Apparel::city',
+                operator: 'IN',
+                values: ['atlanta'],
+            };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('rejects a filter with no column at compile time and at runtime', () => {
+            // @ts-expect-error one of columnName/column is required
+            const filter: FilterUpdate = { operator: 'EQ', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(false);
+        });
+
+        it('rejects a filter with no operator at compile time and at runtime', () => {
+            // @ts-expect-error one of operator/oper is required
+            const filter: FilterUpdate = { columnName: 'region', values: ['west'] };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(false);
         });
     });
     describe('resolveUpdateFiltersAliases', () => {

@@ -32,33 +32,96 @@ export interface Applicability {
   targetId?: string;
 }
 
-export interface FilterUpdate {
+/**
+ * The column to filter on. Supply `columnName`; `column` is a deprecated
+ * alias. One of the two is required - supplying neither is a type error,
+ * because a filter with no column is rejected at runtime.
+ *
+ * When several columns share a name, qualify it as
+ * `WORKSHEET_NAME::COLUMN_NAME`, for example
+ * `"(Sample) Retail - Apparel::city"`.
+ */
+export type FilterUpdateColumn =
+  | {
+    /**
+     * Name of the column to filter on, optionally qualified as
+     * `WORKSHEET_NAME::COLUMN_NAME`.
+     */
+    columnName: string;
+    /**
+     * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and
+     * the rest of the SDK. Still accepted.
+     */
+    column?: string;
+  }
+  | {
+    /**
+     * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and
+     * the rest of the SDK. Still accepted.
+     */
+    column: string;
+    /**
+     * Name of the column to filter on, optionally qualified as
+     * `WORKSHEET_NAME::COLUMN_NAME`.
+     */
+    columnName?: string;
+  };
+
+/**
+ * The filter operator. Supply `operator`; `oper` is a deprecated alias.
+ * One of the two is required - supplying neither is a type error, because a
+ * filter with no operator is rejected at runtime.
+ */
+export type FilterUpdateOperator =
+  | {
+    /**
+     * Filter operator, for example EQ, IN, CONTAINS.
+     */
+    operator: string;
+    /**
+     * @deprecated Use `operator`, which matches {@link RuntimeFilter} and
+     * the rest of the SDK. Still accepted.
+     */
+    oper?: string;
+  }
+  | {
+    /**
+     * @deprecated Use `operator`, which matches {@link RuntimeFilter} and
+     * the rest of the SDK. Still accepted.
+     */
+    oper: string;
+    /**
+     * Filter operator, for example EQ, IN, CONTAINS.
+     */
+    operator?: string;
+  };
+
+/**
+ * One filter in a {@link HostEvent.UpdateFilters} payload.
+ *
+ * Use `columnName` and `operator` - the spelling used by
+ * {@link RuntimeFilter} and by the payload
+ * `convertFilterChangedToUpdateFiltersPayload` produces. The older
+ * `column` and `oper` spellings are deprecated but still accepted, so
+ * existing code keeps working.
+ */
+export type FilterUpdate = FilterUpdateColumn & FilterUpdateOperator & {
   /**
-   * Name of the column to filter on.
-   * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and the
-   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
-   * what is sent on the wire.
+   * One or more filter values. The accepted types depend on the data type of
+   * the column being filtered.
    */
-  column?: string;
-  /**
-   * Name of the column to filter on. Preferred over `column`.
-   */
-  columnName?: string;
-  /**
-   * Filter operator, for example EQ, IN, CONTAINS.
-   * @deprecated Use `operator`, which matches {@link RuntimeFilter} and the
-   * payload emitted by `EmbedEvent.FilterChanged`. Still accepted, and still
-   * what is sent on the wire.
-   */
-  oper?: string;
-  /**
-   * Filter operator, for example EQ, IN, CONTAINS. Preferred over `oper`.
-   */
-  operator?: string;
   values: (string | number | boolean | bigint)[];
+  /**
+   * Date format type, for date filters - for example `EXACT_DATE`,
+   * `MONTH_YEAR`.
+   */
   type?: string;
+  /**
+   * Optional. Scopes the filter to a specific target, for example a single
+   * Liveboard tab.
+   */
   applicability?: Applicability;
-}
+};
 
 export interface LiveboardFilter {
   applicability?: Applicability;
