@@ -38,6 +38,12 @@ import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
+ * The container's home route — the same string `AppEmbed` sends for `Page.Home`.
+ * Used as a waypoint to unmount a liveboard that is being re-shown.
+ */
+const HOME_ROUTE = 'home';
+
+/**
  * APP_INIT data shape for LiveboardEmbed.
  * @internal
  */
@@ -1164,10 +1170,18 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
 
+        // Captured synchronously: showPreRender() calls takeOverPreRender() after
+        // this, so by the time the async callback runs the wrapper already points
+        // at this instance and getPreRenderObj() no longer names its predecessor.
+        const showing = this.getPreRenderObj<LiveboardEmbed>()?.currentLiveboardState;
+
         this.executeAfterEmbedContainerLoaded(async () => {
             // Without this the params callback suspends on its await and Navigate
             // goes out first, so the container loads with the previous config's filters.
             await this.preRenderParamsApplied;
+            if (this.isShowingLiveboardRoute(showing)) {
+                await this.clearLiveboardStateViaHome();
+            }
             this.navigateToLiveboard(
                 this.viewConfig.liveboardId,
                 this.viewConfig.vizId,
@@ -1181,6 +1195,56 @@ export class LiveboardEmbed extends V1Embed {
                 personalizedViewId: this.viewConfig.personalizedViewId,
             };
         });
+    }
+
+    /**
+     * Sends the pre-render to home and waits for it to get there, so the liveboard it
+     * was showing is torn down before it is asked for again.
+     *
+     * Only useful on a same-route show: the container treats `Navigate` to the route it
+     * is already on as a no-op, so the liveboard component is never unmounted and keeps
+     * the state it accumulated — the filter chips the user moved, the selections, the
+     * tab. Going via home unmounts it, so the `Navigate` that follows rebuilds it from
+     * the `UpdateEmbedParams` posted just before.
+     *
+     * Awaits the trigger rather than posting and hoping: two `Navigate`s in the same
+     * tick are a router's invitation to coalesce, which would defeat the whole point.
+     *
+     * A failure warns rather than errors, and is swallowed: the liveboard still gets
+     * shown, just without the state having been cleared first. Stale state beats a
+     * liveboard that never comes back.
+     */
+    private async clearLiveboardStateViaHome(): Promise<void> {
+        try {
+            await this.trigger(HostEvent.Navigate, HOME_ROUTE);
+        } catch (error) {
+            logger.warn('Could not route the pre-render via home before re-showing it', error);
+        }
+    }
+
+    /**
+     * Whether the pre-render is already on the route this config asks for — the case
+     * where `Navigate` alone would change nothing, so the liveboard needs clearing
+     * first.
+     *
+     * Compares the whole route rather than the liveboard id alone: the path is built
+     * from the viz, tab and personalized view as well, so a same-liveboard show that
+     * moves to another tab is a real navigation and needs no help.
+     *
+     * Answers true only on a positive match. An unknown predecessor — no pre-render
+     * object yet, or one that is not a LiveboardEmbed — takes the ordinary path, since
+     * a plain `Navigate` to a route the container is not on does the unmounting by
+     * itself.
+     */
+    private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
+        if (!showing?.liveboardId) return false;
+        const {
+            liveboardId, vizId, activeTabId, personalizedViewId,
+        } = this.viewConfig;
+        return showing.liveboardId === liveboardId
+            && showing.vizId === vizId
+            && showing.activeTabId === activeTabId
+            && showing.personalizedViewId === personalizedViewId;
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {

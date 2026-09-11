@@ -2630,6 +2630,238 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
 
+        test('should route via home when the pre-render is already on this route', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // Navigate to the route the container is already on is a no-op, so
+            // the liveboard is never unmounted and keeps the state it has. Home
+            // unmounts it, and the Navigate after rebuilds it.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+            // Home first, then back — the other order would clear the liveboard
+            // that was just asked for.
+            expect(triggerSpy.mock.invocationCallOrder[0]).toBeLessThan(
+                navigateToLiveboardSpy.mock.invocationCallOrder[0],
+            );
+        });
+
+        test('should wait for home before navigating back to the liveboard', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+
+            // Two Navigates in the same tick are a router's invitation to
+            // coalesce, so the second must wait on the first.
+            let resolveHome: () => void;
+            jest.spyOn(liveboardEmbed, 'trigger').mockImplementation(
+                () => new Promise<any>((resolve) => {
+                    resolveHome = () => resolve(undefined);
+                }),
+            );
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(navigateToLiveboardSpy).not.toHaveBeenCalled();
+
+            resolveHome();
+            await waitForPreRenderNavigate();
+
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should navigate back to the liveboard even when home fails', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            // Only the home hop fails; the params trigger is left alone.
+            jest.spyOn(liveboardEmbed, 'trigger').mockImplementation(
+                (event: any, payload: any) => (event === HostEvent.Navigate && payload === 'home'
+                    ? Promise.reject(new Error('no route for you'))
+                    : Promise.resolve(undefined as any)),
+            );
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            // A liveboard rebuilt from stale state beats one that never returns.
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+        });
+
+        test('should not route via home when the pre-render is on another liveboard', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId: 'a-different-liveboard',
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            // A real route change unmounts the liveboard by itself.
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+        });
+
+        test('should not route via home for the same liveboard on a different tab', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // Same liveboard, but the path is built from the tab as well, so
+            // this is a real navigation.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId: 'another-tab',
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should not route via home when what the pre-render shows is unknown', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // getPreRenderObj() reads an untyped property off the wrapper node,
+            // so it can hand back something that is not a LiveboardEmbed.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({} as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
         test('should update currentLiveboardState on the embed showing when the container loads', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
