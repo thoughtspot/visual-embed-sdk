@@ -56,7 +56,7 @@ export class ConversationMessage extends TsEmbed {
             messageId,
         } = this.viewConfig;
         const path = 'conv-assist-answer';
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);

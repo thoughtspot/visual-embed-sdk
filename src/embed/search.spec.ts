@@ -774,6 +774,28 @@ test('should pass forceTable parameter when forceTable is true', async () => {
 });
 
 describe('SearchBarEmbed tests', () => {
+    test('should keep view config off the URL when sendConfigAsPostMessage is set', async () => {
+        const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
+            ...defaultViewConfig,
+            dataSources: ['source-1', 'source-2'],
+            sendConfigAsPostMessage: true,
+        } as any);
+        searchBarEmbed.render();
+        await executeAfterWait(() => {
+            const iframeSrc = getIFrameSrc();
+
+            // Bootstrap params stay: the handshake, the embed marker that
+            // picks the app shell, and the data sources it boots against.
+            expect(iframeSrc).toContain('hostAppUrl=');
+            expect(iframeSrc).toContain('isSearchEmbed=true');
+            expect(iframeSrc).toContain('dataSources');
+
+            // The rest of the view config goes over HostEvent.UpdateEmbedParams.
+            expect(iframeSrc).not.toContain('hideAction');
+            expect(iframeSrc).not.toContain('useLastSelectedDataSource');
+        });
+    });
+
     test('should pass dataSources parameter when dataSources array is provided', async () => {
         const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
