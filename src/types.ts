@@ -6940,6 +6940,7 @@ export enum Param {
     AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
+    SpotterExperienceVersion = 'spotterExperienceVersion',
 }
 
 /**

@@ -2,9 +2,9 @@ import {
     SpotterEmbed,
     SpotterEmbedViewConfig,
     SpotterQueryMode,
-    SpotterExperience,
     ConversationEmbed,
 } from './conversation';
+import { SpotterExperience } from './spotter-utils';
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
@@ -149,7 +149,7 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should not add a query parameter for spotterExperience', async () => {
+    it('should add the spotterExperienceVersion param when spotterExperience is set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             spotterExperience: SpotterExperience.Spotter_26_11,
@@ -157,7 +157,19 @@ describe('ConversationEmbed', () => {
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('spotterExperience');
+        expect(getIFrameSrc()).toContain(
+            `spotterExperienceVersion=${SpotterExperience.Spotter_26_11}`,
+        );
+    });
+
+    it('should not add the spotterExperienceVersion param when spotterExperience is not set', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('spotterExperienceVersion');
     });
 
     it('should render the conversation embed with worksheets disabled', async () => {

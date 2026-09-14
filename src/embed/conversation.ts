@@ -1,6 +1,6 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData, SpotterExperience } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -430,18 +430,6 @@ export interface SpotterAnalystConfig {
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     analystId?: string;
-}
-
-/**
- * The Spotter experience version to load in the embedded view.
- * @group Embed components
- * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
- */
-export enum SpotterExperience {
-    /**
-     * The Spotter experience introduced in ThoughtSpot 26.11.
-     */
-    Spotter_26_11 = 'spotter_26_11',
 }
 
 /**
@@ -935,6 +923,7 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
+        setParamIfDefined(queryParams, Param.SpotterExperienceVersion, this.viewConfig.spotterExperience);
 
         return queryParams;
     }
