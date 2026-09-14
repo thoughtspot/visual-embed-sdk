@@ -433,10 +433,36 @@ export interface SpotterAnalystConfig {
 }
 
 /**
+ * The Spotter experience version to load in the embedded view.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+ */
+export enum SpotterExperience {
+    /**
+     * The Spotter experience introduced in ThoughtSpot 26.11.
+     */
+    Spotter_26_11 = 'spotter_26_11',
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
 export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
+    /**
+     * The Spotter experience to load. When set to
+     * `SpotterExperience.Spotter_26_11`, the embed loads the updated Spotter
+     * surface instead of the default conversation surface.
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperience: SpotterExperience.Spotter_26_11,
+     * });
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    spotterExperience?: SpotterExperience;
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
@@ -923,14 +949,20 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             sharedConversationId,
             dataSources,
+            spotterExperience,
         } = this.viewConfig;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
         // host-configured CONVERSATION_URL share link); otherwise the normal
         // Spotter conversation surface.
-        const path = sharedConversationId
+        let path = sharedConversationId
             ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
             : 'insights/conv-assist';
+
+        if (spotterExperience === SpotterExperience.Spotter_26_11) {
+            path = path.replace('insights/conv-assist', 'insights/spotter');
+        }
+
         const queryParams = this.getEmbedParamsObject();
 
         let query = '';
