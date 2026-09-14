@@ -537,7 +537,7 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should render the conversation embed with spotterAnalystConfig.analystId in the url', async () => {
+    it('should not add analystId to the url, it is sent over APP_INIT instead', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
@@ -549,35 +549,11 @@ describe('ConversationEmbed', () => {
         };
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('analystId');
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&analystId=analyst-id-1234#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
         );
-    });
-
-    it('should not add analystId to the url when spotterAnalystConfig is not provided', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('analystId');
-    });
-
-    it('should not add analystId to the url when spotterAnalystConfig is empty', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterAnalystConfig: {},
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('analystId');
     });
 
     describe('spotter chat hiddenActions', () => {
@@ -1056,5 +1032,40 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
             enable: false,
             quick: { questions: [{ label: 'Q1', prompt: 'P1' }] },
         });
+    });
+
+    it('should include spotterAnalystConfig in embedParams when analystId is provided', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+        });
+        expect(response.data.embedParams.spotterAnalystConfig).toEqual({
+            analystId: 'analyst-id-1234',
+        });
+    });
+
+    it('should include spotterAnalystConfig alongside the other spotter embedParams', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enablePastConversationsSidebar).toBe(true);
+        expect(response.data.embedParams.spotterAnalystConfig).toEqual({
+            analystId: 'analyst-id-1234',
+        });
+    });
+
+    it('should not include spotterAnalystConfig in embedParams when not configured', async () => {
+        const response = await getAppInitResponse({ worksheetId: 'ws1' });
+        expect(response.data.embedParams?.spotterAnalystConfig).toBeUndefined();
+    });
+
+    it('should not include spotterAnalystConfig in embedParams when analystId is absent', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterAnalystConfig: {},
+        });
+        expect(response.data.embedParams?.spotterAnalystConfig).toBeUndefined();
     });
 });

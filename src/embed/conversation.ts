@@ -1,6 +1,6 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData, buildSpotterAnalystAppInitData } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -801,6 +801,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
         starterPrompts?: StarterPromptsConfig;
+        spotterAnalystConfig?: SpotterAnalystConfig;
     };
 }
 
@@ -850,7 +851,8 @@ export class SpotterEmbed extends TsEmbed {
             this.handleError.bind(this),
         );
         const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        return buildSpotterAnalystAppInitData(starterPromptsInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
@@ -871,7 +873,6 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
-            spotterAnalystConfig,
         } = this.viewConfig;
 
         const queryParams = this.getBaseQueryParams();
@@ -887,7 +888,6 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
-        setParamIfDefined(queryParams, Param.AnalystId, spotterAnalystConfig?.analystId);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
