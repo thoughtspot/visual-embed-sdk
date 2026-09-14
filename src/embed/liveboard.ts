@@ -34,7 +34,7 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildStarterPromptsAppInitData, SpotterExperience } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -538,6 +538,20 @@ export interface LiveboardViewConfig
      * ```
      */
     updatedSpotterExperience?: boolean;
+
+    /**
+     * The Spotter experience to load for the Spotter surface shown within
+     * this embed.
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperience: SpotterExperience.Spotter_26_11,
+     * });
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    spotterExperience?: SpotterExperience;
 }
 
 /**
@@ -645,6 +659,7 @@ export class LiveboardEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            spotterExperience,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -712,6 +727,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (spotterExperience !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperience;
         }
 
         if (liveboardGutter !== undefined) {
