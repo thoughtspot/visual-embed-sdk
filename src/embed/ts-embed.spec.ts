@@ -2634,6 +2634,45 @@ describe('Unit test case for ts embed', () => {
             expect(document.getElementById(preRenderIds.wrapper)).toBe(null);
         });
 
+        it('should mark the hidden preRender frame inert and clear it on show', async () => {
+            createRootEleForEmbed();
+
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'i-am-preRendered-focus',
+                liveboardId: 'myLiveboardId',
+            });
+
+            libEmbed.preRender();
+
+            await waitFor(() => !!getIFrameEl());
+
+            const preRenderIds = libEmbed.getPreRenderIds();
+            const preRenderWrapper = document.getElementById(preRenderIds.wrapper);
+
+            // While hidden the frame is still rendered, so it is marked inert to
+            // stop the embedded app autofocusing an input and scrolling the host
+            // page to an embed the user never opened.
+            expect(preRenderWrapper.hasAttribute('inert')).toBe(true);
+
+            await libEmbed.showPreRender();
+
+            expect(preRenderWrapper.hasAttribute('inert')).toBe(false);
+
+            libEmbed.hidePreRender();
+
+            expect(preRenderWrapper.hasAttribute('inert')).toBe(true);
+
+            libEmbed.destroy();
+        });
+
         it('preRender called without preRenderId should log error ', () => {
             createRootEleForEmbed();
 

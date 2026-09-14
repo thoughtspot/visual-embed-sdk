@@ -2076,6 +2076,7 @@ export class TsEmbed {
             'pointer-events',
             'overflow',
         ]);
+        this.preRenderWrapper.removeAttribute('inert');
         this.subscribeToEvents();
 
         // Setup fullscreen change handler for prerendered components
@@ -2153,6 +2154,7 @@ export class TsEmbed {
             overflow: 'hidden',
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
+        this.preRenderWrapper.setAttribute('inert', '');
 
         this.removeContainerScrollListener();
 
