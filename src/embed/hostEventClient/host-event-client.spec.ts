@@ -6,8 +6,8 @@ import {
     UIPassthroughEvent,
     UIPassthroughRequest,
     UIPassthroughArrayResponse,
-    HostEventRequest,
-} from './contracts';
+} from '../../contracts/ui-passthrough-contracts';
+import { HostEventRequest } from '../../contracts/host-event-contracts';
 import { HostEventClient } from './host-event-client';
 
 jest.mock('../../utils/processTrigger');

@@ -16,6 +16,39 @@ import * as path from 'path';
 
 const INDEX_PATH = path.join(__dirname, '..', 'index.ts');
 const REACT_EXPORT_PATH = path.join(__dirname, 'all-types-export.ts');
+const TYPES_PATH = path.join(__dirname, '..', 'types.ts');
+const HOST_EVENT_CONTRACTS_PATH = path.join(
+    __dirname, '..', 'contracts', 'host-event-contracts.ts',
+);
+
+// Payload/request/response types named by `{@link X}` in a doc comment that a
+// customer is meant to import. Enums and internal resolver/map mechanics are
+// referenced by docs too but are not part of this exported-payload contract.
+const NON_PAYLOAD_LINK_TARGETS = new Set([
+    'HostEvent', 'EmbedEvent', 'ContextType', 'RuntimeFilterOp',
+    'HostEventRequest', 'HostEventResponse', 'HostEventRequestMap',
+    'HostEventContextRequestMap', 'DefaultHostEventRequest',
+    'EmbedApiHostEventMapping', 'TriggerData', 'TriggerResponse',
+    'TriggerPayload', 'DeepPartial', 'UIPassthroughRequest',
+    'UIPassthroughResponse', 'HostEventName',
+]);
+
+// Extract the payload types named by `{@link X}` (bare identifier, not a member
+// access like `HostEvent.Foo`) inside the `*Request`/`*Response` docs and
+// the HostEvent enum docs — the links a customer follows to a payload type.
+const extractPayloadLinkTargets = (source: string): Set<string> => {
+    const targets = new Set<string>();
+    const linkRe = /\{@link\s+([A-Za-z_$][\w$]*)(?:\.[\w$]+)?\s*\}/g;
+    let m = linkRe.exec(source);
+    while (m !== null) {
+        const name = m[1];
+        // Member access (`HostEvent.OpenFilter`) captured `HostEvent` — that is
+        // an enum, filtered below. A payload type ends in Request/Response.
+        if (/(?:Request|Response)$/.test(name)) targets.add(name);
+        m = linkRe.exec(source);
+    }
+    return targets;
+};
 
 /**
  * Symbols intentionally absent from the React surface.
@@ -203,6 +236,34 @@ describe('react/all-types-export parity with index', () => {
             'HostEventResponse',
             'TriggerPayload',
             'TriggerResponse',
+            'TriggerData',
+            'UpdateFiltersRequest',
+            'NavigateRequest',
         ].forEach((name) => expect(reactNames.has(name)).toBe(true));
+    });
+
+    // Docs and types must not diverge: a `{@link SomethingRequest}` in a doc
+    // comment promises the reader can reach that type. If generation renames
+    // or drops a payload type, or an export is removed, the link dangles. This
+    // or drops a payload type, or an export is removed, the link dangles. It
+    it('every payload type linked from docs is exported from both entry points', () => {
+        const indexNames = extractExportedNames(fs.readFileSync(INDEX_PATH, 'utf8'));
+        const reactNames = extractExportedNames(fs.readFileSync(REACT_EXPORT_PATH, 'utf8'));
+        const linked = new Set<string>([
+            ...extractPayloadLinkTargets(fs.readFileSync(TYPES_PATH, 'utf8')),
+            ...extractPayloadLinkTargets(
+                fs.readFileSync(HOST_EVENT_CONTRACTS_PATH, 'utf8'),
+            ),
+        ]);
+
+        // Sanity: the doc scan found the payload links we added.
+        expect(linked.has('OpenFilterLiveboardRequest')).toBe(true);
+        expect(linked.has('DrillDownRequest')).toBe(true);
+        expect(linked.size).toBeGreaterThan(5);
+
+        const dangling = [...linked]
+            .filter((name) => !NON_PAYLOAD_LINK_TARGETS.has(name))
+            .filter((name) => !indexNames.has(name) || !reactNames.has(name));
+        expect(dangling).toEqual([]);
     });
 });

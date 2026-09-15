@@ -37,6 +37,20 @@ customers already on a minor version.
 Never change an enum's string value (`'ThoughtspotAuthExpired'`) — ThoughtSpot
 compares against it, so editing one breaks the API even when it looks like a typo.
 
+### Host-event contracts mirror the host app
+
+`src/contracts/host-event-contracts.ts` and the `HostEvent` payload docs in
+`src/types.ts` are the **public, curated** view of a wire contract whose shapes
+originate in the host app (the `host-event-schema` types). The SDK only sends;
+the host validates. These two sides are maintained separately and can drift.
+
+So when you add a `HostEvent`, change a payload shape, or edit a `*Request`
+type here, it must match the host's shape for that event on the wire. And the
+reverse: **a new event or a changed payload shape in the host app needs a matching
+update here** (type in `HostEventRequestMap`, payload doc link on the enum
+member). If you are adding an event, flag that the SDK side also needs the type
+and docstring — do not let the two drift silently.
+
 ## Doc comments
 
 `.gemini/styleguide.md` holds the 13 canonical documentation rules. **That file is
