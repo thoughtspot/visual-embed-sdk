@@ -8976,6 +8976,64 @@ export enum Action {
      * ```
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
+    /**
+     * The **Add to Collection** action.
+     * Controls the visibility and availability of adding an object to a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.AddToCollection]
+     * disabledActions: [Action.AddToCollection]
+     * ```
+     */
+    AddToCollection = 'addToCollection',
+    /**
+     * The **Create Collection** action.
+     * Controls the visibility and availability of creating a Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.CreateCollection]
+     * disabledActions: [Action.CreateCollection]
+     * ```
+     */
+    CreateCollection = 'createCollection',
+    /**
+     * The **Move to Collection** action.
+     * Controls the visibility and availability of moving an object to a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.MoveToCollection]
+     * disabledActions: [Action.MoveToCollection]
+     * ```
+     */
+    MoveToCollection = 'moveToCollection',
+    /**
+     * The **Remove from Collection** action.
+     * Controls the visibility and availability of removing an object from a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.RemoveFromCollection]
+     * disabledActions: [Action.RemoveFromCollection]
+     * ```
+     */
+    RemoveFromCollection = 'removeFromCollection',
+    /**
+     * The **Delete Collection** action.
+     * Controls the visibility and availability of deleting a Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.DeleteCollection]
+     * disabledActions: [Action.DeleteCollection]
+     * ```
+     */
+    DeleteCollection = 'deleteCollection',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
