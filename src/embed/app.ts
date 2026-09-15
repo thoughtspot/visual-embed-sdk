@@ -907,7 +907,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     updatedSpotterExperience?: boolean;
 
     /**
-     * If set to true, the answer edit panel is hidden.
+     * If set to `true`, the answer edit panel is hidden.
      *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
@@ -915,7 +915,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other embed view config
-     *    hideAnswerEditPanel:true,
+     *    hideAnswerEditPanel: true,
      * })
      * ```
      */
