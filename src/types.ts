@@ -4195,7 +4195,7 @@ export enum EmbedEvent {
      *     // make action
      * });
      * ```
-     * 
+     *
      * @example
      * ```js
      * embed.on(subscribedEvent(HostEvent.Save), () => {
@@ -4205,7 +4205,7 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.4.0.cl
      */
     Subscribed = 'Subscribed',
-    
+
     /**
      * Emitted when a user clicks the **Send Test Email** button in the
      * Liveboard schedule modal. Requires `isSendNowLiveboardSchedulingEnabled`
@@ -4322,7 +4322,7 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -4629,7 +4629,7 @@ export enum HostEvent {
      * ```js
      * // Preferred: use navigateToPage directly
      * appEmbed.navigateToPage(-1);
-     * 
+     *
      * // Numeric delta — go back one step
      * appEmbed.trigger(HostEvent.Navigate, -1);
      *
@@ -6940,7 +6940,7 @@ export enum Param {
     AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
-    SpotterExperienceVersion = 'spotterExperienceVersion',
+    SpotterExperience = 'spotterExperience',
 }
 
 /**

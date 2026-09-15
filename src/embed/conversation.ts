@@ -441,6 +441,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * The Spotter experience to load. When set to
      * `SpotterExperience.Spotter_26_11`, the embed loads the updated Spotter
      * surface instead of the default conversation surface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -448,7 +449,6 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      *    spotterExperience: SpotterExperience.Spotter_26_11,
      * });
      * ```
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     spotterExperience?: SpotterExperience;
     /**
@@ -923,7 +923,7 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
-        setParamIfDefined(queryParams, Param.SpotterExperienceVersion, this.viewConfig.spotterExperience);
+        setParamIfDefined(queryParams, Param.SpotterExperience, this.viewConfig.spotterExperience);
 
         return queryParams;
     }

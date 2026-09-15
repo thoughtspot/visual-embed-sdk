@@ -929,6 +929,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     /**
      * The Spotter experience to load for the Spotter surface shown within
      * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
@@ -936,7 +937,6 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      *    spotterExperience: SpotterExperience.Spotter_26_11,
      * });
      * ```
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      */
     spotterExperience?: SpotterExperience;
 }
@@ -1137,7 +1137,7 @@ export class AppEmbed extends V1Embed {
         }
 
         if (spotterExperience !== undefined) {
-            params[Param.SpotterExperienceVersion] = spotterExperience;
+            params[Param.SpotterExperience] = spotterExperience;
         }
 
         // Handle spotterChatConfig params

@@ -149,7 +149,7 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should add the spotterExperienceVersion param when spotterExperience is set', async () => {
+    it('should add the spotterExperience param when spotterExperience is set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             spotterExperience: SpotterExperience.Spotter_26_11,
@@ -158,18 +158,18 @@ describe('ConversationEmbed', () => {
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expect(getIFrameSrc()).toContain(
-            `spotterExperienceVersion=${SpotterExperience.Spotter_26_11}`,
+            `spotterExperience=${SpotterExperience.Spotter_26_11}`,
         );
     });
 
-    it('should not add the spotterExperienceVersion param when spotterExperience is not set', async () => {
+    it('should not add the spotterExperience param when spotterExperience is not set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('spotterExperienceVersion');
+        expect(getIFrameSrc()).not.toContain('spotterExperience=');
     });
 
     it('should render the conversation embed with worksheets disabled', async () => {

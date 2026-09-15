@@ -3086,17 +3086,17 @@ describe('AppEmbed spotterExperience tests', () => {
         return src;
     };
 
-    test('should add the spotterExperienceVersion param when spotterExperience is set', async () => {
+    test('should add the spotterExperience param when spotterExperience is set', async () => {
         const src = await renderWithConfig({
             spotterExperience: SpotterExperience.Spotter_26_11,
         });
         expect(src).toContain(
-            `spotterExperienceVersion=${SpotterExperience.Spotter_26_11}`,
+            `spotterExperience=${SpotterExperience.Spotter_26_11}`,
         );
     });
 
-    test('should not add the spotterExperienceVersion param when spotterExperience is not set', async () => {
+    test('should not add the spotterExperience param when spotterExperience is not set', async () => {
         const src = await renderWithConfig({});
-        expect(src).not.toContain('spotterExperienceVersion');
+        expect(src).not.toContain('spotterExperience=');
     });
 });
