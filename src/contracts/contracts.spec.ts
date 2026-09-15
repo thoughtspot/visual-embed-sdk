@@ -23,6 +23,9 @@ import type {
     NavigateRequest,
     SetActiveTabRequest,
     TriggerData,
+    OpenFilterRequest,
+    OpenFilterSpotterRequest,
+    OpenFilterSearchRequest,
 } from './host-event-contracts';
 import type { CustomActionPayload, RuntimeFilter } from '../types';
 import type {
@@ -321,9 +324,20 @@ describe('event contracts (drift guardrails)', () => {
         expect(ok.every(Boolean)).toBe(true);
     });
 
+    // Per-context request interfaces are documentation-only today: exported and
+    // linked from docs, but trigger() still accepts the cross-context superset.
+    test('per-context request interfaces are exported and shaped as documented', () => {
+        expectType<OpenFilterSpotterRequest>({ column: { columnId: 'c' } });
+        expectType<OpenFilterSearchRequest>(
+            { column: { columnId: 'c', dataType: 'INT64' } },
+        );
+        // The default request stays the cross-context superset.
+        expectType<OpenFilterRequest>({} as HostEventRequest<HostEvent.OpenFilter>);
+    });
+
     test('the /contracts barrel re-exports the public runtime surface', () => {
         // Importing the barrel executes its re-exports; assert the runtime
-        // values consumers rely on from '@thoughtspot/visual-embed-sdk/contracts'.
+        // values consumers rely on from the /contracts entry point.
         expect(contractsBarrel.UIPassthroughEvent).toBeDefined();
         expect(contractsBarrel.CustomActionsPosition).toBeDefined();
         expect(contractsBarrel.CustomActionTarget).toBeDefined();

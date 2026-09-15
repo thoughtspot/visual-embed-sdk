@@ -56,7 +56,8 @@ export interface ConversationScopedRequest {
  * Request payload for {@link HostEvent.OpenFilter}. Field requirements
  * vary by context (Search requires columnId/type/dataType/name); the
  * contract is the cross-context superset — the app validates per context
- * at runtime.
+ * at runtime. Per-context views: {@link OpenFilterLiveboardRequest},
+ * {@link OpenFilterSpotterRequest}, {@link OpenFilterSearchRequest}.
  */
 export interface OpenFilterRequest {
     column: {
@@ -70,6 +71,54 @@ export interface OpenFilterRequest {
     applicability?: Applicability;
     visualizationId?: string;
     liveboardId?: string;
+}
+
+/**
+ * `OpenFilter` in Liveboard context: full column plus scoping fields.
+ * A per-context view of {@link OpenFilterRequest} (documentation only today;
+ * `trigger()` accepts the superset).
+ */
+export interface OpenFilterLiveboardRequest {
+    column: { columnId?: string; columnName?: string };
+    applicability?: Applicability;
+    visualizationId?: string;
+    liveboardId?: string;
+}
+
+/**
+ * `OpenFilter` in Spotter context: only the column identity is accepted.
+ */
+export interface OpenFilterSpotterRequest {
+    column: { columnId?: string; columnName?: string };
+}
+
+/**
+ * `OpenFilter` in Search/Answer context: column identity plus column metadata.
+ */
+export interface OpenFilterSearchRequest {
+    column: {
+        columnId?: string;
+        columnName?: string;
+        type?: string;
+        dataType?: string;
+        name?: string;
+        isStrictDateColumn?: boolean;
+    };
+}
+
+/**
+ * Request payload for {@link HostEvent.DrillDown}. Drills on selected or
+ * clicked points of a visualization. In Liveboard context `vizId` is required
+ * at runtime (documentation only today; `trigger()` is not yet type-enforced).
+ */
+export interface DrillDownRequest {
+    points: {
+        clickedPoint?: object;
+        selectedPoints?: object[];
+    };
+    columnGuid?: string;
+    autoDrillDown?: boolean;
+    vizId?: string;
 }
 
 /**
@@ -144,6 +193,16 @@ export interface HostFilterUpdate {
 export interface UpdateFiltersRequest {
     filter?: HostFilterUpdate;
     filters?: HostFilterUpdate[];
+    /**
+     * Scope the update to a specific visualization on a Liveboard.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    visualizationId?: string;
+    /**
+     * Scope the update to a specific Liveboard.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    liveboardId?: string;
 }
 
 /**
@@ -287,11 +346,18 @@ export interface HostEventRequestMap {
 }
 
 /**
+ * Per-context request shapes for events whose payload varies by
+/**
  * Resolves the typed request payload for a host event.
  * Resolution order:
  * 1. Explicitly typed request in {@link HostEventRequestMap}
  * 2. UI passthrough backed contract ({@link EmbedApiHostEventMapping})
  * 3. `any` (event not audited/typed yet — backward compatible)
+ *
+ * Requests are the cross-context superset today. The per-context `*Request`
+ * interfaces (e.g. {@link OpenFilterLiveboardRequest}) document how the shape
+ * narrows by context; a later release may thread the caller's context to
+ * enforce it.
  */
 export type HostEventRequest<HostEventT extends HostEvent> =
     HostEventT extends keyof HostEventRequestMap
@@ -336,8 +402,8 @@ export type DeepPartial<T> =
  */
 export type TriggerData<HostEventT extends HostEvent> =
     HostEventRequest<HostEventT> extends void
-        ? Record<string, never>
-        : DeepPartial<HostEventRequest<HostEventT>>;
+    ? Record<string, never>
+    : DeepPartial<HostEventRequest<HostEventT>>;
 
 /**
  * Response type returned by `embed.trigger()`.

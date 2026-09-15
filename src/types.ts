@@ -2993,6 +2993,9 @@ export enum EmbedEvent {
     Download = 'download',
     /**
      * Emitted when the download action is triggered on an Answer.
+     * Payload varies by context: {@link VizScopedRequest} (Search, Answer,
+     * Liveboard), {@link RequiredVizRequest} (Spotter, vizId required). trigger()
+     * accepts the union now; per-context enforced next release.
      *  Use start:true to subscribe to when download is initiated, or end:true to
      *  subscribe to when download is completed. Default is end:true.
      * @version SDK: 1.21.0 | ThoughtSpot: 9.2.0.cl, 9.4.0.sw
@@ -3009,6 +3012,9 @@ export enum EmbedEvent {
     DownloadAsPng = 'downloadAsPng',
     /**
      * Emitted when the Download as PDF action is triggered on an Answer
+     * Payload varies by context: {@link VizScopedRequest} (Search, Answer; plus
+     * liveboardId on Liveboard), {@link RequiredVizRequest} (Spotter). trigger()
+     * accepts the union now; per-context enforced next release.
      *  Use start:true to subscribe to when download as PDF is initiated, or end:true to
      *  subscribe to when download as PDF is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -3025,6 +3031,9 @@ export enum EmbedEvent {
     DownloadAsPdf = 'downloadAsPdf',
     /**
      * Emitted when the Download as CSV action is triggered on an Answer.
+     * Payload varies by context: {@link VizScopedRequest} (Search, Answer,
+     * Liveboard), {@link RequiredVizRequest} (Spotter, vizId required). trigger()
+     * accepts the union now; per-context enforced next release.
      *  Use start:true to subscribe to when download as CSV is initiated, or end:true to
      *  subscribe to when download as CSV is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -3041,6 +3050,9 @@ export enum EmbedEvent {
     DownloadAsCsv = 'downloadAsCsv',
     /**
      * Emitted when the Download as XLSX action is triggered on an Answer.
+     * Payload varies by context: {@link VizScopedRequest} (Search, Answer,
+     * Liveboard), {@link RequiredVizRequest} (Spotter, vizId required). trigger()
+     * accepts the union now; per-context enforced next release.
      *  Use start:true to subscribe to when download as XLSX is initiated, or end:true to
      *  subscribe to when download as XLSX is completed. Default is end:true.
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
@@ -3319,6 +3331,9 @@ export enum EmbedEvent {
     Schedule = 'subscription',
     /**
      * Emitted when a user clicks **Edit** on a Liveboard or visualization
+     * Payload varies by context: {@link VizScopedRequest} (Liveboard),
+     * {@link RequiredVizRequest} (Spotter, vizId required). trigger() accepts the
+     * union now; per-context enforced next release.
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
      * ```js
@@ -4414,6 +4429,9 @@ export enum HostEvent {
     Search = 'search',
     /**
      * Triggers a drill on certain points of the specified column
+     * Payload: {@link DrillDownRequest}; in Liveboard context vizId is required
+     * ({@link RequiredVizRequest}). trigger() accepts the union now; per-context
+     * enforced next release.
      * Includes the following properties:
      * @param - Includes the following keys:
      * - `points`: An object containing `selectedPoints` and/or `clickedPoint`
@@ -4634,7 +4652,9 @@ export enum HostEvent {
     /**
      * Open the filter panel for a particular column.
      * Works with Search and Liveboard embed.
-     * Payload: {@link OpenFilterRequest}.
+     * Payload: {@link OpenFilterRequest} (the cross-context superset). The
+     * accepted fields vary by context: {@link OpenFilterLiveboardRequest},
+     * {@link OpenFilterSpotterRequest}, {@link OpenFilterSearchRequest}.
      * @param - { columnId: string,
      *  name: string,
      *  type: ATTRIBUTE/MEASURE,
@@ -5134,6 +5154,9 @@ export enum HostEvent {
     MakeACopy = 'makeACopy',
     /**
      * Trigger the **Delete** action for a Liveboard.
+     * Payload varies by context: {@link RequiredVizRequest} (Liveboard, vizId
+     * required), {@link VizScopedRequest} (Search). trigger() accepts the union
+     * now; per-context enforced next release.
      * @example
      * ```js
      * appEmbed.trigger(HostEvent.Remove)
