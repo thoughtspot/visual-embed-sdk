@@ -274,13 +274,15 @@ function convertFilterGroupToParams(filterGroup: FilterChangedFilterGroup): Upda
  * date ranges) is not guaranteed to round-trip losslessly - `HostEvent.UpdateFilters`
  * treats date filters as replace-not-merge per column, so only the last
  * converted entry for such a column will apply.
- * @param filterChangedPayload The payload received in the
- * `EmbedEvent.FilterChanged` callback.
+ * @param filterChangedPayload The filter state carried by the
+ * `EmbedEvent.FilterChanged` callback, which is `payload.data` - the
+ * callback argument is the event envelope, and the filters sit under its
+ * `data` key.
  * @example
  * ```js
  * let savedFilters;
  * liveboardEmbed.on(EmbedEvent.FilterChanged, (payload) => {
- *     savedFilters = convertFilterChangedToUpdateFiltersPayload(payload);
+ *     savedFilters = convertFilterChangedToUpdateFiltersPayload(payload.data);
  * });
  *
  * // later, e.g. after a fresh page load
