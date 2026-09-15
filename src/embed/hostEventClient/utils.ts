@@ -52,6 +52,11 @@ export function isValidUpdateFiltersPayload(
  * embedded app unchanged, and only `column`/`oper` are known to be understood
  * there - so the alias must be swapped here, or it would pass validation and
  * then be silently ignored.
+ *
+ * If a caller supplies both spellings of a field - which TypeScript rejects,
+ * but JavaScript callers can still do - the documented `columnName`/`operator`
+ * wins. Deferring to the deprecated spelling would quietly discard the value
+ * the rest of the SDK tells people to use.
  * @param filter One entry from the UpdateFilters payload.
  */
 function resolveFilterAliases<T extends { column?: string; columnName?: string; oper?: string; operator?: string }>(
@@ -59,8 +64,8 @@ function resolveFilterAliases<T extends { column?: string; columnName?: string; 
 ): T {
   if (!isPlainObject(filter)) return filter;
 
-  const column = filter.column ?? filter.columnName;
-  const oper = filter.oper ?? filter.operator;
+  const column = filter.columnName ?? filter.column;
+  const oper = filter.operator ?? filter.oper;
   const { columnName, operator, ...rest } = filter;
 
   return {

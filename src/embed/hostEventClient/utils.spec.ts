@@ -520,7 +520,7 @@ describe('hostEventClient utils', () => {
             expect(resolveUpdateFiltersAliases(payload)).toEqual(payload);
         });
 
-        it('prefers column/oper when both spellings are present', () => {
+        it('prefers columnName/operator when both spellings are present', () => {
             const out = resolveUpdateFiltersAliases({
                 filter: {
                     column: 'from-column', columnName: 'from-columnName',
@@ -529,7 +529,9 @@ describe('hostEventClient utils', () => {
                 },
             } as any);
 
-            expect(out.filter).toEqual({ column: 'from-column', oper: 'EQ', values: ['x'] });
+            // The value survives under the wire name, but it is the documented
+            // spelling's value that survives.
+            expect(out.filter).toEqual({ column: 'from-columnName', oper: 'IN', values: ['x'] });
         });
 
         it('preserves the other filter fields, including applicability', () => {

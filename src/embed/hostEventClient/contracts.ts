@@ -34,8 +34,8 @@ export interface Applicability {
 
 /**
  * The column to filter on. Supply `columnName`. A filter with no column is
- * rejected at runtime, and two spellings of the same field leave it
- * ambiguous which one wins.
+ * rejected at runtime, and passing both spellings silently discards the
+ * `column` one.
  *
  * When several columns share a name, qualify it as
  * `WORKSHEET_NAME::COLUMN_NAME`, for example
@@ -61,8 +61,8 @@ export type FilterUpdateColumn =
 
 /**
  * The filter operator. Supply `operator`. A filter with no operator is
- * rejected at runtime, and two spellings of the same field leave it
- * ambiguous which one wins.
+ * rejected at runtime, and passing both spellings silently discards the
+ * `oper` one.
  */
 export type FilterUpdateOperator =
   | {
