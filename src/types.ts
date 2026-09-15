@@ -5978,6 +5978,12 @@ export enum HostEvent {
      *     }
      * });
      * ```
+     * Use `columnName` and `operator` - the same spelling as
+     * {@link RuntimeFilter}. The older `column` and `oper` spellings are
+     * deprecated; they are still accepted, but pass only one spelling of each
+     * field, never both. To reapply the filter state captured from
+     * {@link EmbedEvent.FilterChanged}, use `convertFilterChangedToUpdateFiltersPayload`
+     * to convert its payload into the shape expected here.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
