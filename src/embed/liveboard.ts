@@ -34,7 +34,7 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildStarterPromptsAppInitData, SpotterExperience } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 // Home unmounts the liveboard container, which is how its state gets cleared. The
@@ -543,6 +543,20 @@ export interface LiveboardViewConfig
      * ```
      */
     updatedSpotterExperience?: boolean;
+
+    /**
+     * The Spotter experience to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperience: SpotterExperience.Spotter_26_11,
+     * });
+     * ```
+     */
+    spotterExperience?: SpotterExperience;
 }
 
 /**
@@ -650,6 +664,7 @@ export class LiveboardEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            spotterExperience,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -717,6 +732,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (spotterExperience !== undefined) {
+            params[Param.SpotterExperience] = spotterExperience;
         }
 
         if (liveboardGutter !== undefined) {
