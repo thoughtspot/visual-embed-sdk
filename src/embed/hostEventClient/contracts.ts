@@ -33,10 +33,9 @@ export interface Applicability {
 }
 
 /**
- * The column to filter on. Supply `columnName`; `column` is a deprecated
- * alias. Exactly one of the two is required - supplying neither, or both,
- * is a type error. A filter with no column is rejected at runtime, and two
- * spellings of the same field leave it ambiguous which one wins.
+ * The column to filter on. Supply `columnName`. A filter with no column is
+ * rejected at runtime, and two spellings of the same field leave it
+ * ambiguous which one wins.
  *
  * When several columns share a name, qualify it as
  * `WORKSHEET_NAME::COLUMN_NAME`, for example
@@ -61,10 +60,9 @@ export type FilterUpdateColumn =
   };
 
 /**
- * The filter operator. Supply `operator`; `oper` is a deprecated alias.
- * Exactly one of the two is required - supplying neither, or both, is a type
- * error. A filter with no operator is rejected at runtime, and two spellings
- * of the same field leave it ambiguous which one wins.
+ * The filter operator. Supply `operator`. A filter with no operator is
+ * rejected at runtime, and two spellings of the same field leave it
+ * ambiguous which one wins.
  */
 export type FilterUpdateOperator =
   | {
@@ -88,11 +86,7 @@ export type FilterUpdateOperator =
  *
  * Use `columnName` and `operator` - the spelling used by
  * {@link RuntimeFilter} and by the payload
- * `convertFilterChangedToUpdateFiltersPayload` produces. The older
- * `column` and `oper` spellings are deprecated but still accepted, so
- * existing code keeps working. Each pair is exclusive: pass `columnName`
- * or `column`, and `operator` or `oper`, never both spellings of the same
- * field.
+ * `convertFilterChangedToUpdateFiltersPayload` produces.
  */
 export type FilterUpdate = FilterUpdateColumn & FilterUpdateOperator & {
   /**

@@ -431,12 +431,8 @@ describe('hostEventClient utils', () => {
     // =========================
     // FilterUpdate type shape
     // =========================
-    // These assertions are checked by tsc, not just at runtime. They lock in
-    // that columnName/operator is the documented spelling, that the deprecated
-    // column/oper aliases still type-check so existing code keeps compiling,
-    // that omitting a column or an operator altogether is a compile error
-    // rather than a runtime-only failure, and that the two spellings of one
-    // field are mutually exclusive.
+    // The @ts-expect-error assertions below are enforced by tsc: an unused one
+    // is itself an error, so re-loosening the type fails the build.
     describe('FilterUpdate type', () => {
         it('accepts the documented columnName/operator spelling', () => {
             const filter: FilterUpdate = { columnName: 'region', operator: 'EQ', values: ['west'] };
@@ -494,10 +490,6 @@ describe('hostEventClient utils', () => {
         });
     });
     describe('resolveUpdateFiltersAliases', () => {
-        // The payload is forwarded to the embedded app verbatim, and only
-        // column/oper are known to be understood there. Without this step a
-        // payload using the columnName/operator aliases passes validation and
-        // is then silently ignored downstream.
         it('rewrites columnName/operator to column/oper on a single filter', () => {
             const out = resolveUpdateFiltersAliases({
                 filter: { columnName: 'region', operator: 'EQ', values: ['west'] },
