@@ -9323,21 +9323,58 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+/**
+ * A code-based custom action to inject into the embedded ThoughtSpot UI.
+ * Pass an array of these as `customActions` in the embed view config. When a
+ * user invokes the action, the host emits {@link EmbedEvent.CustomAction} with
+ * a {@link CustomActionPayload} carrying the same `id`.
+ */
 export interface CustomAction {
+    /**
+     * Display label shown on the action's button or menu item.
+     */
     name: string;
+    /**
+     * Unique identifier for the action. Echoed back as `id` on the
+     * {@link CustomActionPayload} when the action is invoked.
+     */
     id: string;
+    /**
+     * Where the action appears: a primary button, the "More" menu, or the
+     * right-click context menu. See {@link CustomActionsPosition}.
+     */
     position: CustomActionsPosition;
+    /**
+     * The surface the action applies to (Liveboard, visualization, Answer, or
+     * Spotter). See {@link CustomActionTarget}. The allowed `position` values
+     * and scoping keys depend on the target.
+     */
     target: CustomActionTarget;
+    /**
+     * Scope the action to specific objects by GUID. Which keys are allowed
+     * depends on `target` (for example, a `VIZ` action may use `answerIds`,
+     * `liveboardIds`, and `vizIds`).
+     */
     metadataIds?: {
         answerIds?: string[];
         liveboardIds?: string[];
         vizIds?: string[];
     };
+    /**
+     * Scope the action by data model, using model GUIDs or column names.
+     * Allowed for `VIZ`, `ANSWER`, and `SPOTTER` targets.
+     */
     dataModelIds?: {
         modelIds?: string[];
         modelColumnNames?: string[];
     };
+    /**
+     * Restrict the action to specific organizations by ID.
+     */
     orgIds?: string[];
+    /**
+     * Restrict the action to specific user groups by ID.
+     */
     groupIds?: string[];
 }
 

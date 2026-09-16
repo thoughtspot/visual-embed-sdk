@@ -64,6 +64,7 @@ import {
     VizPoint,
     CustomActionPayload,
     ListPageColumns,
+    CustomAction,
     CustomActionsPosition,
     CustomActionTarget,
     InterceptedApiType,
@@ -234,6 +235,7 @@ export {
     HomePage,
     ListPage,
     VizPoint,
+    CustomAction,
     CustomActionPayload,
     UIPassthroughEvent,
     // Host event payload / response contracts. These describe what to send with
