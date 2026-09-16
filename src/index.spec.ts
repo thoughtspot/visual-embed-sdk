@@ -1,8 +1,8 @@
 import * as Exports from './index';
-import { SpotterExperience } from './embed/spotter-utils';
+import { SpotterUI } from './embed/spotter-utils';
 
 describe('SDK root exports', () => {
-    it('re-exports SpotterExperience', () => {
-        expect(Exports.SpotterExperience).toBe(SpotterExperience);
+    it('re-exports SpotterUI', () => {
+        expect(Exports.SpotterUI).toBe(SpotterUI);
     });
 });

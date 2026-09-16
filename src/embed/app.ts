@@ -28,7 +28,7 @@ import {
     buildSpotterSidebarAppInitData,
     buildSpotterShareConversationAppInitData,
     buildStarterPromptsAppInitData,
-    SpotterExperience,
+    SpotterUI,
 } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
@@ -670,8 +670,6 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      */
     isGranularXLSXCSVSchedulesEnabled?: boolean;
 
-
-
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
@@ -927,18 +925,18 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     hideAnswerEditPanel?: boolean;
 
     /**
-     * The Spotter experience to load for the Spotter surface shown within
+     * The Spotter UI to load for the Spotter surface shown within
      * this embed.
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {
      *    ... // other options
-     *    spotterExperience: SpotterExperience.Spotter_26_11,
+     *    spotterUI: SpotterUI.Spotter_2026_11,
      * });
      * ```
      */
-    spotterExperience?: SpotterExperience;
+    spotterUI?: SpotterUI;
 }
 
 /**
@@ -1075,7 +1073,7 @@ export class AppEmbed extends V1Embed {
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
             hideAnswerEditPanel,
-            spotterExperience,
+            spotterUI,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1136,8 +1134,8 @@ export class AppEmbed extends V1Embed {
             params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
         }
 
-        if (spotterExperience !== undefined) {
-            params[Param.SpotterExperience] = spotterExperience;
+        if (spotterUI !== undefined) {
+            params[Param.SpotterUI] = spotterUI;
         }
 
         // Handle spotterChatConfig params

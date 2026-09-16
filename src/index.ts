@@ -34,7 +34,7 @@ import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
-import { SpotterExperience } from './embed/spotter-utils';
+import { SpotterUI } from './embed/spotter-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -170,7 +170,7 @@ export {
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,
-    SpotterExperience,
+    SpotterUI,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,

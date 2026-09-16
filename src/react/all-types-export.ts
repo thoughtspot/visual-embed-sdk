@@ -79,7 +79,7 @@ export {
     CustomActionsPosition,
     CustomActionTarget,
     SpotterAnalystConfig,
-    SpotterExperience,
+    SpotterUI,
     StarterPromptsConfig,
     StarterPromptCategory,
     StarterPreviewDataCategory,

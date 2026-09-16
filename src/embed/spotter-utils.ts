@@ -116,13 +116,13 @@ export function buildStarterPromptsAppInitData<T extends DefaultAppInitData>(
 }
 
 /**
- * The Spotter experience version to load in the embedded view.
+ * The Spotter UI to load in the embedded view.
  * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
  * @group Embed components
  */
-export enum SpotterExperience {
+export enum SpotterUI {
     /**
-     * The Spotter experience introduced in ThoughtSpot 26.11.
+     * The Spotter UI introduced in ThoughtSpot 26.11.
      */
-    Spotter_26_11 = 'spotter_26_11',
+    Spotter_2026_11 = 'spotter_2026_11',
 }
