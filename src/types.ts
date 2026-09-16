@@ -569,7 +569,7 @@ export interface EmbedConfig {
      * init({
      *   ...embedConfig,
      *   darkMode: true,
-     * })
+     * });
      * ```
      */
     darkMode?: boolean;
@@ -1168,9 +1168,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
-     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed, SearchEmbed, or LiveboardEmbed
-     * const embed = new <EmbedComponent>('#tsEmbed', {
-     *    ... // other embed view config
+     * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *   ... // other embed view config
      *   darkMode: true,
      * });
      * ```
