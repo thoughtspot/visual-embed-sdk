@@ -119,6 +119,8 @@ export {
     DataPanelCustomColumnGroupsAccordionState,
     InterceptedApiType,
     EmbedErrorSeverity,
+    CustomAction,
+    CustomActionPayload,
     CustomActionsPosition,
     CustomActionTarget,
     SpotterAnalystConfig,
