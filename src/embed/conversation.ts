@@ -4,7 +4,7 @@ import {
     buildSpotterSidebarAppInitData,
     buildSpotterShareConversationAppInitData,
     buildStarterPromptsAppInitData,
-    SpotterUI,
+    SpotterExperienceVersion,
 } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
@@ -443,19 +443,19 @@ export interface SpotterAnalystConfig {
  */
 export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
     /**
-     * The Spotter UI to load. When set to
-     * `SpotterUI.Spotter_2026_11`, the embed loads the updated Spotter
+     * The Spotter experience version to load. When set to
+     * `SpotterExperienceVersion.SPOTTER_2026_11`, the embed loads the updated Spotter
      * surface instead of the default conversation surface.
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
      *    ... // other options
-     *    spotterUI: SpotterUI.Spotter_2026_11,
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
      * });
      * ```
      */
-    spotterUI?: SpotterUI;
+    spotterExperienceVersion?: SpotterExperienceVersion;
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
@@ -928,7 +928,7 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
-        setParamIfDefined(queryParams, Param.SpotterUI, this.viewConfig.spotterUI);
+        setParamIfDefined(queryParams, Param.SpotterExperienceVersion, this.viewConfig.spotterExperienceVersion);
 
         return queryParams;
     }
@@ -943,7 +943,7 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             sharedConversationId,
             dataSources,
-            spotterUI,
+            spotterExperienceVersion,
         } = this.viewConfig;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
@@ -953,7 +953,7 @@ export class SpotterEmbed extends TsEmbed {
             ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
             : 'insights/conv-assist';
 
-        if (spotterUI === SpotterUI.Spotter_2026_11) {
+        if (spotterExperienceVersion === SpotterExperienceVersion.SPOTTER_2026_11) {
             path = path.replace('insights/conv-assist', 'insights/spotter');
         }
 

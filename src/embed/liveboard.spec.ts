@@ -1,5 +1,5 @@
 import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
-import { SpotterUI } from './spotter-utils';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init, UIPassthroughEvent } from '../index';
 import {
     Action,
@@ -2867,7 +2867,7 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
     });
 });
 
-describe('LiveboardEmbed spotterUI tests', () => {
+describe('LiveboardEmbed spotterExperienceVersion tests', () => {
     beforeEach(() => {
         document.body.innerHTML = getDocumentBody();
     });
@@ -2887,17 +2887,17 @@ describe('LiveboardEmbed spotterUI tests', () => {
         return src;
     };
 
-    test('should add the spotterUI param when spotterUI is set', async () => {
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
         const src = await renderWithConfig({
-            spotterUI: SpotterUI.Spotter_2026_11,
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
         });
         expect(src).toContain(
-            `spotterUI=${SpotterUI.Spotter_2026_11}`,
+            `spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`,
         );
     });
 
-    test('should not add the spotterUI param when spotterUI is not set', async () => {
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
         const src = await renderWithConfig({});
-        expect(src).not.toContain('spotterUI=');
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });

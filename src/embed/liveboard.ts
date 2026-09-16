@@ -34,7 +34,7 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData, SpotterUI } from './spotter-utils';
+import { buildStarterPromptsAppInitData, SpotterExperienceVersion } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -541,18 +541,18 @@ export interface LiveboardViewConfig
     updatedSpotterExperience?: boolean;
 
     /**
-     * The Spotter UI to load for the Spotter surface shown within
+     * The Spotter experience version to load for the Spotter surface shown within
      * this embed.
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new LiveboardEmbed('#tsEmbed', {
      *    ... // other options
-     *    spotterUI: SpotterUI.Spotter_2026_11,
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
      * });
      * ```
      */
-    spotterUI?: SpotterUI;
+    spotterExperienceVersion?: SpotterExperienceVersion;
 }
 
 /**
@@ -660,7 +660,7 @@ export class LiveboardEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
-            spotterUI,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -730,8 +730,8 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
-        if (spotterUI !== undefined) {
-            params[Param.SpotterUI] = spotterUI;
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
         }
 
         if (liveboardGutter !== undefined) {

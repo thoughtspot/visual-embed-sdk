@@ -4,7 +4,7 @@ import {
     SpotterQueryMode,
     ConversationEmbed,
 } from './conversation';
-import { SpotterUI } from './spotter-utils';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { TsEmbed } from './ts-embed';
 import * as authInstance from '../auth';
 import { Action, init } from '../index';
@@ -85,7 +85,7 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should use the conv-assist path when spotterUI is not set', async () => {
+    it('should use the conv-assist path when spotterExperienceVersion is not set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
@@ -100,13 +100,13 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should use the spotter path when spotterUI is Spotter_2026_11', async () => {
+    it('should use the spotter path when spotterExperienceVersion is SPOTTER_2026_11', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            spotterUI: SpotterUI.Spotter_2026_11,
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -116,14 +116,14 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should use the spotter reader-view path when spotterUI is Spotter_2026_11 and sharedConversationId is set', async () => {
+    it('should use the spotter reader-view path when spotterExperienceVersion is SPOTTER_2026_11 and sharedConversationId is set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
             sharedConversationId: 'conv-123',
-            spotterUI: SpotterUI.Spotter_2026_11,
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -133,13 +133,13 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should keep the conv-assist path for an unrecognized spotterUI value', async () => {
+    it('should keep the conv-assist path for an unrecognized spotterExperienceVersion value', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
             searchOptions: {
                 searchQuery: 'searchQuery',
             },
-            spotterUI: 'some_future_ui' as SpotterUI,
+            spotterExperienceVersion: 'some_future_ui' as SpotterExperienceVersion,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
@@ -149,27 +149,27 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should add the spotterUI param when spotterUI is set', async () => {
+    it('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
-            spotterUI: SpotterUI.Spotter_2026_11,
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
         expect(getIFrameSrc()).toContain(
-            `spotterUI=${SpotterUI.Spotter_2026_11}`,
+            `spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`,
         );
     });
 
-    it('should not add the spotterUI param when spotterUI is not set', async () => {
+    it('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
         };
 
         const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
         await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('spotterUI=');
+        expect(getIFrameSrc()).not.toContain('spotterExperienceVersion=');
     });
 
     it('should render the conversation embed with worksheets disabled', async () => {

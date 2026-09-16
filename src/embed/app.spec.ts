@@ -8,7 +8,7 @@ import {
     ListPage,
 } from './app';
 import { SpotterQueryMode } from './conversation';
-import { SpotterUI } from './spotter-utils';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
@@ -3068,7 +3068,7 @@ describe('AppEmbed updatedSpotterExperience tests', () => {
     });
 });
 
-describe('AppEmbed spotterUI tests', () => {
+describe('AppEmbed spotterExperienceVersion tests', () => {
     beforeEach(() => {
         cleanUp();
     });
@@ -3086,15 +3086,15 @@ describe('AppEmbed spotterUI tests', () => {
         return src;
     };
 
-    test('should add the spotterUI param when spotterUI is set', async () => {
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
         const src = await renderWithConfig({
-            spotterUI: SpotterUI.Spotter_2026_11,
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
         });
-        expect(src).toContain(`spotterUI=${SpotterUI.Spotter_2026_11}`);
+        expect(src).toContain(`spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`);
     });
 
-    test('should not add the spotterUI param when spotterUI is not set', async () => {
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
         const src = await renderWithConfig({});
-        expect(src).not.toContain('spotterUI=');
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });
