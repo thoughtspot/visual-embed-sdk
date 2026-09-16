@@ -1,5 +1,6 @@
 import {
     getQueryParamString,
+    deserializeParam,
     getFilterQuery,
     getCssDimension,
     getEncodedQueryParamsString,
@@ -31,12 +32,14 @@ import {
     deepMerge,
     getHostEventsConfig,
     isWindowUndefined,
+    calculateElementCenter,
     getOffsetTop,
     getDOMNode,
     getOperationNameFromQuery,
 } from './utils';
 import { RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
+import { DEFAULT_LAZY_LOADING_MARGIN } from './config';
 import { ERROR_MESSAGE } from './errors';
 
 // Mock logger
@@ -348,7 +351,50 @@ describe('unit test for utils', () => {
     });
 });
 
+describe('deserializeParam', () => {
+    // Inverse of URL param serialization — must mirror the app's URL parser.
+    test('parses a JSON-string array back to a real array (SCAL-334713)', () => {
+        expect(deserializeParam('["4dd30af7-9ed7-4847-8f28-b65b44a841d8"]')).toEqual([
+            '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        ]);
+    });
+
+    test('does not URI-decode strings — raw %xx content must survive', () => {
+        expect(deserializeParam('%5Bcommit%20date%5D%5Brevenue%5D')).toBe(
+            '%5Bcommit%20date%5D%5Brevenue%5D',
+        );
+    });
+
+    test('parses JSON objects and booleans', () => {
+        expect(deserializeParam('{"a":1}')).toEqual({ a: 1 });
+        expect(deserializeParam('true')).toBe(true);
+    });
+
+    test('keeps numeric strings as strings, matching the app URL parser', () => {
+        expect(deserializeParam('123')).toBe('123');
+        expect(deserializeParam('1.5')).toBe('1.5');
+    });
+
+    test('keeps plain non-JSON strings unchanged', () => {
+        expect(deserializeParam('local-host')).toBe('local-host');
+        expect(deserializeParam('AuthServerCookieless')).toBe('AuthServerCookieless');
+    });
+
+    test('keeps a malformed percent-sequence string as-is', () => {
+        expect(deserializeParam('100% legit')).toBe('100% legit');
+    });
+
+    test('passes non-string values through untouched', () => {
+        const arr = ['a'];
+        expect(deserializeParam(arr)).toBe(arr);
+        expect(deserializeParam(true)).toBe(true);
+        expect(deserializeParam(42)).toBe(42);
+        expect(deserializeParam(undefined)).toBeUndefined();
+    });
+});
+
 describe('Fullscreen Utility Functions', () => {
+
     let originalExitFullscreen: any;
     let mockIframe: HTMLIFrameElement;
 
@@ -1029,6 +1075,10 @@ describe('isValidCssMargin', () => {
         expect(isValidCssMargin('10')).toBe(false); // missing unit
     });
 
+    it('should accept DEFAULT_LAZY_LOADING_MARGIN', () => {
+        expect(isValidCssMargin(DEFAULT_LAZY_LOADING_MARGIN)).toBe(true);
+    });
+
     it('should return false and log error when value is not a string (non-string type)', () => {
         // Covers line 147-148: typeof value !== 'string' branch
         expect(isValidCssMargin(42 as any)).toBe(false);
@@ -1270,6 +1320,76 @@ describe('isWindowUndefined', () => {
 // ---------------------------------------------------------------------------
 // getOffsetTop
 // ---------------------------------------------------------------------------
+describe('calculateElementCenter', () => {
+    const setViewport = (scrollY: number, innerHeight: number) => {
+        Object.defineProperty(window, 'scrollY', { value: scrollY, configurable: true });
+        Object.defineProperty(window, 'innerHeight', { value: innerHeight, configurable: true });
+    };
+
+    const mockElement = (offsetTop: number, offsetHeight: number) => ({
+        getBoundingClientRect: () => ({ top: offsetTop - window.scrollY }),
+        offsetHeight,
+    }) as unknown as HTMLElement;
+
+    test('centers on the element when it is shorter than the viewport', () => {
+        setViewport(0, 1000);
+        // Element sits at the top of the page and is 400px tall, fully visible.
+        const result = calculateElementCenter(mockElement(0, 400));
+        expect(result).toEqual({
+            iframeCenter: 200,
+            iframeScrolled: 0,
+            iframeHeight: 400,
+            viewPortHeight: 1000,
+            iframeVisibleViewPort: 400,
+        });
+    });
+
+    test('centers on the visible slice when the element is taller than the viewport', () => {
+        setViewport(0, 600);
+        // 2000px element, only the top 600px is on screen.
+        const result = calculateElementCenter(mockElement(0, 2000));
+        expect(result.iframeVisibleViewPort).toBe(600);
+        expect(result.iframeCenter).toBe(300);
+        expect(result.iframeScrolled).toBe(0);
+    });
+
+    test('tracks the center as the page scrolls into the element', () => {
+        setViewport(500, 600);
+        // Scrolled 500px into a 2000px element that starts at the page top.
+        const result = calculateElementCenter(mockElement(0, 2000));
+        expect(result.iframeScrolled).toBe(500);
+        // 600px still visible, offset by the 500px already scrolled past.
+        expect(result.iframeVisibleViewPort).toBe(600);
+        expect(result.iframeCenter).toBe(800);
+    });
+
+    test('clamps the visible slice to what is left of the element', () => {
+        setViewport(1800, 600);
+        // Only the last 200px of the 2000px element remains below the fold.
+        const result = calculateElementCenter(mockElement(0, 2000));
+        expect(result.iframeVisibleViewPort).toBe(200);
+        expect(result.iframeCenter).toBe(1900);
+    });
+
+    test('measures only the on-screen part when the element starts below the fold', () => {
+        setViewport(0, 1000);
+        // Element begins 800px down, so 200px of it is visible.
+        const result = calculateElementCenter(mockElement(800, 400));
+        expect(result.iframeScrolled).toBe(-800);
+        expect(result.iframeVisibleViewPort).toBe(200);
+        expect(result.iframeCenter).toBe(100);
+    });
+
+    test('never reports more visible height than the element has', () => {
+        setViewport(0, 1000);
+        // Element is 100px tall and starts 200px down: the viewport has room to
+        // spare, so the visible slice is the element itself, not the gap.
+        const result = calculateElementCenter(mockElement(200, 100));
+        expect(result.iframeVisibleViewPort).toBe(100);
+        expect(result.iframeCenter).toBe(50);
+    });
+});
+
 describe('getOffsetTop', () => {
     test('returns rect.top + window.scrollY', () => {
         const mockElement = {

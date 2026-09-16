@@ -12,7 +12,6 @@ import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
     EmbedEvent,
-    MessagePayload,
     Param,
     RuntimeFilter,
     DOMSelector,
@@ -20,20 +19,28 @@ import {
     SearchLiveboardCommonViewConfig as LiveboardOtherViewConfig,
     BaseViewConfig,
     LiveboardAppEmbedViewConfig,
+    FullHeightViewConfig,
     ErrorDetailsTypes,
     EmbedErrorCodes,
+    EmbedErrorSeverity,
     ContextType,
     DefaultAppInitData,
 } from '../types';
-import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
+import { FullHeightController } from '../full-height';
+import { getQueryParamString, isUndefined, setParamIfDefined } from '../utils';
 import { getAuthPromise } from './base';
 import { TsEmbed, V1Embed } from './ts-embed';
 import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
-import { HostEventRequest, TriggerPayload, TriggerResponse } from './hostEventClient/contracts';
+import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+
+// Home unmounts the liveboard container, which is how its state gets cleared. The
+// settle window gives the container time to do it before we ask for the liveboard back.
+const HOME_ROUTE = 'home';
+const HOME_SETTLE_MS = 200;
 
 /**
  * APP_INIT data shape for LiveboardEmbed.
@@ -51,66 +58,11 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
  * The configuration for the embedded Liveboard or visualization page view.
  * @group Embed components
  */
-export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewConfig, LiveboardAppEmbedViewConfig {
-    /**
-     * If set to true, the embedded object container dynamically resizes
-     * according to the height of the Liveboard.
-     *
-     * **Note**:  Using fullHeight loads all visualizations on the
-     * Liveboard simultaneously, which results in multiple warehouse
-     * queries and potentially a longer wait for the topmost
-     * visualizations to display on the screen.
-     * Setting `fullHeight` to `false` fetches visualizations
-     * incrementally as users scroll the page to view the charts and tables.
-     *
-     *
-     * Supported embed types: `LiveboardEmbed`
-     * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 7.2.1
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *  fullHeight: true,
-     * });
-     * ```
-     */
-    fullHeight?: boolean;
-    /**
-     * This is the minimum height (in pixels) for a full-height Liveboard.
-     * Setting this height helps resolve issues with empty Liveboards and
-     * other screens navigable from a Liveboard.
-     *
-     * Supported embed types: `LiveboardEmbed`
-     * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
-     * @deprecated Use `minimumHeight` instead.
-     * @default 500
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   fullHeight: true,
-     *   defaultHeight: 600,
-     * });
-     * ```
-     */
-    defaultHeight?: number;
-    /**
-     * This is the minimum height (in pixels) for a full-height Liveboard.
-     * Setting this height helps resolve issues with empty Liveboards and
-     * other screens navigable from a Liveboard.
-     *
-     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
-     * @default 500
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed', {
-     *   ... // other liveboard view config
-     *   fullHeight: true,
-     *   minimumHeight: 600,
-     * });
-     * ```
-     */
-    minimumHeight?: number;
+export interface LiveboardViewConfig
+    extends BaseViewConfig,
+        FullHeightViewConfig,
+        LiveboardOtherViewConfig,
+        LiveboardAppEmbedViewConfig {
     /**
      * If set to true, the context menu in visualizations will be enabled.
      * @version SDK: 1.1.0 | ThoughtSpot: 8.1.0.sw
@@ -457,55 +409,6 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      */
     isGranularXLSXCSVSchedulesEnabled?: boolean;
     /**
-     * This flag is used to enable the full height lazy load data.
-     *
-     * @type {boolean}
-     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    // ...other options
-     *    fullHeight: true,
-     *    lazyLoadingForFullHeight: true,
-     * })
-     * ```
-     */
-    lazyLoadingForFullHeight?: boolean;
-    /**
-     * This flag is used to enable container-aware full height lazy loading.
-     *
-     * Use this when the embed is rendered inside a scrollable or clipping
-     * container instead of relying on the browser window as the only viewport.
-     *
-     * @type {boolean}
-     * @default false
-     */
-    enableScrollableContainerLazyLoading?: boolean;
-    /**
-     * The margin to be used for lazy loading.
-     *
-     * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before its top edge is visible in the
-     * viewport.
-     *
-     * The format is similar to CSS margin.
-     *
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
-     * @example
-     * ```js
-     * const embed = new LiveboardEmbed('#embed-container', {
-     *    // ...other options
-     *    fullHeight: true,
-     *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
-     *    lazyLoadingMargin: '0px',
-     * })
-     * ```
-     */
-    lazyLoadingMargin?: string;
-    /**
      * showSpotterLimitations : show limitation text
      * of the spotter underneath the chat input.
      * default is false.
@@ -596,13 +499,12 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
      *        inputChatPlaceholder: 'Ask a question...',
      *        hideStarterPrompts: false,
      *        customStarterPrompts: [{ id: '1', displayText: 'Top products', fullPrompt: 'What are the top products by revenue?' }],
-     *        // loaderHeadline and loaderTips require SDK: 1.51.0 | ThoughtSpot Cloud: 26.8.0.cl
+     *        // The options below require SDK: 1.51.0
      *        loaderHeadline: 'Crunching the numbers...',
      *        loaderTips: [
      *            { label: 'Tip', text: 'try asking about revenue by region' },
      *            { label: 'Tip', text: 'use natural language' },
      *        ],
-     *        // liveboardBrandName, spotterBrandName, insightTileBrandName, insightTileViewPlanLabel and insightTileLoaderText require SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      *        liveboardBrandName: 'Reports',
      *        spotterBrandName: 'Analyst',
      *        insightTileBrandName: 'Insight card',
@@ -661,26 +563,26 @@ export interface LiveboardViewConfig extends BaseViewConfig, LiveboardOtherViewC
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
-    private defaultHeight = 500;
-
-    private lazyLoadScrollContainers: HTMLElement[] = [];
-
-    private lazyLoadResizeObserver: ResizeObserver | undefined;
-
+    private readonly fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
             if (this.viewConfig.vizId) {
-                logger.warn('Full height is currently only supported for Liveboard embeds.' +
-                    'Using full height with vizId might lead to unexpected behavior.');
+                logger.warn('Full height is currently only supported for Liveboard embeds.'
+                    + 'Using full height with vizId might lead to unexpected behavior.');
             }
-
-            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
-            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
-            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(EmbedEvent.RequestVisibleEmbedCoordinates, this.requestVisibleEmbedCoordinatesHandler);
+            this.fullHeightController = new FullHeightController(this.viewConfig, {
+                getIframe: () => this.iFrame,
+                setFrameHeight: (height) => this.setIFrameHeight(height),
+                on: (eventType, callback) => {
+                    this.on(eventType, callback);
+                },
+                trigger: (hostEvent, data) => {
+                    this.trigger(hostEvent, data);
+                },
+            });
         }
     }
 
@@ -705,9 +607,6 @@ export class LiveboardEmbed extends V1Embed {
         params = this.getBaseQueryParams(params);
         const {
             enableVizTransformations,
-            fullHeight,
-            defaultHeight,
-            minimumHeight,
             visibleVizs,
             liveboardV2,
             vizId,
@@ -727,6 +626,7 @@ export class LiveboardEmbed extends V1Embed {
             isEnhancedFilterInteractivityEnabled,
             enableAskSage,
             enable2ColumnLayout,
+            isLiveboardAlwaysOn12ColLayout,
             dataPanelV2 = true,
             updatedSpotterExperience,
             enableCustomColumnGroups = false,
@@ -735,6 +635,7 @@ export class LiveboardEmbed extends V1Embed {
             dataSourceId,
             coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
+            liveboardGutter,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
@@ -754,16 +655,7 @@ export class LiveboardEmbed extends V1Embed {
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
             || this.viewConfig.preventPinboardFilterRemoval;
 
-        if (fullHeight === true) {
-            params[Param.fullHeight] = true;
-            if (this.viewConfig.lazyLoadingForFullHeight) {
-                params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
-                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
-                }
-            }
-        }
-        this.defaultHeight = minimumHeight || defaultHeight || this.defaultHeight;
+        this.fullHeightController?.addQueryParams(params);
         if (enableVizTransformations !== undefined) {
             params[Param.EnableVizTransformations] = enableVizTransformations.toString();
         }
@@ -791,6 +683,9 @@ export class LiveboardEmbed extends V1Embed {
         }
         if (enable2ColumnLayout !== undefined) {
             params[Param.Enable2ColumnLayout] = enable2ColumnLayout;
+        }
+        if (isLiveboardAlwaysOn12ColLayout !== undefined) {
+            params[Param.IsLiveboardAlwaysOn12ColLayout] = isLiveboardAlwaysOn12ColLayout;
         }
         if (hideTabPanel) {
             params[Param.HideTabPanel] = hideTabPanel;
@@ -824,6 +719,10 @@ export class LiveboardEmbed extends V1Embed {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
         }
 
+        if (liveboardGutter !== undefined) {
+            params[Param.LiveboardGutter] = liveboardGutter;
+        }
+
         if (isPNGInScheduledEmailsEnabled !== undefined) {
             params[Param.isPNGInScheduledEmailsEnabled] = isPNGInScheduledEmailsEnabled;
         }
@@ -852,6 +751,7 @@ export class LiveboardEmbed extends V1Embed {
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
+                openSpotterOnLiveboardByDefault,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
@@ -861,6 +761,9 @@ export class LiveboardEmbed extends V1Embed {
             }
             if (enableStarterPrompts !== undefined) {
                 params[Param.IsStarterPromptsEnabled] = enableStarterPrompts;
+            }
+            if (openSpotterOnLiveboardByDefault !== undefined) {
+                params[Param.OpenSpotterOnLiveboardByDefault] = openSpotterOnLiveboardByDefault;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
@@ -967,32 +870,6 @@ export class LiveboardEmbed extends V1Embed {
         return suffix;
     }
 
-    private sendFullHeightLazyLoadData = () => {
-        const data = calculateVisibleElementData(
-            this.iFrame,
-            this.viewConfig.enableScrollableContainerLazyLoading,
-        );
-        // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
-        if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
-            this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-        }
-    };
-
-    /**
-     * This is a handler for the RequestVisibleEmbedCoordinates event.
-     * It is used to send the visible coordinates data to the host application.
-     * @param data The event payload
-     * @param responder The responder function
-     */
-    private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
-        logger.info('Sending RequestVisibleEmbedCoordinates', data);
-        const visibleCoordinatesData = calculateVisibleElementData(
-            this.iFrame,
-            this.viewConfig.enableScrollableContainerLazyLoading,
-        );
-        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
-    }
-
     /**
      * Construct the URL of the embedded ThoughtSpot Liveboard or visualization
      * to be loaded within the iFrame.
@@ -1006,6 +883,7 @@ export class LiveboardEmbed extends V1Embed {
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
                 code: EmbedErrorCodes.LIVEBOARD_ID_MISSING,
+                severity: EmbedErrorSeverity.SEV1,
                 error: ERROR_MESSAGE.LIVEBOARD_VIZ_ID_VALIDATION,
             });
         }
@@ -1016,44 +894,6 @@ export class LiveboardEmbed extends V1Embed {
             personalizedViewId,
         )}`;
     }
-
-    /**
-     * Set the iframe height as per the computed height received
-     * from the ThoughtSpot app.
-     * @param data The event payload
-     */
-    private updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
-        this.sendFullHeightLazyLoadData();
-    };
-
-    private embedIframeCenter = (data: MessagePayload, responder: any) => {
-        const obj = this.getIframeCenter();
-        responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
-    };
-
-    private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const { height: frameHeight } = this.viewConfig.frameParams || {};
-
-        const liveboardRelatedRoutes = [
-            '/pinboard/',
-            '/insights/pinboard/',
-            '/schedules/',
-            '/embed/viz/',
-            '/embed/insights/viz/',
-            '/liveboard/',
-            '/insights/liveboard/',
-            '/tsl-editor/PINBOARD_ANSWER_BOOK/',
-            '/import-tsl/PINBOARD_ANSWER_BOOK/',
-        ];
-
-        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
-            // Ignore the height reset of the frame, if the navigation is
-            // only within the liveboard page.
-            return;
-        }
-        this.setIFrameHeight(frameHeight || this.defaultHeight);
-    };
 
     private setActiveTab(data: { tabId: string }) {
         if (!this.viewConfig.vizId) {
@@ -1111,24 +951,53 @@ export class LiveboardEmbed extends V1Embed {
 
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
-        const embedObj = this.getPreRenderObj<LiveboardEmbed>();
 
-        this.executeAfterEmbedContainerLoaded(() => {
+        // Captured before showPreRender() hands the wrapper over to this instance.
+        // Itself means a hide/show, not a hand-over, so there is nothing stale to clear.
+        const previous = this.getPreRenderObj<LiveboardEmbed>();
+        const showing = previous === this ? undefined : previous?.currentLiveboardState;
+
+        this.executeAfterEmbedContainerLoaded(async () => {
+            // Without this the params callback suspends on its await and Navigate
+            // goes out first, so the container loads with the previous config's filters.
+            await this.preRenderParamsApplied;
+            if (this.isShowingLiveboardRoute(showing)) {
+                // Navigate to the route we are already on is a no-op, so the liveboard
+                // keeps its state. Home unmounts the container, which clears it.
+                this.trigger(HostEvent.Navigate, HOME_ROUTE)
+                    .catch((error) => logger.warn('Could not route via home', error));
+                // Not awaited above: the container never acks Navigate, so that promise
+                // only settles on the 30s trigger timeout.
+                await new Promise((resolve) => {
+                    setTimeout(resolve, HOME_SETTLE_MS);
+                });
+            }
             this.navigateToLiveboard(
                 this.viewConfig.liveboardId,
                 this.viewConfig.vizId,
                 this.viewConfig.activeTabId,
                 this.viewConfig.personalizedViewId,
             );
-            if (embedObj) {
-                embedObj.currentLiveboardState = {
-                    liveboardId: this.viewConfig.liveboardId,
-                    vizId: this.viewConfig.vizId,
-                    activeTabId: this.viewConfig.activeTabId,
-                    personalizedViewId: this.viewConfig.personalizedViewId,
-                };
-            }
+            this.currentLiveboardState = {
+                liveboardId: this.viewConfig.liveboardId,
+                vizId: this.viewConfig.vizId,
+                activeTabId: this.viewConfig.activeTabId,
+                personalizedViewId: this.viewConfig.personalizedViewId,
+            };
         });
+    }
+
+    // The whole route, not just the liveboard id: the path is built from the viz, tab
+    // and view too, so a same-liveboard show onto another tab is a real navigation.
+    private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
+        if (!showing?.liveboardId) return false;
+        const {
+            liveboardId, vizId, activeTabId, personalizedViewId,
+        } = this.viewConfig;
+        return showing.liveboardId === liveboardId
+            && showing.vizId === vizId
+            && showing.activeTabId === activeTabId
+            && showing.personalizedViewId === personalizedViewId;
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
@@ -1140,8 +1009,10 @@ export class LiveboardEmbed extends V1Embed {
 
     /**
      * Triggers an event to the embedded app
+     * Payload typing follows {@link TsEmbed.trigger}: unknown fields fail to compile
+     * from SDK 1.52.0; strict contract checks land in SDK 1.54.0.
      * @param {HostEvent} messageType The event type
-     * @param {any} data The payload to send with the message
+     * @param {TriggerData} data The payload, typed against the event's contract
      * @returns A promise that resolves with the response from the embedded app
      */
     public trigger<
@@ -1152,7 +1023,9 @@ export class LiveboardEmbed extends V1Embed {
         ContextT extends ContextType = ContextType,
     >(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = ({} as any),
+        // Mirror TsEmbed.trigger: contract shape is the contextual type and
+        // unknown fields on object literals are flagged. Strict in SDK 1.54.0.
+        data: TriggerData<HostEventT> = ({} as any),
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         const dataWithVizId: any = data;
@@ -1171,53 +1044,11 @@ export class LiveboardEmbed extends V1Embed {
      */
     public destroy() {
         super.destroy();
-        this.unregisterLazyLoadEvents();
+        this.fullHeightController?.destroy();
     }
 
     private postRender() {
-        this.registerLazyLoadEvents();
-    }
-
-    private registerLazyLoadEvents() {
-        if(!this.iFrame) {
-            return;
-        }
-        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            this.unregisterLazyLoadEvents();
-            // TODO: Use passive: true, install modernizr to check for passive
-            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
-            if (!this.viewConfig.enableScrollableContainerLazyLoading) {
-                return;
-            }
-            this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
-            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
-                scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);
-            });
-            if (typeof ResizeObserver !== 'undefined') {
-                const resizeTargets = new Set([
-                    this.iFrame.parentElement,
-                    ...getEffectiveClippingAncestors(this.iFrame),
-                ].filter(Boolean) as HTMLElement[]);
-                this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
-                resizeTargets.forEach((resizeTarget) => {
-                    this.lazyLoadResizeObserver.observe(resizeTarget);
-                });
-            }
-        }
-    }
-
-    private unregisterLazyLoadEvents() {
-        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
-            this.lazyLoadResizeObserver?.disconnect();
-            this.lazyLoadResizeObserver = undefined;
-            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
-                scrollContainer.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
-            });
-            this.lazyLoadScrollContainers = [];
-        }
+        this.fullHeightController?.onRender();
     }
 
     /**
@@ -1249,7 +1080,7 @@ export class LiveboardEmbed extends V1Embed {
         this.viewConfig.personalizedViewId = personalizedViewId;
         if (this.isRendered) {
             this.trigger(HostEvent.Navigate, path.substring(1));
-        } else if (this.getPreRenderConfig().preRenderId) {
+        } else if (this.getPreRenderConfig().id) {
             this.preRender(true);
         } else {
             this.render();

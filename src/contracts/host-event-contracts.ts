@@ -1,0 +1,500 @@
+/**
+ * Copyright (c) 2026
+ *
+ * Typed contracts for {@link HostEvent} requests and responses.
+ *
+ * This module is the single source of truth for host event payload shapes.
+ * It is published under the `@thoughtspot/visual-embed-sdk/contracts` subpath
+ * so the ThoughtSpot app (host) can consume the exact same contract types the
+ * SDK compiles against, preventing SDK <-> host contract drift.
+ *
+ * Contract evolution rules (enforced by contracts.spec.ts snapshot):
+ * - Additive only: new events and new OPTIONAL fields may be added.
+ * - Never remove or rename an event key, or change an existing field's type.
+ * - An event absent from the maps below intentionally resolves to `any`
+ *   (untyped, backward compatible) until it is audited and added.
+ * @module contracts
+ */
+import type {
+    ContextType,
+    HostEvent,
+    RuntimeFilter,
+    RuntimeParameter,
+} from '../types';
+import type {
+    Applicability,
+    EmbedApiHostEventMapping,
+    UIPassthroughContractBase,
+    UIPassthroughRequest,
+    UIPassthroughResponse,
+} from './ui-passthrough-contracts';
+
+/**
+ * Request for host events that MAY target a specific visualization.
+ * Omitting vizId targets the current answer/liveboard as a whole.
+ * (In some contexts, e.g. Spotter, the app requires vizId at runtime.)
+ */
+export interface VizScopedRequest {
+    vizId?: string;
+}
+
+/**
+ * Request for host events that MUST target a specific visualization.
+ */
+export interface RequiredVizRequest {
+    vizId: string;
+}
+
+/**
+ * Request for Spotter conversation-scoped host events.
+ */
+export interface ConversationScopedRequest {
+    conversationId: string;
+}
+
+/**
+ * Request payload for {@link HostEvent.OpenFilter}. Field requirements
+ * vary by context (Search requires columnId/type/dataType/name); the
+ * contract is the cross-context superset — the app validates per context
+ * at runtime. Per-context views: {@link OpenFilterLiveboardRequest},
+ * {@link OpenFilterSpotterRequest}, {@link OpenFilterSearchRequest}.
+ */
+export interface OpenFilterRequest {
+    column: {
+        columnId?: string;
+        columnName?: string;
+        type?: string;
+        dataType?: string;
+        name?: string;
+        isStrictDateColumn?: boolean;
+    };
+    applicability?: Applicability;
+    visualizationId?: string;
+    liveboardId?: string;
+}
+
+/**
+ * `OpenFilter` in Liveboard context: full column plus scoping fields.
+ * A per-context view of {@link OpenFilterRequest} (documentation only today;
+ * `trigger()` accepts the superset).
+ */
+export interface OpenFilterLiveboardRequest {
+    column: { columnId?: string; columnName?: string };
+    applicability?: Applicability;
+    visualizationId?: string;
+    liveboardId?: string;
+}
+
+/**
+ * `OpenFilter` in Spotter context: only the column identity is accepted.
+ */
+export interface OpenFilterSpotterRequest {
+    column: { columnId?: string; columnName?: string };
+}
+
+/**
+ * `OpenFilter` in Search/Answer context: column identity plus column metadata.
+ */
+export interface OpenFilterSearchRequest {
+    column: {
+        columnId?: string;
+        columnName?: string;
+        type?: string;
+        dataType?: string;
+        name?: string;
+        isStrictDateColumn?: boolean;
+    };
+}
+
+/**
+ * Request payload for {@link HostEvent.DrillDown}. Drills on selected or
+ * clicked points of a visualization. In Liveboard context `vizId` is required
+ * at runtime (documentation only today; `trigger()` is not yet type-enforced).
+ */
+export interface DrillDownRequest {
+    points: {
+        clickedPoint?: object;
+        selectedPoints?: object[];
+    };
+    columnGuid?: string;
+    autoDrillDown?: boolean;
+    vizId?: string;
+}
+
+/**
+ * Request payload for {@link HostEvent.OpenParameter}. One of parameterId
+ * or parameterName must be provided (validated at runtime).
+ */
+export interface OpenParameterRequest {
+    parameter: {
+        parameterId?: string;
+        parameterName?: string;
+    };
+    applicability?: Applicability;
+}
+
+/**
+ * Request payload for {@link HostEvent.Search}.
+ */
+export interface SearchRequest {
+    searchQuery: string;
+    dataSources: string[];
+    execute?: boolean;
+}
+
+/**
+ * Request payload for {@link HostEvent.SpotterSearch}.
+ */
+export interface SpotterSearchRequest {
+    query: string;
+    executeSearch: boolean;
+}
+
+/**
+ * A single cross-filter condition for {@link HostEvent.UpdateCrossFilter}.
+ */
+export interface CrossFilterCondition {
+    columnName?: string;
+    operator?: string;
+    values: Array<string | number | boolean>;
+}
+
+/**
+ * Request payload for {@link HostEvent.UpdateCrossFilter}.
+ */
+export interface UpdateCrossFilterRequest {
+    vizId: string;
+    conditions: CrossFilterCondition[];
+}
+
+/**
+ * The column to filter on. Supply `columnName`. A filter with no column is
+ * rejected at runtime, and passing both spellings silently discards the
+ * `column` one.
+ *
+ * When several columns share a name, qualify it as
+ * `WORKSHEET_NAME::COLUMN_NAME`, for example
+ * `"(Sample) Retail - Apparel::city"`.
+ */
+export type HostFilterUpdateColumn =
+    | {
+        /**
+         * Name of the column to filter on, optionally qualified as
+         * `WORKSHEET_NAME::COLUMN_NAME`.
+         */
+        columnName: string;
+        column?: never;
+    }
+    | {
+        /**
+         * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and
+         * the rest of the SDK. Still accepted, but not alongside `columnName`.
+         */
+        column: string;
+        columnName?: never;
+    };
+
+/**
+ * The filter operator. Supply `operator`. A filter with no operator is
+ * rejected at runtime, and passing both spellings silently discards the
+ * `oper` one.
+ */
+export type HostFilterUpdateOperator =
+    | {
+        /** Filter operator, for example EQ, IN, CONTAINS. */
+        operator: string;
+        oper?: never;
+    }
+    | {
+        /**
+         * @deprecated Use `operator`, which matches {@link RuntimeFilter} and
+         * the rest of the SDK. Still accepted, but not alongside `operator`.
+         */
+        oper: string;
+        operator?: never;
+    };
+
+/**
+ * A single filter entry for {@link HostEvent.UpdateFilters}.
+ *
+ * Use `columnName` and `operator` - the spelling used by
+ * {@link RuntimeFilter} and by the payload
+ * `convertFilterChangedToUpdateFiltersPayload` produces.
+ */
+export type HostFilterUpdate = HostFilterUpdateColumn & HostFilterUpdateOperator & {
+    columnId?: string;
+    values: Array<string | number | boolean | bigint>;
+    type?: string;
+    datePeriod?: string;
+    negate?: boolean;
+    applicability?: Applicability;
+};
+
+/**
+ * Request payload for {@link HostEvent.UpdateFilters} (singular or plural
+ * form).
+ */
+export interface UpdateFiltersRequest {
+    filter?: HostFilterUpdate;
+    filters?: HostFilterUpdate[];
+    /**
+     * Scope the update to a specific visualization on a Liveboard.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    visualizationId?: string;
+    /**
+     * Scope the update to a specific Liveboard.
+     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    liveboardId?: string;
+}
+
+/**
+ * Request payload for personalised-view host events.
+ */
+export interface PersonalisedViewRequest {
+    viewId?: string;
+    viewName?: string;
+}
+
+/**
+ * Request payload for schedule-email related host events.
+ */
+export interface ScheduleEmailRequest {
+    sendToSelf?: boolean;
+}
+
+/**
+ * Object form of the {@link HostEvent.Navigate} payload.
+ */
+export interface NavigateRequest {
+    /**
+     * Route to navigate to, or a history delta such as `1` or `-1`.
+     */
+    path: string | number;
+    /**
+     * When `true`, replaces the current history entry instead of pushing.
+     */
+    replace?: boolean;
+}
+
+/**
+ * Request payload for {@link HostEvent.SetActiveTab}.
+ */
+export interface SetActiveTabRequest {
+    /**
+     * Id of the liveboard tab to make active.
+     */
+    tabId: string;
+}
+
+/**
+ * Typed request payloads for host events that do not go through the UI
+ * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
+ *
+ * Shapes are transcribed from the host's runtime validation schemas
+ * (embed-util HostEventContract) — what the ThoughtSpot app actually enforces —
+ * flattened across contexts to the permissive superset (context-specific
+ * requirements are validated at runtime).
+ *
+ * Responses are typed only for UI-passthrough-backed events today (see
+ * {@link HostEventResponse}). Add a response map alongside this one when the
+ * first explicit response shape is specified; tightening later is additive.
+ *
+ * Deliberately absent (do not add without an audit):
+ * - DrillDown: the runtime schema (object-shaped points) and the UI
+ *   passthrough contract (string-shaped points) disagree — resolve the
+ *   drift first.
+ * - GetAnswerSession/GetParameters/GetTML: typed via the UI passthrough
+ *   mapping; their Spotter-context vizId requirement is runtime-only.
+ */
+export interface HostEventRequestMap {
+    // ==================== FILTERS AND PARAMETERS ====================
+    [HostEvent.UpdateRuntimeFilters]: RuntimeFilter[];
+    [HostEvent.UpdateParameters]: RuntimeParameter[];
+    [HostEvent.UpdateFilters]: UpdateFiltersRequest;
+    [HostEvent.UpdateCrossFilter]: UpdateCrossFilterRequest;
+    [HostEvent.OpenFilter]: OpenFilterRequest;
+    [HostEvent.OpenParameter]: OpenParameterRequest;
+
+    // ==================== TABS AND VIZS ====================
+    [HostEvent.SetVisibleVizs]: string[];
+    [HostEvent.SetVisibleTabs]: string[];
+    [HostEvent.SetHiddenTabs]: string[];
+    [HostEvent.SetActiveTab]: SetActiveTabRequest;
+
+    // ==================== NAVIGATION ====================
+    [HostEvent.Navigate]: string | number | NavigateRequest;
+
+    // ==================== SEARCH AND COLUMNS ====================
+    [HostEvent.Search]: SearchRequest;
+    [HostEvent.ResetSearch]: void;
+    [HostEvent.AddColumns]: { columnIds: string[] };
+    [HostEvent.RemoveColumn]: { columnId: string };
+
+    // ==================== VIZ-SCOPED ACTIONS ====================
+    // vizId optional in most contexts; some contexts require it at runtime.
+    [HostEvent.Edit]: VizScopedRequest;
+    [HostEvent.Save]: VizScopedRequest;
+    [HostEvent.Delete]: VizScopedRequest;
+    [HostEvent.Share]: VizScopedRequest;
+    [HostEvent.Present]: VizScopedRequest;
+    [HostEvent.CopyLink]: VizScopedRequest;
+    [HostEvent.ExportTML]: VizScopedRequest;
+    [HostEvent.EditTML]: VizScopedRequest;
+    [HostEvent.UpdateTML]: VizScopedRequest;
+    [HostEvent.SchedulesList]: VizScopedRequest;
+    [HostEvent.Schedule]: VizScopedRequest;
+    [HostEvent.SpotIQAnalyze]: VizScopedRequest;
+    [HostEvent.ShowUnderlyingData]: VizScopedRequest;
+    [HostEvent.CreateMonitor]: VizScopedRequest;
+    [HostEvent.ManageMonitor]: VizScopedRequest;
+    [HostEvent.SyncToSheets]: VizScopedRequest;
+    [HostEvent.SyncToOtherApps]: VizScopedRequest;
+    [HostEvent.ManagePipelines]: VizScopedRequest;
+    // Download shares the downloadAsPng wire value with DownloadAsPng.
+    [HostEvent.DownloadAsPng]: VizScopedRequest;
+    [HostEvent.DownloadAsCsv]: VizScopedRequest;
+    [HostEvent.DownloadAsXlsx]: VizScopedRequest;
+    [HostEvent.DownloadAsPdf]: VizScopedRequest & { liveboardId?: string };
+
+    // Viz id required in every context.
+    [HostEvent.Explore]: RequiredVizRequest;
+    [HostEvent.AskSage]: RequiredVizRequest;
+    [HostEvent.AskSpotter]: RequiredVizRequest;
+    [HostEvent.AnswerChartSwitcher]: RequiredVizRequest;
+
+    // ==================== LIVEBOARD ====================
+    [HostEvent.UpdatePersonalisedView]: Pick<PersonalisedViewRequest, 'viewId'>;
+    [HostEvent.SelectPersonalizedView]: PersonalisedViewRequest;
+    [HostEvent.ResetLiveboardPersonalisedView]: void;
+    [HostEvent.AIHighlights]: void;
+    [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
+    [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;
+
+    // ==================== SPOTTER ====================
+    [HostEvent.SpotterSearch]: SpotterSearchRequest;
+    [HostEvent.ResetSpotterConversation]: void;
+    [HostEvent.ShareSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.CloseSpotterShareConversation]: void;
+    [HostEvent.ExitSpotterSharedConversation]: void;
+    [HostEvent.PinSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.UnpinSpotterConversation]: ConversationScopedRequest;
+    [HostEvent.EditLastPrompt]: string;
+    [HostEvent.DeleteLastPrompt]: void;
+    [HostEvent.PreviewSpotterData]: void;
+    [HostEvent.SpotterVizSendUserMessage]: { query: string };
+    [HostEvent.InitSpotterVizConversation]: void;
+    [HostEvent.OpenSpotterVizPanel]: void;
+    [HostEvent.CloseSpotterVizPanel]: void;
+}
+
+/**
+ * Per-context request shapes for events whose payload varies by
+/**
+ * Resolves the typed request payload for a host event.
+ * Resolution order:
+ * 1. Explicitly typed request in {@link HostEventRequestMap}
+ * 2. UI passthrough backed contract ({@link EmbedApiHostEventMapping})
+ * 3. `any` (event not audited/typed yet — backward compatible)
+ *
+ * Requests are the cross-context superset today. The per-context `*Request`
+ * interfaces (e.g. {@link OpenFilterLiveboardRequest}) document how the shape
+ * narrows by context; a later release may thread the caller's context to
+ * enforce it.
+ */
+export type HostEventRequest<HostEventT extends HostEvent> =
+    HostEventT extends keyof HostEventRequestMap
+        ? HostEventRequestMap[HostEventT]
+        : HostEventT extends keyof EmbedApiHostEventMapping
+            ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
+            : any;
+/**
+ * Resolves the typed response payload for a host event. Only UI passthrough
+ * backed events have typed responses today; everything else resolves to `any`.
+ */
+export type HostEventResponse<
+    HostEventT extends HostEvent,
+    // Reserved for context-dependent response shapes (additive change later).
+    ContextT extends ContextType = ContextType,
+> = HostEventT extends keyof EmbedApiHostEventMapping
+    ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
+    : any;
+
+/**
+ * Payload type accepted by `embed.trigger()`. Keeps the historical
+ * `PayloadT` escape hatch so untyped existing call sites keep compiling.
+ */
+export type TriggerPayload<PayloadT, HostEventT extends HostEvent> =
+    PayloadT | HostEventRequest<HostEventT>;
+
+/**
+ * Deep `Partial` of a request type: every field optional at every depth, with no
+ * index signature — so object literals carrying unknown fields are flagged.
+ */
+export type DeepPartial<T> =
+    T extends (infer U)[]
+        ? DeepPartial<U>[]
+        : T extends object
+            ? { [K in keyof T]?: DeepPartial<T[K]> }
+            : T;
+
+/**
+ * `trigger()`'s `data` type: an all-optional view of the event's request type.
+ * See {@link HostEventRequest} and the `*Request` interfaces, e.g. {@link SearchRequest}.
+ * No-payload events take `{}`. SDK 1.54.0 makes this strict (required fields enforced).
+ */
+export type TriggerData<HostEventT extends HostEvent> =
+    HostEventRequest<HostEventT> extends void
+    ? Record<string, never>
+    : DeepPartial<HostEventRequest<HostEventT>>;
+
+/**
+ * Response type returned by `embed.trigger()`.
+ */
+export type TriggerResponse<
+    PayloadT,
+    HostEventT extends HostEvent,
+    ContextT extends ContextType = ContextType,
+> = PayloadT extends HostEventRequest<HostEventT>
+    ? HostEventResponse<HostEventT, ContextT>
+    : any;
+
+/**
+ * String-name keyed views of the contracts, for the host (ThoughtSpot app)
+ * side, which addresses events by their wire value (e.g.
+ * 'UpdateRuntimeFilters') rather than the {@link HostEvent} enum member.
+ */
+export type HostEventName = `${HostEvent}`;
+
+/**
+ * Resolves a host event's request type from its wire name.
+ */
+export type HostEventRequestByName<NameT extends string> = {
+    [EventT in HostEvent]: `${EventT}` extends NameT
+        ? HostEventRequest<EventT>
+        : never;
+}[HostEvent] extends never
+    ? any
+    : {
+        [EventT in HostEvent]: `${EventT}` extends NameT
+            ? HostEventRequest<EventT>
+            : never;
+    }[HostEvent];
+
+/**
+ * Resolves a host event's response type from its wire name.
+ */
+export type HostEventResponseByName<NameT extends string> = {
+    [EventT in HostEvent]: `${EventT}` extends NameT
+        ? HostEventResponse<EventT>
+        : never;
+}[HostEvent] extends never
+    ? any
+    : {
+        [EventT in HostEvent]: `${EventT}` extends NameT
+            ? HostEventResponse<EventT>
+            : never;
+    }[HostEvent];
+
+export type { UIPassthroughContractBase, EmbedApiHostEventMapping };

@@ -358,10 +358,10 @@ describe('React Components', () => {
                 ].forEach((spy) => spy.mockRestore());
             });
 
-            it('Should preRender PreRenderedLiveboardEmbed with preRenderConfig.preRenderId', () => {
+            it('Should preRender PreRenderedLiveboardEmbed with preRenderConfig.id', () => {
                 render(
                     <PreRenderedLiveboardEmbed
-                        preRenderConfig={{ preRenderId }}
+                        preRenderConfig={{ id: preRenderId }}
                         liveboardId="test-liveboard"
                     />,
                 );
@@ -386,7 +386,7 @@ describe('React Components', () => {
             it('Should showPreRender the LiveboardEmbed connected via preRenderConfig', () => {
                 const { unmount } = render(
                     <LiveboardEmbed
-                        preRenderConfig={{ preRenderId }}
+                        preRenderConfig={{ id: preRenderId }}
                         liveboardId="test-liveboard"
                     />,
                 );
@@ -447,10 +447,10 @@ describe('React Components', () => {
                     .forEach((el) => el.remove());
             });
 
-            it('Should create the wrapper with preRenderConfig.preRenderId', async () => {
+            it('Should create the wrapper with preRenderConfig.id', async () => {
                 render(
                     <PreRenderedLiveboardEmbed
-                        preRenderConfig={{ preRenderId }}
+                        preRenderConfig={{ id: preRenderId }}
                         liveboardId="test-liveboard"
                     />,
                 );
@@ -458,11 +458,11 @@ describe('React Components', () => {
                 await waitFor(() => expect(document.getElementById(wrapperId(preRenderId))).not.toBe(null));
             });
 
-            it('Should prefer preRenderConfig.preRenderId over the top-level preRenderId', async () => {
+            it('Should prefer preRenderConfig.id over the top-level preRenderId', async () => {
                 render(
                     <PreRenderedLiveboardEmbed
                         preRenderId="top-level-pre-render-id"
-                        preRenderConfig={{ preRenderId: 'config-pre-render-id' }}
+                        preRenderConfig={{ id: 'config-pre-render-id' }}
                         liveboardId="test-liveboard"
                     />,
                 );

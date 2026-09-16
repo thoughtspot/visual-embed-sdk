@@ -10,20 +10,26 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    HostEventRequest,
-    TriggerPayload,
-    TriggerResponse,
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
-} from './hostEventClient/contracts';
+} from '../contracts/ui-passthrough-contracts';
+// Contract resolution comes from the shared contracts module (the single
+// source of truth for event payload shapes) rather than the legacy
+// UI-passthrough-only mapping.
+import {
+    HostEventRequest,
+    TriggerData,
+    TriggerResponse,
+} from '../contracts/host-event-contracts';
+import { EmbedEventPayload } from '../contracts/embed-event-payloads';
+import { isMessageFromIframe } from '../utils/transport/iframe-transport';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
-    getOffsetTop,
     embedEventStatus,
     setAttributes,
     getCustomisations,
@@ -38,6 +44,7 @@ import {
     isUndefined,
     getHostEventsConfig,
     getValueFromWindow,
+    deserializeParam,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -62,6 +69,7 @@ import {
     DefaultAppInitData,
     AllEmbedViewConfig as ViewConfig,
     EmbedErrorDetailsEvent,
+    EmbedErrorSeverity,
     ErrorDetailsTypes,
     EmbedErrorCodes,
     MessagePayload,
@@ -108,6 +116,14 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 
+// The container applies UpdateEmbedParams through React state, so a delivered
+// post is not the same as the params being in effect.
+const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+
+// The container ignores runtimeFilterParams/runtimeParameterParams unless truthy, so
+// null or '' leaves the previous embed's values in place. '&' is truthy and parses to {}.
+const NO_RUNTIME_PARAMS = '&';
+
 /**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
@@ -139,6 +155,8 @@ export class TsEmbed {
      * The key to store the embed instance in the DOM node
      */
     protected embedNodeKey = '__tsEmbed';
+
+    protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
 
     protected isAppInitialized = false;
 
@@ -283,6 +301,7 @@ export class TsEmbed {
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
             message: ERROR_MESSAGE.INIT_SDK_REQUIRED,
             code: EmbedErrorCodes.INIT_ERROR,
+            severity: EmbedErrorSeverity.SEV1,
             error: ERROR_MESSAGE.INIT_SDK_REQUIRED,
         });
     }
@@ -294,7 +313,10 @@ export class TsEmbed {
      */
     protected handleError(errorDetails: EmbedErrorDetailsEvent) {
         this.isError = true;
-        this.executeCallbacks(EmbedEvent.Error, errorDetails);
+        this.executeCallbacks(EmbedEvent.Error, {
+            severity: EmbedErrorSeverity.SEV3,
+            ...errorDetails,
+        });
         // Log error
         logger.error(errorDetails);
     }
@@ -392,6 +414,7 @@ export class TsEmbed {
                 errorType: ErrorDetailsTypes.NETWORK,
                 message: ERROR_MESSAGE.OFFLINE_WARNING,
                 code: EmbedErrorCodes.NETWORK_ERROR,
+                severity: EmbedErrorSeverity.SEV2,
                 offlineWarning: ERROR_MESSAGE.OFFLINE_WARNING,
             };
             this.executeCallbacks(EmbedEvent.Error, errorDetails);
@@ -432,7 +455,7 @@ export class TsEmbed {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
-        if (event.source === this.iFrame.contentWindow) {
+        if (isMessageFromIframe(event, this.iFrame, this.thoughtSpotHost)) {
             const processedEventData = processEventData(
                 eventType,
                 eventData,
@@ -706,11 +729,25 @@ export class TsEmbed {
     }
 
     protected async getUpdateEmbedParamsObject() {
-        let queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getEmbedParamsObject();
+        // Values are URL-serialized (e.g. dataSources as '["guid"]'); parse
+        // them back so the event payload matches a URL load (SCAL-334713).
+        Object.keys(queryParams).forEach((key) => {
+            queryParams[key] = deserializeParam(queryParams[key]);
+        });
         const appInitData = await this.getAppInitData();
-        queryParams = { ...this.viewConfig, ...queryParams, ...appInitData };
-
-        return queryParams;
+        return {
+            ...this.viewConfig,
+            ...queryParams,
+            ...appInitData,
+            // A show cycle has no URL to carry these, so the payload always states them
+            // — including "none", which is the case that leaks the previous filters.
+            runtimeFilterParams:
+                getFilterQuery(this.viewConfig.runtimeFilters ?? []) || NO_RUNTIME_PARAMS,
+            runtimeParameterParams:
+                getRuntimeParameters(this.viewConfig.runtimeParameters ?? [])
+                || NO_RUNTIME_PARAMS,
+        };
     }
 
     /**
@@ -963,18 +1000,19 @@ export class TsEmbed {
     }
 
     /**
-     * Returns a merged {@link PreRenderConfig} object where each shared key
-     * prefers `preRenderConfig.key` over the top-level `viewConfig.key` for
-     * backward compatibility.
+     * Returns a merged {@link PreRenderConfig} object where each key prefers the
+     * value from `preRenderConfig` over its deprecated top-level `viewConfig`
+     * counterpart (`id`/`preRenderId`, `containerSelector`/`preRenderContainer`,
+     * `doNotTrackSize`/`doNotTrackPreRenderSize`) for backward compatibility.
      */
     protected getPreRenderConfig(): PreRenderConfig {
         const viewCfg = this.viewConfig as BaseViewConfig;
         const preRenderCfg = viewCfg.preRenderConfig ?? {};
         return {
             ...preRenderCfg,
-            preRenderId: preRenderCfg.preRenderId ?? viewCfg.preRenderId,
-            preRenderContainer: preRenderCfg.preRenderContainer ?? viewCfg.preRenderContainer,
-            doNotTrackPreRenderSize: preRenderCfg.doNotTrackPreRenderSize ?? viewCfg.doNotTrackPreRenderSize,
+            id: preRenderCfg.id ?? viewCfg.preRenderId,
+            containerSelector: preRenderCfg.containerSelector ?? viewCfg.preRenderContainer,
+            doNotTrackSize: preRenderCfg.doNotTrackSize ?? viewCfg.doNotTrackPreRenderSize,
         };
     }
 
@@ -982,7 +1020,7 @@ export class TsEmbed {
      * Returns true if this embed instance is configured for pre-rendering.
      */
     protected isPreRenderEmbed() {
-        return !!this.getPreRenderConfig().preRenderId;
+        return !!this.getPreRenderConfig().id;
     }
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRenderEmbed()) {
@@ -1088,6 +1126,7 @@ export class TsEmbed {
                         errorType: ErrorDetailsTypes.API,
                         message: error.message || ERROR_MESSAGE.LOGIN_FAILED,
                         code: EmbedErrorCodes.LOGIN_FAILED,
+                        severity: EmbedErrorSeverity.SEV1,
                         error: error,
                     });
                 });
@@ -1113,6 +1152,8 @@ export class TsEmbed {
         return preRenderWrapper;
     }
 
+    // TODO(SCAL-338011): move the pre-render code out to its own file, the way
+    // full height did. It is spread across this class and getting messy.
     protected preRenderWrapper: HTMLElement;
 
     protected preRenderChild: HTMLElement;
@@ -1196,7 +1237,7 @@ export class TsEmbed {
      * fresh element; an element passed directly cannot be re-resolved.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
-        const containerConfig = this.getPreRenderConfig().preRenderContainer;
+        const containerConfig = this.getPreRenderConfig().containerSelector;
         let container: Element | null = null;
         if (typeof containerConfig === 'string') {
             try {
@@ -1220,7 +1261,7 @@ export class TsEmbed {
         }
         const ownerContainer = preRenderedObject.preRenderContainerEl ?? document.body;
         if (
-            this.getPreRenderConfig().preRenderContainer
+            this.getPreRenderConfig().containerSelector
             && this.resolvePreRenderContainerTarget() !== ownerContainer
         ) {
             logger.warn(
@@ -1459,41 +1500,6 @@ export class TsEmbed {
     }
 
     /**
-     * Calculates the iframe center for the current visible viewPort
-     * of iframe using Scroll position of Host App, offsetTop for iframe
-     * in Host app. ViewPort height of the tab.
-     * @returns iframe Center in visible viewport,
-     *  Iframe height,
-     *  View port height.
-     */
-    protected getIframeCenter() {
-        const offsetTopClient = getOffsetTop(this.iFrame);
-        const scrollTopClient = window.scrollY;
-        const viewPortHeight = window.innerHeight;
-        const iframeHeight = this.iFrame.offsetHeight;
-        const iframeScrolled = scrollTopClient - offsetTopClient;
-        let iframeVisibleViewPort;
-        let iframeOffset;
-
-        if (iframeScrolled < 0) {
-            iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
-            iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
-            iframeOffset = 0;
-        } else {
-            iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
-            iframeOffset = iframeScrolled;
-        }
-        const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
-        return {
-            iframeCenter,
-            iframeScrolled,
-            iframeHeight,
-            viewPortHeight,
-            iframeVisibleViewPort,
-        };
-    }
-
-    /**
      * Registers an event listener to trigger an alert when the ThoughtSpot app
      * sends an event of a particular message type to the host application.
      * @param messageType The message type
@@ -1516,9 +1522,12 @@ export class TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
@@ -1596,14 +1605,34 @@ export class TsEmbed {
     protected getPreRenderObj<T extends TsEmbed>(): T {
         const embedObj = (this.preRenderWrapper as any)?.[this.embedNodeKey] as T;
         if (embedObj === (this as any)) {
-            logger.info('embedObj is same as this');
+            logger.debug('embedObj is same as this');
         }
         return embedObj;
+    }
+
+    protected takeOverPreRender(): void {
+        if (!this.preRenderWrapper) return;
+        (this.preRenderWrapper as any)[this.embedNodeKey] = this;
+    }
+
+    // The flag lives on the wrapper because it describes the iframe: an instance
+    // hidden when the container announced itself would otherwise report false forever.
+    private markEmbedContainerLoaded() {
+        this.isEmbedContainerLoaded = true;
+        if (this.preRenderWrapper) {
+            (this.preRenderWrapper as any)[this.embedContainerLoadedKey] = true;
+        }
     }
 
     private checkEmbedContainerLoaded() {
         if (this.isEmbedContainerLoaded) return true;
 
+        if ((this.preRenderWrapper as any)?.[this.embedContainerLoadedKey]) {
+            this.isEmbedContainerLoaded = true;
+            return true;
+        }
+
+        // Older builds stamped the flag on the instance, not the wrapper.
         const preRenderObj = this.getPreRenderObj<TsEmbed>();
         if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
             this.isEmbedContainerLoaded = true;
@@ -1636,7 +1665,7 @@ export class TsEmbed {
         (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
             const processEmbedContainerReady = () => {
                 logger.debug('processEmbedContainerReady');
-                this.isEmbedContainerLoaded = true;
+                this.markEmbedContainerLoaded();
                 this.executeEmbedContainerReadyCallbacks();
             };
             if (source === EmbedEvent.AuthInit) {
@@ -1652,8 +1681,12 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
+     *
+     * Payload typing: from SDK 1.52.0 (ThoughtSpot Cloud 26.9.0.cl), unknown fields
+     * on a known event's payload fail to compile. From SDK 1.54.0 (26.11.0.cl) the
+     * payload is checked strictly against the event contract — update call sites now.
      * @param {HostEvent} messageType The event type
-     * @param {any} data The payload to send with the message
+     * @param {TriggerData} data The payload, typed against the event's contract
      * @param {ContextType} context Optional context type to specify the context from which the event is triggered.
      * Use ContextType.Search for search answer context, ContextType.Answer for answer/explore context,
      * ContextType.Liveboard for liveboard context, or ContextType.Spotter for spotter context.
@@ -1676,7 +1709,10 @@ export class TsEmbed {
         ContextT extends ContextType = ContextType,
     >(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
+        // Contract shape is the contextual type: payload fields autocomplete
+        // and unknown fields on object literals are flagged. Strict checks
+        // land in SDK 1.54.0 — see TriggerData.
+        data: TriggerData<HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
@@ -1846,7 +1882,7 @@ export class TsEmbed {
             showPreRenderByDefault,
             replaceExistingPreRender,
         });
-        if (!this.getPreRenderConfig().preRenderId) {
+        if (!this.getPreRenderConfig().id) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -2003,24 +2039,34 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    // Subclasses that navigate the pre-render on show must await this before
+    // triggering Navigate. Resolves even on failure, so navigation is never blocked.
+    protected preRenderParamsApplied: Promise<void> = Promise.resolve();
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        this.executeAfterEmbedContainerLoaded(async () => {
-            try {
-                const params = await this.getUpdateEmbedParamsObject();
-                this.trigger(HostEvent.UpdateEmbedParams, params);
-            } catch (error) {
-                logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                this.handleError({
-                    errorType: ErrorDetailsTypes.API,
-                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: error?.message || error,
-                });
-            }
+        // Created synchronously: a queued navigation needs something to await
+        // whether the container is already loaded or not.
+        this.preRenderParamsApplied = new Promise<void>((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    const params = await this.getUpdateEmbedParamsObject();
+                    this.trigger(HostEvent.UpdateEmbedParams, params);
+                } catch (error) {
+                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+                    this.handleError({
+                        errorType: ErrorDetailsTypes.API,
+                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                        error: error?.message || error,
+                    });
+                } finally {
+                    setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
+                }
+            });
         });
     }
 
@@ -2032,14 +2078,14 @@ export class TsEmbed {
      */
     public async showPreRender(): Promise<TsEmbed> {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_SHOW_PRE_RENDER, {
-            preRenderId: this.getPreRenderConfig().preRenderId,
+            preRenderId: this.getPreRenderConfig().id,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
         if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
 
-        if (!this.getPreRenderConfig().preRenderId) {
+        if (!this.getPreRenderConfig().id) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -2081,7 +2127,7 @@ export class TsEmbed {
                 customContainer.addEventListener('scroll', this.containerScrollListener);
             }
 
-            if (!this.getPreRenderConfig().doNotTrackPreRenderSize) {
+            if (!this.getPreRenderConfig().doNotTrackSize) {
                 const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
                 this.resizeObserver = new ResizeObserver((entries) => {
                     entries.forEach((entry) => {
@@ -2106,6 +2152,9 @@ export class TsEmbed {
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
         }
+
+        // Last, so everything above still sees the instance being taken over from.
+        this.takeOverPreRender();
 
         return this;
     }
@@ -2156,7 +2205,7 @@ export class TsEmbed {
      */
     public hidePreRender(): void {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HIDE_PRE_RENDER, {
-            preRenderId: this.getPreRenderConfig().preRenderId,
+            preRenderId: this.getPreRenderConfig().id,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
@@ -2200,7 +2249,7 @@ export class TsEmbed {
      * @property {string} child - The HTML element ID for the PreRender child.
      */
     public getPreRenderIds() {
-        const preRenderId = this.getPreRenderConfig().preRenderId;
+        const preRenderId = this.getPreRenderConfig().id;
         return {
             wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${preRenderId}`,
             child: `tsEmbed-pre-render-child-${preRenderId}`,
@@ -2327,12 +2376,18 @@ export class V1Embed extends TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
-        const eventType = this.getCompatibleEventType(messageType);
+        // Mirror the base TsEmbed.on generic signature so the enriched
+        // EmbedEventPayload (e.g. CustomAction's answerService) flows through
+        // the override too, and the class hierarchy stays assignable.
+        const eventType = this.getCompatibleEventType(messageType) as EmbedEventT;
         return super.on(eventType, callback, options);
     }
 

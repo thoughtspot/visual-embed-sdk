@@ -535,6 +535,14 @@ export interface CustomCssVariables {
     '--ts-var-liveboard-header-font-color'?: string;
 
     /**
+     * Left and right margin of the header and the tab/filter section of an
+     * embedded Liveboard. Use alongside the `liveboardGutter` view config to
+     * keep the header aligned with a custom tile-grid gutter.
+     * @version SDK: 1.51.1 | ThoughtSpot Cloud: 26.8.0.cl
+     */
+    '--ts-var-liveboard-header-horizontal-margin'?: string;
+
+    /**
      * Border color of the tiles in the Liveboard.
      */
     '--ts-var-liveboard-tile-border-color'?: string;
@@ -553,6 +561,21 @@ export interface CustomCssVariables {
      * Background color of the insight tiles in the Liveboard.
      */
     '--ts-var-liveboard-insight-tile-background'?: string;
+
+    /**
+     * Icon color of the insight tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-insight-tile-icon-color'?: string;
+
+    /**
+     * Font color of the success text in the insight tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-insight-tile-success-color'?: string;
+
+    /**
+     * Font color of the failure text in the insight tiles in the Liveboard.
+     */
+    '--ts-var-liveboard-insight-tile-failure-color'?: string;
 
     /**
      * Border radius of the tiles in the Liveboard.

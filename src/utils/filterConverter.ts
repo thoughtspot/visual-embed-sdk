@@ -10,7 +10,7 @@
 
 import isNil from 'lodash/isNil';
 import { RuntimeFilter, RuntimeFilterOp } from '../types';
-import { Applicability, ApplicabilityLevel } from '../embed/hostEventClient/contracts';
+import { Applicability, ApplicabilityLevel } from '../contracts/ui-passthrough-contracts';
 
 export interface FilterChangedFilterContentValue {
     key?: string | number | boolean | null;
@@ -238,7 +238,8 @@ function convertRuntimeFilterToParam(runtimeFilter: RuntimeFilter): UpdateFilter
  * @param applicability Scope taken from the `FilterChanged` payload.
  */
 function isUsableApplicability(applicability: Applicability): boolean {
-    if (!Object.values(ApplicabilityLevel).includes(applicability.level)) return false;
+    const levels: string[] = Object.values(ApplicabilityLevel);
+    if (!levels.includes(applicability.level)) return false;
     if (applicability.level === ApplicabilityLevel.Liveboard) return true;
     return typeof applicability.targetId === 'string' && applicability.targetId.trim().length > 0;
 }

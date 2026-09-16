@@ -55,7 +55,7 @@ const testUrlParams = async (viewConfig: AppViewConfig, expectedUrl: string) => 
     });
 };
 
-// Helper function to test setIframeHeightForNonEmbedLiveboard behavior
+// Helper function to test the full-height route-change behavior
 const testSetIframeHeightBehavior = (
     currentPath: string,
     shouldBeCalled: boolean
@@ -70,7 +70,7 @@ const testSetIframeHeightBehavior = (
         : jest.spyOn(appEmbed, 'setIFrameHeight');
 
     appEmbed.render();
-    appEmbed.setIframeHeightForNonEmbedLiveboard({
+    appEmbed.fullHeightController.handleRouteChange({
         data: { currentPath },
         type: 'Route',
     });
@@ -211,6 +211,7 @@ describe('App embed tests', () => {
             [Page.SpotIQ]: 'insights/results',
             [Page.Monitor]: 'insights/monitor-alerts',
             [Page.Collections]: 'collections',
+            [Page.LiveboardSchedules]: 'home/liveboard-schedules',
         };
 
         const pageIds = Object.keys(pageRouteMap);
@@ -245,6 +246,7 @@ describe('App embed tests', () => {
             [Page.SpotIQ]: 'home/spotiq-analysis',
             [Page.Monitor]: 'home/monitor-alerts',
             [Page.Collections]: 'collections',
+            [Page.LiveboardSchedules]: 'home/liveboard-schedules',
         };
 
         const pageIdsForModularHomes = Object.keys(pageRouteMapForModularHome);
@@ -388,6 +390,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isLiveboardAlwaysOn12ColLayout to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLiveboardAlwaysOn12ColLayout: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardAlwaysOn12ColLayout=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set coverAndFilterOptionInPDF to false in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -412,6 +429,20 @@ describe('App embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardStylingAndGroupingEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set liveboardGutter in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardGutter: 8,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&liveboardGutter=8&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
     });
@@ -1005,6 +1036,43 @@ describe('App embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&enableStarterPrompts=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
+        });
+    });
+
+    test('should set openSpotterOnLiveboardByDefault to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'true',
+            });
+        });
+    });
+
+    test('should set openSpotterOnLiveboardByDefault to false when explicitly disabled', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { openSpotterOnLiveboardByDefault: false },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                openSpotterOnLiveboardByDefault: 'false',
+            });
+        });
+    });
+
+    test('should not set openSpotterOnLiveboardByDefault when it is not configured', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('openSpotterOnLiveboardByDefault');
         });
     });
 
@@ -1783,6 +1851,7 @@ describe('App embed tests', () => {
 
     test('should register event handlers to adjust iframe height', async () => {
         let embedHeightCallback: any = () => { };
+        let embedIframeCenterCallback: any = () => { };
         const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
             if (event === EmbedEvent.RouteChange) {
                 callback({ type: EmbedEvent.RouteChange, data: { currentPath: '/answers' } } as any, jest.fn());
@@ -1791,11 +1860,10 @@ describe('App embed tests', () => {
                 embedHeightCallback = callback;
             }
             if (event === EmbedEvent.EmbedIframeCenter) {
-                callback({ type: EmbedEvent.EmbedIframeCenter, data: {} } as any, jest.fn());
+                embedIframeCenterCallback = callback;
             }
             return null;
         });
-        jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
         jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1811,13 +1879,27 @@ describe('App embed tests', () => {
         await appEmbed.render();
         embedHeightCallback({ data: '100%' });
 
+        // The app only asks for the iframe center once the iframe exists.
+        const centerResponder = jest.fn();
+        embedIframeCenterCallback(
+            { type: EmbedEvent.EmbedIframeCenter, data: {} } as any,
+            centerResponder,
+        );
+
         // Verify event handlers were registered
         await executeAfterWait(() => {
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedHeight, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RouteChange, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.EmbedIframeCenter, expect.anything());
             expect(onSpy).toHaveBeenCalledWith(EmbedEvent.RequestVisibleEmbedCoordinates, expect.anything());
+            expect(centerResponder).toHaveBeenCalledWith(
+                expect.objectContaining({ type: EmbedEvent.EmbedIframeCenter }),
+            );
         }, 100);
+
+        // This test replaces AppEmbed.prototype.on; restore it so the mock does
+        // not leak into the tests that follow.
+        jest.restoreAllMocks();
     });
 
     describe('Navigate to Page API', () => {
@@ -2062,7 +2144,6 @@ describe('App embed tests', () => {
             const onSpy = jest.spyOn(AppEmbed.prototype, 'on').mockImplementation((event, callback) => {
                 return null;
             });
-            jest.spyOn(TsEmbed.prototype as any, 'getIframeCenter').mockReturnValue({});
             jest.spyOn(TsEmbed.prototype as any, 'setIFrameHeight').mockReturnValue({});
 
             // Create the AppEmbed instance
@@ -2089,6 +2170,240 @@ describe('App embed tests', () => {
                 expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
                 expect(iframeSrc).toContain('isFullHeightPinboard=true');
             }, 100);
+        });
+
+        test('should default lazy loading flags to true when fullHeight is enabled', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).toContain('isFullHeightPinboard=true');
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should not default lazy loading flags when fullHeight is not enabled', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
+        });
+
+        test('should not write the defaults back onto the caller view config', async () => {
+            const callerViewConfig = {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig;
+
+            new AppEmbed(getRootEl(), callerViewConfig);
+
+            expect(callerViewConfig.lazyLoadingForFullHeight).toBeUndefined();
+            expect(callerViewConfig.enableScrollableContainerLazyLoading).toBeUndefined();
+            expect(callerViewConfig.lazyLoadingMargin).toBeUndefined();
+        });
+
+        test('should not default lazy loading flags when fullHeight is explicitly false', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: false,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
+        });
+
+        test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(getIFrameSrc()).toContain(
+                    `rootMarginForLazyLoad=${encodeURIComponent(
+                        config.DEFAULT_LAZY_LOADING_MARGIN,
+                    )}`,
+                );
+            }, 100);
+        });
+
+        test('should let an explicit lazyLoadingMargin win over the default', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingMargin: '250px',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('rootMarginForLazyLoad=250px');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad=500px%200px');
+            }, 100);
+        });
+
+        test('should drop an invalid lazyLoadingMargin and log an error', async () => {
+            const loggerErrorSpy = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingMargin: 'not-a-margin',
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).toContain('isLazyLoadingForEmbedEnabled=true');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+                expect(loggerErrorSpy).toHaveBeenCalledWith(
+                    'Please provide a valid lazyLoadingMargin value (e.g., "10px")',
+                );
+            }, 100);
+        });
+
+        test('should track scrollable ancestors by default when only fullHeight is set', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const resizeObserveSpy = jest.fn();
+            const resizeDisconnectSpy = jest.fn();
+            (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+                observe: resizeObserveSpy,
+                disconnect: resizeDisconnectSpy,
+            }));
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(scrollContainerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+                expect(resizeObserveSpy).toHaveBeenCalledWith(scrollContainer);
+            }, 100);
+
+            appEmbed.destroy();
+            expect(resizeDisconnectSpy).toHaveBeenCalled();
+
+            scrollContainer.style.overflow = '';
+            (window as any).ResizeObserver = originalResizeObserver;
+        });
+
+        test('should skip ancestor tracking when enableScrollableContainerLazyLoading is false', async () => {
+            const scrollContainer = getRootEl();
+            scrollContainer.style.overflow = 'auto';
+
+            const scrollContainerSpy = jest.spyOn(scrollContainer, 'addEventListener');
+            const windowSpy = jest.spyOn(window, 'addEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                enableScrollableContainerLazyLoading: false,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                expect(windowSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+                expect(scrollContainerSpy).not.toHaveBeenCalledWith('scroll', expect.any(Function));
+            }, 100);
+
+            appEmbed.destroy();
+            scrollContainer.style.overflow = '';
+        });
+
+        test('should wire the window scroll listener to the coordinates sender by default', async () => {
+            const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            const mockTrigger = jest
+                .spyOn(appEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+
+            await appEmbed.render();
+
+            await executeAfterWait(() => {
+                const scrollCall = addEventListenerSpy.mock.calls.find(
+                    ([eventName, , capture]) => eventName === 'scroll' && capture === true,
+                );
+                expect(scrollCall).toBeDefined();
+
+                // Call the handler the way a real scroll event would.
+                (scrollCall as any)[1]();
+
+                expect(mockTrigger).toHaveBeenCalledWith(
+                    HostEvent.VisibleEmbedCoordinates,
+                    expect.objectContaining({ top: expect.any(Number) }),
+                );
+            }, 100);
+
+            appEmbed.destroy();
+            addEventListenerSpy.mockRestore();
+        });
+
+        test('should remove listeners on destroy when the flags come from defaults', async () => {
+            const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+            } as AppViewConfig);
+
+            await appEmbed.render();
+            appEmbed.destroy();
+
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.anything());
+            expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.anything(), true);
+
+            removeEventListenerSpy.mockRestore();
+        });
+
+        test('should keep an explicit false for the lazy loading flags', async () => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                fullHeight: true,
+                lazyLoadingForFullHeight: false,
+                enableScrollableContainerLazyLoading: false,
+                lazyLoadingMargin: '0px',
+            } as AppViewConfig);
+
+            expect((appEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(false);
+            expect((appEmbed as any).viewConfig.enableScrollableContainerLazyLoading).toBe(false);
+            expect((appEmbed as any).viewConfig.lazyLoadingMargin).toBe('0px');
         });
 
         test('should not set lazyLoadingForEmbed when lazyLoadingForFullHeight is enabled but fullHeight is false', async () => {
@@ -2155,7 +2470,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2177,7 +2492,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).not.toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2210,7 +2525,7 @@ describe('App embed tests', () => {
             await appEmbed.render();
 
             // Trigger the lazy load data calculation
-            (appEmbed as any).sendFullHeightLazyLoadData();
+            (appEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50,   // 50px clipped from top
@@ -2318,7 +2633,7 @@ describe('App embed tests', () => {
             const mockResponder = jest.fn();
 
             // Trigger the handler directly
-            (appEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+            (appEmbed as any).fullHeightController.handleRequestVisibleCoordinates({}, mockResponder);
 
             // Verify the responder was called with the correct data
             expect(mockResponder).toHaveBeenCalledWith({
@@ -2376,7 +2691,7 @@ describe('App embed tests', () => {
                 data: 600,
                 type: EmbedEvent.EmbedHeight,
             };
-            appEmbed.updateIFrameHeight(mockEvent);
+            appEmbed.fullHeightController.handleEmbedHeight(mockEvent);
 
             // Check if the iframe style was updated
             expect(mockIFrame.style.height).toBe('600px');
@@ -2397,7 +2712,7 @@ describe('App embed tests', () => {
                 data: 0, // This will make it use the default height
                 type: EmbedEvent.EmbedHeight,
             };
-            appEmbed.updateIFrameHeight(mockEvent);
+            appEmbed.fullHeightController.handleEmbedHeight(mockEvent);
 
             // Should use the default height
             expect(mockIFrame.style.height).toBe('500px');
@@ -2412,7 +2727,7 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
             fullHeight: true,
         } as AppViewConfig);
         await appEmbed.render();
-        expect(appEmbed['defaultHeight']).toBe(500);
+        expect(appEmbed['fullHeightController'].minimumHeight).toBe(500);
     });
     test('should set default height to 700 when default height is provided', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
@@ -2421,7 +2736,7 @@ describe('App Embed Default Height and Minimum Height Handling', () => {
             minimumHeight: 700,
         } as AppViewConfig);
         await appEmbed.render();
-        expect(appEmbed['defaultHeight']).toBe(700);
+        expect(appEmbed['fullHeightController'].minimumHeight).toBe(700);
     });
 });
 
@@ -2453,6 +2768,43 @@ describe('AppEmbed uncovered branch tests', () => {
             expectUrlToHaveParamsWithValues(getIFrameSrc(), {
                 enableStopAnswerGenerationEmbed: 'false',
             });
+        });
+    });
+
+    test('should set showAnswerEditPanel=false when hideAnswerEditPanel is true', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                showAnswerEditPanel: 'false',
+            });
+        });
+    });
+
+    test('should set showAnswerEditPanel=true when hideAnswerEditPanel is false', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                showAnswerEditPanel: 'true',
+            });
+        });
+    });
+
+    test('should not set showAnswerEditPanel param when hideAnswerEditPanel is not provided', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            const url = new URL(getIFrameSrc());
+            expect(url.searchParams.has('showAnswerEditPanel')).toBe(false);
         });
     });
 
@@ -2507,7 +2859,7 @@ describe('AppEmbed uncovered branch tests', () => {
         });
     });
 
-    test('registerLazyLoadEvents should return early when iFrame is not set', () => {
+    test('lazy load registration should return early when iFrame is not set', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
             fullHeight: true,
@@ -2515,7 +2867,7 @@ describe('AppEmbed uncovered branch tests', () => {
         } as AppViewConfig);
         // iFrame is not set (render not called), should not throw
         expect(() => {
-            (appEmbed as any).registerLazyLoadEvents();
+            (appEmbed as any).fullHeightController.onRender();
         }).not.toThrow();
     });
 });

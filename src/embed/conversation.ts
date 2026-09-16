@@ -229,7 +229,7 @@ export interface SpotterShareConversationConfig {
 
 /**
  * A single starter prompt question shown under a category pill.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptQuestion {
@@ -248,7 +248,7 @@ export interface StarterPromptQuestion {
 /**
  * Configuration for a starter prompt category with questions
  * (`quick` and `research`).
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptCategory {
@@ -267,7 +267,7 @@ export interface StarterPromptCategory {
 /**
  * Configuration for the Data Literacy starter prompt category.
  * Only the label is customizable; the prompt text comes from the backend.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPreviewDataCategory {
@@ -280,13 +280,13 @@ export interface StarterPreviewDataCategory {
 
 /**
  * Content configuration for the Spotter starter prompts.
- * Category keys are fixed: `quick` (Basic Search), `research` (Deep Analysis)
- * and `previewData` (Data Literacy).
+ * Keys are fixed: `quick` (Basic Search), `research` (Deep Analysis),
+ * `previewData` (Data Literacy) and `liveboard` (Liveboard chat panel).
  *
  * Note: this controls the Spotter chat interface only. The starter prompts on
  * the Liveboard SpotterViz surface are configured separately through
  * {@link SpotterVizConfig.customStarterPrompts}.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
  * @group Embed components
  */
 export interface StarterPromptsConfig {
@@ -305,6 +305,11 @@ export interface StarterPromptsConfig {
     research?: StarterPromptCategory;
     /** Data Literacy category configuration. */
     previewData?: StarterPreviewDataCategory;
+    /**
+     * Starter prompts for the Spotter chat panel on a Liveboard.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    liveboard?: StarterPromptQuestion[];
 }
 
 /**
@@ -362,7 +367,7 @@ export interface SpotterChatViewConfig {
      * `Action.DeepAnalysisPill` and `Action.DataLiteracyPill`.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {
@@ -384,6 +389,23 @@ export interface SpotterChatViewConfig {
      * ```
      */
     starterPrompts?: StarterPromptsConfig;
+    /**
+     * Opens the Spotter chat panel when the Liveboard loads.
+     *
+     * Supported embed types: `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default true
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    liveboardId: 'liveboard-id',
+     *    spotterChatConfig: {
+     *        openSpotterOnLiveboardByDefault: false,
+     *    },
+     * })
+     * ```
+     */
+    openSpotterOnLiveboardByDefault?: boolean;
 }
 
 /**

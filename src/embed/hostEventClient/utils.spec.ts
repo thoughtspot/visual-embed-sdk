@@ -8,7 +8,7 @@ import {
     throwUpdateParametersValidationError,
     throwDrillDownValidationError,
 } from './utils';
-import { FilterUpdate } from './contracts';
+import { HostFilterUpdate as FilterUpdate } from '../../contracts/host-event-contracts';
 import { ERROR_MESSAGE } from '../../errors';
 import { EmbedEvent } from '../../types';
 import { embedEventStatus } from '../../utils';
@@ -487,6 +487,40 @@ describe('hostEventClient utils', () => {
                 columnName: 'region', operator: 'EQ', oper: 'EQ', values: ['west'],
             };
             expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        // The fields SCAL-325540 added to the host-event contract have to keep
+        // working alongside the exclusive alias pairs - the union must widen
+        // the column and operator halves only, and leave the rest of the
+        // filter shape alone.
+        it('accepts the fields added by the host-event contract', () => {
+            const filter: FilterUpdate = {
+                columnName: 'date',
+                columnId: 'col-guid',
+                operator: 'EQ',
+                values: ['2023-07-31'],
+                type: 'EXACT_DATE',
+                datePeriod: 'DAY',
+                negate: true,
+                applicability: { level: 'TAB', targetId: 'tab-guid' },
+            };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts non-string values alongside the documented spelling', () => {
+            const filter: FilterUpdate = {
+                columnName: 'quantity', operator: 'GE', values: [5, true],
+            };
+            expect(isValidUpdateFiltersPayload({ filter })).toBe(true);
+        });
+
+        it('accepts the request-level scoping fields', () => {
+            const payload = {
+                filters: [{ columnName: 'region', operator: 'IN', values: ['west'] }],
+                visualizationId: 'viz-guid',
+                liveboardId: 'lb-guid',
+            };
+            expect(isValidUpdateFiltersPayload(payload)).toBe(true);
         });
     });
     describe('resolveUpdateFiltersAliases', () => {

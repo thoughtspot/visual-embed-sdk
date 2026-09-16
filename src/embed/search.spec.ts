@@ -77,6 +77,37 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('getUpdateEmbedParamsObject sends dataSources as a real ARRAY, not the URL-encoded string', async () => {
+        // The iframe URL correctly carries dataSources as a JSON-encoded
+        // string (asserted above), but the UpdateEmbedParams postMessage
+        // payload is spread into app state unparsed — a string there reaches
+        // the $sources GraphQL variable ([GUID!]) and fails GUID coercion
+        // (SCAL-334713, fired from beforePrerenderVisible on prerender-show).
+        const dataSources = ['4dd30af7-9ed7-4847-8f28-b65b44a841d8'];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataSources,
+        });
+        const params = await (searchEmbed as any).getUpdateEmbedParamsObject();
+        expect(params.dataSources).toEqual(dataSources);
+
+        // Single-GUID `dataSource` prop (the customer's shape) normalizes to
+        // a one-element array the same way the app's URL parser would.
+        const singleSourceEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            dataSource: '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        });
+        const singleParams = await (singleSourceEmbed as any).getUpdateEmbedParamsObject();
+        expect(singleParams.dataSources).toEqual([
+            '4dd30af7-9ed7-4847-8f28-b65b44a841d8',
+        ]);
+
+        // The normalization only reverses JSON serialization: non-JSON
+        // strings and already-structured values pass through untouched.
+        expect(singleParams.embedApp).toBe(true);
+        expect(singleParams.authType).toBe('None');
+    });
+
     test('should pass in search query', async () => {
         const dataSources = ['data-source-1'];
         const searchOptions = {
@@ -407,6 +438,58 @@ describe('Search embed tests', () => {
         });
     });
 
+    test('should set visibility and disable state for Chart Settings V2 menu items', async () => {
+        expect(Action.ChartTypeSettings).toBe('CHART_TYPE');
+        expect(Action.LayoutSettings).toBe('LAYOUT');
+        expect(Action.ColumnSettings).toBe('COLUMN');
+        expect(Action.AxisSettings).toBe('AXIS');
+        expect(Action.DataLabelSettings).toBe('DATA_LABEL');
+        expect(Action.TooltipSettings).toBe('TOOLTIP');
+        expect(Action.LegendSettings).toBe('LEGEND');
+        expect(Action.DisplaySettings).toBe('DISPLAY');
+        expect(Action.QuerySettings).toBe('QUERY_DETAILS');
+        expect(Action.CustomSettings).toBe('CUSTOM_ACTION');
+        expect(Action.MuzeAiSettings).toBe('MUZE_AI');
+        expect(Action.RAnalysisSettings).toBe('R_ANALYSIS');
+
+        const chartSettingsActions = [
+            Action.ChartTypeSettings,
+            Action.LayoutSettings,
+            Action.ColumnSettings,
+            Action.AxisSettings,
+            Action.DataLabelSettings,
+            Action.TooltipSettings,
+            Action.LegendSettings,
+            Action.DisplaySettings,
+            Action.QuerySettings,
+            Action.CustomSettings,
+            Action.MuzeAiSettings,
+            Action.RAnalysisSettings,
+        ];
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            hiddenActions: chartSettingsActions,
+            disabledActions: chartSettingsActions,
+            disabledActionReason: 'Access denied',
+            ...defaultViewConfig,
+            answerId,
+        });
+        searchEmbed.render();
+        const hideActionUrl = fixedEncodeURI(
+            JSON.stringify([
+                Action.ReportError,
+                ...chartSettingsActions,
+                ...HiddenActionItemByDefaultForSearchEmbed,
+            ]),
+        );
+        const disableActionUrl = fixedEncodeURI(JSON.stringify(chartSettingsActions));
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParams}&disableAction=${disableActionUrl}&disableHint=Access%20denied&hideAction=${hideActionUrl}&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/saved-answer/${answerId}`,
+            );
+        });
+    });
+
     test('should load saved answer', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -549,6 +632,34 @@ describe('Search embed tests', () => {
             expectUrlMatchesWithParams(
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&enableDataPanelV2=true&muzeChartPhase1EnabledGA=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('Should add showAnswerEditPanel flag set to false to the iframe src when hideAnswerEditPanel is true', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: true,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=false&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
+            );
+        });
+    });
+
+    test('Should add showAnswerEditPanel flag set to true to the iframe src when hideAnswerEditPanel is false', async () => {
+        const searchEmbed = new SearchEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideAnswerEditPanel: false,
+        });
+        searchEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/v2/?${defaultParamsWithHiddenActions}&showAnswerEditPanel=true&dataSourceMode=expand&useLastSelectedSources=false${prefixParams}#/embed/answer`,
             );
         });
     });
