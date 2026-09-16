@@ -608,6 +608,71 @@ describe('FullHeightController', () => {
             handlers.get(EmbedEvent.RouteChange)(routeChange('/some/other/path/'));
             expect(host.trigger).not.toHaveBeenCalled();
         });
+
+        describe('moving between Liveboards', () => {
+            const LB_ONE = '07dbc4e4-24b0-45d9-9382-59bbba6f8f3d';
+            const LB_TWO = 'a3e48b45-837e-40fc-aac1-f24c7606773b';
+
+            it('resets the height when a different Liveboard is opened', () => {
+                createController({ fullHeight: true, minimumHeight: 800 });
+                const onRouteChange = handlers.get(EmbedEvent.RouteChange);
+                onRouteChange(routeChange(`/pinboard/${LB_ONE}`));
+                expect(host.setFrameHeight).not.toHaveBeenCalled();
+
+                onRouteChange(routeChange(`/pinboard/${LB_TWO}`));
+                expect(host.setFrameHeight).toHaveBeenCalledWith(800);
+            });
+
+            it('resets to frameParams.height when one is configured', () => {
+                createController({ fullHeight: true, frameParams: { height: 640 } });
+                const onRouteChange = handlers.get(EmbedEvent.RouteChange);
+                onRouteChange(routeChange(`/liveboard/${LB_ONE}`));
+                onRouteChange(routeChange(`/liveboard/${LB_TWO}`));
+                expect(host.setFrameHeight).toHaveBeenCalledWith(640);
+            });
+
+            it('leaves the height alone on the first Liveboard', () => {
+                // Nothing to reset from: still at its start height.
+                createController({ fullHeight: true, minimumHeight: 800 });
+                handlers.get(EmbedEvent.RouteChange)(routeChange(`/pinboard/${LB_ONE}`));
+                expect(host.setFrameHeight).not.toHaveBeenCalled();
+            });
+
+            it('leaves the height alone while navigating within one Liveboard', () => {
+                // Drilling into a visualization keeps the Liveboard's height.
+                createController({ fullHeight: true, minimumHeight: 800 });
+                const onRouteChange = handlers.get(EmbedEvent.RouteChange);
+                onRouteChange(routeChange(`/pinboard/${LB_ONE}`));
+                onRouteChange(routeChange(`/embed/viz/${LB_ONE}/${LB_TWO}`));
+                expect(host.setFrameHeight).not.toHaveBeenCalled();
+            });
+
+            it('reads the Liveboard from the first GUID of a visualization route', () => {
+                createController({ fullHeight: true, minimumHeight: 800 });
+                const onRouteChange = handlers.get(EmbedEvent.RouteChange);
+                onRouteChange(routeChange(`/embed/viz/${LB_ONE}/${LB_TWO}`));
+                onRouteChange(routeChange(`/embed/viz/${LB_TWO}/${LB_ONE}`));
+                expect(host.setFrameHeight).toHaveBeenCalledTimes(1);
+                expect(host.setFrameHeight).toHaveBeenCalledWith(800);
+            });
+
+            it('does not reset on the Liveboard opened after leaving the experience', () => {
+                // Leaving already reset it, so the next board is clean.
+                createController({ fullHeight: true, minimumHeight: 800 });
+                const onRouteChange = handlers.get(EmbedEvent.RouteChange);
+                onRouteChange(routeChange(`/pinboard/${LB_ONE}`));
+                onRouteChange(routeChange('/some/other/path/'));
+                expect(host.setFrameHeight).toHaveBeenCalledTimes(1);
+
+                onRouteChange(routeChange(`/pinboard/${LB_TWO}`));
+                expect(host.setFrameHeight).toHaveBeenCalledTimes(1);
+            });
+
+            it('leaves the height alone when the embed is not full height', () => {
+                createController({ fullHeight: false });
+                expect(handlers.get(EmbedEvent.RouteChange)).toBeUndefined();
+            });
+        });
     });
 
     describe('coordinate requests', () => {
