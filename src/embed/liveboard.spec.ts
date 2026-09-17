@@ -174,6 +174,37 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set EditLiveboard and EditVisualization independently of each other and of Edit', async () => {
+        expect(Action.Edit).toBe('edit');
+        expect(Action.EditLiveboard).toBe('editLiveboard');
+        expect(Action.EditVisualization).toBe('editVisualization');
+
+        const liveboardEmbed1 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditVisualization],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed1.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditVisualization]),
+            });
+        });
+
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed2 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditLiveboard],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed2.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditLiveboard]),
+            });
+        });
+    });
+
     test('should set visible actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
