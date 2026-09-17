@@ -7053,7 +7053,6 @@ export enum Param {
     IsStarterPromptsEnabled = 'enableStarterPrompts',
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
-    AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
 }
