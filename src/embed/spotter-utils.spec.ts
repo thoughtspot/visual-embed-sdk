@@ -57,6 +57,16 @@ describe('buildSpotterSidebarAppInitData', () => {
             .toEqual(spotterChatPinConfig);
     });
 
+    it('forwards enableConversationSearch through embedParams.spotterSidebarConfig', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                enableConversationSearch: true,
+            },
+        }, noopError);
+        expect(result.embedParams?.spotterSidebarConfig?.enableConversationSearch).toBe(true);
+    });
+
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
         const result = buildSpotterSidebarAppInitData(base, { enablePastConversationsSidebar: true }, noopError);
         expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
