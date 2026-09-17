@@ -9248,6 +9248,69 @@ export enum Action {
      * ```
      */
     RAnalysisSettings = 'R_ANALYSIS',
+    /**
+     * Controls the visibility and disabled state of the "Add to Collection" menu item.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddToCollection],
+     *     disabledActions: [Action.AddToCollection],
+     * }
+     * ```
+     */
+    AddToCollection = 'addToCollection',
+    /**
+     * Controls the visibility and disabled state of the "Create Collection" button.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CreateCollection],
+     *     disabledActions: [Action.CreateCollection],
+     * }
+     * ```
+     */
+    CreateCollection = 'createCollection',
+    /**
+     * Controls the visibility and disabled state of the "Move" menu item in a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.MoveToCollection],
+     *     disabledActions: [Action.MoveToCollection],
+     * }
+     * ```
+     */
+    MoveToCollection = 'moveToCollection',
+    /**
+     * Controls the visibility and disabled state of the "Remove" menu item in a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RemoveFromCollection],
+     *     disabledActions: [Action.RemoveFromCollection],
+     * }
+     * ```
+     */
+    RemoveFromCollection = 'removeFromCollection',
+    /**
+     * Controls the visibility and disabled state of the "Delete" menu item for a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DeleteCollection],
+     *     disabledActions: [Action.DeleteCollection],
+     * }
+     * ```
+     */
+    DeleteCollection = 'deleteCollection',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
