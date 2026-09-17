@@ -34,7 +34,7 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildStarterPromptsAppInitData, SpotterExperienceVersion } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 // Home unmounts the liveboard container, which is how its state gets cleared. The
@@ -59,7 +59,8 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
  * @group Embed components
  */
 export interface LiveboardViewConfig
-    extends BaseViewConfig,
+    extends
+        BaseViewConfig,
         FullHeightViewConfig,
         LiveboardOtherViewConfig,
         LiveboardAppEmbedViewConfig {
@@ -543,6 +544,20 @@ export interface LiveboardViewConfig
      * ```
      */
     updatedSpotterExperience?: boolean;
+
+    /**
+     * The Spotter experience version to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
 }
 
 /**
@@ -650,6 +665,7 @@ export class LiveboardEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -717,6 +733,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
         }
 
         if (liveboardGutter !== undefined) {

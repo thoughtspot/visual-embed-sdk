@@ -8,6 +8,7 @@ import {
     ListPage,
 } from './app';
 import { SpotterQueryMode } from './conversation';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init } from '../index';
 import { Action, AuthType, EmbedEvent, HostEvent, RuntimeFilterOp } from '../types';
 import {
@@ -3064,5 +3065,36 @@ describe('AppEmbed updatedSpotterExperience tests', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&updatedSpotterExperience=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
             );
         });
+    });
+});
+
+describe('AppEmbed spotterExperienceVersion tests', () => {
+    beforeEach(() => {
+        cleanUp();
+    });
+
+    const renderWithConfig = async (overrides: Partial<AppViewConfig>) => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            ...overrides,
+        } as AppViewConfig);
+        appEmbed.render();
+        let src = '';
+        await executeAfterWait(() => {
+            src = getIFrameSrc();
+        });
+        return src;
+    };
+
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
+        const src = await renderWithConfig({
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+        });
+        expect(src).toContain(`spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`);
+    });
+
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
+        const src = await renderWithConfig({});
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });

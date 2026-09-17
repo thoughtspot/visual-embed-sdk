@@ -1,4 +1,5 @@
 import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init, UIPassthroughEvent } from '../index';
 import {
     Action,
@@ -3084,5 +3085,40 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
             expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
                 .toEqual([false, true, true]);
         });
+    });
+});
+
+describe('LiveboardEmbed spotterExperienceVersion tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    const renderWithConfig = async (config: Partial<LiveboardViewConfig>) => {
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            ...config,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        let src = '';
+        await executeAfterWait(() => {
+            src = getIFrameSrc();
+        });
+        return src;
+    };
+
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
+        const src = await renderWithConfig({
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+        });
+        expect(src).toContain(
+            `spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`,
+        );
+    });
+
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
+        const src = await renderWithConfig({});
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });

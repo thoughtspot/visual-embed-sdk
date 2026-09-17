@@ -24,7 +24,12 @@ import {
 import { FullHeightController } from '../full-height';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildStarterPromptsAppInitData,
+    SpotterExperienceVersion,
+} from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -665,8 +670,6 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      */
     isGranularXLSXCSVSchedulesEnabled?: boolean;
 
-
-
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
      *
@@ -920,6 +923,20 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     hideAnswerEditPanel?: boolean;
+
+    /**
+     * The Spotter experience version to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
 }
 
 /**
@@ -1056,6 +1073,7 @@ export class AppEmbed extends V1Embed {
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
             hideAnswerEditPanel,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1114,6 +1132,10 @@ export class AppEmbed extends V1Embed {
 
         if (spotterDataSources && spotterDataSources.length) {
             params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
+        }
+
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
         }
 
         // Handle spotterChatConfig params
@@ -1280,7 +1302,7 @@ export class AppEmbed extends V1Embed {
 
         // Navigation V1/V2 and home page V1/V2 are deprecated. V3 is now the
         // default experience, Need to send navigationVersion=v3 and
-        // homepageVersion=v3 even when the no discoveryExperience / 
+        // homepageVersion=v3 even when the no discoveryExperience /
         // modularHomeExperience config is set. Without these
         // params, older TSA versions (< 26.7) fall back to V2 for nav and
         // home page, so the defaults must be sent explicitly from the SDK.
@@ -1292,7 +1314,7 @@ export class AppEmbed extends V1Embed {
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-            
+
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
                 // The Focused (V4) homepage experience requires the updated

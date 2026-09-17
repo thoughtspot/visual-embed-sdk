@@ -124,6 +124,7 @@ export {
     CustomActionsPosition,
     CustomActionTarget,
     SpotterAnalystConfig,
+    SpotterExperienceVersion,
     StarterPromptsConfig,
     StarterPromptCategory,
     StarterPreviewDataCategory,
