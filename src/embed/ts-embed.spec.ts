@@ -6686,3 +6686,89 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 });
+
+describe('visual-sdk-embed-create does not upload runtime filter or parameter data', () => {
+    // Created per test, not in the describe body: an earlier suite in this file
+    // calls jest.restoreAllMocks(), which would unwire a spy set up at
+    // collection time.
+    let mockMixPanelEvent: jest.SpyInstance;
+
+    const runtimeFilters: RuntimeFilter[] = [
+        {
+            columnName: 'Patient SSN',
+            operator: RuntimeFilterOp.EQ,
+            values: ['123-45-6789'],
+        },
+    ];
+    const runtimeParameters: RuntimeParameter[] = [
+        {
+            name: 'Sales Region',
+            value: 'EMEA',
+        },
+    ];
+
+    beforeAll(() => {
+        init({
+            thoughtSpotHost: 'tshost',
+            authType: AuthType.None,
+        });
+    });
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+        mockMixPanelEvent = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
+    });
+
+    afterEach(() => {
+        mockMixPanelEvent.mockRestore();
+    });
+
+    const getEmbedCreateProps = () => {
+        const call = mockMixPanelEvent.mock.calls.find(
+            ([eventId]) => eventId === MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
+        );
+        expect(call).toBeDefined();
+        return call[1];
+    };
+
+    test('uploads the summary instead of the filters and parameters', () => {
+        new LiveboardEmbed(getRootEl(), {
+            liveboardId: 'lb-guid',
+            runtimeFilters,
+            runtimeParameters,
+        } as LiveboardViewConfig);
+
+        expect(getEmbedCreateProps()).toEqual(
+            expect.objectContaining({
+                liveboardId: 'lb-guid',
+                runtimeFilters: { count: 1, operators: ['EQ'] },
+                runtimeParameters: { count: 1, applicabilityLevels: [] },
+            }),
+        );
+    });
+
+    test('no column name, parameter name or operand reaches mixpanel', () => {
+        new LiveboardEmbed(getRootEl(), {
+            liveboardId: 'lb-guid',
+            runtimeFilters,
+            runtimeParameters,
+        } as LiveboardViewConfig);
+
+        const uploaded = JSON.stringify(getEmbedCreateProps());
+        ['Patient SSN', '123-45-6789', 'Sales Region', 'EMEA'].forEach((customerValue) => {
+            expect(uploaded).not.toContain(customerValue);
+        });
+    });
+
+    test('an embed with no runtime filters is unchanged', () => {
+        new LiveboardEmbed(getRootEl(), {
+            liveboardId: 'lb-guid',
+        } as LiveboardViewConfig);
+
+        const props = getEmbedCreateProps();
+        expect(props).toEqual({
+            liveboardId: 'lb-guid',
+            embedComponentType: 'LiveboardEmbed',
+        });
+    });
+});
