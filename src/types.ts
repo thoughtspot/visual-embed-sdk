@@ -563,7 +563,7 @@ export interface EmbedConfig {
      * The host application owns the appearance of an embed, so this overrides
      * the appearance preference of the signed-in user and the color scheme of
      * their operating system. Leave it unset to render in light appearance.
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * init({
@@ -1165,7 +1165,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * their operating system. Leave it unset to inherit the `init` value.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
-     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
