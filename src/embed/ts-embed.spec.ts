@@ -7374,9 +7374,8 @@ describe('excludeConfigFromURL', () => {
 });
 
 describe('visual-sdk-embed-create does not upload runtime filter or parameter data', () => {
-    // Created per test, not in the describe body: an earlier suite in this file
-    // calls jest.restoreAllMocks(), which would unwire a spy set up at
-    // collection time.
+    // Spied per test: an earlier suite calls jest.restoreAllMocks(), which
+    // would unwire a spy created at collection time.
     let mockMixPanelEvent: jest.SpyInstance;
 
     const runtimeFilters: RuntimeFilter[] = [
