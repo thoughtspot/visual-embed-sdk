@@ -2549,6 +2549,69 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('darkMode', () => {
+        const renderAppEmbed = async (viewConfig = {}) => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                ...viewConfig,
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl());
+            return getIFrameSrc();
+        };
+
+        it('sends the appearance the host asked for in init', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                darkMode: true,
+            });
+
+            expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
+                darkMode: true,
+            });
+        });
+
+        it('sends an explicit false, which forces light appearance', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                darkMode: false,
+            });
+
+            expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
+                darkMode: false,
+            });
+        });
+
+        it('omits the param when the host says nothing', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            // Absent rather than `darkMode=false`: an omitted param keeps the
+            // URL short, and the app treats it as light either way.
+            expect(await renderAppEmbed()).not.toContain('darkMode=');
+        });
+
+        it('lets the view config override the value set in init', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                darkMode: true,
+            });
+
+            expectUrlToHaveParamsWithValues(
+                await renderAppEmbed({ darkMode: false }),
+                { darkMode: false },
+            );
+        });
+    });
+
     describe('validate preRender flow', () => {
         beforeAll(() => {
             init({

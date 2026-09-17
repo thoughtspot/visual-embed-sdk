@@ -558,6 +558,23 @@ export interface EmbedConfig {
     blockNonEmbedFullAppAccess?: boolean;
 
     /**
+     * Render the embedded application in dark or light appearance.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. Leave it unset to render in light appearance.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   darkMode: true,
+     * });
+     * ```
+     */
+    darkMode?: boolean;
+
+    /**
      * Host config in case embedded app is inside TS app itself
      * @hidden
      */
@@ -1139,6 +1156,26 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * @default ''
      */
     customizations?: CustomisationsInterface;
+    /**
+     * Render this embed in dark or light appearance, overriding the
+     * `darkMode` value passed to `init`.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. Leave it unset to inherit the `init` value.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *   ... // other embed view config
+     *   darkMode: true,
+     * });
+     * ```
+     */
+    darkMode?: boolean;
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
@@ -7056,6 +7093,7 @@ export enum Param {
     AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
+    DarkMode = 'darkMode',
 }
 
 /**
