@@ -594,7 +594,7 @@ export interface CustomCssVariables {
 
     /**
      * Padding of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -603,7 +603,7 @@ export interface CustomCssVariables {
 
     /**
      * Font size of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -612,7 +612,7 @@ export interface CustomCssVariables {
 
     /**
      * Font weight of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -621,7 +621,7 @@ export interface CustomCssVariables {
 
     /**
      * Font size of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -630,7 +630,7 @@ export interface CustomCssVariables {
 
     /**
      * Font weight of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -639,7 +639,7 @@ export interface CustomCssVariables {
 
     /**
      * Padding of the group tiles in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -653,7 +653,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -662,7 +662,7 @@ export interface CustomCssVariables {
 
     /**
      * Border color of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -681,7 +681,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -690,7 +690,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the description of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -699,7 +699,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -708,7 +708,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the description of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -717,7 +717,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -726,7 +726,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -735,7 +735,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the filter chips in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -744,7 +744,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard on hover.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -753,7 +753,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard on active.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -938,7 +938,7 @@ export interface CustomCssVariables {
      * Color of the negative change in the KPI.
      */
     '--ts-var-kpi-negative-change-color'?: string;
- 
+
     /**
      * Background color of the change analysis insights.
      */
@@ -958,17 +958,17 @@ export interface CustomCssVariables {
      * Background color of the trend card in the SpotIQ analyze.
      */
     '--ts-var-spotiq-analyze-trend-card-background'?: string;
-    
+
     /**
      * Background color of the crosscorrelation card in the SpotIQ analyze.
      */
     '--ts-var-spotiq-analyze-crosscorrelation-card-background'?: string;
-    
+
     /**
      * Background color of the summary header in the CCA modal.
      */
     '--ts-var-cca-modal-summary-header-background'?: string;
-    
+
     /**
      * Width of the Spotter chat window.
      */
@@ -1249,7 +1249,8 @@ export interface CustomCssVariables {
 
     /**
      * Shared border color used throughout SpotterViz: input box, user message,
-     * header underline, left panel border, thinking step connector and dots.
+     * header underline, left panel border, thinking step connector and dots,
+     * and the attached-file upload card.
      */
     '--ts-var-spotterviz-border-color'?: string;
 
@@ -1266,17 +1267,24 @@ export interface CustomCssVariables {
 
     /**
      * Icon color for the reference-mode selected state — applies to
-     * both the toggle button when active and the icon badge on each
-     * referenced-entity chip in the chat input.
+     * the toggle button when active and the icon badge on each
+     * referenced-entity chip and the attached-file chip in the chat input.
      */
     '--ts-var-spotterviz-reference-icon-selected-color'?: string;
 
     /**
      * Background color for the reference-mode selected state — applies to
-     * both the reference mode toggle button when active and the icon badge
-     * on each referenced-entity chip in the chat input.
+     * the reference mode toggle button when active and the icon badge on
+     * each referenced-entity chip and the attached-file chip in the chat
+     * input.
      */
     '--ts-var-spotterviz-reference-icon-selected-background'?: string;
+
+    /**
+     * Background color of the file-type thumbnail on the attached-file card
+     * in the SpotterViz chat input.
+     */
+    '--ts-var-spotterviz-upload-card-thumbnail-background'?: string;
 
     /**
      * Background color of the shared conversation header (recipient's read-only view).
