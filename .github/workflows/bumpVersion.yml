@@ -50,6 +50,13 @@ jobs:
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "Branch will be $NEW_VERSION"
 
+      # Contributors write `@version SDK: <TBD> | ThoughtSpot: <real release>`
+      # because the next SDK version isn't known at PR time. This is the first
+      # point in the pipeline where it IS known, and it must happen before docgen
+      # so the typedoc JSON the docs site is built from carries real versions.
+      - name: Resolve <TBD> SDK version placeholders
+        run: npm run resolve-versions
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
@@ -61,7 +68,7 @@ jobs:
           BRANCH="${{ steps.bump.outputs.new_version }}"
           git checkout -b "$BRANCH"
           git status
-          git add package.json package-lock.json static/typedoc/typedoc.json
+          git add package.json package-lock.json static/typedoc/typedoc.json src
           git commit -m "chore: bump version to v${{ steps.bump.outputs.new_version }}"
 
       - name: Push branch

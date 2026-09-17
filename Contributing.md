@@ -48,6 +48,37 @@ purpose and usage. The doc should have the following tags:
 
 Check [this](https://github.com/thoughtspot/visual-embed-sdk/blob/main/src/embed/base.ts#L143_ for example.
 
+#### `@version` when you don't know the SDK version yet
+
+You can't know which SDK version your PR will ship in — the next published version is only decided
+when the release bump runs. Don't guess. Write `<TBD>` for the SDK half, and the real ThoughtSpot
+release you are building against for the other:
+
+```js
+/**
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl
+ */
+```
+
+**Only the SDK version may be `<TBD>`.** The ThoughtSpot release is not derivable from this repo,
+so no automation can fill it in — you have to state it. Use `*` if the member isn't gated on a
+cluster version. A `<TBD>` after the `|`, or an annotation with no ThoughtSpot release at all,
+fails the `validate-version-tags` PR check.
+
+The `bump-version-and-pr` workflow then replaces every `<TBD>` with the version being released,
+before it regenerates the typedoc JSON the docs site is built from, and commits the result as part
+of the `chore: release` PR. A version that is already filled in is never overwritten.
+
+SDK minor and ThoughtSpot Cloud minor advance in lockstep — SDK `1.N.x` ships with
+`26.(N-43).0.cl` — so the release step also warns if the Cloud version you wrote doesn't match the
+SDK version being cut. It's a warning, not a failure: back-dating to an earlier release is
+sometimes correct.
+
+Locally: `npm run lint-versions` runs the PR check, `npm run resolve-versions` does the release
+rewrite (add `--dry-run` to preview), and `npm run check-versions` fails if any `<TBD>` is left.
+That last one also runs on `prepublishOnly`, so a release can never be published with an
+unresolved placeholder in its public docs.
+
 
 ### Building and Testing
 
