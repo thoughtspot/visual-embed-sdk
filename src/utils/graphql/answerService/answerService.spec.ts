@@ -3,7 +3,7 @@ import { AuthType, RuntimeFilterOp, VizPoint } from '../../../types';
 import { AnswerService } from './answerService';
 import {
     getAnswerData, removeColumns, addFilter, addColumns,
-    getSQLQuery,
+    getSQLQuery, updateSort,
 } from './answer-queries';
 import * as queries from './answer-queries';
 import * as authTokenInstance from '../../../authToken';
@@ -427,6 +427,120 @@ describe('Answer service tests', () => {
                     },
                 }),
             }),
+        );
+    });
+
+    test('getUnderlyingDataForPoint should apply sort in order with mapped guids and directions', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    getSourceDetailById: [{
+                        columns: [{ id: 'id1', name: 'col1' }, { id: 'id2', name: 'col2' }],
+                    }],
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__getUnaggregatedAnswer: {
+                        id: { ...defaultSession },
+                        answer: {
+                            visualizations: [{
+                                columns: [{
+                                    column: {
+                                        id: 'oid1',
+                                        name: 'col1',
+                                        referencedColumns: [{ guid: 'id1' }],
+                                    },
+                                }],
+                            }],
+                        },
+                    },
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__updateSort: {
+                        id: { genNo: 4 },
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService({
+            sources: [{ header: { guid: 'sortUnderlyingSource' } }],
+        }, [{
+            selectedAttributes: [{
+                column: { id: 'oid1', name: 'col1', dataType: 'CHAR' },
+                value: '1',
+            }],
+            selectedMeasures: [],
+        }]);
+        await answerService.getUnderlyingDataForPoint(
+            ['col1'],
+            undefined,
+            [{ columnName: 'col2', ascending: true }, { columnName: 'col1', ascending: false }],
+        );
+        expect(fetchMock).toHaveBeenCalledWith(
+            'https://tshost/prism/?op=UpdateSort',
+            expect.objectContaining({
+                body: JSON.stringify({
+                    operationName: 'UpdateSort',
+                    query: updateSort,
+                    variables: {
+                        session: defaultSession,
+                        sortDetails: [{
+                            columnId: 'id2',
+                            sortType: 'ASCENDING',
+                        }, {
+                            columnId: 'id1',
+                            sortType: 'DESCENDING',
+                        }],
+                    },
+                }),
+            }),
+        );
+    });
+
+    test('getUnderlyingDataForPoint should not call sort when sortOptions omitted', async () => {
+        fetchMock.mockResponses(
+            JSON.stringify({
+                data: {
+                    getSourceDetailById: [{
+                        columns: [{ id: 'id1', name: 'col1' }],
+                    }],
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    Answer__getUnaggregatedAnswer: {
+                        id: { ...defaultSession },
+                        answer: {
+                            visualizations: [{
+                                columns: [{
+                                    column: {
+                                        id: 'oid1',
+                                        name: 'col1',
+                                        referencedColumns: [{ guid: 'id1' }],
+                                    },
+                                }],
+                            }],
+                        },
+                    },
+                },
+            }),
+        );
+        const answerService = createAnswerService({
+            sources: [{ header: { guid: 'noSortSource' } }],
+        }, [{
+            selectedAttributes: [{
+                column: { id: 'oid1', name: 'col1', dataType: 'CHAR' },
+                value: '1',
+            }],
+            selectedMeasures: [],
+        }]);
+        await answerService.getUnderlyingDataForPoint(['col1']);
+        expect(fetchMock).not.toHaveBeenCalledWith(
+            'https://tshost/prism/?op=UpdateSort',
+            expect.anything(),
         );
     });
 
