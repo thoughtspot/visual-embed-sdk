@@ -1698,6 +1698,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * pre-render path when `showPreRender()` is called, so the pre-rendered
      * frame stays unconfigured while it warms up in the background.
      * @default false
+     * @hidden
      * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
