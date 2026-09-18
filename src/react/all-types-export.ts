@@ -34,6 +34,7 @@ export {
     AuthType,
     RuntimeFilter,
     RuntimeFilterOp,
+    SortOptions,
     EmbedEvent,
     HostEvent,
     DataSourceVisualMode,
