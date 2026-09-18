@@ -84,7 +84,9 @@ import {
     VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import {
+    AnswerService, SessionInterface, UnderlyingDataPoint, SortOptions,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -196,6 +198,7 @@ export {
     // types
     SessionInterface,
     UnderlyingDataPoint,
+    SortOptions,
     Page,
     AuthType,
     RuntimeFilter,
