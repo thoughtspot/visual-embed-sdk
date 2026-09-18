@@ -212,18 +212,13 @@ export class AnswerService {
     }
 
     /**
-     * Sort the answer session by one or more columns, using an already-resolved
-     * source detail to map column names to their ids.
+     * Sort the answer session by one or more columns.
      * @param sortOptions Columns to sort by, each with a direction.
      * @param sourceDetail
      */
     private async applySort(sortOptions: SortOptions[], sourceDetail: any) {
-        const guidByColumnName = sourceDetail.columns.reduce((map: any, col: any) => {
-            map[col.name.toLowerCase()] = col.id;
-            return map;
-        }, {});
         const sortDetails = sortOptions.map((sort) => ({
-            columnId: guidByColumnName[sort.columnName.toLowerCase()],
+            columnId: getGuidsFromColumnNames(sourceDetail, [sort.columnName]).values().next().value,
             sortType: sort.ascending ? 'ASCENDING' : 'DESCENDING',
         }));
         return this.executeQuery(
