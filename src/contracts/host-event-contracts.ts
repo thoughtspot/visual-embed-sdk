@@ -168,23 +168,67 @@ export interface UpdateCrossFilterRequest {
 }
 
 /**
- * A single filter entry for {@link HostEvent.UpdateFilters}. Supports both
- * the current (columnName/operator) and legacy (column/oper) field names.
+ * The column to filter on. Supply `columnName`. A filter with no column is
+ * rejected at runtime, and passing both spellings silently discards the
+ * `column` one.
+ *
+ * When several columns share a name, qualify it as
+ * `WORKSHEET_NAME::COLUMN_NAME`, for example
+ * `"(Sample) Retail - Apparel::city"`.
  */
-export interface HostFilterUpdate {
-    columnName?: string;
+export type HostFilterUpdateColumn =
+    | {
+        /**
+         * Name of the column to filter on, optionally qualified as
+         * `WORKSHEET_NAME::COLUMN_NAME`.
+         */
+        columnName: string;
+        column?: never;
+    }
+    | {
+        /**
+         * @deprecated Use `columnName`, which matches {@link RuntimeFilter} and
+         * the rest of the SDK. Still accepted, but not alongside `columnName`.
+         */
+        column: string;
+        columnName?: never;
+    };
+
+/**
+ * The filter operator. Supply `operator`. A filter with no operator is
+ * rejected at runtime, and passing both spellings silently discards the
+ * `oper` one.
+ */
+export type HostFilterUpdateOperator =
+    | {
+        /** Filter operator, for example EQ, IN, CONTAINS. */
+        operator: string;
+        oper?: never;
+    }
+    | {
+        /**
+         * @deprecated Use `operator`, which matches {@link RuntimeFilter} and
+         * the rest of the SDK. Still accepted, but not alongside `operator`.
+         */
+        oper: string;
+        operator?: never;
+    };
+
+/**
+ * A single filter entry for {@link HostEvent.UpdateFilters}.
+ *
+ * Use `columnName` and `operator` - the spelling used by
+ * {@link RuntimeFilter} and by the payload
+ * `convertFilterChangedToUpdateFiltersPayload` produces.
+ */
+export type HostFilterUpdate = HostFilterUpdateColumn & HostFilterUpdateOperator & {
     columnId?: string;
-    operator?: string;
-    values: Array<string | number | boolean>;
+    values: Array<string | number | boolean | bigint>;
     type?: string;
     datePeriod?: string;
     negate?: boolean;
-    /** Legacy field name for columnName. */
-    column?: string;
-    /** Legacy field name for operator. */
-    oper?: string;
     applicability?: Applicability;
-}
+};
 
 /**
  * Request payload for {@link HostEvent.UpdateFilters} (singular or plural

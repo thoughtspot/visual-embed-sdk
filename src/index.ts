@@ -151,6 +151,12 @@ import {
     NavigateRequest,
     SetActiveTabRequest,
 } from './contracts/host-event-contracts';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -318,6 +324,10 @@ export {
     DataLabelFilterOperator,
     TableTheme,
     TableContentDensity,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';

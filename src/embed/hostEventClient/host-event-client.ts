@@ -3,6 +3,7 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
+    resolveUpdateFiltersAliases,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     throwUpdateFiltersValidationError,
@@ -249,13 +250,17 @@ export class HostEventClient {
     }
 
     // The shared contract accepts both current (columnName/operator) and
-    // legacy (column/oper) filter field names — as does the validation
-    // above and the app at runtime. The UIPassthrough FilterUpdate type
-    // still requires the legacy names; bridge until that contract is
-    // audited.
+    // legacy (column/oper) filter field names, but only the legacy pair is
+    // understood downstream, so the payload is rewritten before it is
+    // forwarded — otherwise a columnName/operator filter passes validation
+    // here and is then silently ignored by the app. The cast bridges the
+    // UIPassthrough FilterUpdate type, which still declares only the legacy
+    // names.
+    const resolvedPayload = resolveUpdateFiltersAliases(payload);
+
     return this.handleHostEventWithParam(
         UIPassthroughEvent.UpdateFilters,
-        payload as UIPassthroughRequest<UIPassthroughEvent.UpdateFilters>,
+        resolvedPayload as UIPassthroughRequest<UIPassthroughEvent.UpdateFilters>,
         context as ContextType,
     );
   }
