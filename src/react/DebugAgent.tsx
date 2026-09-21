@@ -31,6 +31,13 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * are mechanical, and having the model sequence them made picking
  * unreliable. The agent still receives the picked element to reason about.
  *
+ * While the agent works, its steps are grouped into one collapsed activity
+ * card per turn, captioned in end-user language ("Reading the developer
+ * docs…") rather than with the tool names the backend streams. Expanding the
+ * card reveals every underlying step — real tool name, arguments and
+ * duration — so the plain caption never costs a developer the detail they
+ * came for. See `TOOL_LABELS` and `ActivityCard`.
+ *
  * Development/debugging tool — not intended for production end-user-facing
  * pages (see the `enableDebugAgent` JSDoc in ../types).
  */
@@ -54,12 +61,31 @@ interface ChatMessage {
     content: string;
 }
 
-interface ToolEvent {
+/** One tool call the agent made, as shown in an expanded activity card. */
+interface ActivityStep {
     id: string;
-    kind: 'tool';
+    /** Raw backend tool name, e.g. `get-developer-docs-reference`. */
     toolName: string;
-    status: 'running' | 'done';
-    detail?: string;
+    /** End-user phrasing for the collapsed caption. */
+    label: string;
+    status: 'running' | 'done' | 'failed';
+    /** One-line rendering of the tool's arguments, when it had any. */
+    args?: string;
+    startedAt: number;
+    durationMs?: number;
+}
+
+/**
+ * The agent's steps for one turn, collapsed into a single card. Grouping per
+ * turn rather than per call keeps a five-tool turn from burying the answer,
+ * which is what a chip per call did.
+ */
+interface ActivityGroup {
+    id: string;
+    kind: 'activity';
+    steps: ActivityStep[];
+    /** Set once the turn ends, so a finished card can caption itself in past tense. */
+    done?: boolean;
 }
 
 interface PickedElementContext {
@@ -72,10 +98,86 @@ interface PickedElementContext {
     outerHTMLPreview?: string;
 }
 
-type TimelineItem = ChatMessage | ToolEvent | PickedElementContext;
+/** A quiet, centred line about the session itself — "Stopped.", not a reply. */
+interface Notice {
+    id: string;
+    kind: 'notice';
+    content: string;
+}
+
+type TimelineItem = ChatMessage | ActivityGroup | PickedElementContext | Notice;
+
+const isActivity = (it: TimelineItem): it is ActivityGroup => 'kind' in it && it.kind === 'activity';
+const isElement = (it: TimelineItem): it is PickedElementContext => 'kind' in it && it.kind === 'element';
+const isNotice = (it: TimelineItem): it is Notice => 'kind' in it && it.kind === 'notice';
+const isMessage = (it: TimelineItem): it is ChatMessage => !('kind' in it);
 
 let uid = 0;
 const nextId = () => `${Date.now()}-${uid++}`;
+
+/**
+ * End-user phrasing for each tool the backend can report. The stream only
+ * carries raw names (`content` is literally `Calling <toolName>...`), which
+ * mean nothing to someone debugging their own embed — so the caption is
+ * mapped here and the raw name kept for the expanded view.
+ *
+ * Unmapped names fall back to a de-slugged form, so a tool added backend-side
+ * still reads sensibly without a matching SDK release.
+ */
+const TOOL_LABELS: Record<string, { running: string; done: string }> = {
+    'get-developer-docs-reference': { running: 'Reading the developer docs', done: 'Read the developer docs' },
+    'get-rest-api-reference': { running: 'Checking the REST API reference', done: 'Checked the REST API reference' },
+    'execute-code': { running: 'Running code', done: 'Ran code' },
+    list_pages: { running: 'Looking at your open pages', done: 'Looked at your open pages' },
+    list_frames: { running: 'Locating the embed', done: 'Located the embed' },
+    list_console_messages: { running: 'Reading the browser console', done: 'Read the browser console' },
+    list_network_requests: { running: 'Checking network requests', done: 'Checked network requests' },
+    get_network_request: { running: 'Inspecting a network request', done: 'Inspected a network request' },
+    evaluate_script: { running: 'Inspecting the page', done: 'Inspected the page' },
+    take_screenshot: { running: 'Taking a screenshot', done: 'Took a screenshot' },
+    start_element_picker: { running: 'Waiting for you to pick an element', done: 'Picked an element' },
+    inspect_element_in_frame: { running: 'Inspecting the element', done: 'Inspected the element' },
+};
+
+/**
+ * Strips the MCP namespace the backend prefixes onto proxied tools
+ * (`mcp__chrome-devtools__list_pages`), so one label serves a tool however it
+ * happens to be routed.
+ */
+function baseToolName(toolName: string): string {
+    const parts = toolName.split('__');
+    return parts[parts.length - 1] || toolName;
+}
+
+function toolLabel(toolName: string, phase: 'running' | 'done'): string {
+    const known = TOOL_LABELS[baseToolName(toolName)];
+    if (known) return known[phase];
+    const words = baseToolName(toolName).replace(/[-_]+/g, ' ').trim();
+    return phase === 'running' ? `Working on ${words}` : `Finished ${words}`;
+}
+
+/**
+ * Condenses a tool's arguments to one line for the expanded view. Long values
+ * are clipped rather than wrapped — the card is a summary, and a full payload
+ * belongs in the network tab.
+ */
+function summarizeArgs(input: unknown): string | undefined {
+    if (!input || typeof input !== 'object') return undefined;
+    const entries = Object.entries(input as Record<string, unknown>)
+        .filter(([, v]) => v !== undefined && v !== null && v !== '');
+    if (!entries.length) return undefined;
+    return entries
+        .map(([k, v]) => {
+            const raw = typeof v === 'string' ? v : JSON.stringify(v);
+            const value = raw.length > 60 ? `${raw.slice(0, 60)}…` : raw;
+            return `${k}: ${value}`;
+        })
+        .join(' · ');
+}
+
+function formatDuration(ms: number): string {
+    return ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`;
+}
 
 function toSseEvents(buffer: string): { events: Array<Record<string, unknown>>; rest: string } {
     const parts = buffer.split('\n\n');
@@ -107,21 +209,276 @@ function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
     return nodes;
 }
 
-function renderContent(content: string): React.ReactNode {
+/** A fenced ``` block, or the prose between two of them. */
+interface ContentSegment {
+    type: 'prose' | 'code';
+    text: string;
+    /** Language tag from the opening fence, when it carried one. */
+    language?: string;
+}
+
+/**
+ * Splits an assistant message into prose and fenced code blocks.
+ *
+ * The final block is emitted even when its closing fence has not streamed in
+ * yet, so a snippet renders as code while it is still being written rather
+ * than flashing as prose and then reflowing.
+ */
+export function splitContentSegments(content: string): ContentSegment[] {
+    const segments: ContentSegment[] = [];
     const lines = content.split('\n');
+    let prose: string[] = [];
+    let code: string[] | null = null;
+    let language: string | undefined;
+
+    const flushProse = () => {
+        if (prose.join('\n').trim()) segments.push({ type: 'prose', text: prose.join('\n') });
+        prose = [];
+    };
+
+    lines.forEach((line) => {
+        const fence = /^\s*```(.*)$/.exec(line);
+        if (fence) {
+            if (code === null) {
+                flushProse();
+                code = [];
+                language = fence[1].trim() || undefined;
+            } else {
+                segments.push({ type: 'code', text: code.join('\n'), language });
+                code = null;
+                language = undefined;
+            }
+            return;
+        }
+        if (code === null) prose.push(line);
+        else code.push(line);
+    });
+
+    if (code !== null) segments.push({ type: 'code', text: code.join('\n'), language });
+    else flushProse();
+    return segments;
+}
+
+function renderProse(content: string): React.ReactNode {
+    const lines = content.replace(/^\n+|\n+$/g, '').split('\n');
     return lines.map((line, i) => {
         const trimmed = line.trimStart();
         const bullet = /^[-*]\s+/.test(trimmed);
-        const rendered = renderInline(bullet ? trimmed.replace(/^[-*]\s+/, '') : line, `l${i}`);
+        const heading = /^#{1,4}\s+/.exec(trimmed);
+        const body = bullet ? trimmed.replace(/^[-*]\s+/, '') : (heading ? trimmed.slice(heading[0].length) : line);
+        const rendered = renderInline(body, `l${i}`);
         return (
             <React.Fragment key={i}>
                 {bullet ? <span style={{ opacity: 0.55 }}>{'•  '}</span> : null}
-                {rendered}
+                {heading ? <strong>{rendered}</strong> : rendered}
                 {i < lines.length - 1 ? <br /> : null}
             </React.Fragment>
         );
     });
 }
+
+function renderContent(content: string): React.ReactNode {
+    return splitContentSegments(content).map((seg, i) => (seg.type === 'code' ? (
+        <CodeBlock key={`c${i}`} code={seg.text} language={seg.language} />
+    ) : (
+        <div key={`p${i}`}>{renderProse(seg.text)}</div>
+    )));
+}
+
+/**
+ * Copies text and reports whether it landed, so the caller can show a result
+ * rather than assume one. `navigator.clipboard` needs a secure context and
+ * can be denied outright, hence the `execCommand` fallback — a debugging panel
+ * is often opened on a plain-http dev host.
+ */
+async function copyText(text: string): Promise<boolean> {
+    try {
+        await navigator.clipboard.writeText(text);
+        return true;
+    } catch {
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            return ok;
+        } catch {
+            return false;
+        }
+    }
+}
+
+/** Copy control that confirms in place, used on code blocks and messages. */
+const CopyButton: React.FC<{
+    text: string;
+    label?: string;
+    style?: React.CSSProperties;
+}> = ({ text, label, style: overrideStyle }) => {
+    const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle');
+
+    useEffect(() => {
+        if (state === 'idle') return undefined;
+        const id = window.setTimeout(() => setState('idle'), 1600);
+        return () => window.clearTimeout(id);
+    }, [state]);
+
+    return (
+        <button
+            type="button"
+            onClick={async () => setState((await copyText(text)) ? 'copied' : 'failed')}
+            style={{ ...styles.copyBtn, ...overrideStyle }}
+            title="Copy to clipboard"
+            aria-label={label ? `Copy ${label}` : 'Copy'}
+        >
+            {state === 'copied' ? '✓ Copied' : state === 'failed' ? 'Copy failed' : '⧉ Copy'}
+        </button>
+    );
+};
+
+type TokenType = 'comment' | 'string' | 'keyword' | 'number' | 'tag' | 'attr' | 'punct' | 'plain';
+
+interface HighlightRule {
+    type: Exclude<TokenType, 'plain'>;
+    pattern: RegExp;
+}
+
+const JS_KEYWORDS = 'const|let|var|function|return|if|else|for|while|await|async|import|from|export|default|new|class|extends|try|catch|finally|throw|typeof|instanceof|interface|type|enum|implements|public|private|readonly|as|true|false|null|undefined|this|void';
+
+/**
+ * Highlighting rules per language family, ordered so the greediest construct
+ * wins: a keyword inside a string or comment must stay unhighlighted.
+ *
+ * Hand-rolled rather than pulled from Prism or highlight.js because
+ * `dist/tsembed.es.js` has a 34 kB budget with roughly 1.5 kB spare, and a
+ * highlighter is an order of magnitude larger than that — it would also land
+ * in `dependencies`, shipping to every customer for a dev-only panel. These
+ * rules are deliberately approximate: they make a snippet scannable, and the
+ * text itself is always exactly what the agent sent.
+ */
+const HIGHLIGHT_RULES: Record<string, HighlightRule[]> = {
+    js: [
+        { type: 'comment', pattern: /\/\/[^\n]*|\/\*[\s\S]*?\*\// },
+        { type: 'string', pattern: /`(?:\\[\s\S]|[^\\`])*`|'(?:\\.|[^\\'])*'|"(?:\\.|[^\\"])*"/ },
+        { type: 'keyword', pattern: new RegExp(`\\b(?:${JS_KEYWORDS})\\b`) },
+        { type: 'number', pattern: /\b\d+(?:\.\d+)?\b/ },
+        { type: 'punct', pattern: /[{}[\]();,.:=><!+\-*/&|?]+/ },
+    ],
+    json: [
+        { type: 'attr', pattern: /"(?:\\.|[^\\"])*"(?=\s*:)/ },
+        { type: 'string', pattern: /"(?:\\.|[^\\"])*"/ },
+        { type: 'keyword', pattern: /\b(?:true|false|null)\b/ },
+        { type: 'number', pattern: /-?\b\d+(?:\.\d+)?\b/ },
+        { type: 'punct', pattern: /[{}[\]:,]+/ },
+    ],
+    css: [
+        { type: 'comment', pattern: /\/\*[\s\S]*?\*\// },
+        { type: 'string', pattern: /'(?:\\.|[^\\'])*'|"(?:\\.|[^\\"])*"/ },
+        { type: 'attr', pattern: /[-\w]+(?=\s*:)/ },
+        { type: 'tag', pattern: /(?:^|[\s,])[.#]?[-\w]+(?=[^:;{}]*\{)/ },
+        { type: 'number', pattern: /-?\b\d+(?:\.\d+)?(?:px|rem|em|%|vh|vw|s|ms)?\b|#[0-9a-fA-F]{3,8}\b/ },
+        { type: 'punct', pattern: /[{};:,]+/ },
+    ],
+    html: [
+        { type: 'comment', pattern: /<!--[\s\S]*?-->/ },
+        { type: 'string', pattern: /'(?:\\.|[^\\'])*'|"(?:\\.|[^\\"])*"/ },
+        { type: 'tag', pattern: /<\/?[\w-]+|\/?>/ },
+        { type: 'attr', pattern: /[-\w]+(?==)/ },
+    ],
+    shell: [
+        { type: 'comment', pattern: /#[^\n]*/ },
+        { type: 'string', pattern: /'(?:\\.|[^\\'])*'|"(?:\\.|[^\\"])*"/ },
+        { type: 'keyword', pattern: /^\s*(?:npm|npx|yarn|pnpm|git|cd|curl|node)\b/m },
+        { type: 'punct', pattern: /[|&><]+/ },
+    ],
+};
+
+/** Maps a fence's language tag onto one of the rule sets above. */
+function ruleSetFor(language?: string): HighlightRule[] | undefined {
+    const tag = (language ?? '').toLowerCase();
+    if (/^(js|jsx|javascript|ts|tsx|typescript)$/.test(tag)) return HIGHLIGHT_RULES.js;
+    if (/^json5?$/.test(tag)) return HIGHLIGHT_RULES.json;
+    if (/^(css|scss|less)$/.test(tag)) return HIGHLIGHT_RULES.css;
+    if (/^(html|xml|svg)$/.test(tag)) return HIGHLIGHT_RULES.html;
+    if (/^(sh|bash|zsh|shell|console)$/.test(tag)) return HIGHLIGHT_RULES.shell;
+    return undefined;
+}
+
+/**
+ * Tokenizes `code` by repeatedly taking whichever rule matches earliest,
+ * emitting the text before it as plain. An untagged or unrecognised fence
+ * yields one plain token, so the block still renders — just unhighlighted.
+ */
+export function tokenizeCode(code: string, language?: string): Array<{ type: TokenType; text: string }> {
+    const rules = ruleSetFor(language);
+    if (!rules) return code ? [{ type: 'plain', text: code }] : [];
+
+    const tokens: Array<{ type: TokenType; text: string }> = [];
+    let rest = code;
+    let guard = 0;
+
+    // The guard bounds the loop: a rule that somehow matched empty would
+    // otherwise spin, and a runaway loop in a debugging panel is worse than
+    // a partly plain snippet.
+    while (rest && guard < 20000) {
+        guard += 1;
+        let best: { index: number; text: string; type: TokenType } | null = null;
+        for (const rule of rules) {
+            const match = new RegExp(rule.pattern.source, rule.pattern.flags.replace('g', '')).exec(rest);
+            if (match && match[0] && (!best || match.index < best.index)) {
+                best = { index: match.index, text: match[0], type: rule.type };
+            }
+            if (best?.index === 0) break;
+        }
+        // Nothing matches any more: the remainder is flushed below.
+        if (!best) break;
+        if (best.index > 0) tokens.push({ type: 'plain', text: rest.slice(0, best.index) });
+        tokens.push({ type: best.type, text: best.text });
+        rest = rest.slice(best.index + best.text.length);
+    }
+    // Whatever the guard cut short still has to be rendered: a snippet shown
+    // shorter than the one the copy button hands over would be worse than an
+    // unhighlighted tail.
+    if (rest) tokens.push({ type: 'plain', text: rest });
+    return tokens;
+}
+
+/**
+ * Token colours. Chosen against the block's light background and kept close
+ * to GitHub's light theme, which is what a developer reading SDK docs on
+ * developers.thoughtspot.com has just been looking at.
+ */
+const TOKEN_COLORS: Record<TokenType, string | undefined> = {
+    comment: '#6a737d',
+    string: '#032f62',
+    keyword: '#d73a49',
+    number: '#005cc5',
+    tag: '#22863a',
+    attr: '#6f42c1',
+    punct: '#586069',
+    plain: undefined,
+};
+
+const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language }) => (
+    <div style={styles.codeBlock}>
+        <div style={styles.codeBlockHeader}>
+            <span style={styles.codeBlockLang}>{language || 'code'}</span>
+            <CopyButton text={code} label="code" />
+        </div>
+        <pre style={styles.codeBlockPre}>
+            <code>
+                {tokenizeCode(code, language).map((token, i) => (
+                    <span key={i} style={TOKEN_COLORS[token.type] ? { color: TOKEN_COLORS[token.type] } : undefined}>
+                        {token.text}
+                    </span>
+                ))}
+            </code>
+        </pre>
+    </div>
+);
 
 function getRect(el: Element) {
     const r = el.getBoundingClientRect();
@@ -142,9 +499,55 @@ const KEY_STYLE_PROPS: Array<keyof CSSStyleDeclaration & string> = [
     'backgroundColor', 'border', 'borderRadius', 'opacity', 'zIndex', 'overflow',
 ];
 
-const PANEL_WIDTH = 400;
-const PANEL_HEIGHT = 600;
+const PANEL_WIDTH = 420;
+const PANEL_MIN_WIDTH = 320;
+const PANEL_MIN_HEIGHT = 320;
+/** Gap left at the top and bottom when the panel runs full height. */
+const PANEL_MARGIN = 20;
 const SESSION_STORAGE_KEY = 'ts-debug-agent-extension-session-id';
+const SIZE_STORAGE_KEY = 'ts-debug-agent-panel-size';
+
+/** Tallest the panel can be while still clearing its margins. */
+const maxPanelHeight = () => Math.max(PANEL_MIN_HEIGHT, window.innerHeight - PANEL_MARGIN * 2);
+const maxPanelWidth = () => Math.max(PANEL_MIN_WIDTH, window.innerWidth - PANEL_MARGIN * 2);
+
+interface PanelSize {
+    width: number;
+    height: number;
+}
+
+/**
+ * The panel opens full height — a debugging transcript with code blocks in it
+ * needs the room, and the old 600px box meant constant scrolling. Dragging the
+ * top-left corner resizes it, and the result is remembered per origin.
+ */
+function readStoredSize(): PanelSize | null {
+    try {
+        const raw = window.localStorage.getItem(SIZE_STORAGE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw) as Partial<PanelSize>;
+        if (typeof parsed.width !== 'number' || typeof parsed.height !== 'number') return null;
+        return parsed as PanelSize;
+    } catch {
+        return null;
+    }
+}
+
+function storeSize(size: PanelSize): void {
+    try {
+        window.localStorage.setItem(SIZE_STORAGE_KEY, JSON.stringify(size));
+    } catch {
+        // Ignore — the size just will not persist across reloads.
+    }
+}
+
+/** Keeps a stored or dragged size inside what the current viewport allows. */
+function clampSize(size: PanelSize): PanelSize {
+    return {
+        width: Math.min(Math.max(size.width, PANEL_MIN_WIDTH), maxPanelWidth()),
+        height: Math.min(Math.max(size.height, PANEL_MIN_HEIGHT), maxPanelHeight()),
+    };
+}
 
 /**
  * The extension's session id rotates whenever Chrome evicts its service
@@ -262,6 +665,11 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const [hovered, setHovered] = useState<Element | null>(null);
     const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
     const [showSessionField, setShowSessionField] = useState(false);
+    // Full height by default; a remembered drag wins over it.
+    const [size, setSize] = useState<PanelSize>(() => clampSize(
+        readStoredSize() ?? { width: PANEL_WIDTH, height: maxPanelHeight() },
+    ));
+    const [resizing, setResizing] = useState(false);
 
     // The prop wins when given; otherwise whatever was pasted into the panel.
     const activeSessionId = (extensionSessionId ?? sessionInput).trim() || undefined;
@@ -270,12 +678,71 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const messagesRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
+    /** Aborts the in-flight agent stream. Non-null only while one is open. */
+    const abortRef = useRef<AbortController | null>(null);
+    /** Id of the reply currently streaming, so it renders without a copy button. */
+    const streamingIdRef = useRef<string | null>(null);
+    /**
+     * Identifies the current turn. A reset bumps it, so the aborted turn's own
+     * unwinding can tell it has been superseded and leave the fresh state alone.
+     */
+    const turnRef = useRef(0);
 
+    /**
+     * Follows the stream, but only while the developer is already at the
+     * bottom — yanking the view down as tokens arrive makes a long answer
+     * impossible to read back.
+     */
     useEffect(() => {
         const el = messagesRef.current;
         if (!el) return;
-        el.scrollTop = el.scrollHeight;
+        const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+        if (distanceFromBottom < 120) el.scrollTop = el.scrollHeight;
     }, [items]);
+
+    // A panel unmounted mid-stream should not leave the request running.
+    useEffect(() => () => abortRef.current?.abort(), []);
+
+    // A window the panel no longer fits in has to pull it back in.
+    useEffect(() => {
+        const onResize = () => setSize((prev) => clampSize(prev));
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
+    /**
+     * Resizes from the top-left corner: the panel is pinned bottom-right, so
+     * dragging left grows the width and dragging up grows the height. The
+     * listeners live on the document for the duration of the drag, so the
+     * pointer leaving the handle does not strand it mid-resize.
+     */
+    const startResize = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const origin = { x: e.clientX, y: e.clientY };
+        const startSize = size;
+        // Without this a drag selects the page text it passes over.
+        const prevUserSelect = document.body.style.userSelect;
+        setResizing(true);
+
+        const onMove = (ev: MouseEvent) => setSize(clampSize({
+            width: startSize.width + (origin.x - ev.clientX),
+            height: startSize.height + (origin.y - ev.clientY),
+        }));
+        const onUp = () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.body.style.userSelect = prevUserSelect;
+            setResizing(false);
+            setSize((final) => {
+                storeSize(final);
+                return final;
+            });
+        };
+
+        document.body.style.userSelect = 'none';
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    };
 
     // Element picking: highlight whatever is under the cursor (ignoring this
     // panel), attach the pick as chat context on click.
@@ -286,13 +753,30 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             if (!target || panelRef.current?.contains(target)) return;
             setHovered(target);
         };
-        const onClick = (e: MouseEvent) => {
+        // mousedown, not click: a cross-origin iframe swallows the click
+        // entirely, so a picker listening for one stays armed forever over the
+        // embed. mousedown still reaches this document first.
+        const onPick = (e: MouseEvent) => {
             const target = document.elementFromPoint(e.clientX, e.clientY);
             if (!target || panelRef.current?.contains(target)) return;
             e.preventDefault();
             e.stopPropagation();
             setPicking(false);
             setHovered(null);
+
+            // The iframe element itself is pickable, but nothing inside it is:
+            // that is a separate origin, and only the extension can read it.
+            // Say so rather than attaching a snapshot of the empty frame box.
+            if (target.tagName === 'IFRAME') {
+                setItems((prev) => [...prev, {
+                    id: nextId(),
+                    kind: 'notice',
+                    content: activeSessionId
+                        ? 'That is the embed itself — use "Pick in embed" to pick inside it.'
+                        : 'That is the embed itself. Connect the browser extension to pick inside it.',
+                }]);
+                return;
+            }
 
             // Host page element: read it directly. Elements inside the embed
             // are not reachable this way — that path is handled by the
@@ -304,21 +788,35 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 id: nextId(), kind: 'element', selector: describeElement(target), styles: styleSnapshot,
             }]);
         };
+        // Escape disarms it. Without this, a picker that cannot land a click —
+        // over a cross-origin iframe, say — stays armed and keeps swallowing
+        // clicks, including the one on the Send button.
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            e.preventDefault();
+            setPicking(false);
+            setHovered(null);
+        };
         document.addEventListener('mousemove', onMove, true);
-        document.addEventListener('click', onClick, true);
+        document.addEventListener('mousedown', onPick, true);
+        document.addEventListener('keydown', onKeyDown, true);
         const prevCursor = document.body.style.cursor;
         document.body.style.cursor = 'crosshair';
         return () => {
             document.removeEventListener('mousemove', onMove, true);
-            document.removeEventListener('click', onClick, true);
+            document.removeEventListener('mousedown', onPick, true);
+            document.removeEventListener('keydown', onKeyDown, true);
             document.body.style.cursor = prevCursor;
         };
-    }, [picking]);
+    }, [picking, activeSessionId]);
 
     if (!enabled) return null;
 
+    /** Everything currently attached as context, newest last. */
+    const pickedElements = items.filter(isElement);
+
     const buildContextPreamble = (): string => {
-        const elementContexts = items.filter((i): i is PickedElementContext => 'kind' in i && i.kind === 'element');
+        const elementContexts = pickedElements;
         if (!elementContexts.length) return '';
         const blocks = elementContexts.map((ctx) => {
             const styleLines = Object.entries(ctx.styles).map(([k, v]) => `  ${k}: ${v};`).join('\n');
@@ -346,16 +844,44 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         if (busy) return;
         setBusy(true);
 
+        const abort = new AbortController();
+        abortRef.current = abort;
+        turnRef.current += 1;
+        const turn = turnRef.current;
+
         const userMsg: ChatMessage = { id: nextId(), role: 'user', content: text };
         historyRef.current = [...historyRef.current, { role: 'user', content: contextPreamble + text }];
         setItems((prev) => [...prev, userMsg]);
 
+        // One activity group per turn, created lazily so a turn that calls no
+        // tools shows no card at all.
+        const activityId = nextId();
+        const upsertStep = (
+            stepId: string,
+            update: (prevStep: ActivityStep | undefined) => ActivityStep,
+        ) => setItems((prev) => {
+            const idx = prev.findIndex((it) => isActivity(it) && it.id === activityId);
+            if (idx < 0) {
+                return [...prev, { id: activityId, kind: 'activity', steps: [update(undefined)] }];
+            }
+            const group = prev[idx] as ActivityGroup;
+            const stepIdx = group.steps.findIndex((s) => s.id === stepId);
+            const steps = stepIdx < 0
+                ? [...group.steps, update(undefined)]
+                : group.steps.map((s, i) => (i === stepIdx ? update(s) : s));
+            const next = [...prev];
+            next[idx] = { ...group, steps };
+            return next;
+        });
+
         const assistantId = nextId();
+        streamingIdRef.current = assistantId;
         let assistantText = '';
         try {
             const response = await fetch(`${agentApiUrl}/agent/embed-assistant`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: abort.signal,
                 body: JSON.stringify({
                     agentType: 'visual-embed-sdk',
                     messages: historyRef.current,
@@ -393,19 +919,28 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             return next;
                         });
                     } else if (event.type === 'tool-start') {
-                        const toolId = (event.toolCallId as string) || nextId();
-                        setItems((prev) => [...prev, {
-                            id: toolId, kind: 'tool', toolName: event.toolName as string, status: 'running',
-                        }]);
+                        const toolName = event.toolName as string;
+                        const stepId = (event.toolCallId as string) || nextId();
+                        upsertStep(stepId, () => ({
+                            id: stepId,
+                            toolName,
+                            label: toolLabel(toolName, 'running'),
+                            status: 'running',
+                            args: summarizeArgs(event.input),
+                            startedAt: Date.now(),
+                        }));
                     } else if (event.type === 'tool-result') {
-                        const toolId = event.toolCallId as string;
-                        setItems((prev) => prev.map((it) => (('kind' in it) && it.kind === 'tool' && it.id === toolId
-                            ? { ...it, status: 'done' }
-                            : it)));
-                    } else if (event.type === 'error') {
-                        setItems((prev) => [...prev, {
-                            id: nextId(), role: 'assistant', content: `⚠️ ${event.content as string}`,
-                        }]);
+                        const toolName = event.toolName as string;
+                        const stepId = event.toolCallId as string;
+                        upsertStep(stepId, (prevStep) => ({
+                            id: stepId,
+                            toolName: prevStep?.toolName ?? toolName,
+                            label: toolLabel(prevStep?.toolName ?? toolName, 'done'),
+                            status: 'done',
+                            args: prevStep?.args,
+                            startedAt: prevStep?.startedAt ?? Date.now(),
+                            durationMs: Date.now() - (prevStep?.startedAt ?? Date.now()),
+                        }));
                     }
                 }
             }
@@ -413,12 +948,45 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 historyRef.current = [...historyRef.current, { role: 'assistant', content: assistantText }];
             }
         } catch (err) {
-            setItems((prev) => [...prev, {
-                id: nextId(), role: 'assistant', content: `⚠️ Request failed: ${(err as Error).message}`,
-            }]);
+            // A reset aborts the stream too, and it unwinds through here. Its
+            // turn is gone, so none of the tidying below applies — writing the
+            // partial reply back would refill the history the reset just
+            // cleared, and the notice would land in an emptied timeline.
+            if (turnRef.current !== turn) return;
+            // A stop is the developer's own doing, so it reads as a note on the
+            // turn rather than as a failure.
+            if ((err as Error).name === 'AbortError') {
+                if (assistantText) {
+                    historyRef.current = [...historyRef.current, { role: 'assistant', content: assistantText }];
+                }
+                setItems((prev) => [...prev, {
+                    id: nextId(), kind: 'notice', content: 'Stopped.',
+                }]);
+            } else {
+                setItems((prev) => [...prev, {
+                    id: nextId(), role: 'assistant', content: `⚠️ Request failed: ${(err as Error).message}`,
+                }]);
+            }
         } finally {
-            setBusy(false);
-            textareaRef.current?.focus();
+            // Same guard: a superseded turn must not clear the state the new
+            // one has already set up.
+            if (turnRef.current === turn) {
+                abortRef.current = null;
+                streamingIdRef.current = null;
+                // Close the turn's card and mark any step the stream
+                // never resolved, so the turn cannot spin forever.
+                setItems((prev) => prev.map((it) => (isActivity(it) && it.id === activityId
+                    ? {
+                        ...it,
+                        done: true,
+                        steps: it.steps.map((s) => (s.status === 'running'
+                            ? { ...s, status: 'failed' as const, durationMs: Date.now() - s.startedAt }
+                            : s)),
+                    }
+                    : it)));
+                setBusy(false);
+                textareaRef.current?.focus();
+            }
         }
     }
 
@@ -431,9 +999,20 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     async function pickInsideEmbed() {
         if (!activeSessionId || pickingEmbed) return;
         setPickingEmbed(true);
+        // Reuses the activity card, so an extension-driven pick reports itself
+        // the same way the agent's own steps do.
         const statusId = nextId();
+        const startedAt = Date.now();
         setItems((prev) => [...prev, {
-            id: statusId, kind: 'tool', toolName: 'Pick an element in the embed…', status: 'running',
+            id: statusId,
+            kind: 'activity',
+            steps: [{
+                id: nextId(),
+                toolName: 'start_element_picker',
+                label: 'Waiting for you to pick an element in the embed',
+                status: 'running',
+                startedAt,
+            }],
         }]);
 
         try {
@@ -445,15 +1024,28 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 { tabId, frameSessionId, timeoutMs: 60_000 },
             )) as { picked: boolean; reason?: string; element?: PickedElement };
 
-            setItems((prev) => prev.filter((it) => !('id' in it && it.id === statusId)));
+            const settle = (status: 'done' | 'failed') => setItems((prev) => prev.map((it) => (isActivity(it) && it.id === statusId
+                ? {
+                    ...it,
+                    done: true,
+                    steps: it.steps.map((s) => ({
+                        ...s,
+                        status,
+                        label: status === 'done' ? 'Picked an element in the embed' : 'Did not pick an element',
+                        durationMs: Date.now() - s.startedAt,
+                    })),
+                }
+                : it)));
 
             if (!picked.picked || !picked.element) {
+                settle('failed');
                 const why = picked.reason === 'cancelled' ? 'Picking cancelled.'
                     : picked.reason === 'timeout' ? 'Picking timed out.'
                         : `Nothing picked (${picked.reason ?? 'unknown'}).`;
-                setItems((prev) => [...prev, { id: nextId(), role: 'assistant', content: why }]);
+                setItems((prev) => [...prev, { id: nextId(), kind: 'notice', content: why }]);
                 return;
             }
+            settle('done');
 
             // Attach as context only — the developer asks their own questions
             // about it from here, the same way a host-page pick behaves.
@@ -468,15 +1060,46 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             }]);
         } catch (err) {
             setItems((prev) => [
-                ...prev.filter((it) => !('id' in it && it.id === statusId)),
-                { id: nextId(), role: 'assistant', content: `⚠️ ${(err as Error).message}` },
+                ...prev.map((it) => (isActivity(it) && it.id === statusId
+                    ? {
+                        ...it,
+                        done: true,
+                        steps: it.steps.map((s) => ({
+                            ...s, status: 'failed' as const, durationMs: Date.now() - s.startedAt,
+                        })),
+                    }
+                    : it)),
+                { id: nextId(), role: 'assistant' as const, content: `⚠️ ${(err as Error).message}` },
             ]);
         } finally {
             setPickingEmbed(false);
         }
     }
 
-    const removeContext = (id: string) => setItems((prev) => prev.filter((it) => !('kind' in it && it.kind === 'element' && it.id === id)));
+    const removeContext = (id: string) => setItems((prev) => prev.filter((it) => !(isElement(it) && it.id === id)));
+
+    /** Aborts the in-flight stream; whatever already streamed in is kept. */
+    const stopStreaming = () => abortRef.current?.abort();
+
+    /**
+     * Clears the conversation — both the rendered timeline and the history the
+     * agent is sent, which would otherwise keep an apparently empty panel
+     * answering in the context of the turns before it.
+     */
+    const resetConversation = () => {
+        // Bumped before the abort so the turn being torn down recognises
+        // itself as superseded and skips its own cleanup.
+        turnRef.current += 1;
+        abortRef.current?.abort();
+        abortRef.current = null;
+        streamingIdRef.current = null;
+        historyRef.current = [];
+        setItems([]);
+        setInput('');
+        setPicking(false);
+        setBusy(false);
+        textareaRef.current?.focus();
+    };
 
     return (
         <>
@@ -497,7 +1120,22 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     <AgentGlyph size={22} />
                 </button>
             ) : (
-                <div ref={panelRef} style={styles.panel}>
+                <div
+                    ref={panelRef}
+                    style={{
+                        ...styles.panel,
+                        width: size.width,
+                        height: size.height,
+                        // A live drag must not animate, or it lags.
+                        transition: resizing ? 'none' : 'width 120ms ease, height 120ms ease',
+                    }}
+                >
+                    <div
+                        onMouseDown={startResize}
+                        style={styles.resizeHandle}
+                        title="Drag to resize"
+                        aria-hidden
+                    />
                     <div style={styles.header}>
                         <span style={styles.headerTitle}>
                             <AgentGlyph size={18} />
@@ -505,13 +1143,29 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                 <div style={styles.headerName}>Debug Agent</div>
                                 <div style={styles.headerSubtitle}>
                                     <span style={{ ...styles.statusDot, background: busy ? '#d29922' : '#3fb950' }} />
-                                    {busy ? 'Thinking…' : 'Ready'}
+                                    {busy ? 'Working…' : 'Ready'}
                                 </div>
                             </span>
                         </span>
-                        <button type="button" onClick={() => setOpen(false)} aria-label="Close" style={styles.closeBtn}>
-                            {'✕'}
-                        </button>
+                        <span style={styles.headerActions}>
+                            <button
+                                type="button"
+                                onClick={resetConversation}
+                                disabled={!items.length && !busy}
+                                aria-label="New conversation"
+                                title="Clear this conversation and start over"
+                                style={{
+                                    ...styles.iconBtn,
+                                    opacity: !items.length && !busy ? 0.35 : 1,
+                                    cursor: !items.length && !busy ? 'not-allowed' : 'pointer',
+                                }}
+                            >
+                                {'↻'}
+                            </button>
+                            <button type="button" onClick={() => setOpen(false)} aria-label="Close" style={styles.iconBtn}>
+                                {'✕'}
+                            </button>
+                        </span>
                     </div>
 
                     <div ref={messagesRef} style={styles.messages}>
@@ -519,30 +1173,45 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             <WelcomeState onPick={() => setPicking(true)} extensionConnected={!!activeSessionId} />
                         ) : null}
                         {items.map((item) => {
-                            if ('kind' in item && item.kind === 'tool') {
-                                return <ToolChip key={item.id} item={item} />;
+                            if (isActivity(item)) return <ActivityCard key={item.id} group={item} />;
+                            // Picked elements are pinned above the
+                            // input instead, where they read as attached
+                            // context rather than as a past event
+                            // scrolling away up the transcript.
+                            if (isElement(item)) return null;
+                            if (isNotice(item)) {
+                                return <div key={item.id} style={styles.notice}>{item.content}</div>;
                             }
-                            if ('kind' in item && item.kind === 'element') {
-                                return <ElementChip key={item.id} item={item} onRemove={() => removeContext(item.id)} />;
-                            }
-                            const msg = item as ChatMessage;
+                            const msg = item;
                             return (
                                 <div key={msg.id} style={msg.role === 'user' ? styles.userRow : styles.assistantRow}>
                                     {msg.role === 'assistant' ? (
                                         <div style={styles.avatar}><AgentGlyph size={14} /></div>
                                     ) : null}
-                                    <div style={msg.role === 'user' ? styles.userBubble : styles.assistantBubble}>
-                                        {renderContent(msg.content)}
+                                    <div style={msg.role === 'user' ? styles.userColumn : styles.assistantColumn}>
+                                        <div style={msg.role === 'user' ? styles.userBubble : styles.assistantBubble}>
+                                            {renderContent(msg.content)}
+                                        </div>
+                                        {/* Only a settled reply gets a copy button: copying a
+                                            half-streamed answer hands over a truncated one. */}
+                                        {msg.role === 'assistant' && !(busy && msg.id === streamingIdRef.current) ? (
+                                            <CopyButton
+                                                text={msg.content}
+                                                label="response"
+                                                style={styles.messageCopyBtn}
+                                            />
+                                        ) : null}
                                     </div>
                                 </div>
                             );
                         })}
-                        {busy && !items.some((it) => 'kind' in it && it.kind === 'tool' && it.status === 'running') ? (
-                            <div style={styles.assistantRow}>
-                                <div style={styles.avatar}><AgentGlyph size={14} /></div>
-                                <div style={styles.assistantBubble}><TypingDots /></div>
-                            </div>
-                        ) : null}
+                        {busy && !items.some((it) => isActivity(it) && it.steps.some((s) => s.status === 'running'))
+                            && !items.some((it) => isMessage(it) && it.id === streamingIdRef.current) ? (
+                                <div style={styles.assistantRow}>
+                                    <div style={styles.avatar}><AgentGlyph size={14} /></div>
+                                    <div style={styles.assistantBubble}><TypingDots /></div>
+                                </div>
+                            ) : null}
                     </div>
 
                     <div style={styles.toolbar}>
@@ -594,6 +1263,23 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                         </div>
                     ) : null}
 
+                    {/* Attached context, pinned directly above the input so it
+                        is visible while the question about it is being typed. */}
+                    {pickedElements.length ? (
+                        <div style={styles.contextTray}>
+                            <div style={styles.contextTrayLabel}>
+                                {pickedElements.length === 1
+                                    ? '1 element attached'
+                                    : `${pickedElements.length} elements attached`}
+                            </div>
+                            <div style={styles.contextTrayChips}>
+                                {pickedElements.map((el) => (
+                                    <ElementChip key={el.id} item={el} onRemove={() => removeContext(el.id)} />
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
+
                     <form onSubmit={sendMessage} style={styles.inputRow}>
                         <textarea
                             ref={textareaRef}
@@ -609,18 +1295,30 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             placeholder="Ask about this embed, or describe a style change…"
                             style={styles.textarea}
                         />
-                        <button
-                            type="submit"
-                            disabled={busy || !input.trim()}
-                            aria-label="Send"
-                            style={{
-                                ...styles.sendBtn,
-                                opacity: busy || !input.trim() ? 0.4 : 1,
-                                cursor: busy || !input.trim() ? 'not-allowed' : 'pointer',
-                            }}
-                        >
-                            {'↑'}
-                        </button>
+                        {busy ? (
+                            <button
+                                type="button"
+                                onClick={stopStreaming}
+                                aria-label="Stop"
+                                title="Stop the agent"
+                                style={styles.stopBtn}
+                            >
+                                {'■'}
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                disabled={!input.trim()}
+                                aria-label="Send"
+                                style={{
+                                    ...styles.sendBtn,
+                                    opacity: input.trim() ? 1 : 0.4,
+                                    cursor: input.trim() ? 'pointer' : 'not-allowed',
+                                }}
+                            >
+                                {'↑'}
+                            </button>
+                        )}
                     </form>
                 </div>
             )}
@@ -676,27 +1374,104 @@ const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean 
     </div>
 );
 
-const ToolChip: React.FC<{ item: ToolEvent }> = ({ item }) => (
-    <div style={styles.toolChip}>
-        <span style={{ opacity: item.status === 'running' ? 1 : 0.6 }}>
-            {item.status === 'running' ? '⏳' : '✓'}
-        </span>
-        <span>{item.toolName}</span>
-    </div>
+/**
+ * One turn's tool calls, collapsed to a single status line and expandable to
+ * the full step list.
+ *
+ * Collapsed, the caption is the currently running step's end-user label (or a
+ * count once the turn is done), never a tool name. Expanded, each step shows
+ * its real tool name, argument summary and duration — the detail a developer
+ * needs when the plain caption is not enough.
+ */
+const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
+    const [expanded, setExpanded] = useState(false);
+    const running = group.steps.find((s) => s.status === 'running');
+    const failed = group.steps.some((s) => s.status === 'failed');
+    const totalMs = group.steps.reduce((sum, s) => sum + (s.durationMs ?? 0), 0);
+
+    const caption = running
+        ? `${running.label}…`
+        : `${group.steps.length} step${group.steps.length === 1 ? '' : 's'}${totalMs ? ` · ${formatDuration(totalMs)}` : ''}`;
+
+    return (
+        <div style={styles.activityCard}>
+            <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                style={styles.activityHeader}
+                aria-expanded={expanded}
+                title={expanded ? 'Hide the steps taken' : 'Show the steps taken'}
+            >
+                {running ? <Spinner /> : <span style={styles.activityIcon}>{failed ? '⚠' : '✓'}</span>}
+                <span style={styles.activityCaption}>{caption}</span>
+                <span style={styles.activityChevron}>{expanded ? '⌃' : '⌄'}</span>
+            </button>
+            {expanded ? (
+                <div style={styles.activitySteps}>
+                    {group.steps.map((step) => (
+                        <div key={step.id} style={styles.activityStep}>
+                            <span style={styles.activityStepIcon}>
+                                {step.status === 'running' ? '·' : step.status === 'failed' ? '⚠' : '✓'}
+                            </span>
+                            <div style={styles.activityStepBody}>
+                                <div style={styles.activityStepTitle}>
+                                    <span>{step.label}</span>
+                                    {step.durationMs !== undefined ? (
+                                        <span style={styles.activityStepTime}>{formatDuration(step.durationMs)}</span>
+                                    ) : null}
+                                </div>
+                                <div style={styles.activityStepTool}>{step.toolName}</div>
+                                {step.args ? <div style={styles.activityStepArgs}>{step.args}</div> : null}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : null}
+        </div>
+    );
+};
+
+const Spinner: React.FC = () => (
+    <span
+        style={{
+            width: 10,
+            height: 10,
+            flexShrink: 0,
+            borderRadius: '50%',
+            border: '1.5px solid #c9dcfc',
+            borderTopColor: '#1f6feb',
+            display: 'inline-block',
+            animation: 'ts-debug-agent-spin 0.7s linear infinite',
+        }}
+        aria-hidden
+    >
+        <style>{'@keyframes ts-debug-agent-spin {to{transform:rotate(360deg)}}'}</style>
+    </span>
 );
 
-const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }> = ({ item, onRemove }) => (
-    <div style={styles.elementChip}>
-        <span style={styles.elementChipTag}>{'⌖'} {item.selector}</span>
-        <span style={styles.elementChipMeta}>
-            {item.inEmbed ? 'embed · ' : ''}
-            {item.styles.width} × {item.styles.height}
-        </span>
-        <button type="button" onClick={onRemove} aria-label="Remove context" style={styles.elementChipRemove}>
-            {'✕'}
-        </button>
-    </div>
-);
+/**
+ * One attached element, shown in the tray above the input. The selector is
+ * clipped rather than wrapped so a deep one cannot squeeze out the badge or
+ * the remove button, and the full value stays available on hover.
+ */
+const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }> = ({ item, onRemove }) => {
+    const size = item.styles.width && item.styles.height
+        ? `${item.styles.width} × ${item.styles.height}`
+        : '';
+    return (
+        <div
+            style={styles.elementChip}
+            title={`${item.selector}${size ? ` — ${size}` : ''}${item.inEmbed ? ' (inside the embed)' : ''}`}
+        >
+            <span style={styles.elementChipIcon}>{'⌖'}</span>
+            <span style={styles.elementChipTag}>{item.selector}</span>
+            {item.inEmbed ? <span style={styles.elementChipBadge}>embed</span> : null}
+            <button type="button" onClick={onRemove} aria-label={`Remove ${item.selector}`} style={styles.elementChipRemove}>
+                {'✕'}
+            </button>
+        </div>
+    );
+};
 
 const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }> = ({ el, iframeInspectable }) => {
     const [rect, setRect] = useState(() => getRect(el));
@@ -770,13 +1545,12 @@ const styles: Record<string, React.CSSProperties> = {
         alignItems: 'center',
         justifyContent: 'center',
     },
+    // Width and height come from the resize state; the panel stays pinned to
+    // the bottom-right so a drag from its top-left corner grows it inward.
     panel: {
         position: 'fixed',
-        bottom: 20,
-        right: 20,
-        width: PANEL_WIDTH,
-        height: PANEL_HEIGHT,
-        maxHeight: 'calc(100vh - 40px)',
+        bottom: PANEL_MARGIN,
+        right: PANEL_MARGIN,
         background: '#ffffff',
         color: '#0f172a',
         border: '1px solid #e2e8f0',
@@ -789,6 +1563,19 @@ const styles: Record<string, React.CSSProperties> = {
         boxShadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
         zIndex: 2147483647,
         overflow: 'hidden',
+    },
+    resizeHandle: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: 18,
+        height: 18,
+        cursor: 'nwse-resize',
+        // Above the header, so the corner grabs before the title does.
+        zIndex: 1,
+        borderTopLeftRadius: 16,
+        // A faint corner mark: discoverable without becoming furniture.
+        background: 'linear-gradient(135deg, #cbd5e1 0 2px, transparent 2px)',
     },
     header: {
         flex: '0 0 auto',
@@ -807,8 +1594,16 @@ const styles: Record<string, React.CSSProperties> = {
     statusDot: {
         width: 6, height: 6, borderRadius: '50%', display: 'inline-block',
     },
-    closeBtn: {
-        background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 15, padding: 4,
+    headerActions: { display: 'flex', alignItems: 'center', gap: 2 },
+    iconBtn: {
+        background: 'transparent',
+        border: 'none',
+        color: '#64748b',
+        cursor: 'pointer',
+        fontSize: 14,
+        lineHeight: 1,
+        padding: '5px 6px',
+        borderRadius: 6,
     },
     messages: {
         flex: '1 1 auto',
@@ -842,24 +1637,36 @@ const styles: Record<string, React.CSSProperties> = {
         fontFamily: FONT,
         fontSize: 12,
     },
-    userRow: { display: 'flex', justifyContent: 'flex-end' },
-    assistantRow: { display: 'flex', gap: 8, alignItems: 'flex-start' },
+    // minWidth 0 on the row: without it the nested column cannot shrink below
+    // its content, so a long line overflows the panel instead of wrapping.
+    userRow: {
+        display: 'flex', justifyContent: 'flex-end', minWidth: 0,
+    },
+    assistantRow: {
+        display: 'flex', gap: 8, alignItems: 'flex-start', minWidth: 0,
+    },
     avatar: { marginTop: 2, flexShrink: 0 },
+    // The bubble fills its column, which is what caps the width — capping in
+    // both would compound to roughly 72% of the panel.
     userBubble: {
         padding: '9px 12px',
         borderRadius: '14px 14px 3px 14px',
         background: '#1f6feb',
         color: '#fff',
-        maxWidth: '85%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
         wordBreak: 'break-word',
+        overflowWrap: 'anywhere',
     },
     assistantBubble: {
         padding: '9px 12px',
         borderRadius: '14px 14px 14px 3px',
         background: '#f8fafc',
         border: '1px solid #e2e8f0',
-        maxWidth: '85%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
         wordBreak: 'break-word',
+        overflowWrap: 'anywhere',
     },
     inlineCode: {
         background: '#eef2f7',
@@ -869,37 +1676,174 @@ const styles: Record<string, React.CSSProperties> = {
         fontFamily: MONO,
         fontSize: '0.92em',
     },
-    toolChip: {
-        alignSelf: 'flex-start',
+    activityCard: {
+        alignSelf: 'stretch',
+        background: '#f8fafc',
+        border: '1px solid #e2e8f0',
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    activityHeader: {
+        width: '100%',
+        boxSizing: 'border-box',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '7px 10px',
+        background: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        textAlign: 'left',
+        fontFamily: FONT,
+        fontSize: 11.5,
+        color: '#475569',
+    },
+    activityIcon: { color: '#3fb950', fontSize: 11, flexShrink: 0 },
+    activityCaption: {
+        flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+    },
+    activityChevron: { color: '#94a3b8', fontSize: 11, flexShrink: 0 },
+    activitySteps: {
+        borderTop: '1px solid #e2e8f0',
+        padding: '6px 10px 8px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 7,
+    },
+    activityStep: { display: 'flex', gap: 7, alignItems: 'flex-start' },
+    activityStepIcon: {
+        color: '#94a3b8', fontSize: 10, lineHeight: '16px', flexShrink: 0, width: 10,
+    },
+    activityStepBody: { minWidth: 0, flex: 1 },
+    activityStepTitle: {
+        display: 'flex', gap: 8, alignItems: 'baseline', color: '#334155', fontSize: 11.5,
+    },
+    activityStepTime: { color: '#94a3b8', fontSize: 10, marginLeft: 'auto', flexShrink: 0 },
+    activityStepTool: { fontFamily: MONO, fontSize: 10, color: '#64748b' },
+    activityStepArgs: {
+        fontFamily: MONO,
+        fontSize: 10,
+        color: '#94a3b8',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    },
+    notice: {
+        alignSelf: 'center', fontSize: 11, color: '#94a3b8', padding: '2px 0',
+    },
+    contextTray: {
+        flex: '0 0 auto',
+        padding: '8px 12px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+    },
+    contextTrayLabel: { fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.3 },
+    contextTrayChips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 6,
+        // Several picks must not push the input off the panel.
+        maxHeight: 92,
+        overflowY: 'auto',
+    },
+    userColumn: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        maxWidth: '85%',
+        minWidth: 0,
+        flexShrink: 1,
+    },
+    assistantColumn: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        maxWidth: '85%',
+        minWidth: 0,
+        flexShrink: 1,
+    },
+    messageCopyBtn: { marginTop: 3, alignSelf: 'flex-start' },
+    copyBtn: {
+        background: 'transparent',
+        border: 'none',
+        color: '#64748b',
+        cursor: 'pointer',
+        fontFamily: FONT,
+        fontSize: 10.5,
+        padding: '2px 4px',
+        borderRadius: 4,
+        flexShrink: 0,
+    },
+    codeBlock: {
+        margin: '6px 0',
+        background: '#f6f8fa',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        overflow: 'hidden',
+    },
+    codeBlockHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+        padding: '3px 6px 3px 10px',
+        borderBottom: '1px solid #e2e8f0',
+        background: '#eef2f7',
+    },
+    codeBlockLang: {
+        fontFamily: MONO, fontSize: 10, color: '#64748b', textTransform: 'lowercase',
+    },
+    codeBlockPre: {
+        margin: 0,
+        padding: '8px 10px',
+        overflowX: 'auto',
+        fontFamily: MONO,
+        fontSize: 11.5,
+        lineHeight: 1.5,
+        color: '#0f172a',
+        whiteSpace: 'pre',
+    },
+    elementChip: {
         display: 'flex',
         alignItems: 'center',
         gap: 6,
         fontSize: 11,
-        fontFamily: MONO,
-        color: '#9a6700',
-        background: '#fef3e0',
-        border: '1px solid #f0c674',
-        borderRadius: 6,
-        padding: '4px 8px',
-    },
-    elementChip: {
-        alignSelf: 'flex-start',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        fontSize: 11,
         background: '#eef4ff',
         border: '1px solid #c9dcfc',
         borderRadius: 8,
-        padding: '6px 10px',
-        maxWidth: '92%',
+        padding: '4px 6px 4px 8px',
+        maxWidth: '100%',
+        minWidth: 0,
     },
+    elementChipIcon: { color: '#1f6feb', flexShrink: 0 },
     elementChipTag: {
-        fontFamily: MONO, color: '#1f6feb', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        fontFamily: MONO,
+        color: '#1f6feb',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        minWidth: 0,
     },
-    elementChipMeta: { color: '#64748b', flexShrink: 0 },
+    elementChipBadge: {
+        flexShrink: 0,
+        fontSize: 9,
+        textTransform: 'uppercase',
+        letterSpacing: 0.3,
+        color: '#3730a3',
+        background: '#e0e7ff',
+        borderRadius: 4,
+        padding: '1px 4px',
+    },
     elementChipRemove: {
-        background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 11, marginLeft: 'auto', padding: 0,
+        background: 'transparent',
+        border: 'none',
+        color: '#64748b',
+        cursor: 'pointer',
+        fontSize: 10,
+        padding: '2px 3px',
+        flexShrink: 0,
+        lineHeight: 1,
     },
     toolbar: {
         flex: '0 0 auto', padding: '8px 12px 0', display: 'flex', gap: 8, flexWrap: 'wrap',
@@ -968,6 +1912,20 @@ const styles: Record<string, React.CSSProperties> = {
         color: '#fff',
         border: 'none',
         fontSize: 16,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    stopBtn: {
+        width: 34,
+        height: 34,
+        flexShrink: 0,
+        borderRadius: '50%',
+        background: '#ffffff',
+        color: '#334155',
+        border: '1px solid #cbd5e1',
+        fontSize: 10,
+        cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
