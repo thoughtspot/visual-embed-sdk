@@ -67,10 +67,10 @@ const ask = async (text = 'why is my embed blank?') => {
     });
 };
 
-/** The code block's scroll container: a div styled `white-space: pre`. */
 /** The light palette's string-token colour (see LIGHT.token.string). */
 const LIGHT_STRING = '#0a6640';
 
+/** The code block's scroll container: a div styled `white-space: pre`. */
 const codeScroller = (): HTMLElement => {
     const el = [...document.querySelectorAll<HTMLElement>('div[style*="pre"]')]
         .find((d) => d.style.whiteSpace === 'pre');
@@ -199,7 +199,7 @@ describe('DebugAgent', () => {
         });
         // Copying hands over the original source, not the highlighted markup.
         await waitFor(() => expect(writeText).toHaveBeenCalledWith('init({ thoughtSpotHost: "x" });'));
-        expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
+        expect(await screen.findByText('Copied')).toBeInTheDocument();
     });
 
     it('offers a copy button on a settled reply but not on one still streaming', async () => {
@@ -390,8 +390,11 @@ describe('DebugAgent', () => {
         // No spinner left, and the card reports the turn as having a problem.
         expect(screen.queryByText('Reading the browser console…')).not.toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { expanded: false }));
-        // Once in the collapsed header, once against the unresolved step.
-        expect(screen.getAllByText('⚠')).toHaveLength(2);
+        // The step no longer claims to be running, and the card reports a
+        // problem via its danger-coloured icon rather than a glyph.
+        const card = screen.getByRole('button', { expanded: true });
+        expect(card).toHaveTextContent('Hide steps');
+        expect(screen.getByText('list_console_messages')).toBeInTheDocument();
     });
 
     describe('picked-element context', () => {
@@ -424,20 +427,32 @@ describe('DebugAgent', () => {
             await pickHostElement();
 
             const chip = await screen.findByText('div#target');
-            expect(screen.getByText('1 element attached')).toBeInTheDocument();
 
-            // The chip sits between the message list and the input box.
-            const tray = chip.closest('div[style*="column"]')!;
+            // The chip lives inside the composer, above the textarea — not in
+            // the transcript, where it would scroll away from the question
+            // being typed about it.
             const form = document.querySelector('form')!;
-            expect(tray.compareDocumentPosition(form) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+            expect(form.contains(chip)).toBe(true);
+            const textarea = screen.getByPlaceholderText(/Ask about this embed/);
+            expect(chip.compareDocumentPosition(textarea) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+            // And it is not in the scrolling message list.
+            const messageList = [...document.querySelectorAll<HTMLElement>('div')]
+                .find((d) => d.style.overflowY === 'auto' && d.style.flex === '1 1 auto');
+            expect(messageList?.contains(chip)).toBe(false);
         });
 
-        it('points at "Pick in embed" instead of attaching the iframe itself', async () => {
+        /** Makes elementFromPoint always return a fresh iframe. */
+        const stubIframeUnderCursor = () => {
             const frame = document.createElement('iframe');
             document.body.appendChild(frame);
             Object.defineProperty(document, 'elementFromPoint', {
                 value: () => frame, configurable: true, writable: true,
             });
+        };
+
+        it('asks for the extension when the embed is clicked without one', async () => {
+            stubIframeUnderCursor();
 
             render(<DebugAgent />);
             await openPanel();
@@ -452,6 +467,50 @@ describe('DebugAgent', () => {
             expect(screen.queryByText(/element attached/)).not.toBeInTheDocument();
         });
 
+        it('hands off to the extension picker when the embed is clicked, with no second button', async () => {
+            stubIframeUnderCursor();
+            const calls: string[] = [];
+            global.fetch = jest.fn().mockImplementation((url: string, init: RequestInit) => {
+                if (String(url).includes('/extension/tool-call')) {
+                    const body = JSON.parse(String(init.body));
+                    calls.push(body.toolName);
+                    const results: Record<string, unknown> = {
+                        list_pages: [{ tabId: 7, url: window.location.href, attached: true }],
+                        list_frames: { frames: [{ sessionId: 'FRAME_A', type: 'iframe' }] },
+                        start_element_picker: {
+                            picked: true,
+                            element: { selector: '.ts-viz', styles: { color: 'rgb(0, 0, 0)' } },
+                        },
+                    };
+                    return Promise.resolve({
+                        ok: true, status: 200, json: () => Promise.resolve({ result: results[body.toolName] }),
+                    });
+                }
+                return Promise.resolve({
+                    ok: true,
+                    status: 200,
+                    statusText: 'OK',
+                    body: { getReader: () => ({ read: () => Promise.resolve({ done: true }) }) },
+                });
+            }) as any;
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            // There is one picker, not two.
+            expect(screen.queryByRole('button', { name: /Pick in embed/ })).not.toBeInTheDocument();
+
+            await act(async () => {
+                fireEvent.click(screen.getByTitle(/on the host page or inside the ThoughtSpot embed/));
+            });
+            await act(async () => {
+                fireEvent.mouseDown(document.body, { clientX: 5, clientY: 5 });
+            });
+
+            // The same gesture continued into the iframe, via the extension.
+            await waitFor(() => expect(calls).toContain('start_element_picker'));
+            expect(await screen.findByText('.ts-viz')).toBeInTheDocument();
+        });
+
         it('disarms the picker on Escape, so it cannot keep swallowing clicks', async () => {
             render(<DebugAgent />);
             await openPanel();
@@ -464,7 +523,7 @@ describe('DebugAgent', () => {
             await act(async () => {
                 fireEvent.keyDown(document, { key: 'Escape' });
             });
-            expect(button).toHaveTextContent('Pick element');
+            expect(button).toHaveTextContent('Pick');
             expect(button).not.toHaveTextContent('Picking…');
         });
 
@@ -815,13 +874,13 @@ describe('DebugAgent', () => {
         const pagesFor = () => [{ tabId: 7, url: window.location.href, attached: true }];
         // Scoped to the button: the notice text also says
         // "Stop & analyse".
-        const recordBtn = () => screen.getByRole('button', { name: /Record issue/ });
+        const recordBtn = () => screen.getByRole('button', { name: /Record/ });
         const stopBtn = () => screen.getByRole('button', { name: /Stop & analyse/ });
 
         it('is hidden until an extension session is connected', async () => {
             render(<DebugAgent />);
             await openPanel();
-            expect(screen.queryByRole('button', { name: /Record issue/ })).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: /Record/ })).not.toBeInTheDocument();
         });
 
         it('starts recording on the tab the page is in', async () => {

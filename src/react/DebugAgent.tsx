@@ -12,19 +12,20 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * works.
  *
  * Talks to the embed-assistant agent backend (`POST {agentApiUrl}/agent/embed-assistant`,
- * SSE-streamed). "Pick element" behaves differently depending on whether a
- * browser-extension debugging session is connected:
+ * SSE-streamed). "Pick element" is one control covering both surfaces, since
+ * which side of the iframe boundary an element sits on is the panel's problem
+ * to solve, not the developer's:
  *
- * - "Pick element" covers the host page: hover highlights locally and the
- *   click attaches a computed-style snapshot as chat context. No extension
- *   needed, since this is all same-origin DOM.
- * - "Pick in embed" appears once a browser-extension session is connected,
- *   and picks inside the ThoughtSpot iframe — which the host page cannot
- *   read at all, being a separate origin. It calls the extension's
- *   `start_element_picker` over `chrome.debugger` (CDP), which injects a
- *   picker into the iframe's own frame; the highlight is drawn in there so
- *   it tracks the cursor at native speed, where routing each mousemove over
- *   the relay could not.
+ * - On the host page it highlights locally and the click attaches a
+ *   computed-style snapshot as chat context. No extension needed, since this
+ *   is all same-origin DOM.
+ * - Clicking the embed hands off to the extension, which picks inside the
+ *   ThoughtSpot iframe — unreadable from the host page, being a separate
+ *   origin. It calls `start_element_picker` over `chrome.debugger` (CDP),
+ *   injecting a picker into the iframe's own frame; the highlight is drawn in
+ *   there so it tracks the cursor at native speed, where routing each
+ *   mousemove over the relay could not. Without an extension session that
+ *   handoff is impossible, and the click reports that instead.
  *
  * Those extension calls go straight to `POST /extension/tool-call` rather
  * than through the agent. Locating the embed's frame and arming the picker
@@ -364,7 +365,8 @@ const CopyButton: React.FC<{
             title="Copy to clipboard"
             aria-label={label ? `Copy ${label}` : 'Copy'}
         >
-            {state === 'copied' ? '✓ Copied' : state === 'failed' ? 'Copy failed' : '⧉ Copy'}
+            <Icon name={state === 'copied' ? 'check' : 'copy'} size={11} />
+            <span>{state === 'copied' ? 'Copied' : state === 'failed' ? 'Copy failed' : 'Copy'}</span>
         </button>
     );
 };
@@ -695,6 +697,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     // developer switched tabs mid-reproduction.
     const [recording, setRecording] = useState(false);
     const [recordingBusy, setRecordingBusy] = useState(false);
+    // Drives the composer's focus ring: the whole surface reacts, not just
+    // the textarea inside it.
+    const [composerFocused, setComposerFocused] = useState(false);
     const recordingTabRef = useRef<number | undefined>(undefined);
     const [hovered, setHovered] = useState<Element | null>(null);
     const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
@@ -798,16 +803,20 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             setPicking(false);
             setHovered(null);
 
-            // The iframe element itself is pickable, but nothing inside it is:
-            // that is a separate origin, and only the extension can read it.
-            // Say so rather than attaching a snapshot of the empty frame box.
+            // Clicking the embed hands off to the extension's picker, which
+            // re-arms inside the iframe so the developer keeps picking in one
+            // continuous gesture. Nothing in there is readable from here — it
+            // is a separate origin — so without the extension all this can do
+            // is say so, rather than attach a snapshot of the empty frame box.
             if (target.tagName === 'IFRAME') {
+                if (activeSessionId) {
+                    void pickInsideEmbed();
+                    return;
+                }
                 setItems((prev) => [...prev, {
                     id: nextId(),
                     kind: 'notice',
-                    content: activeSessionId
-                        ? 'That is the embed itself — use "Pick in embed" to pick inside it.'
-                        : 'That is the embed itself. Connect the browser extension to pick inside it.',
+                    content: 'That is the embed itself. Connect the browser extension to pick inside it.',
                 }]);
                 return;
             }
@@ -1337,10 +1346,10 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                     cursor: !items.length && !busy ? 'not-allowed' : 'pointer',
                                 }}
                             >
-                                {'↻'}
+                                <Icon name="refresh" />
                             </button>
                             <button type="button" onClick={() => setOpen(false)} aria-label="Close" style={styles.iconBtn}>
-                                {'✕'}
+                                <Icon name="close" />
                             </button>
                         </span>
                     </div>
@@ -1404,56 +1413,27 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             ) : null}
                     </div>
 
-                    <div style={styles.toolbar}>
-                        <button
-                            type="button"
-                            onClick={() => setPicking((p) => !p)}
-                            style={picking ? styles.toolBtnActive : styles.toolBtn}
-                            title="Pick an element on the host page to attach as context"
-                        >
-                            {'⌖'} {picking ? 'Picking…' : 'Pick element'}
-                        </button>
-                        {activeSessionId ? (
-                            <button
-                                type="button"
-                                onClick={pickInsideEmbed}
-                                disabled={pickingEmbed}
-                                style={pickingEmbed ? styles.toolBtnActive : styles.toolBtn}
-                                title="Highlight and pick an element inside the ThoughtSpot embed, via the connected extension"
-                            >
-                                {'⌖'} {pickingEmbed ? 'Pick in embed…' : 'Pick in embed'}
-                            </button>
+                    {/* One composer: the attached context, the input and
+                        every control live inside a single bordered surface.
+                        They used to be four stacked bands, each with its own
+                        padding, which read as scattered and pushed the input
+                        to the very bottom edge. */}
+                    <form
+                        onSubmit={sendMessage}
+                        style={{
+                            ...styles.composer,
+                            ...(composerFocused ? styles.composerFocused : null),
+                        }}
+                    >
+                        {pickedElements.length ? (
+                            <div style={styles.contextTray}>
+                                {pickedElements.map((el) => (
+                                    <ElementChip key={el.id} item={el} onRemove={() => removeContext(el.id)} />
+                                ))}
+                            </div>
                         ) : null}
-                        {activeSessionId ? (
-                            <button
-                                type="button"
-                                onClick={toggleRecording}
-                                disabled={recordingBusy}
-                                style={recording ? styles.toolBtnRecording : styles.toolBtn}
-                                title={recording
-                                    ? 'Stop recording and have the agent analyse what was captured'
-                                    : 'Record console, network and your actions across the page and the embed while you reproduce a problem'}
-                            >
-                                {recording ? `\u23f9 ${recordingBusy ? 'Stopping\u2026' : 'Stop & analyse'}`
-                                    : `\u23fa ${recordingBusy ? 'Starting\u2026' : 'Record issue'}`}
-                            </button>
-                        ) : null}
-                        {!extensionSessionId ? (
-                            <button
-                                type="button"
-                                onClick={() => setShowSessionField((s) => !s)}
-                                style={styles.toolBtn}
-                                title={activeSessionId
-                                    ? 'Browser extension connected — click to change or clear the session id'
-                                    : 'Paste the session id from the extension popup to inspect inside the embed'}
-                            >
-                                {activeSessionId ? '🔗 Extension' : '⚭ Connect extension'}
-                            </button>
-                        ) : null}
-                    </div>
 
-                    {showSessionField && !extensionSessionId ? (
-                        <div style={styles.sessionRow}>
+                        {showSessionField && !extensionSessionId ? (
                             <input
                                 type="text"
                                 value={sessionInput}
@@ -1464,31 +1444,14 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                 placeholder="Extension session id (from the extension popup)"
                                 style={styles.sessionInput}
                             />
-                        </div>
-                    ) : null}
+                        ) : null}
 
-                    {/* Attached context, pinned directly above the input so it
-                        is visible while the question about it is being typed. */}
-                    {pickedElements.length ? (
-                        <div style={styles.contextTray}>
-                            <div style={styles.contextTrayLabel}>
-                                {pickedElements.length === 1
-                                    ? '1 element attached'
-                                    : `${pickedElements.length} elements attached`}
-                            </div>
-                            <div style={styles.contextTrayChips}>
-                                {pickedElements.map((el) => (
-                                    <ElementChip key={el.id} item={el} onRemove={() => removeContext(el.id)} />
-                                ))}
-                            </div>
-                        </div>
-                    ) : null}
-
-                    <form onSubmit={sendMessage} style={styles.inputRow}>
                         <textarea
                             ref={textareaRef}
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
+                            onFocus={() => setComposerFocused(true)}
+                            onBlur={() => setComposerFocused(false)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' && !e.shiftKey) {
                                     e.preventDefault();
@@ -1499,30 +1462,73 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             placeholder="Ask about this embed, or describe a style change…"
                             style={styles.textarea}
                         />
-                        {busy ? (
-                            <button
-                                type="button"
-                                onClick={stopStreaming}
-                                aria-label="Stop"
-                                title="Stop the agent"
-                                style={styles.stopBtn}
-                            >
-                                {'■'}
-                            </button>
-                        ) : (
-                            <button
-                                type="submit"
-                                disabled={!input.trim()}
-                                aria-label="Send"
-                                style={{
-                                    ...styles.sendBtn,
-                                    opacity: input.trim() ? 1 : 0.4,
-                                    cursor: input.trim() ? 'pointer' : 'not-allowed',
-                                }}
-                            >
-                                {'↑'}
-                            </button>
-                        )}
+
+                        {/* Tools on the left, send on the right — the shape a
+                            developer already knows from every chat composer. */}
+                        <div style={styles.composerActions}>
+                            <div style={styles.composerTools}>
+                                <IconButton
+                                    onClick={() => setPicking((pick) => !pick)}
+                                    disabled={pickingEmbed}
+                                    active={picking || pickingEmbed}
+                                    icon="target"
+                                    label={pickingEmbed ? 'Picking in embed…' : (picking ? 'Picking…' : 'Pick')}
+                                    title={activeSessionId
+                                        ? 'Pick an element to attach as context — on the host page or inside the ThoughtSpot embed'
+                                        : 'Pick an element on the host page to attach as context'}
+                                />
+                                {activeSessionId ? (
+                                    <IconButton
+                                        onClick={toggleRecording}
+                                        disabled={recordingBusy}
+                                        danger={recording}
+                                        icon={recording ? 'stopSquare' : 'record'}
+                                        label={recording
+                                            ? (recordingBusy ? 'Stopping…' : 'Stop & analyse')
+                                            : (recordingBusy ? 'Starting…' : 'Record')}
+                                        title={recording
+                                            ? 'Stop recording and have the agent analyse what was captured'
+                                            : 'Record console, network and your actions while you reproduce a problem'}
+                                    />
+                                ) : null}
+                                {!extensionSessionId ? (
+                                    <IconButton
+                                        onClick={() => setShowSessionField((f) => !f)}
+                                        active={showSessionField}
+                                        icon={activeSessionId ? 'link' : 'plug'}
+                                        label={activeSessionId ? 'Extension' : 'Connect'}
+                                        title={activeSessionId
+                                            ? 'Browser extension connected — click to change or clear the session id'
+                                            : 'Paste the session id from the extension popup to inspect inside the embed'}
+                                    />
+                                ) : null}
+                            </div>
+
+                            {busy ? (
+                                <button
+                                    type="button"
+                                    onClick={stopStreaming}
+                                    aria-label="Stop"
+                                    title="Stop the agent"
+                                    style={styles.stopBtn}
+                                >
+                                    <Icon name="stopSquare" size={13} />
+                                </button>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    disabled={!input.trim()}
+                                    aria-label="Send"
+                                    title="Send (Enter)"
+                                    style={{
+                                        ...styles.sendBtn,
+                                        ...(input.trim() ? null : styles.sendBtnIdle),
+                                    }}
+                                >
+                                    <Icon name="send" size={15} />
+                                </button>
+                            )}
+                        </div>
                     </form>
                 </div>
             )}
@@ -1535,6 +1541,119 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
  * the one deliberately branded element, so it keeps its own colours in both
  * themes rather than following the palette.
  */
+/**
+ * Inline SVG icons, replacing the unicode glyphs (`⌖ ⏺ ⚭ ↑ ✕ ↻`) the panel
+ * used to draw with. Those render at wildly different weights and baselines
+ * across platforms — several are emoji-presentation on Windows — which is
+ * what made the controls look unfinished. These inherit `currentColor`, so a
+ * button's hover and active states colour its icon for free.
+ */
+type IconName = 'target' | 'record' | 'stopSquare' | 'link' | 'plug' | 'send'
+| 'refresh' | 'close' | 'chevron' | 'copy' | 'check' | 'warn' | 'spark'
+| 'palette' | 'eyeOff' | 'arrowRight';
+
+const ICON_PATHS: Record<IconName, React.ReactNode> = {
+    // A crosshair: picking an element on the page.
+    target: (
+        <>
+            <circle cx="8" cy="8" r="4.2" />
+            <path d="M8 .9v2.6M8 12.5v2.6M.9 8h2.6M12.5 8h2.6" />
+        </>
+    ),
+    record: <circle cx="8" cy="8" r="4.2" fill="currentColor" stroke="none" />,
+    stopSquare: <rect x="4.2" y="4.2" width="7.6" height="7.6" rx="1.4" fill="currentColor" stroke="none" />,
+    link: <path d="M6.4 9.6a2.6 2.6 0 0 1 0-3.7l1.8-1.8a2.6 2.6 0 0 1 3.7 3.7l-.9.9M9.6 6.4a2.6 2.6 0 0 1 0 3.7l-1.8 1.8a2.6 2.6 0 0 1-3.7-3.7l.9-.9" />,
+    plug: <path d="M6 2.2v3.4M10 2.2v3.4M4.4 5.6h7.2v2.2a3.6 3.6 0 0 1-3.6 3.6A3.6 3.6 0 0 1 4.4 7.8zM8 11.4v2.4" />,
+    send: <path d="M8 13.2V3.4M3.9 7.5 8 3.2l4.1 4.3" />,
+    refresh: <path d="M13.1 8a5.1 5.1 0 1 1-1.6-3.7M13.2 2.4v2.9h-2.9" />,
+    close: <path d="M4.3 4.3l7.4 7.4M11.7 4.3l-7.4 7.4" />,
+    chevron: <path d="M4.2 6.4 8 10.1l3.8-3.7" />,
+    copy: (
+        <>
+            <rect x="5.6" y="5.6" width="7.2" height="7.2" rx="1.6" />
+            <path d="M10.4 5.6V4.8a1.6 1.6 0 0 0-1.6-1.6H4.8a1.6 1.6 0 0 0-1.6 1.6v4a1.6 1.6 0 0 0 1.6 1.6h.8" />
+        </>
+    ),
+    check: <path d="M3.4 8.4l3.1 3.1 6.1-6.6" />,
+    warn: <path d="M8 3.1 14 13H2zM8 6.9v2.6M8 11.1v.1" />,
+    spark: <path d="M8 2.2l1.5 4.3L13.8 8l-4.3 1.5L8 13.8l-1.5-4.3L2.2 8l4.3-1.5z" fill="currentColor" stroke="none" />,
+    palette: (
+        <>
+            <path d="M8 13.8a5.8 5.8 0 1 1 5.8-5.8c0 1.5-1.2 2.2-2.4 2.2h-.9a1.4 1.4 0 0 0-1 2.4c.3.4 0 1.2-1.5 1.2z" />
+            <path d="M5.6 6.6v.01M8 5.2v.01M10.4 6.6v.01" />
+        </>
+    ),
+    eyeOff: <path d="M6.3 6.4a2.2 2.2 0 0 0 3.1 3.1M4.1 4.4A8.4 8.4 0 0 0 1.6 8s2.4 4 6.4 4a6.7 6.7 0 0 0 3.6-1M6.6 4.2A6.9 6.9 0 0 1 8 4c4 0 6.4 4 6.4 4a9.3 9.3 0 0 1-1.7 2.2M2.4 2.4l11.2 11.2" />,
+    arrowRight: <path d="M3.2 8h9.2M8.7 4.3 12.6 8l-3.9 3.7" />,
+};
+
+const Icon: React.FC<{ name: IconName; size?: number; style?: React.CSSProperties }> = ({
+    name, size = 14, style: extra,
+}) => (
+    <svg
+        width={size}
+        height={size}
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+        focusable="false"
+        style={{ flexShrink: 0, display: 'block', ...extra }}
+    >
+        {ICON_PATHS[name]}
+    </svg>
+);
+
+/**
+ * A composer control: icon plus label, with its own hover and active
+ * treatment. Hover is tracked in state because inline styles cannot express
+ * `:hover`, and these need to feel responsive to be worth clicking.
+ */
+const IconButton: React.FC<{
+    onClick: () => void;
+    icon: IconName;
+    label: string;
+    title: string;
+    active?: boolean;
+    danger?: boolean;
+    disabled?: boolean;
+}> = ({
+    onClick, icon, label, title, active, danger, disabled,
+}) => {
+    const { c, styles } = useTheme();
+    const [hover, setHover] = useState(false);
+
+    const tone = danger
+        ? { background: c.dangerSoft, borderColor: c.dangerBorder, color: c.danger }
+        : active
+            ? { background: c.accentSoft, borderColor: c.accentBorder, color: c.accent }
+            : hover
+                ? { background: c.surfaceRaised, borderColor: c.borderStrong, color: c.text }
+                : null;
+
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            disabled={disabled}
+            title={title}
+            style={{
+                ...styles.toolBtn,
+                ...tone,
+                ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : null),
+            }}
+        >
+            <Icon name={icon} size={13} />
+            <span>{label}</span>
+        </button>
+    );
+};
+
 const AgentGlyph: React.FC<{ size: number }> = ({ size }) => (
     <div
         style={{
@@ -1584,19 +1703,19 @@ const TypingDots: React.FC = () => {
  * instead of having to guess what the panel can do. The `send` text is what
  * is actually asked; the label stays short enough to read at a glance.
  */
-const STARTER_PROMPTS: Array<{ icon: string; label: string; send: string }> = [
+const STARTER_PROMPTS: Array<{ icon: IconName; label: string; send: string }> = [
     {
-        icon: '🩺',
+        icon: 'warn',
         label: 'Diagnose this embed',
         send: 'Check the console and network for errors in this embed and tell me what is wrong.',
     },
     {
-        icon: '🎨',
+        icon: 'palette',
         label: 'Match my app theme',
         send: 'Give me the customCSS variables to make this embed match my host page theme.',
     },
     {
-        icon: '🙈',
+        icon: 'eyeOff',
         label: 'Hide an action',
         send: 'How do I hide a specific action from the embed menus?',
     },
@@ -1638,16 +1757,16 @@ const WelcomeState: React.FC<{
                                 : null),
                         }}
                     >
-                        <span aria-hidden style={styles.starterIcon}>{p.icon}</span>
+                        <span style={styles.starterIcon}><Icon name={p.icon} size={13} /></span>
                         <span style={styles.starterLabel}>{p.label}</span>
-                        <span aria-hidden style={styles.starterArrow}>{'→'}</span>
+                        <span style={styles.starterArrow}><Icon name="arrowRight" size={12} /></span>
                     </button>
                 ))}
             </div>
 
             <button type="button" onClick={onPick} style={styles.welcomeBtn}>
-                {'⌖'}
-                {'  Pick an element instead'}
+                <Icon name="target" size={12} />
+                <span>Pick an element instead</span>
             </button>
         </div>
     );
@@ -1687,16 +1806,26 @@ const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
                 aria-expanded={expanded}
                 title={expanded ? 'Hide the steps taken' : 'Show the steps taken'}
             >
-                {running ? <Spinner /> : <span style={styles.activityIcon}>{failed ? '⚠' : '✓'}</span>}
+                {running ? <Spinner /> : (
+                    <span style={{ ...styles.activityIcon, color: failed ? c.danger : c.success }}>
+                        <Icon name={failed ? 'warn' : 'check'} size={12} />
+                    </span>
+                )}
                 <span style={styles.activityCaption}>{caption}</span>
                 {totalMs && !running ? <span style={styles.activityDuration}>{formatDuration(totalMs)}</span> : null}
                 {/* An explicit label, not just a chevron: after the answer
                     lands this is the only route back to the steps, and a bare
                     glyph on a pale card did not read as clickable. */}
                 <span style={styles.activityToggle}>
-                    {expanded ? 'Hide' : 'Show'} steps
-                    <span style={{ ...styles.activityChevron, transform: expanded ? 'rotate(180deg)' : 'none' }}>
-                        {'⌄'}
+                    <span>{expanded ? 'Hide' : 'Show'} steps</span>
+                    <span
+                        data-ts-dbg-anim
+                        style={{
+                            ...styles.activityChevron,
+                            transform: expanded ? 'rotate(180deg)' : 'none',
+                        }}
+                    >
+                        <Icon name="chevron" size={11} />
                     </span>
                 </span>
             </button>
@@ -1708,8 +1837,15 @@ const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
                             data-ts-dbg-anim
                             style={{ ...styles.activityStep, animationDelay: `${idx * 45}ms` }}
                         >
-                            <span style={styles.activityStepIcon}>
-                                {step.status === 'running' ? '·' : step.status === 'failed' ? '⚠' : '✓'}
+                            <span
+                                style={{
+                                    ...styles.activityStepIcon,
+                                    color: step.status === 'failed' ? c.danger : c.textFaint,
+                                }}
+                            >
+                                {step.status === 'running'
+                                    ? <Spinner />
+                                    : <Icon name={step.status === 'failed' ? 'warn' : 'check'} size={10} />}
                             </span>
                             <div style={styles.activityStepBody}>
                                 <div style={styles.activityStepTitle}>
@@ -1764,11 +1900,11 @@ const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }
             style={styles.elementChip}
             title={`${item.selector}${size ? ` — ${size}` : ''}${item.inEmbed ? ' (inside the embed)' : ''}`}
         >
-            <span style={styles.elementChipIcon}>{'⌖'}</span>
+            <span style={styles.elementChipIcon}><Icon name="target" size={11} /></span>
             <span style={styles.elementChipTag}>{item.selector}</span>
             {item.inEmbed ? <span style={styles.elementChipBadge}>embed</span> : null}
             <button type="button" onClick={onRemove} aria-label={`Remove ${item.selector}`} style={styles.elementChipRemove}>
-                {'✕'}
+                <Icon name="close" size={9} />
             </button>
         </div>
     );
@@ -1821,7 +1957,7 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
                 }}
             >
                 {describeElement(el)}
-                {iframeInspectable ? ' · use "Pick in embed" to pick inside it' : ''}
+                {iframeInspectable ? ' · click to pick inside the embed' : ''}
             </div>
         </div>
     );
@@ -1884,6 +2020,8 @@ interface Palette {
     warning: string;
     /** Recording/destructive state — the only red in the panel. */
     danger: string;
+    dangerSoft: string;
+    dangerBorder: string;
     shadow: string;
     /** Syntax-token colours, tuned per theme for contrast on `codeSurface`. */
     token: Record<Exclude<TokenType, 'plain'>, string>;
@@ -1909,6 +2047,8 @@ const LIGHT: Palette = {
     success: '#1a7f37',
     warning: '#9a6700',
     danger: '#d1242f',
+    dangerSoft: '#fdf0ef',
+    dangerBorder: '#f3c9c5',
     shadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
     token: {
         comment: '#6a737d',
@@ -1946,6 +2086,8 @@ const DARK: Palette = {
     success: '#3fb950',
     warning: '#d29922',
     danger: '#f85149',
+    dangerSoft: '#2b1d1e',
+    dangerBorder: '#5c2b28',
     shadow: '0 20px 48px rgba(0, 0, 0, 0.55)',
     token: {
         comment: '#7d8896',
@@ -2130,10 +2272,13 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         flex: '1 1 auto',
         minHeight: 0,
         overflowY: 'auto',
-        padding: '14px',
+        padding: '14px 14px 6px',
         display: 'flex',
         flexDirection: 'column',
-        gap: 10,
+        gap: 12,
+        // A host page setting `scroll-behavior: smooth` would fight the
+        // stream-following scroll, so it is pinned here.
+        scrollBehavior: 'auto',
     },
     welcome: {
         display: 'flex',
@@ -2141,9 +2286,9 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         alignItems: 'center',
         textAlign: 'center',
         gap: 10,
-        padding: '24px 12px',
+        padding: '24px 12px 8px',
         color: C.textMuted,
-        margin: 'auto',
+        marginTop: 'auto',
         animation: 'ts-dbg-rise 300ms cubic-bezier(.2,.8,.2,1)',
     },
     welcomeTitle: {
@@ -2151,6 +2296,9 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
     },
     welcomeBody: { fontSize: 12.5, maxWidth: 270, color: C.textMuted },
     welcomeBtn: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 5,
         marginTop: 2,
         background: 'transparent',
         color: C.textMuted,
@@ -2179,7 +2327,9 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         padding: '9px 11px',
         background: C.surfaceMuted,
         color: C.text,
-        border: `1px solid ${C.border}`,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: C.border,
         borderRadius: 10,
         cursor: 'pointer',
         fontFamily: FONT,
@@ -2187,11 +2337,13 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         textAlign: 'left',
         transition: 'background 130ms ease, border-color 130ms ease, color 130ms ease, transform 130ms ease',
     },
-    starterIcon: { fontSize: 13, flexShrink: 0, lineHeight: 1 },
+    starterIcon: { display: 'flex', alignItems: 'center', flexShrink: 0, color: C.textMuted },
     starterLabel: {
         flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
     },
-    starterArrow: { flexShrink: 0, fontSize: 12, opacity: 0.55 },
+    starterArrow: {
+        display: 'flex', alignItems: 'center', flexShrink: 0, opacity: 0.5,
+    },
     // minWidth 0 on the row: without it the nested column cannot shrink below
     // its content, so a long line overflows the panel instead of wrapping.
     userRow: {
@@ -2241,7 +2393,9 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         alignSelf: 'stretch',
         background: C.surfaceMuted,
         color: C.textMuted,
-        border: `1px solid ${C.border}`,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: C.border,
         borderRadius: 10,
         overflow: 'hidden',
         transition: 'border-color 120ms ease, background 120ms ease',
@@ -2270,7 +2424,7 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         appearance: 'none',
         margin: 0,
     },
-    activityIcon: { color: C.success, fontSize: 11, flexShrink: 0 },
+    activityIcon: { display: 'flex', alignItems: 'center', flexShrink: 0 },
     activityCaption: {
         flex: 1,
         minWidth: 0,
@@ -2295,11 +2449,10 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         fontWeight: 500,
     },
     activityChevron: {
-        fontSize: 10,
         flexShrink: 0,
-        display: 'inline-block',
-        transition: 'transform 140ms ease',
-        lineHeight: 1,
+        display: 'inline-flex',
+        alignItems: 'center',
+        transition: 'transform 160ms cubic-bezier(.2,.8,.2,1)',
     },
     activitySteps: {
         borderTop: `1px solid ${C.border}`,
@@ -2317,7 +2470,12 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         animation: 'ts-dbg-rise 220ms ease both',
     },
     activityStepIcon: {
-        color: C.textFaint, fontSize: 10, lineHeight: '16px', flexShrink: 0, width: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        width: 12,
+        height: 17,
     },
     activityStepBody: { minWidth: 0, flex: 1 },
     activityStepTitle: {
@@ -2348,20 +2506,7 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         overflowWrap: 'anywhere',
     },
     contextTray: {
-        flex: '0 0 auto',
-        padding: '8px 12px 0',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
-    },
-    contextTrayLabel: { fontSize: 10, color: C.textFaint, textTransform: 'uppercase', letterSpacing: 0.3 },
-    contextTrayChips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 6,
-        // Several picks must not push the input off the panel.
-        maxHeight: 92,
-        overflowY: 'auto',
+        display: 'flex', flexWrap: 'wrap', gap: 6, maxHeight: 76, overflowY: 'auto',
     },
     userColumn: {
         display: 'flex',
@@ -2381,15 +2526,19 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
     },
     messageCopyBtn: { marginTop: 3, alignSelf: 'flex-start' },
     copyBtn: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
         background: 'transparent',
         border: 'none',
         color: C.textMuted,
         cursor: 'pointer',
         fontFamily: FONT,
         fontSize: 10.5,
-        padding: '2px 4px',
-        borderRadius: 4,
+        padding: '3px 6px',
+        borderRadius: 6,
         flexShrink: 0,
+        transition: 'background 120ms ease, color 120ms ease',
     },
     codeBlock: {
         animation: 'ts-dbg-rise 220ms ease',
@@ -2497,7 +2646,7 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
     sessionInput: {
         width: '100%',
         boxSizing: 'border-box',
-        background: C.surfaceMuted,
+        background: C.surface,
         color: C.text,
         border: `1px solid ${C.border}`,
         borderRadius: 8,
@@ -2507,14 +2656,25 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         outline: 'none',
     },
     toolBtn: {
-        background: C.surfaceMuted,
-        color: C.text,
-        border: `1px solid ${C.border}`,
-        borderRadius: 8,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 5,
+        background: C.surface,
+        color: C.textMuted,
+        // Longhand, not `border`: the hover and active tones below override
+        // borderColor alone, and React warns when a longhand overrides a
+        // shorthand between renders.
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: C.border,
+        borderRadius: 999,
         padding: '5px 10px',
         fontSize: 11.5,
+        fontWeight: 500,
         cursor: 'pointer',
         fontFamily: FONT,
+        whiteSpace: 'nowrap',
+        transition: 'background 130ms ease, border-color 130ms ease, color 130ms ease',
     },
     toolBtnActive: {
         background: C.accent,
@@ -2540,42 +2700,72 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         cursor: 'pointer',
         fontFamily: FONT,
     },
-    inputRow: {
+    composer: {
         flex: '0 0 auto',
+        margin: '0 12px 12px',
+        padding: 8,
         display: 'flex',
+        flexDirection: 'column',
         gap: 8,
-        alignItems: 'flex-end',
-        padding: 12,
-    },
-    textarea: {
-        flex: 1,
-        resize: 'none',
         background: C.surfaceMuted,
         color: C.text,
-        border: `1px solid ${C.border}`,
-        borderRadius: 12,
-        padding: '10px 12px',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: C.border,
+        borderRadius: 14,
+        transition: 'border-color 140ms ease, box-shadow 140ms ease',
+    },
+    composerFocused: {
+        borderColor: C.accentBorder,
+        boxShadow: `0 0 0 3px ${C.accentSoft}`,
+    },
+    composerActions: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+    },
+    composerTools: {
+        display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', minWidth: 0,
+    },
+    // Sits inside the composer, so the surface and focus ring belong to the
+    // parent and this contributes only the text area itself.
+    textarea: {
+        resize: 'none',
+        background: 'transparent',
+        color: C.text,
+        border: 'none',
+        borderRadius: 0,
+        padding: '4px 4px 0',
         fontFamily: FONT,
-        fontSize: 12.5,
+        fontSize: 13,
+        lineHeight: 1.5,
         outline: 'none',
-        maxHeight: 96,
+        minHeight: 38,
+        maxHeight: 132,
     },
     sendBtn: {
-        width: 34,
-        height: 34,
+        width: 32,
+        height: 32,
         flexShrink: 0,
         borderRadius: '50%',
         background: C.accent,
         color: C.onAccent,
         border: 'none',
-        fontSize: 16,
+        cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        transition: 'background 130ms ease, opacity 130ms ease',
+    },
+    sendBtnIdle: {
+        background: C.surfaceRaised,
+        color: C.textFaint,
+        cursor: 'not-allowed',
     },
     stopBtn: {
-        width: 34,
-        height: 34,
+        width: 32,
+        height: 32,
         flexShrink: 0,
         borderRadius: '50%',
         background: C.surface,
