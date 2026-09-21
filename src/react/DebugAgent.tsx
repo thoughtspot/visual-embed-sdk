@@ -802,21 +802,23 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             e.stopPropagation();
             setPicking(false);
             setHovered(null);
+            // The other half of this control is still armed inside the embed;
+            // the developer has made their choice on this side.
+            if (pickingEmbed) void cancelEmbedPicker();
 
-            // Clicking the embed hands off to the extension's picker, which
-            // re-arms inside the iframe so the developer keeps picking in one
-            // continuous gesture. Nothing in there is readable from here — it
-            // is a separate origin — so without the extension all this can do
-            // is say so, rather than attach a snapshot of the empty frame box.
+            // The iframe element itself is pickable here, but nothing inside
+            // it is: that is a separate origin. When the extension is
+            // connected its own picker is already armed inside the frame and
+            // will handle clicks in there, so reaching this branch means the
+            // click landed on the frame's own box (its border or a gap) —
+            // worth saying, rather than attaching a snapshot of an empty box.
             if (target.tagName === 'IFRAME') {
-                if (activeSessionId) {
-                    void pickInsideEmbed();
-                    return;
-                }
                 setItems((prev) => [...prev, {
                     id: nextId(),
                     kind: 'notice',
-                    content: 'That is the embed itself. Connect the browser extension to pick inside it.',
+                    content: activeSessionId
+                        ? 'That is the embed’s frame. Click inside it to pick the element you mean.'
+                        : 'That is the embed itself. Connect the browser extension to pick inside it.',
                 }]);
                 return;
             }
@@ -839,6 +841,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             e.preventDefault();
             setPicking(false);
             setHovered(null);
+            // Escape inside the embed is handled by the injected picker
+            // itself; this covers Escape pressed on the host page.
+            if (pickingEmbed) void cancelEmbedPicker();
         };
         document.addEventListener('mousemove', onMove, true);
         document.addEventListener('mousedown', onPick, true);
@@ -851,7 +856,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             document.removeEventListener('keydown', onKeyDown, true);
             document.body.style.cursor = prevCursor;
         };
-    }, [picking, activeSessionId]);
+    }, [picking, activeSessionId, pickingEmbed]);
 
     // Before the early return, so the hook order never changes with `enabled`.
     const theme = React.useMemo<Theme>(() => {
@@ -1041,6 +1046,48 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     }
 
     /**
+     * The one picker control, covering the host page and the embed at once.
+     *
+     * A click on a cross-origin iframe is delivered to that iframe's own
+     * document and never surfaces in this one, so the host page cannot detect
+     * a click on the embed and hand off to the extension after the fact. Both
+     * pickers are therefore armed together: the local one for host markup, and
+     * the extension's in-iframe one for anything inside the embed. Whichever
+     * side the developer clicks resolves first, and disarms the other.
+     */
+    function togglePicking() {
+        if (picking || pickingEmbed) {
+            setPicking(false);
+            setHovered(null);
+            if (pickingEmbed) void cancelEmbedPicker();
+            return;
+        }
+        setPicking(true);
+        if (activeSessionId) void pickInsideEmbed();
+    }
+
+    /**
+     * Tears down the picker running inside the embed, for when the developer
+     * picked on the host page instead or disarmed the control. Without this
+     * the in-iframe overlay stays up, swallowing the app's own clicks until
+     * it times out.
+     */
+    async function cancelEmbedPicker() {
+        if (!activeSessionId) return;
+        try {
+            const { tabId, frameSessionId } = await findEmbedFrame(agentApiUrl, activeSessionId);
+            await callExtensionTool(agentApiUrl, activeSessionId, 'evaluate_script', {
+                tabId,
+                frameSessionId,
+                expression: '(() => { if (window.__tsPickerCleanup) window.__tsPickerCleanup(); })()',
+            });
+        } catch {
+            // Best effort: the picker times out on its own, and failing to
+            // cancel it must not break the pick that just succeeded.
+        }
+    }
+
+    /**
      * Arms the extension's picker inside the embed. The highlight is drawn by
      * a script running in the iframe's own frame, so it tracks the cursor at
      * native speed; this call simply waits for the user's click and then
@@ -1049,6 +1096,12 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     async function pickInsideEmbed() {
         if (!activeSessionId || pickingEmbed) return;
         setPickingEmbed(true);
+        // Whatever this returns — a pick, a cancel, a timeout — the gesture is
+        // over on both sides, so the host picker comes down with it.
+        const disarmHost = () => {
+            setPicking(false);
+            setHovered(null);
+        };
         // Reuses the activity card, so an extension-driven pick reports itself
         // the same way the agent's own steps do.
         const statusId = nextId();
@@ -1123,6 +1176,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             ]);
         } finally {
             setPickingEmbed(false);
+            disarmHost();
         }
     }
 
@@ -1468,11 +1522,10 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                         <div style={styles.composerActions}>
                             <div style={styles.composerTools}>
                                 <IconButton
-                                    onClick={() => setPicking((pick) => !pick)}
-                                    disabled={pickingEmbed}
+                                    onClick={togglePicking}
                                     active={picking || pickingEmbed}
                                     icon="target"
-                                    label={pickingEmbed ? 'Picking in embed…' : (picking ? 'Picking…' : 'Pick')}
+                                    label={picking || pickingEmbed ? 'Picking…' : 'Pick'}
                                     title={activeSessionId
                                         ? 'Pick an element to attach as context — on the host page or inside the ThoughtSpot embed'
                                         : 'Pick an element on the host page to attach as context'}

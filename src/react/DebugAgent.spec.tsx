@@ -467,8 +467,13 @@ describe('DebugAgent', () => {
             expect(screen.queryByText(/element attached/)).not.toBeInTheDocument();
         });
 
-        it('hands off to the extension picker when the embed is clicked, with no second button', async () => {
-            stubIframeUnderCursor();
+        it('arms the embed picker on click, without needing a click on the iframe first', async () => {
+            // The bug this guards: a click on a cross-origin iframe is
+            // delivered to that iframe's own document and NEVER reaches the
+            // host page, so a host-side mousedown handler can never be the
+            // trigger for picking inside the embed. jsdom does not model that
+            // boundary, so the test must not simulate one either — arming is
+            // asserted from the button click alone.
             const calls: string[] = [];
             global.fetch = jest.fn().mockImplementation((url: string, init: RequestInit) => {
                 if (String(url).includes('/extension/tool-call')) {
@@ -479,7 +484,7 @@ describe('DebugAgent', () => {
                         list_frames: { frames: [{ sessionId: 'FRAME_A', type: 'iframe' }] },
                         start_element_picker: {
                             picked: true,
-                            element: { selector: '.ts-viz', styles: { color: 'rgb(0, 0, 0)' } },
+                            element: { selector: '.ts-viz', styles: {} },
                         },
                     };
                     return Promise.resolve({
@@ -496,19 +501,24 @@ describe('DebugAgent', () => {
 
             render(<DebugAgent extensionSessionId="abc" />);
             await openPanel();
-            // There is one picker, not two.
+            // One picker, not two.
             expect(screen.queryByRole('button', { name: /Pick in embed/ })).not.toBeInTheDocument();
-
             await act(async () => {
                 fireEvent.click(screen.getByTitle(/on the host page or inside the ThoughtSpot embed/));
             });
-            await act(async () => {
-                fireEvent.mouseDown(document.body, { clientX: 5, clientY: 5 });
-            });
 
-            // The same gesture continued into the iframe, via the extension.
             await waitFor(() => expect(calls).toContain('start_element_picker'));
             expect(await screen.findByText('.ts-viz')).toBeInTheDocument();
+        });
+
+        it('does not arm the embed picker when no extension is connected', async () => {
+            global.fetch = jest.fn() as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await act(async () => {
+                fireEvent.click(screen.getByTitle(/Pick an element on the host page/));
+            });
+            expect(global.fetch).not.toHaveBeenCalled();
         });
 
         it('disarms the picker on Escape, so it cannot keep swallowing clicks', async () => {
