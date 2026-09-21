@@ -310,14 +310,16 @@ const mountDebugAgent = (): void => {
     container.id = DEBUG_AGENT_MOUNT_ID;
     document.body.appendChild(container);
 
-    // `react-dom` ships no type declarations and this package does not
-    // depend on `@types/react-dom`; importing via a computed specifier keeps
-    // this dynamic import untyped (`any`) instead of failing the build.
-    const reactDomSpecifier = 'react-dom';
-    const importReactDOM = (): Promise<any> => import(reactDomSpecifier);
-
-    Promise.all([import('react'), importReactDOM(), import('../react/DebugAgent')])
-        .then(([React, ReactDOM, { DebugAgent }]) => {
+    // The `import('react-dom')` specifier must stay a string literal so
+    // bundlers (Vite/Rollup/webpack) can statically resolve and chunk it —
+    // a computed specifier falls through to the browser's native ESM
+    // resolver, which cannot resolve a bare module name and throws at
+    // runtime. `react-dom` ships no type declarations and this package does
+    // not depend on `@types/react-dom`, so the result is cast to `any`
+    // instead, which does not affect the emitted import.
+    Promise.all([import('react'), import('react-dom'), import('../react/DebugAgent')])
+        .then(([React, ReactDOMModule, { DebugAgent }]) => {
+            const ReactDOM = ReactDOMModule as any;
             const element = React.createElement(DebugAgent);
             if (typeof ReactDOM.createRoot === 'function') {
                 ReactDOM.createRoot(container).render(element);
