@@ -67,6 +67,9 @@ interface PickedElementContext {
     kind: 'element';
     selector: string;
     styles: Record<string, string>;
+    /** Picked inside the ThoughtSpot iframe rather than the host page. */
+    inEmbed?: boolean;
+    outerHTMLPreview?: string;
 }
 
 type TimelineItem = ChatMessage | ToolEvent | PickedElementContext;
@@ -305,7 +308,14 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         if (!elementContexts.length) return '';
         const blocks = elementContexts.map((ctx) => {
             const styleLines = Object.entries(ctx.styles).map(([k, v]) => `  ${k}: ${v};`).join('\n');
-            return `Element \`${ctx.selector}\`:\n${styleLines}`;
+            // Where the element lives decides how it can be styled at all:
+            // host page markup takes ordinary CSS, whereas anything inside the
+            // embed has to go through the SDK's customCSS customizations.
+            const where = ctx.inEmbed
+                ? 'inside the embedded ThoughtSpot iframe'
+                : 'in the host page';
+            const html = ctx.outerHTMLPreview ? `\n${ctx.outerHTMLPreview}` : '';
+            return `Element \`${ctx.selector}\` (${where}):${html}\n${styleLines}`;
         });
         return `Picked page elements for context:\n\n${blocks.join('\n\n')}\n\n---\n\n`;
     };
@@ -431,21 +441,17 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 return;
             }
 
+            // Attach as context only — the developer asks their own questions
+            // about it from here, the same way a host-page pick behaves.
             const el = picked.element;
             setItems((prev) => [...prev, {
-                id: nextId(), kind: 'element', selector: el.selector, styles: el.styles,
+                id: nextId(),
+                kind: 'element',
+                selector: el.selector,
+                styles: el.styles,
+                inEmbed: true,
+                outerHTMLPreview: el.outerHTMLPreview,
             }]);
-
-            const styleLines = Object.entries(el.styles)
-                .map(([k, v]) => `  ${k}: ${v};`)
-                .join('\n');
-            await sendText(
-                `I picked this element inside the embedded ThoughtSpot iframe:\n\n`
-                + `\`${el.selector}\`\n`
-                + `${el.outerHTMLPreview}\n\n`
-                + `Computed styles:\n${styleLines}\n\n`
-                + 'What is it, and how would I change its styling?',
-            );
         } catch (err) {
             setItems((prev) => [
                 ...prev.filter((it) => !('id' in it && it.id === statusId)),
@@ -669,7 +675,8 @@ const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }
     <div style={styles.elementChip}>
         <span style={styles.elementChipTag}>{'⌖'} {item.selector}</span>
         <span style={styles.elementChipMeta}>
-            {item.styles.width} × {item.styles.height} · {item.styles.display}
+            {item.inEmbed ? 'embed · ' : ''}
+            {item.styles.width} × {item.styles.height}
         </span>
         <button type="button" onClick={onRemove} aria-label="Remove context" style={styles.elementChipRemove}>
             {'✕'}
