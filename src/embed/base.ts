@@ -310,24 +310,28 @@ const mountDebugAgent = (): void => {
     container.id = DEBUG_AGENT_MOUNT_ID;
     document.body.appendChild(container);
 
-    // The `import('react-dom')` specifier must stay a string literal so
-    // bundlers (Vite/Rollup/webpack) can statically resolve and chunk it —
-    // a computed specifier falls through to the browser's native ESM
+    // `import()` specifiers must stay string literals so bundlers
+    // (Vite/Rollup/webpack) can statically resolve and chunk them — a
+    // computed specifier falls through to the browser's native ESM
     // resolver, which cannot resolve a bare module name and throws at
-    // runtime. `react-dom` ships no type declarations and this package does
-    // not depend on `@types/react-dom`, so the result is cast to `any`
-    // instead, which does not affect the emitted import.
-    Promise.all([import('react'), import('react-dom'), import('../react/DebugAgent')])
-        .then(([React, ReactDOMModule, { DebugAgent }]) => {
-            const ReactDOM = ReactDOMModule as any;
+    // runtime. Since React 18, `createRoot` lives only in the
+    // `react-dom/client` subpath — the `react-dom` package's top-level export
+    // no longer has
+    // `createRoot` (never did) or `render` (removed in React 19) — so that
+    // subpath is tried first, falling back to legacy `react-dom` for React
+    // < 18 peers where `react-dom/client` does not exist.
+    Promise.all([import('react'), import('../react/DebugAgent')])
+        .then(([React, { DebugAgent }]) => {
             const element = React.createElement(DebugAgent);
-            if (typeof ReactDOM.createRoot === 'function') {
-                ReactDOM.createRoot(container).render(element);
-            } else {
-                // Fallback for React < 18 peers, which lack createRoot.
-                // eslint-disable-next-line react/no-deprecated
-                ReactDOM.render(element, container);
-            }
+            return import('react-dom/client')
+                .then((ReactDOMClient) => {
+                    ReactDOMClient.createRoot(container).render(element);
+                })
+                .catch(() => import('react-dom').then((ReactDOM) => {
+                    // Fallback for React < 18 peers, which lack createRoot.
+                    // eslint-disable-next-line react/no-deprecated
+                    ReactDOM.render(element, container);
+                }));
         })
         .catch((err) => {
             logger.error('DebugAgent could not be mounted: React/ReactDOM are required (peer dependencies) to use enableDebugAgent.', err);
