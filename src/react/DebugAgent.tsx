@@ -192,7 +192,7 @@ function toSseEvents(buffer: string): { events: Array<Record<string, unknown>>; 
 /** `[label](https://…)` — only http(s), so a `javascript:` URL cannot ride in. */
 const MD_LINK = /^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/;
 
-function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
+function renderInline(text: string, keyPrefix: string, styles: Record<string, React.CSSProperties>): React.ReactNode[] {
     const nodes: React.ReactNode[] = [];
     const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
     parts.forEach((part, i) => {
@@ -280,7 +280,7 @@ export function splitContentSegments(content: string): ContentSegment[] {
     return segments;
 }
 
-function renderProse(content: string): React.ReactNode {
+function renderProse(content: string, styles: Record<string, React.CSSProperties>): React.ReactNode {
     const lines = content.replace(/^\n+|\n+$/g, '').split('\n');
     return lines.map((line, i) => {
         const trimmed = line.trimStart();
@@ -292,7 +292,7 @@ function renderProse(content: string): React.ReactNode {
         const bullet = /^[-*]\s+/.test(trimmed);
         const heading = /^#{1,4}\s+/.exec(trimmed);
         const body = bullet ? trimmed.replace(/^[-*]\s+/, '') : (heading ? trimmed.slice(heading[0].length) : line);
-        const rendered = renderInline(body, `l${i}`);
+        const rendered = renderInline(body, `l${i}`, styles);
         return (
             <React.Fragment key={i}>
                 {bullet ? <span style={{ opacity: 0.55 }}>{'•  '}</span> : null}
@@ -303,11 +303,11 @@ function renderProse(content: string): React.ReactNode {
     });
 }
 
-function renderContent(content: string): React.ReactNode {
+function renderContent(content: string, styles: Record<string, React.CSSProperties>): React.ReactNode {
     return splitContentSegments(content).map((seg, i) => (seg.type === 'code' ? (
         <CodeBlock key={`c${i}`} code={seg.text} language={seg.language} />
     ) : (
-        <div key={`p${i}`}>{renderProse(seg.text)}</div>
+        <div key={`p${i}`}>{renderProse(seg.text, styles)}</div>
     )));
 }
 
@@ -344,6 +344,7 @@ const CopyButton: React.FC<{
     label?: string;
     style?: React.CSSProperties;
 }> = ({ text, label, style: overrideStyle }) => {
+    const { styles } = useTheme();
     const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle');
 
     useEffect(() => {
@@ -473,22 +474,6 @@ export function tokenizeCode(code: string, language?: string): Array<{ type: Tok
 }
 
 /**
- * Token colours. Chosen against the block's light background and kept close
- * to GitHub's light theme, which is what a developer reading SDK docs on
- * developers.thoughtspot.com has just been looking at.
- */
-const TOKEN_COLORS: Record<TokenType, string | undefined> = {
-    comment: '#6a737d',
-    string: '#032f62',
-    keyword: '#d73a49',
-    number: '#005cc5',
-    tag: '#22863a',
-    attr: '#6f42c1',
-    punct: '#586069',
-    plain: undefined,
-};
-
-/**
  * Renders the block with `div`s rather than `pre`/`code`.
  *
  * A host page styling `code, pre { background: #161b22 !important }` — normal
@@ -497,21 +482,27 @@ const TOKEN_COLORS: Record<TokenType, string | undefined> = {
  * here depends on `pre` semantics: `whiteSpace: 'pre'` preserves the
  * formatting, and the tag itself was the only thing host CSS could target.
  */
-const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language }) => (
-    <div style={styles.codeBlock}>
-        <div style={styles.codeBlockHeader}>
-            <span style={styles.codeBlockLang}>{language || 'code'}</span>
-            <CopyButton text={code} label="code" />
+const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language }) => {
+    const { c, styles } = useTheme();
+    return (
+        <div style={styles.codeBlock}>
+            <div style={styles.codeBlockHeader}>
+                <span style={styles.codeBlockLang}>{language || 'code'}</span>
+                <CopyButton text={code} label="code" />
+            </div>
+            <div style={styles.codeBlockPre}>
+                {tokenizeCode(code, language).map((token, i) => (
+                    <span
+                        key={i}
+                        style={token.type === 'plain' ? undefined : { color: c.token[token.type] }}
+                    >
+                        {token.text}
+                    </span>
+                ))}
+            </div>
         </div>
-        <div style={styles.codeBlockPre}>
-            {tokenizeCode(code, language).map((token, i) => (
-                <span key={i} style={TOKEN_COLORS[token.type] ? { color: TOKEN_COLORS[token.type] } : undefined}>
-                    {token.text}
-                </span>
-            ))}
-        </div>
-    </div>
-);
+    );
+};
 
 function getRect(el: Element) {
     const r = el.getBoundingClientRect();
@@ -689,6 +680,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     extensionSessionId,
 }) => {
     const enabled = !!getEmbedConfig()?.enableDebugAgent;
+    const prefersDark = usePrefersDark();
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<TimelineItem[]>([]);
     const [input, setInput] = useState('');
@@ -842,6 +834,13 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             document.body.style.cursor = prevCursor;
         };
     }, [picking, activeSessionId]);
+
+    // Before the early return, so the hook order never changes with `enabled`.
+    const theme = React.useMemo<Theme>(() => {
+        const c = prefersDark ? DARK : LIGHT;
+        return { c, styles: makeStyles(c) };
+    }, [prefersDark]);
+    const { c, styles } = theme;
 
     if (!enabled) return null;
 
@@ -1135,7 +1134,10 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     };
 
     return (
-        <>
+        <ThemeContext.Provider value={theme}>
+            {/* One stylesheet for the whole panel: several spinners on screen
+                used to inject the same @keyframes several times over. */}
+            <style>{KEYFRAMES}</style>
             {picking && hovered ? (
                 <ElementHoverOverlay
                     el={hovered}
@@ -1147,7 +1149,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 <button
                     type="button"
                     onClick={() => setOpen(true)}
-                    aria-label="Open Debug Agent"
+                    aria-label={`Open ${PRODUCT_NAME}`}
                     style={styles.launcher}
                 >
                     <AgentGlyph size={22} />
@@ -1171,11 +1173,23 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     />
                     <div style={styles.header}>
                         <span style={styles.headerTitle}>
-                            <AgentGlyph size={18} />
+                            <AgentGlyph size={20} />
                             <span>
-                                <div style={styles.headerName}>Debug Agent</div>
+                                <div style={styles.headerName}>{PRODUCT_NAME}</div>
                                 <div style={styles.headerSubtitle}>
-                                    <span style={{ ...styles.statusDot, background: busy ? '#d29922' : '#3fb950' }} />
+                                    <span style={styles.headerTagline}>{PRODUCT_TAGLINE}</span>
+                                    <span aria-hidden style={styles.headerDivider}>{'·'}</span>
+                                    <span
+                                        data-ts-dbg-anim
+                                        style={{
+                                            ...styles.statusDot,
+                                            background: busy ? c.warning : c.success,
+                                            // Pulses while working.
+                                            animation: busy
+                                                ? 'ts-dbg-pulse 1.4s ease-in-out infinite'
+                                                : undefined,
+                                        }}
+                                    />
                                     {busy ? 'Working…' : 'Ready'}
                                 </div>
                             </span>
@@ -1202,8 +1216,15 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     </div>
 
                     <div ref={messagesRef} style={styles.messages}>
-                        {items.length === 0 ? (
-                            <WelcomeState onPick={() => setPicking(true)} extensionConnected={!!activeSessionId} />
+                        {/* Picked elements live in the tray above the input,
+                            not the transcript, so attaching one must not count
+                            as a conversation and hide the openers. */}
+                        {!items.some((it) => !isElement(it)) ? (
+                            <WelcomeState
+                                onPick={() => setPicking(true)}
+                                onPrompt={(text) => sendText(text, buildContextPreamble())}
+                                extensionConnected={!!activeSessionId}
+                            />
                         ) : null}
                         {items.map((item) => {
                             if (isActivity(item)) return <ActivityCard key={item.id} group={item} />;
@@ -1223,7 +1244,13 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                     ) : null}
                                     <div style={msg.role === 'user' ? styles.userColumn : styles.assistantColumn}>
                                         <div style={msg.role === 'user' ? styles.userBubble : styles.assistantBubble}>
-                                            {renderContent(msg.content)}
+                                            {renderContent(msg.content, styles)}
+                                            {/* Live caret: the answer is
+                                                still arriving. */}
+                                            {msg.role === 'assistant' && busy
+                                                && msg.id === streamingIdRef.current ? (
+                                                    <span data-ts-dbg-anim style={styles.caret} />
+                                                ) : null}
                                         </div>
                                         {/* Only a settled reply gets a copy button: copying a
                                             half-streamed answer hands over a truncated one. */}
@@ -1355,17 +1382,30 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     </form>
                 </div>
             )}
-        </>
+        </ThemeContext.Provider>
     );
 };
 
+/**
+ * The product mark. A gradient-filled rounded square with the spark glyph —
+ * the one deliberately branded element, so it keeps its own colours in both
+ * themes rather than following the palette.
+ */
 const AgentGlyph: React.FC<{ size: number }> = ({ size }) => (
     <div
         style={{
-            width: size, height: size, borderRadius: size / 3.2, flexShrink: 0,
-            background: 'linear-gradient(135deg, #6ea8fe, #a78bfa)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: size * 0.6, lineHeight: 1,
+            width: size,
+            height: size,
+            borderRadius: size / 3.2,
+            flexShrink: 0,
+            background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #d946ef 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: size * 0.58,
+            lineHeight: 1,
+            color: '#ffffff',
+            boxShadow: `0 ${size / 12}px ${size / 3}px rgba(99, 102, 241, 0.35)`,
         }}
         aria-hidden
     >
@@ -1373,39 +1413,101 @@ const AgentGlyph: React.FC<{ size: number }> = ({ size }) => (
     </div>
 );
 
-const TypingDots: React.FC = () => (
-    <span style={{ display: 'inline-flex', gap: 3, alignItems: 'center', padding: '2px 0' }}>
-        {[0, 1, 2].map((i) => (
-            <span
-                key={i}
-                style={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: '50%',
-                    background: '#8b949e',
-                    animation: 'ts-debug-agent-blink 1.1s infinite ease-in-out',
-                    animationDelay: `${i * 0.15}s`,
-                }}
-            />
-        ))}
-        <style>{'@keyframes ts-debug-agent-blink {0%,80%,100%{opacity:.25} 40%{opacity:1}}'}</style>
-    </span>
-);
+const TypingDots: React.FC = () => {
+    const { c } = useTheme();
+    return (
+        <span style={{ display: 'inline-flex', gap: 3, alignItems: 'center', padding: '2px 0' }}>
+            {[0, 1, 2].map((i) => (
+                <span
+                    key={i}
+                    style={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: '50%',
+                        background: c.textMuted,
+                        animation: 'ts-dbg-blink 1.1s infinite ease-in-out',
+                        animationDelay: `${i * 0.15}s`,
+                    }}
+                />
+            ))}
+        </span>
+    );
+};
 
-const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean }> = ({ onPick, extensionConnected }) => (
-    <div style={styles.welcome}>
-        <AgentGlyph size={32} />
-        <div style={styles.welcomeTitle}>How can I help with this embed?</div>
-        <div style={styles.welcomeBody}>
-            Ask about console errors, failed requests, or configuration —
-            or pick an element on the page to get style help for it.
-            {extensionConnected ? ' With the browser extension connected, that works inside the ThoughtSpot iframe too.' : ''}
+/**
+ * Openers offered on the empty state. Each is a question the agent handles
+ * well with the tools it has, so a first-time user gets a useful answer
+ * instead of having to guess what the panel can do. The `send` text is what
+ * is actually asked; the label stays short enough to read at a glance.
+ */
+const STARTER_PROMPTS: Array<{ icon: string; label: string; send: string }> = [
+    {
+        icon: '🩺',
+        label: 'Diagnose this embed',
+        send: 'Check the console and network for errors in this embed and tell me what is wrong.',
+    },
+    {
+        icon: '🎨',
+        label: 'Match my app theme',
+        send: 'Give me the customCSS variables to make this embed match my host page theme.',
+    },
+    {
+        icon: '🙈',
+        label: 'Hide an action',
+        send: 'How do I hide a specific action from the embed menus?',
+    },
+];
+
+const WelcomeState: React.FC<{
+    onPick: () => void;
+    onPrompt: (text: string) => void;
+    extensionConnected?: boolean;
+}> = ({ onPick, onPrompt, extensionConnected }) => {
+    const { c, styles } = useTheme();
+    const [hovered, setHovered] = useState<string | null>(null);
+
+    return (
+        <div style={styles.welcome}>
+            <AgentGlyph size={36} />
+            <div style={styles.welcomeTitle}>{`How can I help with this embed?`}</div>
+            <div style={styles.welcomeBody}>
+                Ask about console errors, failed requests, or configuration — or pick an
+                element to get style help for it.
+                {extensionConnected ? ' The connected extension lets that work inside the ThoughtSpot iframe too.' : ''}
+            </div>
+
+            {/* Clickable openers: the empty state was a large blank area, and a
+                first-time user had no idea what this panel could answer. */}
+            <div style={styles.starterList}>
+                {STARTER_PROMPTS.map((p) => (
+                    <button
+                        key={p.label}
+                        type="button"
+                        onClick={() => onPrompt(p.send)}
+                        onMouseEnter={() => setHovered(p.label)}
+                        onMouseLeave={() => setHovered(null)}
+                        title={p.send}
+                        style={{
+                            ...styles.starterBtn,
+                            ...(hovered === p.label
+                                ? { borderColor: c.accent, background: c.accentSoft, color: c.accent }
+                                : null),
+                        }}
+                    >
+                        <span aria-hidden style={styles.starterIcon}>{p.icon}</span>
+                        <span style={styles.starterLabel}>{p.label}</span>
+                        <span aria-hidden style={styles.starterArrow}>{'→'}</span>
+                    </button>
+                ))}
+            </div>
+
+            <button type="button" onClick={onPick} style={styles.welcomeBtn}>
+                {'⌖'}
+                {'  Pick an element instead'}
+            </button>
         </div>
-        <button type="button" onClick={onPick} style={styles.welcomeBtn}>
-            {'⌖'} Pick an element
-        </button>
-    </div>
-);
+    );
+};
 
 /**
  * One turn's tool calls, collapsed to a single status line and expandable to
@@ -1417,6 +1519,7 @@ const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean 
  * needs when the plain caption is not enough.
  */
 const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
+    const { c, styles } = useTheme();
     const [expanded, setExpanded] = useState(false);
     const [hover, setHover] = useState(false);
     const running = group.steps.find((s) => s.status === 'running');
@@ -1455,8 +1558,12 @@ const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
             </button>
             {expanded ? (
                 <div style={styles.activitySteps}>
-                    {group.steps.map((step) => (
-                        <div key={step.id} style={styles.activityStep}>
+                    {group.steps.map((step, idx) => (
+                        <div
+                            key={step.id}
+                            data-ts-dbg-anim
+                            style={{ ...styles.activityStep, animationDelay: `${idx * 45}ms` }}
+                        >
                             <span style={styles.activityStepIcon}>
                                 {step.status === 'running' ? '·' : step.status === 'failed' ? '⚠' : '✓'}
                             </span>
@@ -1478,23 +1585,25 @@ const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
     );
 };
 
-const Spinner: React.FC = () => (
-    <span
-        style={{
-            width: 10,
-            height: 10,
-            flexShrink: 0,
-            borderRadius: '50%',
-            border: '1.5px solid #c9dcfc',
-            borderTopColor: '#1f6feb',
-            display: 'inline-block',
-            animation: 'ts-debug-agent-spin 0.7s linear infinite',
-        }}
-        aria-hidden
-    >
-        <style>{'@keyframes ts-debug-agent-spin {to{transform:rotate(360deg)}}'}</style>
-    </span>
-);
+const Spinner: React.FC = () => {
+    const { c } = useTheme();
+    return (
+        <span
+            style={{
+                width: 10,
+                height: 10,
+                flexShrink: 0,
+                borderRadius: '50%',
+                border: `1.5px solid ${c.accentBorder}`,
+                borderTopColor: c.accent,
+                display: 'inline-block',
+                animation: 'ts-dbg-spin 0.7s linear infinite',
+            }}
+            aria-hidden
+        >
+        </span>
+    );
+};
 
 /**
  * One attached element, shown in the tray above the input. The selector is
@@ -1502,6 +1611,7 @@ const Spinner: React.FC = () => (
  * the remove button, and the full value stays available on hover.
  */
 const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }> = ({ item, onRemove }) => {
+    const { styles } = useTheme();
     const size = item.styles.width && item.styles.height
         ? `${item.styles.width} × ${item.styles.height}`
         : '';
@@ -1521,6 +1631,7 @@ const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }
 };
 
 const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }> = ({ el, iframeInspectable }) => {
+    const { c } = useTheme();
     const [rect, setRect] = useState(() => getRect(el));
     useEffect(() => {
         setRect(getRect(el));
@@ -1575,6 +1686,30 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
 const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif';
 const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
 
+/** The panel's display name, shown in the header and the launcher label. */
+const PRODUCT_NAME = 'EmbedX';
+const PRODUCT_TAGLINE = 'Embed assistant';
+
+/**
+ * The active palette and its built style set. A context rather than props so
+ * the ~70 `styles.x` references in the subcomponents stay as they were; the
+ * default is the light set, which is also what a subcomponent rendered outside
+ * the panel (in a test, say) gets.
+ */
+interface Theme {
+    c: Palette;
+    styles: Record<string, React.CSSProperties>;
+}
+
+const ThemeContext = React.createContext<Theme | null>(null);
+
+/** The active theme. Falls back to light when used outside the provider. */
+function useTheme(): Theme {
+    const ctx = React.useContext(ThemeContext);
+    // Lazily built, and only on the fallback path.
+    return ctx ?? { c: LIGHT, styles: makeStyles(LIGHT) };
+}
+
 /**
  * The panel renders inside the host page's DOM, so the host's own CSS cascades
  * into it: a dark-theme host sets `color` on descendants and backgrounds on
@@ -1582,12 +1717,36 @@ const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
  * boxes and put light syntax tokens on a dark block.
  *
  * So every surface states BOTH its background and its text colour — never one
- * without the other, and never relying on inheritance. `panelReset` re-asserts
- * the inheritable properties at the root.
+ * without the other, and never relying on inheritance.
  */
-const C = {
+interface Palette {
+    surface: string;
+    surfaceMuted: string;
+    surfaceRaised: string;
+    codeSurface: string;
+    codeHeader: string;
+    border: string;
+    borderStrong: string;
+    text: string;
+    textMuted: string;
+    textFaint: string;
+    accent: string;
+    accentHover: string;
+    accentSoft: string;
+    accentBorder: string;
+    onAccent: string;
+    inlineCodeText: string;
+    success: string;
+    warning: string;
+    shadow: string;
+    /** Syntax-token colours, tuned per theme for contrast on `codeSurface`. */
+    token: Record<Exclude<TokenType, 'plain'>, string>;
+}
+
+const LIGHT: Palette = {
     surface: '#ffffff',
     surfaceMuted: '#f8fafc',
+    surfaceRaised: '#f1f5f9',
     codeSurface: '#f6f8fa',
     codeHeader: '#eef2f7',
     border: '#e2e8f0',
@@ -1595,11 +1754,125 @@ const C = {
     text: '#0f172a',
     textMuted: '#64748b',
     textFaint: '#94a3b8',
-    accent: '#1f6feb',
+    accent: '#4f46e5',
+    accentHover: '#4338ca',
+    accentSoft: '#eef2ff',
+    accentBorder: '#c7d2fe',
     onAccent: '#ffffff',
+    inlineCodeText: '#b91c4e',
+    success: '#1a7f37',
+    warning: '#9a6700',
+    shadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
+    token: {
+        comment: '#6a737d',
+        string: '#0a6640',
+        keyword: '#c2185b',
+        number: '#005cc5',
+        tag: '#22863a',
+        attr: '#6f42c1',
+        punct: '#586069',
+    },
 };
 
-const styles: Record<string, React.CSSProperties> = {
+/**
+ * Dark palette. Slate-based rather than pure black so it reads as a panel
+ * floating above a dark app rather than a hole in it, and the syntax tokens
+ * are lightened to stay legible on `codeSurface`.
+ */
+const DARK: Palette = {
+    surface: '#161b22',
+    surfaceMuted: '#1c222b',
+    surfaceRaised: '#232a35',
+    codeSurface: '#0f141a',
+    codeHeader: '#1c222b',
+    border: '#2d3542',
+    borderStrong: '#3d4757',
+    text: '#e6edf3',
+    textMuted: '#9aa6b5',
+    textFaint: '#6e7a8a',
+    accent: '#818cf8',
+    accentHover: '#a5b4fc',
+    accentSoft: '#1e2438',
+    accentBorder: '#3730a3',
+    onAccent: '#0f1117',
+    inlineCodeText: '#ff7b9c',
+    success: '#3fb950',
+    warning: '#d29922',
+    shadow: '0 20px 48px rgba(0, 0, 0, 0.55)',
+    token: {
+        comment: '#7d8896',
+        string: '#7ee787',
+        keyword: '#ff7b9c',
+        number: '#79c0ff',
+        tag: '#7ee787',
+        attr: '#d2a8ff',
+        punct: '#9aa6b5',
+    },
+};
+
+/**
+ * Tracks the OS colour-scheme preference, so the panel suits a light and a
+ * dark host without the host having to configure anything. `matchMedia` is
+ * missing in some embedded webviews and throws under some test setups, hence
+ * the guards; light is the fallback.
+ */
+function usePrefersDark(): boolean {
+    const [dark, setDark] = useState(() => {
+        try {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } catch {
+            return false;
+        }
+    });
+
+    useEffect(() => {
+        let mq: MediaQueryList;
+        try {
+            mq = window.matchMedia('(prefers-color-scheme: dark)');
+        } catch {
+            return undefined;
+        }
+        const onChange = (e: MediaQueryListEvent) => setDark(e.matches);
+        // Safari < 14 only has the deprecated addListener.
+        if (mq.addEventListener) mq.addEventListener('change', onChange);
+        else mq.addListener(onChange);
+        return () => {
+            if (mq.removeEventListener) mq.removeEventListener('change', onChange);
+            else mq.removeListener(onChange);
+        };
+    }, []);
+
+    return dark;
+}
+
+/**
+ * Every keyframe the panel uses, injected once from the panel root rather
+ * than per component — three copies of the same `@keyframes` used to ship
+ * whenever several spinners were on screen.
+ *
+ * `prefers-reduced-motion` turns the decorative ones off: a debugging tool
+ * should not fight a user who has asked the OS for less movement.
+ */
+const KEYFRAMES = `
+@keyframes ts-dbg-blink {0%,80%,100%{opacity:.25} 40%{opacity:1}}
+@keyframes ts-dbg-spin {to{transform:rotate(360deg)}}
+@keyframes ts-dbg-in {from{opacity:0;transform:translateY(8px) scale(.98)} to{opacity:1;transform:none}}
+@keyframes ts-dbg-rise {from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none}}
+@keyframes ts-dbg-pop {from{opacity:0;transform:scale(.9)} to{opacity:1;transform:none}}
+@keyframes ts-dbg-expand {from{opacity:0;max-height:0} to{opacity:1;max-height:420px}}
+@keyframes ts-dbg-pulse {0%,100%{opacity:1} 50%{opacity:.45}}
+@keyframes ts-dbg-sheen {0%{background-position:-180% 0} 100%{background-position:180% 0}}
+@media (prefers-reduced-motion: reduce) {
+  [data-ts-dbg-anim] { animation: none !important; transition: none !important; }
+}
+`;
+
+/**
+ * Built per palette rather than as a constant, so the same rules serve light
+ * and dark. Components read the active set from `ThemeContext` via
+ * `useTheme()`, which keeps every `styles.x` call site unchanged.
+ */
+const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
     launcher: {
         position: 'fixed',
         bottom: 20,
@@ -1607,14 +1880,17 @@ const styles: Record<string, React.CSSProperties> = {
         width: 52,
         height: 52,
         borderRadius: '50%',
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.16)',
+        background: C.surface,
+        color: C.text,
+        border: `1px solid ${C.border}`,
+        boxShadow: C.shadow,
         cursor: 'pointer',
         zIndex: 2147483647,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        animation: 'ts-dbg-pop 260ms cubic-bezier(.2,.8,.2,1)',
+        transition: 'transform 140ms ease, box-shadow 140ms ease',
     },
     // Width and height come from the resize state; the panel stays pinned to
     // the bottom-right so a drag from its top-left corner grows it inward.
@@ -1624,16 +1900,17 @@ const styles: Record<string, React.CSSProperties> = {
         right: PANEL_MARGIN,
         background: C.surface,
         color: C.text,
-        border: '1px solid #e2e8f0',
+        border: `1px solid ${C.border}`,
         borderRadius: 16,
         display: 'flex',
         flexDirection: 'column',
         fontFamily: FONT,
         fontSize: 13,
         lineHeight: 1.55,
-        boxShadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
+        boxShadow: C.shadow,
         zIndex: 2147483647,
         overflow: 'hidden',
+        animation: 'ts-dbg-in 220ms cubic-bezier(.2,.8,.2,1)',
         // Re-assert the inheritable properties a host page may have set on
         // body or on a wrapper, so the panel looks the same on every host.
         fontWeight: 400,
@@ -1656,21 +1933,35 @@ const styles: Record<string, React.CSSProperties> = {
         zIndex: 1,
         borderTopLeftRadius: 16,
         // A faint corner mark: discoverable without becoming furniture.
-        background: 'linear-gradient(135deg, #cbd5e1 0 2px, transparent 2px)',
+        background: `linear-gradient(135deg, ${C.borderStrong} 0 2px, transparent 2px)`,
     },
     header: {
         flex: '0 0 auto',
-        padding: '12px 14px',
-        borderBottom: '1px solid #e2e8f0',
+        padding: '11px 12px 11px 14px',
+        borderBottom: `1px solid ${C.border}`,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: '#ffffff',
+        background: C.surface,
+        color: C.text,
     },
     headerTitle: { display: 'flex', alignItems: 'center', gap: 10 },
-    headerName: { fontWeight: 600, fontSize: 13.5 },
+    headerName: {
+        fontWeight: 650, fontSize: 14, letterSpacing: -0.1, color: C.text,
+    },
     headerSubtitle: {
-        fontSize: 11, color: '#64748b', display: 'flex', alignItems: 'center', gap: 5, marginTop: 1,
+        fontSize: 10.5, color: C.textMuted, display: 'flex', alignItems: 'center', gap: 5, marginTop: 1,
+    },
+    headerTagline: { color: C.textFaint },
+    headerDivider: { color: C.textFaint, opacity: 0.7 },
+    caret: {
+        display: 'inline-block',
+        width: 2,
+        height: '0.95em',
+        marginLeft: 2,
+        verticalAlign: 'text-bottom',
+        background: C.accent,
+        animation: 'ts-dbg-blink 1s step-end infinite',
     },
     statusDot: {
         width: 6, height: 6, borderRadius: '50%', display: 'inline-block',
@@ -1679,12 +1970,13 @@ const styles: Record<string, React.CSSProperties> = {
     iconBtn: {
         background: 'transparent',
         border: 'none',
-        color: '#64748b',
+        color: C.textMuted,
         cursor: 'pointer',
         fontSize: 14,
         lineHeight: 1,
         padding: '5px 6px',
         borderRadius: 6,
+        transition: 'background 120ms ease, color 120ms ease',
     },
     messages: {
         flex: '1 1 auto',
@@ -1701,23 +1993,57 @@ const styles: Record<string, React.CSSProperties> = {
         alignItems: 'center',
         textAlign: 'center',
         gap: 10,
-        padding: '28px 12px',
-        color: '#64748b',
+        padding: '24px 12px',
+        color: C.textMuted,
         margin: 'auto',
+        animation: 'ts-dbg-rise 300ms cubic-bezier(.2,.8,.2,1)',
     },
-    welcomeTitle: { color: '#0f172a', fontWeight: 600, fontSize: 15 },
-    welcomeBody: { fontSize: 12.5, maxWidth: 260 },
+    welcomeTitle: {
+        color: C.text, fontWeight: 650, fontSize: 15.5, letterSpacing: -0.2, marginTop: 2,
+    },
+    welcomeBody: { fontSize: 12.5, maxWidth: 270, color: C.textMuted },
     welcomeBtn: {
-        marginTop: 6,
-        background: '#f1f5f9',
-        color: '#334155',
-        border: '1px solid #e2e8f0',
+        marginTop: 2,
+        background: 'transparent',
+        color: C.textMuted,
+        border: 'none',
         borderRadius: 8,
-        padding: '7px 14px',
+        padding: '6px 10px',
         cursor: 'pointer',
         fontFamily: FONT,
-        fontSize: 12,
+        fontSize: 11.5,
+        transition: 'color 120ms ease',
     },
+    starterList: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 6,
+        width: '100%',
+        maxWidth: 290,
+        marginTop: 4,
+    },
+    starterBtn: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 9,
+        width: '100%',
+        boxSizing: 'border-box',
+        padding: '9px 11px',
+        background: C.surfaceMuted,
+        color: C.text,
+        border: `1px solid ${C.border}`,
+        borderRadius: 10,
+        cursor: 'pointer',
+        fontFamily: FONT,
+        fontSize: 12.5,
+        textAlign: 'left',
+        transition: 'background 130ms ease, border-color 130ms ease, color 130ms ease, transform 130ms ease',
+    },
+    starterIcon: { fontSize: 13, flexShrink: 0, lineHeight: 1 },
+    starterLabel: {
+        flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+    },
+    starterArrow: { flexShrink: 0, fontSize: 12, opacity: 0.55 },
     // minWidth 0 on the row: without it the nested column cannot shrink below
     // its content, so a long line overflows the panel instead of wrapping.
     userRow: {
@@ -1732,8 +2058,8 @@ const styles: Record<string, React.CSSProperties> = {
     userBubble: {
         padding: '9px 12px',
         borderRadius: '14px 14px 3px 14px',
-        background: '#1f6feb',
-        color: '#fff',
+        background: C.accent,
+        color: C.onAccent,
         maxWidth: '100%',
         boxSizing: 'border-box',
         wordBreak: 'break-word',
@@ -1745,7 +2071,7 @@ const styles: Record<string, React.CSSProperties> = {
         background: C.surfaceMuted,
         // Explicit, so a dark host page cannot wash out the reply text.
         color: C.text,
-        border: '1px solid #e2e8f0',
+        border: `1px solid ${C.border}`,
         maxWidth: '100%',
         boxSizing: 'border-box',
         wordBreak: 'break-word',
@@ -1754,8 +2080,8 @@ const styles: Record<string, React.CSSProperties> = {
     inlineCode: {
         background: C.codeHeader,
         // Explicit: a dark host page would otherwise leave this light on light.
-        color: '#b91c4e',
-        border: '1px solid #dde3ea',
+        color: C.inlineCodeText,
+        border: `1px solid ${C.border}`,
         borderRadius: 3,
         padding: '1px 4px',
         fontFamily: MONO,
@@ -1771,10 +2097,11 @@ const styles: Record<string, React.CSSProperties> = {
         borderRadius: 10,
         overflow: 'hidden',
         transition: 'border-color 120ms ease, background 120ms ease',
+        animation: 'ts-dbg-rise 240ms cubic-bezier(.2,.8,.2,1)',
     },
     // Hover makes the finished card read as a control rather than a caption.
     activityCardHover: {
-        background: '#f1f5f9',
+        background: C.surfaceRaised,
         borderColor: C.borderStrong,
     },
     activityHeader: {
@@ -1790,19 +2117,19 @@ const styles: Record<string, React.CSSProperties> = {
         textAlign: 'left',
         fontFamily: FONT,
         fontSize: 11.5,
-        color: '#475569',
+        color: C.textMuted,
         // The whole row is the hit target, not just the chevron.
         appearance: 'none',
         margin: 0,
     },
-    activityIcon: { color: '#3fb950', fontSize: 11, flexShrink: 0 },
+    activityIcon: { color: C.success, fontSize: 11, flexShrink: 0 },
     activityCaption: {
         flex: 1,
         minWidth: 0,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
-        color: '#334155',
+        color: C.text,
         fontWeight: 500,
     },
     activityDuration: {
@@ -1827,31 +2154,39 @@ const styles: Record<string, React.CSSProperties> = {
         lineHeight: 1,
     },
     activitySteps: {
-        borderTop: '1px solid #e2e8f0',
+        borderTop: `1px solid ${C.border}`,
+        animation: 'ts-dbg-expand 200ms cubic-bezier(.2,.8,.2,1)',
+        overflow: 'hidden',
         padding: '6px 10px 8px',
         display: 'flex',
         flexDirection: 'column',
         gap: 7,
     },
-    activityStep: { display: 'flex', gap: 7, alignItems: 'flex-start' },
+    activityStep: {
+        display: 'flex',
+        gap: 7,
+        alignItems: 'flex-start',
+        animation: 'ts-dbg-rise 220ms ease both',
+    },
     activityStepIcon: {
-        color: '#94a3b8', fontSize: 10, lineHeight: '16px', flexShrink: 0, width: 10,
+        color: C.textFaint, fontSize: 10, lineHeight: '16px', flexShrink: 0, width: 10,
     },
     activityStepBody: { minWidth: 0, flex: 1 },
     activityStepTitle: {
-        display: 'flex', gap: 8, alignItems: 'baseline', color: '#334155', fontSize: 11.5,
+        display: 'flex', gap: 8, alignItems: 'baseline', color: C.text, fontSize: 11.5,
     },
-    activityStepTime: { color: '#94a3b8', fontSize: 10, marginLeft: 'auto', flexShrink: 0 },
-    activityStepTool: { fontFamily: MONO, fontSize: 10, color: '#64748b' },
+    activityStepTime: { color: C.textFaint, fontSize: 10, marginLeft: 'auto', flexShrink: 0 },
+    activityStepTool: { fontFamily: MONO, fontSize: 10, color: C.textMuted },
     activityStepArgs: {
         fontFamily: MONO,
         fontSize: 10,
-        color: '#94a3b8',
+        color: C.textFaint,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
     },
     notice: {
+        animation: 'ts-dbg-rise 220ms ease',
         alignSelf: 'center', fontSize: 11, color: C.textFaint, padding: '2px 0',
     },
     rule: {
@@ -1871,7 +2206,7 @@ const styles: Record<string, React.CSSProperties> = {
         flexDirection: 'column',
         gap: 4,
     },
-    contextTrayLabel: { fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.3 },
+    contextTrayLabel: { fontSize: 10, color: C.textFaint, textTransform: 'uppercase', letterSpacing: 0.3 },
     contextTrayChips: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -1900,7 +2235,7 @@ const styles: Record<string, React.CSSProperties> = {
     copyBtn: {
         background: 'transparent',
         border: 'none',
-        color: '#64748b',
+        color: C.textMuted,
         cursor: 'pointer',
         fontFamily: FONT,
         fontSize: 10.5,
@@ -1909,10 +2244,11 @@ const styles: Record<string, React.CSSProperties> = {
         flexShrink: 0,
     },
     codeBlock: {
+        animation: 'ts-dbg-rise 220ms ease',
         margin: '6px 0',
         background: C.codeSurface,
         color: C.text,
-        border: '1px solid #e2e8f0',
+        border: `1px solid ${C.border}`,
         borderRadius: 8,
         // Clips the corners only; the `pre` inside owns the horizontal scroll.
         overflow: 'hidden',
@@ -1931,11 +2267,11 @@ const styles: Record<string, React.CSSProperties> = {
         justifyContent: 'space-between',
         gap: 8,
         padding: '3px 6px 3px 10px',
-        borderBottom: '1px solid #e2e8f0',
-        background: '#eef2f7',
+        borderBottom: `1px solid ${C.border}`,
+        background: C.codeHeader,
     },
     codeBlockLang: {
-        fontFamily: MONO, fontSize: 10, color: '#64748b', textTransform: 'lowercase',
+        fontFamily: MONO, fontSize: 10, color: C.textMuted, textTransform: 'lowercase',
     },
     // A div, so host `pre`/`code` rules cannot reach it. That means the
     // formatting `pre` gave for free has to be stated here.
@@ -1963,21 +2299,22 @@ const styles: Record<string, React.CSSProperties> = {
         boxSizing: 'border-box',
     },
     elementChip: {
+        animation: 'ts-dbg-pop 200ms cubic-bezier(.2,.8,.2,1)',
         display: 'flex',
         alignItems: 'center',
         gap: 6,
         fontSize: 11,
-        background: '#eef4ff',
-        border: '1px solid #c9dcfc',
+        background: C.accentSoft,
+        border: `1px solid ${C.accentBorder}`,
         borderRadius: 8,
         padding: '4px 6px 4px 8px',
         maxWidth: '100%',
         minWidth: 0,
     },
-    elementChipIcon: { color: '#1f6feb', flexShrink: 0 },
+    elementChipIcon: { color: C.accent, flexShrink: 0 },
     elementChipTag: {
         fontFamily: MONO,
-        color: '#1f6feb',
+        color: C.accent,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
@@ -1988,15 +2325,15 @@ const styles: Record<string, React.CSSProperties> = {
         fontSize: 9,
         textTransform: 'uppercase',
         letterSpacing: 0.3,
-        color: '#3730a3',
-        background: '#e0e7ff',
+        color: C.accent,
+        background: C.accentSoft,
         borderRadius: 4,
         padding: '1px 4px',
     },
     elementChipRemove: {
         background: 'transparent',
         border: 'none',
-        color: '#64748b',
+        color: C.textMuted,
         cursor: 'pointer',
         fontSize: 10,
         padding: '2px 3px',
@@ -2012,9 +2349,9 @@ const styles: Record<string, React.CSSProperties> = {
     sessionInput: {
         width: '100%',
         boxSizing: 'border-box',
-        background: '#f8fafc',
-        color: '#0f172a',
-        border: '1px solid #e2e8f0',
+        background: C.surfaceMuted,
+        color: C.text,
+        border: `1px solid ${C.border}`,
         borderRadius: 8,
         padding: '6px 10px',
         fontFamily: MONO,
@@ -2022,9 +2359,9 @@ const styles: Record<string, React.CSSProperties> = {
         outline: 'none',
     },
     toolBtn: {
-        background: '#f8fafc',
-        color: '#334155',
-        border: '1px solid #e2e8f0',
+        background: C.surfaceMuted,
+        color: C.text,
+        border: `1px solid ${C.border}`,
         borderRadius: 8,
         padding: '5px 10px',
         fontSize: 11.5,
@@ -2032,9 +2369,9 @@ const styles: Record<string, React.CSSProperties> = {
         fontFamily: FONT,
     },
     toolBtnActive: {
-        background: '#1f6feb',
-        color: '#fff',
-        border: '1px solid #1f6feb',
+        background: C.accent,
+        color: C.onAccent,
+        border: `1px solid ${C.accent}`,
         borderRadius: 8,
         padding: '5px 10px',
         fontSize: 11.5,
@@ -2051,9 +2388,9 @@ const styles: Record<string, React.CSSProperties> = {
     textarea: {
         flex: 1,
         resize: 'none',
-        background: '#f8fafc',
-        color: '#0f172a',
-        border: '1px solid #e2e8f0',
+        background: C.surfaceMuted,
+        color: C.text,
+        border: `1px solid ${C.border}`,
         borderRadius: 12,
         padding: '10px 12px',
         fontFamily: FONT,
@@ -2066,8 +2403,8 @@ const styles: Record<string, React.CSSProperties> = {
         height: 34,
         flexShrink: 0,
         borderRadius: '50%',
-        background: '#1f6feb',
-        color: '#fff',
+        background: C.accent,
+        color: C.onAccent,
         border: 'none',
         fontSize: 16,
         display: 'flex',
@@ -2079,13 +2416,13 @@ const styles: Record<string, React.CSSProperties> = {
         height: 34,
         flexShrink: 0,
         borderRadius: '50%',
-        background: '#ffffff',
-        color: '#334155',
-        border: '1px solid #cbd5e1',
+        background: C.surface,
+        color: C.text,
+        border: `1px solid ${C.borderStrong}`,
         fontSize: 10,
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
-};
+});

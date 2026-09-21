@@ -52,7 +52,7 @@ function mockAgentStream(events: Array<Record<string, unknown>>) {
 }
 
 const openPanel = async () => act(async () => {
-    fireEvent.click(screen.getByLabelText('Open Debug Agent'));
+    fireEvent.click(screen.getByLabelText('Open EmbedX'));
 });
 
 /**
@@ -68,6 +68,9 @@ const ask = async (text = 'why is my embed blank?') => {
 };
 
 /** The code block's scroll container: a div styled `white-space: pre`. */
+/** The light palette's string-token colour (see LIGHT.token.string). */
+const LIGHT_STRING = '#0a6640';
+
 const codeScroller = (): HTMLElement => {
     const el = [...document.querySelectorAll<HTMLElement>('div[style*="pre"]')]
         .find((d) => d.style.whiteSpace === 'pre');
@@ -187,14 +190,16 @@ describe('DebugAgent', () => {
         expect(document.querySelector('div[style*="2147483647"]'))
             .toHaveTextContent('init({ thoughtSpotHost: "x" });');
 
-        // Highlighted: the keyword and the string literal are coloured spans.
-        expect(screen.getByText('"x"')).toHaveStyle({ color: '#032f62' });
+        // Highlighted: the string literal is its own coloured span.
+        expect(screen.getByText('"x"')).toHaveStyle({ color: LIGHT_STRING });
 
-        fireEvent.click(screen.getByLabelText('Copy code'));
+        await finish();
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText('Copy code'));
+        });
         // Copying hands over the original source, not the highlighted markup.
         await waitFor(() => expect(writeText).toHaveBeenCalledWith('init({ thoughtSpotHost: "x" });'));
         expect(await screen.findByText('✓ Copied')).toBeInTheDocument();
-        await finish();
     });
 
     it('offers a copy button on a settled reply but not on one still streaming', async () => {
@@ -215,7 +220,9 @@ describe('DebugAgent', () => {
         await finish();
         await waitFor(() => expect(screen.getByLabelText('Copy response')).toBeInTheDocument());
 
-        fireEvent.click(screen.getByLabelText('Copy response'));
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText('Copy response'));
+        });
         // The raw markdown is copied, not the rendered text.
         await waitFor(() => expect(writeText).toHaveBeenCalledWith('Set `hiddenActions`.'));
     });
@@ -535,6 +542,115 @@ describe('DebugAgent', () => {
             });
 
             expect(panelOf()).toHaveStyle({ width: '320px', height: '320px' });
+        });
+    });
+
+    describe('branding and theme', () => {
+        /** Stubs matchMedia so the panel sees a chosen colour scheme. */
+        const setColorScheme = (dark: boolean) => {
+            Object.defineProperty(window, 'matchMedia', {
+                configurable: true,
+                writable: true,
+                value: (q: string) => ({
+                    matches: dark && q.includes('dark'),
+                    media: q,
+                    addEventListener: jest.fn(),
+                    removeEventListener: jest.fn(),
+                    addListener: jest.fn(),
+                    removeListener: jest.fn(),
+                }),
+            });
+        };
+
+        const panel = () => document.querySelector('div[style*="2147483647"]') as HTMLElement;
+
+        it('presents itself as EmbedX with its tagline', async () => {
+            render(<DebugAgent />);
+            expect(screen.getByLabelText('Open EmbedX')).toBeInTheDocument();
+            await openPanel();
+            expect(screen.getByText('EmbedX')).toBeInTheDocument();
+            expect(screen.getByText('Embed assistant')).toBeInTheDocument();
+            expect(screen.getByText('Ready')).toBeInTheDocument();
+        });
+
+        it('uses the light surface when the OS prefers light', async () => {
+            setColorScheme(false);
+            render(<DebugAgent />);
+            await openPanel();
+            expect(panel().style.background).toBe('rgb(255, 255, 255)');
+            expect(panel().style.color).toBe('rgb(15, 23, 42)');
+        });
+
+        it('uses the dark surface when the OS prefers dark', async () => {
+            setColorScheme(true);
+            render(<DebugAgent />);
+            await openPanel();
+            // Dark slate panel with light text, rather than the light default.
+            expect(panel().style.background).toBe('rgb(22, 27, 34)');
+            expect(panel().style.color).toBe('rgb(230, 237, 243)');
+        });
+
+        it('still renders when matchMedia is unavailable', async () => {
+            // Some embedded webviews lack it; the panel must not crash.
+            Object.defineProperty(window, 'matchMedia', {
+                configurable: true,
+                writable: true,
+                value: undefined,
+            });
+            render(<DebugAgent />);
+            await openPanel();
+            expect(screen.getByText('EmbedX')).toBeInTheDocument();
+        });
+    });
+
+    describe('starter prompts', () => {
+        it('offers openers on the empty state and sends the one clicked', async () => {
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: 'Looking…' }]);
+            global.fetch = fetchMock as any;
+
+            render(<DebugAgent />);
+            await openPanel();
+
+            const starter = screen.getByText('Diagnose this embed');
+            await act(async () => {
+                fireEvent.click(starter);
+            });
+            await finish();
+
+            // The full question goes to the agent, not the short label.
+            const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+            expect(body.messages[0].content).toContain('Check the console and network for errors');
+            // And the openers give way to the conversation.
+            expect(screen.queryByText('Diagnose this embed')).not.toBeInTheDocument();
+        });
+
+        it('attaches any picked element to a starter prompt too', async () => {
+            const target = document.createElement('div');
+            target.id = 'target';
+            document.body.appendChild(target);
+            Object.defineProperty(document, 'elementFromPoint', {
+                value: () => target, configurable: true, writable: true,
+            });
+
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: 'ok' }]);
+            global.fetch = fetchMock as any;
+
+            render(<DebugAgent />);
+            await openPanel();
+            await act(async () => {
+                fireEvent.click(screen.getByTitle(/Pick an element on the host page/));
+            });
+            await act(async () => {
+                fireEvent.mouseDown(document.body, { clientX: 5, clientY: 5 });
+            });
+            await act(async () => {
+                fireEvent.click(screen.getByText('Match my app theme'));
+            });
+            await finish();
+
+            const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+            expect(body.messages[0].content).toContain('div#target');
+            expect(body.messages[0].content).toContain('customCSS variables');
         });
     });
 
