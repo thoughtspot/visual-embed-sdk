@@ -288,7 +288,48 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
     getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
     getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
 
+    if (embedConfig.enableDebugAgent) {
+        mountDebugAgent();
+    }
+
     return authEE as AuthEventEmitter;
+};
+
+const DEBUG_AGENT_MOUNT_ID = 'ts-debug-agent-root';
+
+/**
+ * Mounts the `<DebugAgent />` panel onto the page when `enableDebugAgent` is
+ * set, so host apps don't need to render it themselves. React/ReactDOM are
+ * peer dependencies of this package and are only imported here, lazily —
+ * consumers using the vanilla (non-React) embed APIs never pull them in.
+ */
+const mountDebugAgent = (): void => {
+    if (document.getElementById(DEBUG_AGENT_MOUNT_ID)) return;
+
+    const container = document.createElement('div');
+    container.id = DEBUG_AGENT_MOUNT_ID;
+    document.body.appendChild(container);
+
+    // `react-dom` ships no type declarations and this package does not
+    // depend on `@types/react-dom`; importing via a computed specifier keeps
+    // this dynamic import untyped (`any`) instead of failing the build.
+    const reactDomSpecifier = 'react-dom';
+    const importReactDOM = (): Promise<any> => import(reactDomSpecifier);
+
+    Promise.all([import('react'), importReactDOM(), import('../react/DebugAgent')])
+        .then(([React, ReactDOM, { DebugAgent }]) => {
+            const element = React.createElement(DebugAgent);
+            if (typeof ReactDOM.createRoot === 'function') {
+                ReactDOM.createRoot(container).render(element);
+            } else {
+                // Fallback for React < 18 peers, which lack createRoot.
+                // eslint-disable-next-line react/no-deprecated
+                ReactDOM.render(element, container);
+            }
+        })
+        .catch((err) => {
+            logger.error('DebugAgent could not be mounted: React/ReactDOM are required (peer dependencies) to use enableDebugAgent.', err);
+        });
 };
 
 /**
