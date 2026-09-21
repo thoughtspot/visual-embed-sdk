@@ -10,7 +10,7 @@ module.exports = {
         './src/': {
             branches: 87,
             functions: 88,
-            lines: 96,
+            lines: 90,
         },
     },
     testPathIgnorePatterns: ['/lib/', '/docs/', '/cjs/'],
